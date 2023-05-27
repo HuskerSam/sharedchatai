@@ -1,9 +1,9 @@
-import GameBaseApp from "./gamebaseapp.js";
+import BaseApp from "./baseapp.js";
 declare const firebase: any;
 declare const window: any;
 
 /** Guess app class */
-export class AIChatApp extends GameBaseApp {
+export class AIChatApp extends BaseApp {
   apiType = "aichat";
   currentGame: any;
   lastTicketsSnapshot: any = null;
@@ -11,8 +11,22 @@ export class AIChatApp extends GameBaseApp {
   assistsSubscription: any;
   ticketsSubscription: any;
   lastAssistsSnapShot: any;
+  ticketFeedRegistered = false;
+  gameData: any;
+  alertErrors = false;
+
   tickets_list: any = document.querySelector(".tickets_list");
   game_feed_list_toggle: any = document.querySelector(".game_feed_list_toggle");
+
+  gameid_span: any = document.querySelector(".gameid_span");
+  members_list: any = document.querySelector(".members_list");
+  visibility_display: any = document.querySelector(".visibility_display");
+  visibility_select: any = document.querySelector(".visibility_select");
+
+  send_ticket_button: any = document.querySelector(".send_ticket_button");
+  ticket_content_input: any = document.querySelector(".ticket_content_input");
+  code_link_href: any = document.querySelector(".code_link_href");
+  code_link_copy: any = document.querySelector(".code_link_copy");
 
   /**  */
   constructor() {
@@ -27,6 +41,11 @@ export class AIChatApp extends GameBaseApp {
     this.toggleOptionsView(null);
 
     this.initTicketFeed();
+    
+    // redraw message feed to update time since values
+    setInterval(() => this.updateTicketsFeed(null), this.baseRedrawFeedTimer);
+
+    document.addEventListener("visibilitychange", () => this.refreshOnlinePresence());
   }
   /** setup data listender for user messages */
   async initTicketFeed() {
@@ -201,7 +220,6 @@ export class AIChatApp extends GameBaseApp {
       alert(json.errorMessage);
     }
   }
-
   /** BaseApp override to paint profile specific authorization parameters */
   authUpdateStatusUI() {
     super.authUpdateStatusUI();
@@ -246,5 +264,93 @@ export class AIChatApp extends GameBaseApp {
       this.game_feed_list_toggle.innerHTML = "<i class=\"material-icons\">menu</i>";
     }
     if (e) e.preventDefault();
+  }
+  /** paint game members list */
+  _updateGameMembersList() {
+    let html = "";
+    if (this.gameData) {
+      let members: any = {};
+      if (this.gameData.members) members = this.gameData.members;
+      let membersList = Object.keys(members);
+      membersList = membersList.sort();
+      membersList.forEach((member: string) => {
+        this.addUserPresenceWatch(member);
+        const data = this._gameMemberData(member);
+
+        const timeSince = this.timeSince(new Date(members[member]));
+        html += `<div class="member_list_item">
+          <div class="member_online_status" data-uid="${member}"></div>
+          <div class="game_user_wrapper">
+            <span style="background-image:url(${data.img})"></span>
+            <span>${data.name}</span>
+          </div>
+          <span class="member_list_time_since">${timeSince}</span>
+        </div>`;
+      });
+    }
+    this.members_list.innerHTML = html;
+  }
+  
+ 
+  /** scrape options from UI and call api */
+  async gameAPIOptions() {
+    const visibility = this.visibility_select.value;
+    const body: any = {
+      gameNumber: this.currentGame,
+      visibility,
+    };
+
+    const token = await firebase.auth().currentUser.getIdToken();
+    const fResult = await fetch(this.basePath + "lobbyApi/games/options", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      headers: {
+        "Content-Type": "application/json",
+        token,
+      },
+      body: JSON.stringify(body),
+    });
+    if (this.verboseLog) {
+      const json = await fResult.json();
+      console.log("change game options result", json);
+    }
+  }
+  /** member data for a user
+   * @param { string } uid user id
+   * @return { any } name, img
+   */
+  _gameMemberData(uid: string) {
+    let name = this.gameData.memberNames[uid];
+    let img = this.gameData.memberImages[uid];
+    if (!name) name = "Anonymous";
+    if (!img) img = "/images/defaultprofile.png";
+
+    return {
+      name,
+      img,
+    };
+  }
+  /** paint user editable game options 
+   * @param { boolean } defaultOptions initalizes game options
+  */
+  paintOptions(defaultOptions: boolean = true) {
+    if (this.gameData.createUser === this.uid) document.body.classList.add("game_owner");
+    else document.body.classList.remove("game_owner");
+
+    if (defaultOptions) {
+      this.visibility_display.innerHTML = this.gameData.visibility;
+      this.visibility_select.value = this.gameData.visibility;
+    }
+
+    if (this.code_link_href) {
+      const path = window.location.href;
+      this.code_link_href.setAttribute("href", path);
+    }
+  }
+  /** copy game link to global clipboard */
+  copyGameLinkToClipboard() {
+    const path = this.code_link_href.getAttribute("href");
+    navigator.clipboard.writeText(path);
   }
 }

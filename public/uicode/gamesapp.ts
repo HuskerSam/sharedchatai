@@ -1,9 +1,9 @@
-import GameBaseApp from "./gamebaseapp.js";
+import BaseApp from "./baseapp.js";
 declare const window: any;
 declare const firebase: any;
 
 /** Game Lobby App - for listing, joining and creating games  */
-export class GamesApp extends GameBaseApp {
+export class GamesApp extends BaseApp {
   create_new_game_btn: any = document.querySelector(".create_new_game_btn");
   game_history_view: any = document.querySelector(".game_history_view");
   public_game_view: any = document.querySelector(".public_game_view");
@@ -278,8 +278,8 @@ export class GamesApp extends GameBaseApp {
 
     const ownerHTML = this.__getUserTemplate(data.createUser, data.memberNames[data.createUser], data.memberImages[data.createUser], true);
 
-    const title = this.docTypeMetaData[data.gameType].name;
-    const img = `url(${this.docTypeMetaData[data.gameType].icon})`;
+    const title = "AI Chat";
+    const img = `url(/images/logo_aichat.png)`;
     const timeSince = this.timeSince(new Date(data.lastActivity));
     let timeStr = this.isoToLocal(data.created).toISOString().substr(11, 5);
     let hour = Number(timeStr.substr(0, 2));
@@ -485,5 +485,14 @@ export class GamesApp extends GameBaseApp {
 
     const result = await fResult.json();
     if (!result.success) alert("Logout failed");
+  }
+  /** update storage to show online for current user */
+  refreshOnlinePresence() {
+    if (this.userStatusDatabaseRef) {
+      this.userStatusDatabaseRef.set({
+        state: "online",
+        last_changed: firebase.database.ServerValue.TIMESTAMP,
+      });
+    }
   }
 }

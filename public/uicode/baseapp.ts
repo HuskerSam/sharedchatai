@@ -25,8 +25,11 @@ class BaseApp {
   profileInited = false;
   nightModeCurrent = false;
   mute_button: any = null;
+  verboseLog = false;
+  rtdbPresenceInited = false;
+  userPresenceStatus: any = {};
+  userPresenceStatusRefs: any = {};
 
-  soundGameStateCache: any = {};
   audios = new Map();
 
   pickAudio: any = null;
@@ -38,6 +41,7 @@ class BaseApp {
   tagColorsArrays: any = [];
   tagPens: any = [];
   tagColors: any = [];
+  userStatusDatabaseRef: any;
 
   /** constructor  */
   constructor() {
@@ -361,10 +365,10 @@ class BaseApp {
     }
     return array;
   }
-    /** init sounds ready to play */
-    loadAudios() {
-      return;
-    }
+  /** init sounds ready to play */
+  loadAudios() {
+    return;
+  }
   /** returns text value for time since Now, i.e. 3 mins ago
    * @param { Date } date value to format
    * @return { string } formatted string value for time since
@@ -471,6 +475,90 @@ class BaseApp {
     const audio = new Audio(path);
     this.audios.set(name, audio);
     audio.load();
+  }
+  /** update storage to show online for current user */
+  refreshOnlinePresence() {
+    if (this.userStatusDatabaseRef) {
+      this.userStatusDatabaseRef.set({
+        state: "online",
+        last_changed: firebase.database.ServerValue.TIMESTAMP,
+      });
+    }
+  }
+  /** init rtdb for online persistence status */
+  initRTDBPresence() {
+    if (!this.uid) return;
+    if (this.rtdbPresenceInited) return;
+
+    this.rtdbPresenceInited = true;
+    this.userStatusDatabaseRef = firebase.database().ref("/OnlinePresence/" + this.uid);
+
+    const isOfflineForDatabase = {
+      state: "offline",
+      last_changed: firebase.database.ServerValue.TIMESTAMP,
+    };
+
+    const isOnlineForDatabase = {
+      state: "online",
+      last_changed: firebase.database.ServerValue.TIMESTAMP,
+    };
+
+    firebase.database().ref(".info/connected").on("value", (snapshot: any) => {
+      if (snapshot.val() == false) return;
+
+      this.userStatusDatabaseRef.onDisconnect().set(isOfflineForDatabase).then(() => {
+        this.userStatusDatabaseRef.set(isOnlineForDatabase);
+      });
+    });
+  }
+  /** register a uid to watch for online state
+ * @param { string } uid user id
+*/
+  addUserPresenceWatch(uid: string) {
+    if (!this.userPresenceStatusRefs[uid]) {
+      this.userPresenceStatusRefs[uid] = firebase.database().ref("OnlinePresence/" + uid);
+      this.userPresenceStatusRefs[uid].on("value", (snapshot: any) => {
+        this.userPresenceStatus[uid] = false;
+        const data = snapshot.val();
+        if (data && data.state === "online") this.userPresenceStatus[uid] = true;
+
+        this.updateUserPresence();
+      });
+    }
+  }
+  /** paint users online status */
+  updateUserPresence() {
+    document.querySelectorAll(".member_online_status")
+      .forEach((div: any) => {
+        if (this.userPresenceStatus[div.dataset.uid]) div.classList.add("online");
+        else div.classList.remove("online");
+      });
+  }
+  /** call join game api
+  * @param { string } gameNumber doc id for game
+  */
+  async gameAPIJoin(gameNumber: string) {
+    if (!this.profile) return;
+
+    const body = {
+      gameNumber,
+    };
+    const token = await firebase.auth().currentUser.getIdToken();
+    const fResult = await fetch(this.basePath + "lobbyApi/games/join", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      headers: {
+        "Content-Type": "application/json",
+        token,
+      },
+      body: JSON.stringify(body),
+    });
+    if (this.verboseLog) {
+      const json = await fResult.json();
+      console.log("join", json);
+    }
+    return;
   }
 }
 

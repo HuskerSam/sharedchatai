@@ -6,15 +6,12 @@ import path from "path";
 const gameAPIApp = express();
 
 import GameAPI from "./gameapi";
-import MatchAPI from "./matchapi";
-import GuessAPI from "./guessapi";
 import ChatAI from "./aichatapi";
 
 gameAPIApp.set("views", path.join(__dirname, "views"));
 gameAPIApp.set("view engine", "ejs");
 
 firebaseAdmin.initializeApp();
-
 
 gameAPIApp.use(cors({
     origin: true,
@@ -29,14 +26,7 @@ gameAPIApp.post("/games/create", async (req, res) => GameAPI.create(req, res));
 gameAPIApp.post("/games/delete", async (req, res) => GameAPI.delete(req, res));
 gameAPIApp.post("/games/join", async (req, res) => GameAPI.join(req, res));
 gameAPIApp.post("/games/leave", async (req, res) => GameAPI.leave(req, res));
-gameAPIApp.post("/games/message", async (req, res) => GameAPI.message(req, res));
-gameAPIApp.post("/games/message/delete", async (req, res) => GameAPI.messageDelete(req, res));
 gameAPIApp.post("/games/options", async (req, res) => GameAPI.options(req, res));
-gameAPIApp.post("/games/sit", async (req, res) => GameAPI.sit(req, res));
-gameAPIApp.post("/games/stand", async (req, res) => GameAPI.stand(req, res));
-
-gameAPIApp.post("/guess/action", async (req, res) => GuessAPI.userAction(req, res));
-gameAPIApp.post("/match/action", async (req, res) => MatchAPI.userAction(req, res));
 
 gameAPIApp.post("/aichat/message", async (req, res) => ChatAI.submitTicket(req, res));
 gameAPIApp.post("/aichat/message/delete", async (req, res) => ChatAI.deleteTicket(req, res));
