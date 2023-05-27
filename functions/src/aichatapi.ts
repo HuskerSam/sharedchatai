@@ -50,48 +50,102 @@ export default class ChatAI {
         };
 
         const addResult: any = await firebaseAdmin.firestore().collection(`Games/${gameNumber}/tickets`).add(ticket);
-        await this._processTicket(ticket, addResult.id, chatGptKey);
+        const packet = await this._generatePacket(ticket, addResult.id);
+        await this._processTicket(packet, addResult.id, chatGptKey);
+
         return res.status(200).send({
             success: true,
         });
     }
-    /** submit ticket to AI engine
+    /** generate ai api request including previous messages and store in /games/{gameid}/packets/{ticketid}
      * @param { any } ticket message details
+     * @param { string } ticketId ticketId
+     */
+    static async _generatePacket(ticket: any, ticketId: string): Promise<any> {
+        const aiRequest = {
+            "model": "gpt-3.5-turbo",
+            "messages": [{
+                "role": "user",
+                "content": ticket.message,
+            }],
+        };
+
+        const packet = {
+            gameNumber: ticket.gameNumber,
+            aiRequest,
+        };
+        await firebaseAdmin.firestore().doc(`Games/${ticket.gameNumber}/packets/${ticketId}`).set(packet);
+
+        return packet;
+    }
+    /** submit ticket to AI engine and store response in /games/{gameid}/assists/{ticketid}
+     * @param { any } packet message details
      * @param { string } id document id
      * @param { string } chatGptKey api key from user profile
      * @return { Promise<void> }
      */
-    static async _processTicket(ticket: any, id: string, chatGptKey: string) {
+    static async _processTicket(packet: any, id: string, chatGptKey: string): Promise<void> {
+        let aiResponse: any = {};
         try {
-            const body = {
-                "model": "gpt-3.5-turbo",
-                "messages": [{
-                    "role": "user",
-                    "content": ticket.message,
-                }],
-            };
-
             const response: any = await fetch(`https://api.openai.com/v1/chat/completions`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": "Bearer " + chatGptKey,
                 },
-                body: JSON.stringify(body),
+                body: JSON.stringify(packet.aiRequest),
             });
 
             const assist: any = await response.json();
-            await firebaseAdmin.firestore().doc(`Games/${ticket.gameNumber}/assists/${id}`).set({
+            aiResponse = {
                 success: true,
                 created: new Date().toISOString(),
                 assist,
-            });
+            };
         } catch (aiRequestError: any) {
-            await firebaseAdmin.firestore().doc(`Games/${ticket.gameNumber}/assists/${id}`).set({
+            aiResponse = {
                 success: false,
                 created: new Date().toISOString(),
                 error: aiRequestError,
-            });
+            };
         }
+        await firebaseAdmin.firestore().doc(`Games/${packet.gameNumber}/assists/${id}`).set(aiResponse);
+    }
+    /** http endpoint for user deleting message from user chat
+     * @param { any } req http request object
+     * @param { any } res http response object
+     */
+    static async deleteTicket(req: any, res: any) {
+        const authResults = await BaseClass.validateCredentials(req.headers.token);
+        if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
+
+        const uid = authResults.uid;
+
+        const localInstance = BaseClass.newLocalInstance();
+        await localInstance.init();
+
+        const gameNumber = req.body.gameNumber;
+        const ticketId = req.body.ticketId;
+
+        const gameDataRef = firebaseAdmin.firestore().doc(`Games/${gameNumber}`);
+        const gameDataQuery = await gameDataRef.get();
+        const gameData = gameDataQuery.data();
+
+        if (!gameData) return BaseClass.respondError(res, "Game not found");
+
+        const isGameOwner = (gameData.createUser === uid);
+
+        const messageQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${ticketId}`).get();
+        const message: any = messageQuery.data();
+
+        const isOwner = (message.uid === uid);
+        if (!isOwner && !isGameOwner) return BaseClass.respondError(res, "Must own game or message to delete");
+
+        await firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${ticketId}`).delete();
+        await firebaseAdmin.firestore().doc(`Games/${gameNumber}/assists/${ticketId}`).delete();
+        await firebaseAdmin.firestore().doc(`Games/${gameNumber}/packets/${ticketId}`).delete();
+        return res.status(200).send({
+            success: true,
+        });
     }
 }

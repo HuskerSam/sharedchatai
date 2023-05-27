@@ -249,6 +249,9 @@ export default class GameAPI {
     if (gameData && gameData.createUser === uid) {
       await gameDataRef.delete();
       await GameAPI.deleteCollection(firebaseAdmin.firestore(), `Games/${gameNumber}/messages`, 50);
+      await GameAPI.deleteCollection(firebaseAdmin.firestore(), `Games/${gameNumber}/tickets`, 50);
+      await GameAPI.deleteCollection(firebaseAdmin.firestore(), `Games/${gameNumber}/assists`, 50);
+      await GameAPI.deleteCollection(firebaseAdmin.firestore(), `Games/${gameNumber}/packets`, 50);
       success = true;
     }
 

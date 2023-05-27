@@ -39,3 +39,4 @@ gameAPIApp.post("/guess/action", async (req, res) => GuessAPI.userAction(req, re
 gameAPIApp.post("/match/action", async (req, res) => MatchAPI.userAction(req, res));
 
 gameAPIApp.post("/aichat/message", async (req, res) => ChatAI.submitTicket(req, res));
+gameAPIApp.post("/aichat/message/delete", async (req, res) => ChatAI.deleteTicket(req, res));

@@ -92,7 +92,7 @@ export class AIChatApp extends GameBaseApp {
       .forEach((btn: any) => btn.addEventListener("click", (e: any) => {
         e.stopPropagation();
         e.preventDefault();
-        this.deleteMessage(btn, btn.dataset.gamenumber, btn.dataset.messageid);
+        this.deleteTicket(btn, btn.dataset.gamenumber, btn.dataset.messageid);
       }));
 
     this.refreshOnlinePresence();
@@ -101,17 +101,17 @@ export class AIChatApp extends GameBaseApp {
   /** api call for delete user message
    * @param { any } btn dom control
    * @param { string } gameNumber firestore game document id
-   * @param { string } messageId firestore message id
+   * @param { string } ticketId firestore message id
    */
-  async deleteMessage(btn: any, gameNumber: string, messageId: string) {
+  async deleteTicket(btn: any, gameNumber: string, ticketId: string) {
     btn.setAttribute("disabled", "true");
 
     const body = {
       gameNumber,
-      messageId,
+      ticketId,
     };
     const token = await firebase.auth().currentUser.getIdToken();
-    const fResult = await fetch(this.basePath + "lobbyApi/games/message/delete", {
+    const fResult = await fetch(this.basePath + "lobbyApi/aichat/message/delete", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -123,7 +123,7 @@ export class AIChatApp extends GameBaseApp {
     });
 
     const result = await fResult.json();
-    if (!result.success) alert("Delete message failed");
+    if (!result.success) alert("Delete ticket failed");
   }
   /** generate html for message card
    * @param { any } doc firestore message document
