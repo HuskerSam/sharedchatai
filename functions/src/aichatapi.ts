@@ -15,7 +15,8 @@ export default class ChatAI {
         const uid = authResults.uid;
         const gameNumber = req.body.gameNumber;
         let message = BaseClass.escapeHTML(req.body.message);
-        if (message.length > 1000) message = message.substr(0, 1000);
+        if (message.length > 10000) message = message.substr(0, 10000);
+        const includeTickets = req.body.includeTickets;
 
         const localInstance = BaseClass.newLocalInstance();
         await localInstance.init();
@@ -49,9 +50,9 @@ export default class ChatAI {
             memberName,
             memberImage,
         };
-
+        console.log(includeTickets);
         const addResult: any = await firebaseAdmin.firestore().collection(`Games/${gameNumber}/tickets`).add(ticket);
-        const packet = await this._generatePacket(ticket, addResult.id);
+        const packet = await this._generatePacket(ticket, gameNumber, addResult.id, includeTickets);
         await this._processTicket(packet, addResult.id, chatGptKey);
 
         return res.status(200).send({
@@ -60,15 +61,49 @@ export default class ChatAI {
     }
     /** generate ai api request including previous messages and store in /games/{gameid}/packets/{ticketid}
      * @param { any } ticket message details
+     * @param { string } gameNumber document id
      * @param { string } ticketId ticketId
+     * @param { Array<string> } includeTickets tickets sent to packet
      */
-    static async _generatePacket(ticket: any, ticketId: string): Promise<any> {
+    static async _generatePacket(ticket: any, gameNumber: string, ticketId: string, includeTickets: Array<string>): Promise<any> {
+        const messages: Array<any> = [];
+        // const gameQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).get();
+        const promises: Array<any> = [];
+        includeTickets.forEach((includeTicketId) => {
+            promises.push(firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${includeTicketId}`).get());
+        });
+        const assistsPromises: Array<any> = [];
+        includeTickets.forEach((includeTicketId: string) => {
+            assistsPromises.push(firebaseAdmin.firestore().doc(`Games/${gameNumber}/assists/${includeTicketId}`).get());
+        });
+        const dataResults: Array<any> = await Promise.all(promises);
+        const assistResults: Array<any> = await Promise.all(assistsPromises);
+        const assistLookup: any = {};
+        assistResults.forEach((assist: any) => {
+            assistLookup[assist.id] = assist.data();
+        });
+        dataResults.forEach((includeTicket: any) => {
+            if (ticket.id !== includeTicket.id) {
+                messages.push({
+                    role: "user",
+                    content: includeTicket.data().message,
+                });
+
+                if (assistLookup[includeTicket.id]) {
+                    messages.push({
+                        role: "assistant",
+                        content: assistLookup[includeTicket.id].assist.choices["0"].message.content,
+                    });
+                }
+            }
+        });
+        messages.push({
+            "role": "user",
+            "content": ticket.message,
+        });
         const aiRequest = {
             "model": "gpt-3.5-turbo",
-            "messages": [{
-                "role": "user",
-                "content": ticket.message,
-            }],
+            messages,
         };
 
         const packet = {

@@ -96,6 +96,7 @@ export default class GameAPI {
       created: new Date().toISOString(),
       lastActivity: new Date().toISOString(),
       visibility: "private",
+      gameType: "aichat",
     };
 
     if (req.body.visibility) game.visibility = req.body.visibility;

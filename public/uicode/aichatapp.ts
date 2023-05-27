@@ -32,11 +32,10 @@ export class AIChatApp extends BaseApp {
   constructor() {
     super();
 
-    this.send_ticket_button.addEventListener("click", () => this.postMessageAPI());
+    this.send_ticket_button.addEventListener("click", () => this.sendTicketToAPI());
     this.ticket_content_input.addEventListener("keyup", (e: any) => {
-      if (e.key === "Enter") this.postMessageAPI();
+      if (e.key === "Enter") this.sendTicketToAPI();
     });
-    
     this.game_feed_list_toggle.addEventListener("click", (e: any) => this.toggleOptionsView(e));
     this.toggleOptionsView(null);
 
@@ -190,18 +189,20 @@ export class AIChatApp extends BaseApp {
     </div>`;
   }
   /** api user send message */
-  async postMessageAPI() {
+  async sendTicketToAPI() {
     let message = this.ticket_content_input.value.trim();
     if (message === "") {
       alert("Please supply a message");
       return;
     }
-    if (message.length > 1000) message = message.substr(0, 1000);
+    if (message.length > 10000) message = message.substr(0, 10000);
     this.ticket_content_input.value = "";
+    const includeTickets = this.generateSubmitList();
 
     const body = {
       gameNumber: this.currentGame,
       message,
+      includeTickets,
     };
     const token = await firebase.auth().currentUser.getIdToken();
     const fResult = await fetch(this.basePath + "lobbyApi/aichat/message", {
@@ -219,6 +220,14 @@ export class AIChatApp extends BaseApp {
       console.log("message post", json);
       alert(json.errorMessage);
     }
+  }
+  /** process exisiting tickets and return list of ids to submit 
+   * @return { Array<string> } list of ticket ids
+  */
+  generateSubmitList():Array<string> {
+    const tickets: Array<string> = [];
+    this.lastTicketsSnapshot.forEach((doc: any) => tickets.push(doc.id));
+    return tickets;
   }
   /** BaseApp override to paint profile specific authorization parameters */
   authUpdateStatusUI() {
@@ -290,8 +299,6 @@ export class AIChatApp extends BaseApp {
     }
     this.members_list.innerHTML = html;
   }
-  
- 
   /** scrape options from UI and call api */
   async gameAPIOptions() {
     const visibility = this.visibility_select.value;
