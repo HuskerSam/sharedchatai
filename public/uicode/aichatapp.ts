@@ -6,6 +6,7 @@ declare const window: any;
 export class AIChatApp extends GameBaseApp {
   apiType = "aichat";
   currentGame: any;
+  lastTicketsSnapshot: any = null;
   gameSubscription: any;
   assistsSubscription: any;
   ticketsSubscription: any;
@@ -17,8 +18,8 @@ export class AIChatApp extends GameBaseApp {
   constructor() {
     super();
 
-    this.send_message_list_button.addEventListener("click", () => this.postMessageAPI());
-    this.message_list_input.addEventListener("keyup", (e: any) => {
+    this.send_ticket_button.addEventListener("click", () => this.postMessageAPI());
+    this.ticket_content_input.addEventListener("keyup", (e: any) => {
       if (e.key === "Enter") this.postMessageAPI();
     });
     
@@ -29,8 +30,8 @@ export class AIChatApp extends GameBaseApp {
   }
   /** setup data listender for user messages */
   async initTicketFeed() {
-    if (this.messageFeedRegistered) return;
-    this.messageFeedRegistered = true;
+    if (this.ticketFeedRegistered) return;
+    this.ticketFeedRegistered = true;
     const gameId = this.urlParams.get("game");
     if (!gameId) return;
 
@@ -39,7 +40,7 @@ export class AIChatApp extends GameBaseApp {
     this.ticketsSubscription = firebase.firestore().collection(`Games/${gameId}/tickets`)
       .orderBy(`created`, "desc")
       .limit(50)
-      .onSnapshot((snapshot: any) => this.updateGameMessagesFeed(snapshot));
+      .onSnapshot((snapshot: any) => this.updateTicketsFeed(snapshot));
 
     if (this.assistsSubscription) this.assistsSubscription();
 
@@ -76,11 +77,11 @@ export class AIChatApp extends GameBaseApp {
 
   }
   /** paint user message feed
- * @param { any } snapshot firestore query data snapshot
- */
-  updateGameMessagesFeed(snapshot: any) {
-    if (snapshot) this.lastMessagesSnapshot = snapshot;
-    else if (this.lastMessagesSnapshot) snapshot = this.lastMessagesSnapshot;
+   * @param { any } snapshot firestore query data snapshot
+   */
+  updateTicketsFeed(snapshot: any) {
+    if (snapshot) this.lastTicketsSnapshot = snapshot;
+    else if (this.lastTicketsSnapshot) snapshot = this.lastTicketsSnapshot;
     else return;
 
     let html = "";
@@ -171,13 +172,13 @@ export class AIChatApp extends GameBaseApp {
   }
   /** api user send message */
   async postMessageAPI() {
-    let message = this.message_list_input.value.trim();
+    let message = this.ticket_content_input.value.trim();
     if (message === "") {
       alert("Please supply a message");
       return;
     }
     if (message.length > 1000) message = message.substr(0, 1000);
-    this.message_list_input.value = "";
+    this.ticket_content_input.value = "";
 
     const body = {
       gameNumber: this.currentGame,
@@ -226,10 +227,9 @@ export class AIChatApp extends GameBaseApp {
     if (gameDoc) this.gameData = gameDoc.data();
     if (!this.gameData) return;
 
-    this.queryStringPaintProcess();
+
     this.paintOptions(false);
     this._updateGameMembersList();
-    this._updateFinishStatus();
     this.updateUserPresence();
   }
   /** show/hide members list

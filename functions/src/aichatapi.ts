@@ -42,6 +42,7 @@ export default class ChatAI {
             uid,
             message,
             created: new Date().toISOString(),
+            submitted: new Date().toISOString(),
             messageType: "user",
             gameNumber,
             isOwner,

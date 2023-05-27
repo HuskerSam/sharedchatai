@@ -30,7 +30,6 @@ export class GamesApp extends GameBaseApp {
 
     this.create_new_game_btn.addEventListener("click", () => this.createNewGame());
     this.join_game_btn.addEventListener("click", () => this.joinGame(null));
-    this.gametype_select.addEventListener("input", () => this.updateNewGameType());
     this.create_game_afterfeed_button.addEventListener("click", (e: any) => this.toggleAddGameView(e));
     this.create_game_backtofeed_button.addEventListener("click", (e: any) => this.toggleAddGameView(e));
     this.gamelist_header_toggle_button.addEventListener("click", (e: any) => this.toggleAddGameView(e));
@@ -38,7 +37,6 @@ export class GamesApp extends GameBaseApp {
     this.feed_expand_all.addEventListener("click", () => this.toggleFeedMembers());
     this.new_game_type_wrappers.forEach((btn: any) => btn.addEventListener("click", () => this.handleGameTypeClick(btn)));
 
-    this.updateNewGameType();
 
     this.initRTDBPresence();
 
@@ -59,7 +57,6 @@ export class GamesApp extends GameBaseApp {
   handleGameTypeClick(btn: any) {
     this.new_game_type_wrappers.forEach((b: any) => b.classList.remove("selected"));
     this.gametype_select.value = btn.value;
-    this.updateNewGameType();
     btn.classList.add("selected");
   }
   /** toggle show/hide UI members in UI */
@@ -144,18 +141,6 @@ export class GamesApp extends GameBaseApp {
     e.preventDefault();
     return true;
   }
-  /** paint details when a specific game is selected */
-  updateNewGameType() {
-    document.body.classList.remove("newgametype_guess");
-    document.body.classList.remove("newgametype_match");
-    document.body.classList.remove("newgametype_aichat");
-
-    const gameType = this.gametype_select.value;
-    document.body.classList.add("newgametype_" + gameType);
-
-    const gameMeta = this.gameTypeMetaData[gameType];
-    this.create_new_game_btn.innerHTML = "Create " + gameMeta.name;
-  }
   /** handle gameid passed as query string and navigate to game
    * @param { string } gameId storage record id of game to load
    * @return { Promise<boolean> } true if navigating, false if invalid game id
@@ -238,9 +223,6 @@ export class GamesApp extends GameBaseApp {
     this.game_history_view.querySelectorAll("button.toggle_expanded_game")
       .forEach((btn: any) => btn.addEventListener("click", () => this.toggleFeedSeats(btn)));
 
-    this.game_history_view.querySelectorAll(".sit_button")
-      .forEach((btn: any) => btn.addEventListener("click", () => this.gameSitClick(btn)));
-
     this.game_history_view.querySelectorAll(".code_link")
       .forEach((btn: any) => btn.addEventListener("click", () => this.copyGameLink(btn)));
 
@@ -293,72 +275,15 @@ export class GamesApp extends GameBaseApp {
     const gnPrefix = publicFeed ? "public_" : "";
     if (data.createUser === this.uid) ownerClass += " feed_game_owner";
     const modeClass = " gameitem_" + data.mode;
-    let isUserSeated = false;
-    for (let c = 0; c < data.numberOfSeats; c++) {
-      if (data["seat" + c] === this.uid) {
-        isUserSeated = true;
-        break;
-      }
-    }
 
-    let membersHtml = "<div class=\"member_feed_wrapper\">";
-    let memberUpHtml = "";
     const ownerHTML = this.__getUserTemplate(data.createUser, data.memberNames[data.createUser], data.memberImages[data.createUser], true);
-    let memberIsUp = "";
-    let openImpactFont = "";
-    let displayClass = "";
-    let seatsFull = true;
-    if (publicFeed) {
-      displayClass = " show_seats";
-      if (this.recentExpanded["public_" + doc.id] === false) displayClass = "";
-    } else {
-      if (this.recentExpanded[doc.id]) displayClass = " show_seats";
-    }
-    for (let c = 0; c < data.numberOfSeats; c++) {
-      if (c === 2) membersHtml += "</div><div class=\"member_feed_wrapper\">";
-      const member = data["seat" + c];
-      let innerHTML = "";
-      if (member) {
-        let name = data.memberNames[member];
-        let img = data.memberImages[member];
-        if (!name) name = "Anonymous";
-        if (!img) img = "/images/defaultprofile.png";
-        innerHTML = this.__getUserTemplate(member, name, img, !publicFeed);
 
-        if (c === data.currentSeat) {
-          memberUpHtml = this.__getUserTemplate(member, name, img, true, true);
-
-          if (member === this.uid) {
-            memberIsUp = " gameplayer_turn_next";
-            openImpactFont = " impact-font";
-          }
-        }
-      } else {
-        seatsFull = false;
-        if (!isUserSeated) {
-          innerHTML = `<button class="sit_anchor game sit_button" data-gamenumber="${data.gameNumber}" 
-            data-seatindex="${c}">
-              <custom class="impact-font">Sit</custom>
-            </button>`;
-        } else {
-          innerHTML = "<button class=\"sit_anchor game open_sit\">Empty</button>";
-        }
-      }
-
-      membersHtml += `<div class="game_user_wrapper game_list_user">${innerHTML}</div>`;
-    }
-
-    if (data.numberOfSeats % 2 === 1) membersHtml += "<div class=\"table_seat_fill\"></div>";
-
-    membersHtml += "</div>";
-
-    const title = this.gameTypeMetaData[data.gameType].name;
-    const img = `url(${this.gameTypeMetaData[data.gameType].icon})`;
+    const title = this.docTypeMetaData[data.gameType].name;
+    const img = `url(${this.docTypeMetaData[data.gameType].icon})`;
     const timeSince = this.timeSince(new Date(data.lastActivity));
     let timeStr = this.isoToLocal(data.created).toISOString().substr(11, 5);
     let hour = Number(timeStr.substr(0, 2));
     const suffix = hour < 12 ? "am" : "pm";
-    const seatsFullClass = seatsFull ? " seats_full" : "";
 
     hour = hour % 12;
     if (hour === 0) hour = 12;
@@ -370,7 +295,7 @@ export class GamesApp extends GameBaseApp {
 
     const round = (Math.floor(data.turnNumber / data.runningNumberOfSeats) + 1).toString();
 
-    return `<div class="gamelist_item${ownerClass}${memberIsUp} gametype_${data.gameType} ${displayClass}${modeClass}${seatsFullClass}"
+    return `<div class="gamelist_item${ownerClass} gametype_${data.gameType} ${modeClass}"
           data-gamenumber="${gnPrefix}${doc.id}">
       <div class="gamefeed_item_header">
         <div style="background-image:${img}" class="game_type_image"></div>
@@ -381,7 +306,7 @@ export class GamesApp extends GameBaseApp {
         </div>
         <div class="open_button_wrapper">
           <a href="/${data.gameType}/?game=${data.gameNumber}" class="game_number_open game">
-            <span class="${openImpactFont}">&nbsp; Open &nbsp;</span>
+            <span class="">&nbsp; Open &nbsp;</span>
           </a>
         </div>
       </div>
@@ -398,14 +323,6 @@ export class GamesApp extends GameBaseApp {
             <span class="icon">&#9660;</span>
           </button>
         </div>
-      </div>
-
-      <div class="next_player">
-        <span class="next_label">&nbsp;Player:</span>
-        <span class="next_player_wrapper game_user_wrapper">${memberUpHtml}</span>
-      </div>
-      <div class="gamefeed_members_list">
-        ${membersHtml}
       </div>
       <div class="gamefeed_owners_panel">
         <span class="game_owner_label owner_wrapper">Game<br>Owner</span>
@@ -445,9 +362,6 @@ export class GamesApp extends GameBaseApp {
     this.public_game_view.querySelectorAll("button.toggle_expanded_game")
       .forEach((btn: any) => btn.addEventListener("click", () => this.toggleFeedSeats(btn)));
 
-    this.public_game_view.querySelectorAll(".sit_button")
-      .forEach((btn: any) => btn.addEventListener("click", () => this.gameSitClick(btn)));
-
     this.public_game_view.querySelectorAll(".code_link")
       .forEach((btn: any) => btn.addEventListener("click", () => this.copyGameLink(btn)));
 
@@ -458,16 +372,6 @@ export class GamesApp extends GameBaseApp {
    */
   copyGameLink(btn: any) {
     navigator.clipboard.writeText(window.location.origin + btn.dataset.url);
-  }
-  /** sit down at game handler
-   * @param { any } btn dom control
-   */
-  async gameSitClick(btn: any) {
-    const result = await this._gameAPISit(btn.dataset.seatindex, btn.dataset.gamenumber);
-
-    if (result) {
-      btn.parentElement.parentElement.parentElement.parentElement.querySelector(".game_number_open").click();
-    }
   }
   /** join game api call
    * @param { any } gameNumber
@@ -488,22 +392,11 @@ export class GamesApp extends GameBaseApp {
     this.create_new_game_btn.setAttribute("disabled", true);
     this.create_new_game_btn.innerHTML = "Creating...";
 
-    const gameType = (<any>document.querySelector(".gametype_select")).value;
     const visibility = (<any>document.querySelector(".visibility_select")).value;
-    const numberOfSeats = Number((<any>document.querySelector(".seat_count_select")).value);
-    const messageLevel = (<any>document.querySelector(".message_level_select")).value;
-    const seatsPerUser = (<any>document.querySelector(".seats_per_user_select")).value;
-    const cardDeck = (<any>document.querySelector(".card_deck_select")).value;
-    const scoringSystem = (<any>document.querySelector(".scoring_system_select")).value;
-
+    const gameType = "aichat";
     const body = {
       gameType,
       visibility,
-      numberOfSeats,
-      messageLevel,
-      seatsPerUser,
-      cardDeck,
-      scoringSystem,
     };
 
     const token = await firebase.auth().currentUser.getIdToken();

@@ -21,7 +21,6 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
 
   <link rel="stylesheet" href="/css/base.css" />
-  <link rel="stylesheet" href="/css/gamebase.css" />
   <link rel="stylesheet" href="/css/games.css" />
   <script>
     window.addEventListener("load", async (event) => {
@@ -65,14 +64,6 @@
         <div class="new_game_view">
           <div class="basic_options">
             <div style="display: flex; flex-direction: row">
-              <button class="new_game_type_wrapper game selected" value="match">
-                <div class="new_game_type_image" style="background-image: url(/images/logo_match.png)"></div>
-                <div class="new_game_type_name">Match</div>
-              </button>
-              <button class="new_game_type_wrapper game" value="guess">
-                <div class="new_game_type_image" style="background-image: url(/images/logo_guess.png)"></div>
-                <div class="new_game_type_name">Guess</div>
-              </button>
               <button class="new_game_type_wrapper game" value="aichat">
                 <div class="new_game_type_image" style="background-image: url(/images/logo_aichat.png)"></div>
                 <div class="new_game_type_name">AI Chat</div>
@@ -80,7 +71,7 @@
             </div>
             <div style="text-align: center; padding: 1em">
               <button class="create_new_game_btn game primary" style="width: 75%">
-                Create Game
+                Create Chat
               </button>
             </div>
 
@@ -120,21 +111,6 @@
               </select>
             </div>
             <br>
-            <div class="match_additional_options">
-              <span class="span_label">Card Deck</span>
-              <select class="card_deck_select">
-                <option value="empyrean">Empyrean</option>
-                <option value="zipline">Zipline</option>
-              </select>
-              <br>
-              <span class="span_label">Scoring</span>
-              <select class="scoring_system_select">
-                <option value="simple">Simple</option>
-                <option value="stable">Stable</option>
-                <option value="regular" selected>Regular</option>
-              </select>
-              <br>
-            </div>
 
             <div style="text-align: center">
               <button class="create_game_backtofeed_button game">
