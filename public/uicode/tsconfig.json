@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "es2020",
+    "moduleResolution": "node",
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "sourceMap": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "lib": [
+      "DOM",
+      "ES2021"
+    ],
+    "outDir": "./../models",
+  },
+  "include": [
+    "./"
+  ]
+}

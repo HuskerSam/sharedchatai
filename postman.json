@@ -1,0 +1,561 @@
+{
+	"info": {
+		"_postman_id": "57a26aa1-56c0-432a-b043-6983df0b4cdc",
+		"name": "sharedgamelobby",
+		"description": "get token from browser (logged in user) - await firebase.auth().currentUser.getIdToken()  \ntoken is valid for 60 minutes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11267522"
+	},
+	"item": [
+		{
+			"name": "create",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{token}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "token",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"numberOfSeats\": 2,\r\n    \"gameType\": \"guess\",\r\n    \"visibility\": \"private\",\r\n    \"messageLevel\": \"seated\",\r\n    \"seatsPerUser\": \"none\",\r\n    \"cardDeck\": \"empyrean\",\r\n    \"scoringSystem\": \"regular\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5001/{{projectId}}/us-central1/lobbyApi/games/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"{{projectId}}",
+						"us-central1",
+						"lobbyApi",
+						"games",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{token}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "token",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"gameNumber\": \"iyqq3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5001/{{projectId}}/us-central1/lobbyApi/games/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"{{projectId}}",
+						"us-central1",
+						"lobbyApi",
+						"games",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "guess/action",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{token}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "token",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"gameId\": \"ffct4\",\r\n    \"action\": \"playturn\",\r\n    \"guessLetter\": \"R\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5001/{{projectId}}/us-central1/lobbyApi/guess/action",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"{{projectId}}",
+						"us-central1",
+						"lobbyApi",
+						"guess",
+						"action"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "join",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{token}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "token",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"gameNumber\": \"tthhv\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5001/{{projectId}}/us-central1/lobbyApi/games/join",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"{{projectId}}",
+						"us-central1",
+						"lobbyApi",
+						"games",
+						"join"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "leave",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{token}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "token",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"gameNumber\": \"iyqq3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5001/{{projectId}}/us-central1/lobbyApi/games/leave",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"{{projectId}}",
+						"us-central1",
+						"lobbyApi",
+						"games",
+						"leave"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "match/action",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{token}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "token",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"gameId\": \"tthhv\",\r\n    \"action\": \"sendSelection\",\r\n    \"previousCard0\": 0,\r\n    \"previousCard1\": 3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5001/{{projectId}}/us-central1/lobbyApi/match/action",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"{{projectId}}",
+						"us-central1",
+						"lobbyApi",
+						"match",
+						"action"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "message",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{token}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "token",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"gameNumber\": \"tthhv\",\r\n    \"message\": \"My message\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5001/{{projectId}}/us-central1/lobbyApi/games/message",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"{{projectId}}",
+						"us-central1",
+						"lobbyApi",
+						"games",
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "message/delete",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{token}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "token",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"gameNumber\": \"tthhv\",\r\n    \"messageId\": \"l4Wdc7nVI6UJvYRTTFeQ\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5001/{{projectId}}/us-central1/lobbyApi/games/message/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"{{projectId}}",
+						"us-central1",
+						"lobbyApi",
+						"games",
+						"message",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "options",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{token}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "token",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"gameNumber\": \"iyqq3\",\r\n    \"numberOfSeats\": 2,\r\n    \"visibility\": \"public\",\r\n    \"messageLevel\": \"all\",\r\n    \"seatsPerUser\": \"none\",\r\n    \"cardDeck\": \"empyrean\",\r\n    \"scoringSystem\": \"regular\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5001/{{projectId}}/us-central1/lobbyApi/games/options",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"{{projectId}}",
+						"us-central1",
+						"lobbyApi",
+						"games",
+						"options"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sit",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{token}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "token",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"gameNumber\": \"12typ\",\r\n    \"seatIndex\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5001/{{projectId}}/us-central1/lobbyApi/games/sit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"{{projectId}}",
+						"us-central1",
+						"lobbyApi",
+						"games",
+						"sit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "stand",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{token}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "token",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"gameNumber\": \"12typ\",\r\n    \"seatIndex\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5001/{{projectId}}/us-central1/lobbyApi/games/stand",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"{{projectId}}",
+						"us-central1",
+						"lobbyApi",
+						"games",
+						"stand"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "projectId",
+			"value": "sharedgamelobby",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImQwZTFkMjM5MDllNzZmZjRhNzJlZTA4ODUxOWM5M2JiOTg4ZjE4NDUiLCJ0eXAiOiJKV1QifQ.eyJwcm92aWRlcl9pZCI6ImFub255bW91cyIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9zaGFyZWRnYW1lbG9iYnkiLCJhdWQiOiJzaGFyZWRnYW1lbG9iYnkiLCJhdXRoX3RpbWUiOjE2ODQ5ODYxNzAsInVzZXJfaWQiOiIwMExVOXE1cE9VV29najNPRHNLM09ER21KY3oxIiwic3ViIjoiMDBMVTlxNXBPVVdvZ2ozT0RzSzNPREdtSmN6MSIsImlhdCI6MTY4NTEzNDE3MCwiZXhwIjoxNjg1MTM3NzcwLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7fSwic2lnbl9pbl9wcm92aWRlciI6ImFub255bW91cyJ9fQ.G6FVcotUn4sNe2x5ey7nvV0lr0UBLPfidiaooyTXhElESx9n1tucYzsikyT9LtWtmPuyIXKYX9OtKqDve8ycpCqlc_XVF2V2ye2CDsvqDFWLCIPj0cC_m2u8blFp8ShxBSJUC6t06DAdJPRqfckG0WH6qCdgsjMx3MK2unP7KNHjHfKQ_aJd7-bSggHEMPvrgkSWRZX7LeiAatfL8bokyQ3DjPevEJZSvWf_8ZE30PmeLB6fI3wNhYwbnwxWfTFBjoGRIh3NZHf4aIb2sv6ikOoFTeIlEp1XKZULAzm2Ba-m-QpIaoPp94poRBrrmKphjp0J2jwKIugc9tlQvbMYIg",
+			"type": "string"
+		}
+	]
+}

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="shortcut icon" href="/images/logo64.png">
+
+  <!-- Firebase links -->
+  <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-firestore.js"></script>
+
+  <script src="/__/firebase/init.js"></script>
+
+  <script>
+    window.addEventListener('load', async (event) => {
+      let module = await import('/models/profileapp.js');
+
+      window.ProfileApp = new module.ProfileApp();
+    });
+  </script>
+
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/profile.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+
+
+<body class="basic_beer_body profile_page">
+  <div class="basic_page_wrapper app_panel" style="overflow-x: hidden">
+    <div class="base_menu_panel_wrapper">
+      <div class="base_menu_panel">
+        <a class="home_menu_anchor" href="/" style="flex:0">
+          <i class="material-icons">home</i>
+        </a>
+      </div>
+    </div>
+    <div class="logged_in_status">&nbsp;</div>
+    <br><br>
+    <div class="signed_out_options">
+      <br>
+      <button class="anon_login_anchor" style="font-size:25px;line-height: 40px;">Login Anonymously</button>
+      <br>
+      <h2>or</h2>
+      <button id="login_google" style="line-height: 40px;font-size:25px;">
+        <img src="/images/google_signin.png" style="height:30px;position:relative;top:6px;">
+        Sign in with Google</button>
+      <br>
+      <h2>or</h2>
+      <h3 style="margin-bottom:4px">Sign in with email (password free)</h3>
+      <div style="display:flex;flex-direction:row;width:100%;">
+        <input class="login_email" type="text" name="email" style="flex:1;margin-left:8px;font-size:21px;">
+        <button id="login_email_anchor" style="margin:0 8px;font-size:21px;white-space:nowrap">Send Link</button>
+      </div>
+      <br>
+      <br>
+    </div>
+
+    <div class="signed_in_options">
+      <button class="sign_out_button">Sign Out</button>
+      &nbsp; &nbsp;
+      <button class="reset_profile" style="white-space:nowrap;">Reset Profile</button>
+      <br>
+      <br>
+      <hr>
+      <div class="settings_panel">
+        <h3 class="impact-font tag_header_label">Night Mode</h3>
+        <label><input type="radio" name="night_mode_radio" checked>Auto</label>
+        <label><input type="radio" name="night_mode_radio">Day</label>
+        <label><input type="radio" name="night_mode_radio">Night</label>
+        <hr>
+        <h3 class="impact-font tag_header_label">Mute Audio</h3>
+        <label><input type="radio" name="mute_audio_radio">Yes</label>
+        <label><input type="radio" name="mute_audio_radio" checked>No</label>
+        <hr>
+        <h3 class="impact-font tag_header_label">ChatGPT Key</h3>
+        <label><input type="text" class="chatgpt_key"></label>
+        <hr>
+        <h3 class="impact-font tag_header_label">Display Name</h3>
+        <label><input type="text" class="profile_display_name"></label>
+        <br>
+        <button class="randomize_name">Randomize</button>
+        <hr>
+        <h3 class="impact-font tag_header_label">Display Image</h3>
+        <div class="profile_display_image" style="background-image:url(/images/defaultprofile.png)"></div>
+        <input type="file" class="file_upload_input" style="visibility:hidden;width:0">
+        <div style="display:inline-block;">
+          <button class="profile_display_image_clear"> Clear </button>
+          <br>
+          <br>
+          <button class="profile_display_image_upload">Upload</button>
+          <br>
+        </div>
+        <br>
+        <br>
+        <div style="text-align: center;">
+          <select class="profile_display_image_preset" style="max-width: 75%">
+            <option>Pick preset</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div style="flex:1"></div>
+  </div>
+</body>
+
+</html>
