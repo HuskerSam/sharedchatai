@@ -10,13 +10,8 @@ class BaseApp {
   projectId = firebase.app().options.projectId;
   basePath = `https://us-central1-${this.projectId}.cloudfunctions.net/`;
   urlParams = new URLSearchParams(window.location.search);
-  startBeer: string | null = "";
-  startTag: string | null = "";
-  filterTagsList: Array<any> = [];
   muted = false;
   night_mode_toggle: any = null;
-  tagList: Array<string> = [];
-  allBeers: any = null;
   uid: any = null;
   profile: any = null;
   fireUser: any = null;
@@ -29,19 +24,8 @@ class BaseApp {
   rtdbPresenceInited = false;
   userPresenceStatus: any = {};
   userPresenceStatusRefs: any = {};
-
-  audios = new Map();
-
-  pickAudio: any = null;
-  downAudio: any = null;
-  upAudio: any = null;
-  lockAudio: any = null;
-
-  login_email: any = null;
-  tagColorsArrays: any = [];
-  tagPens: any = [];
-  tagColors: any = [];
   userStatusDatabaseRef: any;
+  gameid_span: any = document.querySelector(".gameid_span");
 
   /** constructor  */
   constructor() {
@@ -52,8 +36,6 @@ class BaseApp {
 
     if (window.location.hostname === "localhost") this.basePath = `http://localhost:5001/${this.projectId}/us-central1/`;
 
-    this.startBeer = this.urlParams.get("beer");
-    this.startTag = this.urlParams.get("tag");
 
     this.night_mode_toggle = document.querySelector(".night_mode_toggle");
     if (this.night_mode_toggle) this.night_mode_toggle.addEventListener("click", (e: any) => this.nightModeToggle(e));
@@ -65,20 +47,6 @@ class BaseApp {
   }
   /** asynchronous loads - data setup  */
   async load() {
-    const promises = [];
-    promises.push(this.readJSONFile(`/data/breweryMap.json`, "breweryJSON"));
-    promises.push(this.readJSONFile(`/data/beerMap.json`, "allBeers"));
-    promises.push(this.readJSONFile(`/data/beerTags.json`, "beerTagsMap"));
-    promises.push(this.readJSONFile(`/data/beerTotals.json`, "beerTotals"));
-    await Promise.all(promises);
-
-    this.tagList = Object.keys(window.beerTagsMap);
-    this.tagList = this.tagList.sort();
-
-    this._generateColors();
-
-    this.allBeers = window.allBeers;
-
     this.authUpdateStatusUI();
   }
   /** reads a json file async and sets window.varName to it's value
@@ -106,7 +74,6 @@ class BaseApp {
     if (this.profile) {
       this.updateNightModeStatus(this.profile.nightModeState);
       this.updateUserStatus();
-      this.updateMute(this.profile.muteState);
     }
   }
   /** firebase authorization event handler
@@ -214,33 +181,6 @@ class BaseApp {
     e.preventDefault();
     return true;
   }
-  /** store mute setting for user, mute any active sounds
-   * @param { boolean } muted true if muted
-   */
-  async updateMute(muted: boolean) {
-    this.muted = muted;
-    if (!this.mute_button) return;
-
-    if (muted) {
-      this.mute_button.children[0].innerHTML = "volume_off";
-      if (this.pickAudio) this.pickAudio.pause();
-      if (this.downAudio) this.downAudio.pause();
-      if (this.upAudio) this.upAudio.pause();
-      if (this.lockAudio) this.lockAudio.pause();
-
-      this.audios.forEach((audio: any) => audio.pause());
-
-      muted = true;
-    } else {
-      this.mute_button.children[0].innerHTML = "volume_up";
-      muted = false;
-    }
-    if (this.profile) {
-      await firebase.firestore().doc(`Users/${this.uid}`).update({
-        muteState: muted,
-      });
-    }
-  }
   /** google sign in handler
    * @param { any } e dom event - preventDefault is called if passed
    */
@@ -263,34 +203,7 @@ class BaseApp {
     }, 1);
     return true;
   }
-  /** email sign in handler from UI (sends email to user for logging in)
-   * @param { any } e dom event - preventDefault is called if passed
-   */
-  async signInByEmail(e: any) {
-    e.preventDefault();
 
-    let email = "";
-    if (this.login_email) email = this.login_email.value;
-
-    /*
-    if (!email) {
-      email = window.prompt("Please provide your email to send link");
-    }*/
-
-    if (!email) {
-      alert("A valid email is required for sending a link");
-      return;
-    }
-
-    const actionCodeSettings = {
-      url: window.location.href,
-      handleCodeInApp: true,
-    };
-    await firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings);
-
-    window.localStorage.setItem("emailForSignIn", email);
-    alert("Email Sent");
-  }
   /** for use on page load - tests if a signIn token was included in the URL */
   signInWithURL() {
     if (!firebase.auth().isSignInWithEmailLink) return;
@@ -305,70 +218,6 @@ class BaseApp {
         window.location = "/profile";
       })
       .catch((e: any) => console.log(e));
-  }
-  /** setup colors for tags */
-  _generateColors() {
-    this.tagList = Object.keys(window.beerTagsMap);
-    this.tagList = this.tagList.sort();
-
-    this.tagColorsArrays = [];
-    this.tagList.forEach((tag) => {
-      let color = [250, 190, 50];
-      if (window.beerTagsMap[tag] === "bitter") color = [40, 240, 40];
-      if (window.beerTagsMap[tag] === "distinct") color = [255, 0, 255];
-
-      this.tagColorsArrays.push(color);
-    });
-
-    // r, g, b
-    this.tagPens = [];
-    this.tagColors = [];
-    for (let c = 0; c < this.tagColorsArrays.length; c++) {
-      const r = this.tagColorsArrays[c][0];
-      const g = this.tagColorsArrays[c][1];
-      const b = this.tagColorsArrays[c][2];
-
-      this.tagColors.push(`rgb(${r}, ${g}, ${b})`);
-
-      const fc = (r / 255 + (g / 255 * 1.5) + b / 255 > 1.4) ? "black" : "white";
-      this.tagPens.push(fc);
-    }
-  }
-  /** returns the extended name for a beer from the slug
-   * @param { string } beer beerSlug
-   * @param { number } option 0: (default) brewey beer 2: beer, brewery
-   * @return { string } beer description
-   */
-  gameNameForBeer(beer: string, option = 0) {
-    const beerData = this.allBeers[beer];
-    if (!beerData) return "missing name";
-    const name = beerData.name ? beerData.name : "Missing Name";
-    const slugs = beer.split(":");
-    const brewerySlug = slugs[0];
-    const brewery = window.breweryJSON[brewerySlug];
-    let bName = brewery.name;
-    if (beerData.breweryName) bName = beerData.breweryName;
-    return (option === 1) ? name + ", " + bName : bName + " " + name;
-  }
-  /** shuffles array order in place
-   * @param { Array<any> } array array of any type
-   * @return { Array<any> } passed in array returned in randomized order
-   */
-  _shuffleArray(array: Array<any>) {
-    let currentIndex = array.length;
-    while (0 !== currentIndex) {
-      const randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-
-      [array[currentIndex], array[randomIndex]] = [
-        array[randomIndex], array[currentIndex],
-      ];
-    }
-    return array;
-  }
-  /** init sounds ready to play */
-  loadAudios() {
-    return;
   }
   /** returns text value for time since Now, i.e. 3 mins ago
    * @param { Date } date value to format
@@ -416,66 +265,6 @@ class BaseApp {
     const ye = str.substr(2, 2);
     const da = str.substr(8, 2);
     return `${mo}/${da}/${ye}`;
-  }
-  /** mute click handler
-   * @param { any } e dom event (preventDefault called if passed)
-   * @return { boolean } true to cancel anchor navigation
-   */
-  muteClick(e: any) {
-    this.muted = (!this.muted);
-    this.updateMute(this.muted);
-    e.preventDefault();
-    return true;
-  }
-  /** calulate beer tag UI meta info
-   * @param { string } beer beer slug (brewery:beer)
-   * @return { any }
-   */
-  calcBeerTags(beer: string) {
-    const data = window.beerTotals.beers[beer];
-    if (!data) {
-      return {};
-    }
-    const tags = data.sortedTags;
-    let tagthreshold = data[tags[0]];
-    for (let c = 1; c < 4; c++) {
-      if (data[tags[c]] > tagthreshold) tagthreshold = data[tags[c]];
-    }
-
-    const levels = [];
-    const backgroundColors = [];
-    const colors = [];
-    const returnTags = [];
-    for (let c = 0; c < 4; c++) {
-      levels.push(data[tags[c]] / tagthreshold);
-      const index = this.tagList.indexOf(tags[c]);
-      backgroundColors.push(this.tagColors[index]);
-      colors.push(this.tagPens[index]);
-      returnTags.push(tags[c]);
-    }
-
-    return {
-      threshold: tagthreshold,
-      levels,
-      backgroundColors,
-      colors,
-      tags: returnTags,
-    };
-  }
-  /** play audio with try catch to wrap no user interaction error
-   * @param { any } audio plays audio file
-   */
-  playAudio(audio: any) {
-    audio.play().then(null, (e: any) => console.log("audio play error", e));
-  }
-  /** add audio file
-   * @param { string } name name to map
-   * @param { string } path url to audio
-  */
-  addAudio(name: string, path: string) {
-    const audio = new Audio(path);
-    this.audios.set(name, audio);
-    audio.load();
   }
   /** update storage to show online for current user */
   refreshOnlinePresence() {

@@ -11,7 +11,6 @@ export class ProfileApp extends BaseApp {
   anon_login_anchor: any = document.querySelector(".anon_login_anchor");
   sign_out_button: any = document.querySelector(".sign_out_button");
   night_mode_radios: any = document.querySelectorAll("[name=\"night_mode_radio\"]");
-  mute_audio_radios: any = document.querySelectorAll("[name=\"mute_audio_radio\"]");
   reset_profile: any = document.querySelector(".reset_profile");
   profile_display_name: any = document.querySelector(".profile_display_name");
   profile_display_image: any = document.querySelector(".profile_display_image");
@@ -40,7 +39,6 @@ export class ProfileApp extends BaseApp {
     this.night_mode_radios.forEach((ctl: any, index: number) => ctl.addEventListener("input", (e: any) => {
       this.updateProfileNightMode(ctl, index, e);
     }));
-    this.mute_audio_radios.forEach((ctl: any, index: number) => ctl.addEventListener("input", () => this.updateProfileAudioMode(index)));
     this.reset_profile.addEventListener("click", (e: any) => {
       if (confirm("Are you sure you want to clear out all reviews and profile data?")) {
         this._authCreateDefaultProfile();
@@ -50,9 +48,9 @@ export class ProfileApp extends BaseApp {
     });
 
     this.profile_display_name.addEventListener("input", () => this.displayNameChange());
-   
+
     this.chatgpt_key.addEventListener("input", () => this.chatGPTChange());
-     this.profile_display_image_upload.addEventListener("click", () => this.uploadProfileImage());
+    this.profile_display_image_upload.addEventListener("click", () => this.uploadProfileImage());
     this.file_upload_input.addEventListener("input", () => this.fileUploadSelected());
     this.profile_display_image_clear.addEventListener("click", () => this.clearProfileImage());
     this.profile_display_image_preset.addEventListener("input", () => this.handleImagePresetChange());
@@ -111,9 +109,9 @@ export class ProfileApp extends BaseApp {
 
       let chatGptKey = this.profile.chatGptKey;
       if (!chatGptKey)
-          chatGptKey = "";
+        chatGptKey = "";
       if (!this.lastNameChange || this.lastNameChange + 2000 < new Date().getTime())
-          this.chatgpt_key.value = chatGptKey;
+        this.chatgpt_key.value = chatGptKey;
 
 
 
@@ -143,7 +141,7 @@ export class ProfileApp extends BaseApp {
   }
   /** paint user profile */
   updateInfoProfile() {
-    if (!this.profile || !this.tagList) {
+    if (!this.profile) {
       return;
     }
     let email = firebase.auth().currentUser.email;
@@ -155,32 +153,20 @@ export class ProfileApp extends BaseApp {
     if (this.night_mode_radios.length > 0) {
       this.night_mode_radios[this.profile.nightModeState].checked = true;
     }
-
-    if (!this.profile.muteState) {
-      this.muted = false;
-      this.profile.muteState = false;
-    } else {
-      this.muted = true;
-      this.profile.muteState = true;
-    }
-    if (this.mute_audio_radios.length > 0) {
-      if (this.muted) this.mute_audio_radios[0].checked = true;
-      else this.mute_audio_radios[1].checked = true;
-    }
   }
-      /** handle (store) change to users display name */
-      async chatGPTChange() {
-        this.profile.chatGptKey = this.chatgpt_key.value.trim();
-        const updatePacket = {
-            chatGptKey: this.profile.chatGptKey,
-        };
-        if (this.fireToken) {
-            await firebase.firestore().doc(`Users/${this.uid}`).set(updatePacket, {
-                merge: true,
-            });
-        }
-        this.lastNameChange = new Date().getTime();
+  /** handle (store) change to users display name */
+  async chatGPTChange() {
+    this.profile.chatGptKey = this.chatgpt_key.value.trim();
+    const updatePacket = {
+      chatGptKey: this.profile.chatGptKey,
+    };
+    if (this.fireToken) {
+      await firebase.firestore().doc(`Users/${this.uid}`).set(updatePacket, {
+        merge: true,
+      });
     }
+    this.lastNameChange = new Date().getTime();
+  }
   /** open file picker for custom profile image upload */
   uploadProfileImage() {
     this.file_upload_input.click();
@@ -246,5 +232,33 @@ export class ProfileApp extends BaseApp {
     await firebase.firestore().doc(`Users/${this.uid}`).set(updates, {
       merge: true,
     });
+  }
+  /** email sign in handler from UI (sends email to user for logging in)
+ * @param { any } e dom event - preventDefault is called if passed
+ */
+  async signInByEmail(e: any) {
+    e.preventDefault();
+
+    let email = "";
+    if (this.login_email) email = this.login_email.value;
+
+    /*
+    if (!email) {
+      email = window.prompt("Please provide your email to send link");
+    }*/
+
+    if (!email) {
+      alert("A valid email is required for sending a link");
+      return;
+    }
+
+    const actionCodeSettings = {
+      url: window.location.href,
+      handleCodeInApp: true,
+    };
+    await firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings);
+
+    window.localStorage.setItem("emailForSignIn", email);
+    alert("Email Sent");
   }
 }

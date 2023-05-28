@@ -88,8 +88,8 @@ export default class ChatAI {
                     role: "user",
                     content: includeTicket.data().message,
                 });
-
-                if (assistLookup[includeTicket.id]) {
+                
+                if (assistLookup[includeTicket.id] && assistLookup[includeTicket.id].success && !assistLookup[includeTicket.id].assist.error) {
                     messages.push({
                         role: "assistant",
                         content: assistLookup[includeTicket.id].assist.choices["0"].message.content,

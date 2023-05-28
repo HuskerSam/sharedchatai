@@ -18,7 +18,6 @@ export class AIChatApp extends BaseApp {
   tickets_list: any = document.querySelector(".tickets_list");
   document_options_toggle: any = document.querySelector(".document_options_toggle");
 
-  gameid_span: any = document.querySelector(".gameid_span");
   members_list: any = document.querySelector(".members_list");
   visibility_display: any = document.querySelector(".visibility_display");
   visibility_select: any = document.querySelector(".visibility_select");
