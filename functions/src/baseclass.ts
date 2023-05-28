@@ -32,6 +32,23 @@ class LocalInstance {
 
 /** static functions to support micro services */
 export default class BaseClass {
+  /** default for chatgpt engine 
+   * @return { any } map of defaults
+  */
+  static defaultChatDocumentOptions(): any {
+    return {
+      gameType: "aichat",
+      model: "gpt-3.5-turbo",
+      max_tokens: 2048,
+      temperature: 1,
+      top_p: 1,
+      n: 1,
+      presence_penalty: 0,
+      frequency_penalty: 0,
+      logit_bias: "",
+      stop: "",
+    };
+  }
   /** gets local instance with public and private config
    * @return { any } object with data
    */

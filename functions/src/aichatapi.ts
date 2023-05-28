@@ -50,9 +50,8 @@ export default class ChatAI {
             memberName,
             memberImage,
         };
-        console.log(includeTickets);
         const addResult: any = await firebaseAdmin.firestore().collection(`Games/${gameNumber}/tickets`).add(ticket);
-        const packet = await this._generatePacket(ticket, gameNumber, addResult.id, includeTickets);
+        const packet = await this._generatePacket(ticket, gameData, gameNumber, addResult.id, includeTickets);
         await this._processTicket(packet, addResult.id, chatGptKey);
 
         return res.status(200).send({
@@ -61,11 +60,12 @@ export default class ChatAI {
     }
     /** generate ai api request including previous messages and store in /games/{gameid}/packets/{ticketid}
      * @param { any } ticket message details
+     * @param { any } gameData chat document
      * @param { string } gameNumber document id
      * @param { string } ticketId ticketId
      * @param { Array<string> } includeTickets tickets sent to packet
      */
-    static async _generatePacket(ticket: any, gameNumber: string, ticketId: string, includeTickets: Array<string>): Promise<any> {
+    static async _generatePacket(ticket: any, gameData: any, gameNumber: string, ticketId: string, includeTickets: Array<string>): Promise<any> {
         const messages: Array<any> = [];
         // const gameQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).get();
         const promises: Array<any> = [];
@@ -99,14 +99,29 @@ export default class ChatAI {
             }
         });
         messages.push({
-            "role": "user",
-            "content": ticket.message,
+            role: "user",
+            content: ticket.message,
         });
+
+        const defaults = BaseClass.defaultChatDocumentOptions();
+        const model = gameData.model;
+        const max_tokens = BaseClass.getNumberOrDefault(gameData.max_tokens, defaults.max_tokens);
+        const temperature = BaseClass.getNumberOrDefault(gameData.model, defaults.temperature);
+        const top_p = BaseClass.getNumberOrDefault(gameData.top_p, defaults.top_p);
+        const n = BaseClass.getNumberOrDefault(gameData.n, defaults.n);
+        const presence_penalty = BaseClass.getNumberOrDefault(gameData.presence_penalty, defaults.presence_penalty);
+        const frequency_penalty = BaseClass.getNumberOrDefault(gameData.frequency_penalty, defaults.frequency_penalty);
+
         const aiRequest = {
-            "model": "gpt-3.5-turbo",
+            model,
+            max_tokens,
+            temperature,
+            top_p,
+            n,
+            presence_penalty,
+            frequency_penalty,
             messages,
         };
-
         const packet = {
             gameNumber: ticket.gameNumber,
             aiRequest,

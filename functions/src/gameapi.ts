@@ -1,16 +1,6 @@
 import * as firebaseAdmin from "firebase-admin";
 import BaseClass from "./baseclass";
-const defaultChatEngineOptions = {
-  gameType: "aichat",
-  model: "gpt-3.5-turbo",
-  temperature: 1,
-  top_p: 1,
-  n: 1,
-  presence_penalty: 0,
-  frequency_penalty: 0,
-  logit_bias: "",
-  stop: "",
-};
+
 /** GameAPI for managing game records and base functions for 2D games */
 export default class GameAPI {
   /** gets a unique 5 digit game slug
@@ -108,8 +98,8 @@ export default class GameAPI {
       visibility: "private",
     };
 
-    Object.assign(game, defaultChatEngineOptions);
-console.log(game);
+    Object.assign(game, BaseClass.defaultChatDocumentOptions());
+
     if (req.body.visibility) game.visibility = req.body.visibility;
     game.publicStatus = GameAPI._publicStatus(game);
 
@@ -202,6 +192,7 @@ console.log(game);
     }
     const fieldsFilter = [
       "model",
+      "max_tokens",
       "temperature",
       "top_p",
       "n",
@@ -220,7 +211,6 @@ console.log(game);
         }
       }
     });
-
     updatePacket.publicStatus = GameAPI._publicStatus(gameData);
 
     await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).set(updatePacket, {

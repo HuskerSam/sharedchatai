@@ -31,6 +31,7 @@ export class AIChatApp extends BaseApp {
   splitInstance: any = null;
 
   docfield_model: any = document.querySelector(".docfield_model");
+  docfield_max_tokens: any = document.querySelector(".docfield_max_tokens");
   docfield_temperature: any = document.querySelector(".docfield_temperature");
   docfield_top_p: any = document.querySelector(".docfield_top_p");
   docfield_n: any = document.querySelector(".docfield_n");
@@ -59,6 +60,7 @@ export class AIChatApp extends BaseApp {
     document.addEventListener("visibilitychange", () => this.refreshOnlinePresence());
 
     this.docfield_model.addEventListener("input", () => this.scrapeDocumentOptions());
+    this.docfield_max_tokens.addEventListener("input", () => this.scrapeDocumentOptions());
     this.docfield_temperature.addEventListener("input", () => this.scrapeDocumentOptions());
     this.docfield_top_p.addEventListener("input", () => this.scrapeDocumentOptions());
     this.docfield_n.addEventListener("input", () => this.scrapeDocumentOptions());
@@ -316,6 +318,7 @@ export class AIChatApp extends BaseApp {
   async scrapeDocumentOptions() {
     /* eslint-disable camelcase */
     const model = this.docfield_model.value;
+    const max_tokens = this.docfield_max_tokens.value;
     const temperature = this.docfield_temperature.value;
     const top_p = this.docfield_top_p.value;
     const n = this.docfield_n.value;
@@ -327,6 +330,7 @@ export class AIChatApp extends BaseApp {
     const body: any = {
       gameNumber: this.currentGame,
       model,
+      max_tokens,
       temperature,
       top_p,
       n,
