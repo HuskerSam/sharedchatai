@@ -280,11 +280,9 @@ export class GamesApp extends BaseApp {
     this.create_game_afterfeed_button.setAttribute("disabled", true);
     this.create_game_afterfeed_button.innerHTML = "Creating...";
 
-    const visibility = "private";
     const gameType = "aichat";
     const body = {
       gameType,
-      visibility,
     };
 
     const token = await firebase.auth().currentUser.getIdToken();
