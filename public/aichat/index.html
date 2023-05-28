@@ -127,12 +127,7 @@
             <input type="text" class="form-control docfield_top_p" placeholder="top_p">
             <label>top_p (0 to 1)</label>
           </div>
-
-          <div class="form-floating" style="display:inline-block;width:80%">
-            <input type="text" class="form-control docfield_n" placeholder="Completions Per Ticket">
-            <label>completions per question (n)</label>
-          </div>
-
+          
           <div class="form-floating" style="display:inline-block;width:80%">
             <input type="text" class="form-control docfield_presence_penalty" placeholder="Presence Penalty">
             <label>Presence Penalty (-2 to 2)</label>
@@ -143,12 +138,12 @@
             <label>Frequency Penalty (-2 to 2)</label>
           </div>
         
-          <div class="form-floating" style="display:inline-block;width:80%">
+          <div class="form-floating" style="display:inline-block;width:80%;display: none">
             <textarea type="text" class="form-control docfield_logit_bias" placeholder="List of tokens to bias"></textarea>
             <label>List of tokens to bias</label>
           </div>
 
-          <div class="form-floating" style="display:inline-block;width:80%">
+          <div class="form-floating" style="display:inline-block;width:80%; display: none">
             <textarea type="text" class="form-control docfield_stops" placeholder="List of tokens to stop on"></textarea>
             <label>List of tokens to stop on</label>
           </div>

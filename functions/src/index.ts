@@ -12,12 +12,15 @@ gameAPIApp.set("views", path.join(__dirname, "views"));
 gameAPIApp.set("view engine", "ejs");
 
 firebaseAdmin.initializeApp();
+const runtimeOpts: functions.RuntimeOptions = {
+    timeoutSeconds: 120,
+  };
 
 gameAPIApp.use(cors({
     origin: true,
 }));
 
-export const lobbyApi = functions.https.onRequest(gameAPIApp);
+export const lobbyApi = functions.runWith(runtimeOpts).https.onRequest(gameAPIApp);
 
 export const updateDisplayNames = functions.firestore
     .document("Users/{uid}").onWrite(async (change, context) => GameAPI.updateUserMetaData(change, context));
