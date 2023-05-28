@@ -88,7 +88,7 @@
         <div class="message_list_send_wrapper" style="display:flex;flex-direction:row">
           <div class="form-floating" style="flex:1;margin:4px;">
             <input type="text" class="form-control ticket_content_input" name="ticketcontent" placeholder="AI Questions">
-            <label for="floatingPassword">Ask Questions</label>
+            <label>Ask Questions</label>
           </div>
           <button class="send_ticket_button btn btn-primary" style="margin:8px;">
             Submit AI Ticket
@@ -97,14 +97,14 @@
       </div>
       <div class="document_options_view">
         <div class="basic_options">
-          <span class="span_label">Code</span>
+          <span class="field_title_label">Code</span>
           <span class="gameid_span"></span>
           <a href="#" style="display:none;" class="code_link_href">URL</a>
           <button class="code_link_copy game"><i class="material-icons">content_copy</i> <span>url</span></button>
           <br>
-          <span class="span_label">Phase</span>
+          <span class="field_title_label">Phase</span>
           <br>
-          <span class="span_label">Visibility</span>
+          <span class="field_title_label">Visibility</span>
           <span class="visibility_display"></span>
           <select class="visibility_select">
             <option>public</option>
@@ -112,6 +112,46 @@
           </select>
           <br>
 
+          <select class="form-select docfield_model" aria-label="chatGPTEngine Selection">
+            <option selected>gpt-3.5-turbo</option>
+            <option>gpt-3.5-turbo-0301</option>
+            <option>gpt-4-32k-0314</option>
+            <option>gpt-4-32k</option>
+            <option>gpt-4-0314</option>
+            <option>gpt-4</option>
+          </select>
+
+          <div class="form-floating" style="display:inline-block;width:80%">
+            <input type="text" class="form-control docfield_temperature" placeholder="Temperature">
+            <label>Temperature (-2 to 2)</label>
+          </div>
+
+          
+          <div class="form-floating" style="display:inline-block;width:80%">
+            <input type="text" class="form-control docfield_top_p" placeholder="top_p">
+            <label>top_p (0 to 1)</label>
+          </div>
+
+          <div class="form-floating" style="display:inline-block;width:80%">
+            <input type="text" class="form-control docfield_n" placeholder="Completions Per Ticket">
+            <label>completions per question (n)</label>
+          </div>
+
+          <div class="form-floating" style="display:inline-block;width:80%">
+            <input type="text" class="form-control docfield_presence_penalty" placeholder="Presence Penalty">
+            <label>Presence Penalty (-2 to 2)</label>
+          </div>
+
+          <div class="form-floating" style="display:inline-block;width:80%">
+            <input type="text" class="form-control docfield_frequency_penalty" placeholder="Frequency Penalty">
+            <label>Frequency Penalty (-2 to 2)</label>
+          </div>
+        
+          <div class="form-floating" style="display:inline-block;width:80%">
+            <input type="text" class="form-control docfield_logit_bias" placeholder="List of tokens to bias">
+            <label>List of tokens to bias</label>
+          </div>
+          
         </div>
       </div>
     </div>
