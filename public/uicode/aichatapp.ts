@@ -167,8 +167,6 @@ export class AIChatApp extends BaseApp {
             <i class="material-icons">delete</i>
             </button>`;
 
-    let message = data.message;
-
     const timeSince = this.timeSince(new Date(data.created)).replaceAll(" ago", "");
     return `<div class="card game_message_list_item${gameOwnerClass}${ownerClass}" ticketid="${doc.id}">
     <div style="display:flex;flex-direction:row">
@@ -183,7 +181,7 @@ export class AIChatApp extends BaseApp {
         </div>
         ${deleteHTML}
     </div>
-    <div class="message" style="flex:1">${message}</div>
+    <div class="message" style="flex:1">${data.message}</div>
     <div class="assist_section">pending...</div>
 </div>`;
   }

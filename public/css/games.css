@@ -83,22 +83,6 @@ button.delete_game {
   clear: both;
 }
 
-.gamelist_item, .gametype_guess {
-  background: rgba(255, 255, 0, .2);
-}
-
-.gametype_match {
-  background: rgba(0, 255, 255, .2);
-}
-
-.gamelist_item .game_status {
-  clear: both;
-}
-
-button.create_new_game_btn {
-  font-size: 32px;
-}
-
 .gamefeed_item_header {
   display: flex;
   flex-direction: row;
@@ -110,31 +94,6 @@ button.create_new_game_btn {
 
 .visibility_select {
   display: inline-block;
-}
-
-.message_level_select, .seats_per_user_select {
-  display: inline-block;
-}
-
-.seat_count_select {
-  display: inline-block;
-}
-
-.match_additional_options {
-  display: none;
-}
-
-.newgametype_match .match_additional_options {
-  display: block;
-}
-
-.game_basic_options {
-  display: none;
-}
-
-.newgametype_match .game_basic_options,
-.newgametype_guess .game_basic_options {
-  display: block;
 }
 
 .game_type_image {
@@ -415,9 +374,4 @@ button.code_link {
 
 .profile_menu_anchor .name {
   text-decoration: underline;
-}
-
-.create_game_afterfeed_button, .create_game_backtofeed_button {
-  margin-top: 15px;
-  font-size: 25px;
 }

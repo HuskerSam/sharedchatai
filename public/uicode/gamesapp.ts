@@ -8,9 +8,7 @@ export class GamesApp extends BaseApp {
   game_history_view: any = document.querySelector(".game_history_view");
   public_game_view: any = document.querySelector(".public_game_view");
   join_game_btn: any = document.querySelector(".join_game_btn");
-  gametype_select: any = document.querySelector(".gametype_select");
   create_game_afterfeed_button: any = document.querySelector(".create_game_afterfeed_button");
-  create_game_backtofeed_button: any = document.querySelector(".create_game_backtofeed_button");
   menu_create_game: any = document.querySelector(".menu_create_game");
   game_feed_toggle_button: any = document.querySelector(".game_feed_toggle_button");
   new_game_type_wrappers: any = document.querySelectorAll(".new_game_type_wrapper");
@@ -29,8 +27,8 @@ export class GamesApp extends BaseApp {
 
 
     this.join_game_btn.addEventListener("click", () => this.joinGame(null));
-    this.menu_create_game.addEventListener("click", (e: any) => this.createNewGame());
-    this.create_game_afterfeed_button.addEventListener("click", (e: any) => this.createNewGame());
+    this.menu_create_game.addEventListener("click", () => this.createNewGame());
+    this.create_game_afterfeed_button.addEventListener("click", () => this.createNewGame());
     this.game_feed_toggle_button.addEventListener("click", (e: any) => this.toggleFeedView(e));
 
 
@@ -46,14 +44,6 @@ export class GamesApp extends BaseApp {
   async init() {
     const gameId: any = this.urlParams.get("game");
     if (gameId && await this._handlePassedInGameID(gameId)) return;
-  }
-  /** game type radios change handler
-   * @param { any } btn dom ctl
-   */
-  handleGameTypeClick(btn: any) {
-    this.new_game_type_wrappers.forEach((b: any) => b.classList.remove("selected"));
-    this.gametype_select.value = btn.value;
-    btn.classList.add("selected");
   }
   /** swaps between feeds of games where you're a member of and public games with open sees
   * @param { any } e dom event (preventDefault called if passed)
@@ -222,8 +212,7 @@ export class GamesApp extends BaseApp {
          </button>
         </div>
       </div>
-      <div class="gamefeed_timesince"><span class="mode impact-font">${data.mode}</span> 
-        - <span class="timesince">${timeSince}</span></div>
+      <div class="gamefeed_timesince"><span class="timesince">${timeSince}</span></div>
       <div style="display:flex;flex-direction:row">
         <button class="code_link game" data-url="/${data.gameType}/?game=${data.gameNumber}">
           <i class="material-icons">content_copy</i> <span>${data.gameNumber}</span></button>
@@ -285,7 +274,7 @@ export class GamesApp extends BaseApp {
     this.create_new_game_btn.setAttribute("disabled", true);
     this.create_new_game_btn.innerHTML = "Creating...";
 
-    const visibility = (<any>document.querySelector(".visibility_select")).value;
+    const visibility = "private";
     const gameType = "aichat";
     const body = {
       gameType,
