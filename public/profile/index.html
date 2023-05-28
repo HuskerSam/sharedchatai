@@ -65,10 +65,10 @@
     <br><br>
     <div class="signed_out_options">
       <br>
-      <button class="anon_login_anchor" style="font-size:25px;line-height: 40px;">Login Anonymously</button>
+      <button class="anon_login_anchor btn btn-primary">Login Anonymously</button>
       <br>
       <h2>or</h2>
-      <button id="login_google" style="line-height: 40px;font-size:25px;">
+      <button class="btn btn-primary" id="login_google">
         <img src="/images/google_signin.png" style="height:30px;position:relative;top:6px;">
         Sign in with Google</button>
       <br>
@@ -76,16 +76,16 @@
       <h3 style="margin-bottom:4px">Sign in with email (password free)</h3>
       <div style="display:flex;flex-direction:row;width:100%;">
         <input class="login_email" type="text" name="email" style="flex:1;margin-left:8px;font-size:21px;">
-        <button id="login_email_anchor" style="margin:0 8px;font-size:21px;white-space:nowrap">Send Link</button>
+        <button class="btn btn-primary" id="login_email_anchor" style="margin:0 8px;font-size:21px;white-space:nowrap">Send Link</button>
       </div>
       <br>
       <br>
     </div>
 
     <div class="signed_in_options">
-      <button class="sign_out_button">Sign Out</button>
+      <button class="sign_out_button btn btn-secondary">Sign Out</button>
       &nbsp; &nbsp;
-      <button class="reset_profile" style="white-space:nowrap;">Reset Profile</button>
+      <button class="reset_profile btn btn-secondary" style="white-space:nowrap;">Reset Profile</button>
       <br>
       <br>
       <hr>
@@ -93,7 +93,14 @@
         <h3 class="impact-font tag_header_label">Night Mode</h3>
         <label><input type="radio" name="night_mode_radio" checked>Auto</label>
         <label><input type="radio" name="night_mode_radio">Day</label>
-        <label><input type="radio" name="night_mode_radio">Night</label>
+        <div class="form-check" style="display:inline-block;width: auto;">
+          <input class="form-check-input" type="radio" name="night_mode_radio">
+          <label class="form-check-label" for="flexRadioDefault1">
+            Night
+          </label>
+        </div>
+
+
         <hr>
         <h3 class="impact-font tag_header_label">ChatGPT Key</h3>
         <label><input type="text" class="chatgpt_key"></label>
@@ -101,16 +108,16 @@
         <h3 class="impact-font tag_header_label">Display Name</h3>
         <label><input type="text" class="profile_display_name"></label>
         <br>
-        <button class="randomize_name">Randomize</button>
+        <button class="randomize_name btn btn-secondary">Randomize</button>
         <hr>
         <h3 class="impact-font tag_header_label">Display Image</h3>
         <div class="profile_display_image" style="background-image:url(/images/defaultprofile.png)"></div>
         <input type="file" class="file_upload_input" style="visibility:hidden;width:0">
         <div style="display:inline-block;">
-          <button class="profile_display_image_clear"> Clear </button>
+          <button class="profile_display_image_clear btn btn-secondary"> Clear </button>
           <br>
           <br>
-          <button class="profile_display_image_upload">Upload</button>
+          <button class="profile_display_image_upload btn btn-secondary">Upload</button>
           <br>
         </div>
         <br>

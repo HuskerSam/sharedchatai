@@ -164,7 +164,7 @@ class BaseApp {
     }
     this.nightModeCurrent = nite;
 
-    this.night_mode_toggle.innerHTML = (nite) ? "Day" : "Nite";
+    if (this.night_mode_toggle) this.night_mode_toggle.innerHTML = (nite) ? "Day" : "Nite";
     if (nite) document.body.classList.add("night_mode");
     else document.body.classList.remove("night_mode");
   }
