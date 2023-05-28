@@ -1,4 +1,5 @@
 import BaseApp from "./baseapp.js";
+import Split from "./split.js";
 declare const firebase: any;
 declare const window: any;
 
@@ -14,6 +15,7 @@ export class AIChatApp extends BaseApp {
   ticketFeedRegistered = false;
   gameData: any;
   alertErrors = false;
+  splitHorizontalCache: any = null;
 
   tickets_list: any = document.querySelector(".tickets_list");
   document_options_toggle: any = document.querySelector(".document_options_toggle");
@@ -26,6 +28,9 @@ export class AIChatApp extends BaseApp {
   ticket_content_input: any = document.querySelector(".ticket_content_input");
   code_link_href: any = document.querySelector(".code_link_href");
   code_link_copy: any = document.querySelector(".code_link_copy");
+  gameid_span: any = document.querySelector(".gameid_span");
+  main_view_splitter: any = document.querySelector(".main_view_splitter");
+  splitInstance: any = null;
 
   /**  */
   constructor() {
@@ -39,7 +44,8 @@ export class AIChatApp extends BaseApp {
     this.toggleOptionsView(null);
 
     this.initTicketFeed();
-    
+    this.updateSplitter();
+
     // redraw message feed to update time since values
     setInterval(() => this.updateTicketsFeed(null), this.baseRedrawFeedTimer);
 
@@ -86,12 +92,9 @@ export class AIChatApp extends BaseApp {
           } else {
             assistSection.innerHTML = data.assist.choices["0"].message.content;
           }
-        }
-        else
-          assistSection.innerHTML = "API Error";
+        } else assistSection.innerHTML = "API Error";
       }
     });
-
   }
   /** paint user message feed
    * @param { any } snapshot firestore query data snapshot
@@ -220,10 +223,10 @@ export class AIChatApp extends BaseApp {
       alert(json.errorMessage);
     }
   }
-  /** process exisiting tickets and return list of ids to submit 
+  /** process exisiting tickets and return list of ids to submit
    * @return { Array<string> } list of ticket ids
   */
-  generateSubmitList():Array<string> {
+  generateSubmitList(): Array<string> {
     const tickets: Array<string> = [];
     this.lastTicketsSnapshot.forEach((doc: any) => tickets.push(doc.id));
     return tickets;
@@ -232,14 +235,14 @@ export class AIChatApp extends BaseApp {
   authUpdateStatusUI() {
     super.authUpdateStatusUI();
     this.currentGame = null;
-    this.gameid_span.innerHTML = "";
+    if (this.gameid_span) this.gameid_span.innerHTML = "";
     this.initRTDBPresence();
 
     const gameId = this.urlParams.get("game");
     if (gameId) {
       this.gameAPIJoin(gameId);
       this.currentGame = gameId;
-      this.gameid_span.innerHTML = this.currentGame;
+      if (this.gameid_span) this.gameid_span.innerHTML = this.currentGame;
 
       if (this.gameSubscription) this.gameSubscription();
       this.gameSubscription = firebase.firestore().doc(`Games/${this.currentGame}`)
@@ -337,10 +340,10 @@ export class AIChatApp extends BaseApp {
       img,
     };
   }
-  /** paint user editable game options 
+  /** paint user editable game options
    * @param { boolean } defaultOptions initalizes game options
   */
-  paintOptions(defaultOptions: boolean = true) {
+  paintOptions(defaultOptions = true) {
     if (this.gameData.createUser === this.uid) document.body.classList.add("game_owner");
     else document.body.classList.remove("game_owner");
 
@@ -358,5 +361,31 @@ export class AIChatApp extends BaseApp {
   copyGameLinkToClipboard() {
     const path = this.code_link_href.getAttribute("href");
     navigator.clipboard.writeText(path);
+  }
+  /** update the splitter if needed */
+  updateSplitter() {
+    let horizontal = true;
+    let minSize = 30;
+    if (window.document.body.scrollWidth <= 500) {
+      horizontal = false;
+    }
+
+    if (this.splitHorizontalCache !== horizontal) {
+      let direction = "vertical";
+      this.main_view_splitter.style.flexDirection = "column";
+      if (horizontal) {
+        this.main_view_splitter.style.flexDirection = "row";
+        direction = "horizontal";
+        minSize = 150;
+      }
+
+      if (this.splitInstance) this.splitInstance.destroy();
+      this.splitInstance = <any>Split([".left_panel_view", ".right_panel_view"], {
+        sizes: [25, 75],
+        direction,
+        minSize,
+      });
+      this.splitHorizontalCache = horizontal;
+    }
   }
 }

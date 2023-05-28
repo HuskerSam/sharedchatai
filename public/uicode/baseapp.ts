@@ -25,7 +25,6 @@ class BaseApp {
   userPresenceStatus: any = {};
   userPresenceStatusRefs: any = {};
   userStatusDatabaseRef: any;
-  gameid_span: any = document.querySelector(".gameid_span");
 
   /** constructor  */
   constructor() {
@@ -165,6 +164,7 @@ class BaseApp {
     }
     this.nightModeCurrent = nite;
 
+    this.night_mode_toggle.innerHTML = (nite) ? "Day" : "Nite";
     if (nite) document.body.classList.add("night_mode");
     else document.body.classList.remove("night_mode");
   }
@@ -177,7 +177,6 @@ class BaseApp {
     if (this.nightModeCurrent) niteMode = 1;
     this.updateNightModeStatus(niteMode);
     this.updateProfileNightMode(null, niteMode, null);
-    this.night_mode_toggle.innerHTML = (niteMode === 2) ? "Day" : "Nite";
     e.preventDefault();
     return true;
   }

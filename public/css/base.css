@@ -27,6 +27,11 @@ a {
   color: white;
 }
 
+.night_mode input {
+  background: rgb(0, 50, 50);
+  color: white;
+}
+
 .app_panel {
   background: rgb(127, 127, 127);
   color: rgb(127, 127, 127);
@@ -36,11 +41,15 @@ a {
   transition: color .2s ease-out, background-color .2s ease-out, opacity .2s;
 }
 
-.app_panel h1, .app_panel h2, .app_panel h3 {
+.app_panel h1,
+.app_panel h2,
+.app_panel h3 {
   opacity: 0;
 }
 
-.loaded .app_panel h1, .loaded .app_panel h2, .loaded .app_panel h3 {
+.loaded .app_panel h1,
+.loaded .app_panel h2,
+.loaded .app_panel h3 {
   opacity: 1;
 }
 

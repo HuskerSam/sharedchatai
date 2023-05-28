@@ -1,3 +1,9 @@
+body {
+  min-height: unset;
+  height: 100%;
+  overflow: hidden;
+}
+
 .game_loading_display {
   display: none;
 }
@@ -5,7 +11,6 @@
 .tickets_list {
   display: block;
 }
-
 
 .game_message_list_item .close_button {
   float: right;
@@ -16,41 +21,15 @@
   padding: 5px;
 }
 
-.ticket_content_input:focus {
-  background: white;
-}
-
-.message_list_send_wrapper {
-  position: fixed;
-  bottom: 0px;
-  text-align: center;
-  line-height: 35px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: inline-block;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  border: 4px double #cccccc;
-  border-bottom: none;
-  background: rgba(50, 100, 240, .25);
-  z-index: 10000;
-  width: 95%;
-}
-
-.ticket_content_input {
-  font-size: 28px;
-  width: 90%;
-  padding: 4px;
-  background: rgba(255, 255, 255, .5);
-  border: 4px double #cccccc;
-}
-
 .document_feed_view {
   display: none;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
 }
 
 .show_document_feed .document_feed_view {
-  display: block;
+  display: flex;
 }
 
 .document_options_view {
@@ -60,6 +39,7 @@
 .show_document_options .document_options_view {
   display: block;
 }
+
 .game_user_wrapper span:nth-child(1) {
   display: inline-block;
   width: 24px;
@@ -184,4 +164,24 @@
   padding: 10px;
   padding-left: 25px;
   padding-bottom: 25px;
+}
+
+.main_view_splitter {
+  display: flex;
+}
+
+.gutter {
+  background-color: #eee;
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+
+.gutter.gutter-horizontal {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+  cursor: col-resize;
+}
+
+.gutter.gutter-vertical {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
+  cursor: row-resize;
 }

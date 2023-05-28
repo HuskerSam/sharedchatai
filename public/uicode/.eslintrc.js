@@ -22,7 +22,7 @@ module.exports = {
     sourceType: "module",
   },
   ignorePatterns: [
-    "/lib/**/*", // Ignore built files.
+    "/lib/**/*", "*.js" // Ignore built files.
   ],
   plugins: [
     "@typescript-eslint",
@@ -39,5 +39,6 @@ module.exports = {
     "max-len": ["error", {
       code: 140,
     }],
+    "new-cap": 0,
   },
 };

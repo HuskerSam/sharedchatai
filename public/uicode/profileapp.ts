@@ -106,14 +106,11 @@ export class ProfileApp extends BaseApp {
 
       if (!this.lastNameChange || this.lastNameChange + 2000 < new Date().getTime()) this.profile_display_name.value = displayName;
 
-
       let chatGptKey = this.profile.chatGptKey;
-      if (!chatGptKey)
-        chatGptKey = "";
-      if (!this.lastNameChange || this.lastNameChange + 2000 < new Date().getTime())
+      if (!chatGptKey) chatGptKey = "";
+      if (!this.lastNameChange || this.lastNameChange + 2000 < new Date().getTime()) {
         this.chatgpt_key.value = chatGptKey;
-
-
+      }
 
       if (this.profile.displayImage) this.profile_display_image.style.backgroundImage = `url(${this.profile.displayImage})`;
       else this.profile_display_image.style.backgroundImage = `url(/images/defaultprofile.png)`;
