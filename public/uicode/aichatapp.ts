@@ -38,7 +38,7 @@ export class AIChatApp extends BaseApp {
   docfield_frequency_penalty: any = document.querySelector(".docfield_frequency_penalty");
   docfield_logit_bias: any = document.querySelector(".docfield_logit_bias");
   docfield_stops: any = document.querySelector(".docfield_stops");
- 
+
   /**  */
   constructor() {
     super();
@@ -268,7 +268,7 @@ export class AIChatApp extends BaseApp {
     if (!this.gameData) return;
 
 
-    this.paintOptions();
+    this.paintDocumentOptions();
     this._updateGameMembersList();
     this.updateUserPresence();
   }
@@ -314,6 +314,7 @@ export class AIChatApp extends BaseApp {
   }
   /** scrape options from UI and call api */
   async scrapeDocumentOptions() {
+    /* eslint-disable camelcase */
     const model = this.docfield_model.value;
     const temperature = this.docfield_temperature.value;
     const top_p = this.docfield_top_p.value;
@@ -368,24 +369,24 @@ export class AIChatApp extends BaseApp {
   }
   /** paint user editable game options
   */
-  paintOptions() {
+  paintDocumentOptions() {
     if (this.gameData.createUser === this.uid) document.body.classList.add("game_owner");
     else document.body.classList.remove("game_owner");
 
     this.docfield_model.value = this.gameData.model;
 
-    this.docfield_temperature.value = this.gameData.docfield_temperature;
-    this.docfield_top_p.value = this.gameData.docfield_top_p;
-    this.docfield_presence_penalty.value = this.gameData.docfield_presence_penalty;
-    this.docfield_frequency_penalty.value = this.gameData.docfield_frequency_penalty;
-    this.docfield_logit_bias.value = this.gameData.docfield_logit_bias;
-    this.docfield_stops.value = this.gameData.docfield_stops;
+    this.docfield_temperature.value = this.gameData.temperature;
+    this.docfield_top_p.value = this.gameData.top_p;
+    this.docfield_n.value = this.gameData.n;
+    this.docfield_presence_penalty.value = this.gameData.presence_penalty;
+    this.docfield_frequency_penalty.value = this.gameData.frequency_penalty;
+    this.docfield_logit_bias.value = this.gameData.logit_bias;
+    this.docfield_stops.value = this.gameData.stop;
 
     if (this.code_link_href) {
       const path = window.location.href;
       this.code_link_href.setAttribute("href", path);
     }
-
   }
   /** copy game link to global clipboard */
   copyGameLinkToClipboard() {

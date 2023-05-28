@@ -1,6 +1,16 @@
 import * as firebaseAdmin from "firebase-admin";
 import BaseClass from "./baseclass";
-
+const defaultChatEngineOptions = {
+  gameType: "aichat",
+  model: "gpt-3.5-turbo",
+  temperature: 1,
+  top_p: 1,
+  n: 1,
+  presence_penalty: 0,
+  frequency_penalty: 0,
+  logit_bias: "",
+  stop: "",
+};
 /** GameAPI for managing game records and base functions for 2D games */
 export default class GameAPI {
   /** gets a unique 5 digit game slug
@@ -96,9 +106,10 @@ export default class GameAPI {
       created: new Date().toISOString(),
       lastActivity: new Date().toISOString(),
       visibility: "private",
-      gameType: "aichat",
     };
 
+    Object.assign(game, defaultChatEngineOptions);
+console.log(game);
     if (req.body.visibility) game.visibility = req.body.visibility;
     game.publicStatus = GameAPI._publicStatus(game);
 
@@ -189,15 +200,26 @@ export default class GameAPI {
     if (uid !== gameData.createUser) {
       return BaseClass.respondError(res, "User must be owner to set options");
     }
-
+    const fieldsFilter = [
+      "model",
+      "temperature",
+      "top_p",
+      "n",
+      "presence_penalty",
+      "frequency_penalty",
+      "logit_bias",
+      "stop",
+    ];
     const updatePacket: any = {};
-    if (req.body.visibility) {
-      const visibility = req.body.visibility;
-      if (gameData.visibility !== visibility) {
-        updatePacket.visibility = visibility;
-        gameData.visibility = visibility;
+    fieldsFilter.forEach((field: string) => {
+      if (req.body[field]) {
+        const value = req.body[field];
+        if (gameData[field] !== value) {
+          updatePacket[field] = value;
+          gameData[field] = value;
+        }
       }
-    }
+    });
 
     updatePacket.publicStatus = GameAPI._publicStatus(gameData);
 

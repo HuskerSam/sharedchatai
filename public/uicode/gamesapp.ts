@@ -276,7 +276,7 @@ export class GamesApp extends BaseApp {
 
     this.create_new_game_btn.setAttribute("disabled", true);
     this.create_new_game_btn.innerHTML = "Creating...";
-    
+
     this.create_game_afterfeed_button.setAttribute("disabled", true);
     this.create_game_afterfeed_button.innerHTML = "Creating...";
 
