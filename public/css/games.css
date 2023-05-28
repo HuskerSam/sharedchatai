@@ -59,29 +59,17 @@
 
 button.delete_game {
   display: none;
-  background: none;
-  border-color: rgba(255, 0, 0, .5);
-}
-
-button.delete_game i {
-  color: rgba(255, 0, 0, .5);
 }
 
 .feed_game_owner .delete_game {
   display: inline-block;
 }
 
-button.logout_game {
-  display: inline-block;
-  background: none;
-  border-color: rba(255, 0, 0, .5);
-}
-
-.public_game_view button.logout_game, .public_game_view button.delete_game {
+.public_game_view button.leave_game, .public_game_view button.delete_game {
   display: none;
 }
 
-.feed_game_owner button.logout_game {
+.feed_game_owner button.leave_game {
   display: none;
 }
 
@@ -190,33 +178,9 @@ a.game_number_open {
   flex-direction: row;
 }
 
-.gamefeed_owners_panel {
-  text-align: center;
-}
-
-.gamefeed_members_list, .gamefeed_owners_panel {
-  overflow: hidden;
-  max-height: 0px;
-  opacity: .5;
-  transition: max-height .5s, opacity .5s;
-  position: relative;
-  top: 10px;
-}
-
-.gamefeed_owners_panel {
-  line-height: 90px;
-  white-space: nowrap;
-}
-
 .gamefeed_members_list {
   margin: 0 10px;
   border-radius: 6px;
-}
-
-.show_seats .gamefeed_members_list, .show_seats .gamefeed_owners_panel {
-  max-height: 180px;
-  opacity: 1;
-  overflow: visible;
 }
 
 .gameitem_running.gamelist_item.gameplayer_turn_next {
@@ -366,37 +330,6 @@ button.game.sit_button {
   display: inline-block;
 }
 
-button.toggle_expanded_game {
-  background-color: transparent;
-  text-align: right;
-  white-space: nowrap;
-  overflow: hidden;
-  border: transparent;
-}
-
-.toggle_expanded_game span.label {
-  font-size: 12px;
-  opacity: .75;
-  padding-top: 18px;
-  float: left;
-}
-
-.toggle_expanded_game span.icon {
-  transform: rotate(90deg);
-  transition: transform 0.5s;
-  display: inline-block;
-  position: relative;
-  top: -5px;
-}
-
-.toggle_expanded_game span.round {
-  font-size: 40px;
-}
-
-.show_seats .toggle_expanded_game span.icon {
-  transform: rotate(0deg);
-}
-
 .game_owner_label {
   opacity: .75;
   display: inline-block;
@@ -443,7 +376,7 @@ button.code_link {
   border-color: transparent;
 }
 
-.app_signed_out .show_add_options_view, .app_signed_out .game_feed_toggle_button {
+.app_signed_out .menu_create_game, .app_signed_out .game_feed_toggle_button {
   display: none;
 }
 

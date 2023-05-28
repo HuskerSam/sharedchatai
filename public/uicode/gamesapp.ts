@@ -11,7 +11,7 @@ export class GamesApp extends BaseApp {
   gametype_select: any = document.querySelector(".gametype_select");
   create_game_afterfeed_button: any = document.querySelector(".create_game_afterfeed_button");
   create_game_backtofeed_button: any = document.querySelector(".create_game_backtofeed_button");
-  show_add_options_view: any = document.querySelector(".show_add_options_view");
+  menu_create_game: any = document.querySelector(".menu_create_game");
   game_feed_toggle_button: any = document.querySelector(".game_feed_toggle_button");
   new_game_type_wrappers: any = document.querySelectorAll(".new_game_type_wrapper");
   basic_options: any = document.querySelector(".basic_options");
@@ -27,13 +27,12 @@ export class GamesApp extends BaseApp {
   constructor() {
     super();
 
-    this.create_new_game_btn.addEventListener("click", () => this.createNewGame());
+
     this.join_game_btn.addEventListener("click", () => this.joinGame(null));
-    this.create_game_afterfeed_button.addEventListener("click", (e: any) => this.toggleAddGameView(e));
-    this.create_game_backtofeed_button.addEventListener("click", (e: any) => this.toggleAddGameView(e));
-    this.show_add_options_view.addEventListener("click", (e: any) => this.toggleAddGameView(e));
+    this.menu_create_game.addEventListener("click", (e: any) => this.createNewGame());
+    this.create_game_afterfeed_button.addEventListener("click", (e: any) => this.createNewGame());
     this.game_feed_toggle_button.addEventListener("click", (e: any) => this.toggleFeedView(e));
-    this.new_game_type_wrappers.forEach((btn: any) => btn.addEventListener("click", () => this.handleGameTypeClick(btn)));
+
 
     this.initRTDBPresence();
 
@@ -56,24 +55,6 @@ export class GamesApp extends BaseApp {
     this.gametype_select.value = btn.value;
     btn.classList.add("selected");
   }
-  /** toggle add game view or show games list views
-   * @param { any } e dom event (preventDefault called if passed)
-   * @return { boolean } true to stop anchor navigation
-  */
-  toggleAddGameView(e: any): boolean {
-    if (document.body.classList.contains("show_games_view")) {
-      document.body.classList.remove("show_games_view");
-      document.body.classList.add("show_new_game");
-      this.show_add_options_view.innerHTML = "List";
-    } else {
-      document.body.classList.add("show_games_view");
-      document.body.classList.remove("show_new_game");
-      this.show_add_options_view.innerHTML = "Create";
-    }
-
-    if (e) e.preventDefault();
-    return true;
-  }
   /** swaps between feeds of games where you're a member of and public games with open sees
   * @param { any } e dom event (preventDefault called if passed)
   * @return { boolean } true to stop anchor navigation
@@ -88,7 +69,6 @@ export class GamesApp extends BaseApp {
       document.body.classList.remove("show_profile_games");
       this.game_feed_toggle_button.innerHTML = "History";
     }
-    if (document.body.classList.contains("show_new_game")) this.toggleAddGameView(null);
 
     e.preventDefault();
     return true;
@@ -165,35 +145,17 @@ export class GamesApp extends BaseApp {
         this.deleteGame(btn, btn.dataset.gamenumber);
       }));
 
-    this.game_history_view.querySelectorAll("button.logout_game")
+    this.game_history_view.querySelectorAll("button.leave_game")
       .forEach((btn: any) => btn.addEventListener("click", (e: any) => {
         e.stopPropagation();
         e.preventDefault();
         this.logoutGame(btn, btn.dataset.gamenumber);
       }));
 
-    this.game_history_view.querySelectorAll("button.toggle_expanded_game")
-      .forEach((btn: any) => btn.addEventListener("click", () => this.toggleFeedSeats(btn)));
-
     this.game_history_view.querySelectorAll(".code_link")
       .forEach((btn: any) => btn.addEventListener("click", () => this.copyGameLink(btn)));
 
     this.refreshOnlinePresence();
-  }
-  /** show or hide seats for a specific game
-   * @param { any } btn dom element
-  */
-  toggleFeedSeats(btn: any) {
-    const p = btn.parentElement.parentElement.parentElement;
-    const gameNumber = btn.dataset.gamenumber;
-
-    if (p.classList.contains("show_seats")) {
-      this.recentExpanded[gameNumber] = false;
-      p.classList.remove("show_seats");
-    } else {
-      this.recentExpanded[gameNumber] = true;
-      p.classList.add("show_seats");
-    }
   }
   /** compact html block to display user
    * @param { string } member uid of firebase user
@@ -249,9 +211,15 @@ export class GamesApp extends BaseApp {
           </span>
         </div>
         <div class="open_button_wrapper">
-          <a href="/${data.gameType}/?game=${data.gameNumber}" class="game_number_open game">
-            <span class="">&nbsp; Open &nbsp;</span>
+          <a href="/${data.gameType}/?game=${data.gameNumber}" class="game_number_open btn btn-secondary">
+            <span class="">Open</span>
           </a>
+          <button class="delete_game btn btn-secondary" data-gamenumber="${data.gameNumber}">
+          Delete
+          </button>
+          <button class="leave_game btn btn-secondary" data-gamenumber="${data.gameNumber}">
+          Leave
+         </button>
         </div>
       </div>
       <div class="gamefeed_timesince"><span class="mode impact-font">${data.mode}</span> 
@@ -260,25 +228,11 @@ export class GamesApp extends BaseApp {
         <button class="code_link game" data-url="/${data.gameType}/?game=${data.gameNumber}">
           <i class="material-icons">content_copy</i> <span>${data.gameNumber}</span></button>
         <div style="flex:1"></div>
-        <div>
-          <button class="game toggle_expanded_game" data-gamenumber="${gnPrefix}${data.gameNumber}">
-            <span class="icon">&#9660;</span>
-          </button>
-        </div>
       </div>
-      <div class="gamefeed_owners_panel">
         <span class="game_owner_label owner_wrapper">Game<br>Owner</span>
         <div class="owner_wrapper game_user_wrapper">
            ${ownerHTML}
         </div>
-
-        <button class="delete_game game" data-gamenumber="${data.gameNumber}">
-          <i class="material-icons">delete</i> Delete
-        </button>
-        <button class="logout_game game" data-gamenumber="${data.gameNumber}">
-          <i class="material-icons">logout</i> Leave
-        </button>
-      </div>
       <div style="clear:both"></div>
     </div>`;
   }
@@ -300,9 +254,6 @@ export class GamesApp extends BaseApp {
         e.preventDefault();
         this.deleteGame(btn, btn.dataset.gamenumber);
       }));
-
-    this.public_game_view.querySelectorAll("button.toggle_expanded_game")
-      .forEach((btn: any) => btn.addEventListener("click", () => this.toggleFeedSeats(btn)));
 
     this.public_game_view.querySelectorAll(".code_link")
       .forEach((btn: any) => btn.addEventListener("click", () => this.copyGameLink(btn)));
