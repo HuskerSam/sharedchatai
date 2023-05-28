@@ -16,7 +16,7 @@ export class AIChatApp extends BaseApp {
   alertErrors = false;
 
   tickets_list: any = document.querySelector(".tickets_list");
-  game_feed_list_toggle: any = document.querySelector(".game_feed_list_toggle");
+  document_options_toggle: any = document.querySelector(".document_options_toggle");
 
   gameid_span: any = document.querySelector(".gameid_span");
   members_list: any = document.querySelector(".members_list");
@@ -36,7 +36,7 @@ export class AIChatApp extends BaseApp {
     this.ticket_content_input.addEventListener("keyup", (e: any) => {
       if (e.key === "Enter") this.sendTicketToAPI();
     });
-    this.game_feed_list_toggle.addEventListener("click", (e: any) => this.toggleOptionsView(e));
+    this.document_options_toggle.addEventListener("click", (e: any) => this.toggleOptionsView(e));
     this.toggleOptionsView(null);
 
     this.initTicketFeed();
@@ -266,11 +266,11 @@ export class AIChatApp extends BaseApp {
     if (document.body.classList.contains("show_document_feed")) {
       document.body.classList.remove("show_document_feed");
       document.body.classList.add("show_document_options");
-      this.game_feed_list_toggle.innerHTML = "<i class=\"material-icons\">close</i>";
+      this.document_options_toggle.innerHTML = "Chat";
     } else {
       document.body.classList.add("show_document_feed");
       document.body.classList.remove("show_document_options");
-      this.game_feed_list_toggle.innerHTML = "<i class=\"material-icons\">menu</i>";
+      this.document_options_toggle.innerHTML = "Options";
     }
     if (e) e.preventDefault();
   }
