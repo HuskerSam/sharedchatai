@@ -29,9 +29,6 @@
     });
   </script>
 
-  <link rel="stylesheet" href="/css/base.css" />
-  <link rel="stylesheet" href="/css/profile.css" />
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
@@ -39,6 +36,9 @@
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
     integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/profile.css" />
 
 </head>
 
@@ -76,7 +76,8 @@
       <h3 style="margin-bottom:4px">Sign in with email (password free)</h3>
       <div style="display:flex;flex-direction:row;width:100%;">
         <input class="login_email" type="text" name="email" style="flex:1;margin-left:8px;font-size:21px;">
-        <button class="btn btn-primary" id="login_email_anchor" style="margin:0 8px;font-size:21px;white-space:nowrap">Send Link</button>
+        <button class="btn btn-primary" id="login_email_anchor"
+          style="margin:0 8px;font-size:21px;white-space:nowrap">Send Link</button>
       </div>
       <br>
       <br>
@@ -91,9 +92,19 @@
       <hr>
       <div class="settings_panel">
         <h3 class="impact-font tag_header_label">Night Mode</h3>
-        <label><input type="radio" name="night_mode_radio" checked>Auto</label>
-        <label><input type="radio" name="night_mode_radio">Day</label>
-        <div class="form-check" style="display:inline-block;width: auto;">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="night_mode_radio">
+          <label class="form-check-label" for="flexRadioDefault1">
+            Auto
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="night_mode_radio">
+          <label class="form-check-label" for="flexRadioDefault1">
+            Day
+          </label>
+        </div>
+        <div class="form-check">
           <input class="form-check-input" type="radio" name="night_mode_radio">
           <label class="form-check-label" for="flexRadioDefault1">
             Night
@@ -103,11 +114,16 @@
 
         <hr>
         <h3 class="impact-font tag_header_label">ChatGPT Key</h3>
-        <label><input type="text" class="chatgpt_key"></label>
+        <div class="form-floating" style="display:inline-block;width:80%">
+          <input type="text" class="form-control chatgpt_key" name="search" placeholder="ChatGPT Key">
+          <label for="floatingPassword">ChatGPT Key</label>
+        </div>
         <hr>
         <h3 class="impact-font tag_header_label">Display Name</h3>
-        <label><input type="text" class="profile_display_name"></label>
-        <br>
+        <div class="form-floating" style="display:inline-block;width:80%">
+          <input type="text" class="form-control profile_display_name" name="search" placeholder="Display Name">
+          <label for="floatingPassword">Display Name</label>
+        </div>
         <button class="randomize_name btn btn-secondary">Randomize</button>
         <hr>
         <h3 class="impact-font tag_header_label">Display Image</h3>
@@ -123,7 +139,7 @@
         <br>
         <br>
         <div style="text-align: center;">
-          <select class="profile_display_image_preset" style="max-width: 75%">
+          <select class="profile_display_image_preset form-select" style="max-width: 80%;width:auto;display: inline-block;">
             <option>Pick preset</option>
           </select>
         </div>

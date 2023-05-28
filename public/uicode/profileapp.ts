@@ -173,7 +173,7 @@ export class ProfileApp extends BaseApp {
     const file = this.file_upload_input.files[0];
     const sRef = firebase.storage().ref("Users").child(this.uid + "/pimage");
 
-    if (file.size > 2500000) {
+    if (file.size > 5000000) {
       alert("File needs to be less than 1mb in size");
       return;
     }
@@ -188,7 +188,7 @@ export class ProfileApp extends BaseApp {
    * @param { string } path cloud path to image (includes uid)
    */
   async _finishImagePathUpdate(path: string) {
-    const sRef2 = firebase.storage().ref("Users").child(this.uid + "/_resized/pimage_200x200");
+    const sRef2 = firebase.storage().ref("Users").child(this.uid + "/_resized/pimage_700x700");
     const resizePath = await sRef2.getDownloadURL();
     const updatePacket = {
       rawImage: path,
