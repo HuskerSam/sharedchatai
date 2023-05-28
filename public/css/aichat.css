@@ -42,8 +42,8 @@ body {
 
 .game_user_wrapper span:nth-child(1) {
   display: inline-block;
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   background-position: center center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -95,9 +95,7 @@ body {
 }
 
 .game_message_list_item {
-  border-radius: 10px;
-  clear: both;
-  line-height: 30px;
+  margin-bottom: 4px;
 }
 
 .game_message_list_item .member_desc {
@@ -159,8 +157,7 @@ body {
 
 .assist_section {
   text-align: left;
-  max-height: 150px;
-  overflow: auto;
+  font-size: 1.25em;
   padding: 10px;
   padding-left: 25px;
   padding-bottom: 25px;

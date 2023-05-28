@@ -8,9 +8,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="shortcut icon" href="/images/logo_aichat.png">
 
-  <link rel="stylesheet" href="/css/base.css" />
-  <link rel="stylesheet" href="/css/aichat.css" />
-
   <!-- Firebase links -->
   <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-database.js"></script>
@@ -30,6 +27,9 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/aichat.css" />
 
   <script>
     window.addEventListener('load', async (event) => {
@@ -87,7 +87,7 @@
         <div class="tickets_list" style="flex:1;overflow:auto;"></div>
         <div class="message_list_send_wrapper" style="display:flex;flex-direction:row">
           <div class="form-floating" style="flex:1;margin:4px;">
-            <input type="text" class="form-control ticket_content_input" name="search" placeholder="AI Questions">
+            <input type="text" class="form-control ticket_content_input" name="ticketcontent" placeholder="AI Questions">
             <label for="floatingPassword">Ask Questions</label>
           </div>
           <button class="send_ticket_button btn btn-primary" style="margin:8px;">

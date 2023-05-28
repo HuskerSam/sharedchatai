@@ -148,10 +148,9 @@ export class AIChatApp extends BaseApp {
   }
   /** generate html for message card
    * @param { any } doc firestore message document
-   * @param { boolean } messageFeed if true adds delete button and clips message length to 12 (...)
    * @return { string } html for card
    */
-  _renderTicketFeedLine(doc: any, messageFeed = true) {
+  _renderTicketFeedLine(doc: any) {
     const data = doc.data();
     const gameOwnerClass = data.isGameOwner ? " message_game_owner" : "";
     const ownerClass = data.uid === this.uid ? " message_owner" : "";
@@ -163,32 +162,30 @@ export class AIChatApp extends BaseApp {
     if (data.memberImage) img = data.memberImage;
 
     let deleteHTML = "";
-    if (messageFeed) {
-      deleteHTML = `<button class="delete_game" data-gamenumber="${data.gameNumber}" data-messageid="${doc.id}">
+
+    deleteHTML = `<button class="delete_game" data-gamenumber="${data.gameNumber}" data-messageid="${doc.id}">
             <i class="material-icons">delete</i>
             </button>`;
-    }
-
-    let memberNameHTML = "";
-    if (!messageFeed) memberNameHTML = `<span class="member_name">${name}</span> <button class="close_button">X</button>`;
 
     let message = data.message;
-    if (!messageFeed) {
-      if (message.length > 12) message = message.substr(0, 11) + "...";
-    }
+
     const timeSince = this.timeSince(new Date(data.created)).replaceAll(" ago", "");
-    return `<div class="game_message_list_item${gameOwnerClass}${ownerClass}" ticketid="${doc.id}">
-      <div style="display:flex;flex-direction:row">
+    return `<div class="card game_message_list_item${gameOwnerClass}${ownerClass}" ticketid="${doc.id}">
+    <div style="display:flex;flex-direction:row">
         <div class="game_user_wrapper member_desc">
-          <span style="background-image:url(${img})"></span>
+            <span style="background-image:url(${img})"></span>
         </div>
-        <div class="message" style="flex:1">${message}</div>
-        <div class="game_date"><div style="flex:1"></div><div>${timeSince}</div><div style="flex:1"></div></div>
+        <span style="flex:1">${name}</span>
+        <div class="game_date">
+            <div style="flex:1"></div>
+            <div>${timeSince}</div>
+            <div style="flex:1"></div>
+        </div>
         ${deleteHTML}
-      </div>
-      ${memberNameHTML}
-      <div class="assist_section">pending...</div>
-    </div>`;
+    </div>
+    <div class="message" style="flex:1">${message}</div>
+    <div class="assist_section">pending...</div>
+</div>`;
   }
   /** api user send message */
   async sendTicketToAPI() {

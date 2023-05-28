@@ -2,10 +2,8 @@ html,
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Trebuchet MS', sans-serif;
   width: 100%;
   background: rgb(127, 127, 127);
-  min-height: 100.3vh;
 }
 
 .impact-font {
@@ -28,7 +26,12 @@ a {
 }
 
 .night_mode input {
-  background: rgb(0, 50, 50);
+  background: rgb(52, 53, 65);
+  color: white;
+}
+
+.night_mode input:focus {
+  background: rgb(32, 33, 35);
   color: white;
 }
 
@@ -86,7 +89,7 @@ a {
 }
 
 .night_mode .app_panel {
-  background: rgb(0, 100, 120);
+  background: rgb(68, 70, 84);
   color: rgb(240, 240, 240);
 }
 
@@ -117,4 +120,8 @@ a {
 .navbar {
   padding-left: 10px;
   text-align: left;
+}
+
+.card {
+  background-color: rgba(127,127,127,.15);
 }
