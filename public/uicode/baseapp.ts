@@ -210,6 +210,7 @@ class BaseApp {
     if (this.nightModeCurrent) niteMode = 1;
     this.updateNightModeStatus(niteMode);
     this.updateProfileNightMode(null, niteMode, null);
+    this.night_mode_toggle.innerHTML = (niteMode === 2) ? "Day" : "Nite";
     e.preventDefault();
     return true;
   }

@@ -366,11 +366,6 @@ button.game.sit_button {
   display: inline-block;
 }
 
-button.game_feed_toggle_button {
-  float: left;
-  width: 4em;
-}
-
 button.toggle_expanded_game {
   background-color: transparent;
   text-align: right;
@@ -399,31 +394,6 @@ button.toggle_expanded_game {
 }
 
 .show_seats .toggle_expanded_game span.icon {
-  transform: rotate(0deg);
-}
-
-.app_signed_out button.feed_expand_all {
-  display: none;
-}
-
-button.feed_expand_all {
-  border-color: transparent;
-  background: none;
-  color: inherit;
-  cursor: pointer;
-}
-
-button.feed_expand_all span.icon {
-  transform: rotate(90deg);
-  transition: transform 0.5s;
-  display: inline-block;
-  position: relative;
-  top: 0px;
-  left: 0px;
-  font-size: 30px;
-}
-
-.expanded_all.feed_expand_all span.icon {
   transform: rotate(0deg);
 }
 
@@ -473,17 +443,8 @@ button.code_link {
   border-color: transparent;
 }
 
-.app_signed_out .gamelist_header_toggle_button, .app_signed_out .game_feed_toggle_button {
+.app_signed_out .show_add_options_view, .app_signed_out .game_feed_toggle_button {
   display: none;
-}
-
-a.gamelist_header_toggle_button, a.game_feed_toggle_button {
-  border: none;
-  background: none;
-  display: inline-block;
-  text-decoration: none;
-  flex: 0;
-  padding: 12px 12px;
 }
 
 .lobby_user_description {

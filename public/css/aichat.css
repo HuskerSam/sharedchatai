@@ -6,9 +6,6 @@
   display: block;
 }
 
-.basic_page_wrapper, .base_menu_panel_wrapper {
-  max-width: unset;
-}
 
 .game_message_list_item .close_button {
   float: right;

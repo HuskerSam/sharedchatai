@@ -11,9 +11,8 @@ export class GamesApp extends BaseApp {
   gametype_select: any = document.querySelector(".gametype_select");
   create_game_afterfeed_button: any = document.querySelector(".create_game_afterfeed_button");
   create_game_backtofeed_button: any = document.querySelector(".create_game_backtofeed_button");
-  gamelist_header_toggle_button: any = document.querySelector(".gamelist_header_toggle_button");
+  show_add_options_view: any = document.querySelector(".show_add_options_view");
   game_feed_toggle_button: any = document.querySelector(".game_feed_toggle_button");
-  feed_expand_all: any = document.querySelector(".feed_expand_all");
   new_game_type_wrappers: any = document.querySelectorAll(".new_game_type_wrapper");
   basic_options: any = document.querySelector(".basic_options");
   userprofile_description: any = document.querySelector(".userprofile_description");
@@ -32,11 +31,9 @@ export class GamesApp extends BaseApp {
     this.join_game_btn.addEventListener("click", () => this.joinGame(null));
     this.create_game_afterfeed_button.addEventListener("click", (e: any) => this.toggleAddGameView(e));
     this.create_game_backtofeed_button.addEventListener("click", (e: any) => this.toggleAddGameView(e));
-    this.gamelist_header_toggle_button.addEventListener("click", (e: any) => this.toggleAddGameView(e));
+    this.show_add_options_view.addEventListener("click", (e: any) => this.toggleAddGameView(e));
     this.game_feed_toggle_button.addEventListener("click", (e: any) => this.toggleFeedView(e));
-    this.feed_expand_all.addEventListener("click", () => this.toggleFeedMembers());
     this.new_game_type_wrappers.forEach((btn: any) => btn.addEventListener("click", () => this.handleGameTypeClick(btn)));
-
 
     this.initRTDBPresence();
 
@@ -59,49 +56,6 @@ export class GamesApp extends BaseApp {
     this.gametype_select.value = btn.value;
     btn.classList.add("selected");
   }
-  /** toggle show/hide UI members in UI */
-  toggleFeedMembers() {
-    if (this.feed_expand_all.classList.contains("expanded_all")) {
-      this.feed_expand_all.classList.remove("expanded_all");
-
-      document.querySelectorAll(".gamelist_item").forEach((div: any) => {
-        div.classList.remove("show_seats");
-        const gameNumber = div.dataset.gamenumber;
-        this.recentExpanded[gameNumber] = false;
-      });
-    } else {
-      this.feed_expand_all.classList.add("expanded_all");
-
-      document.querySelectorAll(".gamelist_item").forEach((div: any) => {
-        div.classList.add("show_seats");
-        const gameNumber = div.dataset.gamenumber;
-        this.recentExpanded[gameNumber] = true;
-      });
-    }
-  }
-  /** updates expand all button to open or closed if all child cards are opened or closed */
-  _updateFeedToggleButtonStatus() {
-    const p = document.body.classList.contains("show_public_games_view");
-    const prefix = (p) ? ".public_game_view " : ".game_history_view ";
-    const items = document.querySelectorAll(prefix + ".gamelist_item");
-
-    let allOpen = true;
-    let allClosed = true;
-    items.forEach((i) => {
-      if (i.classList.contains("show_seats")) {
-        allClosed = false;
-      } else {
-        allOpen = false;
-      }
-    });
-
-    if (allClosed && !allOpen) {
-      this.feed_expand_all.classList.remove("expanded_all");
-    }
-    if (allOpen && !allClosed) {
-      this.feed_expand_all.classList.add("expanded_all");
-    }
-  }
   /** toggle add game view or show games list views
    * @param { any } e dom event (preventDefault called if passed)
    * @return { boolean } true to stop anchor navigation
@@ -110,11 +64,11 @@ export class GamesApp extends BaseApp {
     if (document.body.classList.contains("show_games_view")) {
       document.body.classList.remove("show_games_view");
       document.body.classList.add("show_new_game");
-      this.gamelist_header_toggle_button.innerHTML = "<i class=\"material-icons\">list</i>";
+      this.show_add_options_view.innerHTML = "List";
     } else {
       document.body.classList.add("show_games_view");
       document.body.classList.remove("show_new_game");
-      this.gamelist_header_toggle_button.innerHTML = "<i class=\"material-icons\">add</i>";
+      this.show_add_options_view.innerHTML = "Create";
     }
 
     if (e) e.preventDefault();
@@ -128,15 +82,13 @@ export class GamesApp extends BaseApp {
     if (document.body.classList.contains("show_public_games_view")) {
       document.body.classList.remove("show_public_games_view");
       document.body.classList.add("show_profile_games");
-      this.game_feed_toggle_button.innerHTML = "<span class=\"material-symbols-outlined\">person_play</span>";
+      this.game_feed_toggle_button.innerHTML = "Public";
     } else {
       document.body.classList.add("show_public_games_view");
       document.body.classList.remove("show_profile_games");
-      this.game_feed_toggle_button.innerHTML = "<i class=\"material-icons\">history</i>";
+      this.game_feed_toggle_button.innerHTML = "History";
     }
     if (document.body.classList.contains("show_new_game")) this.toggleAddGameView(null);
-
-    this._updateFeedToggleButtonStatus();
 
     e.preventDefault();
     return true;
@@ -242,8 +194,6 @@ export class GamesApp extends BaseApp {
       this.recentExpanded[gameNumber] = true;
       p.classList.add("show_seats");
     }
-
-    this._updateFeedToggleButtonStatus();
   }
   /** compact html block to display user
    * @param { string } member uid of firebase user
@@ -289,12 +239,6 @@ export class GamesApp extends BaseApp {
     if (hour === 0) hour = 12;
     timeStr = hour.toString() + timeStr.substr(2) + " " + suffix;
 
-    // let shortDate = new Date(data.created).toLocaleDateString();
-    // shortDate = shortDate.substring(0, shortDate.length - 5);
-    // shortDate += " " + timeStr;
-
-    const round = (Math.floor(data.turnNumber / data.runningNumberOfSeats) + 1).toString();
-
     return `<div class="gamelist_item${ownerClass} gametype_${data.gameType} ${modeClass}"
           data-gamenumber="${gnPrefix}${doc.id}">
       <div class="gamefeed_item_header">
@@ -318,8 +262,6 @@ export class GamesApp extends BaseApp {
         <div style="flex:1"></div>
         <div>
           <button class="game toggle_expanded_game" data-gamenumber="${gnPrefix}${data.gameNumber}">
-            <span class="label">Round &nbsp; &nbsp; &nbsp;</span>
-            <span class="round">${round}</span>
             <span class="icon">&#9660;</span>
           </button>
         </div>

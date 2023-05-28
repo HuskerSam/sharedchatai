@@ -3,7 +3,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Shared Games Lobby</title>
+  <title>Chat AI Lobby</title>
 
   <link rel="shortcut icon" href="/images/logo64.png" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -20,8 +20,17 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+    integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
   <link rel="stylesheet" href="/css/base.css" />
   <link rel="stylesheet" href="/css/games.css" />
+
   <script>
     window.addEventListener("load", async (event) => {
       let module = await import("/models/gamesapp.js");
@@ -31,30 +40,41 @@
   </script>
 </head>
 
-<body class="basic_beer_body hangbeer_page show_games_view show_profile_games">
-  <div class="basic_page_wrapper app_panel">
-    <div class="base_menu_panel_wrapper">
-      <div class="base_menu_panel">
-        <a class="gamelist_header_toggle_button" href="#">
-          <i class="material-icons">add</i>
-        </a>
-        <a class="game_feed_toggle_button" href="#">
-          <span class="material-symbols-outlined">person_play</span>
-        </a>
-        <a class="night_mode_toggle" href="/">
-          <i class="material-icons mode_day">light_mode</i>
-          <i class="material-icons mode_night">mode_night</i>
-        </a>
-        <a class="info_anchor" href="https://github.com/HuskerSam/sharedgamelobby">
-          <i class="material-icons">info</i>
-        </a>
-        <button class="feed_expand_all">
-          <span class="icon">&#9660;</span>
-        </button>
-      </div>
+<body class="basic_beer_body show_games_view show_profile_games">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+    <a class="navbar-brand" href="#">ChatAI</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item signed_in_options">
+          <a class="nav-link show_add_options_view">Create</a>
+        </li>
+        <li class="nav-item signed_in_options">
+          <a class="nav-link game_feed_toggle_button" href="#">Public</a>
+        </li>
+        <li class="nav-item signed_in_options">
+          <a class="nav-link" href="/profile/">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="night_mode_toggle nav-link" href="#">
+           Day
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="info_anchor nav-link" href="/about">
+            About
+          </a>
+        </li>
+      </ul>
     </div>
+  </nav>
+
+  <div class="basic_page_wrapper app_panel">
     <div class="game_lobby">
-      <br><br><br><br>
       <div class="lobby_user_description">
         <a class="profile_menu_anchor" href="/profile">
           <span class="userprofile_description"></span>
@@ -150,6 +170,9 @@
     <div style="flex: 1"></div>
   </div>
   <style id="laststyleblock"></style>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
 </body>
 
 </html>
