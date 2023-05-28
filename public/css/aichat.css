@@ -182,3 +182,11 @@ body {
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
   cursor: row-resize;
 }
+
+.field_title_label {
+  font-size: 20px;
+  font-weight: bold;
+  display: inline-block;
+  min-width: 200px;
+  opacity: .75;
+}
