@@ -378,7 +378,7 @@ export class AIChatApp extends BaseApp {
     else document.body.classList.remove("game_owner");
 
     this.docfield_model.value = this.gameData.model;
-
+    this.docfield_max_tokens.value = this.gameData.max_tokens;
     this.docfield_temperature.value = this.gameData.temperature;
     this.docfield_top_p.value = this.gameData.top_p;
     this.docfield_n.value = this.gameData.n;
