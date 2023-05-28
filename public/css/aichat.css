@@ -190,3 +190,7 @@ body {
   min-width: 200px;
   opacity: .75;
 }
+
+.form-floating textarea.docfield_logit_bias {
+  height: 200px;
+}

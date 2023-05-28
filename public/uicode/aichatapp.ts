@@ -21,8 +21,6 @@ export class AIChatApp extends BaseApp {
   document_options_toggle: any = document.querySelector(".document_options_toggle");
 
   members_list: any = document.querySelector(".members_list");
-  visibility_display: any = document.querySelector(".visibility_display");
-  visibility_select: any = document.querySelector(".visibility_select");
 
   send_ticket_button: any = document.querySelector(".send_ticket_button");
   ticket_content_input: any = document.querySelector(".ticket_content_input");
@@ -32,6 +30,15 @@ export class AIChatApp extends BaseApp {
   main_view_splitter: any = document.querySelector(".main_view_splitter");
   splitInstance: any = null;
 
+  docfield_model: any = document.querySelector(".docfield_model");
+  docfield_temperature: any = document.querySelector(".docfield_temperature");
+  docfield_top_p: any = document.querySelector(".docfield_top_p");
+  docfield_n: any = document.querySelector(".docfield_n");
+  docfield_presence_penalty: any = document.querySelector(".docfield_presence_penalty");
+  docfield_frequency_penalty: any = document.querySelector(".docfield_frequency_penalty");
+  docfield_logit_bias: any = document.querySelector(".docfield_logit_bias");
+  docfield_stops: any = document.querySelector(".docfield_stops");
+ 
   /**  */
   constructor() {
     super();
@@ -50,6 +57,15 @@ export class AIChatApp extends BaseApp {
     setInterval(() => this.updateTicketsFeed(null), this.baseRedrawFeedTimer);
 
     document.addEventListener("visibilitychange", () => this.refreshOnlinePresence());
+
+    this.docfield_model.addEventListener("input", () => this.scrapeDocumentOptions());
+    this.docfield_temperature.addEventListener("input", () => this.scrapeDocumentOptions());
+    this.docfield_top_p.addEventListener("input", () => this.scrapeDocumentOptions());
+    this.docfield_n.addEventListener("input", () => this.scrapeDocumentOptions());
+    this.docfield_presence_penalty.addEventListener("input", () => this.scrapeDocumentOptions());
+    this.docfield_frequency_penalty.addEventListener("input", () => this.scrapeDocumentOptions());
+    this.docfield_logit_bias.addEventListener("input", () => this.scrapeDocumentOptions());
+    this.docfield_stops.addEventListener("input", () => this.scrapeDocumentOptions());
   }
   /** setup data listender for user messages */
   async initTicketFeed() {
@@ -252,7 +268,7 @@ export class AIChatApp extends BaseApp {
     if (!this.gameData) return;
 
 
-    this.paintOptions(false);
+    this.paintOptions();
     this._updateGameMembersList();
     this.updateUserPresence();
   }
@@ -297,11 +313,26 @@ export class AIChatApp extends BaseApp {
     this.members_list.innerHTML = html;
   }
   /** scrape options from UI and call api */
-  async gameAPIOptions() {
-    const visibility = this.visibility_select.value;
+  async scrapeDocumentOptions() {
+    const model = this.docfield_model.value;
+    const temperature = this.docfield_temperature.value;
+    const top_p = this.docfield_top_p.value;
+    const n = this.docfield_n.value;
+    const presence_penalty = this.docfield_presence_penalty.value;
+    const frequency_penalty = this.docfield_frequency_penalty.value;
+    const logit_bias = this.docfield_logit_bias.value;
+    const stop = this.docfield_stops.value;
+
     const body: any = {
       gameNumber: this.currentGame,
-      visibility,
+      model,
+      temperature,
+      top_p,
+      n,
+      presence_penalty,
+      frequency_penalty,
+      logit_bias,
+      stop,
     };
 
     const token = await firebase.auth().currentUser.getIdToken();
@@ -336,21 +367,25 @@ export class AIChatApp extends BaseApp {
     };
   }
   /** paint user editable game options
-   * @param { boolean } defaultOptions initalizes game options
   */
-  paintOptions(defaultOptions = true) {
+  paintOptions() {
     if (this.gameData.createUser === this.uid) document.body.classList.add("game_owner");
     else document.body.classList.remove("game_owner");
 
-    if (defaultOptions) {
-      this.visibility_display.innerHTML = this.gameData.visibility;
-      this.visibility_select.value = this.gameData.visibility;
-    }
+    this.docfield_model.value = this.gameData.model;
+
+    this.docfield_temperature.value = this.gameData.docfield_temperature;
+    this.docfield_top_p.value = this.gameData.docfield_top_p;
+    this.docfield_presence_penalty.value = this.gameData.docfield_presence_penalty;
+    this.docfield_frequency_penalty.value = this.gameData.docfield_frequency_penalty;
+    this.docfield_logit_bias.value = this.gameData.docfield_logit_bias;
+    this.docfield_stops.value = this.gameData.docfield_stops;
 
     if (this.code_link_href) {
       const path = window.location.href;
       this.code_link_href.setAttribute("href", path);
     }
+
   }
   /** copy game link to global clipboard */
   copyGameLinkToClipboard() {

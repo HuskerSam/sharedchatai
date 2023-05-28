@@ -102,14 +102,6 @@
           <a href="#" style="display:none;" class="code_link_href">URL</a>
           <button class="code_link_copy game"><i class="material-icons">content_copy</i> <span>url</span></button>
           <br>
-          <span class="field_title_label">Phase</span>
-          <br>
-          <span class="field_title_label">Visibility</span>
-          <span class="visibility_display"></span>
-          <select class="visibility_select">
-            <option>public</option>
-            <option>private</option>
-          </select>
           <br>
 
           <select class="form-select docfield_model" aria-label="chatGPTEngine Selection">
@@ -148,10 +140,14 @@
           </div>
         
           <div class="form-floating" style="display:inline-block;width:80%">
-            <input type="text" class="form-control docfield_logit_bias" placeholder="List of tokens to bias">
+            <textarea type="text" class="form-control docfield_logit_bias" placeholder="List of tokens to bias"></textarea>
             <label>List of tokens to bias</label>
           </div>
-          
+
+          <div class="form-floating" style="display:inline-block;width:80%">
+            <textarea type="text" class="form-control docfield_stops" placeholder="List of tokens to stop on"></textarea>
+            <label>List of tokens to stop on</label>
+          </div>
         </div>
       </div>
     </div>

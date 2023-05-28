@@ -25,12 +25,12 @@ a {
   color: white;
 }
 
-.night_mode input {
+.night_mode input, .night_mode textarea {
   background: rgb(52, 53, 65);
   color: white;
 }
 
-.night_mode input:focus {
+.night_mode input:focus, .night_mode textarea:focus {
   background: rgb(32, 33, 35);
   color: white;
 }
