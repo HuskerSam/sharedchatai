@@ -1,7 +1,10 @@
 import * as firebaseAdmin from "firebase-admin";
 import BaseClass from "./baseclass";
 import fetch from "node-fetch";
-// import { encode, decode } from  "gpt-3-encoder";
+import {
+    encode,
+    decode,
+} from "gpt-3-encoder";
 
 /** Match game specific turn logic wrapped in a transaction */
 export default class ChatAI {
@@ -113,13 +116,13 @@ export default class ChatAI {
         const presence_penalty = BaseClass.getNumberOrDefault(gameData.presence_penalty, defaults.presence_penalty);
         const frequency_penalty = BaseClass.getNumberOrDefault(gameData.frequency_penalty, defaults.frequency_penalty);
 
-        /*
         let logit_bias_text = gameData.logit_bias;
         if (!logit_bias_text) logit_bias_text = "";
-        console.log(logit_bias_text);
+        let includeBias = false;
         const bias_lines = logit_bias_text.replaceAll("\n", "").split(",");
         const logit_bias: any = {};
         bias_lines.forEach((line: string) => {
+            includeBias = true;
             const parts = line.split(":");
             let numberTerm = parts[1];
             if (numberTerm) numberTerm = numberTerm.trim();
@@ -128,28 +131,32 @@ export default class ChatAI {
             if (term.length > 0) {
                 const tokens = encode(term);
 
-                for(let token of tokens){
-                    console.log({token, string: decode([token])})
-                  }
+                for (const token of tokens) {
+                    console.log({
+                        token,
+                        string: decode([token]),
+                    });
+                }
 
                 tokens.forEach((token: number) => {
                     logit_bias[token] = value;
-                })
-            }          
+                });
+            }
         });
-        */
 
-        const aiRequest = {
+        const aiRequest: any = {
             model,
             max_tokens,
             temperature,
             top_p,
             presence_penalty,
             frequency_penalty,
-            //logit_bias,
             messages,
         };
+        if (includeBias) aiRequest.logit_bias = logit_bias;
+
         console.log(aiRequest);
+
         const packet = {
             gameNumber: ticket.gameNumber,
             aiRequest,
