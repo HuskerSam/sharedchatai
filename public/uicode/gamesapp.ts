@@ -20,6 +20,7 @@ export class GamesApp extends BaseApp {
   lastGamesFeedSnapshot: any;
   lastPublicFeedSnapshot: any;
   gameFeedInited = false;
+  creatingNewRecord = false;
 
   /** */
   constructor() {
@@ -269,10 +270,15 @@ export class GamesApp extends BaseApp {
   }
   /** create new game api call */
   async createNewGame() {
+    if (this.creatingNewRecord) return;
     if (!this.profile) return;
+    this.creatingNewRecord = true;
 
     this.create_new_game_btn.setAttribute("disabled", true);
     this.create_new_game_btn.innerHTML = "Creating...";
+    
+    this.create_game_afterfeed_button.setAttribute("disabled", true);
+    this.create_game_afterfeed_button.innerHTML = "Creating...";
 
     const visibility = "private";
     const gameType = "aichat";

@@ -73,16 +73,6 @@ button.delete_game {
   display: none;
 }
 
-.gamelist_item {
-  text-align: left;
-  text-decoration: none;
-  border-radius: 3px;
-  margin: 5px;
-  border: ridge 4px transparent;
-  overflow: hidden;
-  clear: both;
-}
-
 .gamefeed_item_header {
   display: flex;
   flex-direction: row;
@@ -124,11 +114,6 @@ a.game_number_open {
   text-decoration: none;
 }
 
-.gamelist_item button.game {
-  color: inherit;
-  background: transparent;
-}
-
 .next_player {
   text-align: left;
   line-height: 40px;
@@ -142,17 +127,6 @@ a.game_number_open {
   border-radius: 6px;
 }
 
-.gameitem_running.gamelist_item.gameplayer_turn_next {
-  border-color: rgba(255, 50, 50, .75);
-}
-
-.gameitem_running.gamelist_item.gameplayer_turn_next {
-  border-color: rgba(50, 100, 200, .75);
-}
-
-.night_mode .gameitem_running.gamelist_item.gameplayer_turn_next {
-  border-color: rgba(40, 240, 240, .75);
-}
 
 .next_player_wrapper {
   font-size: 24px;
@@ -256,13 +230,6 @@ button.game.sit_button {
   visibility: hidden;
 }
 
-.public_game_view .gamelist_item.gameplayer_turn_next {
-  border-color: transparent;
-}
-
-.public_game_view .gamelist_item.feed_game_owner {
-  border-color: rgba(0, 255, 0, .5);
-}
 
 .owner_wrapper {
   display: inline-block;
