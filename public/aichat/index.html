@@ -32,8 +32,9 @@
   <link rel="stylesheet" href="/css/aichat.css" />
   <script>
     window.addEventListener('load', async (event) => {
-      let module = await import('/models/aichatapp.js');
+      window.gpt3tokenizer = await import('/models/gpttokenizer.js');
 
+      let module = await import('/models/aichatapp.js');
       window.GuessApp = new module.AIChatApp();
     });
 

@@ -1,6 +1,5 @@
 import BaseApp from "./baseapp.js";
 import Split from "./split.js";
-// const { encode } = window.GPTTokenizer;
 
 declare const firebase: any;
 declare const window: any;
@@ -513,7 +512,7 @@ export class AIChatApp extends BaseApp {
   }
   /** count input token */
   updatePromptTokenStatus() {
- // const tokens = encode(this.ticket_content_input.value);
- // this.prompt_token_count.innerHTML = tokens.length;
+    const tokens = window.gpt3tokenizer.encode(this.ticket_content_input.value);
+    this.prompt_token_count.innerHTML = tokens.length;
   }
 }
