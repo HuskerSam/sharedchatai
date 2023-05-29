@@ -99,7 +99,7 @@ export default class ChatAI {
         });
 
         const packet = await this._generatePacket(ticket, gameData, gameNumber, ticketId, includeTickets);
-        await this._processTicket(packet, ticket, ticketId, chatGptKey, submitted);
+        await this._processTicket(packet, gameData, ticket, ticketId, chatGptKey, submitted);
 
         return res.status(200).send({
             success: true,
@@ -201,19 +201,32 @@ export default class ChatAI {
     }
     /** submit ticket to AI engine and store response in /games/{gameid}/assists/{ticketid}
      * @param { any } packet message details
+     * @param { any } gameData game doc
      * @param { any } ticketData ticket doc
      * @param { string } id document id
      * @param { string } chatGptKey api key from user profile
      * @param { string } submitted submitted date
      * @return { Promise<void> }
      */
-    static async _processTicket(packet: any, ticketData: any, id: string, chatGptKey: string, submitted: string): Promise<void> {
+    static async _processTicket(packet: any, gameData: any, ticketData: any, id: string, chatGptKey: string, submitted: string): Promise<void> {
         let aiResponse: any = {};
         let lastResponse = "error";
         let total_tokens = 0;
         let prompt_tokens = 0;
         let completion_tokens = 0;
+
         try {
+            console.log(gameData);
+            if (gameData.archived) {
+                throw new Error("Submit Blocked: Document is set to archived");
+            }
+
+            const usageLimit = BaseClass.getNumberOrDefault(gameData.tokenUsageLimit, 0);
+            const documentUsed = BaseClass.getNumberOrDefault(gameData.totalTokens, 0);
+            if (usageLimit > 0 && documentUsed >= usageLimit) {
+                throw new Error("Submit Blocked: Document Usage Limit Reached");
+            }
+
             const response: any = await fetch(`https://api.openai.com/v1/chat/completions`, {
                 method: "POST",
                 headers: {
@@ -245,10 +258,11 @@ export default class ChatAI {
             aiResponse = {
                 success: false,
                 created: new Date().toISOString(),
-                error: aiRequestError,
+                error: aiRequestError.message,
                 submitted,
             };
         }
+        console.log(aiResponse);
         await firebaseAdmin.firestore().doc(`Games/${packet.gameNumber}/assists/${id}`).set(aiResponse);
 
         await firebaseAdmin.firestore().doc(`Games/${packet.gameNumber}`).set({

@@ -125,7 +125,11 @@ export class AIChatApp extends BaseApp {
             promptSpan.innerHTML = data.assist.usage.prompt_tokens;
             completionSpan.innerHTML = data.assist.usage.completion_tokens;
           }
-        } else assistSection.innerHTML = "API Error";
+        } else {
+          let msg = "API Error";
+          if (data.error) msg = data.error;
+          assistSection.innerHTML = msg;
+        }
 
         const ticketData = this.ticketsLookup[doc.id];
         if (ticketData && data.submitted === ticketData.submitted) {
