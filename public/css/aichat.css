@@ -110,7 +110,7 @@ body {
 
 .game_message_list_item .name {
   font-weight: bold;
-  color: rgb(25,135,84);
+  color: rgb(25, 135, 84);
 }
 
 .night_mode .game_message_list_item .name {
@@ -123,11 +123,11 @@ body {
   font-size: 20px;
   padding: 0 12px;
   font-weight: bold;
-  color: rgb(25,135,84);
+  color: rgb(25, 135, 84);
 }
 
 .night_mode .game_message_list_item .message {
-  color: rgb(13,202,240);
+  color: rgb(13, 202, 240);
 }
 
 .game_message_list_item .game_date {
@@ -225,14 +225,6 @@ body {
   margin: 4px;
 }
 
-.document_usage_stats_line {
-  display: flex;
-  padding: 4px;
-}
-
-.document_usage_stats_line span {
-  flex: 1;
-}
 
 .left_panel_view {
   display: flex;
@@ -243,14 +235,28 @@ body {
 }
 
 @media (min-width: 501px) {
-  .navbar{
+  .navbar {
     position: fixed;
     bottom: 0;
     width: inherit;
     transition: transform 0.3s ease-in-out
   }
+
   .navbar.snapped {
     transform: translateY(100%);
   }
-  
+}
+
+
+.document_usage_stats_line {
+  display: flex;
+  padding: 4px;
+}
+
+.document_usage_stats_line span {
+  flex: 1;
+}
+
+.last_activity_display {
+  text-align: center;
 }

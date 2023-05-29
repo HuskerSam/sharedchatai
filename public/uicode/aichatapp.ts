@@ -41,6 +41,7 @@ export class AIChatApp extends BaseApp {
   docfield_stops: any = document.querySelector(".docfield_stops");
   save_profile_button: any = document.querySelector(".save_profile_button");
   document_usage_stats_line: any = document.querySelector(".document_usage_stats_line");
+  last_activity_display: any = document.querySelector(".last_activity_display");
   /**  */
   constructor() {
     super();
@@ -335,6 +336,8 @@ export class AIChatApp extends BaseApp {
       <span>${this.gameData.prompt_tokens}</span>
       <span>${this.gameData.completion_tokens}</span>
     `;
+
+    this.last_activity_display.innerHTML = this.isoToLocal(<string>this.gameData.lastActivity).toISOString().substring(0, 19).replace("T", " ");
 
     this.paintDocumentOptions();
     this._updateGameMembersList();

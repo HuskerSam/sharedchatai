@@ -238,8 +238,9 @@ export default class GameAPI {
     const localInstance = BaseClass.newLocalInstance();
     await localInstance.init();
 
-    const gameData = await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).get();
-    if (!gameData.data()) {
+    const gameQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).get();
+    const gameData = gameQuery.data();
+    if (!gameData) {
       return BaseClass.respondError(res, "Game not found");
     }
 
@@ -255,7 +256,7 @@ export default class GameAPI {
     if (!displayName) displayName = "Anonymous";
     if (!displayImage) displayImage = "";
 
-    const updatePacket = {
+    const updatePacket: any = {
       members: {
         [uid]: new Date().toISOString(),
       },
@@ -265,8 +266,11 @@ export default class GameAPI {
       memberImages: {
         [uid]: displayImage,
       },
-      lastActivity: new Date().toISOString(),
     };
+
+    if (!gameData.members[uid]) {
+      updatePacket.lastActivity = new Date().toISOString();
+    }
 
     await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).set(updatePacket, {
       merge: true,
