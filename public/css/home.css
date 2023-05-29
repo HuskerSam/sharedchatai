@@ -36,8 +36,19 @@
   display: block;
 }
 
-.show_profile_games .game_history_view, .show_profile_games .history_header {
-  display: block;
+.show_profile_games .game_history_view {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.gamelist_item {
+  flex: 1 1 300px;
+  margin: 10px;
+}
+
+.show_profile_games .history_header {
+  display: flex;
 }
 
 .new_game_view {
@@ -319,6 +330,3 @@ button.code_link {
   text-decoration: underline;
 }
 
-.gamelist_item {
-  margin: 4px;
-}
