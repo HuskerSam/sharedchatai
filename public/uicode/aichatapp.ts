@@ -38,7 +38,7 @@ export class AIChatApp extends BaseApp {
   docfield_frequency_penalty: any = document.querySelector(".docfield_frequency_penalty");
   docfield_logit_bias: any = document.querySelector(".docfield_logit_bias");
   docfield_stops: any = document.querySelector(".docfield_stops");
-
+  save_profile_button: any = document.querySelector(".save_profile_button")
   /**  */
   constructor() {
     super();
@@ -58,14 +58,7 @@ export class AIChatApp extends BaseApp {
 
     document.addEventListener("visibilitychange", () => this.refreshOnlinePresence());
 
-    this.docfield_model.addEventListener("input", () => this.scrapeDocumentOptions());
-    this.docfield_max_tokens.addEventListener("input", () => this.scrapeDocumentOptions());
-    this.docfield_temperature.addEventListener("input", () => this.scrapeDocumentOptions());
-    this.docfield_top_p.addEventListener("input", () => this.scrapeDocumentOptions());
-    this.docfield_presence_penalty.addEventListener("input", () => this.scrapeDocumentOptions());
-    this.docfield_frequency_penalty.addEventListener("input", () => this.scrapeDocumentOptions());
-    this.docfield_logit_bias.addEventListener("input", () => this.scrapeDocumentOptions());
-    this.docfield_stops.addEventListener("input", () => this.scrapeDocumentOptions());
+    this.save_profile_button.addEventListener("click", () => this.scrapeDocumentOptions());
   }
   /** setup data listender for user messages */
   async initTicketFeed() {
@@ -335,7 +328,8 @@ export class AIChatApp extends BaseApp {
       logit_bias,
       stop,
     };
-
+    this.save_profile_button.innerHTML = "Saving...";
+    setTimeout(() => this.save_profile_button.innerHTML = "Save Profile", 1000);
     const token = await firebase.auth().currentUser.getIdToken();
     const fResult = await fetch(this.basePath + "lobbyApi/games/options", {
       method: "POST",

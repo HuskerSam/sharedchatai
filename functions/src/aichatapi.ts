@@ -147,15 +147,13 @@ export default class ChatAI {
         const aiRequest: any = {
             model,
             max_tokens,
-            temperature,
-            top_p,
             presence_penalty,
             frequency_penalty,
             messages,
         };
         if (includeBias) aiRequest.logit_bias = logit_bias;
-
-        console.log(aiRequest);
+        if (top_p * 1.0 !== 1.0) aiRequest.top_p = 1;
+        if (temperature * 1.0 !== 1.0) aiRequest.temperature = 1;
 
         const packet = {
             gameNumber: ticket.gameNumber,
