@@ -32,7 +32,7 @@ class LocalInstance {
 
 /** static functions to support micro services */
 export default class BaseClass {
-  /** default for chatgpt engine 
+  /** default for chatgpt engine
    * @return { any } map of defaults
   */
   static defaultChatDocumentOptions(): any {
@@ -42,7 +42,6 @@ export default class BaseClass {
       max_tokens: 2048,
       temperature: 1,
       top_p: 1,
-      n: 1,
       presence_penalty: 0,
       frequency_penalty: 0,
       logit_bias: "",

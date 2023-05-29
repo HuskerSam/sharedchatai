@@ -1,6 +1,10 @@
 import * as firebaseAdmin from "firebase-admin";
 import BaseClass from "./baseclass";
 import fetch from "node-fetch";
+import {
+    encode,
+    decode,
+} from "gpt-3-encoder";
 
 /** Match game specific turn logic wrapped in a transaction */
 export default class ChatAI {
@@ -65,7 +69,8 @@ export default class ChatAI {
      * @param { string } ticketId ticketId
      * @param { Array<string> } includeTickets tickets sent to packet
      */
-    static async _generatePacket(ticket: any, gameData: any, gameNumber: string, ticketId: string, includeTickets: Array<string>): Promise<any> {
+    static async _generatePacket(ticket: any, gameData: any, gameNumber: string, ticketId: string,
+        includeTickets: Array<string>): Promise<any> {
         const messages: Array<any> = [];
         // const gameQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).get();
         const promises: Array<any> = [];
@@ -102,26 +107,54 @@ export default class ChatAI {
             role: "user",
             content: ticket.message,
         });
-
+        /* eslint-disable camelcase */
         const defaults = BaseClass.defaultChatDocumentOptions();
         const model = gameData.model;
         const max_tokens = BaseClass.getNumberOrDefault(gameData.max_tokens, defaults.max_tokens);
         const temperature = BaseClass.getNumberOrDefault(gameData.model, defaults.temperature);
         const top_p = BaseClass.getNumberOrDefault(gameData.top_p, defaults.top_p);
-        const n = BaseClass.getNumberOrDefault(gameData.n, defaults.n);
         const presence_penalty = BaseClass.getNumberOrDefault(gameData.presence_penalty, defaults.presence_penalty);
         const frequency_penalty = BaseClass.getNumberOrDefault(gameData.frequency_penalty, defaults.frequency_penalty);
 
-        const aiRequest = {
+        let logit_bias_text = gameData.logit_bias;
+        if (!logit_bias_text) logit_bias_text = "";
+        let includeBias = false;
+        const bias_lines = logit_bias_text.replaceAll("\n", "").split(",");
+        const logit_bias: any = {};
+        bias_lines.forEach((line: string) => {
+            includeBias = true;
+            const parts = line.split(":");
+            let numberTerm = parts[1];
+            if (numberTerm) numberTerm = numberTerm.trim();
+            const value = BaseClass.getNumberOrDefault(numberTerm, 0);
+            const term = parts[0].trim();
+            if (term.length > 0) {
+                const tokens = encode(" " + term);
+
+                for (const token of tokens) {
+                    console.log({
+                        token,
+                        string: decode([token]),
+                    });
+                }
+
+                tokens.forEach((token: number) => {
+                    logit_bias[token] = value;
+                });
+            }
+        });
+
+        const aiRequest: any = {
             model,
             max_tokens,
-            temperature,
-            top_p,
-            n,
             presence_penalty,
             frequency_penalty,
             messages,
         };
+        if (includeBias) aiRequest.logit_bias = logit_bias;
+        if (top_p * 1.0 !== 1.0) aiRequest.top_p = 1;
+        if (temperature * 1.0 !== 1.0) aiRequest.temperature = 1;
+
         const packet = {
             gameNumber: ticket.gameNumber,
             aiRequest,

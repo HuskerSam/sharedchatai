@@ -34,12 +34,11 @@ export class AIChatApp extends BaseApp {
   docfield_max_tokens: any = document.querySelector(".docfield_max_tokens");
   docfield_temperature: any = document.querySelector(".docfield_temperature");
   docfield_top_p: any = document.querySelector(".docfield_top_p");
-  docfield_n: any = document.querySelector(".docfield_n");
   docfield_presence_penalty: any = document.querySelector(".docfield_presence_penalty");
   docfield_frequency_penalty: any = document.querySelector(".docfield_frequency_penalty");
   docfield_logit_bias: any = document.querySelector(".docfield_logit_bias");
   docfield_stops: any = document.querySelector(".docfield_stops");
-
+  save_profile_button: any = document.querySelector(".save_profile_button")
   /**  */
   constructor() {
     super();
@@ -59,15 +58,7 @@ export class AIChatApp extends BaseApp {
 
     document.addEventListener("visibilitychange", () => this.refreshOnlinePresence());
 
-    this.docfield_model.addEventListener("input", () => this.scrapeDocumentOptions());
-    this.docfield_max_tokens.addEventListener("input", () => this.scrapeDocumentOptions());
-    this.docfield_temperature.addEventListener("input", () => this.scrapeDocumentOptions());
-    this.docfield_top_p.addEventListener("input", () => this.scrapeDocumentOptions());
-    this.docfield_n.addEventListener("input", () => this.scrapeDocumentOptions());
-    this.docfield_presence_penalty.addEventListener("input", () => this.scrapeDocumentOptions());
-    this.docfield_frequency_penalty.addEventListener("input", () => this.scrapeDocumentOptions());
-    this.docfield_logit_bias.addEventListener("input", () => this.scrapeDocumentOptions());
-    this.docfield_stops.addEventListener("input", () => this.scrapeDocumentOptions());
+    this.save_profile_button.addEventListener("click", () => this.scrapeDocumentOptions());
   }
   /** setup data listender for user messages */
   async initTicketFeed() {
@@ -321,7 +312,6 @@ export class AIChatApp extends BaseApp {
     const max_tokens = this.docfield_max_tokens.value;
     const temperature = this.docfield_temperature.value;
     const top_p = this.docfield_top_p.value;
-    const n = this.docfield_n.value;
     const presence_penalty = this.docfield_presence_penalty.value;
     const frequency_penalty = this.docfield_frequency_penalty.value;
     const logit_bias = this.docfield_logit_bias.value;
@@ -333,13 +323,13 @@ export class AIChatApp extends BaseApp {
       max_tokens,
       temperature,
       top_p,
-      n,
       presence_penalty,
       frequency_penalty,
       logit_bias,
       stop,
     };
-
+    this.save_profile_button.innerHTML = "Saving...";
+    setTimeout(() => this.save_profile_button.innerHTML = "Save Profile", 1000);
     const token = await firebase.auth().currentUser.getIdToken();
     const fResult = await fetch(this.basePath + "lobbyApi/games/options", {
       method: "POST",
@@ -378,10 +368,9 @@ export class AIChatApp extends BaseApp {
     else document.body.classList.remove("game_owner");
 
     this.docfield_model.value = this.gameData.model;
-
+    this.docfield_max_tokens.value = this.gameData.max_tokens;
     this.docfield_temperature.value = this.gameData.temperature;
     this.docfield_top_p.value = this.gameData.top_p;
-    this.docfield_n.value = this.gameData.n;
     this.docfield_presence_penalty.value = this.gameData.presence_penalty;
     this.docfield_frequency_penalty.value = this.gameData.frequency_penalty;
     this.docfield_logit_bias.value = this.gameData.logit_bias;
