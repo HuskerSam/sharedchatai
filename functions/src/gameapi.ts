@@ -96,6 +96,9 @@ export default class GameAPI {
       created: new Date().toISOString(),
       lastActivity: new Date().toISOString(),
       visibility: "private",
+      total_tokens: 0,
+      completion_tokens: 0,
+      prompt_tokens: 0,
     };
 
     Object.assign(game, BaseClass.defaultChatDocumentOptions());

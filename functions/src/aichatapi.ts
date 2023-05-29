@@ -1,9 +1,11 @@
 import * as firebaseAdmin from "firebase-admin";
+import {
+    FieldValue,
+} from "firebase-admin/firestore";
 import BaseClass from "./baseclass";
 import fetch from "node-fetch";
 import {
     encode,
-    decode,
 } from "gpt-3-encoder";
 
 /** Match game specific turn logic wrapped in a transaction */
@@ -18,14 +20,14 @@ export default class ChatAI {
 
         const uid = authResults.uid;
         const gameNumber = req.body.gameNumber;
-        console.log(req.body);
+
         const reRunticket: any = req.body.reRunTicket;
         let message = req.body.message;
         if (message) {
             message = BaseClass.escapeHTML(message);
             if (message.length > 10000) message = message.substr(0, 10000);
         }
-        console.log(reRunticket);
+
         if (!message && !reRunticket) {
             return BaseClass.respondError(res, "Message is empty and no rerunticket id");
         }
@@ -67,7 +69,7 @@ export default class ChatAI {
             await firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${reRunticket}`).set({
                 submitted,
             }, {
-                merge: true
+                merge: true,
             });
             await firebaseAdmin.firestore().doc(`Games/${ticket.gameNumber}/assists/${reRunticket}`).delete();
         } else {
@@ -86,8 +88,18 @@ export default class ChatAI {
             ticketId = addResult.id;
         }
 
+
+        await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).set({
+            lastActivity: new Date().toISOString(),
+            lastMessage: ticket.message,
+            lastTicketId: ticketId,
+            lastResponse: "pending...",
+        }, {
+            merge: true,
+        });
+
         const packet = await this._generatePacket(ticket, gameData, gameNumber, ticketId, includeTickets);
-        await this._processTicket(packet, ticketId, chatGptKey, submitted);
+        await this._processTicket(packet, ticket, ticketId, chatGptKey, submitted);
 
         return res.status(200).send({
             success: true,
@@ -162,13 +174,6 @@ export default class ChatAI {
             if (term.length > 0) {
                 const tokens = encode(" " + term);
 
-                for (const token of tokens) {
-                    console.log({
-                        token,
-                        string: decode([token]),
-                    });
-                }
-
                 tokens.forEach((token: number) => {
                     logit_bias[token] = value;
                 });
@@ -196,12 +201,18 @@ export default class ChatAI {
     }
     /** submit ticket to AI engine and store response in /games/{gameid}/assists/{ticketid}
      * @param { any } packet message details
+     * @param { any } ticketData ticket doc
      * @param { string } id document id
      * @param { string } chatGptKey api key from user profile
+     * @param { string } submitted submitted date
      * @return { Promise<void> }
      */
-    static async _processTicket(packet: any, id: string, chatGptKey: string, submitted: string): Promise<void> {
+    static async _processTicket(packet: any, ticketData: any, id: string, chatGptKey: string, submitted: string): Promise<void> {
         let aiResponse: any = {};
+        let lastResponse = "error";
+        let total_tokens = 0;
+        let prompt_tokens = 0;
+        let completion_tokens = 0;
         try {
             const response: any = await fetch(`https://api.openai.com/v1/chat/completions`, {
                 method: "POST",
@@ -217,17 +228,40 @@ export default class ChatAI {
                 success: true,
                 created: new Date().toISOString(),
                 assist,
-                submitted
+                submitted,
             };
+
+            if (!assist.error) {
+                lastResponse = aiResponse.assist.choices["0"].message.content;
+            } else {
+                lastResponse = "error";
+            }
+            if (assist.usage) {
+                total_tokens = BaseClass.getNumberOrDefault(assist.usage.total_tokens, 0);
+                prompt_tokens = BaseClass.getNumberOrDefault(assist.usage.prompt_tokens, 0);
+                completion_tokens = BaseClass.getNumberOrDefault(assist.usage.completion_tokens, 0);
+            }
         } catch (aiRequestError: any) {
             aiResponse = {
                 success: false,
                 created: new Date().toISOString(),
                 error: aiRequestError,
-                submitted
+                submitted,
             };
         }
         await firebaseAdmin.firestore().doc(`Games/${packet.gameNumber}/assists/${id}`).set(aiResponse);
+
+        await firebaseAdmin.firestore().doc(`Games/${packet.gameNumber}`).set({
+            lastActivity: new Date().toISOString(),
+            lastMessage: ticketData.message,
+            lastTicketId: packet.gameNumber,
+            lastResponse,
+            total_tokens: FieldValue.increment(total_tokens),
+            prompt_tokens: FieldValue.increment(prompt_tokens),
+            completion_tokens: FieldValue.increment(completion_tokens),
+        }, {
+            merge: true,
+        });
     }
     /** http endpoint for user deleting message from user chat
      * @param { any } req http request object
@@ -262,6 +296,7 @@ export default class ChatAI {
         await firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${ticketId}`).delete();
         await firebaseAdmin.firestore().doc(`Games/${gameNumber}/assists/${ticketId}`).delete();
         await firebaseAdmin.firestore().doc(`Games/${gameNumber}/packets/${ticketId}`).delete();
+        await firebaseAdmin.firestore().doc(`Games/${gameNumber}/reports/${ticketId}`).delete();
         return res.status(200).send({
             success: true,
         });

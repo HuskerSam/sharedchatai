@@ -220,6 +220,7 @@ class BaseApp {
   }
   /** returns text value for time since Now, i.e. 3 mins ago
    * @param { Date } date value to format
+   * @param { boolean } showSeconds show counting seconds
    * @return { string } formatted string value for time since
    */
   timeSince(date: Date, showSeconds = false): string {
@@ -350,7 +351,9 @@ class BaseApp {
     }
     return;
   }
-  /**  */
+  /** update all time_since spans in this container
+   * @param { any } container dom element to query for spans
+   */
   updateTimeSince(container: any) {
     const elements = container.querySelectorAll(".time_since");
     elements.forEach((ctl: any) => {

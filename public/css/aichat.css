@@ -204,3 +204,12 @@ body {
 .rerun_ticket {
   margin: 4px;
 }
+
+.document_usage_stats_line {
+  display: flex;
+  padding: 4px;
+}
+
+.document_usage_stats_line span {
+  flex: 1;
+}

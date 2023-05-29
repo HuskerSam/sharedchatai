@@ -39,7 +39,8 @@ export class AIChatApp extends BaseApp {
   docfield_frequency_penalty: any = document.querySelector(".docfield_frequency_penalty");
   docfield_logit_bias: any = document.querySelector(".docfield_logit_bias");
   docfield_stops: any = document.querySelector(".docfield_stops");
-  save_profile_button: any = document.querySelector(".save_profile_button")
+  save_profile_button: any = document.querySelector(".save_profile_button");
+  document_usage_stats_line: any = document.querySelector(".document_usage_stats_line");
   /**  */
   constructor() {
     super();
@@ -100,11 +101,11 @@ export class AIChatApp extends BaseApp {
         const promptSpan: any = document.querySelector(`div[ticketid="${doc.id}"] .tokens_prompt`);
         const completionSpan: any = document.querySelector(`div[ticketid="${doc.id}"] .tokens_completion`);
         const reRunTicket: any = document.querySelector(`div[ticketid="${doc.id}"] .rerun_ticket`);
-        
+
         const data: any = doc.data();
         if (data.success) {
           if (data.assist.error) {
-            let result: string = "";
+            let result = "";
             if (data.assist.error.code) {
               result += data.assist.error.code + " ";
             }
@@ -155,7 +156,7 @@ export class AIChatApp extends BaseApp {
         this.deleteTicket(btn, btn.dataset.gamenumber, btn.dataset.messageid);
       }));
 
-      this.tickets_list.querySelectorAll("button.rerun_ticket")
+    this.tickets_list.querySelectorAll("button.rerun_ticket")
       .forEach((btn: any) => btn.addEventListener("click", async (e: any) => {
         e.stopPropagation();
         e.preventDefault();
@@ -166,13 +167,16 @@ export class AIChatApp extends BaseApp {
     this.refreshOnlinePresence();
     this.updateAssistsFeed(null);
   }
-  async reRunTicket(ticketId: any): Promise<void> {
+  /** send rerun request to api
+   * @param { string } ticketId doc id
+   */
+  async reRunTicket(ticketId: string): Promise<void> {
     const includeTickets = this.generateSubmitList();
 
     const body = {
       gameNumber: this.currentGame,
       includeTickets,
-      reRunTicket: ticketId.toString()
+      reRunTicket: ticketId.toString(),
     };
     const token = await firebase.auth().currentUser.getIdToken();
     const fResult = await fetch(this.basePath + "lobbyApi/aichat/message", {
@@ -327,6 +331,11 @@ export class AIChatApp extends BaseApp {
     if (gameDoc) this.gameData = gameDoc.data();
     if (!this.gameData) return;
 
+    this.document_usage_stats_line.innerHTML = `
+      <span>${this.gameData.total_tokens}</span>
+      <span>${this.gameData.prompt_tokens}</span>
+      <span>${this.gameData.completion_tokens}</span>
+    `;
 
     this.paintDocumentOptions();
     this._updateGameMembersList();
