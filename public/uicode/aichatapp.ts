@@ -27,6 +27,7 @@ export class AIChatApp extends BaseApp {
   send_ticket_button: any = document.querySelector(".send_ticket_button");
   ticket_content_input: any = document.querySelector(".ticket_content_input");
   prompt_token_count: any = document.querySelector(".prompt_token_count");
+  token_visualizer_preview: any = document.querySelector(".token_visualizer_preview");
   code_link_href: any = document.querySelector(".code_link_href");
   code_link_copy: any = document.querySelector(".code_link_copy");
   gameid_span: any = document.querySelector(".gameid_span");
@@ -348,7 +349,7 @@ export class AIChatApp extends BaseApp {
       <span>${this.gameData.completionTokens}</span>
     `;
 
-    this.last_activity_display.innerHTML = this.isoToLocal(<string> this.gameData.lastActivity)
+    this.last_activity_display.innerHTML = this.isoToLocal(<string>this.gameData.lastActivity)
       .toISOString().substring(0, 19).replace("T", " ");
 
     this.paintDocumentOptions();
@@ -513,6 +514,15 @@ export class AIChatApp extends BaseApp {
   /** count input token */
   updatePromptTokenStatus() {
     const tokens = window.gpt3tokenizer.encode(this.ticket_content_input.value);
+
+    let html = "";
+    tokens.forEach((token: any, index: number) => {
+      let text = window.gpt3tokenizer.decode([token]);
+      let tokenClass = (index % 2 === 0) ? "token_even" : "token_odd";
+      html += `<span class="${tokenClass}">${text}</span>`
+    });
+    this.token_visualizer_preview.innerHTML = html;
+
     this.prompt_token_count.innerHTML = tokens.length;
   }
 }

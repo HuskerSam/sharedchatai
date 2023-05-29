@@ -275,3 +275,13 @@ body {
 .game_owner .save_options_button {
   display: inline-block;
 }
+
+.token_visualizer_preview .token_even {
+  background: rgba(0, 0, 127);  
+  color: white;
+}
+
+.token_visualizer_preview .token_odd {
+  background: rgba(127, 0, 0); 
+  color: white; 
+}
