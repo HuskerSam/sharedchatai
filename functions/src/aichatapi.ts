@@ -67,7 +67,7 @@ export default class ChatAI {
             await firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${reRunticket}`).set({
                 submitted,
             }, {
-                merge: true
+                merge: true,
             });
             await firebaseAdmin.firestore().doc(`Games/${ticket.gameNumber}/assists/${reRunticket}`).delete();
         } else {
@@ -198,6 +198,7 @@ export default class ChatAI {
      * @param { any } packet message details
      * @param { string } id document id
      * @param { string } chatGptKey api key from user profile
+     * @param { string } submitted message submitted
      * @return { Promise<void> }
      */
     static async _processTicket(packet: any, id: string, chatGptKey: string, submitted: string): Promise<void> {
@@ -217,14 +218,14 @@ export default class ChatAI {
                 success: true,
                 created: new Date().toISOString(),
                 assist,
-                submitted
+                submitted,
             };
         } catch (aiRequestError: any) {
             aiResponse = {
                 success: false,
                 created: new Date().toISOString(),
                 error: aiRequestError,
-                submitted
+                submitted,
             };
         }
         await firebaseAdmin.firestore().doc(`Games/${packet.gameNumber}/assists/${id}`).set(aiResponse);
