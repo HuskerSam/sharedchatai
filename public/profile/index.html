@@ -63,24 +63,25 @@
     </nav>
     <div class="logged_in_status">&nbsp;</div>
     <br><br>
-    <div class="signed_out_options">
+    <div class="signed_out_options card">
+      <h2>Login Options</h2>
       <br>
-      <button class="anon_login_anchor btn btn-primary">Login Anonymously</button>
-      <br>
-      <h2>or</h2>
-      <button class="btn btn-primary" id="login_google">
-        <img src="/images/google_signin.png" style="height:30px;position:relative;top:6px;">
-        Sign in with Google</button>
-      <br>
-      <h2>or</h2>
-      <h3 style="margin-bottom:4px">Sign in with email (password free)</h3>
-      <div style="display:flex;flex-direction:row;width:100%;">
-        <input class="login_email" type="text" name="email" style="flex:1;margin-left:8px;font-size:21px;">
-        <button class="btn btn-primary" id="login_email_anchor"
-          style="margin:0 8px;font-size:21px;white-space:nowrap">Send Link</button>
-      </div>
-      <br>
-      <br>
+      <p>Experience seamless login with three methods: <br> email, Google authentication, or anonymous login. No password required!</p>
+      <h4>Passwordless Email Login</h3>
+        <div class="input-group mb-3">
+          <input type="text" name="email" class="form-control" placeholder="Email">
+          <button class="btn btn-success" id="login_email_anchor">Send Link</button>
+        </div>
+        <br>
+        <h5>or</h5>
+        <br>
+        <button class="btn btn-primary" id="login_google">
+          <img class="google_logo" src="/images/google_signin.png">
+          Sign in with Google</button>
+        <br>
+        <button class="anon_login_anchor btn btn-primary">Login Anonymously</button>
+        <br>
+
     </div>
 
     <div class="signed_in_options">
@@ -140,7 +141,8 @@
         <br>
         <br>
         <div style="text-align: center;">
-          <select class="profile_display_image_preset form-select" style="max-width: 80%;width:auto;display: inline-block;">
+          <select class="profile_display_image_preset form-select"
+            style="max-width: 80%;width:auto;display: inline-block;">
             <option>Pick preset</option>
           </select>
         </div>

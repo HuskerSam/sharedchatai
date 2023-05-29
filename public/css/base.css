@@ -101,21 +101,6 @@ a {
   box-sizing: border-box;
 }
 
-.signed_out_options {
-  display: none;
-}
-
-.app_signed_out .signed_out_options {
-  display: block;
-}
-
-.signed_in_options {
-  display: none;
-}
-
-.app_signed_in .signed_in_options {
-  display: block;
-}
 
 .navbar {
   padding-left: 10px;
