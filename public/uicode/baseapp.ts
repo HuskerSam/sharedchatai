@@ -223,7 +223,7 @@ class BaseApp {
    * @param { boolean } showSeconds show counting seconds
    * @return { string } formatted string value for time since
    */
-  timeSince(date: Date, showSeconds: boolean = false): string {
+  timeSince(date: Date, showSeconds = false): string {
     const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
 
     let interval = seconds / 31536000;

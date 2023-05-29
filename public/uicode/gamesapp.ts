@@ -29,13 +29,10 @@ export class GamesApp extends BaseApp {
     this.menu_create_game.addEventListener("click", () => this.createNewGame());
     this.create_game_afterfeed_button.addEventListener("click", () => this.createNewGame());
 
-
-
     this.initRTDBPresence();
 
     // redraw feeds to update time since values
     setInterval(() => this.updateTimeSince(this.game_history_view), 30000);
-
 
     this.init();
   }
@@ -112,10 +109,10 @@ export class GamesApp extends BaseApp {
 
     oldKeys.forEach((key: string) => {
       if (!this.documentsLookup[key]) {
-        let card: any = this.game_history_view.querySelector(`div[gamenumber="${key}"]`);
+        const card: any = this.game_history_view.querySelector(`div[gamenumber="${key}"]`);
         if (card) card.remove();
       }
-    })
+    });
     this.updateTimeSince(this.game_history_view);
     this.refreshOnlinePresence();
   }
@@ -140,10 +137,9 @@ export class GamesApp extends BaseApp {
   }
   /** paint html list card
    * @param { any } doc Firestore doc for game
-   * @param { boolean } publicFeed true if this is public open games feed
    * @return { string } html for card
   */
-  getDocumentCardElement(doc: any, publicFeed = false) {
+  getDocumentCardElement(doc: any) {
     const data = doc.data();
     let ownerClass = "";
     if (data.createUser === this.uid) ownerClass += " feed_game_owner";
@@ -159,7 +155,7 @@ export class GamesApp extends BaseApp {
     hour = hour % 12;
     if (hour === 0) hour = 12;
     timeStr = hour.toString() + timeStr.substr(2) + " " + suffix;
-    let html = `<div class="gamelist_item card card_shadow_sm gamelist_item${ownerClass} gametype_${data.gameType}"
+    const html = `<div class="gamelist_item card card_shadow_sm gamelist_item${ownerClass} gametype_${data.gameType}"
           data-gamenumber="${doc.id}" gamenumber="${doc.id}">
       <div class="gamefeed_item_header">
         <div style="background-image:${img}" class="game_type_image"></div>

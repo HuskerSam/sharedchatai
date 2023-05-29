@@ -96,9 +96,11 @@ export default class GameAPI {
       created: new Date().toISOString(),
       lastActivity: new Date().toISOString(),
       visibility: "private",
-      total_tokens: 0,
-      completion_tokens: 0,
-      prompt_tokens: 0,
+      archived: false,
+      totalTokens: 0,
+      completionTokens: 0,
+      promptTokens: 0,
+      tokenUsageLimit: 0,
     };
 
     Object.assign(game, BaseClass.defaultChatDocumentOptions());
@@ -214,6 +216,19 @@ export default class GameAPI {
         }
       }
     });
+    console.log(req.body);
+    if (req.body.archived) {
+      const archived = (req.body.archived === "1");
+      updatePacket.archived = archived;
+      gameData.archived = archived;
+    }
+
+    if (req.body.tokenUsageLimit) {
+      const tokenUsageLimit = BaseClass.getNumberOrDefault(req.body.tokenUsageLimit, 0);
+      updatePacket.tokenUsageLimit = tokenUsageLimit;
+      gameData.tokenUsageLimit = tokenUsageLimit;
+    }
+
     updatePacket.publicStatus = GameAPI._publicStatus(gameData);
 
     await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).set(updatePacket, {

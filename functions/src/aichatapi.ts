@@ -256,9 +256,9 @@ export default class ChatAI {
             lastMessage: ticketData.message,
             lastTicketId: packet.gameNumber,
             lastResponse,
-            total_tokens: FieldValue.increment(total_tokens),
-            prompt_tokens: FieldValue.increment(prompt_tokens),
-            completion_tokens: FieldValue.increment(completion_tokens),
+            totalTokens: FieldValue.increment(total_tokens),
+            promptTokens: FieldValue.increment(prompt_tokens),
+            completionTokens: FieldValue.increment(completion_tokens),
         }, {
             merge: true,
         });

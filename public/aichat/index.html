@@ -54,7 +54,7 @@
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-    
+
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item signed_in_options">
@@ -90,7 +90,8 @@
         <div class="tickets_list" style="flex:1;overflow:auto;"></div>
         <div class="message_list_send_wrapper" style="display:flex;flex-direction:row">
           <div class="form-floating" style="flex:1;margin:4px;">
-            <input type="text" class="form-control ticket_content_input" name="ticketcontent" placeholder="AI Questions">
+            <input type="text" class="form-control ticket_content_input" name="ticketcontent"
+              placeholder="AI Questions">
             <label>Ask Questions</label>
           </div>
           <button class="send_ticket_button btn btn-primary" style="margin:8px;">
@@ -99,15 +100,32 @@
         </div>
       </div>
       <div class="document_options_view">
-        <div class="basic_options">
-          <span class="field_title_label">Code</span>
-          <span class="gameid_span"></span>
-          <a href="#" style="display:none;" class="code_link_href">URL</a>
-          <button class="code_link_copy game"><i class="material-icons">content_copy</i> <span>url</span></button>
-          <br>
+        <span class="field_title_label">Code</span>
+        <span class="gameid_span"></span>
+        <a href="#" style="display:none;" class="code_link_href">URL</a>
+        <button class="code_link_copy game"><i class="material-icons">content_copy</i> <span>url</span></button>
+        <h4 class="text-secondary">Limit Usage</h4>
+        <div style="padding-left: 3em">
+          <div class="form-check" style="display:inline-block;width:auto;">
+
+            <label class="form-check-label">
+              <input class="form-check-input docfield_archived_checkbox" type="checkbox" value="">
+              Archived
+            </label>
+          </div>
           <br>
 
-          <select class="form-select docfield_model" aria-label="chatGPTEngine Selection">
+          <div class="form-floating" style="display:inline-block;width:auto;">
+            <input type="text" class="form-control docfield_usage_limit" placeholder="Usage Limit">
+            <label>Usage Limit</label>
+          </div>
+          <br>
+          <button class="save_profile_button btn btn-primary">Save Usage Limits</button>
+        </div>
+        <h4 class="text-secondary">Ticket Options</h4>
+        <div style="padding-left: 3em">
+          <select class="form-select docfield_model" aria-label="chatGPTEngine Selection"
+            style="display:inline-block;width:auto;">
             <option>gpt-4</option>
             <option selected>gpt-3.5-turbo</option>
             <option>gpt-4-0314</option>
@@ -115,43 +133,44 @@
             <option>gpt-4-32k-0314</option>
             <option>gpt-3.5-turbo-0301</option>
           </select>
-          
-          <div class="form-floating" style="display:inline-block;width:80%">
+          <br>
+          <div class="form-floating" style="display:inline-block;width:auto;">
             <input type="text" class="form-control docfield_max_tokens" placeholder="Max Tokens">
-            <label>Most tokens used to assist - max ~ 2048</label>
+            <label>Most tokens</label>
           </div>
-
-          <div class="form-floating" style="display:inline-block;width:80%">
+          <br>
+          <div class="form-floating" style="display:inline-block;width:auto;">
             <input type="text" class="form-control docfield_temperature" placeholder="Temperature">
             <label>Temperature (0 to 2)</label>
           </div>
-          
-          <div class="form-floating" style="display:inline-block;width:80%">
+          <br>
+          <div class="form-floating" style="display:inline-block;width:auto;">
             <input type="text" class="form-control docfield_top_p" placeholder="top_p">
             <label>top_p (0 to 1)</label>
           </div>
-          
-          <div class="form-floating" style="display:inline-block;width:80%">
+          <br>
+          <div class="form-floating" style="display:inline-block;width:auto;">
             <input type="text" class="form-control docfield_presence_penalty" placeholder="Presence Penalty">
             <label>Presence Penalty (-2 to 2)</label>
           </div>
-
-          <div class="form-floating" style="display:inline-block;width:80%">
+          <br>
+          <div class="form-floating" style="display:inline-block;width:auto">
             <input type="text" class="form-control docfield_frequency_penalty" placeholder="Frequency Penalty">
             <label>Frequency Penalty (-2 to 2)</label>
           </div>
-        
+          <br>
           <div class="form-floating" style="display:inline-block;width:80%;display:none">
-            <textarea type="text" class="form-control docfield_logit_bias" placeholder="List of tokens to bias"></textarea>
+            <textarea type="text" class="form-control docfield_logit_bias"
+              placeholder="List of tokens to bias"></textarea>
             <label>List of tokens to bias</label>
           </div>
-
+          <br>
           <div class="form-floating" style="display:inline-block;width:80%; display: none">
-            <textarea type="text" class="form-control docfield_stops" placeholder="List of tokens to stop on"></textarea>
+            <textarea type="text" class="form-control docfield_stops"
+              placeholder="List of tokens to stop on"></textarea>
             <label>List of tokens to stop on</label>
           </div>
-          <br><br>
-          <button class="save_profile_button btn btn-primary">Save Options</button>
+          <button class="save_profile_button btn btn-primary">Save Ticket Options</button>
         </div>
       </div>
     </div>

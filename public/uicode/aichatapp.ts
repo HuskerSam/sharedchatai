@@ -39,9 +39,11 @@ export class AIChatApp extends BaseApp {
   docfield_frequency_penalty: any = document.querySelector(".docfield_frequency_penalty");
   docfield_logit_bias: any = document.querySelector(".docfield_logit_bias");
   docfield_stops: any = document.querySelector(".docfield_stops");
-  save_profile_button: any = document.querySelector(".save_profile_button");
+  save_profile_buttons: any = document.querySelectorAll(".save_profile_button");
   document_usage_stats_line: any = document.querySelector(".document_usage_stats_line");
   last_activity_display: any = document.querySelector(".last_activity_display");
+  docfield_archived_checkbox: any = document.querySelector(".docfield_archived_checkbox");
+  docfield_usage_limit: any = document.querySelector(".docfield_usage_limit");
   /**  */
   constructor() {
     super();
@@ -61,7 +63,9 @@ export class AIChatApp extends BaseApp {
 
     document.addEventListener("visibilitychange", () => this.refreshOnlinePresence());
 
-    this.save_profile_button.addEventListener("click", () => this.scrapeDocumentOptions());
+    this.save_profile_buttons.forEach((btn: any) => {
+      btn.addEventListener("click", () => this.scrapeDocumentOptions(btn));
+    });
   }
   /** setup data listender for user messages */
   async initTicketFeed() {
@@ -227,7 +231,7 @@ export class AIChatApp extends BaseApp {
    * @param { any } doc firestore message document
    * @return { string } html for card
    */
-  _renderTicketFeedLine(doc: any) {
+  _renderTicketFeedLine(doc: any): string {
     const data = doc.data();
     const gameOwnerClass = data.isGameOwner ? " message_game_owner" : "";
     const ownerClass = data.uid === this.uid ? " message_owner" : "";
@@ -332,12 +336,13 @@ export class AIChatApp extends BaseApp {
     if (!this.gameData) return;
 
     this.document_usage_stats_line.innerHTML = `
-      <span>${this.gameData.total_tokens}</span>
-      <span>${this.gameData.prompt_tokens}</span>
-      <span>${this.gameData.completion_tokens}</span>
+      <span>${this.gameData.totalTokens}</span>
+      <span>${this.gameData.promptTokens}</span>
+      <span>${this.gameData.completionTokens}</span>
     `;
 
-    this.last_activity_display.innerHTML = this.isoToLocal(<string>this.gameData.lastActivity).toISOString().substring(0, 19).replace("T", " ");
+    this.last_activity_display.innerHTML = this.isoToLocal(<string> this.gameData.lastActivity)
+      .toISOString().substring(0, 19).replace("T", " ");
 
     this.paintDocumentOptions();
     this._updateGameMembersList();
@@ -383,8 +388,10 @@ export class AIChatApp extends BaseApp {
     }
     this.members_list.innerHTML = html;
   }
-  /** scrape options from UI and call api */
-  async scrapeDocumentOptions() {
+  /** scrape options from UI and call api
+   * @param { any } btn so the label can be changed while busy
+  */
+  async scrapeDocumentOptions(btn: any) {
     /* eslint-disable camelcase */
     const model = this.docfield_model.value;
     const max_tokens = this.docfield_max_tokens.value;
@@ -394,6 +401,8 @@ export class AIChatApp extends BaseApp {
     const frequency_penalty = this.docfield_frequency_penalty.value;
     const logit_bias = this.docfield_logit_bias.value;
     const stop = this.docfield_stops.value;
+    const archived = this.docfield_archived_checkbox.checked ? "1" : "0";
+    const tokenUsageLimit = this.docfield_usage_limit.value;
 
     const body: any = {
       gameNumber: this.currentGame,
@@ -405,9 +414,11 @@ export class AIChatApp extends BaseApp {
       frequency_penalty,
       logit_bias,
       stop,
+      archived,
+      tokenUsageLimit,
     };
-    this.save_profile_button.innerHTML = "Saving...";
-    setTimeout(() => this.save_profile_button.innerHTML = "Save Profile", 1000);
+    btn.innerHTML = "Saving...";
+    setTimeout(() => btn.innerHTML = "Save Profile", 1000);
     const token = await firebase.auth().currentUser.getIdToken();
     const fResult = await fetch(this.basePath + "lobbyApi/games/options", {
       method: "POST",
@@ -453,6 +464,8 @@ export class AIChatApp extends BaseApp {
     this.docfield_frequency_penalty.value = this.gameData.frequency_penalty;
     this.docfield_logit_bias.value = this.gameData.logit_bias;
     this.docfield_stops.value = this.gameData.stop;
+    this.docfield_usage_limit.value = this.gameData.tokenUsageLimit;
+    this.docfield_archived_checkbox.checked = this.gameData.archived;
 
     if (this.code_link_href) {
       const path = window.location.href;

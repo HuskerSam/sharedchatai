@@ -36,6 +36,12 @@ body {
   display: none;
 }
 
+.document_options_view .form-floating,
+.document_options_view .form-check,
+.document_options_view .form-select {
+  margin-bottom: 1em;
+}
+
 .show_document_options .document_options_view {
   display: block;
 }
@@ -255,6 +261,7 @@ body {
 
 .document_usage_stats_line span {
   flex: 1;
+  text-align: center;
 }
 
 .last_activity_display {
