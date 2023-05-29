@@ -18,8 +18,17 @@ export default class ChatAI {
 
         const uid = authResults.uid;
         const gameNumber = req.body.gameNumber;
-        let message = BaseClass.escapeHTML(req.body.message);
-        if (message.length > 10000) message = message.substr(0, 10000);
+        console.log(req.body);
+        const reRunticket: any = req.body.reRunTicket;
+        let message = req.body.message;
+        if (message) {
+            message = BaseClass.escapeHTML(message);
+            if (message.length > 10000) message = message.substr(0, 10000);
+        }
+        console.log(reRunticket);
+        if (!message && !reRunticket) {
+            return BaseClass.respondError(res, "Message is empty and no rerunticket id");
+        }
         const includeTickets = req.body.includeTickets;
 
         const localInstance = BaseClass.newLocalInstance();
@@ -43,20 +52,42 @@ export default class ChatAI {
         const memberImage = gameData.memberImages[uid] ? gameData.memberImages[uid] : "";
         const memberName = gameData.memberNames[uid] ? gameData.memberNames[uid] : "";
 
-        const ticket = {
-            uid,
-            message,
-            created: new Date().toISOString(),
-            submitted: new Date().toISOString(),
-            messageType: "user",
-            gameNumber,
-            isOwner,
-            memberName,
-            memberImage,
-        };
-        const addResult: any = await firebaseAdmin.firestore().collection(`Games/${gameNumber}/tickets`).add(ticket);
-        const packet = await this._generatePacket(ticket, gameData, gameNumber, addResult.id, includeTickets);
-        await this._processTicket(packet, addResult.id, chatGptKey);
+        let ticketId = "";
+        let ticket: any;
+        const submitted = new Date().toISOString();
+        if (reRunticket) {
+            ticketId = reRunticket;
+            const ticketQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${reRunticket}`).get();
+            ticket = ticketQuery.data();
+
+            if (!ticket) {
+                return BaseClass.respondError(res, "Rerun Ticket not found " + reRunticket);
+            }
+
+            await firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${reRunticket}`).set({
+                submitted,
+            }, {
+                merge: true
+            });
+            await firebaseAdmin.firestore().doc(`Games/${ticket.gameNumber}/assists/${reRunticket}`).delete();
+        } else {
+            ticket = {
+                uid,
+                message,
+                created: new Date().toISOString(),
+                submitted,
+                messageType: "user",
+                gameNumber,
+                isOwner,
+                memberName,
+                memberImage,
+            };
+            const addResult: any = await firebaseAdmin.firestore().collection(`Games/${gameNumber}/tickets`).add(ticket);
+            ticketId = addResult.id;
+        }
+
+        const packet = await this._generatePacket(ticket, gameData, gameNumber, ticketId, includeTickets);
+        await this._processTicket(packet, ticketId, chatGptKey, submitted);
 
         return res.status(200).send({
             success: true,
@@ -169,7 +200,7 @@ export default class ChatAI {
      * @param { string } chatGptKey api key from user profile
      * @return { Promise<void> }
      */
-    static async _processTicket(packet: any, id: string, chatGptKey: string): Promise<void> {
+    static async _processTicket(packet: any, id: string, chatGptKey: string, submitted: string): Promise<void> {
         let aiResponse: any = {};
         try {
             const response: any = await fetch(`https://api.openai.com/v1/chat/completions`, {
@@ -186,12 +217,14 @@ export default class ChatAI {
                 success: true,
                 created: new Date().toISOString(),
                 assist,
+                submitted
             };
         } catch (aiRequestError: any) {
             aiResponse = {
                 success: false,
                 created: new Date().toISOString(),
                 error: aiRequestError,
+                submitted
             };
         }
         await firebaseAdmin.firestore().doc(`Games/${packet.gameNumber}/assists/${id}`).set(aiResponse);

@@ -16,6 +16,7 @@ export class AIChatApp extends BaseApp {
   gameData: any;
   alertErrors = false;
   splitHorizontalCache: any = null;
+  ticketsLookup: any = {};
 
   tickets_list: any = document.querySelector(".tickets_list");
   document_options_toggle: any = document.querySelector(".document_options_toggle");
@@ -54,7 +55,7 @@ export class AIChatApp extends BaseApp {
     this.updateSplitter();
 
     // redraw message feed to update time since values
-    setInterval(() => this.updateTicketsFeed(null), this.baseRedrawFeedTimer);
+    setInterval(() => this.updateTimeSince(this.tickets_list), this.timeSinceRedraw);
 
     document.addEventListener("visibilitychange", () => this.refreshOnlinePresence());
 
@@ -70,7 +71,7 @@ export class AIChatApp extends BaseApp {
     if (this.ticketsSubscription) this.ticketsSubscription();
 
     this.ticketsSubscription = firebase.firestore().collection(`Games/${gameId}/tickets`)
-      .orderBy(`created`, "desc")
+      .orderBy(`submitted`, "desc")
       .limit(50)
       .onSnapshot((snapshot: any) => this.updateTicketsFeed(snapshot));
 
@@ -91,17 +92,42 @@ export class AIChatApp extends BaseApp {
 
     snapshot.forEach((doc: any) => {
       const assistSection: any = document.querySelector(`div[ticketid="${doc.id}"] .assist_section`);
+      const lastSubmit: any = document.querySelector(`div[ticketid="${doc.id}"] .last_submit_time`);
+      lastSubmit.dataset.showseconds = "0";
 
       if (assistSection) {
+        const totalSpan: any = document.querySelector(`div[ticketid="${doc.id}"] .tokens_total`);
+        const promptSpan: any = document.querySelector(`div[ticketid="${doc.id}"] .tokens_prompt`);
+        const completionSpan: any = document.querySelector(`div[ticketid="${doc.id}"] .tokens_completion`);
+        const reRunTicket: any = document.querySelector(`div[ticketid="${doc.id}"] .rerun_ticket`);
+        
         const data: any = doc.data();
-        console.log(data);
         if (data.success) {
           if (data.assist.error) {
-            assistSection.innerHTML = data.assist.error.code;
+            let result: string = "";
+            if (data.assist.error.code) {
+              result += data.assist.error.code + " ";
+            }
+            if (data.assist.error.message) {
+              result += data.assist.error.message + " ";
+            }
+            assistSection.innerHTML = result;
           } else {
             assistSection.innerHTML = data.assist.choices["0"].message.content;
+
+            totalSpan.innerHTML = data.assist.usage.total_tokens;
+            promptSpan.innerHTML = data.assist.usage.prompt_tokens;
+            completionSpan.innerHTML = data.assist.usage.completion_tokens;
           }
         } else assistSection.innerHTML = "API Error";
+
+        const ticketData = this.ticketsLookup[doc.id];
+        if (ticketData && data.submitted === ticketData.submitted) {
+          reRunTicket.innerHTML = "Rerun";
+        } else {
+          reRunTicket.innerHTML = "Running";
+          lastSubmit.dataset.showseconds = "1";
+        }
       }
     });
   }
@@ -114,7 +140,11 @@ export class AIChatApp extends BaseApp {
     else return;
 
     let html = "";
-    snapshot.forEach((doc: any) => html += this._renderTicketFeedLine(doc));
+    this.ticketsLookup = {};
+    snapshot.forEach((doc: any) => {
+      this.ticketsLookup[doc.id] = doc.data();
+      html += this._renderTicketFeedLine(doc);
+    });
 
     this.tickets_list.innerHTML = html;
 
@@ -125,8 +155,41 @@ export class AIChatApp extends BaseApp {
         this.deleteTicket(btn, btn.dataset.gamenumber, btn.dataset.messageid);
       }));
 
+      this.tickets_list.querySelectorAll("button.rerun_ticket")
+      .forEach((btn: any) => btn.addEventListener("click", async (e: any) => {
+        e.stopPropagation();
+        e.preventDefault();
+        btn.innerHTML = "Running...";
+        await this.reRunTicket(btn.dataset.ticketid);
+      }));
+
     this.refreshOnlinePresence();
     this.updateAssistsFeed(null);
+  }
+  async reRunTicket(ticketId: any): Promise<void> {
+    const includeTickets = this.generateSubmitList();
+
+    const body = {
+      gameNumber: this.currentGame,
+      includeTickets,
+      reRunTicket: ticketId.toString()
+    };
+    const token = await firebase.auth().currentUser.getIdToken();
+    const fResult = await fetch(this.basePath + "lobbyApi/aichat/message", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      headers: {
+        "Content-Type": "application/json",
+        token,
+      },
+      body: JSON.stringify(body),
+    });
+    const json = await fResult.json();
+    if (!json.success) {
+      console.log("ticket rerun post", json);
+      alert(json.errorMessage);
+    }
   }
   /** api call for delete user message
    * @param { any } btn dom control
@@ -176,16 +239,20 @@ export class AIChatApp extends BaseApp {
             <i class="material-icons">delete</i>
             </button>`;
 
-    const timeSince = this.timeSince(new Date(data.created)).replaceAll(" ago", "");
+    // const timeSince = this.timeSince(new Date(data.submitted)).replaceAll(" ago", "");
     return `<div class="card game_message_list_item${gameOwnerClass}${ownerClass}" ticketid="${doc.id}">
     <div style="display:flex;flex-direction:row">
         <div class="game_user_wrapper member_desc">
             <span style="background-image:url(${img})"></span>
         </div>
         <span style="flex:1">${name}</span>
+        <button class="rerun_ticket btn btn-secondary" data-ticketid="${doc.id}">Running...</button>
+        <span class="tokens_total"></span>
+        <span class="tokens_prompt"></span>
+        <span class="tokens_completion"></span>
         <div class="game_date">
             <div style="flex:1"></div>
-            <div>${timeSince}</div>
+            <div class="time_since last_submit_time" data-timesince="${data.submitted}" data-showseconds="1"></div>
             <div style="flex:1"></div>
         </div>
         ${deleteHTML}
