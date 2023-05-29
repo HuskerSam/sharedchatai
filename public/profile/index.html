@@ -63,18 +63,15 @@
     </nav>
     <div class="logged_in_status">&nbsp;</div>
     <br><br>
-    <div class="signed_out_options card">
+    <div class="signed_out_options card card_shadow_md">
       <h2>Login Options</h2>
-      <br>
-      <p>Experience seamless login with three methods: <br> email, Google authentication, or anonymous login. No password required!</p>
-      <h4>Passwordless Email Login</h3>
+      <p class="text-muted">Experience seamless login with three methods: email, Google authentication, or anonymous login. No password required!</p>
+      <h4 class="mt-1">Passwordless Email Login</h3>
         <div class="input-group mb-3">
-          <input type="text" name="email" class="form-control" placeholder="Email">
+          <input type="text" name="email" class="form-control mx-1" placeholder="Email">
           <button class="btn btn-success" id="login_email_anchor">Send Link</button>
         </div>
-        <br>
         <h5>or</h5>
-        <br>
         <button class="btn btn-primary" id="login_google">
           <img class="google_logo" src="/images/google_signin.png">
           Sign in with Google</button>

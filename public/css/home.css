@@ -24,15 +24,6 @@
   display: none;
 }
 
-.public_games_wrapper, .public_games_header {
-  display: none;
-}
-
-.show_public_games_view .public_games_wrapper,
-.show_public_games_view .public_games_header {
-  display: block;
-}
-
 .game_history_view, .history_header {
   display: none;
 }
@@ -63,10 +54,6 @@ button.delete_game {
 
 .feed_game_owner .delete_game {
   display: inline-block;
-}
-
-.public_game_view button.leave_game, .public_game_view button.delete_game {
-  display: none;
 }
 
 .feed_game_owner button.leave_game {
@@ -102,12 +89,6 @@ button.delete_game {
 
 .game_name .title {
   font-size: 36px;
-}
-
-.gamefeed_timesince {
-  line-height: 45px;
-  font-size: 20px;
-  text-align: center;
 }
 
 a.game_number_open {
@@ -201,12 +182,12 @@ span.next_label {
   border-color: transparent;
 }
 
-.game_user_wrapper {
+.user_img_wrapper {
   position: relative;
   top: 2px;
 }
 
-.next_player_wrapper.game_user_wrapper .member_online_status {
+.next_player_wrapper.user_img_wrapper .member_online_status {
   position: absolute;
   left: -22px;
   top: 6px;
@@ -225,11 +206,6 @@ span.next_label {
 button.game.sit_button {
   background: none;
 }
-
-.public_game_view .next_player_wrapper {
-  visibility: hidden;
-}
-
 
 .owner_wrapper {
   display: inline-block;
@@ -302,7 +278,7 @@ button.code_link {
   border-color: transparent;
 }
 
-.app_signed_out .menu_create_game, .app_signed_out .game_feed_toggle_button {
+.app_signed_out .menu_create_game {
   display: none;
 }
 
@@ -341,4 +317,8 @@ button.code_link {
 
 .profile_menu_anchor .name {
   text-decoration: underline;
+}
+
+.gamelist_item {
+  margin: 4px;
 }

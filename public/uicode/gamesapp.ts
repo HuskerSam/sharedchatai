@@ -6,21 +6,19 @@ declare const firebase: any;
 export class GamesApp extends BaseApp {
   create_new_game_btn: any = document.querySelector(".create_new_game_btn");
   game_history_view: any = document.querySelector(".game_history_view");
-  public_game_view: any = document.querySelector(".public_game_view");
   join_game_btn: any = document.querySelector(".join_game_btn");
   create_game_afterfeed_button: any = document.querySelector(".create_game_afterfeed_button");
   menu_create_game: any = document.querySelector(".menu_create_game");
-  game_feed_toggle_button: any = document.querySelector(".game_feed_toggle_button");
   new_game_type_wrappers: any = document.querySelectorAll(".new_game_type_wrapper");
   basic_options: any = document.querySelector(".basic_options");
   userprofile_description: any = document.querySelector(".userprofile_description");
-  recentExpanded: any = {};
   gameFeedSubscription: any;
   publicFeedSubscription: any;
   lastGamesFeedSnapshot: any;
   lastPublicFeedSnapshot: any;
   gameFeedInited = false;
   creatingNewRecord = false;
+  documentsLookup: any = {};
 
   /** */
   constructor() {
@@ -30,13 +28,14 @@ export class GamesApp extends BaseApp {
     this.join_game_btn.addEventListener("click", () => this.joinGame(null));
     this.menu_create_game.addEventListener("click", () => this.createNewGame());
     this.create_game_afterfeed_button.addEventListener("click", () => this.createNewGame());
-    this.game_feed_toggle_button.addEventListener("click", (e: any) => this.toggleFeedView(e));
+
 
 
     this.initRTDBPresence();
 
     // redraw feeds to update time since values
-    setInterval(() => this.updateGamesFeed(null), this.timeSinceRedraw);
+    setInterval(() => this.updateTimeSince(this.game_history_view), 30000);
+
 
     this.init();
   }
@@ -44,24 +43,6 @@ export class GamesApp extends BaseApp {
   async init() {
     const gameId: any = this.urlParams.get("game");
     if (gameId && await this._handlePassedInGameID(gameId)) return;
-  }
-  /** swaps between feeds of games where you're a member of and public games with open sees
-  * @param { any } e dom event (preventDefault called if passed)
-  * @return { boolean } true to stop anchor navigation
- */
-  toggleFeedView(e: any): boolean {
-    if (document.body.classList.contains("show_public_games_view")) {
-      document.body.classList.remove("show_public_games_view");
-      document.body.classList.add("show_profile_games");
-      this.game_feed_toggle_button.innerHTML = "Public";
-    } else {
-      document.body.classList.add("show_public_games_view");
-      document.body.classList.remove("show_profile_games");
-      this.game_feed_toggle_button.innerHTML = "History";
-    }
-
-    e.preventDefault();
-    return true;
   }
   /** handle gameid passed as query string and navigate to game
    * @param { string } gameId storage record id of game to load
@@ -109,12 +90,6 @@ export class GamesApp extends BaseApp {
       .orderBy(`members.${this.uid}`, "desc")
       .limit(20)
       .onSnapshot((snapshot: any) => this.updateGamesFeed(snapshot));
-
-    this.publicFeedSubscription = firebase.firestore().collection(`Games`)
-      .orderBy(`lastActivity`, "desc")
-      .where("publicStatus", "==", "publicOpen")
-      .limit(20)
-      .onSnapshot((snapshot: any) => this.updatePublicGamesFeed(snapshot));
   }
   /** paint games feed from firestore snapshot
    * @param { any } snapshot event driven feed data from firestore
@@ -124,27 +99,24 @@ export class GamesApp extends BaseApp {
     else if (this.lastGamesFeedSnapshot) snapshot = this.lastGamesFeedSnapshot;
     else return;
 
-    let html = "";
-    snapshot.forEach((doc: any) => html += this._renderGameFeedLine(doc));
-    this.game_history_view.innerHTML = html;
+    const oldKeys = Object.keys(this.documentsLookup);
+    this.documentsLookup = {};
+    snapshot.forEach((doc: any) => {
+      let card: any = this.game_history_view.querySelector(`div[gamenumber="${doc.id}"]`);
+      if (!card) {
+        card = this.getDocumentCardElement(doc);
+      }
+      this.game_history_view.appendChild(card);
+      this.documentsLookup[doc.id] = doc.data();
+    });
 
-    this.game_history_view.querySelectorAll("button.delete_game")
-      .forEach((btn: any) => btn.addEventListener("click", (e: any) => {
-        e.stopPropagation();
-        e.preventDefault();
-        this.deleteGame(btn, btn.dataset.gamenumber);
-      }));
-
-    this.game_history_view.querySelectorAll("button.leave_game")
-      .forEach((btn: any) => btn.addEventListener("click", (e: any) => {
-        e.stopPropagation();
-        e.preventDefault();
-        this.logoutGame(btn, btn.dataset.gamenumber);
-      }));
-
-    this.game_history_view.querySelectorAll(".code_link")
-      .forEach((btn: any) => btn.addEventListener("click", () => this.copyGameLink(btn)));
-
+    oldKeys.forEach((key: string) => {
+      if (!this.documentsLookup[key]) {
+        let card: any = this.game_history_view.querySelector(`div[gamenumber="${key}"]`);
+        if (card) card.remove();
+      }
+    })
+    this.updateTimeSince(this.game_history_view);
     this.refreshOnlinePresence();
   }
   /** compact html block to display user
@@ -171,18 +143,15 @@ export class GamesApp extends BaseApp {
    * @param { boolean } publicFeed true if this is public open games feed
    * @return { string } html for card
   */
-  _renderGameFeedLine(doc: any, publicFeed = false) {
+  getDocumentCardElement(doc: any, publicFeed = false) {
     const data = doc.data();
     let ownerClass = "";
-    const gnPrefix = publicFeed ? "public_" : "";
     if (data.createUser === this.uid) ownerClass += " feed_game_owner";
-    const modeClass = " gameitem_" + data.mode;
 
     const ownerHTML = this.__getUserTemplate(data.createUser, data.memberNames[data.createUser], data.memberImages[data.createUser], true);
 
     const title = "AI Chat";
     const img = `url(/images/logo_aichat.png)`;
-    const timeSince = this.timeSince(new Date(data.lastActivity));
     let timeStr = this.isoToLocal(data.created).toISOString().substr(11, 5);
     let hour = Number(timeStr.substr(0, 2));
     const suffix = hour < 12 ? "am" : "pm";
@@ -190,9 +159,8 @@ export class GamesApp extends BaseApp {
     hour = hour % 12;
     if (hour === 0) hour = 12;
     timeStr = hour.toString() + timeStr.substr(2) + " " + suffix;
-
-    return `<div class="gamelist_item${ownerClass} gametype_${data.gameType} ${modeClass}"
-          data-gamenumber="${gnPrefix}${doc.id}">
+    let html = `<div class="gamelist_item card card_shadow_sm gamelist_item${ownerClass} gametype_${data.gameType}"
+          data-gamenumber="${doc.id}" gamenumber="${doc.id}">
       <div class="gamefeed_item_header">
         <div style="background-image:${img}" class="game_type_image"></div>
         <div class="game_name">
@@ -212,42 +180,39 @@ export class GamesApp extends BaseApp {
          </button>
         </div>
       </div>
-      <div class="gamefeed_timesince"><span class="timesince">${timeSince}</span></div>
-      <div style="display:flex;flex-direction:row">
+      <div class="time_since last_submit_time" data-timesince="${data.lastActivity}" data-showseconds="0"></div>
+      <div>
         <button class="code_link game" data-url="/${data.gameType}/?game=${data.gameNumber}">
           <i class="material-icons">content_copy</i> <span>${data.gameNumber}</span></button>
-        <div style="flex:1"></div>
+        <div></div>
       </div>
         <span class="game_owner_label owner_wrapper">Game<br>Owner</span>
-        <div class="owner_wrapper game_user_wrapper">
+        <div class="owner_wrapper user_img_wrapper">
            ${ownerHTML}
         </div>
       <div style="clear:both"></div>
     </div>`;
-  }
-  /** paint games feed from firestore snapshot
-   * @param { any } snapshot event driven feed data from firestore
-  */
-  updatePublicGamesFeed(snapshot: any) {
-    if (snapshot) this.lastPublicFeedSnapshot = snapshot;
-    else if (this.lastPublicFeedSnapshot) snapshot = this.lastPublicFeedSnapshot;
-    else return;
 
-    let html = "";
-    snapshot.forEach((doc: any) => html += this._renderGameFeedLine(doc, true));
-    this.public_game_view.innerHTML = html;
+    const ctl = document.createElement("div");
+    ctl.innerHTML = html;
+    const card = ctl.children[0];
+    const del: any = card.querySelector("button.delete_game");
+    del.addEventListener("click", (e: any) => {
+      e.stopPropagation();
+      e.preventDefault();
+      this.deleteGame(del, del.dataset.gamenumber);
+    });
 
-    this.public_game_view.querySelectorAll("button.delete_game")
-      .forEach((btn: any) => btn.addEventListener("click", (e: any) => {
-        e.stopPropagation();
-        e.preventDefault();
-        this.deleteGame(btn, btn.dataset.gamenumber);
-      }));
+    const leave: any = card.querySelector("button.leave_game");
+    leave.addEventListener("click", (e: any) => {
+      e.stopPropagation();
+      e.preventDefault();
+      this.logoutGame(leave, leave.dataset.gamenumber);
+    });
 
-    this.public_game_view.querySelectorAll(".code_link")
-      .forEach((btn: any) => btn.addEventListener("click", () => this.copyGameLink(btn)));
-
-    this.refreshOnlinePresence();
+    const link: any = card.querySelector(".code_link");
+    link.addEventListener("click", () => this.copyGameLink(link));
+    return card;
   }
   /** copy game url link to clipboard
    * @param { any } btn dom control

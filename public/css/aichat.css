@@ -40,10 +40,11 @@ body {
   display: block;
 }
 
-.game_user_wrapper span:nth-child(1) {
+
+.user_img_wrapper span:nth-child(1) {
   display: inline-block;
-  width: 30px;
-  height: 30px;
+  width: 24px;
+  height: 24px;
   background-position: center center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -51,13 +52,14 @@ body {
   top: 6px;
 }
 
-.game_user_wrapper span:nth-child(2) {
+.user_img_wrapper span:nth-child(2) {
   white-space: nowrap;
-  font-size: 18px;
+  font-size: 24px;
   line-height: 24px;
+  top: 6px;
 }
 
-.game_user_wrapper {
+.user_img_wrapper {
   display: inline-block;
   white-space: nowrap;
 }
@@ -65,21 +67,20 @@ body {
 .member_list_time_since {
   float: right;
   clear: both;
-  line-height: 40px;
+  line-height: 30px;
   font-size: 18px;
-  opacity: .75;
+  opacity: .55;
   padding-right: 1em;
 }
 
 .member_online_status {
   border-radius: 100%;
-  width: 24px;
-  height: 24px;
+  width: 18px;
+  height: 18px;
   background: rgb(127, 127, 127);
-  border: solid 1px silver;
+  border: solid 1px rgb(47, 47, 47);
   display: inline-block;
   position: relative;
-  top: 4px;
 }
 
 .member_online_status.online {
@@ -94,8 +95,10 @@ body {
   display: initial;
 }
 
-.game_message_list_item {
-  margin-bottom: 4px;
+.game_message_list_item .user_assist_request_header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .game_message_list_item .member_desc {
@@ -105,9 +108,26 @@ body {
   padding-right: 5px;
 }
 
+.game_message_list_item .name {
+  font-weight: bold;
+  color: rgb(25,135,84);
+}
+
+.night_mode .game_message_list_item .name {
+  color: rgb(255, 193, 7);
+}
+
+
 .game_message_list_item .message {
   text-align: left;
-  font-size: 22px;
+  font-size: 20px;
+  padding: 0 12px;
+  font-weight: bold;
+  color: rgb(25,135,84);
+}
+
+.night_mode .game_message_list_item .message {
+  color: rgb(13,202,240);
 }
 
 .game_message_list_item .game_date {
@@ -212,4 +232,25 @@ body {
 
 .document_usage_stats_line span {
   flex: 1;
+}
+
+.left_panel_view {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: rgb(32, 33, 35);
+  color: rgb(217, 217, 227)
+}
+
+@media (min-width: 501px) {
+  .navbar{
+    position: fixed;
+    bottom: 0;
+    width: inherit;
+    transition: transform 0.3s ease-in-out
+  }
+  .navbar.snapped {
+    transform: translateY(100%);
+  }
+  
 }

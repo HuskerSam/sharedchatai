@@ -14,7 +14,7 @@ body {
 }
 
 .night_mode .impact-font {
-  color: rgb(40, 240, 240);
+  color: rgb(13,202,240);
 }
 
 a {
@@ -27,12 +27,12 @@ a {
 
 .night_mode input, .night_mode textarea {
   background: rgb(52, 53, 65);
-  color: white;
+  color: rgb(217, 217, 227)
 }
 
 .night_mode input:focus, .night_mode textarea:focus {
   background: rgb(32, 33, 35);
-  color: white;
+  color: rgb(217, 217, 227)
 }
 
 .app_panel {
@@ -70,7 +70,7 @@ a {
 }
 
 .night_mode .app_panel h1 .header_down_arrow {
-  color: rgb(220, 220, 220);
+  color: rgb(217, 217, 227)
 }
 
 .app_panel .collapsed h1 .header_down_arrow {
@@ -90,7 +90,7 @@ a {
 
 .night_mode .app_panel {
   background: rgb(68, 70, 84);
-  color: rgb(240, 240, 240);
+  color: rgb(217, 217, 227)
 }
 
 .basic_page_wrapper {
@@ -109,4 +109,12 @@ a {
 
 .card {
   background-color: rgba(127,127,127,.15);
+}
+
+.card_shadow_md {
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)
+}
+
+.card_shadow_sm {
+  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)
 }
