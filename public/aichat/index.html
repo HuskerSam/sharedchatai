@@ -30,7 +30,6 @@
 
   <link rel="stylesheet" href="/css/base.css" />
   <link rel="stylesheet" href="/css/aichat.css" />
-
   <script>
     window.addEventListener('load', async (event) => {
       let module = await import('/models/aichatapp.js');
@@ -94,6 +93,7 @@
               placeholder="AI Questions">
             <label>Ask Questions</label>
           </div>
+          <div class="prompt_token_count"></div>
           <button class="send_ticket_button btn btn-primary" style="margin:8px;">
             Submit AI Ticket
           </button>

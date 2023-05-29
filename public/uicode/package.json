@@ -18,5 +18,8 @@
     "eslint-plugin-import": "^2.25.4",
     "typescript": "^4.9.0"
   },
-  "private": true
+  "private": true,
+  "dependencies": {
+    "gpt-tokenizer": "^2.0.0"
+  }
 }

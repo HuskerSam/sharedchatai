@@ -1,5 +1,7 @@
 import BaseApp from "./baseapp.js";
 import Split from "./split.js";
+// const { encode } = window.GPTTokenizer;
+
 declare const firebase: any;
 declare const window: any;
 
@@ -25,6 +27,7 @@ export class AIChatApp extends BaseApp {
 
   send_ticket_button: any = document.querySelector(".send_ticket_button");
   ticket_content_input: any = document.querySelector(".ticket_content_input");
+  prompt_token_count: any = document.querySelector(".prompt_token_count");
   code_link_href: any = document.querySelector(".code_link_href");
   code_link_copy: any = document.querySelector(".code_link_copy");
   gameid_span: any = document.querySelector(".gameid_span");
@@ -62,6 +65,7 @@ export class AIChatApp extends BaseApp {
     setInterval(() => this.updateTimeSince(this.tickets_list), this.timeSinceRedraw);
 
     document.addEventListener("visibilitychange", () => this.refreshOnlinePresence());
+    this.ticket_content_input.addEventListener("input", () => this.updatePromptTokenStatus());
 
     this.save_options_buttons.forEach((btn: any) => {
       btn.addEventListener("click", () => this.scrapeDocumentOptions(btn));
@@ -506,5 +510,10 @@ export class AIChatApp extends BaseApp {
       });
       this.splitHorizontalCache = horizontal;
     }
+  }
+  /** count input token */
+  updatePromptTokenStatus() {
+ // const tokens = encode(this.ticket_content_input.value);
+ // this.prompt_token_count.innerHTML = tokens.length;
   }
 }
