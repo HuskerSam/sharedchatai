@@ -182,12 +182,12 @@ span.next_label {
   border-color: transparent;
 }
 
-.game_user_wrapper {
+.user_img_wrapper {
   position: relative;
   top: 2px;
 }
 
-.next_player_wrapper.game_user_wrapper .member_online_status {
+.next_player_wrapper.user_img_wrapper .member_online_status {
   position: absolute;
   left: -22px;
   top: 6px;
@@ -317,4 +317,8 @@ button.code_link {
 
 .profile_menu_anchor .name {
   text-decoration: underline;
+}
+
+.gamelist_item {
+  margin: 4px;
 }

@@ -239,12 +239,12 @@ export class AIChatApp extends BaseApp {
             <i class="material-icons">delete</i>
             </button>`;
 
-    return `<div class="card game_message_list_item${gameOwnerClass}${ownerClass}" ticketid="${doc.id}">
-    <div style="display:flex;flex-direction:row">
-        <div class="game_user_wrapper member_desc">
+    return `<div class="mt-1 m-1 mx-md-2 mx-sm-1 card game_message_list_item${gameOwnerClass}${ownerClass}" ticketid="${doc.id}">
+    <div class="m-1 user_assist_request_header">
+        <div class="user_img_wrapper member_desc">
             <span style="background-image:url(${img})"></span>
         </div>
-        <span style="flex:1">${name}</span>
+        <span class="name" style="flex:1">${name}</span>
         <button class="rerun_ticket btn btn-secondary" data-ticketid="${doc.id}">Running...</button>
         <span class="tokens_total"></span>
         <span class="tokens_prompt"></span>
@@ -361,7 +361,7 @@ export class AIChatApp extends BaseApp {
         const timeSince = this.timeSince(new Date(members[member]));
         html += `<div class="member_list_item">
           <div class="member_online_status" data-uid="${member}"></div>
-          <div class="game_user_wrapper">
+          <div class="user_img_wrapper">
             <span style="background-image:url(${data.img})"></span>
             <span>${data.name}</span>
           </div>

@@ -104,32 +104,13 @@ export class GamesApp extends BaseApp {
     snapshot.forEach((doc: any) => {
       let card: any = this.game_history_view.querySelector(`div[gamenumber="${doc.id}"]`);
       if (!card) {
-        const html = this._renderGameFeedLine(doc);
-        const ctl = document.createElement("div");
-        ctl.innerHTML = html;
-        card = ctl.children[0];
-        card.querySelectorAll("button.delete_game")
-          .forEach((btn: any) => btn.addEventListener("click", (e: any) => {
-            e.stopPropagation();
-            e.preventDefault();
-            this.deleteGame(btn, btn.dataset.gamenumber);
-          }));
-
-        card.querySelectorAll("button.leave_game")
-          .forEach((btn: any) => btn.addEventListener("click", (e: any) => {
-            e.stopPropagation();
-            e.preventDefault();
-            this.logoutGame(btn, btn.dataset.gamenumber);
-          }));
-
-        card.querySelectorAll(".code_link")
-          .forEach((btn: any) => btn.addEventListener("click", () => this.copyGameLink(btn)));
+        card = this.getDocumentCardElement(doc);
       }
       this.game_history_view.appendChild(card);
       this.documentsLookup[doc.id] = doc.data();
     });
 
-    oldKeys.forEach((key:string) => {
+    oldKeys.forEach((key: string) => {
       if (!this.documentsLookup[key]) {
         let card: any = this.game_history_view.querySelector(`div[gamenumber="${key}"]`);
         if (card) card.remove();
@@ -162,11 +143,10 @@ export class GamesApp extends BaseApp {
    * @param { boolean } publicFeed true if this is public open games feed
    * @return { string } html for card
   */
-  _renderGameFeedLine(doc: any, publicFeed = false) {
+  getDocumentCardElement(doc: any, publicFeed = false) {
     const data = doc.data();
     let ownerClass = "";
     if (data.createUser === this.uid) ownerClass += " feed_game_owner";
-    const modeClass = " gameitem_" + data.mode;
 
     const ownerHTML = this.__getUserTemplate(data.createUser, data.memberNames[data.createUser], data.memberImages[data.createUser], true);
 
@@ -179,8 +159,7 @@ export class GamesApp extends BaseApp {
     hour = hour % 12;
     if (hour === 0) hour = 12;
     timeStr = hour.toString() + timeStr.substr(2) + " " + suffix;
-
-    return `<div class="gamelist_item${ownerClass} gametype_${data.gameType} ${modeClass}"
+    let html = `<div class="gamelist_item card card_shadow_sm gamelist_item${ownerClass} gametype_${data.gameType}"
           data-gamenumber="${doc.id}" gamenumber="${doc.id}">
       <div class="gamefeed_item_header">
         <div style="background-image:${img}" class="game_type_image"></div>
@@ -202,17 +181,38 @@ export class GamesApp extends BaseApp {
         </div>
       </div>
       <div class="time_since last_submit_time" data-timesince="${data.lastActivity}" data-showseconds="0"></div>
-      <div style="display:flex;flex-direction:row">
+      <div>
         <button class="code_link game" data-url="/${data.gameType}/?game=${data.gameNumber}">
           <i class="material-icons">content_copy</i> <span>${data.gameNumber}</span></button>
-        <div style="flex:1"></div>
+        <div></div>
       </div>
         <span class="game_owner_label owner_wrapper">Game<br>Owner</span>
-        <div class="owner_wrapper game_user_wrapper">
+        <div class="owner_wrapper user_img_wrapper">
            ${ownerHTML}
         </div>
       <div style="clear:both"></div>
     </div>`;
+
+    const ctl = document.createElement("div");
+    ctl.innerHTML = html;
+    const card = ctl.children[0];
+    const del: any = card.querySelector("button.delete_game");
+    del.addEventListener("click", (e: any) => {
+      e.stopPropagation();
+      e.preventDefault();
+      this.deleteGame(del, del.dataset.gamenumber);
+    });
+
+    const leave: any = card.querySelector("button.leave_game");
+    leave.addEventListener("click", (e: any) => {
+      e.stopPropagation();
+      e.preventDefault();
+      this.logoutGame(leave, leave.dataset.gamenumber);
+    });
+
+    const link: any = card.querySelector(".code_link");
+    link.addEventListener("click", () => this.copyGameLink(link));
+    return card;
   }
   /** copy game url link to clipboard
    * @param { any } btn dom control
