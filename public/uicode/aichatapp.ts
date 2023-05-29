@@ -239,7 +239,6 @@ export class AIChatApp extends BaseApp {
             <i class="material-icons">delete</i>
             </button>`;
 
-    // const timeSince = this.timeSince(new Date(data.submitted)).replaceAll(" ago", "");
     return `<div class="card game_message_list_item${gameOwnerClass}${ownerClass}" ticketid="${doc.id}">
     <div style="display:flex;flex-direction:row">
         <div class="game_user_wrapper member_desc">

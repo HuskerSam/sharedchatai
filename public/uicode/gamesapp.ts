@@ -12,13 +12,13 @@ export class GamesApp extends BaseApp {
   new_game_type_wrappers: any = document.querySelectorAll(".new_game_type_wrapper");
   basic_options: any = document.querySelector(".basic_options");
   userprofile_description: any = document.querySelector(".userprofile_description");
-  recentExpanded: any = {};
   gameFeedSubscription: any;
   publicFeedSubscription: any;
   lastGamesFeedSnapshot: any;
   lastPublicFeedSnapshot: any;
   gameFeedInited = false;
   creatingNewRecord = false;
+  documentsLookup: any = {};
 
   /** */
   constructor() {
@@ -28,13 +28,14 @@ export class GamesApp extends BaseApp {
     this.join_game_btn.addEventListener("click", () => this.joinGame(null));
     this.menu_create_game.addEventListener("click", () => this.createNewGame());
     this.create_game_afterfeed_button.addEventListener("click", () => this.createNewGame());
- 
+
 
 
     this.initRTDBPresence();
 
     // redraw feeds to update time since values
-    setInterval(() => this.updateGamesFeed(null), this.timeSinceRedraw);
+    setInterval(() => this.updateTimeSince(this.game_history_view), 30000);
+
 
     this.init();
   }
@@ -98,27 +99,43 @@ export class GamesApp extends BaseApp {
     else if (this.lastGamesFeedSnapshot) snapshot = this.lastGamesFeedSnapshot;
     else return;
 
-    let html = "";
-    snapshot.forEach((doc: any) => html += this._renderGameFeedLine(doc));
-    this.game_history_view.innerHTML = html;
+    const oldKeys = Object.keys(this.documentsLookup);
+    this.documentsLookup = {};
+    snapshot.forEach((doc: any) => {
+      let card: any = this.game_history_view.querySelector(`div[gamenumber="${doc.id}"]`);
+      if (!card) {
+        const html = this._renderGameFeedLine(doc);
+        const ctl = document.createElement("div");
+        ctl.innerHTML = html;
+        card = ctl.children[0];
+        card.querySelectorAll("button.delete_game")
+          .forEach((btn: any) => btn.addEventListener("click", (e: any) => {
+            e.stopPropagation();
+            e.preventDefault();
+            this.deleteGame(btn, btn.dataset.gamenumber);
+          }));
 
-    this.game_history_view.querySelectorAll("button.delete_game")
-      .forEach((btn: any) => btn.addEventListener("click", (e: any) => {
-        e.stopPropagation();
-        e.preventDefault();
-        this.deleteGame(btn, btn.dataset.gamenumber);
-      }));
+        card.querySelectorAll("button.leave_game")
+          .forEach((btn: any) => btn.addEventListener("click", (e: any) => {
+            e.stopPropagation();
+            e.preventDefault();
+            this.logoutGame(btn, btn.dataset.gamenumber);
+          }));
 
-    this.game_history_view.querySelectorAll("button.leave_game")
-      .forEach((btn: any) => btn.addEventListener("click", (e: any) => {
-        e.stopPropagation();
-        e.preventDefault();
-        this.logoutGame(btn, btn.dataset.gamenumber);
-      }));
+        card.querySelectorAll(".code_link")
+          .forEach((btn: any) => btn.addEventListener("click", () => this.copyGameLink(btn)));
+      }
+      this.game_history_view.appendChild(card);
+      this.documentsLookup[doc.id] = doc.data();
+    });
 
-    this.game_history_view.querySelectorAll(".code_link")
-      .forEach((btn: any) => btn.addEventListener("click", () => this.copyGameLink(btn)));
-
+    oldKeys.forEach((key:string) => {
+      if (!this.documentsLookup[key]) {
+        let card: any = this.game_history_view.querySelector(`div[gamenumber="${key}"]`);
+        if (card) card.remove();
+      }
+    })
+    this.updateTimeSince(this.game_history_view);
     this.refreshOnlinePresence();
   }
   /** compact html block to display user
@@ -148,7 +165,6 @@ export class GamesApp extends BaseApp {
   _renderGameFeedLine(doc: any, publicFeed = false) {
     const data = doc.data();
     let ownerClass = "";
-    const gnPrefix = publicFeed ? "public_" : "";
     if (data.createUser === this.uid) ownerClass += " feed_game_owner";
     const modeClass = " gameitem_" + data.mode;
 
@@ -156,7 +172,6 @@ export class GamesApp extends BaseApp {
 
     const title = "AI Chat";
     const img = `url(/images/logo_aichat.png)`;
-    const timeSince = this.timeSince(new Date(data.lastActivity));
     let timeStr = this.isoToLocal(data.created).toISOString().substr(11, 5);
     let hour = Number(timeStr.substr(0, 2));
     const suffix = hour < 12 ? "am" : "pm";
@@ -166,7 +181,7 @@ export class GamesApp extends BaseApp {
     timeStr = hour.toString() + timeStr.substr(2) + " " + suffix;
 
     return `<div class="gamelist_item${ownerClass} gametype_${data.gameType} ${modeClass}"
-          data-gamenumber="${gnPrefix}${doc.id}">
+          data-gamenumber="${doc.id}" gamenumber="${doc.id}">
       <div class="gamefeed_item_header">
         <div style="background-image:${img}" class="game_type_image"></div>
         <div class="game_name">
@@ -186,7 +201,7 @@ export class GamesApp extends BaseApp {
          </button>
         </div>
       </div>
-      <div class="gamefeed_timesince"><span class="timesince">${timeSince}</span></div>
+      <div class="time_since last_submit_time" data-timesince="${data.lastActivity}" data-showseconds="0"></div>
       <div style="display:flex;flex-direction:row">
         <button class="code_link game" data-url="/${data.gameType}/?game=${data.gameNumber}">
           <i class="material-icons">content_copy</i> <span>${data.gameNumber}</span></button>
