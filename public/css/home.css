@@ -24,15 +24,6 @@
   display: none;
 }
 
-.public_games_wrapper, .public_games_header {
-  display: none;
-}
-
-.show_public_games_view .public_games_wrapper,
-.show_public_games_view .public_games_header {
-  display: block;
-}
-
 .game_history_view, .history_header {
   display: none;
 }
@@ -63,10 +54,6 @@ button.delete_game {
 
 .feed_game_owner .delete_game {
   display: inline-block;
-}
-
-.public_game_view button.leave_game, .public_game_view button.delete_game {
-  display: none;
 }
 
 .feed_game_owner button.leave_game {
@@ -226,11 +213,6 @@ button.game.sit_button {
   background: none;
 }
 
-.public_game_view .next_player_wrapper {
-  visibility: hidden;
-}
-
-
 .owner_wrapper {
   display: inline-block;
   padding-bottom: 10px;
@@ -302,7 +284,7 @@ button.code_link {
   border-color: transparent;
 }
 
-.app_signed_out .menu_create_game, .app_signed_out .game_feed_toggle_button {
+.app_signed_out .menu_create_game {
   display: none;
 }
 
