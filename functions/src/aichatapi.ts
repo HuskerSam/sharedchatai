@@ -129,7 +129,7 @@ export default class ChatAI {
             const value = BaseClass.getNumberOrDefault(numberTerm, 0);
             const term = parts[0].trim();
             if (term.length > 0) {
-                const tokens = encode(term);
+                const tokens = encode(" " + term);
 
                 for (const token of tokens) {
                     console.log({
