@@ -39,7 +39,7 @@ export class AIChatApp extends BaseApp {
   docfield_frequency_penalty: any = document.querySelector(".docfield_frequency_penalty");
   docfield_logit_bias: any = document.querySelector(".docfield_logit_bias");
   docfield_stops: any = document.querySelector(".docfield_stops");
-  save_profile_buttons: any = document.querySelectorAll(".save_profile_button");
+  save_options_buttons: any = document.querySelectorAll(".save_options_button");
   document_usage_stats_line: any = document.querySelector(".document_usage_stats_line");
   last_activity_display: any = document.querySelector(".last_activity_display");
   docfield_archived_checkbox: any = document.querySelector(".docfield_archived_checkbox");
@@ -63,7 +63,7 @@ export class AIChatApp extends BaseApp {
 
     document.addEventListener("visibilitychange", () => this.refreshOnlinePresence());
 
-    this.save_profile_buttons.forEach((btn: any) => {
+    this.save_options_buttons.forEach((btn: any) => {
       btn.addEventListener("click", () => this.scrapeDocumentOptions(btn));
     });
   }

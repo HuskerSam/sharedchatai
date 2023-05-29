@@ -267,3 +267,11 @@ body {
 .last_activity_display {
   text-align: center;
 }
+
+.save_options_button {
+  display: none;
+}
+
+.game_owner .save_options_button {
+  display: inline-block;
+}
