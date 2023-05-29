@@ -4,7 +4,7 @@ declare const window: any;
 
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
 class BaseApp {
-  baseRedrawFeedTimer = 90000;
+  timeSinceRedraw = 300;
   feedLimit = 10;
   deferredPWAInstallPrompt: any = null;
   projectId = firebase.app().options.projectId;
@@ -222,7 +222,7 @@ class BaseApp {
    * @param { Date } date value to format
    * @return { string } formatted string value for time since
    */
-  timeSince(date: Date): string {
+  timeSince(date: Date, showSeconds = false): string {
     const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
 
     let interval = seconds / 31536000;
@@ -240,7 +240,8 @@ class BaseApp {
     interval = seconds / 60;
     if (interval > 1) return Math.floor(interval) + ` min${Math.floor(interval) === 1 ? "" : "s"} ago`;
 
-    //  return Math.floor(seconds) + " seconds ago";
+    if (showSeconds) return Math.floor(seconds) + " seconds ago";
+
     return " just now";
   }
   /** convert isodate to local date as Date Object
@@ -348,6 +349,15 @@ class BaseApp {
       console.log("join", json);
     }
     return;
+  }
+  /**  */
+  updateTimeSince(container: any) {
+    const elements = container.querySelectorAll(".time_since");
+    elements.forEach((ctl: any) => {
+      const isoTime = ctl.dataset.timesince;
+      const showSeconds = ctl.dataset.showseconds;
+      ctl.innerHTML = this.timeSince(new Date(isoTime), (showSeconds === "1")).replaceAll(" ago", "");
+    });
   }
 }
 

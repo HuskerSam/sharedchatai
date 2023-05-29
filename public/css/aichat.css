@@ -194,3 +194,13 @@ body {
 .form-floating textarea.docfield_logit_bias {
   height: 200px;
 }
+
+.tokens_total,
+.tokens_prompt,
+.tokens_completion {
+  padding: 10px;
+}
+
+.rerun_ticket {
+  margin: 4px;
+}

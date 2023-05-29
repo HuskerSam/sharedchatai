@@ -34,7 +34,7 @@ export class GamesApp extends BaseApp {
     this.initRTDBPresence();
 
     // redraw feeds to update time since values
-    setInterval(() => this.updateGamesFeed(null), this.baseRedrawFeedTimer);
+    setInterval(() => this.updateGamesFeed(null), this.timeSinceRedraw);
 
     this.init();
   }
