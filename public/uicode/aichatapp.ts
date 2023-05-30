@@ -444,7 +444,7 @@ export class AIChatApp extends BaseApp {
       console.log("message post", json);
       alert(json.errorMessage);
     }
-
+    this.tickets_list.scrollTop = this.tickets_list.scrollHeight;
     setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 100);
   }
   /** process exisiting tickets and return list of ids to submit
@@ -761,7 +761,7 @@ export class AIChatApp extends BaseApp {
           selected: ticket.data().includeInMessage ? "y" : "n",
         });
       });
-      const jsonText =JSON.stringify(rows, null, "  ");
+      const jsonText = JSON.stringify(rows, null, "  ");
       resultText = jsonText;
     } else if (formatFilter === "csv") {
       format = "application/csv";
@@ -802,10 +802,10 @@ export class AIChatApp extends BaseApp {
       resultText += `}\n`;
       resultText += `\n`;
       resultText += `</style>\n`;
-      tickets.forEach((ticket: any) => {    
-        const  prompt = <string>ticket.data().message;
-        const  completion = <string>this.messageForCompletion(ticket.id);
-        const  selected = <string>ticket.data().includeInMessage ? "✅" : "&nbsp;";
+      tickets.forEach((ticket: any) => {
+        const prompt = <string>ticket.data().message;
+        const completion = <string>this.messageForCompletion(ticket.id);
+        const selected = <string>ticket.data().includeInMessage ? "✅" : "&nbsp;";
 
         resultText += `<div class="ticket-item">\n`;
         resultText += `    <div class="prompt-text">${selected} ${prompt}</div>\n`
@@ -833,12 +833,12 @@ export class AIChatApp extends BaseApp {
 
       const link = document.createElement('a');
       const url = URL.createObjectURL(file);
-    
+
       link.href = url;
       link.download = file.name;
       document.body.appendChild(link);
       link.click();
-    
+
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
     }
@@ -859,17 +859,63 @@ export class AIChatApp extends BaseApp {
 
     try {
       let records: Array<any> = [];
-       if (formatFilter === "json") {
+      if (formatFilter === "json") {
         records = JSON.parse(fileContent);
-       } else {
-        records = window.Papa.parse(fileContent);
-       }
+      } else {
+        const result = window.Papa.parse(fileContent, {
+          header: true,
+        });
+        console.log("Papa result", result);
+        records = result.data;
+      }
 
-       console.log(records);
+      for (let c = 0, l = records.length; c < l; c++) {
+        const ticket: any = records[c];
+        const error = await this.sendImportTicketToAPI({
+          prompt: ticket.prompt,
+          completion: ticket.completion,
+        });
+        if (error) break;
+      }
+      records.forEach((ticket: any) => {
+      });
     } catch (error: any) {
       alert("Import failed");
       console.log(error);
       return;
     }
+  }
+  /** import ticket to api
+   * @param { any } importData ticket data
+   * @return { Promise<boolean> } returns true if error
+  */
+  async sendImportTicketToAPI(importData: any): Promise<boolean> {
+    const body = {
+      gameNumber: this.currentGame,
+      prompt: importData.prompt,
+      completion: importData.completion,
+    };
+    console.log(body);
+    const token = await firebase.auth().currentUser.getIdToken();
+    const fResult = await fetch(this.basePath + "lobbyApi/aichat/message/import", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      headers: {
+        "Content-Type": "application/json",
+        token,
+      },
+      body: JSON.stringify(body),
+    });
+    const json = await fResult.json();
+    let error = false;
+    if (!json.success) {
+      error = true;
+      console.log("message post", json);
+      alert(json.errorMessage);
+    }
+    this.tickets_list.scrollTop = this.tickets_list.scrollHeight;
+    setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 100);
+    return error;
   }
 }

@@ -35,3 +35,4 @@ gameAPIApp.post("/games/owner/options", async (req, res) => GameAPI.ownerOptions
 gameAPIApp.post("/aichat/message", async (req, res) => ChatAI.submitTicket(req, res));
 gameAPIApp.post("/aichat/message/delete", async (req, res) => ChatAI.deleteTicket(req, res));
 gameAPIApp.post("/aichat/message/include", async (req, res) => ChatAI.updateTicketIncludeStatus(req, res));
+gameAPIApp.post("/aichat/message/import", async (req, res) => ChatAI.importTicket(req, res));
