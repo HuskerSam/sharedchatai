@@ -246,22 +246,14 @@ body {
   text-align: center;
 }
 
-.save_options_button {
-  display: none;
-}
-
-.game_owner .save_options_button {
-  display: inline-block;
-}
-
 .token_visualizer_preview .token_even {
-  background: rgba(0, 0, 127);  
+  background: rgba(0, 0, 127);
   color: white;
 }
 
 .token_visualizer_preview .token_odd {
-  background: rgba(127, 0, 0); 
-  color: white; 
+  background: rgba(127, 0, 0);
+  color: white;
 }
 
 .ticket_item_include_wrapper input {
@@ -287,4 +279,12 @@ body {
 .accordion-collapse.show {
   flex: 1;
   overflow: auto;
+}
+
+.save_owner_options_button {
+  visibility: hidden;
+}
+
+.game_owner .save_owner_options_button {
+  visibility: visible;
 }

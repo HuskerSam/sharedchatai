@@ -166,11 +166,11 @@ export default class GameAPI {
       success,
     });
   }
-  /** http endpoint for game options update
+  /** http endpoint for game owner options update
    * @param { any } req http request object
    * @param { any } res http response object
    */
-  static async options(req: any, res: any) {
+  static async ownerOptions(req: any, res: any) {
     const authResults = await BaseClass.validateCredentials(req.headers.token);
     if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
 
@@ -193,30 +193,10 @@ export default class GameAPI {
     }
 
     if (uid !== gameData.createUser) {
-      return BaseClass.respondError(res, "User must be owner to set options");
+      return BaseClass.respondError(res, "Must be owner to set owner options");
     }
-    const fieldsFilter = [
-      "model",
-      "max_tokens",
-      "temperature",
-      "top_p",
-      "n",
-      "presence_penalty",
-      "frequency_penalty",
-      "logit_bias",
-      "stop",
-    ];
+
     const updatePacket: any = {};
-    fieldsFilter.forEach((field: string) => {
-      if (req.body[field]) {
-        const value = req.body[field];
-        if (gameData[field] !== value) {
-          updatePacket[field] = value;
-          gameData[field] = value;
-        }
-      }
-    });
-    console.log(req.body);
     if (req.body.archived) {
       const archived = (req.body.archived === "1");
       updatePacket.archived = archived;
@@ -228,6 +208,65 @@ export default class GameAPI {
       updatePacket.tokenUsageLimit = tokenUsageLimit;
       gameData.tokenUsageLimit = tokenUsageLimit;
     }
+
+    updatePacket.publicStatus = GameAPI._publicStatus(gameData);
+
+    await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).set(updatePacket, {
+      merge: true,
+    });
+
+    return res.status(200).send({
+      success: true,
+    });
+  }
+  /** http endpoint for game options update
+ * @param { any } req http request object
+ * @param { any } res http response object
+ */
+  static async options(req: any, res: any) {
+    const authResults = await BaseClass.validateCredentials(req.headers.token);
+    if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
+
+    const uid = authResults.uid;
+    const gameNumber = req.body.gameNumber;
+
+    const localInstance = BaseClass.newLocalInstance();
+    await localInstance.init();
+
+    const gameQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).get();
+    const gameData = gameQuery.data();
+    if (!gameData) {
+      return BaseClass.respondError(res, "Game not found");
+    }
+
+    const userQ = await firebaseAdmin.firestore().doc(`Users/${uid}`).get();
+    const profile = userQ.data();
+    if (!profile) {
+      return BaseClass.respondError(res, "User not found");
+    }
+
+    const fieldsFilter = [
+      "model",
+      "max_tokens",
+      "temperature",
+      "top_p",
+      "n",
+      "presence_penalty",
+      "frequency_penalty",
+      "logit_bias",
+      "stop",
+      "title",
+    ];
+    const updatePacket: any = {};
+    fieldsFilter.forEach((field: string) => {
+      if (req.body[field]) {
+        const value = req.body[field];
+        if (gameData[field] !== value) {
+          updatePacket[field] = value;
+          gameData[field] = value;
+        }
+      }
+    });
 
     updatePacket.publicStatus = GameAPI._publicStatus(gameData);
 

@@ -30,6 +30,7 @@ gameAPIApp.post("/games/delete", async (req, res) => GameAPI.delete(req, res));
 gameAPIApp.post("/games/join", async (req, res) => GameAPI.join(req, res));
 gameAPIApp.post("/games/leave", async (req, res) => GameAPI.leave(req, res));
 gameAPIApp.post("/games/options", async (req, res) => GameAPI.options(req, res));
+gameAPIApp.post("/games/owner/options", async (req, res) => GameAPI.ownerOptions(req, res));
 
 gameAPIApp.post("/aichat/message", async (req, res) => ChatAI.submitTicket(req, res));
 gameAPIApp.post("/aichat/message/delete", async (req, res) => ChatAI.deleteTicket(req, res));

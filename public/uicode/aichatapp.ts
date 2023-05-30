@@ -38,6 +38,7 @@ export class AIChatApp extends BaseApp {
   main_view_splitter: any = document.querySelector(".main_view_splitter");
   splitInstance: any = null;
 
+  docfield_title: any = document.querySelector(".docfield_title");
   docfield_model: any = document.querySelector(".docfield_model");
   docfield_max_tokens: any = document.querySelector(".docfield_max_tokens");
   docfield_temperature: any = document.querySelector(".docfield_temperature");
@@ -46,7 +47,8 @@ export class AIChatApp extends BaseApp {
   docfield_frequency_penalty: any = document.querySelector(".docfield_frequency_penalty");
   docfield_logit_bias: any = document.querySelector(".docfield_logit_bias");
   docfield_stops: any = document.querySelector(".docfield_stops");
-  save_options_buttons: any = document.querySelectorAll(".save_options_button");
+  save_options_button: any = document.querySelector(".save_options_button");
+  save_owner_options_button: any = document.querySelector(".save_owner_options_button");
   document_usage_stats_line: any = document.querySelector(".document_usage_stats_line");
   last_activity_display: any = document.querySelector(".last_activity_display");
   docfield_archived_checkbox: any = document.querySelector(".docfield_archived_checkbox");
@@ -69,9 +71,8 @@ export class AIChatApp extends BaseApp {
     document.addEventListener("visibilitychange", () => this.refreshOnlinePresence());
     this.ticket_content_input.addEventListener("input", () => this.updatePromptTokenStatus());
 
-    this.save_options_buttons.forEach((btn: any) => {
-      btn.addEventListener("click", () => this.scrapeDocumentOptions(btn));
-    });
+    this.save_options_button.addEventListener("click", () => this.scrapeDocumentOptions());
+    this.save_owner_options_button.addEventListener("click", () => this.scrapeOwnerOptions());
   }
   /** setup data listender for user messages */
   async initTicketFeed() {
@@ -285,7 +286,7 @@ export class AIChatApp extends BaseApp {
             <i class="material-icons">delete</i>
             </button>`;
     cardWrapper.innerHTML =
-    `<div class="mt-1 m-1 mx-md-2 mx-sm-1 card game_message_list_item${gameOwnerClass}${ownerClass}" ticketid="${doc.id}"
+      `<div class="mt-1 m-1 mx-md-2 mx-sm-1 card game_message_list_item${gameOwnerClass}${ownerClass}" ticketid="${doc.id}"
     gamenumber="${doc.id}">
     <div style="display:flex;flex-direction:row">
         <div class="ticket_item_include_wrapper">
@@ -403,7 +404,7 @@ export class AIChatApp extends BaseApp {
       console.log("message post", json);
       alert(json.errorMessage);
     }
-    
+
     setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 100);
   }
   /** process exisiting tickets and return list of ids to submit
@@ -426,7 +427,7 @@ export class AIChatApp extends BaseApp {
           this.includeMessageTokens += promptTokens.length;
           this.includeAssistTokens += tokenCountCompletion;
           this.includeTotalTokens += tokenCountCompletion + promptTokens.length;
-        tickets.push(doc.id);
+          tickets.push(doc.id);
         }
       }
     });
@@ -440,8 +441,8 @@ export class AIChatApp extends BaseApp {
     try {
       const assistData: any = this.assistsLookup[assistId];
       if (!assistData || !assistData.assist || !assistData.assist.choices ||
-         !assistData.assist.choices["0"] || !assistData.assist.choices["0"].message ||
-         !assistData.assist.choices["0"].message.content) return 0;
+        !assistData.assist.choices["0"] || !assistData.assist.choices["0"].message ||
+        !assistData.assist.choices["0"].message.content) return 0;
 
       return window.gpt3tokenizer.encode(assistData.assist.choices["0"].message.content).length;
     } catch (assistError: any) {
@@ -514,10 +515,40 @@ export class AIChatApp extends BaseApp {
     this.members_list.innerHTML = html;
   }
   /** scrape options from UI and call api
-   * @param { any } btn so the label can be changed while busy
-  */
-  async scrapeDocumentOptions(btn: any) {
+*/
+  async scrapeOwnerOptions() {
     /* eslint-disable camelcase */
+    const archived = this.docfield_archived_checkbox.checked ? "1" : "0";
+    const tokenUsageLimit = this.docfield_usage_limit.value;
+
+    const body: any = {
+      gameNumber: this.currentGame,
+      archived,
+      tokenUsageLimit,
+    };
+    this.save_owner_options_button.innerHTML = "Saving...";
+    const token = await firebase.auth().currentUser.getIdToken();
+    const fResult = await fetch(this.basePath + "lobbyApi/games/owner/options", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      headers: {
+        "Content-Type": "application/json",
+        token,
+      },
+      body: JSON.stringify(body),
+    });
+    const json = await fResult.json();
+    if (!json.success) {
+      alert("Unable to save options " + json.errorMessage);
+    }
+    this.save_owner_options_button.innerHTML = "Save Owner Options";
+  }
+  /** scrape options from UI and call api
+  */
+  async scrapeDocumentOptions() {
+    /* eslint-disable camelcase */
+    const title = this.docfield_title.value;
     const model = this.docfield_model.value;
     const max_tokens = this.docfield_max_tokens.value;
     const temperature = this.docfield_temperature.value;
@@ -526,11 +557,10 @@ export class AIChatApp extends BaseApp {
     const frequency_penalty = this.docfield_frequency_penalty.value;
     const logit_bias = this.docfield_logit_bias.value;
     const stop = this.docfield_stops.value;
-    const archived = this.docfield_archived_checkbox.checked ? "1" : "0";
-    const tokenUsageLimit = this.docfield_usage_limit.value;
 
     const body: any = {
       gameNumber: this.currentGame,
+      title,
       model,
       max_tokens,
       temperature,
@@ -539,11 +569,8 @@ export class AIChatApp extends BaseApp {
       frequency_penalty,
       logit_bias,
       stop,
-      archived,
-      tokenUsageLimit,
     };
-    btn.innerHTML = "Saving...";
-    setTimeout(() => btn.innerHTML = "Save Profile", 1000);
+    this.save_options_button.innerHTML = "Saving...";
     const token = await firebase.auth().currentUser.getIdToken();
     const fResult = await fetch(this.basePath + "lobbyApi/games/options", {
       method: "POST",
@@ -559,6 +586,7 @@ export class AIChatApp extends BaseApp {
       const json = await fResult.json();
       console.log("change game options result", json);
     }
+    this.save_options_button.innerHTML = "Save Options";
   }
   /** member data for a user
    * @param { string } uid user id
@@ -581,6 +609,7 @@ export class AIChatApp extends BaseApp {
     if (this.gameData.createUser === this.uid) document.body.classList.add("game_owner");
     else document.body.classList.remove("game_owner");
 
+    this.docfield_title.value = this.gameData.title;
     this.docfield_model.value = this.gameData.model;
     this.docfield_max_tokens.value = this.gameData.max_tokens;
     this.docfield_temperature.value = this.gameData.temperature;
