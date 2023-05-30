@@ -285,3 +285,8 @@ body {
   background: rgba(127, 0, 0); 
   color: white; 
 }
+
+.ticket_item_include_wrapper input {
+  width: 40px;
+  height: 40px;
+}
