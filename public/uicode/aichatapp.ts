@@ -325,6 +325,10 @@ export class AIChatApp extends BaseApp {
     }
     if (message.length > 10000) message = message.substr(0, 10000);
     this.ticket_content_input.value = "";
+
+    // scroll to bottom
+    this.tickets_list.scrollTop = this.tickets_list.scrollHeight;
+
     this.updatePromptTokenStatus();
     const includeTickets = this.generateSubmitList();
 
