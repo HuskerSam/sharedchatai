@@ -272,4 +272,18 @@ body {
 .accordion-item {
   background: none;
   background-color: unset;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.show .accordion-item {
+  overflow: auto;
+}
+
+.accordion {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
