@@ -4,10 +4,6 @@ body {
   overflow: hidden;
 }
 
-.game_loading_display {
-  display: none;
-}
-
 .tickets_list {
   display: block;
 }
@@ -22,28 +18,10 @@ body {
 }
 
 .document_feed_view {
-  display: none;
   flex-direction: column;
   overflow: hidden;
   height: 100%;
-}
-
-.show_document_feed .document_feed_view {
   display: flex;
-}
-
-.document_options_view {
-  display: none;
-}
-
-.document_options_view .form-floating,
-.document_options_view .form-check,
-.document_options_view .form-select {
-  margin-bottom: 1em;
-}
-
-.show_document_options .document_options_view {
-  display: block;
 }
 
 
@@ -289,4 +267,9 @@ body {
 .ticket_item_include_wrapper input {
   width: 40px;
   height: 40px;
+}
+
+.accordion-item {
+  background: none;
+  background-color: unset;
 }

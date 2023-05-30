@@ -58,9 +58,6 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item signed_in_options">
-              <a class="document_options_toggle nav-link" href="show_details">Options</a>
-            </li>
-            <li class="nav-item signed_in_options">
               <a class="nav-link" href="/profile/">Profile</a>
             </li>
             <li class="nav-item">
@@ -76,13 +73,121 @@
           </ul>
         </div>
       </nav>
-      <h4 class="text-secondary">Document Stats</h4>
-      <div class="document_usage_stats_line"></div>
-      <div class="last_activity_display"></div>
-      <h4 class="text-secondary">Users</h4>
-      <div class="members_list" style="flex:1;overflow: auto;"></div>
-      <div class="game_loading_display">
-        <h1>Loading...</h1>
+      <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Document Stats
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <div class="document_usage_stats_line"></div>
+              <div class="last_activity_display"></div>
+              <br>
+              <span class="field_title_label">Code</span>
+              <span class="gameid_span"></span>
+              <a href="#" style="display:none;" class="code_link_href">URL</a>
+              <button class="code_link_copy game"><i class="material-icons">content_copy</i> <span>url</span></button>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
+              Users
+            </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <div class="members_list" style="flex:1;overflow: auto;"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingThree">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseOne">
+              Engine Options
+            </button>
+          </h2>
+          <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <select class="form-select docfield_model" aria-label="chatGPTEngine Selection"
+              style="display:inline-block;width:auto;">
+              <option>gpt-4</option>
+              <option selected>gpt-3.5-turbo</option>
+              <option>gpt-4-0314</option>
+              <option>gpt-4-32k</option>
+              <option>gpt-4-32k-0314</option>
+              <option>gpt-3.5-turbo-0301</option>
+            </select>
+            <br>
+            <div class="form-floating" style="display:inline-block;width:auto;">
+              <input type="text" class="form-control docfield_max_tokens" placeholder="Max Tokens">
+              <label>Most tokens</label>
+            </div>
+            <br>
+            <div class="form-floating" style="display:inline-block;width:auto;">
+              <input type="text" class="form-control docfield_temperature" placeholder="Temperature">
+              <label>Temperature (0 to 2)</label>
+            </div>
+            <br>
+            <div class="form-floating" style="display:inline-block;width:auto;">
+              <input type="text" class="form-control docfield_top_p" placeholder="top_p">
+              <label>top_p (0 to 1)</label>
+            </div>
+            <br>
+            <div class="form-floating" style="display:inline-block;width:auto;">
+              <input type="text" class="form-control docfield_presence_penalty" placeholder="Presence Penalty">
+              <label>Presence Penalty (-2 to 2)</label>
+            </div>
+            <br>
+            <div class="form-floating" style="display:inline-block;width:auto">
+              <input type="text" class="form-control docfield_frequency_penalty" placeholder="Frequency Penalty">
+              <label>Frequency Penalty (-2 to 2)</label>
+            </div>
+            <br>
+            <div class="form-floating" style="display:inline-block;width:80%;display:none">
+              <textarea type="text" class="form-control docfield_logit_bias"
+                placeholder="List of tokens to bias"></textarea>
+              <label>List of tokens to bias</label>
+            </div>
+            <br>
+            <div class="form-floating" style="display:inline-block;width:80%; display: none">
+              <textarea type="text" class="form-control docfield_stops"
+                placeholder="List of tokens to stop on"></textarea>
+              <label>List of tokens to stop on</label>
+            </div>
+            <button class="save_options_button btn btn-primary">Save Ticket Options</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingFour">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseOne">
+              Usage Limits
+            </button>
+          </h2>
+          <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+            <div class="accordion-body">  
+              <div class="form-check" style="display:inline-block;width:auto;">
+                <label class="form-check-label">
+                  <input class="form-check-input docfield_archived_checkbox" type="checkbox" value="">
+                  Archived
+                </label>
+              </div>
+              <br>
+              <div class="form-floating" style="display:inline-block;width:auto;">
+                <input type="text" class="form-control docfield_usage_limit" placeholder="Usage Limit">
+                <label>Usage Limit</label>
+              </div>
+              <br>
+              <button class="save_options_button btn btn-primary">Save Usage Limits</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="right_panel_view" style="overflow:auto">
@@ -104,80 +209,6 @@
               Submit AI Ticket
             </button>
           </div>
-        </div>
-      </div>
-      <div class="document_options_view">
-        <span class="field_title_label">Code</span>
-        <span class="gameid_span"></span>
-        <a href="#" style="display:none;" class="code_link_href">URL</a>
-        <button class="code_link_copy game"><i class="material-icons">content_copy</i> <span>url</span></button>
-        <h4 class="text-secondary">Limit Usage</h4>
-        <div style="padding-left: 3em">
-          <div class="form-check" style="display:inline-block;width:auto;">
-
-            <label class="form-check-label">
-              <input class="form-check-input docfield_archived_checkbox" type="checkbox" value="">
-              Archived
-            </label>
-          </div>
-          <br>
-
-          <div class="form-floating" style="display:inline-block;width:auto;">
-            <input type="text" class="form-control docfield_usage_limit" placeholder="Usage Limit">
-            <label>Usage Limit</label>
-          </div>
-          <br>
-          <button class="save_options_button btn btn-primary">Save Usage Limits</button>
-        </div>
-        <h4 class="text-secondary">Ticket Options</h4>
-        <div style="padding-left: 3em">
-          <select class="form-select docfield_model" aria-label="chatGPTEngine Selection"
-            style="display:inline-block;width:auto;">
-            <option>gpt-4</option>
-            <option selected>gpt-3.5-turbo</option>
-            <option>gpt-4-0314</option>
-            <option>gpt-4-32k</option>
-            <option>gpt-4-32k-0314</option>
-            <option>gpt-3.5-turbo-0301</option>
-          </select>
-          <br>
-          <div class="form-floating" style="display:inline-block;width:auto;">
-            <input type="text" class="form-control docfield_max_tokens" placeholder="Max Tokens">
-            <label>Most tokens</label>
-          </div>
-          <br>
-          <div class="form-floating" style="display:inline-block;width:auto;">
-            <input type="text" class="form-control docfield_temperature" placeholder="Temperature">
-            <label>Temperature (0 to 2)</label>
-          </div>
-          <br>
-          <div class="form-floating" style="display:inline-block;width:auto;">
-            <input type="text" class="form-control docfield_top_p" placeholder="top_p">
-            <label>top_p (0 to 1)</label>
-          </div>
-          <br>
-          <div class="form-floating" style="display:inline-block;width:auto;">
-            <input type="text" class="form-control docfield_presence_penalty" placeholder="Presence Penalty">
-            <label>Presence Penalty (-2 to 2)</label>
-          </div>
-          <br>
-          <div class="form-floating" style="display:inline-block;width:auto">
-            <input type="text" class="form-control docfield_frequency_penalty" placeholder="Frequency Penalty">
-            <label>Frequency Penalty (-2 to 2)</label>
-          </div>
-          <br>
-          <div class="form-floating" style="display:inline-block;width:80%;display:none">
-            <textarea type="text" class="form-control docfield_logit_bias"
-              placeholder="List of tokens to bias"></textarea>
-            <label>List of tokens to bias</label>
-          </div>
-          <br>
-          <div class="form-floating" style="display:inline-block;width:80%; display: none">
-            <textarea type="text" class="form-control docfield_stops"
-              placeholder="List of tokens to stop on"></textarea>
-            <label>List of tokens to stop on</label>
-          </div>
-          <button class="save_options_button btn btn-primary">Save Ticket Options</button>
         </div>
       </div>
     </div>

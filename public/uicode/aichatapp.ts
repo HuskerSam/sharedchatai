@@ -25,8 +25,6 @@ export class AIChatApp extends BaseApp {
   includeAssistTokens = 0;
 
   tickets_list: any = document.querySelector(".tickets_list");
-  document_options_toggle: any = document.querySelector(".document_options_toggle");
-
   members_list: any = document.querySelector(".members_list");
 
   send_ticket_button: any = document.querySelector(".send_ticket_button");
@@ -61,8 +59,6 @@ export class AIChatApp extends BaseApp {
     this.ticket_content_input.addEventListener("keyup", (e: any) => {
       if (e.key === "Enter") this.sendTicketToAPI();
     });
-    this.document_options_toggle.addEventListener("click", (e: any) => this.toggleOptionsView(e));
-    this.toggleOptionsView(null);
 
     this.initTicketFeed();
     this.updateSplitter();
@@ -491,21 +487,6 @@ export class AIChatApp extends BaseApp {
     this.paintDocumentOptions();
     this._updateGameMembersList();
     this.updateUserPresence();
-  }
-  /** show/hide members list
-   * @param { any } e event to prevent default
-   */
-  toggleOptionsView(e: any) {
-    if (document.body.classList.contains("show_document_feed")) {
-      document.body.classList.remove("show_document_feed");
-      document.body.classList.add("show_document_options");
-      this.document_options_toggle.innerHTML = "Chat";
-    } else {
-      document.body.classList.add("show_document_feed");
-      document.body.classList.remove("show_document_options");
-      this.document_options_toggle.innerHTML = "Options";
-    }
-    if (e) e.preventDefault();
   }
   /** paint game members list */
   _updateGameMembersList() {
