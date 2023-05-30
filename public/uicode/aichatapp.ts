@@ -430,10 +430,14 @@ export class AIChatApp extends BaseApp {
         }
 
         tickets.push(doc.id);
-      } 
+      }
     });
     return tickets;
   }
+  /** lookup token usage
+   * @param { string } assistId ticket id to check for assist
+   * @return { any } assist usage data or null
+  */
   tokenCountForAssist(assistId: string): any {
     const assistData: any = this.assistsLookup[assistId];
     if (!assistData) return null;
