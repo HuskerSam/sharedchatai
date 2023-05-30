@@ -113,6 +113,92 @@ export default class ChatAI {
             success: true,
         });
     }
+    /** http endpoint for user posting message to table chat
+    * @param { any } req http request object
+    * @param { any } res http response object
+    */
+    static async importTicket(req: any, res: any) {
+        const authResults = await BaseClass.validateCredentials(req.headers.token);
+        if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
+
+        const uid = authResults.uid;
+        const gameNumber = req.body.gameNumber;
+        let prompt = req.body.prompt;
+        if (prompt) {
+            prompt = BaseClass.escapeHTML(prompt);
+            if (prompt.length > 10000) prompt = prompt.substr(0, 10000);
+        }
+        if (!prompt) {
+            return BaseClass.respondError(res, "Message is empty");
+        }
+        let completion = "";
+        if (req.body.completion) {
+            completion = "";
+        }
+        const gameQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).get();
+        const gameData = gameQuery.data();
+        if (!gameData) {
+            return BaseClass.respondError(res, "Game not found");
+        }
+
+        const userQ = await firebaseAdmin.firestore().doc(`Users/${gameData.createUser}`).get();
+        const ownerProfile = userQ.data();
+        if (!ownerProfile) {
+            return BaseClass.respondError(res, "User not found");
+        }
+
+        const isOwner = uid === gameData.createUser;
+
+        const memberImage = gameData.memberImages[uid] ? gameData.memberImages[uid] : "";
+        const memberName = gameData.memberNames[uid] ? gameData.memberNames[uid] : "";
+
+        const ticket = {
+            uid,
+            message: prompt,
+            created: new Date().toISOString(),
+            submitted: new Date().toISOString(),
+            messageType: "user",
+            gameNumber,
+            isOwner,
+            memberName,
+            memberImage,
+            includeInMessage: true,
+        };
+        const newTicketResult = await firebaseAdmin.firestore().collection(`Games/${gameNumber}/tickets`).add(ticket);
+
+        const assistRecord: any = {
+            success: true,
+            created: new Date().toISOString(),
+            submitted: new Date().toISOString(),
+        };
+        if (completion) {
+            assistRecord.assist = {
+                completions: [
+                    {
+                        message: {
+                            content: completion,
+                        },
+                    },
+                ],
+            };
+        } else {
+            assistRecord.assist = {
+                completions: [
+                    {
+                        message: {
+                            content: "Imported message only not Submitted",
+                        },
+                    },
+                ],
+            };
+        }
+
+        await firebaseAdmin.firestore().doc(`Games/${gameNumber}/assists/${newTicketResult.id}`).set(assistRecord);
+
+        return res.status(200).send({
+            success: true,
+        });
+    }
     /** generate ai api request including previous messages and store in /games/{gameid}/packets/{ticketid}
      * @param { any } ticket message details
      * @param { any } gameData chat document

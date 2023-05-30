@@ -70,6 +70,8 @@ export class AIChatApp extends BaseApp {
   csv_format: any = document.getElementById("csv_format");
   json_format: any = document.getElementById("json_format");
   download_export_button: any = document.querySelector(".download_export_button");
+  upload_import_button: any = document.querySelector(".upload_import_button");
+  import_upload_file: any = document.querySelector(".import_upload_file");
 
   /**  */
   constructor() {
@@ -100,6 +102,8 @@ export class AIChatApp extends BaseApp {
     this.csv_format.addEventListener("click", () => this.refreshReportData());
     this.json_format.addEventListener("click", () => this.refreshReportData());
     this.download_export_button.addEventListener("click", () => this.downloadReportData());
+    this.upload_import_button.addEventListener("click", () => this.import_upload_file.click());
+    this.import_upload_file.addEventListener("change", () => this.uploadReportData());
   }
   /** setup data listender for user messages */
   async initTicketFeed() {
@@ -842,5 +846,30 @@ export class AIChatApp extends BaseApp {
   /** download report data */
   downloadReportData() {
     this.refreshReportData(true);
+  }
+  /** upload report data */
+  async uploadReportData() {
+    if (!this.import_upload_file.files[0]) {
+      return;
+    }
+    const formatFilterSelected: any = document.querySelector(`input[name="format_choice"]:checked`);
+    const formatFilter: any = formatFilterSelected.value;
+
+    const fileContent = await this.import_upload_file.files[0].text();
+
+    try {
+      let records: Array<any> = [];
+       if (formatFilter === "json") {
+        records = JSON.parse(fileContent);
+       } else {
+        records = window.Papa.parse(fileContent);
+       }
+
+       console.log(records);
+    } catch (error: any) {
+      alert("Import failed");
+      console.log(error);
+      return;
+    }
   }
 }

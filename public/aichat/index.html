@@ -109,7 +109,8 @@
               <div style="text-align:center">
                 <button class="document_export_button btn btn-primary" data-bs-toggle="modal"
                   data-bs-target="#exportModal">Export Tickets</button>
-                <button class="document_import_button btn btn-secondary">Import Tickets</button>
+                <button class="document_import_button btn btn-secondary" data-bs-toggle="modal" 
+                  data-bs-target="#importModal">Import Tickets</button>
               </div>
               <br>
               <div style="display:flex;flex-direction:row">
@@ -279,6 +280,31 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary download_export_button">Download</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="importModalLabel">Import Tickets</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Format:
+          <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check" name="format_choice" id="import_csv_format" value="csv" autocomplete="off" checked>
+            <label class="btn btn-outline-primary" for="import_csv_format">CSV</label>
+            <input type="radio" class="btn-check" name="format_choice" id="import_json_format" value="json" autocomplete="off">
+            <label class="btn btn-outline-primary" for="import_json_format">JSON</label>
+          </div>
+          <br>
+          <input class="import_upload_file" type="file">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary upload_import_button">Import</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
