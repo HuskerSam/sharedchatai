@@ -83,6 +83,7 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
+  flex: 1;
 }
 
 .game_message_list_item .member_desc {
@@ -287,4 +288,9 @@ body {
 
 .game_owner .save_owner_options_button {
   visibility: visible;
+}
+
+.accordion-button {
+  background: inherit;
+  color: inherit;
 }
