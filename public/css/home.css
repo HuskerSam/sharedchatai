@@ -262,4 +262,7 @@ button.code_link {
 .accordion-button {
   display: flex;
   align-items: center;
+  background: none;
+  background-color: unset;
 }
+

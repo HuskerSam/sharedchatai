@@ -113,7 +113,7 @@ export class GamesApp extends BaseApp {
     const html = `<div class="accordion-item document_list_item card card_shadow_sm document_list_item${ownerClass} gametype_${data.gameType}"
     data-gamenumber="${doc.id}" gamenumber="${doc.id}">
     <div class="accordion-header">
-        <button class="accordion-button d-flex justify-content-between" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${doc.id}"
+        <button class="accordion-button d-flex justify-content-between collasped" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${doc.id}"
             aria-expanded="true" aria-controls="collapse${doc.id}">
             <div class="flex-grow-1 document_name_STANDIN">Name of this document</div>
             <div class="flex-grow-1 user_img_wrapper">
@@ -126,7 +126,7 @@ export class GamesApp extends BaseApp {
         </button>
     </div>
     <div id="collapse${doc.id}" class="accordion-collapse collapse" aria-labelledby="headingOne"
-        data-bs-parent="${doc.id}">
+        data-bs-parent="#dashboard_documents_view">
         <div class="accordion-body">
             <a href="/${data.gameType}/?game=${data.gameNumber}" class="game_number_open btn btn-secondary">
                 <span class="">Open</span>
