@@ -155,7 +155,7 @@ export class AIChatApp extends BaseApp {
     });
 
     if (scrollToBottom) {
-      setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 10);
+      setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 100);
     }
 
     this.generateSubmitList();
@@ -206,7 +206,7 @@ export class AIChatApp extends BaseApp {
     });
 
     if (scrollToBottom) {
-      setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 10);
+      setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 100);
     }
 
     this.updateTimeSince(this.tickets_list);
@@ -379,6 +379,7 @@ export class AIChatApp extends BaseApp {
     if (message.length > 10000) message = message.substr(0, 10000);
     this.ticket_content_input.value = "";
 
+    setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 100);
     // scroll to bottom
     this.tickets_list.scrollTop = this.tickets_list.scrollHeight;
 
@@ -406,6 +407,8 @@ export class AIChatApp extends BaseApp {
       console.log("message post", json);
       alert(json.errorMessage);
     }
+    
+    setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 100);
   }
   /** process exisiting tickets and return list of ids to submit
    * @param { string } ticketId doc id
