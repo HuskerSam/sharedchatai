@@ -208,7 +208,8 @@ export default class ChatAI {
      * @param { string } submitted submitted date
      * @return { Promise<void> }
      */
-    static async _processTicket(packet: any, gameData: any, ticketData: any, id: string, chatGptKey: string, submitted: string): Promise<void> {
+    static async _processTicket(packet: any, gameData: any, ticketData: any,
+        id: string, chatGptKey: string, submitted: string): Promise<void> {
         let aiResponse: any = {};
         let lastResponse = "error";
         let total_tokens = 0;
@@ -216,7 +217,6 @@ export default class ChatAI {
         let completion_tokens = 0;
 
         try {
-            console.log(gameData);
             if (gameData.archived) {
                 throw new Error("Submit Blocked: Document is set to archived");
             }
@@ -262,7 +262,6 @@ export default class ChatAI {
                 submitted,
             };
         }
-        console.log(aiResponse);
         await firebaseAdmin.firestore().doc(`Games/${packet.gameNumber}/assists/${id}`).set(aiResponse);
 
         await firebaseAdmin.firestore().doc(`Games/${packet.gameNumber}`).set({
