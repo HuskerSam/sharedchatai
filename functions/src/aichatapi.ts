@@ -129,16 +129,16 @@ export default class ChatAI {
             if (prompt.length > 10000) prompt = prompt.substr(0, 10000);
         }
         if (!prompt) {
-            return BaseClass.respondError(res, "Message is empty");
+            return BaseClass.respondError(res, "Prompt is empty");
         }
         let completion = "";
         if (req.body.completion) {
-            completion = "";
+            completion = req.body.completion;
         }
         const gameQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).get();
         const gameData = gameQuery.data();
         if (!gameData) {
-            return BaseClass.respondError(res, "Game not found");
+            return BaseClass.respondError(res, "Document not found");
         }
 
         const userQ = await firebaseAdmin.firestore().doc(`Users/${gameData.createUser}`).get();
@@ -152,11 +152,12 @@ export default class ChatAI {
         const memberImage = gameData.memberImages[uid] ? gameData.memberImages[uid] : "";
         const memberName = gameData.memberNames[uid] ? gameData.memberNames[uid] : "";
 
+        const createDate = new Date().toISOString();
         const ticket = {
             uid,
             message: prompt,
-            created: new Date().toISOString(),
-            submitted: new Date().toISOString(),
+            created: createDate,
+            submitted: createDate,
             messageType: "user",
             gameNumber,
             isOwner,
@@ -168,28 +169,38 @@ export default class ChatAI {
 
         const assistRecord: any = {
             success: true,
-            created: new Date().toISOString(),
-            submitted: new Date().toISOString(),
+            created: createDate,
+            submitted: createDate,
         };
         if (completion) {
             assistRecord.assist = {
-                completions: [
+                choices: [
                     {
                         message: {
                             content: completion,
                         },
                     },
                 ],
+                usage: {
+                    total_tokens: 0,
+                    prompt_tokens: 0,
+                    completion_tokens: 0,
+                },
             };
         } else {
             assistRecord.assist = {
-                completions: [
+                choices: [
                     {
                         message: {
                             content: "Imported message only not Submitted",
                         },
                     },
                 ],
+                usage: {
+                    total_tokens: 0,
+                    prompt_tokens: 0,
+                    completion_tokens: 0,
+                },
             };
         }
 
