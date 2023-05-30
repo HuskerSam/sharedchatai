@@ -5,7 +5,7 @@ declare const firebase: any;
 /** Game Lobby App - for listing, joining and creating games  */
 export class GamesApp extends BaseApp {
   create_new_game_btn: any = document.querySelector(".create_new_game_btn");
-  game_history_view: any = document.querySelector(".game_history_view");
+  dashboard_documents_view: any = document.querySelector(".dashboard_documents_view");
   join_game_btn: any = document.querySelector(".join_game_btn");
   create_game_afterfeed_button: any = document.querySelector(".create_game_afterfeed_button");
   menu_create_game: any = document.querySelector(".menu_create_game");
@@ -32,34 +32,9 @@ export class GamesApp extends BaseApp {
     this.initRTDBPresence();
 
     // redraw feeds to update time since values
-    setInterval(() => this.updateTimeSince(this.game_history_view), 30000);
+    setInterval(() => this.updateTimeSince(this.dashboard_documents_view), 30000);
 
-    this.init();
-  }
-  /** async init to be called at end of constructor */
-  async init() {
-    const gameId: any = this.urlParams.get("game");
-    if (gameId && await this._handlePassedInGameID(gameId)) return;
-  }
-  /** handle gameid passed as query string and navigate to game
-   * @param { string } gameId storage record id of game to load
-   * @return { Promise<boolean> } true if navigating, false if invalid game id
-   */
-  async _handlePassedInGameID(gameId: any): Promise<boolean> {
-    const gameQuery = await firebase.firestore().doc(`Games/${gameId}`).get();
-    const gameData = gameQuery.data();
-
-    if (!gameData) {
-      alert("game not found");
-      return false;
-    }
-
-    window.history.replaceState({
-      state: 1,
-    }, "", `/${gameData.gameType}/?game=${gameId}`);
-    location.reload();
-
-    return true;
+  
   }
   /** BaseApp override to update additional use profile status */
   authUpdateStatusUI() {
@@ -99,21 +74,21 @@ export class GamesApp extends BaseApp {
     const oldKeys = Object.keys(this.documentsLookup);
     this.documentsLookup = {};
     snapshot.forEach((doc: any) => {
-      let card: any = this.game_history_view.querySelector(`div[gamenumber="${doc.id}"]`);
+      let card: any = this.dashboard_documents_view.querySelector(`div[gamenumber="${doc.id}"]`);
       if (!card) {
         card = this.getDocumentCardElement(doc);
       }
-      this.game_history_view.appendChild(card);
+      this.dashboard_documents_view.appendChild(card);
       this.documentsLookup[doc.id] = doc.data();
     });
 
     oldKeys.forEach((key: string) => {
       if (!this.documentsLookup[key]) {
-        const card: any = this.game_history_view.querySelector(`div[gamenumber="${key}"]`);
+        const card: any = this.dashboard_documents_view.querySelector(`div[gamenumber="${key}"]`);
         if (card) card.remove();
       }
     });
-    this.updateTimeSince(this.game_history_view);
+    this.updateTimeSince(this.dashboard_documents_view);
     this.refreshOnlinePresence();
   }
   /** compact html block to display user
@@ -155,10 +130,14 @@ export class GamesApp extends BaseApp {
     hour = hour % 12;
     if (hour === 0) hour = 12;
     timeStr = hour.toString() + timeStr.substr(2) + " " + suffix;
-    const html = `<div class="gamelist_item card card_shadow_sm gamelist_item${ownerClass} gametype_${data.gameType}"
+    const html = `<div class="document_list_item card card_shadow_sm document_list_item${ownerClass} gametype_${data.gameType}"
           data-gamenumber="${doc.id}" gamenumber="${doc.id}">
-      <div class="gamefeed_item_header">
+      <div class="documentfeed_item_header">
         <div style="background-image:${img}" class="game_type_image"></div>
+        <div class="owner_wrapper user_img_wrapper">
+        <span class="owner_avatar"></span>
+           ${ownerHTML}
+        </div>
         <div class="game_name">
           <span class="title">
           ${title}
@@ -182,11 +161,6 @@ export class GamesApp extends BaseApp {
           <i class="material-icons">content_copy</i> <span>${data.gameNumber}</span></button>
         <div></div>
       </div>
-        <span class="game_owner_label owner_wrapper">Game<br>Owner</span>
-        <div class="owner_wrapper user_img_wrapper">
-           ${ownerHTML}
-        </div>
-      <div style="clear:both"></div>
     </div>`;
 
     const ctl = document.createElement("div");
