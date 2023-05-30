@@ -18,6 +18,11 @@ export class AIChatApp extends BaseApp {
   alertErrors = false;
   splitHorizontalCache: any = null;
   ticketsLookup: any = {};
+  ticketsTokenCounts: any = {};
+  assistsLookup: any = {};
+  includeTotalTokens = 0;
+  includeMessageTokens = 0;
+  includeAssistTokens = 0;
 
   tickets_list: any = document.querySelector(".tickets_list");
   document_options_toggle: any = document.querySelector(".document_options_toggle");
@@ -27,6 +32,7 @@ export class AIChatApp extends BaseApp {
   send_ticket_button: any = document.querySelector(".send_ticket_button");
   ticket_content_input: any = document.querySelector(".ticket_content_input");
   prompt_token_count: any = document.querySelector(".prompt_token_count");
+  total_prompt_token_count: any = document.querySelector(".total_prompt_token_count");
   token_visualizer_preview: any = document.querySelector(".token_visualizer_preview");
   code_link_href: any = document.querySelector(".code_link_href");
   code_link_copy: any = document.querySelector(".code_link_copy");
@@ -101,7 +107,9 @@ export class AIChatApp extends BaseApp {
     else return;
     const scrollToBottom = this.atBottom(this.tickets_list);
 
+    this.assistsLookup = {};
     snapshot.forEach((doc: any) => {
+      this.assistsLookup[doc.id] = doc.data();
       const assistSection: any = document.querySelector(`div[ticketid="${doc.id}"] .assist_section`);
       const lastSubmit: any = document.querySelector(`div[ticketid="${doc.id}"] .last_submit_time`);
       if (lastSubmit) lastSubmit.dataset.showseconds = "0";
@@ -149,6 +157,9 @@ export class AIChatApp extends BaseApp {
     if (scrollToBottom) {
       setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 10);
     }
+
+    this.generateSubmitList();
+    this.updatePromptTokenStatus();
   }
   /** tests if dom scroll is at bottom
    * @param { any } ele element to test
@@ -402,10 +413,32 @@ export class AIChatApp extends BaseApp {
   */
   generateSubmitList(ticketId = ""): Array<string> {
     const tickets: Array<string> = [];
+    this.includeTotalTokens = 0;
+    this.includeMessageTokens = 0;
+    this.includeAssistTokens = 0;
     this.lastTicketsSnapshot.forEach((doc: any) => {
-      if (ticketId !== doc.id) tickets.push(doc.id);
+      const ticket: any = this.ticketsLookup[doc.id];
+      let include = false;
+      if (ticket && ticket.includeInMessage) include = true;
+      if (ticketId !== doc.id && include) {
+        const tokenData = this.tokenCountForAssist(doc.id);
+        console.log(tokenData);
+        if (tokenData) {
+          this.includeMessageTokens += tokenData.prompt_tokens;
+          this.includeAssistTokens += tokenData.completion_tokens;
+          this.includeTotalTokens += tokenData.total_tokens;
+        }
+
+        tickets.push(doc.id);
+      } 
     });
     return tickets;
+  }
+  tokenCountForAssist(assistId: string): any {
+    const assistData: any = this.assistsLookup[assistId];
+    if (!assistData) return null;
+    if (!assistData.assist || !assistData.assist.usage) return null;
+    return assistData.assist.usage;
   }
   /** BaseApp override to paint profile specific authorization parameters */
   authUpdateStatusUI() {
@@ -614,5 +647,6 @@ export class AIChatApp extends BaseApp {
     this.token_visualizer_preview.innerHTML = html;
 
     this.prompt_token_count.innerHTML = tokens.length;
+    this.total_prompt_token_count.innerHTML = this.includeTotalTokens + tokens.length;
   }
 }
