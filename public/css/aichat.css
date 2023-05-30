@@ -166,7 +166,7 @@ body {
   padding: 10px;
   padding-left: 25px;
   padding-bottom: 25px;
-  white-space: pre;
+  white-space: pre-wrap;
 }
 
 .main_view_splitter {
