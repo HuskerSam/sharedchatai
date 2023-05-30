@@ -23,6 +23,8 @@ export class AIChatApp extends BaseApp {
   includeTotalTokens = 0;
   includeMessageTokens = 0;
   includeAssistTokens = 0;
+  ticketCount = 0;
+  selectedTicketCount = 0;
 
   tickets_list: any = document.querySelector(".tickets_list");
   members_list: any = document.querySelector(".members_list");
@@ -53,6 +55,21 @@ export class AIChatApp extends BaseApp {
   last_activity_display: any = document.querySelector(".last_activity_display");
   docfield_archived_checkbox: any = document.querySelector(".docfield_archived_checkbox");
   docfield_usage_limit: any = document.querySelector(".docfield_usage_limit");
+  document_export_button: any = document.querySelector(".document_export_button");
+  document_import_button: any = document.querySelector(".document_import_button");
+  ticket_count_span: any = document.querySelector(".ticket_count_span");
+  selected_ticket_count_span: any = document.querySelector(".selected_ticket_count_span");
+  selected_token_count_span: any = document.querySelector(".selected_token_count_span");
+  export_data_popup_preview: any = document.querySelector(".export_data_popup_preview");
+  export_size: any = document.querySelector(".export_size");
+
+  selected_filter: any = document.getElementById("selected_filter");
+  all_filter: any = document.getElementById("all_filter");
+  text_format: any = document.getElementById("text_format");
+  html_format: any = document.getElementById("html_format");
+  csv_format: any = document.getElementById("csv_format");
+  json_format: any = document.getElementById("json_format");
+
   /**  */
   constructor() {
     super();
@@ -73,6 +90,14 @@ export class AIChatApp extends BaseApp {
 
     this.save_options_button.addEventListener("click", () => this.scrapeDocumentOptions());
     this.save_owner_options_button.addEventListener("click", () => this.scrapeOwnerOptions());
+    this.document_export_button.addEventListener("click", () => this.showExportModal());
+
+    this.selected_filter.addEventListener("click", () => this.refreshReportData());
+    this.all_filter.addEventListener("click", () => this.refreshReportData());
+    this.text_format.addEventListener("click", () => this.refreshReportData());
+    this.html_format.addEventListener("click", () => this.refreshReportData());
+    this.csv_format.addEventListener("click", () => this.refreshReportData());
+    this.json_format.addEventListener("click", () => this.refreshReportData());
   }
   /** setup data listender for user messages */
   async initTicketFeed() {
@@ -183,7 +208,10 @@ export class AIChatApp extends BaseApp {
     const scrollToBottom = this.atBottom(this.tickets_list);
     const oldKeys = Object.keys(this.ticketsLookup);
     this.ticketsLookup = {};
+    this.selectedTicketCount = 0;
+    this.ticketCount = 0;
     snapshot.forEach((doc: any) => {
+      this.ticketCount++;
       let card: any = this.tickets_list.querySelector(`div[gamenumber="${doc.id}"]`);
       if (!card) {
         card = this.getTicketCardDom(doc);
@@ -193,6 +221,7 @@ export class AIChatApp extends BaseApp {
 
       const chkBox: any = card.querySelector(`input[ticketid="${doc.id}"]`);
       chkBox.checked = this.ticketsLookup[doc.id].includeInMessage;
+      if (this.ticketsLookup[doc.id].includeInMessage) this.selectedTicketCount++;
 
       const submittedTime: any = card.querySelector(".last_submit_time");
       submittedTime.setAttribute("data-timesince", doc.data().submitted);
@@ -213,6 +242,9 @@ export class AIChatApp extends BaseApp {
 
     this.refreshOnlinePresence();
     this.updateAssistsFeed(null);
+
+    this.ticket_count_span.innerHTML = this.ticketCount;
+    this.selected_ticket_count_span.innerHTML = this.selectedTicketCount;
   }
   /** send rerun request to api
    * @param { string } ticketId doc id
@@ -452,6 +484,22 @@ export class AIChatApp extends BaseApp {
       return 0;
     }
   }
+  /** check for assist message
+ * @param { string } assistId ticket id to check for assist
+ * @return { any } message
+*/
+  messageForCompletion(assistId: string): string {
+    try {
+      const assistData: any = this.assistsLookup[assistId];
+      if (!assistData || !assistData.assist || !assistData.assist.choices ||
+        !assistData.assist.choices["0"] || !assistData.assist.choices["0"].message ||
+        !assistData.assist.choices["0"].message.content) return "";
+      return assistData.assist.choices["0"].message.content;
+    } catch (assistError: any) {
+      console.log(assistError);
+      return "";
+    }
+  }
   /** BaseApp override to paint profile specific authorization parameters */
   authUpdateStatusUI() {
     super.authUpdateStatusUI();
@@ -672,6 +720,60 @@ export class AIChatApp extends BaseApp {
     this.token_visualizer_preview.innerHTML = html;
 
     this.prompt_token_count.innerHTML = tokens.length;
+    this.selected_token_count_span.innerHTML = this.includeTotalTokens;
     this.total_prompt_token_count.innerHTML = this.includeTotalTokens + tokens.length;
+  }
+  /** show export data popup */
+  showExportModal() {
+    this.refreshReportData();
+  }
+  /** generate export data */
+  generateExportData() {
+    const ticketsFilterSelected: any = document.querySelector(`input[name="tickets_filter"]:checked`);
+    const ticketsFilter: any = ticketsFilterSelected.value;
+    const formatFilterSelected: any = document.querySelector(`input[name="format_choice"]:checked`);
+    const formatFilter: any = formatFilterSelected.value;
+
+    let resultText = "";
+    const tickets: Array<any> = [];
+    this.lastTicketsSnapshot.forEach((ticket: any) => {
+      if (ticketsFilter === "all" || ticket.data().includeInMessage)
+        tickets.push(ticket);
+    });
+
+    if (formatFilter === "json") {
+      resultText += " TO DO";
+    } else if (formatFilter === "csv") {
+      const rows: any = [];
+      tickets.forEach((ticket: any) => {
+        rows.push({
+          prompt: ticket.data().message,
+          completion: this.messageForCompletion(ticket.id),
+          selected: ticket.data().includeInMessage ? "y" : "n",
+        });
+      }); 
+      const csvText = window.Papa.unparse(rows);
+      resultText = csvText;
+    } else if (formatFilter === "text") {
+      resultText += new Date().toString() + " summary\n"
+      tickets.forEach((ticket: any) => {
+        const completion = this.messageForCompletion(ticket.id);
+        const prompt = ticket.data().message;
+
+        resultText += "Prompt: " + prompt + "\n";
+        if (completion) resultText += "Assist: " + completion + "\n";
+        resultText += "\n";
+      });
+    } else if (formatFilter === "html") {
+      resultText += " TO DO";
+    }
+
+    return resultText;
+  }
+  /** refresh report data */
+  refreshReportData() {
+    const data = this.generateExportData();
+    this.export_data_popup_preview.innerHTML = data;
+    this.export_size.innerHTML = data.length;
   }
 }
