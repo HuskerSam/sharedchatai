@@ -47,7 +47,8 @@ export class GamesApp extends BaseApp {
       let img = this.profile.displayImage;
       if (!name) name = "Anonymous";
       if (!img) img = "/images/defaultprofile.png";
-      this.userprofile_description.innerHTML = this.__getUserTemplate("", name, img);
+    // TO DO - put profile icon in navbar
+   //   this.userprofile_description.innerHTML = this.__getUserTemplate("", name, img);
     }
   }
   /** init listening events on games store to populate feeds in realtime */
@@ -91,25 +92,6 @@ export class GamesApp extends BaseApp {
     this.updateTimeSince(this.dashboard_documents_view);
     this.refreshOnlinePresence();
   }
-  /** compact html block to display user
-   * @param { string } member uid of firebase user
-   * @param { string } name display name
-   * @param { string } img url path of display image
-   * @param { boolean } onlineStatus
-   * @param { boolean } impact use impact font (shows selected)
-   * @return { string } raw html containing user specific values
-  */
-  __getUserTemplate(member: string, name: string, img: string, onlineStatus = false, impact = false) {
-    const impactFont = impact ? " impact-font" : "";
-    let innerHTML = `<span style="background-image:url(${img});display: inline-block;"></span>
-      <span class="name${impactFont}">${name}</span>`;
-    if (onlineStatus) {
-      this.addUserPresenceWatch(member);
-      innerHTML += `<div class="member_online_status" data-uid="${member}"></div>`;
-    }
-
-    return innerHTML;
-  }
   /** paint html list card
    * @param { any } doc Firestore doc for game
    * @return { string } html for card
@@ -119,10 +101,8 @@ export class GamesApp extends BaseApp {
     let ownerClass = "";
     if (data.createUser === this.uid) ownerClass += " feed_game_owner";
 
-    const ownerHTML = this.__getUserTemplate(data.createUser, data.memberNames[data.createUser], data.memberImages[data.createUser], true);
+  //  const ownerHTML = this.__getUserTemplate(data.createUser, data.memberNames[data.createUser], data.memberImages[data.createUser], true);
 
-    const title = "AI Chat";
-    const img = `url(/images/logo_aichat.png)`;
     let timeStr = this.isoToLocal(data.created).toISOString().substr(11, 5);
     let hour = Number(timeStr.substr(0, 2));
     const suffix = hour < 12 ? "am" : "pm";
@@ -130,38 +110,38 @@ export class GamesApp extends BaseApp {
     hour = hour % 12;
     if (hour === 0) hour = 12;
     timeStr = hour.toString() + timeStr.substr(2) + " " + suffix;
-    const html = `<div class="document_list_item card card_shadow_sm document_list_item${ownerClass} gametype_${data.gameType}"
-          data-gamenumber="${doc.id}" gamenumber="${doc.id}">
-      <div class="documentfeed_item_header">
-        <div style="background-image:${img}" class="game_type_image"></div>
-        <div class="owner_wrapper user_img_wrapper">
-        <span class="owner_avatar"></span>
-           ${ownerHTML}
+    const html = `<div class="accordion-item document_list_item card card_shadow_sm document_list_item${ownerClass} gametype_${data.gameType}"
+    data-gamenumber="${doc.id}" gamenumber="${doc.id}">
+    <div class="accordion-header">
+        <button class="accordion-button d-flex justify-content-between" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${doc.id}"
+            aria-expanded="true" aria-controls="collapse${doc.id}">
+            <div class="flex-grow-1 document_name_STANDIN">Name of this document</div>
+            <div class="flex-grow-1 user_img_wrapper">
+              <div class="d-flex flex-column">
+               <span><img class="owner_img" src="${data.memberImages[data.createUser]}"></span>
+                <span class="owner_name">${data.memberNames[data.createUser]}</span>
+              </div>  
+            </div>
+            <div class="me-2 time_since last_submit_time" data-timesince="${data.lastActivity}" data-showseconds="0"></div>
+        </button>
+    </div>
+    <div id="collapse${doc.id}" class="accordion-collapse collapse" aria-labelledby="headingOne"
+        data-bs-parent="${doc.id}">
+        <div class="accordion-body">
+            <a href="/${data.gameType}/?game=${data.gameNumber}" class="game_number_open btn btn-secondary">
+                <span class="">Open</span>
+            </a>
+            <button class="delete_game btn btn-secondary" data-gamenumber="${data.gameNumber}">
+                Delete
+            </button>
+            <button class="leave_game btn btn-secondary" data-gamenumber="${data.gameNumber}">
+                Leave
+            </button>
+            <button class="code_link game" data-url="/${data.gameType}/?game=${data.gameNumber}">
+                <i class="material-icons">content_copy</i> <span>${data.gameNumber}</span></button>
         </div>
-        <div class="game_name">
-          <span class="title">
-          ${title}
-          </span>
-        </div>
-        <div class="open_button_wrapper">
-          <a href="/${data.gameType}/?game=${data.gameNumber}" class="game_number_open btn btn-secondary">
-            <span class="">Open</span>
-          </a>
-          <button class="delete_game btn btn-secondary" data-gamenumber="${data.gameNumber}">
-          Delete
-          </button>
-          <button class="leave_game btn btn-secondary" data-gamenumber="${data.gameNumber}">
-          Leave
-         </button>
-        </div>
-      </div>
-      <div class="time_since last_submit_time" data-timesince="${data.lastActivity}" data-showseconds="0"></div>
-      <div>
-        <button class="code_link game" data-url="/${data.gameType}/?game=${data.gameNumber}">
-          <i class="material-icons">content_copy</i> <span>${data.gameNumber}</span></button>
-        <div></div>
-      </div>
-    </div>`;
+    </div>
+</div>`;
 
     const ctl = document.createElement("div");
     ctl.innerHTML = html;
