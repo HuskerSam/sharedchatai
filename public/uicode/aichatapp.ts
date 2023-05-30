@@ -104,7 +104,7 @@ export class AIChatApp extends BaseApp {
     snapshot.forEach((doc: any) => {
       const assistSection: any = document.querySelector(`div[ticketid="${doc.id}"] .assist_section`);
       const lastSubmit: any = document.querySelector(`div[ticketid="${doc.id}"] .last_submit_time`);
-      lastSubmit.dataset.showseconds = "0";
+      if (lastSubmit)  lastSubmit.dataset.showseconds = "0";
 
       if (assistSection) {
         const totalSpan: any = document.querySelector(`div[ticketid="${doc.id}"] .tokens_total`);
@@ -182,6 +182,9 @@ export class AIChatApp extends BaseApp {
       }
       this.tickets_list.insertBefore(card, this.tickets_list.firstChild);
       this.ticketsLookup[doc.id] = doc.data();
+
+      const chkBox: any = card.querySelector(`input[ticketid="${doc.id}"]`);
+      chkBox.checked = this.ticketsLookup[doc.id].includeInMessage;
     });
 
     oldKeys.forEach((key: string) => {
@@ -190,6 +193,8 @@ export class AIChatApp extends BaseApp {
         if (card) card.remove();
       }
     });
+
+    
 
     if (scrollToBottom) {
       setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 10);
@@ -275,46 +280,85 @@ export class AIChatApp extends BaseApp {
             <i class="material-icons">delete</i>
             </button>`;
     cardWrapper.innerHTML =
-      `<div class="mt-1 m-1 mx-md-2 mx-sm-1 card game_message_list_item${gameOwnerClass}${ownerClass}" ticketid="${doc.id}"
-      gamenumber="${doc.id}">
-    <div class="m-1 user_assist_request_header">
-        <div class="user_img_wrapper member_desc">
-            <span style="background-image:url(${img})"></span>
+    `<div class="mt-1 m-1 mx-md-2 mx-sm-1 card game_message_list_item${gameOwnerClass}${ownerClass}" ticketid="${doc.id}"
+    gamenumber="${doc.id}">
+    <div style="display:flex;flex-direction:row">
+        <div class="ticket_item_include_wrapper">
+            <input class="form-check-input ticket_item_include_checkbox" type="checkbox" ticketid="${doc.id}" value="">
         </div>
-        <span class="name" style="flex:1">${name}</span>
-        <button class="rerun_ticket btn btn-secondary" data-ticketid="${doc.id}">Running...</button>
-        <span class="tokens_total"></span>
-        <span class="tokens_prompt"></span>
-        <span class="tokens_completion"></span>
-        <div class="game_date">
-            <div style="flex:1"></div>
-            <div class="time_since last_submit_time" data-timesince="${data.submitted}" data-showseconds="1"></div>
-            <div style="flex:1"></div>
+        <div style="flex:1;display:flex;flex-direction:column">
+            <div style="display:flex;flex-direction:row">
+                <div class="message" style="flex:1">${data.message}</div>
+                <div class="m-1 user_assist_request_header">
+                    <button class="rerun_ticket btn btn-secondary" data-ticketid="${doc.id}">Running...</button>
+                    <span class="tokens_total"></span>
+                    <span class="tokens_prompt"></span>
+                    <span class="tokens_completion"></span>
+                    <div class="game_date">
+                        <div style="flex:1"></div>
+                        <div class="time_since last_submit_time" data-timesince="${data.submitted}"
+                            data-showseconds="1">
+                        </div>
+                        <div style="flex:1"></div>
+                    </div>
+                    ${deleteHTML}
+                </div>
+            </div>
+            <div class="assist_section">pending...</div>
+            <div class="m-1" style="text-align: right">
+                <div class="user_img_wrapper member_desc">
+                    <span style="background-image:url(${img})"></span>
+                </div>
+                <span class="name" style="flex:1">${name}</span>
+            </div>
         </div>
-        ${deleteHTML}
     </div>
-    <div class="message" style="flex:1">${data.message}</div>
-    <div class="assist_section">pending...</div>
 </div>`;
     const cardDom = cardWrapper.children[0];
 
     const deleteBtn: any = cardDom.querySelector("button.delete_game");
     deleteBtn.addEventListener("click", (e: any) => {
-      e.stopPropagation();
-      e.preventDefault();
       this.deleteTicket(deleteBtn, deleteBtn.dataset.gamenumber, deleteBtn.dataset.messageid);
     });
 
     const reRunBtn: any = cardDom.querySelector("button.rerun_ticket");
-
     reRunBtn.addEventListener("click", async (e: any) => {
-      e.stopPropagation();
-      e.preventDefault();
       reRunBtn.innerHTML = "Running...";
       await this.reRunTicket(reRunBtn.dataset.ticketid);
     });
 
+    const includeChkBox: any = cardDom.querySelector(".ticket_item_include_checkbox");
+    includeChkBox.addEventListener("input", async (e: any) => {
+      await this.includeTicketSendToAPI(reRunBtn.dataset.ticketid, includeChkBox.checked);
+    });
+
     return cardDom;
+  }
+  /** send include update to api
+   * @param { string } ticketId doc id
+   * @param { include } include whether to include in messages
+  */
+  async includeTicketSendToAPI(ticketId: string, include: boolean) {
+    const body = {
+      gameNumber: this.currentGame,
+      ticketId,
+      include,
+    };
+    const token = await firebase.auth().currentUser.getIdToken();
+    const fResult = await fetch(this.basePath + "lobbyApi/aichat/message/include", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      headers: {
+        "Content-Type": "application/json",
+        token,
+      },
+      body: JSON.stringify(body),
+    });
+    const json = await fResult.json();
+    if (!json.success) {
+      console.log("ticket include fail post", json);
+    }
   }
   /** api user send message */
   async sendTicketToAPI() {

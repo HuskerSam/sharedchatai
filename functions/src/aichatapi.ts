@@ -83,6 +83,7 @@ export default class ChatAI {
                 isOwner,
                 memberName,
                 memberImage,
+                includeInMessage: true,
             };
             const addResult: any = await firebaseAdmin.firestore().collection(`Games/${gameNumber}/tickets`).add(ticket);
             ticketId = addResult.id;
@@ -310,6 +311,27 @@ export default class ChatAI {
         await firebaseAdmin.firestore().doc(`Games/${gameNumber}/assists/${ticketId}`).delete();
         await firebaseAdmin.firestore().doc(`Games/${gameNumber}/packets/${ticketId}`).delete();
         await firebaseAdmin.firestore().doc(`Games/${gameNumber}/reports/${ticketId}`).delete();
+        return res.status(200).send({
+            success: true,
+        });
+    }
+    static async updateTicketIncludeStatus(req: any, res: any) {
+        const authResults = await BaseClass.validateCredentials(req.headers.token);
+        if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
+
+        const localInstance = BaseClass.newLocalInstance();
+        await localInstance.init();
+
+        const gameNumber = req.body.gameNumber;
+        const ticketId = req.body.ticketId;
+        const includeInMessage = req.body.include;
+
+        await firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${ticketId}`).set({
+            includeInMessage
+        }, {
+            merge: true,
+        });
+
         return res.status(200).send({
             success: true,
         });
