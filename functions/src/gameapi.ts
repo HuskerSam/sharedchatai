@@ -21,7 +21,7 @@ export default class GameAPI {
     }
 
     let slug = "";
-    const numDigits = 5;
+    const numDigits = 8;
     for (let c = 0; c < numDigits; c++) slug += getDigit();
 
     const gameTest = await firebaseAdmin.firestore().doc(`${collection}/${slug}`).get();

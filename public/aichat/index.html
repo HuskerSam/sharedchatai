@@ -75,40 +75,47 @@
       </nav>
       <div class="accordion" id="accordionExample">
         <div class="accordion-item">
-          <h2 class="accordion-header" id="headingOne">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
-              aria-expanded="true" aria-controls="collapseOne">
-              Document Stats
-            </button>
-          </h2>
-          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-            data-bs-parent="#accordionExample">
-            <div class="accordion-body">
-              <div class="document_usage_stats_line"></div>
-              <div class="last_activity_display"></div>
-              <br>
-              <span class="field_title_label">Code</span>
-              <span class="gameid_span"></span>
-              <a href="#" style="display:none;" class="code_link_href">URL</a>
-              <button class="code_link_copy game"><i class="material-icons">content_copy</i> <span>url</span></button>
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
           <h2 class="accordion-header" id="headingTwo">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-              data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+              aria-expanded="true" aria-controls="collapseOne">
               Users
             </button>
           </h2>
-          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+          <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo"
             data-bs-parent="#accordionExample">
             <div class="accordion-body">
               <div class="members_list" style="flex:1;overflow: auto;"></div>
             </div>
           </div>
         </div>
-
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Document
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+            data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <div style="text-align:center">
+                <button class="document_export_button btn btn-secondary">Export</button>
+                <button class="document_import_button btn btn-secondary">Import</button>
+              </div>
+              <br>
+              <div style="display:flex;flex-direction:row">
+                <div class="document_usage_stats_line" style="flex:1"></div>
+                <div class="last_activity_display"></div>
+              </div>
+              <br>
+              <div style="text-align: right">
+                <span class="gameid_span"></span>
+                <a href="#" style="display:none;" class="code_link_href">URL</a>
+                <button class="code_link_copy game"><i class="material-icons">content_copy</i> <span>url</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="accordion-item">
           <h2 class="accordion-header" id="headingThree">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -120,8 +127,7 @@
             data-bs-parent="#accordionExample">
             <div class="accordion-body">
               <div class="form-floating">
-                <textarea type="text" class="form-control docfield_title"
-                  placeholder="Title"></textarea>
+                <textarea type="text" class="form-control docfield_title" placeholder="Title"></textarea>
                 <label>Title</label>
               </div>
               <select class="form-select docfield_model" aria-label="chatGPTEngine Selection"

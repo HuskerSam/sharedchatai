@@ -188,14 +188,6 @@ body {
   cursor: row-resize;
 }
 
-.field_title_label {
-  font-size: 20px;
-  font-weight: bold;
-  display: inline-block;
-  min-width: 200px;
-  opacity: .75;
-}
-
 .form-floating textarea.docfield_logit_bias {
   height: 200px;
 }
@@ -293,4 +285,10 @@ body {
 .accordion-button {
   background: inherit;
   color: inherit;
+  border-bottom: solid 2px rgb(127, 127, 127);
+  border-top: solid 2px rgb(127, 127, 127);
+}
+
+.accordion-body {
+  min-height: 100px;
 }

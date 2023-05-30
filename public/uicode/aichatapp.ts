@@ -285,9 +285,7 @@ export class AIChatApp extends BaseApp {
     if (data.memberImage) img = data.memberImage;
 
     const cardWrapper = document.createElement("div");
-    const deleteHTML = `<button class="delete_game" data-gamenumber="${data.gameNumber}" data-messageid="${doc.id}">
-            <i class="material-icons">delete</i>
-            </button>`;
+
     cardWrapper.innerHTML =
       `<div class="mt-1 m-1 mx-md-2 mx-sm-1 card game_message_list_item${gameOwnerClass}${ownerClass}" ticketid="${doc.id}"
       gamenumber="${doc.id}">
@@ -303,18 +301,16 @@ export class AIChatApp extends BaseApp {
               <div style="display:flex;flex-direction:column">
                   <div class="m-1 user_assist_request_header">
                       <div style="flex:1"></div>
-                      <button class="rerun_ticket btn btn-secondary" data-ticketid="${doc.id}">Running...</button>
+  
                       <span class="tokens_total"></span>
                       <span class="tokens_prompt"></span>
                       <span class="tokens_completion"></span>
-                      <div class="game_date">
-                          <div style="flex:1"></div>
-                          <div class="time_since last_submit_time" data-timesince="${data.submitted}"
-                              data-showseconds="1">
-                          </div>
-                          <div style="flex:1"></div>
+                      <button class="rerun_ticket btn btn-secondary" data-ticketid="${doc.id}">Running...</button>
+                      <div class="time_since last_submit_time" data-timesince="${data.submitted}" data-showseconds="1">
                       </div>
-                      ${deleteHTML}
+                      <button class="delete_game" data-gamenumber="${data.gameNumber}" data-messageid="${doc.id}">
+                          <i class="material-icons">delete</i>
+                      </button>
                       <div class="m-1" style="text-align: right">
                           <div class="user_img_wrapper member_desc">
                               <span style="background-image:url(${img})"></span>
