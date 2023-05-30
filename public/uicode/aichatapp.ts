@@ -27,6 +27,7 @@ export class AIChatApp extends BaseApp {
   send_ticket_button: any = document.querySelector(".send_ticket_button");
   ticket_content_input: any = document.querySelector(".ticket_content_input");
   prompt_token_count: any = document.querySelector(".prompt_token_count");
+  token_visualizer_preview: any = document.querySelector(".token_visualizer_preview");
   code_link_href: any = document.querySelector(".code_link_href");
   code_link_copy: any = document.querySelector(".code_link_copy");
   gameid_span: any = document.querySelector(".gameid_span");
@@ -98,6 +99,7 @@ export class AIChatApp extends BaseApp {
     if (snapshot) this.lastAssistsSnapShot = snapshot;
     else if (this.lastAssistsSnapShot) snapshot = this.lastAssistsSnapShot;
     else return;
+    const scrollToBottom = this.atBottom(this.tickets_list);
 
     snapshot.forEach((doc: any) => {
       const assistSection: any = document.querySelector(`div[ticketid="${doc.id}"] .assist_section`);
@@ -143,6 +145,24 @@ export class AIChatApp extends BaseApp {
         }
       }
     });
+
+    if (scrollToBottom) {
+      setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 10);
+    }
+  }
+  /** tests if dom scroll is at bottom
+   * @param { any } ele element to test
+   * @return { boolean } true is scrolled to bottom
+   */
+  atBottom(ele: any): boolean {
+    const sh = ele.scrollHeight;
+    const st = ele.scrollTop;
+    const ht = ele.offsetHeight;
+    if (ht == 0) {
+      return true;
+    }
+    if (st == sh - ht) return true;
+    else return false;
   }
   /** paint user message feed
    * @param { any } snapshot firestore query data snapshot
@@ -152,29 +172,30 @@ export class AIChatApp extends BaseApp {
     else if (this.lastTicketsSnapshot) snapshot = this.lastTicketsSnapshot;
     else return;
 
-    let html = "";
+    const scrollToBottom = this.atBottom(this.tickets_list);
+    const oldKeys = Object.keys(this.ticketsLookup);
     this.ticketsLookup = {};
     snapshot.forEach((doc: any) => {
+      let card: any = this.tickets_list.querySelector(`div[gamenumber="${doc.id}"]`);
+      if (!card) {
+        card = this.getTicketCardDom(doc);
+      }
+      this.tickets_list.insertBefore(card, this.tickets_list.firstChild);
       this.ticketsLookup[doc.id] = doc.data();
-      html += this._renderTicketFeedLine(doc);
     });
 
-    this.tickets_list.innerHTML = html;
+    oldKeys.forEach((key: string) => {
+      if (!this.ticketsLookup[key]) {
+        const card: any = this.tickets_list.querySelector(`div[gamenumber="${key}"]`);
+        if (card) card.remove();
+      }
+    });
 
-    this.tickets_list.querySelectorAll("button.delete_game")
-      .forEach((btn: any) => btn.addEventListener("click", (e: any) => {
-        e.stopPropagation();
-        e.preventDefault();
-        this.deleteTicket(btn, btn.dataset.gamenumber, btn.dataset.messageid);
-      }));
+    if (scrollToBottom) {
+      setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 10);
+    }
 
-    this.tickets_list.querySelectorAll("button.rerun_ticket")
-      .forEach((btn: any) => btn.addEventListener("click", async (e: any) => {
-        e.stopPropagation();
-        e.preventDefault();
-        btn.innerHTML = "Running...";
-        await this.reRunTicket(btn.dataset.ticketid);
-      }));
+    this.updateTimeSince(this.tickets_list);
 
     this.refreshOnlinePresence();
     this.updateAssistsFeed(null);
@@ -183,7 +204,7 @@ export class AIChatApp extends BaseApp {
    * @param { string } ticketId doc id
    */
   async reRunTicket(ticketId: string): Promise<void> {
-    const includeTickets = this.generateSubmitList();
+    const includeTickets = this.generateSubmitList(ticketId);
 
     const body = {
       gameNumber: this.currentGame,
@@ -236,9 +257,9 @@ export class AIChatApp extends BaseApp {
   }
   /** generate html for message card
    * @param { any } doc firestore message document
-   * @return { string } html for card
+   * @return { any } card
    */
-  _renderTicketFeedLine(doc: any): string {
+  getTicketCardDom(doc: any): any {
     const data = doc.data();
     const gameOwnerClass = data.isGameOwner ? " message_game_owner" : "";
     const ownerClass = data.uid === this.uid ? " message_owner" : "";
@@ -249,13 +270,13 @@ export class AIChatApp extends BaseApp {
     let img = "/images/defaultprofile.png";
     if (data.memberImage) img = data.memberImage;
 
-    let deleteHTML = "";
-
-    deleteHTML = `<button class="delete_game" data-gamenumber="${data.gameNumber}" data-messageid="${doc.id}">
+    const cardWrapper = document.createElement("div");
+    const deleteHTML = `<button class="delete_game" data-gamenumber="${data.gameNumber}" data-messageid="${doc.id}">
             <i class="material-icons">delete</i>
             </button>`;
-
-    return `<div class="mt-1 m-1 mx-md-2 mx-sm-1 card game_message_list_item${gameOwnerClass}${ownerClass}" ticketid="${doc.id}">
+    cardWrapper.innerHTML =
+      `<div class="mt-1 m-1 mx-md-2 mx-sm-1 card game_message_list_item${gameOwnerClass}${ownerClass}" ticketid="${doc.id}"
+      gamenumber="${doc.id}">
     <div class="m-1 user_assist_request_header">
         <div class="user_img_wrapper member_desc">
             <span style="background-image:url(${img})"></span>
@@ -275,6 +296,25 @@ export class AIChatApp extends BaseApp {
     <div class="message" style="flex:1">${data.message}</div>
     <div class="assist_section">pending...</div>
 </div>`;
+    const cardDom = cardWrapper.children[0];
+
+    const deleteBtn: any = cardDom.querySelector("button.delete_game");
+    deleteBtn.addEventListener("click", (e: any) => {
+      e.stopPropagation();
+      e.preventDefault();
+      this.deleteTicket(deleteBtn, deleteBtn.dataset.gamenumber, deleteBtn.dataset.messageid);
+    });
+
+    const reRunBtn: any = cardDom.querySelector("button.rerun_ticket");
+
+    reRunBtn.addEventListener("click", async (e: any) => {
+      e.stopPropagation();
+      e.preventDefault();
+      reRunBtn.innerHTML = "Running...";
+      await this.reRunTicket(reRunBtn.dataset.ticketid);
+    });
+
+    return cardDom;
   }
   /** api user send message */
   async sendTicketToAPI() {
@@ -285,6 +325,11 @@ export class AIChatApp extends BaseApp {
     }
     if (message.length > 10000) message = message.substr(0, 10000);
     this.ticket_content_input.value = "";
+
+    // scroll to bottom
+    this.tickets_list.scrollTop = this.tickets_list.scrollHeight;
+
+    this.updatePromptTokenStatus();
     const includeTickets = this.generateSubmitList();
 
     const body = {
@@ -310,11 +355,14 @@ export class AIChatApp extends BaseApp {
     }
   }
   /** process exisiting tickets and return list of ids to submit
+   * @param { string } ticketId doc id
    * @return { Array<string> } list of ticket ids
   */
-  generateSubmitList(): Array<string> {
+  generateSubmitList(ticketId = ""): Array<string> {
     const tickets: Array<string> = [];
-    this.lastTicketsSnapshot.forEach((doc: any) => tickets.push(doc.id));
+    this.lastTicketsSnapshot.forEach((doc: any) => {
+      if (ticketId !== doc.id) tickets.push(doc.id);
+    });
     return tickets;
   }
   /** BaseApp override to paint profile specific authorization parameters */
@@ -348,7 +396,8 @@ export class AIChatApp extends BaseApp {
       <span>${this.gameData.completionTokens}</span>
     `;
 
-    this.last_activity_display.innerHTML = this.isoToLocal(<string> this.gameData.lastActivity)
+    this.last_activity_display.innerHTML = this.isoToLocal(<string>
+      this.gameData.lastActivity)
       .toISOString().substring(0, 19).replace("T", " ");
 
     this.paintDocumentOptions();
@@ -513,6 +562,15 @@ export class AIChatApp extends BaseApp {
   /** count input token */
   updatePromptTokenStatus() {
     const tokens = window.gpt3tokenizer.encode(this.ticket_content_input.value);
+
+    let html = "";
+    tokens.forEach((token: any, index: number) => {
+      const text = window.gpt3tokenizer.decode([token]);
+      const tokenClass = (index % 2 === 0) ? "token_even" : "token_odd";
+      html += `<span class="${tokenClass}">${text}</span>`;
+    });
+    this.token_visualizer_preview.innerHTML = html;
+
     this.prompt_token_count.innerHTML = tokens.length;
   }
 }

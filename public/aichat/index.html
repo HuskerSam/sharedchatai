@@ -88,16 +88,19 @@
     <div class="right_panel_view" style="overflow:auto">
       <div class="document_feed_view">
         <div class="tickets_list" style="flex:1;overflow:auto;"></div>
-        <div class="message_list_send_wrapper" style="display:flex;flex-direction:row">
-          <div class="form-floating" style="flex:1;margin:4px;">
-            <input type="text" class="form-control ticket_content_input" name="ticketcontent"
-              placeholder="AI Questions">
-            <label>Ask Questions</label>
+        <div class="message_list_send_wrapper">
+          <div class="token_visualizer_preview"></div>
+          <div style="display:flex;flex-direction:row">
+            <div class="form-floating" style="flex:1;margin:4px;">
+              <input type="text" class="form-control ticket_content_input" name="ticketcontent"
+                placeholder="AI Questions">
+              <label>Ask Questions</label>
+            </div>
+            <div class="prompt_token_count"></div>
+            <button class="send_ticket_button btn btn-primary" style="margin:8px;">
+              Submit AI Ticket
+            </button>
           </div>
-          <div class="prompt_token_count"></div>
-          <button class="send_ticket_button btn btn-primary" style="margin:8px;">
-            Submit AI Ticket
-          </button>
         </div>
       </div>
       <div class="document_options_view">
