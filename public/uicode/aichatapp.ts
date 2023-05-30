@@ -421,15 +421,14 @@ export class AIChatApp extends BaseApp {
       let include = false;
       if (ticket && ticket.includeInMessage) include = true;
       if (ticketId !== doc.id && include) {
-        const tokenData = this.tokenCountForAssist(doc.id);
-        console.log(tokenData);
-        if (tokenData) {
-          this.includeMessageTokens += tokenData.prompt_tokens;
-          this.includeAssistTokens += tokenData.completion_tokens;
-          this.includeTotalTokens += tokenData.total_tokens;
-        }
-
+        const tokenCountCompletion = this.tokenCountForCompletion(doc.id);
+        const promptTokens = window.gpt3tokenizer.encode(ticket.message);
+        if (tokenCountCompletion > 0) {
+          this.includeMessageTokens += promptTokens.length;
+          this.includeAssistTokens += tokenCountCompletion;
+          this.includeTotalTokens += tokenCountCompletion + promptTokens.length;
         tickets.push(doc.id);
+        }
       }
     });
     return tickets;
@@ -438,11 +437,18 @@ export class AIChatApp extends BaseApp {
    * @param { string } assistId ticket id to check for assist
    * @return { any } assist usage data or null
   */
-  tokenCountForAssist(assistId: string): any {
-    const assistData: any = this.assistsLookup[assistId];
-    if (!assistData) return null;
-    if (!assistData.assist || !assistData.assist.usage) return null;
-    return assistData.assist.usage;
+  tokenCountForCompletion(assistId: string): any {
+    try {
+      const assistData: any = this.assistsLookup[assistId];
+      if (!assistData || !assistData.assist || !assistData.assist.choices ||
+         !assistData.assist.choices["0"] || !assistData.assist.choices["0"].message ||
+         !assistData.assist.choices["0"].message.content) return 0;
+
+      return window.gpt3tokenizer.encode(assistData.assist.choices["0"].message.content).length;
+    } catch (assistError: any) {
+      console.log(assistError);
+      return 0;
+    }
   }
   /** BaseApp override to paint profile specific authorization parameters */
   authUpdateStatusUI() {
