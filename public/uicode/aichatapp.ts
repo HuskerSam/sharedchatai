@@ -727,7 +727,9 @@ export class AIChatApp extends BaseApp {
   showExportModal() {
     this.refreshReportData();
   }
-  /** generate export data */
+  /** generate export data
+   * @return { string } text for selected format and tickets
+  */
   generateExportData() {
     const ticketsFilterSelected: any = document.querySelector(`input[name="tickets_filter"]:checked`);
     const ticketsFilter: any = ticketsFilterSelected.value;
@@ -737,12 +739,20 @@ export class AIChatApp extends BaseApp {
     let resultText = "";
     const tickets: Array<any> = [];
     this.lastTicketsSnapshot.forEach((ticket: any) => {
-      if (ticketsFilter === "all" || ticket.data().includeInMessage)
-        tickets.push(ticket);
+      if (ticketsFilter === "all" || ticket.data().includeInMessage) tickets.push(ticket);
     });
 
     if (formatFilter === "json") {
-      resultText += " TO DO";
+      const rows: any = [];
+      tickets.forEach((ticket: any) => {
+        rows.push({
+          prompt: ticket.data().message,
+          completion: this.messageForCompletion(ticket.id),
+          selected: ticket.data().includeInMessage ? "y" : "n",
+        });
+      });
+      const jsonText =JSON.stringify(rows, null, "  ");
+      resultText = jsonText;
     } else if (formatFilter === "csv") {
       const rows: any = [];
       tickets.forEach((ticket: any) => {
@@ -751,11 +761,11 @@ export class AIChatApp extends BaseApp {
           completion: this.messageForCompletion(ticket.id),
           selected: ticket.data().includeInMessage ? "y" : "n",
         });
-      }); 
+      });
       const csvText = window.Papa.unparse(rows);
       resultText = csvText;
     } else if (formatFilter === "text") {
-      resultText += new Date().toString() + " summary\n"
+      resultText += new Date().toString() + " summary\n";
       tickets.forEach((ticket: any) => {
         const completion = this.messageForCompletion(ticket.id);
         const prompt = ticket.data().message;
@@ -765,7 +775,27 @@ export class AIChatApp extends BaseApp {
         resultText += "\n";
       });
     } else if (formatFilter === "html") {
-      resultText += " TO DO";
+      resultText += `<div class="export_date">${new Date().toString()} summary</div>\n`;
+      resultText += `<style>\n`;
+      resultText += `.prompt-text {\n`;
+      resultText += `    font-weight: bold;\n`;
+      resultText += `}\n`;
+      resultText += `\n`;
+      resultText += `.completion-text {\n`;
+      resultText += `    white-space: pre;\n`;
+      resultText += `}\n`;
+      resultText += `\n`;
+      resultText += `</style>\n`;
+      tickets.forEach((ticket: any) => {    
+        const  prompt = <string>ticket.data().message;
+        const  completion = <string>this.messageForCompletion(ticket.id);
+        const  selected = <string>ticket.data().includeInMessage ? "✅" : "&nbsp;";
+
+        resultText += `<div class="ticket-item">\n`;
+        resultText += `    <div class="prompt-text">${selected} ${prompt}</div>\n`
+        resultText += `    <div class="completion-text">${completion}</div>\n`
+        resultText += `</div>`;
+      });
     }
 
     return resultText;
