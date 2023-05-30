@@ -106,7 +106,7 @@ body {
 .game_message_list_item .message {
   text-align: left;
   font-size: 20px;
-  padding: 0 12px;
+  padding: 0px 4px;
   font-weight: bold;
   color: rgb(25, 135, 84);
 }
@@ -162,11 +162,11 @@ body {
 
 .assist_section {
   text-align: left;
-  font-size: 1.25em;
-  padding: 10px;
-  padding-left: 25px;
-  padding-bottom: 25px;
+  font-size: 1.1em;
+  padding: 8px 8px 0px 4px;
+  padding-bottom: 8px;
   white-space: pre-wrap;
+  margin-left: -32px;
 }
 
 .main_view_splitter {
@@ -203,7 +203,6 @@ body {
   margin: 4px;
 }
 
-
 .left_panel_view {
   display: flex;
   flex-direction: column;
@@ -211,20 +210,6 @@ body {
   background: rgb(32, 33, 35);
   color: rgb(217, 217, 227)
 }
-
-@media (min-width: 501px) {
-  .navbar {
-    position: fixed;
-    bottom: 0;
-    width: inherit;
-    transition: transform 0.3s ease-in-out
-  }
-
-  .navbar.snapped {
-    transform: translateY(100%);
-  }
-}
-
 
 .document_usage_stats_line {
   display: flex;
@@ -251,8 +236,9 @@ body {
 }
 
 .ticket_item_include_wrapper input {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
+  margin: 8px;
 }
 
 .accordion-item {
@@ -300,4 +286,34 @@ body {
   color: inherit;
   min-height: 30vh;
   margin-left: 3%;
+}
+
+@media (min-width: 501px) {
+  .navbar {
+    position: fixed;
+    bottom: 0;
+    width: inherit;
+    transition: transform 0.3s ease-in-out
+  }
+
+  .navbar.snapped {
+    transform: translateY(100%);
+  }
+
+  .game_message_list_item .message {
+    padding: 10px 14px;
+  }
+
+  .assist_section {
+    font-size: 1.25em;
+    padding: 8px 8px 0px 4px;
+    padding-left: 12px;
+    padding-bottom: 25px;
+  }
+
+  .ticket_item_include_wrapper input {
+    width: 36px;
+    height: 36px;
+    margin: 8px 0 0px 8px;
+  }
 }
