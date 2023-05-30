@@ -69,6 +69,7 @@ export class AIChatApp extends BaseApp {
   html_format: any = document.getElementById("html_format");
   csv_format: any = document.getElementById("csv_format");
   json_format: any = document.getElementById("json_format");
+  download_export_button: any = document.querySelector(".download_export_button");
 
   /**  */
   constructor() {
@@ -98,6 +99,7 @@ export class AIChatApp extends BaseApp {
     this.html_format.addEventListener("click", () => this.refreshReportData());
     this.csv_format.addEventListener("click", () => this.refreshReportData());
     this.json_format.addEventListener("click", () => this.refreshReportData());
+    this.download_export_button.addEventListener("click", () => this.downloadReportData());
   }
   /** setup data listender for user messages */
   async initTicketFeed() {
@@ -742,7 +744,11 @@ export class AIChatApp extends BaseApp {
       if (ticketsFilter === "all" || ticket.data().includeInMessage) tickets.push(ticket);
     });
 
+    let format = "";
+    let fileName = "";
     if (formatFilter === "json") {
+      format = "application/json";
+      fileName = "export.json";
       const rows: any = [];
       tickets.forEach((ticket: any) => {
         rows.push({
@@ -754,6 +760,8 @@ export class AIChatApp extends BaseApp {
       const jsonText =JSON.stringify(rows, null, "  ");
       resultText = jsonText;
     } else if (formatFilter === "csv") {
+      format = "application/csv";
+      fileName = "export.csv";
       const rows: any = [];
       tickets.forEach((ticket: any) => {
         rows.push({
@@ -765,6 +773,8 @@ export class AIChatApp extends BaseApp {
       const csvText = window.Papa.unparse(rows);
       resultText = csvText;
     } else if (formatFilter === "text") {
+      format = "plain/text";
+      fileName = "report.txt";
       resultText += new Date().toString() + " summary\n";
       tickets.forEach((ticket: any) => {
         const completion = this.messageForCompletion(ticket.id);
@@ -775,6 +785,8 @@ export class AIChatApp extends BaseApp {
         resultText += "\n";
       });
     } else if (formatFilter === "html") {
+      fileName = "report.html";
+      format = "text/html";
       resultText += `<div class="export_date">${new Date().toString()} summary</div>\n`;
       resultText += `<style>\n`;
       resultText += `.prompt-text {\n`;
@@ -782,7 +794,7 @@ export class AIChatApp extends BaseApp {
       resultText += `}\n`;
       resultText += `\n`;
       resultText += `.completion-text {\n`;
-      resultText += `    white-space: pre;\n`;
+      resultText += `    white-space: pre-wrap;\n`;
       resultText += `}\n`;
       resultText += `\n`;
       resultText += `</style>\n`;
@@ -798,12 +810,37 @@ export class AIChatApp extends BaseApp {
       });
     }
 
-    return resultText;
+    return {
+      resultText,
+      format,
+      fileName,
+    };
   }
   /** refresh report data */
-  refreshReportData() {
+  refreshReportData(download = false) {
     const data = this.generateExportData();
-    this.export_data_popup_preview.innerHTML = data;
-    this.export_size.innerHTML = data.length;
+    this.export_data_popup_preview.innerHTML = data.resultText;
+    this.export_size.innerHTML = data.resultText.length;
+
+    if (download) {
+      const file = new File([data.resultText], data.fileName, {
+        type: data.format,
+      });
+
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(file);
+    
+      link.href = url;
+      link.download = file.name;
+      document.body.appendChild(link);
+      link.click();
+    
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    }
+  }
+  /** download report data */
+  downloadReportData() {
+    this.refreshReportData(true);
   }
 }
