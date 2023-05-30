@@ -38,6 +38,8 @@ export default class BaseClass {
   static defaultChatDocumentOptions(): any {
     return {
       gameType: "aichat",
+      title: "",
+      unsetTitle: true,
       model: "gpt-3.5-turbo",
       max_tokens: 4097,
       temperature: 1,

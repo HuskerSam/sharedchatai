@@ -89,6 +89,15 @@ export default class ChatAI {
             ticketId = addResult.id;
         }
 
+        if (gameData.unsetTitle) {
+            const titleUpdate = {
+                unsetTitle: false,
+                title: message,
+            };
+            await firebaseAdmin.firestore().doc(`Games/${ticket.gameNumber}`).set(titleUpdate, {
+                merge: true,
+            });
+        }
 
         await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).set({
             lastActivity: new Date().toISOString(),

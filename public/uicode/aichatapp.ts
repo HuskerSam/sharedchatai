@@ -193,6 +193,9 @@ export class AIChatApp extends BaseApp {
 
       const chkBox: any = card.querySelector(`input[ticketid="${doc.id}"]`);
       chkBox.checked = this.ticketsLookup[doc.id].includeInMessage;
+
+      const submittedTime: any = card.querySelector(".last_submit_time");
+      submittedTime.setAttribute("data-timesince", doc.data().submitted);
     });
 
     oldKeys.forEach((key: string) => {
