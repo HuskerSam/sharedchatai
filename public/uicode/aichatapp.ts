@@ -104,7 +104,7 @@ export class AIChatApp extends BaseApp {
     snapshot.forEach((doc: any) => {
       const assistSection: any = document.querySelector(`div[ticketid="${doc.id}"] .assist_section`);
       const lastSubmit: any = document.querySelector(`div[ticketid="${doc.id}"] .last_submit_time`);
-      if (lastSubmit)  lastSubmit.dataset.showseconds = "0";
+      if (lastSubmit) lastSubmit.dataset.showseconds = "0";
 
       if (assistSection) {
         const totalSpan: any = document.querySelector(`div[ticketid="${doc.id}"] .tokens_total`);
@@ -193,8 +193,6 @@ export class AIChatApp extends BaseApp {
         if (card) card.remove();
       }
     });
-
-    
 
     if (scrollToBottom) {
       setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 10);
@@ -317,18 +315,18 @@ export class AIChatApp extends BaseApp {
     const cardDom = cardWrapper.children[0];
 
     const deleteBtn: any = cardDom.querySelector("button.delete_game");
-    deleteBtn.addEventListener("click", (e: any) => {
+    deleteBtn.addEventListener("click", () => {
       this.deleteTicket(deleteBtn, deleteBtn.dataset.gamenumber, deleteBtn.dataset.messageid);
     });
 
     const reRunBtn: any = cardDom.querySelector("button.rerun_ticket");
-    reRunBtn.addEventListener("click", async (e: any) => {
+    reRunBtn.addEventListener("click", async () => {
       reRunBtn.innerHTML = "Running...";
       await this.reRunTicket(reRunBtn.dataset.ticketid);
     });
 
     const includeChkBox: any = cardDom.querySelector(".ticket_item_include_checkbox");
-    includeChkBox.addEventListener("input", async (e: any) => {
+    includeChkBox.addEventListener("input", async () => {
       await this.includeTicketSendToAPI(reRunBtn.dataset.ticketid, includeChkBox.checked);
     });
 

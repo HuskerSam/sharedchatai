@@ -315,6 +315,10 @@ export default class ChatAI {
             success: true,
         });
     }
+    /** update state from checkbox state in
+     * @param { any } req http request object
+     * @param { any } res http response object
+    */
     static async updateTicketIncludeStatus(req: any, res: any) {
         const authResults = await BaseClass.validateCredentials(req.headers.token);
         if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
@@ -327,7 +331,7 @@ export default class ChatAI {
         const includeInMessage = req.body.include;
 
         await firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${ticketId}`).set({
-            includeInMessage
+            includeInMessage,
         }, {
             merge: true,
         });
