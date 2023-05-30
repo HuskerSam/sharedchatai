@@ -113,16 +113,18 @@ export class GamesApp extends BaseApp {
     const html = `<div class="accordion-item document_list_item card card_shadow_sm document_list_item${ownerClass} gametype_${data.gameType}"
     data-gamenumber="${doc.id}" gamenumber="${doc.id}">
     <div class="accordion-header">
-        <button class="accordion-button d-flex justify-content-between collasped" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${doc.id}"
+        <button class="accordion-button d-flex justify-content-end collasped" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${doc.id}"
             aria-expanded="true" aria-controls="collapse${doc.id}">
-            <div class="flex-grow-1 document_name_STANDIN">Name of this document</div>
-            <div class="flex-grow-1 user_img_wrapper">
-              <div class="d-flex flex-column">
+            <div class="document_name">Name of this document</div>
+            <div class="document_status">
+            <div class="user_img_wrapper">
+              <div class="d-flex flex-row">
                <span><img class="owner_img" src="${data.memberImages[data.createUser]}"></span>
                 <span class="owner_name">${data.memberNames[data.createUser]}</span>
               </div>  
             </div>
             <div class="me-2 time_since last_submit_time" data-timesince="${data.lastActivity}" data-showseconds="0"></div>
+            </div>
         </button>
     </div>
     <div id="collapse${doc.id}" class="accordion-collapse collapse" aria-labelledby="headingOne"

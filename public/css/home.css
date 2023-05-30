@@ -109,12 +109,9 @@ a.game_number_open {
   border-radius: 6px;
 }
 
-
-.next_player_wrapper {
-  font-size: 24px;
-  flex: 1;
-  line-height: 32px;
-  padding-left: 4px;
+.owner_img {
+  width: 30px;
+  height: 30px;
 }
 
 .next_player_wrapper span.member_online_status {
@@ -266,3 +263,10 @@ button.code_link {
   background-color: unset;
 }
 
+.document_name {
+  flex: 1;
+}
+
+.document_status {
+  flex:0.4;
+}
