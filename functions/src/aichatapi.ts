@@ -101,9 +101,7 @@ export default class ChatAI {
 
         await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).set({
             lastActivity: new Date().toISOString(),
-            lastMessage: ticket.message,
             lastTicketId: ticketId,
-            lastResponse: "pending...",
         }, {
             merge: true,
         });
@@ -221,7 +219,6 @@ export default class ChatAI {
     static async _processTicket(packet: any, gameData: any, ticketData: any,
         id: string, chatGptKey: string, submitted: string): Promise<void> {
         let aiResponse: any = {};
-        let lastResponse = "error";
         let total_tokens = 0;
         let prompt_tokens = 0;
         let completion_tokens = 0;
@@ -253,12 +250,13 @@ export default class ChatAI {
                 assist,
                 submitted,
             };
-
+            /*
             if (!assist.error) {
                 lastResponse = aiResponse.assist.choices["0"].message.content;
             } else {
                 lastResponse = "error";
             }
+            */
             if (assist.usage) {
                 total_tokens = BaseClass.getNumberOrDefault(assist.usage.total_tokens, 0);
                 prompt_tokens = BaseClass.getNumberOrDefault(assist.usage.prompt_tokens, 0);
@@ -276,9 +274,9 @@ export default class ChatAI {
 
         await firebaseAdmin.firestore().doc(`Games/${packet.gameNumber}`).set({
             lastActivity: new Date().toISOString(),
-            lastMessage: ticketData.message,
+            // lastMessage: ticketData.message,
             lastTicketId: packet.gameNumber,
-            lastResponse,
+            // lastResponse,
             totalTokens: FieldValue.increment(total_tokens),
             promptTokens: FieldValue.increment(prompt_tokens),
             completionTokens: FieldValue.increment(completion_tokens),
