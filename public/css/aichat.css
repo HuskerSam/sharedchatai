@@ -277,13 +277,14 @@ body {
   flex-direction: column;
 }
 
-.show .accordion-item {
-  overflow: auto;
-}
-
 .accordion {
   height: 100%;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+}
+
+.accordion-collapse.show {
+  flex: 1;
+  overflow: auto;
 }
