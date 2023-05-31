@@ -21,6 +21,7 @@ export class ProfileApp extends BaseApp {
   profile_display_image_preset: any = document.querySelector(".profile_display_image_preset");
   randomize_name: any = document.querySelector(".randomize_name");
   login_email: any = document.querySelector(".login_email");
+  button_save_labels: any = document.querySelector(".button_save_labels");
   lastNameChange = 0;
 
   /** */
@@ -55,8 +56,35 @@ export class ProfileApp extends BaseApp {
     this.profile_display_image_clear.addEventListener("click", () => this.clearProfileImage());
     this.profile_display_image_preset.addEventListener("input", () => this.handleImagePresetChange());
     this.randomize_name.addEventListener("click", () => this.randomizeProfileName());
+    this.button_save_labels.addEventListener("click", () => this.saveLabels())
+
+    window.$('.label_profile_picker').select2({
+      tags: true,
+      placeHolder: "Configure default labels",
+    });
 
     this.initPresetLogos();
+  }
+  getLabels(): string {
+    const data = window.$('.label_profile_picker').select2("data");
+    const labels: Array<string> = [];
+    data.forEach((item: any) => {
+      if (item.text.trim()) labels.push(item.text.trim());
+    });
+
+    return labels.join(",");
+  }
+  async saveLabels() {
+
+    this.profile.documentLabels = this.getLabels();
+    const updatePacket = {
+      documentLabels: this.profile.documentLabels,
+    };
+    if (this.fireToken) {
+      await firebase.firestore().doc(`Users/${this.uid}`).set(updatePacket, {
+        merge: true,
+      });
+    }
   }
   /** load the team logos <select> */
   async initPresetLogos() {
@@ -149,6 +177,28 @@ export class ProfileApp extends BaseApp {
     if (!this.profile.nightModeState) this.profile.nightModeState = 0;
     if (this.night_mode_radios.length > 0) {
       this.night_mode_radios[this.profile.nightModeState].checked = true;
+    }
+
+    const currentLabels = this.getLabels();
+    if (this.profile.documentLabels !== currentLabels) {
+      const queryLabelSelect2 = window.$('.label_profile_picker');
+      queryLabelSelect2.val(null).trigger('change');
+  
+      let labelString = this.profile.documentLabels;
+      if (!labelString) labelString = "";
+      const labelArray = labelString.split(",");
+      labelArray.forEach((label: string) => {
+        if (label !== "") {
+          if (queryLabelSelect2.find("option[value='" + label + "']").length) {
+            queryLabelSelect2.val(label).trigger('change');
+          } else {
+            // Create a DOM Option and pre-select by default
+            const newOption = new Option(label, label, true, true);
+            // Append it to the select
+            queryLabelSelect2.append(newOption).trigger('change');
+          }
+        }
+      });
     }
   }
   /** handle (store) change to users display name */

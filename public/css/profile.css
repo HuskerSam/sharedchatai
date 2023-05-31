@@ -57,3 +57,24 @@
     max-width: 630px;
   }
 }
+
+.select2-container .selection {
+  width: 100%
+}
+
+.select2-container {
+  font-size: 22px;
+  margin: 1%;
+}
+
+.label_profile_picker {
+  display: inline-block;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+  background: rgb(0, 127, 0, 0.5);
+}
+
+.select2-dropdown {
+  display: none!important;
+}

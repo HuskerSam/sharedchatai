@@ -36,7 +36,11 @@
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
     integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+  
   <link rel="stylesheet" href="/css/base.css" />
   <link rel="stylesheet" href="/css/profile.css" />
 
@@ -86,6 +90,14 @@
       &nbsp; &nbsp;
       <button class="reset_profile btn btn-secondary" style="white-space:nowrap;">Reset Profile</button>
       <br>
+      <hr>
+      <h3>Labels</h3>
+      <br>
+      <div style="text-align:center;">
+        <select class="label_profile_picker" multiple="multiple" style="width:80%"></select>
+      </div>
+      <br>
+      <button class="btn btn-primary button_save_labels">Save Labels</button>
       <br>
       <hr>
       <div class="settings_panel">
@@ -143,6 +155,9 @@
             <option>Pick preset</option>
           </select>
         </div>
+        <br>
+
+        <br>
       </div>
     </div>
     <div style="flex:1"></div>
