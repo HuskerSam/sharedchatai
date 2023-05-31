@@ -50,14 +50,6 @@
   align-items: center;
 }
 
-.new_game_view {
-  display: none;
-}
-
-.show_new_game .new_game_view {
-  display: block;
-}
-
 button.delete_game {
   display: none;
 }
@@ -207,16 +199,8 @@ button.game.sit_button {
   background: rgba(127, 127, 127, .5);
 }
 
-.new_game_view .basic_options {
-  min-height: 85vh;
-}
-
 button.code_link {
   border-color: transparent;
-}
-
-.app_signed_out .menu_create_game {
-  display: none;
 }
 
 .lobby_user_description {

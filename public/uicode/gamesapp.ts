@@ -4,11 +4,9 @@ declare const firebase: any;
 
 /** Game Lobby App - for listing, joining and creating games  */
 export class GamesApp extends BaseApp {
-  create_new_game_btn: any = document.querySelector(".create_new_game_btn");
   dashboard_documents_view: any = document.querySelector(".dashboard_documents_view");
   join_game_btn: any = document.querySelector(".join_game_btn");
   create_game_afterfeed_button: any = document.querySelector(".create_game_afterfeed_button");
-  menu_create_game: any = document.querySelector(".menu_create_game");
   new_game_type_wrappers: any = document.querySelectorAll(".new_game_type_wrapper");
   basic_options: any = document.querySelector(".basic_options");
   userprofile_description: any = document.querySelector(".userprofile_description");
@@ -26,7 +24,6 @@ export class GamesApp extends BaseApp {
 
 
     this.join_game_btn.addEventListener("click", () => this.joinGame(null));
-    this.menu_create_game.addEventListener("click", () => this.createNewGame());
     this.create_game_afterfeed_button.addEventListener("click", () => this.createNewGame());
 
     this.initRTDBPresence();
@@ -189,9 +186,6 @@ export class GamesApp extends BaseApp {
     if (this.creatingNewRecord) return;
     if (!this.profile) return;
     this.creatingNewRecord = true;
-
-    this.create_new_game_btn.setAttribute("disabled", true);
-    this.create_new_game_btn.innerHTML = "Creating...";
 
     this.create_game_afterfeed_button.setAttribute("disabled", true);
     this.create_game_afterfeed_button.innerHTML = "Creating...";
