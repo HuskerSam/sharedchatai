@@ -41,7 +41,7 @@ export default class BaseClass {
       title: "",
       unsetTitle: true,
       model: "gpt-3.5-turbo",
-      max_tokens: 4097,
+      max_tokens: 500,
       temperature: 1,
       top_p: 1,
       presence_penalty: 0,

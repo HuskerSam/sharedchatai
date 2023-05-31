@@ -17,6 +17,7 @@ export class GamesApp extends BaseApp {
   gameFeedInited = false;
   creatingNewRecord = false;
   documentsLookup: any = {};
+  document_label_filter: any = document.querySelector(".document_label_filter");
 
   /** */
   constructor() {
@@ -36,6 +37,7 @@ export class GamesApp extends BaseApp {
       placeHolder: "Configure default labels",
     });
 
+    this.document_label_filter.addEventListener("input", () => this.updateGamesFeed(null)); 
 
   }
   /** BaseApp override to update additional use profile status */
@@ -91,17 +93,25 @@ export class GamesApp extends BaseApp {
 
     const oldKeys = Object.keys(this.documentsLookup);
     this.documentsLookup = {};
+    const localLookup: any = {};
+    const labelFilter = this.document_label_filter.value;
     snapshot.forEach((doc: any) => {
-      let card: any = this.dashboard_documents_view.querySelector(`div[gamenumber="${doc.id}"]`);
-      if (!card) {
-        card = this.getDocumentCardElement(doc);
+      let labels = doc.data().label;
+      if (!labels) labels = "";
+      const labelsArray = labels.split(",");
+      if (labelFilter === "All" || labelsArray.indexOf(labelFilter) !== -1) {
+        let card: any = this.dashboard_documents_view.querySelector(`div[gamenumber="${doc.id}"]`);
+        if (!card) {
+          card = this.getDocumentCardElement(doc);
+        }
+        this.dashboard_documents_view.appendChild(card);
+        localLookup[doc.id] = doc.data();
       }
-      this.dashboard_documents_view.appendChild(card);
-      this.documentsLookup[doc.id] = doc.data();
+        this.documentsLookup[doc.id] = doc.data();
     });
 
     oldKeys.forEach((key: string) => {
-      if (!this.documentsLookup[key]) {
+      if (!localLookup[key]) {
         const card: any = this.dashboard_documents_view.querySelector(`div[gamenumber="${key}"]`);
         if (card) card.remove();
       }
@@ -116,6 +126,9 @@ export class GamesApp extends BaseApp {
   */
   getDocumentCardElement(doc: any) {
     const data = doc.data();
+    let title = "";
+    if (doc.data().title) title = doc.data().title;
+    if (!title) title = "unused";
     let ownerClass = "";
     if (data.createUser === this.uid) ownerClass += " feed_game_owner";
 
@@ -133,7 +146,7 @@ export class GamesApp extends BaseApp {
     <div class="accordion-header">
         <button class="accordion-button d-flex justify-content-end collasped" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${doc.id}"
             aria-expanded="true" aria-controls="collapse${doc.id}">
-            <div class="document_name">Name of this document</div>
+            <div class="document_name">${title}</div>
             <div class="document_status d-flex flex-row justify-content-between">
             <div class="user_img_wrapper">
               <div class="d-flex flex-row">
@@ -214,6 +227,7 @@ export class GamesApp extends BaseApp {
     const gameType = "aichat";
     const body = {
       gameType,
+      label: this.scrapeLabels(),
     };
 
     const token = await firebase.auth().currentUser.getIdToken();
@@ -313,16 +327,42 @@ export class GamesApp extends BaseApp {
     }
   }
   /** get labels across app */
-  getLabelsList() {
+  getLabelsList(): Array<any> {
     const labels: any = [];
-    this.documentsLookup.forEach((doc: any) => {
-      const commaLabels = '';
-      if (doc.)
-      const docLabel
-    });
+    if (!this.documentsLookup) return [];
+    for (const id in this.documentsLookup) {
+      const doc = this.documentsLookup[id];
+      let commaLabels = "";
+      if (doc.label) commaLabels = doc.label;
+      const docLabels = commaLabels.split(",");
+      docLabels.forEach((label: string) => {
+        const str = label.trim();
+        if (str) labels[str] = true;
+      });
+    }
+    const arr = Object.keys(labels).sort();
+    return arr;
   }
   /** paint label select */
   paintLabelSelect() {
+    const labels = this.getLabelsList();
+    let html = "<option>All</option>";
+    const startingValue = this.document_label_filter.value;
 
+
+    labels.forEach((label: string) => {
+      html += `<option>${label}</option>`
+    });
+    this.document_label_filter.innerHTML = html;
+    this.document_label_filter.value = startingValue;
+  }
+  scrapeLabels(): string {
+    const data = window.$('.document_label_picker').select2("data");
+    const labels: Array<string> = [];
+    data.forEach((item: any) => {
+      if (item.text.trim()) labels.push(item.text.trim());
+    });
+
+    return labels.join(",");
   }
 }
