@@ -1,14 +1,12 @@
 import BaseApp from "./baseapp.js";
 import Utility from "./utility.js";
+import LoginHelper from "./loginhelper.js";
 declare const window: any;
 declare const firebase: any;
 
 /** app class for profile page */
 export class ProfileApp extends BaseApp {
   logged_in_status: any = document.querySelector(".logged_in_status");
-  login_google: any = document.getElementById("login_google");
-  login_email_anchor: any = document.getElementById("login_email_anchor");
-  anon_login_anchor: any = document.querySelector(".anon_login_anchor");
   sign_out_button: any = document.querySelector(".sign_out_button");
   reset_profile: any = document.querySelector(".reset_profile");
   profile_display_name: any = document.querySelector(".profile_display_name");
@@ -19,17 +17,13 @@ export class ProfileApp extends BaseApp {
   profile_display_image_clear: any = document.querySelector(".profile_display_image_clear");
   profile_display_image_preset: any = document.querySelector(".profile_display_image_preset");
   randomize_name: any = document.querySelector(".randomize_name");
-  login_email: any = document.querySelector(".login_email");
   button_save_labels: any = document.querySelector(".button_save_labels");
   lastNameChange = 0;
+  login = new LoginHelper(this);
 
   /** */
   constructor() {
     super();
-
-    this.login_google.addEventListener("click", (e: any) => this.authGoogleSignIn(e));
-    this.login_email_anchor.addEventListener("click", (e: any) => this.signInByEmail(e));
-    this.anon_login_anchor.addEventListener("click", (e: any) => this.signInAnon(e));
 
     this.sign_out_button.addEventListener("click", (e: any) => {
       this.authSignout(e);
@@ -53,17 +47,21 @@ export class ProfileApp extends BaseApp {
     this.profile_display_image_clear.addEventListener("click", () => this.clearProfileImage());
     this.profile_display_image_preset.addEventListener("input", () => this.handleImagePresetChange());
     this.randomize_name.addEventListener("click", () => this.randomizeProfileName());
-    this.button_save_labels.addEventListener("click", () => this.saveLabels())
+    this.button_save_labels.addEventListener("click", () => this.saveLabels());
 
-    window.$('.label_profile_picker').select2({
+    window.$(".label_profile_picker").select2({
       tags: true,
       placeHolder: "Configure default labels",
     });
 
     this.initPresetLogos();
+    this.login.addModalToDOM();
   }
+  /** get user label pick list comma delimited
+   * @return { string } label list
+   */
   getLabels(): string {
-    const data = window.$('.label_profile_picker').select2("data");
+    const data = window.$(".label_profile_picker").select2("data");
     const labels: Array<string> = [];
     data.forEach((item: any) => {
       if (item.text.trim()) labels.push(item.text.trim());
@@ -71,8 +69,8 @@ export class ProfileApp extends BaseApp {
 
     return labels.join(",");
   }
+  /**  */
   async saveLabels() {
-
     this.profile.documentLabels = this.getLabels();
     const updatePacket = {
       documentLabels: this.profile.documentLabels,
@@ -173,21 +171,21 @@ export class ProfileApp extends BaseApp {
 
     const currentLabels = this.getLabels();
     if (this.profile.documentLabels !== currentLabels) {
-      const queryLabelSelect2 = window.$('.label_profile_picker');
-      queryLabelSelect2.val(null).trigger('change');
-  
+      const queryLabelSelect2 = window.$(".label_profile_picker");
+      queryLabelSelect2.val(null).trigger("change");
+
       let labelString = this.profile.documentLabels;
       if (!labelString) labelString = "";
       const labelArray = labelString.split(",");
       labelArray.forEach((label: string) => {
         if (label !== "") {
           if (queryLabelSelect2.find("option[value='" + label + "']").length) {
-            queryLabelSelect2.val(label).trigger('change');
+            queryLabelSelect2.val(label).trigger("change");
           } else {
             // Create a DOM Option and pre-select by default
             const newOption = new Option(label, label, true, true);
             // Append it to the select
-            queryLabelSelect2.append(newOption).trigger('change');
+            queryLabelSelect2.append(newOption).trigger("change");
           }
         }
       });
@@ -271,33 +269,5 @@ export class ProfileApp extends BaseApp {
     await firebase.firestore().doc(`Users/${this.uid}`).set(updates, {
       merge: true,
     });
-  }
-  /** email sign in handler from UI (sends email to user for logging in)
- * @param { any } e dom event - preventDefault is called if passed
- */
-  async signInByEmail(e: any) {
-    e.preventDefault();
-
-    let email = "";
-    if (this.login_email) email = this.login_email.value;
-
-    /*
-    if (!email) {
-      email = window.prompt("Please provide your email to send link");
-    }*/
-
-    if (!email) {
-      alert("A valid email is required for sending a link");
-      return;
-    }
-
-    const actionCodeSettings = {
-      url: window.location.href,
-      handleCodeInApp: true,
-    };
-    await firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings);
-
-    window.localStorage.setItem("emailForSignIn", email);
-    alert("Email Sent");
   }
 }

@@ -3,7 +3,7 @@ declare const firebase: any;
 declare const window: any;
 
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
-class BaseApp {
+export default class BaseApp {
   timeSinceRedraw = 300;
   feedLimit = 10;
   deferredPWAInstallPrompt: any = null;
@@ -316,5 +316,3 @@ class BaseApp {
     });
   }
 }
-
-export default BaseApp;
