@@ -42,7 +42,13 @@
 
 .document_list_item {
   display: block;
+ 
 }
+
+.document_list_item .accordion-button {
+  background-color: rgba(217, 217, 227);
+}
+
 
 .show_profile_games .dashboard_document_header {
   flex: 1;
@@ -102,13 +108,13 @@ a.game_number_open {
 }
 
 .owner_img {
-  width: 30px;
-  height: 30px;
+  width: 24px;
+  height: 24px;
 }
 
 .next_player_wrapper span.member_online_status {
-  width: 32px;
-  height: 32px;
+  width: 18px;
+  height: 18px;
 }
 
 span.next_label {

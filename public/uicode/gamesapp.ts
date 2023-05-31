@@ -113,14 +113,14 @@ export class GamesApp extends BaseApp {
         <button class="accordion-button d-flex justify-content-end collasped" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${doc.id}"
             aria-expanded="true" aria-controls="collapse${doc.id}">
             <div class="document_name">Name of this document</div>
-            <div class="document_status">
+            <div class="document_status d-flex flex-row">
             <div class="user_img_wrapper">
               <div class="d-flex flex-row">
                <span><img class="owner_img" src="${data.memberImages[data.createUser]}"></span>
                 <span class="owner_name">${data.memberNames[data.createUser]}</span>
               </div>  
             </div>
-            <div class="me-2 time_since last_submit_time" data-timesince="${data.lastActivity}" data-showseconds="0"></div>
+            <div class="mx-4 time_since last_submit_time" data-timesince="${data.lastActivity}" data-showseconds="0"></div>
             </div>
         </button>
     </div>
