@@ -10,6 +10,8 @@ export class GamesApp extends BaseApp {
   new_game_type_wrappers: any = document.querySelectorAll(".new_game_type_wrapper");
   basic_options: any = document.querySelector(".basic_options");
   userprofile_description: any = document.querySelector(".userprofile_description");
+  owner_note_field: any = document.querySelector("#owner_note_field");
+  editedDocumentId = "";
   gameFeedSubscription: any;
   publicFeedSubscription: any;
   lastGamesFeedSnapshot: any;
@@ -18,11 +20,13 @@ export class GamesApp extends BaseApp {
   creatingNewRecord = false;
   documentsLookup: any = {};
   document_label_filter: any = document.querySelector(".document_label_filter");
+  owner_note_field_edit: any = document.querySelector("#owner_note_field_edit");
+  save_game_afterfeed_button: any = document.querySelector(".save_game_afterfeed_button");
+  close_edit_modal_button: any = document.querySelector(".close_edit_modal_button");
 
   /** */
   constructor() {
     super();
-
 
     this.join_game_btn.addEventListener("click", () => this.joinGame(null));
     this.create_game_afterfeed_button.addEventListener("click", () => this.createNewGame());
@@ -34,11 +38,16 @@ export class GamesApp extends BaseApp {
 
     window.$('.document_label_picker').select2({
       tags: true,
-      placeHolder: "Configure default labels",
+      placeHolder: "Add labels...",
     });
 
-    this.document_label_filter.addEventListener("input", () => this.updateGamesFeed(null)); 
+    window.$('.document_label_picker_edit').select2({
+      tags: true,
+      placeHolder: "Add labels...",
+    });
 
+    this.document_label_filter.addEventListener("input", () => this.updateGamesFeed(null));
+    this.save_game_afterfeed_button.addEventListener("click", () => this.saveDocumentOptions());
   }
   /** BaseApp override to update additional use profile status */
   authUpdateStatusUI() {
@@ -107,7 +116,7 @@ export class GamesApp extends BaseApp {
         this.dashboard_documents_view.appendChild(card);
         localLookup[doc.id] = doc.data();
       }
-        this.documentsLookup[doc.id] = doc.data();
+      this.documentsLookup[doc.id] = doc.data();
     });
 
     oldKeys.forEach((key: string) => {
@@ -164,6 +173,9 @@ export class GamesApp extends BaseApp {
             <a href="/${data.gameType}/?game=${data.gameNumber}" class="game_number_open btn btn-secondary">
                 <span class="">Open</span>
             </a>
+            <button class="details_game btn btn-secondary" data-gamenumber="${data.gameNumber}">
+                Details
+            </button>
             <button class="delete_game btn btn-secondary" data-gamenumber="${data.gameNumber}">
                 Delete
             </button>
@@ -186,6 +198,15 @@ export class GamesApp extends BaseApp {
       this.deleteGame(del, del.dataset.gamenumber);
     });
 
+    const details: any = card.querySelector("button.details_game");
+    details.addEventListener("click", (e: any) => {
+      e.stopPropagation();
+      e.preventDefault();
+      const btn: any = document.getElementById("show_document_options_popup");
+      btn.click();
+      this.showDetailsPopup(details, details.dataset.gamenumber);
+    });
+
     const leave: any = card.querySelector("button.leave_game");
     leave.addEventListener("click", (e: any) => {
       e.stopPropagation();
@@ -196,6 +217,43 @@ export class GamesApp extends BaseApp {
     const link: any = card.querySelector(".code_link");
     link.addEventListener("click", () => this.copyGameLink(link));
     return card;
+  }
+  /**  */
+  showDetailsPopup(btn: any, gameNumber: string) {
+    this.editedDocumentId = gameNumber;
+    const doc = this.documentsLookup[gameNumber];
+    if (doc.createUser === this.uid) {
+      (<any>document.getElementById("owner_note_field_edit")).value = doc.note;
+      (<any>document.querySelector(".owner_options_edit_section")).style.display = "block";
+    } else {
+      (<any>document.getElementById("owner_note_field_edit")).value = "Shared Document";
+      (<any>document.querySelector(".owner_options_edit_section")).style.display = "none";
+    }
+
+    if (doc.createUser === this.uid) {
+      const queryLabelSelect2 = window.$('.document_label_picker_edit');
+      queryLabelSelect2.val(null).trigger('change');
+  
+      try {
+        let labelString = doc.label;
+        if (!labelString) labelString = "";
+        const labelArray = labelString.split(",");
+        labelArray.forEach((label: string) => {
+          if (label !== "") {
+            if (queryLabelSelect2.find("option[value='" + label + "']").length) {
+              queryLabelSelect2.val(label).trigger('change');
+            } else {
+              // Create a DOM Option and pre-select by default
+              const newOption = new Option(label, label, true, true);
+              // Append it to the select
+              queryLabelSelect2.append(newOption).trigger('change');
+            }
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
   /** copy game url link to clipboard
    * @param { any } btn dom control
@@ -228,8 +286,8 @@ export class GamesApp extends BaseApp {
     const body = {
       gameType,
       label: this.scrapeLabels(),
+      note: this.owner_note_field.value,
     };
-
     const token = await firebase.auth().currentUser.getIdToken();
     const fResult = await fetch(this.basePath + "lobbyApi/games/create", {
       method: "POST",
@@ -355,6 +413,10 @@ export class GamesApp extends BaseApp {
     });
     this.document_label_filter.innerHTML = html;
     this.document_label_filter.value = startingValue;
+    if (this.document_label_filter.selectedIndex === -1) {
+      this.document_label_filter.selectedIndex = 0;
+      this.updateGamesFeed(null);
+    } 
   }
   scrapeLabels(): string {
     const data = window.$('.document_label_picker').select2("data");
@@ -364,5 +426,41 @@ export class GamesApp extends BaseApp {
     });
 
     return labels.join(",");
+  }
+  scrapeDocumentEditLabels(docId: string): string {
+    const data = window.$('.document_label_picker_edit').select2("data");
+    const labels: Array<string> = [];
+    data.forEach((item: any) => {
+      if (item.text.trim()) labels.push(item.text.trim());
+    });
+
+    return labels.join(",");
+  }
+  async saveDocumentOptions() {
+    const docId = this.editedDocumentId;
+    const label = this.scrapeDocumentEditLabels(docId);
+    const note = this.owner_note_field_edit.value;
+
+    const body: any = {
+      gameNumber: docId,
+      label,
+      note,
+    };
+    const token = await firebase.auth().currentUser.getIdToken();
+    const fResult = await fetch(this.basePath + "lobbyApi/games/owner/options", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      headers: {
+        "Content-Type": "application/json",
+        token,
+      },
+      body: JSON.stringify(body),
+    });
+    const json = await fResult.json();
+    if (!json.success) {
+      alert("Unable to save options " + json.errorMessage);
+    }
+    this.close_edit_modal_button.click();
   }
 }

@@ -94,20 +94,24 @@ export default class GameAPI {
     let label = "";
     if (req.body.label) label = req.body.label;
 
-    const game: any = {
-      createUser: uid,
-      created: new Date().toISOString(),
-      lastActivity: new Date().toISOString(),
-      visibility: "private",
-      archived: false,
-      totalTokens: 0,
-      completionTokens: 0,
-      promptTokens: 0,
-      tokenUsageLimit: 0,
-      label,
-    };
-
+    let note = "";
+    if (req.body.note) note = req.body.note;
+    const game: any = {};
     Object.assign(game, BaseClass.defaultChatDocumentOptions());
+    Object.assign(game,
+      {
+        createUser: uid,
+        created: new Date().toISOString(),
+        lastActivity: new Date().toISOString(),
+        visibility: "private",
+        archived: false,
+        totalTokens: 0,
+        completionTokens: 0,
+        promptTokens: 0,
+        tokenUsageLimit: 0,
+        label,
+        note,
+      });
 
     if (req.body.visibility) game.visibility = req.body.visibility;
     game.publicStatus = GameAPI._publicStatus(game);
@@ -120,7 +124,7 @@ export default class GameAPI {
 
     if (!displayName) displayName = "Anonymous";
     if (!displayImage) displayImage = "";
-
+    console.log(game);
     game.members = {
       [uid]: new Date().toISOString(),
     };
@@ -210,14 +214,14 @@ export default class GameAPI {
     if (req.body.tokenUsageLimit) {
       const tokenUsageLimit = BaseClass.getNumberOrDefault(req.body.tokenUsageLimit, 0);
       updatePacket.tokenUsageLimit = tokenUsageLimit;
-      gameData.tokenUsageLimit = tokenUsageLimit;
     }
 
-    if (req.body.label) {
+    if (req.body.label !== undefined) {
       updatePacket.label = req.body.label;
-      gameData.label = req.body.label;
     }
-
+    if (req.body.note !== undefined) {
+      updatePacket.note = req.body.note;
+    }
     updatePacket.publicStatus = GameAPI._publicStatus(gameData);
 
     await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).set(updatePacket, {
