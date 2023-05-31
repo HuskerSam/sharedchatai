@@ -91,6 +91,9 @@ export default class GameAPI {
       return BaseClass.respondError(res, "User not found");
     }
 
+    let label = "";
+    if (req.body.label) label = req.body.label;
+
     const game: any = {
       createUser: uid,
       created: new Date().toISOString(),
@@ -101,6 +104,7 @@ export default class GameAPI {
       completionTokens: 0,
       promptTokens: 0,
       tokenUsageLimit: 0,
+      label,
     };
 
     Object.assign(game, BaseClass.defaultChatDocumentOptions());
@@ -207,6 +211,11 @@ export default class GameAPI {
       const tokenUsageLimit = BaseClass.getNumberOrDefault(req.body.tokenUsageLimit, 0);
       updatePacket.tokenUsageLimit = tokenUsageLimit;
       gameData.tokenUsageLimit = tokenUsageLimit;
+    }
+
+    if (req.body.label) {
+      updatePacket.label = req.body.label;
+      gameData.label = req.body.label;
     }
 
     updatePacket.publicStatus = GameAPI._publicStatus(gameData);

@@ -131,6 +131,7 @@ class BaseApp {
     this.profile = {
       displayName: Utility.generateName(),
       displayImage: window.profileLogos[logoName],
+      documentLabels: "Personal,Business,Misc",
     };
 
     await firebase.firestore().doc(`Users/${this.uid}`).set(this.profile);
