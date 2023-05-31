@@ -24,7 +24,8 @@
   display: none;
 }
 
-.dashboard_documents_view, .dashboard_document_header {
+.dashboard_documents_view,
+.dashboard_document_header {
   display: none;
 }
 
@@ -42,11 +43,14 @@
 
 .document_list_item {
   display: block;
- 
+}
+
+.owner_name {
+  display: none;
 }
 
 .document_list_item .accordion-button {
-  background-color: rgba(217, 217, 227);
+  background-color: rgba(250, 250, 250);
 }
 
 
@@ -258,5 +262,42 @@ button.code_link {
 }
 
 .document_status {
-  flex:0.4;
+  flex: 1;
+}
+
+.document_info_header {
+  font-weight: bold;
+}
+
+.document_info_header_left {
+  flex: 1;
+  margin-left: 8px
+}
+
+.document_info_header_right {
+  flex: 1;
+  justify-content: space-between;
+}
+
+@media (min-width: 1000px) {
+  .games_view_wrapper {
+    margin: 0 5% 0 5%;
+  }
+}
+
+@media (min-width: 800px) {
+  .document_status,
+  .document_info_header_right {
+    flex: .5;
+    justify-content: space-between;
+  }
+}
+
+@media (min-width: 440px) {
+  .owner_name {
+    display: block;
+  }
+  .owner_img {
+    margin-right: 8px;
+  }
 }
