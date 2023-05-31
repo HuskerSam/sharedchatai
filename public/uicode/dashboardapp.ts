@@ -210,7 +210,7 @@ export class DashboardApp extends BaseApp {
       e.preventDefault();
       const btn: any = document.getElementById("show_document_options_popup");
       btn.click();
-      this.showDetailsPopup(details, details.dataset.gamenumber);
+      this.showDetailsPopup(details.dataset.gamenumber);
     });
 
     const leave: any = card.querySelector("button.leave_game");
