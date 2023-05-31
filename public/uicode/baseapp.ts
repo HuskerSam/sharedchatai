@@ -11,14 +11,12 @@ class BaseApp {
   basePath = `https://us-central1-${this.projectId}.cloudfunctions.net/`;
   urlParams = new URLSearchParams(window.location.search);
   muted = false;
-  night_mode_toggle: any = null;
   uid: any = null;
   profile: any = null;
   fireUser: any = null;
   fireToken: any = null;
   profileSubscription: any = null;
   profileInited = false;
-  nightModeCurrent = false;
   mute_button: any = null;
   verboseLog = false;
   rtdbPresenceInited = false;
@@ -34,10 +32,6 @@ class BaseApp {
     });
 
     if (window.location.hostname === "localhost") this.basePath = `http://localhost:5001/${this.projectId}/us-central1/`;
-
-
-    this.night_mode_toggle = document.querySelector(".night_mode_toggle");
-    if (this.night_mode_toggle) this.night_mode_toggle.addEventListener("click", (e: any) => this.nightModeToggle(e));
 
     firebase.auth().onAuthStateChanged((u: any) => this.authHandleEvent(u));
     this.signInWithURL();
@@ -71,7 +65,6 @@ class BaseApp {
     }
 
     if (this.profile) {
-      this.updateNightModeStatus(this.profile.nightModeState);
       this.updateUserStatus();
     }
   }
@@ -139,47 +132,6 @@ class BaseApp {
   /** update user auth status, username/email etc */
   updateUserStatus() {
     return;
-  }
-  /** store user profile for nightmode
-   * @param { any } ctl dom object
-   * @param { number } index 0 = auto, 1 for day, 2 for nite
-   * @param { any } e dom event object - preventDefault is called to stop anchor from navigating
-   */
-  async updateProfileNightMode(ctl: any, index: number, e: any) {
-    const updatePacket = {
-      nightModeState: index,
-    };
-    this.updateNightModeStatus(index);
-    if (this.fireToken) await firebase.firestore().doc(`Users/${this.uid}`).update(updatePacket);
-
-    if (e) e.preventDefault();
-  }
-  /** paint night mode status change
-   * @param { number } state 0 = auto, 1 for day, 2 for nite
-   */
-  updateNightModeStatus(state = 0) {
-    let nite = false;
-    if (state === 2) nite = true;
-    if (state === 0) {
-      if (new Date().getHours() < 8 || new Date().getHours() > 18) nite = true;
-    }
-    this.nightModeCurrent = nite;
-
-    if (this.night_mode_toggle) this.night_mode_toggle.innerHTML = (nite) ? "Day" : "Nite";
-    if (nite) document.body.classList.add("night_mode");
-    else document.body.classList.remove("night_mode");
-  }
-  /** button handler for toggle night mode
-   * @param { any } e dom event object
-   * @return { boolean } true to stop anchor navigation
-   */
-  nightModeToggle(e: any) {
-    let niteMode = 2;
-    if (this.nightModeCurrent) niteMode = 1;
-    this.updateNightModeStatus(niteMode);
-    this.updateProfileNightMode(null, niteMode, null);
-    e.preventDefault();
-    return true;
   }
   /** google sign in handler
    * @param { any } e dom event - preventDefault is called if passed

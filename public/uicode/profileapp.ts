@@ -10,7 +10,6 @@ export class ProfileApp extends BaseApp {
   login_email_anchor: any = document.getElementById("login_email_anchor");
   anon_login_anchor: any = document.querySelector(".anon_login_anchor");
   sign_out_button: any = document.querySelector(".sign_out_button");
-  night_mode_radios: any = document.querySelectorAll("[name=\"night_mode_radio\"]");
   reset_profile: any = document.querySelector(".reset_profile");
   profile_display_name: any = document.querySelector(".profile_display_name");
   profile_display_image: any = document.querySelector(".profile_display_image");
@@ -37,9 +36,7 @@ export class ProfileApp extends BaseApp {
       e.preventDefault();
       return false;
     });
-    this.night_mode_radios.forEach((ctl: any, index: number) => ctl.addEventListener("input", (e: any) => {
-      this.updateProfileNightMode(ctl, index, e);
-    }));
+
     this.reset_profile.addEventListener("click", (e: any) => {
       if (confirm("Are you sure you want to clear out all reviews and profile data?")) {
         this._authCreateDefaultProfile();
@@ -173,11 +170,6 @@ export class ProfileApp extends BaseApp {
     if (!email) email = "Logged in as: Anonymous";
 
     this.logged_in_status.innerHTML = email;
-
-    if (!this.profile.nightModeState) this.profile.nightModeState = 0;
-    if (this.night_mode_radios.length > 0) {
-      this.night_mode_radios[this.profile.nightModeState].checked = true;
-    }
 
     const currentLabels = this.getLabels();
     if (this.profile.documentLabels !== currentLabels) {

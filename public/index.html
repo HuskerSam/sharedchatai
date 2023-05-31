@@ -2,180 +2,70 @@
 <html lang="en">
 
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Chat AI Lobby</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Chat AI Lobby</title>
 
-  <link rel="shortcut icon" href="/images/logo64.png" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="shortcut icon" href="/images/logo64.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-  <!-- Firebase links -->
-  <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-database.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-storage.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-firestore.js"></script>
-  <script src="/__/firebase/init.js"></script>
+    <!-- Firebase links -->
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-firestore.js"></script>
+    <script src="/__/firebase/init.js"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
-    integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+        integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
-  <link rel="stylesheet" href="/css/base.css" />
-  <link rel="stylesheet" href="/css/home.css" />
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/home.css" />
 
-  <script>
-    window.addEventListener("load", async (event) => {
-      let module = await import("/models/gamesapp.js");
-
-      window.GamesApp = new module.GamesApp();
-    });
-  </script>
 </head>
 
 <body class="basic_beer_body show_games_view show_profile_games">
-  <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-    <a class="navbar-brand" href="#">ChatAI</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+        <a class="navbar-brand">ChatAI</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item signed_in_options">
-          <a class="nav-link" href="/profile/">Profile</a>
-        </li>
-        <li class="nav-item">
-          <a class="night_mode_toggle nav-link" href="#">
-            Day
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="info_anchor nav-link" href="/about">
-            About
-          </a>
-        </li>
-      </ul>
-    </div>
-  </nav>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item signed_in_options">
+                    <a class="info_anchor nav-link" href="/dashboard">
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item signed_in_options">
+                    <a class="nav-link" href="/profile/">Profile</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-  <div class="basic_page_wrapper app_panel">
-    <div class="game_lobby">
-      <div class="lobby_user_description">
-        <a class="profile_menu_anchor" href="/profile">
-          <span class="userprofile_description"></span>
-        </a>
-      </div>
-      <button id="show_document_options_popup" style="display:none;" class="btn btn-primary" data-bs-toggle="modal"
-        data-bs-target="#editDocumentModal"></button>
-      <div class=" games_view_wrapper">
-        <select class="document_label_filter">
-          <option>All</option>
-        </select>
-        <div class="create_new_game_view">
-          <button class="my-3 btn btn-primary" data-bs-toggle="modal" data-bs-target="#createDocumentModal">
-            Create Game
-          </button>
-        </div>
-        <div class="d-flex text-start document_info_header align-items-end">
-          <div class="document_info_header_left">Name of this document</div>
-          <div class="document_info_header_right d-flex flex-row me-3">
-            <div>Owner</div>
-            <div class="text-center text-md-end me-2">Last Activity</div>
-          </div>
-        </div>
-        <div class="dashboard_documents_view accordian" id="dashboard_documents_view"></div>
+    <div class="basic_page_wrapper app_panel">
 
-        <div class="join_game_view">
-          <div>
-            <span>Code</span>
-            <input class="game_code_start" />
-            <button class="join_game_btn">
-              Join
-            </button>
-          </div>
-        </div>
-        <br>
-      </div>
-      <div class="signed_out_game_options">
-        <h3>Please <a href="/profile">Sign In</a> to play</h3>
-      </div>
     </div>
-    <div style="flex: 1"></div>
-  </div>
-  <div class="modal fade" id="createDocumentModal" tabindex="-1" aria-labelledby="createDocumentModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="createDocumentModalLabel">Create Document</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div style="text-align:center;">
-            <select class="document_label_picker" multiple="multiple" style="width:80%"></select>
-          </div>
-          <br>
-          <div class="form-floating" style="display:inline-block;width:80%">
-            <input type="text" class="form-control" id="owner_note_field" placeholder="Note">
-            <label>Note</label>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary create_game_afterfeed_button">Create</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div>
-    <div class="modal fade" id="editDocumentModal" tabindex="-1" aria-labelledby="editDocumentModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="editDocumentModalLabel">Edit Document</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div class="owner_options_edit_section">
-
-              <div style="text-align:center;">
-                <select class="document_label_picker_edit" multiple="multiple" style="width:80%"></select>
-              </div>
-              <br>
-              <div class="form-floating" style="display:inline-block;width:80%">
-                <input type="text" class="form-control" id="owner_note_field_edit" placeholder="Note">
-                <label>Note</label>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary close_edit_modal_button"
-              data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary save_game_afterfeed_button">Save</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <style id="laststyleblock"></style>
 </body>
 
 </html>

@@ -78,6 +78,9 @@ export class AIChatApp extends BaseApp {
     super();
 
     this.send_ticket_button.addEventListener("click", () => this.sendTicketToAPI());
+      this.ticket_content_input.addEventListener("keyup", (e: any) => {
+      if (e.key === "Enter" && e.shiftKey === false) this.sendTicketToAPI();
+    });
    
     this.initTicketFeed();
     this.updateSplitter();
@@ -555,14 +558,14 @@ export class AIChatApp extends BaseApp {
         const data = this._gameMemberData(member);
 
         const timeSince = this.timeSince(new Date(members[member]));
-        html += `<div class="member_list_item">
+        html += `<li class="member_list_item">
           <div class="member_online_status" data-uid="${member}"></div>
           <div class="user_img_wrapper">
             <span style="background-image:url(${data.img})"></span>
             <span>${data.name}</span>
           </div>
           <span class="member_list_time_since">${timeSince}</span>
-        </div>`;
+        </li>`;
       });
     }
     this.members_list.innerHTML = html;
@@ -687,25 +690,34 @@ export class AIChatApp extends BaseApp {
   /** update the splitter if needed */
   updateSplitter() {
     let horizontal = true;
-    let minSize = 30;
+    let minSize: any = 30;
     if (window.document.body.scrollWidth <= 500) {
       horizontal = false;
     }
 
     if (this.splitHorizontalCache !== horizontal) {
       let direction = "vertical";
+      let sizes:any = [];
+      let gutterSize = 10;
       this.main_view_splitter.style.flexDirection = "column";
       if (horizontal) {
         this.main_view_splitter.style.flexDirection = "row";
         direction = "horizontal";
-        minSize = 150;
+        minSize = [300, 0];
+        sizes = [25, 75];
+        gutterSize = 15;
+      } else {
+        minSize = [0, 0];
+        sizes = [25, 75];
+        gutterSize = 18;
       }
 
       if (this.splitInstance) this.splitInstance.destroy();
       this.splitInstance = <any>Split([".left_panel_view", ".right_panel_view"], {
-        sizes: [25, 75],
+        sizes,
         direction,
         minSize,
+        gutterSize,
       });
       this.splitHorizontalCache = horizontal;
     }

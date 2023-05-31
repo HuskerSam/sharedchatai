@@ -95,10 +95,6 @@ body {
 
 .game_message_list_item .name {
   font-weight: bold;
-  color: rgb(25, 135, 84);
-}
-
-.night_mode .game_message_list_item .name {
   color: rgb(255, 193, 7);
 }
 
@@ -108,11 +104,7 @@ body {
   font-size: 20px;
   padding: 0px 4px;
   font-weight: bold;
-  color: rgb(25, 135, 84);
   white-space: pre-wrap;
-}
-
-.night_mode .game_message_list_item .message {
   color: rgb(13, 202, 240);
 }
 
@@ -181,12 +173,15 @@ body {
 }
 
 .gutter.gutter-horizontal {
-  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+  background-image: url("/images/grip.png");
+  background-size: contain;
+  background-position: center; 
   cursor: col-resize;
+  background-color: rgb(52, 53, 65);
 }
 
 .gutter.gutter-vertical {
-  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
+  background-image: url("/images/grip.png");
   cursor: row-resize;
 }
 
@@ -290,13 +285,6 @@ body {
 }
 
 @media (min-width: 501px) {
-  .navbar {
-    position: fixed;
-    bottom: 0;
-    width: inherit;
-    transition: transform 0.3s ease-in-out
-  }
-
   .navbar.snapped {
     transform: translateY(100%);
   }
