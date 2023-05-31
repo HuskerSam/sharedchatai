@@ -803,9 +803,9 @@ export class AIChatApp extends BaseApp {
       resultText += `\n`;
       resultText += `</style>\n`;
       tickets.forEach((ticket: any) => {
-        const prompt = <string>ticket.data().message;
-        const completion = <string>this.messageForCompletion(ticket.id);
-        const selected = <string>ticket.data().includeInMessage ? "✅" : "&nbsp;";
+        const prompt = <string> ticket.data().message;
+        const completion = <string> this.messageForCompletion(ticket.id);
+        const selected = <string> ticket.data().includeInMessage ? "✅" : "&nbsp;";
 
         resultText += `<div class="ticket-item">\n`;
         resultText += `    <div class="prompt-text">${selected} ${prompt}</div>\n`
@@ -820,7 +820,9 @@ export class AIChatApp extends BaseApp {
       fileName,
     };
   }
-  /** refresh report data */
+  /** refresh report data
+   * @param { boolean } download 
+  */
   refreshReportData(download = false) {
     const data = this.generateExportData();
     this.export_data_popup_preview.innerHTML = data.resultText;

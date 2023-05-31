@@ -82,9 +82,11 @@
           <span class="userprofile_description"></span>
         </a>
       </div>
-      <div class="games_view_wrapper">
+      <button id="show_document_options_popup" style="display:none;" class="btn btn-primary" data-bs-toggle="modal"
+        data-bs-target="#editDocumentModal"></button>
+      <div class=" games_view_wrapper">
         <select class="document_label_filter">
-        <option>All</option>
+          <option>All</option>
         </select>
         <div class="create_new_game_view">
           <button class="my-3 btn btn-primary" data-bs-toggle="modal" data-bs-target="#createDocumentModal">
@@ -129,10 +131,46 @@
           <div style="text-align:center;">
             <select class="document_label_picker" multiple="multiple" style="width:80%"></select>
           </div>
+          <br>
+          <div class="form-floating" style="display:inline-block;width:80%">
+            <input type="text" class="form-control" id="owner_note_field" placeholder="Note">
+            <label>Note</label>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="button" class="btn btn-primary create_game_afterfeed_button">Create</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="modal fade" id="editDocumentModal" tabindex="-1" aria-labelledby="editDocumentModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editDocumentModalLabel">Edit Document</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="owner_options_edit_section">
+
+              <div style="text-align:center;">
+                <select class="document_label_picker_edit" multiple="multiple" style="width:80%"></select>
+              </div>
+              <br>
+              <div class="form-floating" style="display:inline-block;width:80%">
+                <input type="text" class="form-control" id="owner_note_field_edit" placeholder="Note">
+                <label>Note</label>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary close_edit_modal_button"
+              data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary save_game_afterfeed_button">Save</button>
+          </div>
         </div>
       </div>
     </div>
