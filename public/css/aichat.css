@@ -109,6 +109,7 @@ body {
   padding: 0px 4px;
   font-weight: bold;
   color: rgb(25, 135, 84);
+  white-space: pre-wrap;
 }
 
 .night_mode .game_message_list_item .message {

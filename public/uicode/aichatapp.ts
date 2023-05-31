@@ -78,10 +78,7 @@ export class AIChatApp extends BaseApp {
     super();
 
     this.send_ticket_button.addEventListener("click", () => this.sendTicketToAPI());
-    this.ticket_content_input.addEventListener("keyup", (e: any) => {
-      if (e.key === "Enter") this.sendTicketToAPI();
-    });
-
+   
     this.initTicketFeed();
     this.updateSplitter();
 
@@ -333,7 +330,7 @@ export class AIChatApp extends BaseApp {
           </div>
           <div style="flex:1;display:flex;flex-direction:column">
               <div style="display:flex;flex-direction:row">
-                  <div class="message" style="flex:1">${data.message}</div>
+                  <div class="message" style="flex:1;">${data.message}</div>
               </div>
               <div class="assist_section">pending...</div>
               <div style="display:flex;flex-direction:column">
