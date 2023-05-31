@@ -1,9 +1,10 @@
 import BaseApp from "./baseapp.js";
+import LoginHelper from "./loginhelper.js";
 declare const window: any;
 declare const firebase: any;
 
-/** Game Lobby App - for listing, joining and creating games  */
-export class GamesApp extends BaseApp {
+/** Dashboard Document Management App - for listing, joining and creating games  */
+export class DashboardApp extends BaseApp {
   dashboard_documents_view: any = document.querySelector(".dashboard_documents_view");
   join_game_btn: any = document.querySelector(".join_game_btn");
   create_game_afterfeed_button: any = document.querySelector(".create_game_afterfeed_button");
@@ -23,6 +24,7 @@ export class GamesApp extends BaseApp {
   owner_note_field_edit: any = document.querySelector("#owner_note_field_edit");
   save_game_afterfeed_button: any = document.querySelector(".save_game_afterfeed_button");
   close_edit_modal_button: any = document.querySelector(".close_edit_modal_button");
+  login = new LoginHelper(this);
 
   /** */
   constructor() {
@@ -36,12 +38,12 @@ export class GamesApp extends BaseApp {
     // redraw feeds to update time since values
     setInterval(() => this.updateTimeSince(this.dashboard_documents_view), 30000);
 
-    window.$('.document_label_picker').select2({
+    window.$(".document_label_picker").select2({
       tags: true,
       placeHolder: "Add labels...",
     });
 
-    window.$('.document_label_picker_edit').select2({
+    window.$(".document_label_picker_edit").select2({
       tags: true,
       placeHolder: "Add labels...",
     });
@@ -63,8 +65,8 @@ export class GamesApp extends BaseApp {
       // TO DO - put profile icon in navbar
       //   this.userprofile_description.innerHTML = this.__getUserTemplate("", name, img);
 
-      const queryLabelSelect2 = window.$('.document_label_picker');
-      queryLabelSelect2.val(null).trigger('change');
+      const queryLabelSelect2 = window.$(".document_label_picker");
+      queryLabelSelect2.val(null).trigger("change");
 
       let labelString = this.profile.documentLabels;
       if (!labelString) labelString = "";
@@ -74,7 +76,7 @@ export class GamesApp extends BaseApp {
           // Create a DOM Option and pre-select by default
           const newOption = new Option(label, label, false, false);
           // Append it to the select
-          queryLabelSelect2.append(newOption).trigger('change');
+          queryLabelSelect2.append(newOption).trigger("change");
         }
       });
     }
@@ -141,7 +143,8 @@ export class GamesApp extends BaseApp {
     let ownerClass = "";
     if (data.createUser === this.uid) ownerClass += " feed_game_owner";
 
-    //  const ownerHTML = this.__getUserTemplate(data.createUser, data.memberNames[data.createUser], data.memberImages[data.createUser], true);
+    //  const ownerHTML = this.__getUserTemplate(data.createUser,
+    // data.memberNames[data.createUser], data.memberImages[data.createUser], true);
 
     let timeStr = this.isoToLocal(data.created).toISOString().substr(11, 5);
     let hour = Number(timeStr.substr(0, 2));
@@ -150,10 +153,12 @@ export class GamesApp extends BaseApp {
     hour = hour % 12;
     if (hour === 0) hour = 12;
     timeStr = hour.toString() + timeStr.substr(2) + " " + suffix;
-    const html = `<div class="accordion-item document_list_item card card_shadow_sm document_list_item${ownerClass} gametype_${data.gameType}"
+    const html = `<div class="accordion-item document_list_item card card_shadow_sm document_list_item${ownerClass}
+           gametype_${data.gameType}"
     data-gamenumber="${doc.id}" gamenumber="${doc.id}">
     <div class="accordion-header">
-        <button class="accordion-button d-flex justify-content-end collasped" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${doc.id}"
+        <button class="accordion-button d-flex justify-content-end collasped" type="button" 
+                data-bs-toggle="collapse" data-bs-target="#collapse${doc.id}"
             aria-expanded="true" aria-controls="collapse${doc.id}">
             <div class="document_name">${title}</div>
             <div class="document_status d-flex flex-row justify-content-between">
@@ -163,7 +168,8 @@ export class GamesApp extends BaseApp {
                 <span class="owner_name">${data.memberNames[data.createUser]}</span>
               </div>  
             </div>
-            <div class="mx-4 time_since last_submit_time text-center text-md-end" data-timesince="${data.lastActivity}" data-showseconds="0"></div>
+            <div class="mx-4 time_since last_submit_time text-center text-md-end"
+               data-timesince="${data.lastActivity}" data-showseconds="0"></div>
             </div>
         </button>
     </div>
@@ -218,8 +224,10 @@ export class GamesApp extends BaseApp {
     link.addEventListener("click", () => this.copyGameLink(link));
     return card;
   }
-  /**  */
-  showDetailsPopup(btn: any, gameNumber: string) {
+  /** show document details modal
+   * @param { string } gameNumber doc id
+  */
+  showDetailsPopup(gameNumber: string) {
     this.editedDocumentId = gameNumber;
     const doc = this.documentsLookup[gameNumber];
     if (doc.createUser === this.uid) {
@@ -231,9 +239,9 @@ export class GamesApp extends BaseApp {
     }
 
     if (doc.createUser === this.uid) {
-      const queryLabelSelect2 = window.$('.document_label_picker_edit');
-      queryLabelSelect2.val(null).trigger('change');
-  
+      const queryLabelSelect2 = window.$(".document_label_picker_edit");
+      queryLabelSelect2.val(null).trigger("change");
+
       try {
         let labelString = doc.label;
         if (!labelString) labelString = "";
@@ -241,12 +249,12 @@ export class GamesApp extends BaseApp {
         labelArray.forEach((label: string) => {
           if (label !== "") {
             if (queryLabelSelect2.find("option[value='" + label + "']").length) {
-              queryLabelSelect2.val(label).trigger('change');
+              queryLabelSelect2.val(label).trigger("change");
             } else {
               // Create a DOM Option and pre-select by default
               const newOption = new Option(label, label, true, true);
               // Append it to the select
-              queryLabelSelect2.append(newOption).trigger('change');
+              queryLabelSelect2.append(newOption).trigger("change");
             }
           }
         });
@@ -384,11 +392,13 @@ export class GamesApp extends BaseApp {
       });
     }
   }
-  /** get labels across app */
+  /** get labels across app
+   * @return { Array<any> } array of label strings
+  */
   getLabelsList(): Array<any> {
     const labels: any = [];
     if (!this.documentsLookup) return [];
-    for (const id in this.documentsLookup) {
+   this.documentsLookup.forEach((id: string) => {
       const doc = this.documentsLookup[id];
       let commaLabels = "";
       if (doc.label) commaLabels = doc.label;
@@ -397,7 +407,7 @@ export class GamesApp extends BaseApp {
         const str = label.trim();
         if (str) labels[str] = true;
       });
-    }
+    });
     const arr = Object.keys(labels).sort();
     return arr;
   }
@@ -407,19 +417,19 @@ export class GamesApp extends BaseApp {
     let html = "<option>All</option>";
     const startingValue = this.document_label_filter.value;
 
-
-    labels.forEach((label: string) => {
-      html += `<option>${label}</option>`
-    });
+    labels.forEach((label: string) => html += `<option>${label}</option>`);
     this.document_label_filter.innerHTML = html;
     this.document_label_filter.value = startingValue;
     if (this.document_label_filter.selectedIndex === -1) {
       this.document_label_filter.selectedIndex = 0;
       this.updateGamesFeed(null);
-    } 
+    }
   }
+  /** scrape labels from dom and return comma delimited list
+   * @return { string } comma delimited list
+  */
   scrapeLabels(): string {
-    const data = window.$('.document_label_picker').select2("data");
+    const data = window.$(".document_label_picker").select2("data");
     const labels: Array<string> = [];
     data.forEach((item: any) => {
       if (item.text.trim()) labels.push(item.text.trim());
@@ -427,8 +437,11 @@ export class GamesApp extends BaseApp {
 
     return labels.join(",");
   }
-  scrapeDocumentEditLabels(docId: string): string {
-    const data = window.$('.document_label_picker_edit').select2("data");
+  /** use jquery to extract label list from select2
+   * @return { string } comma delimited list of labels
+    */
+  scrapeDocumentEditLabels(): string {
+    const data = window.$(".document_label_picker_edit").select2("data");
     const labels: Array<string> = [];
     data.forEach((item: any) => {
       if (item.text.trim()) labels.push(item.text.trim());
@@ -436,9 +449,10 @@ export class GamesApp extends BaseApp {
 
     return labels.join(",");
   }
+  /** send user (optional owner) settings for document to api */
   async saveDocumentOptions() {
     const docId = this.editedDocumentId;
-    const label = this.scrapeDocumentEditLabels(docId);
+    const label = this.scrapeDocumentEditLabels();
     const note = this.owner_note_field_edit.value;
 
     const body: any = {

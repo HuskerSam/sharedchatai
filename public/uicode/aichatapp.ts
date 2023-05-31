@@ -1,5 +1,6 @@
 import BaseApp from "./baseapp.js";
 import Split from "./split.js";
+import LoginHelper from "./loginhelper.js";
 
 declare const firebase: any;
 declare const window: any;
@@ -25,6 +26,7 @@ export class AIChatApp extends BaseApp {
   includeAssistTokens = 0;
   ticketCount = 0;
   selectedTicketCount = 0;
+  login = new LoginHelper(this);
 
   tickets_list: any = document.querySelector(".tickets_list");
   members_list: any = document.querySelector(".members_list");
@@ -81,10 +83,6 @@ export class AIChatApp extends BaseApp {
       this.ticket_content_input.addEventListener("keyup", (e: any) => {
       if (e.key === "Enter" && e.shiftKey === false) this.sendTicketToAPI();
     });
-   
-    this.initTicketFeed();
-    this.updateSplitter();
-
     // redraw message feed to update time since values
     setInterval(() => this.updateTimeSince(this.tickets_list), this.timeSinceRedraw);
 
@@ -104,6 +102,7 @@ export class AIChatApp extends BaseApp {
     this.download_export_button.addEventListener("click", () => this.downloadReportData());
     this.upload_import_button.addEventListener("click", () => this.import_upload_file.click());
     this.import_upload_file.addEventListener("change", () => this.uploadReportData());
+    this.updateSplitter();
   }
   /** setup data listender for user messages */
   async initTicketFeed() {
@@ -511,17 +510,21 @@ export class AIChatApp extends BaseApp {
     super.authUpdateStatusUI();
     this.currentGame = null;
     if (this.gameid_span) this.gameid_span.innerHTML = "";
-    this.initRTDBPresence();
 
-    const gameId = this.urlParams.get("game");
-    if (gameId) {
-      this.gameAPIJoin(gameId);
-      this.currentGame = gameId;
-      if (this.gameid_span) this.gameid_span.innerHTML = this.currentGame;
-
-      if (this.gameSubscription) this.gameSubscription();
-      this.gameSubscription = firebase.firestore().doc(`Games/${this.currentGame}`)
-        .onSnapshot((doc: any) => this.paintGameData(doc));
+    if (this.profile) {
+      this.initRTDBPresence();
+      this.initTicketFeed();
+  
+      const gameId = this.urlParams.get("game");
+      if (gameId) {
+        this.gameAPIJoin(gameId);
+        this.currentGame = gameId;
+        if (this.gameid_span) this.gameid_span.innerHTML = this.currentGame;
+  
+        if (this.gameSubscription) this.gameSubscription();
+        this.gameSubscription = firebase.firestore().doc(`Games/${this.currentGame}`)
+          .onSnapshot((doc: any) => this.paintGameData(doc));
+      }
     }
   }
   /** paint game data (game document change handler)

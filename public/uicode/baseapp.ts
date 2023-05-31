@@ -10,6 +10,7 @@ export default class BaseApp {
   projectId = firebase.app().options.projectId;
   basePath = `https://us-central1-${this.projectId}.cloudfunctions.net/`;
   urlParams = new URLSearchParams(window.location.search);
+  signin_show_modal: any = document.querySelector(".signin_show_modal");
   muted = false;
   uid: any = null;
   profile: any = null;
@@ -92,6 +93,8 @@ export default class BaseApp {
       document.body.classList.remove("app_signed_in");
       document.body.classList.add("app_signed_out");
       this.authUpdateStatusUI();
+
+      if (this.signin_show_modal) this.signin_show_modal.click();
     }
 
     return;
@@ -151,7 +154,7 @@ export default class BaseApp {
     e.preventDefault();
     await firebase.auth().signInAnonymously();
     setTimeout(() => {
-      location.href = "/";
+      location.reload();
     }, 1);
     return true;
   }

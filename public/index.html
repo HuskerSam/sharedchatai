@@ -38,7 +38,13 @@
 
     <link rel="stylesheet" href="/css/base.css" />
     <link rel="stylesheet" href="/css/home.css" />
-
+    <script>
+        window.addEventListener("load", async (event) => {
+          let module = await import("/models/homepageapp.js");
+    
+          window.HomePageApp = new module.HomePageApp();
+        });
+      </script>
 </head>
 
 <body class="basic_beer_body show_games_view show_profile_games">
@@ -48,7 +54,12 @@
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
+        <div class="signed_out_options">
+            <button class="btn btn-primary homepage_signin_show_modal" type="button" data-bs-toggle="modal"
+                data-bs-target="#loginModal">
+                Login
+            </button>
+        </div>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item signed_in_options">
@@ -67,5 +78,4 @@
 
     </div>
 </body>
-
 </html>

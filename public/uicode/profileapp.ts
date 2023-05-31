@@ -55,7 +55,6 @@ export class ProfileApp extends BaseApp {
     });
 
     this.initPresetLogos();
-    this.login.addModalToDOM();
   }
   /** get user label pick list comma delimited
    * @return { string } label list

@@ -14,6 +14,7 @@ export default class LoginHelper {
      */
     constructor(app: any) {
         this.app = app;
+        this.addModalToDOM();
     }
     /** get modal template
      * @return { string } template
