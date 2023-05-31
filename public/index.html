@@ -32,6 +32,10 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
     integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
   <link rel="stylesheet" href="/css/base.css" />
   <link rel="stylesheet" href="/css/home.css" />
 
@@ -79,17 +83,20 @@
         </a>
       </div>
       <div class="games_view_wrapper">
+        <select class="document_label_filter">
+        <option>All</option>
+        </select>
         <div class="create_new_game_view">
           <button class="my-3 btn btn-primary" data-bs-toggle="modal" data-bs-target="#createDocumentModal">
             Create Game
           </button>
         </div>
         <div class="d-flex text-start document_info_header align-items-end">
-            <div class="document_info_header_left">Name of this document</div>
-            <div class="document_info_header_right d-flex flex-row me-3">
-              <div>Owner</div>
-              <div class="text-center text-md-end me-2">Last Activity</div>
-            </div>
+          <div class="document_info_header_left">Name of this document</div>
+          <div class="document_info_header_right d-flex flex-row me-3">
+            <div>Owner</div>
+            <div class="text-center text-md-end me-2">Last Activity</div>
+          </div>
         </div>
         <div class="dashboard_documents_view accordian" id="dashboard_documents_view"></div>
 
@@ -110,7 +117,8 @@
     </div>
     <div style="flex: 1"></div>
   </div>
-  <div class="modal fade" id="createDocumentModal" tabindex="-1" aria-labelledby="createDocumentModalLabel" aria-hidden="true">
+  <div class="modal fade" id="createDocumentModal" tabindex="-1" aria-labelledby="createDocumentModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -118,7 +126,9 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          ...
+          <div style="text-align:center;">
+            <select class="document_label_picker" multiple="multiple" style="width:80%"></select>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

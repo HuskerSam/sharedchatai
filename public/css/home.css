@@ -257,6 +257,10 @@ button.code_link {
   background-color: unset;
 }
 
+.select2-dropdown {
+  z-index: 10000;
+}
+
 .document_name {
   flex: 1;
 }
@@ -279,7 +283,7 @@ button.code_link {
   justify-content: space-between;
 }
 
-@media (min-width: 1000px) {
+@media (min-width: 800px) {
   .games_view_wrapper {
     margin: 0 5% 0 5%;
   }
