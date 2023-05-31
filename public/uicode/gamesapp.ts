@@ -31,7 +31,12 @@ export class GamesApp extends BaseApp {
     // redraw feeds to update time since values
     setInterval(() => this.updateTimeSince(this.dashboard_documents_view), 30000);
 
-  
+    window.$('.document_label_picker').select2({
+      tags: true,
+      placeHolder: "Configure default labels",
+    });
+
+
   }
   /** BaseApp override to update additional use profile status */
   authUpdateStatusUI() {
@@ -44,8 +49,23 @@ export class GamesApp extends BaseApp {
       let img = this.profile.displayImage;
       if (!name) name = "Anonymous";
       if (!img) img = "/images/defaultprofile.png";
-    // TO DO - put profile icon in navbar
-   //   this.userprofile_description.innerHTML = this.__getUserTemplate("", name, img);
+      // TO DO - put profile icon in navbar
+      //   this.userprofile_description.innerHTML = this.__getUserTemplate("", name, img);
+
+      const queryLabelSelect2 = window.$('.document_label_picker');
+      queryLabelSelect2.val(null).trigger('change');
+
+      let labelString = this.profile.documentLabels;
+      if (!labelString) labelString = "";
+      const labelArray = labelString.split(",");
+      labelArray.forEach((label: string) => {
+        if (label !== "") {
+          // Create a DOM Option and pre-select by default
+          const newOption = new Option(label, label, false, false);
+          // Append it to the select
+          queryLabelSelect2.append(newOption).trigger('change');
+        }
+      });
     }
   }
   /** init listening events on games store to populate feeds in realtime */
@@ -87,6 +107,7 @@ export class GamesApp extends BaseApp {
       }
     });
     this.updateTimeSince(this.dashboard_documents_view);
+    this.paintLabelSelect();
     this.refreshOnlinePresence();
   }
   /** paint html list card
@@ -98,7 +119,7 @@ export class GamesApp extends BaseApp {
     let ownerClass = "";
     if (data.createUser === this.uid) ownerClass += " feed_game_owner";
 
-  //  const ownerHTML = this.__getUserTemplate(data.createUser, data.memberNames[data.createUser], data.memberImages[data.createUser], true);
+    //  const ownerHTML = this.__getUserTemplate(data.createUser, data.memberNames[data.createUser], data.memberImages[data.createUser], true);
 
     let timeStr = this.isoToLocal(data.created).toISOString().substr(11, 5);
     let hour = Number(timeStr.substr(0, 2));
@@ -290,5 +311,18 @@ export class GamesApp extends BaseApp {
         last_changed: firebase.database.ServerValue.TIMESTAMP,
       });
     }
+  }
+  /** get labels across app */
+  getLabelsList() {
+    const labels: any = [];
+    this.documentsLookup.forEach((doc: any) => {
+      const commaLabels = '';
+      if (doc.)
+      const docLabel
+    });
+  }
+  /** paint label select */
+  paintLabelSelect() {
+
   }
 }
