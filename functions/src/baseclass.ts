@@ -12,8 +12,8 @@ class LocalInstance {
   async init() {
     this.db = firebaseAdmin.firestore();
 
-    const configQuery = await this.db.doc("/configuration/private").get();
-    const publicQuery = await this.db.doc("/configuration/public").get();
+    const configQuery = await this.db.doc("/Configuration/private").get();
+    const publicQuery = await this.db.doc("/Configuration/public").get();
     if (configQuery.exists) this.privateConfig = configQuery.data();
     if (publicQuery.exists) this.publicConfig = publicQuery.data();
 
