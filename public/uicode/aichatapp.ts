@@ -3,7 +3,6 @@ import Split from "./split.js";
 import LoginHelper from "./loginhelper.js";
 import DocOptionsHelper from "./docoptionshelper.js";
 
-
 declare const firebase: any;
 declare const window: any;
 
