@@ -142,7 +142,7 @@ export class DashboardApp extends BaseApp {
   getDocumentCardElement(doc: any) {
     const data = doc.data();
     let title = "";
-    if (doc.data().title) title = doc.data().title;
+    if (doc.data().title) title = doc.data().title.slice(0, 120) + "...";
     if (!title) title = "unused";
     let ownerClass = "";
     if (data.createUser === this.uid) ownerClass += " feed_game_owner";

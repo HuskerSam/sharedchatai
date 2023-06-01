@@ -237,10 +237,16 @@ button.code_link {
 .document_name {
   flex: 1;
   text-align: left;
+  padding-right: 8px;
 }
 
 .document_status {
   flex: 1;
+  align-self: flex-start;
+}
+
+.details_game {
+  align-self: flex-start;
 }
 
 .document_info_header {
@@ -264,6 +270,7 @@ button.code_link {
 }
 
 @media (min-width: 800px) {
+
   .document_status,
   .document_info_header_right {
     flex: .5;
@@ -275,6 +282,7 @@ button.code_link {
   .owner_name {
     display: block;
   }
+
   .owner_img {
     margin-right: 8px;
   }
