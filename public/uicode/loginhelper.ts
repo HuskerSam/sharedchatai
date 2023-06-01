@@ -1,7 +1,6 @@
 declare const firebase: any;
-// declare const window: any;
 
-/** Base class for all pages - handles authorization and low level routing for api calls, etc */
+/** login dialog helper - displays automatically if #signin_show_modal button exists */
 export default class LoginHelper {
     login_google: any = null;
     login_email_anchor: any = null;

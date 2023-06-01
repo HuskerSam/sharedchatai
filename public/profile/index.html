@@ -36,11 +36,11 @@
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
     integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-  
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
   <link rel="stylesheet" href="/css/base.css" />
   <link rel="stylesheet" href="/css/profile.css" />
 
@@ -67,9 +67,10 @@
     <div class="logged_in_status">&nbsp;</div>
     <br><br>
     <div class="signed_out_options">
-      <button class="btn btn-primary signin_show_modal" type="button" data-bs-toggle="modal" data-bs-target="#loginModal">
-          Login
-        </button>
+      <button class="btn btn-primary signin_show_modal" type="button" data-bs-toggle="modal"
+        data-bs-target="#loginModal">
+        Login
+      </button>
     </div>
 
     <div class="signed_in_options">
@@ -88,12 +89,14 @@
       <br>
       <hr>
       <div class="settings_panel">
-        <h3 class="impact-font tag_header_label">ChatGPT Key</h3>
-        <div class="form-floating" style="display:inline-block;width:80%">
-          <input type="text" class="form-control chatgpt_key" placeholder="ChatGPT Key">
-          <label>ChatGPT Key</label>
+        <div style="display:none">
+          <h3 class="impact-font tag_header_label">ChatGPT Key</h3>
+          <div class="form-floating" style="display:inline-block;width:80%">
+            <input type="text" class="form-control chatgpt_key" placeholder="ChatGPT Key">
+            <label>ChatGPT Key</label>
+          </div>
+          <hr>
         </div>
-        <hr>
         <h3 class="impact-font tag_header_label">Display Name</h3>
         <div class="form-floating" style="display:inline-block;width:80%">
           <input type="text" class="form-control profile_display_name" placeholder="Display Name">

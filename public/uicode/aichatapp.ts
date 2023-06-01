@@ -514,13 +514,13 @@ export class AIChatApp extends BaseApp {
     if (this.profile) {
       this.initRTDBPresence();
       this.initTicketFeed();
-  
+
       const gameId = this.urlParams.get("game");
       if (gameId) {
         this.gameAPIJoin(gameId);
         this.currentGame = gameId;
         if (this.gameid_span) this.gameid_span.innerHTML = this.currentGame;
-  
+
         if (this.gameSubscription) this.gameSubscription();
         this.gameSubscription = firebase.firestore().doc(`Games/${this.currentGame}`)
           .onSnapshot((doc: any) => this.paintGameData(doc));
@@ -820,8 +820,8 @@ export class AIChatApp extends BaseApp {
         const selected = <string> ticket.data().includeInMessage ? "✅" : "&nbsp;";
 
         resultText += `<div class="ticket-item">\n`;
-        resultText += `    <div class="prompt-text">${selected} ${prompt}</div>\n`
-        resultText += `    <div class="completion-text">${completion}</div>\n`
+        resultText += `    <div class="prompt-text">${selected} ${prompt}</div>\n`;
+        resultText += `    <div class="completion-text">${completion}</div>\n`;
         resultText += `</div>`;
       });
     }
@@ -833,7 +833,7 @@ export class AIChatApp extends BaseApp {
     };
   }
   /** refresh report data
-   * @param { boolean } download 
+   * @param { boolean } download
   */
   refreshReportData(download = false) {
     const data = this.generateExportData();
@@ -845,7 +845,7 @@ export class AIChatApp extends BaseApp {
         type: data.format,
       });
 
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       const url = URL.createObjectURL(file);
 
       link.href = url;
@@ -891,8 +891,6 @@ export class AIChatApp extends BaseApp {
         });
         if (error) break;
       }
-      records.forEach((ticket: any) => {
-      });
     } catch (error: any) {
       alert("Import failed");
       console.log(error);

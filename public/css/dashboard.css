@@ -14,30 +14,11 @@
   display: block;
 }
 
-.join_game_view {
-  display: flex;
-  flex-direction: row;
-  margin: 0 4px;
-}
-
-.join_game_view {
-  display: none;
-}
-
-.dashboard_documents_view,
-.dashboard_document_header {
-  display: none;
-}
-
 .games_view_wrapper {
   display: none;
 }
 
 .show_games_view.app_signed_in .games_view_wrapper {
-  display: block;
-}
-
-.show_profile_games .dashboard_documents_view {
   display: block;
 }
 
@@ -259,6 +240,7 @@ button.code_link {
 
 .document_name {
   flex: 1;
+  text-align: left;
 }
 
 .document_status {
