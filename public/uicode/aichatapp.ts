@@ -358,7 +358,7 @@ export class AIChatApp extends BaseApp {
     const cardWrapper = document.createElement("div");
 
     cardWrapper.innerHTML =
-      `<div class="mt-1 m-1 mx-md-2 mx-sm-1 card game_message_list_item${gameOwnerClass}${ownerClass}" ticketid="${doc.id}"
+      `<div class="mt-1 m-1 mx-md-2 mx-sm-1 game_message_list_item${gameOwnerClass}${ownerClass}" ticketid="${doc.id}"
       gamenumber="${doc.id}">
       <div style="display:flex;flex-direction:row">
           <div style="flex:1;display:flex;flex-direction:column">
@@ -369,7 +369,6 @@ export class AIChatApp extends BaseApp {
               <div style="display:flex;flex-direction:column">
                   <div class="m-1 user_assist_request_header">
                       <div style="flex:1"></div>
-  
                       <span class="tokens_total"></span>
                       <span class="tokens_prompt"></span>
                       <span class="tokens_completion"></span>
