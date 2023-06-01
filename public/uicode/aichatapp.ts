@@ -11,6 +11,7 @@ declare const window: any;
 /** Guess app class */
 export class AIChatApp extends BaseApp {
   apiType = "aichat";
+  maxTokenPreviewChars = 30;
   currentGame: any;
   lastTicketsSnapshot: any = [];
   gameSubscription: any;
@@ -783,11 +784,24 @@ export class AIChatApp extends BaseApp {
     const tokens = window.gpt3tokenizer.encode(this.ticket_content_input.value);
 
     let html = "";
-    tokens.forEach((token: any, index: number) => {
+    let totalChars = 0;
+    let tokensUsed = 0;
+    for (let c = tokens.length - 1; c >= 0; c--) {
+      const token = tokens[c];
       const text = window.gpt3tokenizer.decode([token]);
-      const tokenClass = (index % 2 === 0) ? "token_even" : "token_odd";
-      html += `<span class="${tokenClass}">${text}</span>`;
-    });
+
+      if (totalChars + text.length <= this.maxTokenPreviewChars) {
+        tokensUsed++;
+        totalChars += text.length;
+        const tokenClass = (c % 2 === 0) ? "token_even" : "token_odd";
+        html = `<span class="${tokenClass}">${text}</span>` + html;
+      } else {
+        break;
+      }
+    }
+
+    if (tokensUsed < tokens.length) html = "..." + html;
+
     this.token_visualizer_preview.innerHTML = html;
 
     this.prompt_token_count.innerHTML = tokens.length;
