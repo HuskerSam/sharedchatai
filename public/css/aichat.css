@@ -189,6 +189,11 @@ body {
 .tokens_prompt,
 .tokens_completion {
   padding: 10px;
+  color: rgba(13,202,240,.25);
+}
+
+.tokens_total {
+  color: rgba(13,202,240,.5);
 }
 
 .rerun_ticket {
