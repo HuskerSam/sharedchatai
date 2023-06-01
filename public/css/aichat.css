@@ -105,7 +105,7 @@ body {
   padding: 0px 4px;
   font-weight: bold;
   white-space: pre-wrap;
-  color: rgb(13, 202, 240);
+  color: rgb(217, 217, 227);
 }
 
 .game_message_list_item .game_date {
@@ -156,10 +156,8 @@ body {
 .assist_section {
   text-align: left;
   font-size: 1.1em;
-  padding: 8px 8px 0px 4px;
-  padding-bottom: 8px;
+  padding: 8px 8px 0px 8px;
   white-space: pre-wrap;
-  margin-left: -32px;
 }
 
 .main_view_splitter {
@@ -300,14 +298,15 @@ body {
 
   .assist_section {
     font-size: 1.25em;
-    padding: 8px 8px 0px 4px;
+    padding: 8px 4px 0px 8px;
     padding-left: 12px;
     padding-bottom: 25px;
+    margin-right: -24px
   }
 
   .ticket_item_include_wrapper input {
     width: 36px;
     height: 36px;
-    margin: 8px 0 0px 8px;
+    margin: 8px 8px 0px 0px;
   }
 }

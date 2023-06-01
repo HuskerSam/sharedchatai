@@ -334,9 +334,6 @@ export class AIChatApp extends BaseApp {
       `<div class="mt-1 m-1 mx-md-2 mx-sm-1 card game_message_list_item${gameOwnerClass}${ownerClass}" ticketid="${doc.id}"
       gamenumber="${doc.id}">
       <div style="display:flex;flex-direction:row">
-          <div class="ticket_item_include_wrapper">
-              <input class="form-check-input ticket_item_include_checkbox" type="checkbox" ticketid="${doc.id}" value="">
-          </div>
           <div style="flex:1;display:flex;flex-direction:column">
               <div style="display:flex;flex-direction:row">
                   <div class="message" style="flex:1;">${data.message}</div>
@@ -363,6 +360,9 @@ export class AIChatApp extends BaseApp {
                       </div>
                   </div>
               </div>
+          </div>
+          <div class="ticket_item_include_wrapper">
+              <input class="form-check-input ticket_item_include_checkbox" type="checkbox" ticketid="${doc.id}" value="">
           </div>
       </div>
   </div>`;
