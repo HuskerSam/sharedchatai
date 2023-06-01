@@ -11,8 +11,8 @@ export default class DocOptionsHelper {
     copyLink: any = null;
     document_title: any = null;
     documentData: any = null;
-  docfield_archived_checkbox: any = null;
-  docfield_usage_limit: any = null;
+    docfield_archived_checkbox: any = null;
+    docfield_usage_limit: any = null;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -50,7 +50,7 @@ export default class DocOptionsHelper {
             this.logoutGame();
         });
 
-        window.$(".document_label_picker_edit").select2({
+        window.$(".edit_options_document_labels").select2({
             tags: true,
             placeHolder: "Add labels...",
         });
@@ -71,7 +71,7 @@ export default class DocOptionsHelper {
         const note = this.owner_note_field_edit.value;
         const archived = this.docfield_archived_checkbox.checked ? "1" : "0";
         const tokenUsageLimit = this.docfield_usage_limit.value;
-    
+
         const body: any = {
             gameNumber: docId,
         };
@@ -119,7 +119,7 @@ export default class DocOptionsHelper {
                     <label>Title</label>
                 </div>
                 <div style="text-align:center;">
-                  <select class="document_label_picker_edit" multiple="multiple" style="width:80%"></select>
+                  <select class="edit_options_document_labels" multiple="multiple" style="width:80%"></select>
                 </div>
                 <br>
                 <div class="form-floating" style="display:inline-block;width:80%">
@@ -159,7 +159,7 @@ export default class DocOptionsHelper {
      * @return { string } comma delimited list of labels
       */
     scrapeDocumentEditLabels(): string {
-        const data = window.$(".document_label_picker_edit").select2("data");
+        const data = window.$(".edit_options_document_labels").select2("data");
         const labels: Array<string> = [];
         data.forEach((item: any) => {
             if (item.text.trim()) labels.push(item.text.trim());
@@ -249,7 +249,7 @@ export default class DocOptionsHelper {
         this.docfield_archived_checkbox.checked = this.documentData.archived;
 
         if (doc.createUser === this.app.uid) {
-            const queryLabelSelect2 = window.$(".document_label_picker_edit");
+            const queryLabelSelect2 = window.$(".edit_options_document_labels");
             queryLabelSelect2.val(null).trigger("change");
 
             try {

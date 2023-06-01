@@ -222,10 +222,6 @@ a {
   background: rgb(0, 127, 0, 0.5);
 }
 
-.select2-dropdown {
-  display: none!important;
-}
-
 .list-group-item {
   color: rgb(240, 240, 240);
 }

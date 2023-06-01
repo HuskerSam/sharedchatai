@@ -1,45 +1,40 @@
 import BaseApp from "./baseapp.js";
 import LoginHelper from "./loginhelper.js";
 import DocOptionsHelper from "./docoptionshelper.js";
+import DocCreateHelper from "./doccreatehelper.js";
 declare const window: any;
 declare const firebase: any;
 
 /** Dashboard Document Management App - for listing, joining and creating games  */
 export class DashboardApp extends BaseApp {
   dashboard_documents_view: any = document.querySelector(".dashboard_documents_view");
-  create_game_afterfeed_button: any = document.querySelector(".create_game_afterfeed_button");
   new_game_type_wrappers: any = document.querySelectorAll(".new_game_type_wrapper");
   basic_options: any = document.querySelector(".basic_options");
   userprofile_description: any = document.querySelector(".userprofile_description");
-  owner_note_field: any = document.querySelector("#owner_note_field");
+  dashboard_create_game: any = document.querySelector(".dashboard_create_game");
   editedDocumentId = "";
   gameFeedSubscription: any;
   publicFeedSubscription: any;
   lastGamesFeedSnapshot: any;
   lastPublicFeedSnapshot: any;
   gameFeedInited = false;
-  creatingNewRecord = false;
   documentsLookup: any = {};
   document_label_filter: any = document.querySelector(".document_label_filter");
 
   login = new LoginHelper(this);
+  documentCreate = new DocCreateHelper(this);
   documentOptions = new DocOptionsHelper(this);
 
   /** */
   constructor() {
     super();
 
-    this.create_game_afterfeed_button.addEventListener("click", () => this.createNewGame());
-
     this.initRTDBPresence();
+
+    this.dashboard_create_game.addEventListener("click", () => this.documentCreate.show());
 
     // redraw feeds to update time since values
     setInterval(() => this.updateTimeSince(this.dashboard_documents_view), 30000);
-
-    window.$(".document_label_picker").select2({
-      tags: true,
-      placeHolder: "Add labels...",
-    });
 
     this.document_label_filter.addEventListener("input", () => this.updateGamesFeed(null));
   }
@@ -56,21 +51,6 @@ export class DashboardApp extends BaseApp {
       if (!img) img = "/images/defaultprofile.png";
       // TO DO - put profile icon in navbar
       //   this.userprofile_description.innerHTML = this.__getUserTemplate("", name, img);
-
-      const queryLabelSelect2 = window.$(".document_label_picker");
-      queryLabelSelect2.val(null).trigger("change");
-
-      let labelString = this.profile.documentLabels;
-      if (!labelString) labelString = "";
-      const labelArray = labelString.split(",");
-      labelArray.forEach((label: string) => {
-        if (label !== "") {
-          // Create a DOM Option and pre-select by default
-          const newOption = new Option(label, label, false, false);
-          // Append it to the select
-          queryLabelSelect2.append(newOption).trigger("change");
-        }
-      });
     }
   }
   /** init listening events on games store to populate feeds in realtime */
@@ -181,45 +161,6 @@ export class DashboardApp extends BaseApp {
 
     return card;
   }
-  /** create new game api call */
-  async createNewGame() {
-    if (this.creatingNewRecord) return;
-    if (!this.profile) return;
-    this.creatingNewRecord = true;
-
-    this.create_game_afterfeed_button.setAttribute("disabled", true);
-    this.create_game_afterfeed_button.innerHTML = "Creating...";
-
-    const gameType = "aichat";
-    const body = {
-      gameType,
-      label: this.scrapeLabels(),
-      note: this.owner_note_field.value,
-    };
-    const token = await firebase.auth().currentUser.getIdToken();
-    const fResult = await fetch(this.basePath + "lobbyApi/games/create", {
-      method: "POST",
-      mode: "cors",
-      cache: "no-cache",
-      headers: {
-        "Content-Type": "application/json",
-        token,
-      },
-      body: JSON.stringify(body),
-    });
-    const json = await fResult.json();
-    if (!json.success) {
-      console.log("failed create", json);
-      alert("failed to create game");
-      return;
-    }
-
-    const a = document.createElement("a");
-    a.setAttribute("href", `/${gameType}/?game=${json.gameNumber}`);
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  }
   /** update storage to show online for current user */
   refreshOnlinePresence() {
     if (this.userStatusDatabaseRef) {
@@ -264,17 +205,5 @@ export class DashboardApp extends BaseApp {
       this.document_label_filter.selectedIndex = 0;
       this.updateGamesFeed(null);
     }
-  }
-  /** scrape labels from dom and return comma delimited list
-* @return { string } comma delimited list
-*/
-  scrapeLabels(): string {
-    const data = window.$(".document_label_picker").select2("data");
-    const labels: Array<string> = [];
-    data.forEach((item: any) => {
-      if (item.text.trim()) labels.push(item.text.trim());
-    });
-
-    return labels.join(",");
   }
 }

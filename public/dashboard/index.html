@@ -82,7 +82,10 @@
           <option>All</option>
         </select>
         <div class="create_new_game_view">
-          <button class="my-3 btn btn-primary" data-bs-toggle="modal" data-bs-target="#createDocumentModal">
+          <button class="my-3 btn btn-primary dashboard_create_game">
+            Create Game
+          </button>
+          <button class="my-3 btn btn-primary doccreatehelper_show_modal" style="display:none;" data-bs-toggle="modal" data-bs-target="#createDocumentModal">
             Create Game
           </button>
         </div>
@@ -97,31 +100,6 @@
       </div>
     </div>
     <div style="flex: 1"></div>
-  </div>
-  <div class="modal fade" id="createDocumentModal" tabindex="-1" aria-labelledby="createDocumentModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="createDocumentModalLabel">Create Document</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div style="text-align:center;">
-            <select class="document_label_picker" multiple="multiple" style="width:80%"></select>
-          </div>
-          <br>
-          <div class="form-floating" style="display:inline-block;width:80%">
-            <input type="text" class="form-control" id="owner_note_field" placeholder="Note">
-            <label>Note</label>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary modal_close_button" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary create_game_afterfeed_button">Create</button>
-        </div>
-      </div>
-    </div>
   </div>
   <style id="laststyleblock"></style>
 </body>
