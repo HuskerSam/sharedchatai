@@ -42,7 +42,7 @@ export default class DocOptionsHelper {
         this.modalContainer = document.createElement("div");
         this.modalContainer.innerHTML = html;
         document.body.appendChild(this.modalContainer);
-        if (this.wrapperClass) this.modalContainer.children[0].classList.add(this.wrapperClass);
+        if (this.wrapperClass) this.modalContainer.classList.add(this.wrapperClass);
 
         this.owner_note_field_edit = this.modalContainer.querySelector("#owner_note_field_edit");
         this.save_game_afterfeed_button = this.modalContainer.querySelector(".save_game_afterfeed_button");
@@ -161,7 +161,6 @@ export default class DocOptionsHelper {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="owner_options_edit_section">
                         <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link active" id="options_tab_button" data-bs-toggle="tab"
@@ -226,7 +225,6 @@ export default class DocOptionsHelper {
                                 ${importModalTabHTML}
                             </div>
                         </div>
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button class="delete_game btn btn-secondary" data-bs-dismiss="modal">
@@ -381,14 +379,12 @@ export default class DocOptionsHelper {
         this.documentData = doc;
         if (doc.createUser === this.app.uid) {
             (<any>document.getElementById("owner_note_field_edit")).value = doc.note;
-            (<any>document.querySelector(".owner_options_edit_section")).style.display = "block";
-            this.modalContainer.classList.add("feed_game_owner");
-            this.modalContainer.classList.remove("feed_game_user");
+            this.modalContainer.classList.add("modal_options_owner_user");
+            this.modalContainer.classList.remove("modal_options_shared_user");
         } else {
             (<any>document.getElementById("owner_note_field_edit")).value = "Shared Document";
-            (<any>document.querySelector(".owner_options_edit_section")).style.display = "none";
-            this.modalContainer.classList.remove("feed_game_owner");
-            this.modalContainer.classList.add("feed_game_user");
+            this.modalContainer.classList.remove("modal_options_owner_user");
+            this.modalContainer.classList.add("modal_options_shared_user");
         }
 
         this.document_title.value = this.documentData.title;

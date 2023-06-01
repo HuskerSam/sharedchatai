@@ -165,7 +165,8 @@ export class DashboardApp extends BaseApp {
     const data = doc.data();
 
     let ownerClass = "";
-    if (data.createUser === this.uid) ownerClass += " feed_game_owner";
+    if (data.createUser === this.uid) ownerClass += " dashboard_feed_owner_user";
+    else ownerClass += " dashboard_feed_shared_user"
 
     let timeStr = this.isoToLocal(data.created).toISOString().substr(11, 5);
     let hour = Number(timeStr.substr(0, 2));

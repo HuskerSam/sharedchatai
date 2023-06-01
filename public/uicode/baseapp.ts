@@ -60,7 +60,6 @@ export default class BaseApp {
   }
   /** Paints UI display/status for user profile based changes */
   authUpdateStatusUI() {
-    document.body.classList.add("loaded");
     if (this.fireToken) {
       if (document.body.dataset.creator === this.uid) document.body.classList.add("user_editable_record");
     }
