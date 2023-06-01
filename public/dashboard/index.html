@@ -84,15 +84,14 @@
         Show Create Modal
       </button>
       <div class="games_view_wrapper">
-        <div style="display:flex;flex-direction:row">
-          <div style="padding-top:1.5em;text-align:left;">
-            <select class="document_label_filter">
+        <div class="games_view_header_wraper">
+          <div class="flex-1 align-self-center"><span class="userprofile_description"></span></div>
+          <div class="pt-3 text-center align-items-center flex-1">
+            <select class="document_label_filter form-select form-select-lg">
               <option>All</option>
             </select>
           </div>
-          <div class="lobby_user_description" style="flex:1;text-align:center;">
-            <span class="userprofile_description"></span>
-            &nbsp;
+          <div class="lobby_user_description flex-1 text-center align-items-center me-2">
             <button class="my-3 btn btn-primary dashboard_create_game">
               Create Game
             </button>
