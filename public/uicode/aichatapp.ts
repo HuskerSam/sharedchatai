@@ -10,7 +10,7 @@ declare const window: any;
 export class AIChatApp extends BaseApp {
   apiType = "aichat";
   currentGame: any;
-  lastTicketsSnapshot: any = null;
+  lastTicketsSnapshot: any = [];
   gameSubscription: any;
   assistsSubscription: any;
   ticketsSubscription: any;
@@ -239,6 +239,10 @@ export class AIChatApp extends BaseApp {
    * @param { any } snapshot firestore query data snapshot
    */
   updateTicketsFeed(snapshot: any) {
+    if (!this.gameData) {
+      setTimeout(() => this.updateTicketsFeed(snapshot), 50);
+      return;
+    } 
     if (snapshot) this.lastTicketsSnapshot = snapshot;
     else if (this.lastTicketsSnapshot) snapshot = this.lastTicketsSnapshot;
     else return;
@@ -349,10 +353,14 @@ export class AIChatApp extends BaseApp {
     const ownerClass = data.uid === this.uid ? " message_owner" : "";
 
     let name = "Anonymous";
-    if (data.memberName) name = data.memberName;
+    const ticketUserName = this.gameData.memberNames[data.uid];
+    if (ticketUserName) name = ticketUserName;
+    else if (data.memberName) name = data.memberName;
 
     let img = "/images/defaultprofile.png";
-    if (data.memberImage) img = data.memberImage;
+    const ticketUserImage = this.gameData.memberImages[data.uid];
+    if (ticketUserImage) img = ticketUserImage;
+    else if (data.memberImage) img = data.memberImage;
 
     const cardWrapper = document.createElement("div");
 
