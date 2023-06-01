@@ -145,8 +145,13 @@ export class AIChatApp extends BaseApp {
   }
   /** update temperature label and save to api
    * @param { boolean } saveToAPI true to save slider value to api
+   * @param { string } sliderField document name of field
+   * @param { any } sliderCtl dom input
+   * @param { any } sliderLabel dom label to update on change
+   * @param { string } prefix included in label update
   */
-  async optionSliderChange(saveToAPI = false, sliderField: string, sliderCtl: any, sliderLabel: any, prefix: string) {
+  async optionSliderChange(saveToAPI = false, sliderField: string, sliderCtl: any,
+    sliderLabel: any, prefix: string) {
     this.lastDocumentOptionChange = new Date().getTime();
     sliderLabel.innerHTML = prefix + sliderCtl.value;
 
@@ -363,10 +368,11 @@ export class AIChatApp extends BaseApp {
     const result = await fResult.json();
     if (!result.success) alert("Delete ticket failed");
   }
+  /** query dom for all ticket_owner_image and ticket_owner_name elements and update */
   updateUserNamesImages() {
     const imgCtls = document.querySelectorAll(".ticket_owner_image");
     const nameCtls = document.querySelectorAll(".ticket_owner_name");
-   
+
     imgCtls.forEach((imgCtl: any) => {
       const uid: any = imgCtl.dataset.ticketowneruid;
       if (uid !== undefined) {
@@ -374,7 +380,7 @@ export class AIChatApp extends BaseApp {
         imgCtl.style.backgroundImage = "url(" + imgPath + ")";
       }
     });
-   
+
     nameCtls.forEach((nameCtl: any) => {
       const uid: any = nameCtl.dataset.ticketowneruid;
       if (uid !== undefined) {
@@ -655,6 +661,8 @@ export class AIChatApp extends BaseApp {
     this.members_list.innerHTML = html;
   }
   /** save a single field to document
+   * @param { string } field document field name
+   * @param { any } value written to field
   */
   async saveDocumentOption(field: string, value: any) {
     const body: any = {
@@ -854,7 +862,7 @@ export class AIChatApp extends BaseApp {
       resultText += `</style>\n`;
       tickets.forEach((ticket: any) => {
         const prompt = <string>ticket.data().message;
-        const completion = <string>this.messageForCompletion(ticket.id);
+        const completion = <string> this.messageForCompletion(ticket.id);
         const selected = <string>ticket.data().includeInMessage ? "✅" : "&nbsp;";
 
         resultText += `<div class="ticket-item">\n`;
@@ -968,6 +976,7 @@ export class AIChatApp extends BaseApp {
     setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 100);
     return error;
   }
+  /** populate and show document options popup */
   showOptionsModal() {
     this.editedDocumentId = this.currentGame;
     this.documentsLookup = {

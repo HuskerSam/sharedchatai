@@ -25,6 +25,5 @@ export class HomePageApp extends BaseApp {
 
             this.documentCreate.show();
         });
-
     }
 }

@@ -3,7 +3,6 @@ import LoginHelper from "./loginhelper.js";
 import DocOptionsHelper from "./docoptionshelper.js";
 import DocCreateHelper from "./doccreatehelper.js";
 import ProfileHelper from "./profilehelper.js";
-declare const window: any;
 declare const firebase: any;
 
 /** Dashboard Document Management App - for listing, joining and creating games  */
@@ -62,10 +61,10 @@ export class DashboardApp extends BaseApp {
       //   this.userprofile_description.innerHTML = this.__getUserTemplate("", name, img);
     }
   }
+  /** query dom for all chat_user_image and chat_user_name elements and update */
   updateUserNamesImages() {
     const imgCtls = document.querySelectorAll(".chat_user_image");
     const nameCtls = document.querySelectorAll(".chat_user_name");
-   
     imgCtls.forEach((imgCtl: any) => {
       const uid: any = imgCtl.dataset.chatuserid;
       const docid: any = imgCtl.dataset.docid;
@@ -74,7 +73,7 @@ export class DashboardApp extends BaseApp {
         imgCtl.setAttribute("src", imgPath);
       }
     });
-   
+
     nameCtls.forEach((nameCtl: any) => {
       const uid: any = nameCtl.dataset.chatuserid;
       const docid: any = nameCtl.dataset.docid;
@@ -165,8 +164,12 @@ export class DashboardApp extends BaseApp {
         <div class="document_status d-flex flex-row justify-content-between">
             <div class="user_img_wrapper">
                 <div class="d-flex flex-row">
-                    <span class="align-self-center pe-2"><img class="owner_img chat_user_image" data-docid="${doc.id}" data-chatuserid="${data.createUser}" src="${data.memberImages[data.createUser]}"></span>
-                    <span class="owner_name chat_user_name" data-chatuserid="${data.createUser}" data-docid="${doc.id}">${data.memberNames[data.createUser]}</span>
+                    <span class="align-self-center pe-2"><img class="owner_img chat_user_image" 
+                    data-docid="${doc.id}" data-chatuserid="${data.createUser}" 
+                    src="${data.memberImages[data.createUser]}"></span>
+                    <span class="owner_name chat_user_name" 
+                    data-chatuserid="${data.createUser}" 
+                    data-docid="${doc.id}">${data.memberNames[data.createUser]}</span>
                 </div>
             </div>
             <div class="mx-4 time_since last_submit_time text-center text-md-end" data-timesince="${data.lastActivity}"

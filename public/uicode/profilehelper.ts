@@ -166,8 +166,7 @@ export default class ProfileHelper {
             alert("File needs to be less than 1mb in size");
             return;
         }
-         this.profile_display_image_preset.value = "";
-        
+        this.profile_display_image_preset.value = "";
         this.profile_display_image.style.backgroundImage = ``;
 
         await sRef.put(file);
@@ -255,6 +254,7 @@ export default class ProfileHelper {
         this.app.profile.displayImage = this.profile_display_image_preset.value;
         this.updateImageDisplay();
     }
+    /** paint user image preview */
     updateImageDisplay() {
         this.profile_display_image.style.backgroundImage = "";
         if (this.app.profile.displayImage) this.profile_display_image.style.backgroundImage = `url(${this.app.profile.displayImage})`;
@@ -275,6 +275,7 @@ export default class ProfileHelper {
             window.location = "/profile";
         }
     }
+    /** populate modal fields and show */
     show() {
         let displayName = this.app.profile.displayName;
         if (!displayName) displayName = "";
@@ -310,5 +311,4 @@ export default class ProfileHelper {
         this.updateImageDisplay();
         this.profile_show_modal.click();
     }
-
 }

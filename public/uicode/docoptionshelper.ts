@@ -81,7 +81,10 @@ export default class DocOptionsHelper {
         if (this.documentData.label !== label) body.label = label;
         if (this.documentData.note !== note) body.note = note;
 
-        if (this.document_title.value.trim() !== this.documentData.title && this.document_title.value !== "") body.title = this.document_title.value.trim();
+        if (this.document_title.value.trim() !== this.documentData.title &&
+            this.document_title.value !== "") {
+            body.title = this.document_title.value.trim();
+        }
 
         const token = await firebase.auth().currentUser.getIdToken();
         const fResult = await fetch(this.app.basePath + "lobbyApi/games/owner/options", {
@@ -229,8 +232,7 @@ export default class DocOptionsHelper {
 
         this.modal_close_button.click();
     }
-    /** show document details modal
- */
+    /** populate modal fields and show */
     show() {
         const doc = this.app.documentsLookup[this.app.editedDocumentId];
         this.documentData = doc;

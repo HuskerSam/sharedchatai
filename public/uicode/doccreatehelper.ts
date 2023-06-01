@@ -39,7 +39,6 @@ export default class DocCreateHelper {
             tags: true,
             placeHolder: "Add labels...",
         });
-
     }
     /** template as string for modal
      * @return { string } html template as string
@@ -122,6 +121,7 @@ export default class DocCreateHelper {
 
         return labels.join(",");
     }
+    /** populate modal fields and show */
     show() {
         this.owner_note_field.value = "";
 
@@ -141,5 +141,4 @@ export default class DocCreateHelper {
         });
         this.doccreatehelper_show_modal.click();
     }
-
 }
