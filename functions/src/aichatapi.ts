@@ -49,7 +49,8 @@ export default class ChatAI {
         }
 
         const isOwner = uid === gameData.createUser;
-        const chatGptKey = ownerProfile.chatGptKey;
+        // const chatGptKey = ownerProfile.chatGptKey;
+        const chatGptKey = localInstance.privateConfig.chatGPTKey;
 
         const memberImage = gameData.memberImages[uid] ? gameData.memberImages[uid] : "";
         const memberName = gameData.memberNames[uid] ? gameData.memberNames[uid] : "";

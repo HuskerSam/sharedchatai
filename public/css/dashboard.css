@@ -1,0 +1,285 @@
+.signed_in_game_options {
+  display: none;
+}
+
+.signed_out_game_options {
+  display: none;
+}
+
+.app_signed_in .signed_in_game_options {
+  display: block;
+}
+
+.app_signed_out .signed_out_game_options {
+  display: block;
+}
+
+.games_view_wrapper {
+  display: none;
+}
+
+.show_games_view.app_signed_in .games_view_wrapper {
+  display: block;
+}
+
+.document_list_item {
+  display: block;
+}
+
+.owner_name {
+  display: none;
+}
+
+.document_list_item .accordion-button {
+  background-color: rgba(250, 250, 250);
+}
+
+
+.show_profile_games .dashboard_document_header {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+button.delete_game {
+  display: none;
+}
+
+.feed_game_owner .delete_game {
+  display: inline-block;
+}
+
+.feed_game_owner button.leave_game {
+  display: none;
+}
+
+.visibility_select {
+  display: inline-block;
+}
+
+.game_type_image {
+  background-repeat: no-repeat;
+  background-position: center 40%;
+  background-size: contain;
+  width: 32px;
+  margin-left: 6px;
+}
+
+.game_name {
+  flex: 1;
+  padding-left: 10px;
+  padding-top: 7px;
+}
+
+.game_name .title {
+  font-size: 36px;
+}
+
+a.game_number_open {
+  text-decoration: none;
+}
+
+.next_player {
+  text-align: left;
+  line-height: 40px;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+}
+
+.gamefeed_members_list {
+  margin: 0 10px;
+  border-radius: 6px;
+}
+
+.owner_img {
+  width: 24px;
+  height: 24px;
+}
+
+.next_player_wrapper span.member_online_status {
+  width: 18px;
+  height: 18px;
+}
+
+span.next_label {
+  display: inline-block;
+  width: 90px;
+  opacity: .75;
+}
+
+.next_player_wrapper span.name {
+  width: 125px;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.member_feed_wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.member_feed_wrapper>div {
+  flex: 1;
+  height: 60px;
+  line-height: 65px;
+  text-align: center;
+  overflow: hidden;
+  padding-bottom: 4px;
+  border-color: rgba(255, 255, 255, .6);
+}
+
+.member_feed_wrapper>div:nth-child(2) {
+  border-left: none;
+}
+
+.gamefeed_members_list div.member_feed_wrapper:nth-child(2)>div {
+  border-top: none;
+}
+
+.member_feed_wrapper div:nth-child(4) {
+  border-top: none;
+}
+
+.feed_filter_header {
+  text-align: left;
+}
+
+.app_signed_out .feed_filter_header {
+  display: none;
+}
+
+.app_signed_out .game_header_toggle_button {
+  display: none;
+}
+
+.member_feed_wrapper button.open_sit {
+  background: none;
+  cursor: default;
+  border-color: transparent;
+}
+
+.gamefeed_members_list .member_online_status {
+  position: absolute;
+  left: 24px;
+  top: 32px;
+  width: 10px;
+  height: 10px;
+}
+
+button.game.sit_button {
+  background: none;
+}
+
+.header_copyright {
+  font-size: 16px;
+  padding-right: 8px;
+  line-height: 60px;
+  display: inline-block;
+}
+
+.header_copyright .title {
+  display: inline-block;
+}
+
+.table_seat_fill {
+  background: rgba(127, 127, 127, .5);
+}
+
+button.code_link {
+  border-color: transparent;
+}
+
+.lobby_user_description {
+  display: none;
+}
+
+.app_signed_in .lobby_user_description {
+  display: block;
+}
+
+
+.userprofile_description span:nth-child(1) {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  background-position: center center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: relative;
+  top: 6px;
+}
+
+.userprofile_description span:nth-child(2) {
+  white-space: nowrap;
+  font-size: 24px;
+  line-height: 32px;
+  position: relative;
+  top: -5px;
+}
+
+.userprofile_description {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.profile_menu_anchor .name {
+  text-decoration: underline;
+}
+
+.accordion-button {
+  display: flex;
+  align-items: center;
+  background: none;
+  background-color: unset;
+}
+
+.select2-dropdown {
+  z-index: 10000;
+}
+
+.document_name {
+  flex: 1;
+  text-align: left;
+}
+
+.document_status {
+  flex: 1;
+}
+
+.document_info_header {
+  font-weight: bold;
+}
+
+.document_info_header_left {
+  flex: 1;
+  margin-left: 8px
+}
+
+.document_info_header_right {
+  flex: 1;
+  justify-content: space-between;
+}
+
+@media (min-width: 800px) {
+  .games_view_wrapper {
+    margin: 0 5% 0 5%;
+  }
+}
+
+@media (min-width: 800px) {
+  .document_status,
+  .document_info_header_right {
+    flex: .5;
+    justify-content: space-between;
+  }
+}
+
+@media (min-width: 440px) {
+  .owner_name {
+    display: block;
+  }
+  .owner_img {
+    margin-right: 8px;
+  }
+}

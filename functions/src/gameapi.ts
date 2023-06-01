@@ -1,5 +1,8 @@
 import * as firebaseAdmin from "firebase-admin";
 import BaseClass from "./baseclass";
+import {
+  FieldValue,
+} from "firebase-admin/firestore";
 
 /** GameAPI for managing game records and base functions for 2D games */
 export default class GameAPI {
@@ -222,6 +225,9 @@ export default class GameAPI {
     if (req.body.note !== undefined) {
       updatePacket.note = req.body.note;
     }
+    if (req.body.title !== undefined) {
+      updatePacket.title = req.body.title;
+    }
     updatePacket.publicStatus = GameAPI._publicStatus(gameData);
 
     await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).set(updatePacket, {
@@ -371,7 +377,7 @@ export default class GameAPI {
 
     const updatePacket: any = {
       members: {
-        [uid]: firebaseAdmin.firestore.FieldValue.delete(),
+        [uid]: FieldValue.delete(),
       },
     };
     for (let c = 0, l = game.numberOfSeats; c < l; c++) {

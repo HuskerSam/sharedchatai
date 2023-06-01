@@ -3,22 +3,21 @@ declare const firebase: any;
 declare const window: any;
 
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
-class BaseApp {
+export default class BaseApp {
   timeSinceRedraw = 300;
   feedLimit = 10;
   deferredPWAInstallPrompt: any = null;
   projectId = firebase.app().options.projectId;
   basePath = `https://us-central1-${this.projectId}.cloudfunctions.net/`;
   urlParams = new URLSearchParams(window.location.search);
+  signin_show_modal: any = document.querySelector(".signin_show_modal");
   muted = false;
-  night_mode_toggle: any = null;
   uid: any = null;
   profile: any = null;
   fireUser: any = null;
   fireToken: any = null;
   profileSubscription: any = null;
   profileInited = false;
-  nightModeCurrent = false;
   mute_button: any = null;
   verboseLog = false;
   rtdbPresenceInited = false;
@@ -34,10 +33,6 @@ class BaseApp {
     });
 
     if (window.location.hostname === "localhost") this.basePath = `http://localhost:5001/${this.projectId}/us-central1/`;
-
-
-    this.night_mode_toggle = document.querySelector(".night_mode_toggle");
-    if (this.night_mode_toggle) this.night_mode_toggle.addEventListener("click", (e: any) => this.nightModeToggle(e));
 
     firebase.auth().onAuthStateChanged((u: any) => this.authHandleEvent(u));
     this.signInWithURL();
@@ -71,7 +66,6 @@ class BaseApp {
     }
 
     if (this.profile) {
-      this.updateNightModeStatus(this.profile.nightModeState);
       this.updateUserStatus();
     }
   }
@@ -99,6 +93,8 @@ class BaseApp {
       document.body.classList.remove("app_signed_in");
       document.body.classList.add("app_signed_out");
       this.authUpdateStatusUI();
+
+      if (this.signin_show_modal) this.signin_show_modal.click();
     }
 
     return;
@@ -140,47 +136,6 @@ class BaseApp {
   updateUserStatus() {
     return;
   }
-  /** store user profile for nightmode
-   * @param { any } ctl dom object
-   * @param { number } index 0 = auto, 1 for day, 2 for nite
-   * @param { any } e dom event object - preventDefault is called to stop anchor from navigating
-   */
-  async updateProfileNightMode(ctl: any, index: number, e: any) {
-    const updatePacket = {
-      nightModeState: index,
-    };
-    this.updateNightModeStatus(index);
-    if (this.fireToken) await firebase.firestore().doc(`Users/${this.uid}`).update(updatePacket);
-
-    if (e) e.preventDefault();
-  }
-  /** paint night mode status change
-   * @param { number } state 0 = auto, 1 for day, 2 for nite
-   */
-  updateNightModeStatus(state = 0) {
-    let nite = false;
-    if (state === 2) nite = true;
-    if (state === 0) {
-      if (new Date().getHours() < 8 || new Date().getHours() > 18) nite = true;
-    }
-    this.nightModeCurrent = nite;
-
-    if (this.night_mode_toggle) this.night_mode_toggle.innerHTML = (nite) ? "Day" : "Nite";
-    if (nite) document.body.classList.add("night_mode");
-    else document.body.classList.remove("night_mode");
-  }
-  /** button handler for toggle night mode
-   * @param { any } e dom event object
-   * @return { boolean } true to stop anchor navigation
-   */
-  nightModeToggle(e: any) {
-    let niteMode = 2;
-    if (this.nightModeCurrent) niteMode = 1;
-    this.updateNightModeStatus(niteMode);
-    this.updateProfileNightMode(null, niteMode, null);
-    e.preventDefault();
-    return true;
-  }
   /** google sign in handler
    * @param { any } e dom event - preventDefault is called if passed
    */
@@ -199,7 +154,7 @@ class BaseApp {
     e.preventDefault();
     await firebase.auth().signInAnonymously();
     setTimeout(() => {
-      location.href = "/";
+      location.reload();
     }, 1);
     return true;
   }
@@ -364,5 +319,3 @@ class BaseApp {
     });
   }
 }
-
-export default BaseApp;

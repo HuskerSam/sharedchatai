@@ -36,16 +36,15 @@
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
     integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-  
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
   <link rel="stylesheet" href="/css/base.css" />
   <link rel="stylesheet" href="/css/profile.css" />
 
 </head>
-
 
 <body class="basic_beer_body profile_page">
   <div class="basic_page_wrapper app_panel" style="overflow-x: hidden">
@@ -57,9 +56,9 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="info_anchor nav-link" href="/about">
-              About
+          <li class="nav-item signed_in_options">
+            <a class="info_anchor nav-link" href="/dashboard">
+              Dashboard
             </a>
           </li>
         </ul>
@@ -67,22 +66,11 @@
     </nav>
     <div class="logged_in_status">&nbsp;</div>
     <br><br>
-    <div class="signed_out_options card card_shadow_md">
-      <h2>Login Options</h2>
-      <p class="text-muted">Experience seamless login with three methods: email, Google authentication, or anonymous login. No password required!</p>
-      <h4 class="mt-1">Passwordless Email Login</h3>
-        <div class="input-group mb-3">
-          <input type="text" name="email" class="form-control login_email mx-1" placeholder="Email">
-          <button class="btn btn-success" id="login_email_anchor">Send Link</button>
-        </div>
-        <h5>or</h5>
-        <button class="btn btn-primary" id="login_google">
-          <img class="google_logo" src="/images/google_signin.png">
-          Sign in with Google</button>
-        <br>
-        <button class="anon_login_anchor btn btn-primary">Login Anonymously</button>
-        <br>
-
+    <div class="signed_out_options">
+      <button class="btn btn-primary signin_show_modal" type="button" data-bs-toggle="modal"
+        data-bs-target="#loginModal">
+        Login
+      </button>
     </div>
 
     <div class="signed_in_options">
@@ -101,32 +89,14 @@
       <br>
       <hr>
       <div class="settings_panel">
-        <h3 class="impact-font tag_header_label">Night Mode</h3>
-        <div class="form-check">
-          <label class="form-check-label">
-            <input class="form-check-input" type="radio" name="night_mode_radio">
-            Auto
-          </label>
+        <div style="display:none">
+          <h3 class="impact-font tag_header_label">ChatGPT Key</h3>
+          <div class="form-floating" style="display:inline-block;width:80%">
+            <input type="text" class="form-control chatgpt_key" placeholder="ChatGPT Key">
+            <label>ChatGPT Key</label>
+          </div>
+          <hr>
         </div>
-        <div class="form-check">
-          <label class="form-check-label">
-            <input class="form-check-input" type="radio" name="night_mode_radio">
-            Day
-          </label>
-        </div>
-        <div class="form-check">
-          <label class="form-check-label">
-            <input class="form-check-input" type="radio" name="night_mode_radio">
-            Night
-          </label>
-        </div>
-        <hr>
-        <h3 class="impact-font tag_header_label">ChatGPT Key</h3>
-        <div class="form-floating" style="display:inline-block;width:80%">
-          <input type="text" class="form-control chatgpt_key" placeholder="ChatGPT Key">
-          <label>ChatGPT Key</label>
-        </div>
-        <hr>
         <h3 class="impact-font tag_header_label">Display Name</h3>
         <div class="form-floating" style="display:inline-block;width:80%">
           <input type="text" class="form-control profile_display_name" placeholder="Display Name">

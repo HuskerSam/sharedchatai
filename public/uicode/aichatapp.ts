@@ -1,5 +1,8 @@
 import BaseApp from "./baseapp.js";
 import Split from "./split.js";
+import LoginHelper from "./loginhelper.js";
+import DocOptionsHelper from "./docoptionshelper.js";
+
 
 declare const firebase: any;
 declare const window: any;
@@ -25,6 +28,10 @@ export class AIChatApp extends BaseApp {
   includeAssistTokens = 0;
   ticketCount = 0;
   selectedTicketCount = 0;
+  login = new LoginHelper(this);
+  documentOptions = new DocOptionsHelper(this);
+  editedDocumentId = -1;
+  documentsLookup: any = {};
 
   tickets_list: any = document.querySelector(".tickets_list");
   members_list: any = document.querySelector(".members_list");
@@ -38,9 +45,9 @@ export class AIChatApp extends BaseApp {
   code_link_copy: any = document.querySelector(".code_link_copy");
   gameid_span: any = document.querySelector(".gameid_span");
   main_view_splitter: any = document.querySelector(".main_view_splitter");
+  show_document_options_modal: any = document.querySelector(".show_document_options_modal");
   splitInstance: any = null;
 
-  docfield_title: any = document.querySelector(".docfield_title");
   docfield_model: any = document.querySelector(".docfield_model");
   docfield_max_tokens: any = document.querySelector(".docfield_max_tokens");
   docfield_temperature: any = document.querySelector(".docfield_temperature");
@@ -72,16 +79,16 @@ export class AIChatApp extends BaseApp {
   download_export_button: any = document.querySelector(".download_export_button");
   upload_import_button: any = document.querySelector(".upload_import_button");
   import_upload_file: any = document.querySelector(".import_upload_file");
+  show_document_options_popup: any = document.getElementById("show_document_options_popup");
 
   /**  */
   constructor() {
     super();
 
     this.send_ticket_button.addEventListener("click", () => this.sendTicketToAPI());
-   
-    this.initTicketFeed();
-    this.updateSplitter();
-
+      this.ticket_content_input.addEventListener("keyup", (e: any) => {
+      if (e.key === "Enter" && e.shiftKey === false) this.sendTicketToAPI();
+    });
     // redraw message feed to update time since values
     setInterval(() => this.updateTimeSince(this.tickets_list), this.timeSinceRedraw);
 
@@ -101,6 +108,8 @@ export class AIChatApp extends BaseApp {
     this.download_export_button.addEventListener("click", () => this.downloadReportData());
     this.upload_import_button.addEventListener("click", () => this.import_upload_file.click());
     this.import_upload_file.addEventListener("change", () => this.uploadReportData());
+    this.show_document_options_modal.addEventListener("click", () => this.showOptionsModal());
+    this.updateSplitter();
   }
   /** setup data listender for user messages */
   async initTicketFeed() {
@@ -508,17 +517,21 @@ export class AIChatApp extends BaseApp {
     super.authUpdateStatusUI();
     this.currentGame = null;
     if (this.gameid_span) this.gameid_span.innerHTML = "";
-    this.initRTDBPresence();
 
-    const gameId = this.urlParams.get("game");
-    if (gameId) {
-      this.gameAPIJoin(gameId);
-      this.currentGame = gameId;
-      if (this.gameid_span) this.gameid_span.innerHTML = this.currentGame;
+    if (this.profile) {
+      this.initRTDBPresence();
+      this.initTicketFeed();
 
-      if (this.gameSubscription) this.gameSubscription();
-      this.gameSubscription = firebase.firestore().doc(`Games/${this.currentGame}`)
-        .onSnapshot((doc: any) => this.paintGameData(doc));
+      const gameId = this.urlParams.get("game");
+      if (gameId) {
+        this.gameAPIJoin(gameId);
+        this.currentGame = gameId;
+        if (this.gameid_span) this.gameid_span.innerHTML = this.currentGame;
+
+        if (this.gameSubscription) this.gameSubscription();
+        this.gameSubscription = firebase.firestore().doc(`Games/${this.currentGame}`)
+          .onSnapshot((doc: any) => this.paintGameData(doc));
+      }
     }
   }
   /** paint game data (game document change handler)
@@ -555,14 +568,14 @@ export class AIChatApp extends BaseApp {
         const data = this._gameMemberData(member);
 
         const timeSince = this.timeSince(new Date(members[member]));
-        html += `<div class="member_list_item">
+        html += `<li class="member_list_item">
           <div class="member_online_status" data-uid="${member}"></div>
           <div class="user_img_wrapper">
             <span style="background-image:url(${data.img})"></span>
             <span>${data.name}</span>
           </div>
           <span class="member_list_time_since">${timeSince}</span>
-        </div>`;
+        </li>`;
       });
     }
     this.members_list.innerHTML = html;
@@ -601,7 +614,6 @@ export class AIChatApp extends BaseApp {
   */
   async scrapeDocumentOptions() {
     /* eslint-disable camelcase */
-    const title = this.docfield_title.value;
     const model = this.docfield_model.value;
     const max_tokens = this.docfield_max_tokens.value;
     const temperature = this.docfield_temperature.value;
@@ -613,7 +625,6 @@ export class AIChatApp extends BaseApp {
 
     const body: any = {
       gameNumber: this.currentGame,
-      title,
       model,
       max_tokens,
       temperature,
@@ -662,7 +673,6 @@ export class AIChatApp extends BaseApp {
     if (this.gameData.createUser === this.uid) document.body.classList.add("game_owner");
     else document.body.classList.remove("game_owner");
 
-    this.docfield_title.value = this.gameData.title;
     this.docfield_model.value = this.gameData.model;
     this.docfield_max_tokens.value = this.gameData.max_tokens;
     this.docfield_temperature.value = this.gameData.temperature;
@@ -687,25 +697,34 @@ export class AIChatApp extends BaseApp {
   /** update the splitter if needed */
   updateSplitter() {
     let horizontal = true;
-    let minSize = 30;
+    let minSize: any = 30;
     if (window.document.body.scrollWidth <= 500) {
       horizontal = false;
     }
 
     if (this.splitHorizontalCache !== horizontal) {
       let direction = "vertical";
+      let sizes:any = [];
+      let gutterSize = 10;
       this.main_view_splitter.style.flexDirection = "column";
       if (horizontal) {
         this.main_view_splitter.style.flexDirection = "row";
         direction = "horizontal";
-        minSize = 150;
+        minSize = [300, 0];
+        sizes = [25, 75];
+        gutterSize = 15;
+      } else {
+        minSize = [0, 0];
+        sizes = [25, 75];
+        gutterSize = 18;
       }
 
       if (this.splitInstance) this.splitInstance.destroy();
       this.splitInstance = <any>Split([".left_panel_view", ".right_panel_view"], {
-        sizes: [25, 75],
+        sizes,
         direction,
         minSize,
+        gutterSize,
       });
       this.splitHorizontalCache = horizontal;
     }
@@ -805,8 +824,8 @@ export class AIChatApp extends BaseApp {
         const selected = <string> ticket.data().includeInMessage ? "✅" : "&nbsp;";
 
         resultText += `<div class="ticket-item">\n`;
-        resultText += `    <div class="prompt-text">${selected} ${prompt}</div>\n`
-        resultText += `    <div class="completion-text">${completion}</div>\n`
+        resultText += `    <div class="prompt-text">${selected} ${prompt}</div>\n`;
+        resultText += `    <div class="completion-text">${completion}</div>\n`;
         resultText += `</div>`;
       });
     }
@@ -818,7 +837,7 @@ export class AIChatApp extends BaseApp {
     };
   }
   /** refresh report data
-   * @param { boolean } download 
+   * @param { boolean } download
   */
   refreshReportData(download = false) {
     const data = this.generateExportData();
@@ -830,7 +849,7 @@ export class AIChatApp extends BaseApp {
         type: data.format,
       });
 
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       const url = URL.createObjectURL(file);
 
       link.href = url;
@@ -876,8 +895,6 @@ export class AIChatApp extends BaseApp {
         });
         if (error) break;
       }
-      records.forEach((ticket: any) => {
-      });
     } catch (error: any) {
       alert("Import failed");
       console.log(error);
@@ -916,5 +933,13 @@ export class AIChatApp extends BaseApp {
     this.tickets_list.scrollTop = this.tickets_list.scrollHeight;
     setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 100);
     return error;
+  }
+  showOptionsModal() {
+    this.editedDocumentId = this.currentGame;
+    this.documentsLookup = {
+     [this.currentGame]: this.gameData,
+    };
+    this.show_document_options_popup.click();
+    this.documentOptions.show();
   }
 }
