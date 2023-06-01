@@ -360,3 +360,7 @@ ul.recent_documents_list li a {
   overflow: hidden;
   max-height: 3em;
 }
+
+.members_list {
+  max-height: 50vh;
+}

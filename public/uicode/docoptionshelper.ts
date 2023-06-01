@@ -148,7 +148,7 @@ export default class DocOptionsHelper {
      * @return { string } html template as string
      */
     getModalTemplate(): string {
-        return `<div class="modal fade" id="editDocumentModal" tabindex="-1" aria-labelledby="editDocumentModalLabel"
+        return `<div class="modal fade scrollable_modal" id="editDocumentModal" tabindex="-1" aria-labelledby="editDocumentModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -433,7 +433,11 @@ export default class DocOptionsHelper {
         const formatFilterSelected: any = document.querySelector(`input[name="export_format_choice"]:checked`);
         const formatFilter: any = formatFilterSelected.value;
 
-        if (!this.app.lastTicketsSnapshot) return;
+        if (!this.app.lastTicketsSnapshot) return {
+            resultText: "",
+            format: "",
+            fileName: "",
+        };
 
         let resultText = "";
         const tickets: Array<any> = [];

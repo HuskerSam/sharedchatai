@@ -191,7 +191,7 @@ export class AIChatApp extends BaseApp {
 
       title = title.substring(0, 100);
       const rowHTML = `<li>
-      <a href="/aichat/?game=${doc.id}">
+      <a href="/aichat/?game=${doc.id}" target="_blank">
         <div class="title">${title}</div>
         <div class="activity_date">${activityDate}</div>
       </a></li>`;
