@@ -25,7 +25,7 @@ export class DashboardApp extends BaseApp {
 
   login = new LoginHelper(this);
   documentCreate = new DocCreateHelper(this);
-  documentOptions = new DocOptionsHelper(this);
+  documentOptions = new DocOptionsHelper(this, "dashboard_options_view");
   profileHelper = new ProfileHelper(this);
 
   /** */

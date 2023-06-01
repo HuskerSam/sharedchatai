@@ -281,6 +281,12 @@ select.form-select {
   text-align: right;
 }
 
-.modal-body {
+#editDocumentModal .modal-body {
   min-height: 400px;
+}
+
+#editDocumentModal #import_tab_view,
+#editDocumentModal #import_tab_button
+ {
+  display: none;
 }

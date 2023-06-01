@@ -14,6 +14,7 @@ export default class DocOptionsHelper {
     docfield_usage_limit: any = null;
     code_link_href: any;
     code_link_copy: any;
+    wrapperClass = "";
 
     export_data_popup_preview: any;
     export_size: any;
@@ -28,9 +29,11 @@ export default class DocOptionsHelper {
     import_upload_file: any;
     /**
      * @param { any } app BaseApp derived application instance
+     * @param { string } wrapperClass class to add to modal wrapper
      */
-    constructor(app: any) {
+    constructor(app: any, wrapperClass = "") {
         this.app = app;
+        this.wrapperClass = wrapperClass;
         this.addModalToDOM();
     }
     /** instaniate and add modal #loginModal */
@@ -39,6 +42,7 @@ export default class DocOptionsHelper {
         this.modalContainer = document.createElement("div");
         this.modalContainer.innerHTML = html;
         document.body.appendChild(this.modalContainer);
+        if (this.wrapperClass) this.modalContainer.children[0].classList.add(this.wrapperClass);
 
         this.owner_note_field_edit = this.modalContainer.querySelector("#owner_note_field_edit");
         this.save_game_afterfeed_button = this.modalContainer.querySelector(".save_game_afterfeed_button");
@@ -379,10 +383,12 @@ export default class DocOptionsHelper {
             (<any>document.getElementById("owner_note_field_edit")).value = doc.note;
             (<any>document.querySelector(".owner_options_edit_section")).style.display = "block";
             this.modalContainer.classList.add("feed_game_owner");
+            this.modalContainer.classList.remove("feed_game_user");
         } else {
             (<any>document.getElementById("owner_note_field_edit")).value = "Shared Document";
             (<any>document.querySelector(".owner_options_edit_section")).style.display = "none";
             this.modalContainer.classList.remove("feed_game_owner");
+            this.modalContainer.classList.add("feed_game_user");
         }
 
         this.document_title.value = this.documentData.title;
@@ -502,7 +508,7 @@ export default class DocOptionsHelper {
             resultText += `</style>\n`;
             tickets.forEach((ticket: any) => {
                 const prompt = <string>ticket.data().message;
-                const completion = <string> this.messageForCompletion(ticket.id);
+                const completion = <string>this.messageForCompletion(ticket.id);
                 const selected = <string>ticket.data().includeInMessage ? "✅" : "&nbsp;";
 
                 resultText += `<div class="ticket-item">\n`;
@@ -518,22 +524,22 @@ export default class DocOptionsHelper {
             fileName,
         };
     }
-      /** check for assist message
- * @param { string } assistId ticket id to check for assist
- * @return { any } message
+    /** check for assist message
+* @param { string } assistId ticket id to check for assist
+* @return { any } message
 */
-  messageForCompletion(assistId: string): string {
-    try {
-      const assistData: any = this.app.assistsLookup[assistId];
-      if (!assistData || !assistData.assist || !assistData.assist.choices ||
-        !assistData.assist.choices["0"] || !assistData.assist.choices["0"].message ||
-        !assistData.assist.choices["0"].message.content) return "";
-      return assistData.assist.choices["0"].message.content;
-    } catch (assistError: any) {
-      console.log(assistError);
-      return "";
+    messageForCompletion(assistId: string): string {
+        try {
+            const assistData: any = this.app.assistsLookup[assistId];
+            if (!assistData || !assistData.assist || !assistData.assist.choices ||
+                !assistData.assist.choices["0"] || !assistData.assist.choices["0"].message ||
+                !assistData.assist.choices["0"].message.content) return "";
+            return assistData.assist.choices["0"].message.content;
+        } catch (assistError: any) {
+            console.log(assistError);
+            return "";
+        }
     }
-  }
     /** refresh report data
      * @param { boolean } download
     */
