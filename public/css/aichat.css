@@ -183,10 +183,6 @@ body {
   cursor: row-resize;
 }
 
-.form-floating textarea.docfield_logit_bias {
-  height: 200px;
-}
-
 .tokens_total,
 .tokens_prompt,
 .tokens_completion {
@@ -309,4 +305,14 @@ body {
     height: 36px;
     margin: 8px 8px 0px 0px;
   }
+}
+
+.slider_label {
+  text-align: center;
+}
+
+.document_option_model_select_wrapper {
+  text-align: center;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }

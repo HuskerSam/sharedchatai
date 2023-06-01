@@ -50,7 +50,8 @@
 
 <body class="basic_beer_body hangbeer_page">
   <div class="main_view_splitter app_panel" style="height:100vh;">
-    <button class="btn btn-primary signin_show_modal" style="display:none" type="button" data-bs-toggle="modal" data-bs-target="#loginModal">
+    <button class="btn btn-primary signin_show_modal" style="display:none" type="button" data-bs-toggle="modal"
+      data-bs-target="#loginModal">
       Login
     </button>
     <div class="left_panel_view">
@@ -110,6 +111,8 @@
                   data-bs-target="#exportModal">Export Tickets</button>
                 <button class="document_import_button btn btn-secondary" data-bs-toggle="modal"
                   data-bs-target="#importModal">Import Tickets</button>
+                <button class="btn btn-primary show_document_options_modal">Show Options</button>
+
               </div>
               <br>
               <div style="text-align: right">
@@ -127,57 +130,33 @@
               Options
             </button>
             <div class="collapse" id="options-menu-panel-collapse">
-              <button class="btn btn-primary show_document_options_modal">Show Options</button>
-              <button id="show_document_options_popup" style="display:none;" class="btn btn-primary" data-bs-toggle="modal"
-              data-bs-target="#editDocumentModal"></button>
-      
-              <select class="form-select docfield_model" aria-label="chatGPTEngine Selection"
-                style="display:inline-block;width:auto;">
-                <option>gpt-4</option>
-                <option selected>gpt-3.5-turbo</option>
-                <option>gpt-4-0314</option>
-                <option>gpt-4-32k</option>
-                <option>gpt-4-32k-0314</option>
-                <option>gpt-3.5-turbo-0301</option>
-              </select>
-              <br>
-              <div class="form-floating" style="display:inline-block;width:auto;">
-                <input type="text" class="form-control docfield_max_tokens" placeholder="Max Tokens">
-                <label>Completion token limit</label>
+              <button id="show_document_options_popup" style="display:none;" class="btn btn-primary"
+                data-bs-toggle="modal" data-bs-target="#editDocumentModal"></button>
+              <div class="document_option_model_select_wrapper">
+                <select class="form-select docfield_model" aria-label="chatGPTEngine Selection"
+                  style="display:inline-block;width:auto;">
+                  <option>gpt-4</option>
+                  <option selected>gpt-3.5-turbo</option>
+                  <option>gpt-4-0314</option>
+                  <option>gpt-4-32k</option>
+                  <option>gpt-4-32k-0314</option>
+                  <option>gpt-3.5-turbo-0301</option>
+                </select>
               </div>
+              <input type="range" class="form-range docfield_max_tokens" min="8" max="4000" step="1">
+              <div class="slider_label max_tokens_slider_label"></div>
               <br>
-              <div class="form-floating" style="display:inline-block;width:auto;">
-                <input type="text" class="form-control docfield_temperature" placeholder="Temperature">
-                <label>Temperature (0 to 2)</label>
-              </div>
+              <input type="range" class="form-range docfield_temperature" min="0" max="2" step="0.01">
+              <div class="slider_label temperature_slider_label"></div>
               <br>
-              <div class="form-floating" style="display:inline-block;width:auto;">
-                <input type="text" class="form-control docfield_top_p" placeholder="top_p">
-                <label>top_p (0 to 1)</label>
-              </div>
+              <input type="range" class="form-range docfield_top_p" min="0" max="1" step="0.01">
+              <div class="slider_label top_p_slider_label"></div>
               <br>
-              <div class="form-floating" style="display:inline-block;width:auto;">
-                <input type="text" class="form-control docfield_presence_penalty" placeholder="Presence Penalty">
-                <label>Presence Penalty (-2 to 2)</label>
-              </div>
+              <input type="range" class="form-range docfield_presence_penalty" min="-2" max="2" step="0.01">
+              <div class="slider_label presence_penalty_slider_label"></div>
               <br>
-              <div class="form-floating" style="display:inline-block;width:auto">
-                <input type="text" class="form-control docfield_frequency_penalty" placeholder="Frequency Penalty">
-                <label>Frequency Penalty (-2 to 2)</label>
-              </div>
-              <br>
-              <div class="form-floating" style="display:inline-block;width:80%;display:none">
-                <textarea type="text" class="form-control docfield_logit_bias"
-                  placeholder="List of tokens to bias"></textarea>
-                <label>List of tokens to bias</label>
-              </div>
-              <br>
-              <div class="form-floating" style="display:inline-block;width:80%; display: none">
-                <textarea type="text" class="form-control docfield_stops"
-                  placeholder="List of tokens to stop on"></textarea>
-                <label>List of tokens to stop on</label>
-              </div>
-              <button class="save_options_button btn btn-primary">Save Options</button>
+              <input type="range" class="form-range docfield_frequency_penalty" min="-2" max="2" step="0.01">
+              <div class="slider_label frequency_penalty_slider_label"></div>
             </div>
           </li>
           <li class="mb-1">
