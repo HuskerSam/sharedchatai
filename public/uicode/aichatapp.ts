@@ -32,6 +32,9 @@ export class AIChatApp extends BaseApp {
   documentOptions = new DocOptionsHelper(this);
   editedDocumentId = -1;
   documentsLookup: any = {};
+  lastDocumentOptionChange = 0;
+  debounceTimeout: any = null;
+  splitInstance: any = null;
 
   tickets_list: any = document.querySelector(".tickets_list");
   members_list: any = document.querySelector(".members_list");
@@ -46,7 +49,7 @@ export class AIChatApp extends BaseApp {
   gameid_span: any = document.querySelector(".gameid_span");
   main_view_splitter: any = document.querySelector(".main_view_splitter");
   show_document_options_modal: any = document.querySelector(".show_document_options_modal");
-  splitInstance: any = null;
+
 
   docfield_model: any = document.querySelector(".docfield_model");
   docfield_max_tokens: any = document.querySelector(".docfield_max_tokens");
@@ -54,9 +57,6 @@ export class AIChatApp extends BaseApp {
   docfield_top_p: any = document.querySelector(".docfield_top_p");
   docfield_presence_penalty: any = document.querySelector(".docfield_presence_penalty");
   docfield_frequency_penalty: any = document.querySelector(".docfield_frequency_penalty");
-  docfield_logit_bias: any = document.querySelector(".docfield_logit_bias");
-  docfield_stops: any = document.querySelector(".docfield_stops");
-  save_options_button: any = document.querySelector(".save_options_button");
   save_owner_options_button: any = document.querySelector(".save_owner_options_button");
   document_usage_stats_line: any = document.querySelector(".document_usage_stats_line");
   last_activity_display: any = document.querySelector(".last_activity_display");
@@ -80,13 +80,18 @@ export class AIChatApp extends BaseApp {
   upload_import_button: any = document.querySelector(".upload_import_button");
   import_upload_file: any = document.querySelector(".import_upload_file");
   show_document_options_popup: any = document.getElementById("show_document_options_popup");
+  temperature_slider_label: any = document.querySelector(".temperature_slider_label");
+  top_p_slider_label: any = document.querySelector(".top_p_slider_label");
+  presence_penalty_slider_label: any = document.querySelector(".presence_penalty_slider_label");
+  frequency_penalty_slider_label: any = document.querySelector(".frequency_penalty_slider_label");
+  max_tokens_slider_label: any = document.querySelector(".max_tokens_slider_label");
 
   /**  */
   constructor() {
     super();
 
     this.send_ticket_button.addEventListener("click", () => this.sendTicketToAPI());
-      this.ticket_content_input.addEventListener("keyup", (e: any) => {
+    this.ticket_content_input.addEventListener("keyup", (e: any) => {
       if (e.key === "Enter" && e.shiftKey === false) this.sendTicketToAPI();
     });
     // redraw message feed to update time since values
@@ -95,7 +100,6 @@ export class AIChatApp extends BaseApp {
     document.addEventListener("visibilitychange", () => this.refreshOnlinePresence());
     this.ticket_content_input.addEventListener("input", () => this.updatePromptTokenStatus());
 
-    this.save_options_button.addEventListener("click", () => this.scrapeDocumentOptions());
     this.save_owner_options_button.addEventListener("click", () => this.scrapeOwnerOptions());
     this.document_export_button.addEventListener("click", () => this.showExportModal());
 
@@ -109,7 +113,35 @@ export class AIChatApp extends BaseApp {
     this.upload_import_button.addEventListener("click", () => this.import_upload_file.click());
     this.import_upload_file.addEventListener("change", () => this.uploadReportData());
     this.show_document_options_modal.addEventListener("click", () => this.showOptionsModal());
+
+    this.docfield_temperature.addEventListener("input", () => this.optionSliderChange(true, "temperature",
+      this.docfield_temperature, this.temperature_slider_label, "Temperature: "));
+    this.docfield_top_p.addEventListener("input", () => this.optionSliderChange(true, "top_p",
+      this.docfield_top_p, this.top_p_slider_label, "Top p: "));
+    this.docfield_presence_penalty.addEventListener("input", () => this.optionSliderChange(true, "presence_penalty",
+      this.docfield_presence_penalty, this.presence_penalty_slider_label, "Presence Penalty: "));
+    this.docfield_frequency_penalty.addEventListener("input", () => this.optionSliderChange(true, "frequency_penalty",
+      this.docfield_frequency_penalty, this.frequency_penalty_slider_label, "Frequency Penalty: "));
+    this.docfield_max_tokens.addEventListener("input", () => this.optionSliderChange(true, "max_tokens",
+      this.docfield_max_tokens, this.max_tokens_slider_label, "Completion Tokens: "));
+    this.docfield_model.addEventListener("change", () => {
+      this.saveDocumentOption("model", this.docfield_model.value);
+    });
     this.updateSplitter();
+  }
+  /** update temperature label and save to api
+   * @param { boolean } saveToAPI true to save slider value to api
+  */
+  async optionSliderChange(saveToAPI = false, sliderField: string, sliderCtl: any, sliderLabel: any, prefix: string) {
+    this.lastDocumentOptionChange = new Date().getTime();
+    sliderLabel.innerHTML = prefix + sliderCtl.value;
+
+    if (saveToAPI) {
+      clearTimeout(this.debounceTimeout);
+      this.debounceTimeout = setTimeout(() => {
+        this.saveDocumentOption(sliderField, Number(sliderCtl.value));
+      }, 75);
+    }
   }
   /** setup data listender for user messages */
   async initTicketFeed() {
@@ -610,31 +642,13 @@ export class AIChatApp extends BaseApp {
     }
     this.save_owner_options_button.innerHTML = "Save Owner Options";
   }
-  /** scrape options from UI and call api
+  /** save a single field to document
   */
-  async scrapeDocumentOptions() {
-    /* eslint-disable camelcase */
-    const model = this.docfield_model.value;
-    const max_tokens = this.docfield_max_tokens.value;
-    const temperature = this.docfield_temperature.value;
-    const top_p = this.docfield_top_p.value;
-    const presence_penalty = this.docfield_presence_penalty.value;
-    const frequency_penalty = this.docfield_frequency_penalty.value;
-    const logit_bias = this.docfield_logit_bias.value;
-    const stop = this.docfield_stops.value;
-
+  async saveDocumentOption(field: string, value: any) {
     const body: any = {
       gameNumber: this.currentGame,
-      model,
-      max_tokens,
-      temperature,
-      top_p,
-      presence_penalty,
-      frequency_penalty,
-      logit_bias,
-      stop,
+      [field]: value,
     };
-    this.save_options_button.innerHTML = "Saving...";
     const token = await firebase.auth().currentUser.getIdToken();
     const fResult = await fetch(this.basePath + "lobbyApi/games/options", {
       method: "POST",
@@ -650,7 +664,6 @@ export class AIChatApp extends BaseApp {
       const json = await fResult.json();
       console.log("change game options result", json);
     }
-    this.save_options_button.innerHTML = "Save Options";
   }
   /** member data for a user
    * @param { string } uid user id
@@ -673,14 +686,27 @@ export class AIChatApp extends BaseApp {
     if (this.gameData.createUser === this.uid) document.body.classList.add("game_owner");
     else document.body.classList.remove("game_owner");
 
+    if (this.lastDocumentOptionChange + 2000 > new Date().getTime()) return;
+
     this.docfield_model.value = this.gameData.model;
+
     this.docfield_max_tokens.value = this.gameData.max_tokens;
+    this.optionSliderChange(false, "max_tokens",
+      this.docfield_max_tokens, this.max_tokens_slider_label, "Completion Tokens: ");
     this.docfield_temperature.value = this.gameData.temperature;
+    this.optionSliderChange(false, "temperature",
+      this.docfield_temperature, this.temperature_slider_label, "temperature: ");
     this.docfield_top_p.value = this.gameData.top_p;
+    this.optionSliderChange(false, "top_p",
+      this.docfield_top_p, this.top_p_slider_label, "top_p: ");
     this.docfield_presence_penalty.value = this.gameData.presence_penalty;
+    this.optionSliderChange(false, "presence_penalty",
+      this.docfield_presence_penalty, this.presence_penalty_slider_label, "Presence Penalty: ");
     this.docfield_frequency_penalty.value = this.gameData.frequency_penalty;
-    this.docfield_logit_bias.value = this.gameData.logit_bias;
-    this.docfield_stops.value = this.gameData.stop;
+    this.optionSliderChange(false, "frequency_penalty",
+    this.docfield_frequency_penalty, this.frequency_penalty_slider_label, "Frequency Penalty: ");
+
+
     this.docfield_usage_limit.value = this.gameData.tokenUsageLimit;
     this.docfield_archived_checkbox.checked = this.gameData.archived;
 
@@ -704,7 +730,7 @@ export class AIChatApp extends BaseApp {
 
     if (this.splitHorizontalCache !== horizontal) {
       let direction = "vertical";
-      let sizes:any = [];
+      let sizes: any = [];
       let gutterSize = 10;
       this.main_view_splitter.style.flexDirection = "column";
       if (horizontal) {
@@ -819,9 +845,9 @@ export class AIChatApp extends BaseApp {
       resultText += `\n`;
       resultText += `</style>\n`;
       tickets.forEach((ticket: any) => {
-        const prompt = <string> ticket.data().message;
-        const completion = <string> this.messageForCompletion(ticket.id);
-        const selected = <string> ticket.data().includeInMessage ? "✅" : "&nbsp;";
+        const prompt = <string>ticket.data().message;
+        const completion = <string>this.messageForCompletion(ticket.id);
+        const selected = <string>ticket.data().includeInMessage ? "✅" : "&nbsp;";
 
         resultText += `<div class="ticket-item">\n`;
         resultText += `    <div class="prompt-text">${selected} ${prompt}</div>\n`;
@@ -937,7 +963,7 @@ export class AIChatApp extends BaseApp {
   showOptionsModal() {
     this.editedDocumentId = this.currentGame;
     this.documentsLookup = {
-     [this.currentGame]: this.gameData,
+      [this.currentGame]: this.gameData,
     };
     this.show_document_options_popup.click();
     this.documentOptions.show();
