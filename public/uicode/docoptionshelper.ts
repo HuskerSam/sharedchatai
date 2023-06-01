@@ -9,6 +9,9 @@ export default class DocOptionsHelper {
     modal_close_button: any = null;
     modalContainer: any = null;
     copyLink: any = null;
+    document_title: any = null;
+    documentData: any = null;
+
     /**
      * @param { any } app BaseApp derived application instance
      */
@@ -26,6 +29,7 @@ export default class DocOptionsHelper {
         this.owner_note_field_edit = this.modalContainer.querySelector("#owner_note_field_edit");
         this.save_game_afterfeed_button = this.modalContainer.querySelector(".save_game_afterfeed_button");
         this.modal_close_button = this.modalContainer.querySelector(".modal_close_button");
+        this.document_title = this.modalContainer.querySelector(".document_title");
 
         this.save_game_afterfeed_button.addEventListener("click", () => this.saveDocumentOptions());
         const del: any = this.modalContainer.querySelector("button.delete_game");
@@ -66,6 +70,9 @@ export default class DocOptionsHelper {
             label,
             note,
         };
+
+        if (this.document_title.value.trim() !== this.documentData.title && this.document_title.value !== "") body.title = this.document_title.value.trim();
+
         const token = await firebase.auth().currentUser.getIdToken();
         const fResult = await fetch(this.app.basePath + "lobbyApi/games/owner/options", {
             method: "POST",
@@ -97,7 +104,10 @@ export default class DocOptionsHelper {
             </div>
             <div class="modal-body">
               <div class="owner_options_edit_section">
-  
+                <div class="form-floating">
+                    <textarea type="text" class="form-control document_title" placeholder="Title"></textarea>
+                    <label>Title</label>
+                </div>
                 <div style="text-align:center;">
                   <select class="document_label_picker_edit" multiple="multiple" style="width:80%"></select>
                 </div>
@@ -202,6 +212,7 @@ export default class DocOptionsHelper {
  */
     show() {
         const doc = this.app.documentsLookup[this.app.editedDocumentId];
+        this.documentData = doc;
         if (doc.createUser === this.app.uid) {
             (<any>document.getElementById("owner_note_field_edit")).value = doc.note;
             (<any>document.querySelector(".owner_options_edit_section")).style.display = "block";
@@ -211,6 +222,8 @@ export default class DocOptionsHelper {
             (<any>document.querySelector(".owner_options_edit_section")).style.display = "none";
             this.modalContainer.classList.remove("feed_game_owner");
         }
+
+        this.document_title.value = doc.title;
 
         if (doc.createUser === this.app.uid) {
             const queryLabelSelect2 = window.$(".document_label_picker_edit");

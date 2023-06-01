@@ -1,6 +1,8 @@
 import BaseApp from "./baseapp.js";
 import Split from "./split.js";
 import LoginHelper from "./loginhelper.js";
+import DocOptionsHelper from "./docoptionshelper.js";
+
 
 declare const firebase: any;
 declare const window: any;
@@ -27,6 +29,9 @@ export class AIChatApp extends BaseApp {
   ticketCount = 0;
   selectedTicketCount = 0;
   login = new LoginHelper(this);
+  documentOptions = new DocOptionsHelper(this);
+  editedDocumentId = -1;
+  documentsLookup: any = {};
 
   tickets_list: any = document.querySelector(".tickets_list");
   members_list: any = document.querySelector(".members_list");
@@ -40,9 +45,9 @@ export class AIChatApp extends BaseApp {
   code_link_copy: any = document.querySelector(".code_link_copy");
   gameid_span: any = document.querySelector(".gameid_span");
   main_view_splitter: any = document.querySelector(".main_view_splitter");
+  show_document_options_modal: any = document.querySelector(".show_document_options_modal");
   splitInstance: any = null;
 
-  docfield_title: any = document.querySelector(".docfield_title");
   docfield_model: any = document.querySelector(".docfield_model");
   docfield_max_tokens: any = document.querySelector(".docfield_max_tokens");
   docfield_temperature: any = document.querySelector(".docfield_temperature");
@@ -74,6 +79,7 @@ export class AIChatApp extends BaseApp {
   download_export_button: any = document.querySelector(".download_export_button");
   upload_import_button: any = document.querySelector(".upload_import_button");
   import_upload_file: any = document.querySelector(".import_upload_file");
+  show_document_options_popup: any = document.getElementById("show_document_options_popup");
 
   /**  */
   constructor() {
@@ -102,6 +108,7 @@ export class AIChatApp extends BaseApp {
     this.download_export_button.addEventListener("click", () => this.downloadReportData());
     this.upload_import_button.addEventListener("click", () => this.import_upload_file.click());
     this.import_upload_file.addEventListener("change", () => this.uploadReportData());
+    this.show_document_options_modal.addEventListener("click", () => this.showOptionsModal());
     this.updateSplitter();
   }
   /** setup data listender for user messages */
@@ -607,7 +614,6 @@ export class AIChatApp extends BaseApp {
   */
   async scrapeDocumentOptions() {
     /* eslint-disable camelcase */
-    const title = this.docfield_title.value;
     const model = this.docfield_model.value;
     const max_tokens = this.docfield_max_tokens.value;
     const temperature = this.docfield_temperature.value;
@@ -619,7 +625,6 @@ export class AIChatApp extends BaseApp {
 
     const body: any = {
       gameNumber: this.currentGame,
-      title,
       model,
       max_tokens,
       temperature,
@@ -668,7 +673,6 @@ export class AIChatApp extends BaseApp {
     if (this.gameData.createUser === this.uid) document.body.classList.add("game_owner");
     else document.body.classList.remove("game_owner");
 
-    this.docfield_title.value = this.gameData.title;
     this.docfield_model.value = this.gameData.model;
     this.docfield_max_tokens.value = this.gameData.max_tokens;
     this.docfield_temperature.value = this.gameData.temperature;
@@ -929,5 +933,13 @@ export class AIChatApp extends BaseApp {
     this.tickets_list.scrollTop = this.tickets_list.scrollHeight;
     setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 100);
     return error;
+  }
+  showOptionsModal() {
+    this.editedDocumentId = this.currentGame;
+    this.documentsLookup = {
+     [this.currentGame]: this.gameData,
+    };
+    this.show_document_options_popup.click();
+    this.documentOptions.show();
   }
 }

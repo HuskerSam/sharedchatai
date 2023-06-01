@@ -28,6 +28,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
   <link rel="stylesheet" href="/css/base.css" />
   <link rel="stylesheet" href="/css/aichat.css" />
   <script>
@@ -123,10 +127,10 @@
               Options
             </button>
             <div class="collapse" id="options-menu-panel-collapse">
-              <div class="form-floating">
-                <textarea type="text" class="form-control docfield_title" placeholder="Title"></textarea>
-                <label>Title</label>
-              </div>
+              <button class="btn btn-primary show_document_options_modal">Show Options</button>
+              <button id="show_document_options_popup" style="display:none;" class="btn btn-primary" data-bs-toggle="modal"
+              data-bs-target="#editDocumentModal"></button>
+      
               <select class="form-select docfield_model" aria-label="chatGPTEngine Selection"
                 style="display:inline-block;width:auto;">
                 <option>gpt-4</option>

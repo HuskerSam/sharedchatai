@@ -225,6 +225,9 @@ export default class GameAPI {
     if (req.body.note !== undefined) {
       updatePacket.note = req.body.note;
     }
+    if (req.body.title !== undefined) {
+      updatePacket.title = req.body.title;
+    }
     updatePacket.publicStatus = GameAPI._publicStatus(gameData);
 
     await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).set(updatePacket, {
