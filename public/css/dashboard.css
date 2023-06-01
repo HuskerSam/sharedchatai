@@ -294,4 +294,7 @@ button.code_link {
 
 .document_label_filter.form-select {
   display: flex;
+  max-width: 600px;
+  margin-left: 12px;
+  margin-right: 12px;
 }
