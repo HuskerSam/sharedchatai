@@ -18,6 +18,9 @@ export class AIChatApp extends BaseApp {
   ticketsSubscription: any;
   lastAssistsSnapShot: any;
   ticketFeedRegistered = false;
+  recentDocumentFeedRegistered = false;
+  recentDocumentsSubscription: any = null;
+  lastDocumentsSnapshot: any = null;
   gameData: any;
   alertErrors = false;
   splitHorizontalCache: any = null;
@@ -74,6 +77,8 @@ export class AIChatApp extends BaseApp {
   presence_penalty_slider_label: any = document.querySelector(".presence_penalty_slider_label");
   frequency_penalty_slider_label: any = document.querySelector(".frequency_penalty_slider_label");
   max_tokens_slider_label: any = document.querySelector(".max_tokens_slider_label");
+  recent_documents_list: any = document.querySelector(".recent_documents_list");
+  sidebar_document_title: any = document.querySelector(".sidebar_document_title");
 
   /**  */
   constructor() {
@@ -157,6 +162,42 @@ export class AIChatApp extends BaseApp {
       .orderBy(`created`, "desc")
       .limit(50)
       .onSnapshot((snapshot: any) => this.updateAssistsFeed(snapshot));
+  }
+  /** setup data listener for recent document feed */
+  async initRecentDocumentsFeed() {
+    if (this.recentDocumentFeedRegistered) return;
+    this.recentDocumentFeedRegistered = true;
+
+    if (this.recentDocumentsSubscription) this.recentDocumentsSubscription();
+    this.recentDocumentsSubscription = firebase.firestore().collection(`Games`)
+      .orderBy(`members.${this.uid}`, "desc")
+      .limit(10)
+      .onSnapshot((snapshot: any) => this.updateRecentDocumentFeed(snapshot));
+  }
+  /** paint recent document feed
+  * @param { any } snapshot firestore query data snapshot
+  */
+  updateRecentDocumentFeed(snapshot: any = null) {
+    if (snapshot) this.lastDocumentsSnapshot = snapshot;
+    else if (this.lastDocumentsSnapshot) snapshot = this.lastDocumentsSnapshot;
+    else return;
+
+    let html = "";
+    this.lastDocumentsSnapshot.forEach((doc: any) => {
+      const data = doc.data();
+      let title = data.title;
+      if (!title) title = "unused";
+      const activityDate = data.created.substring(5, 16).replace("T", " ").replace("-", "/");
+
+      title = title.substring(0, 100);
+      const rowHTML = `<li>
+      <a href="/aichat/?game=${doc.id}">
+        <div class="title">${title}</div>
+        <div class="activity_date">${activityDate}</div>
+      </a></li>`;
+      html += rowHTML;
+    });
+    this.recent_documents_list.innerHTML = html;
   }
   /** paint user message feed
  * @param { any } snapshot firestore query data snapshot
@@ -574,6 +615,7 @@ export class AIChatApp extends BaseApp {
     if (this.profile) {
       this.initRTDBPresence();
       this.initTicketFeed();
+      this.initRecentDocumentsFeed();
 
       const gameId = this.urlParams.get("game");
       if (gameId) {
@@ -602,6 +644,8 @@ export class AIChatApp extends BaseApp {
     this.last_activity_display.innerHTML = this.isoToLocal(<string>
       this.gameData.lastActivity)
       .toISOString().substring(0, 19).replace("T", " ");
+
+    this.sidebar_document_title.innerHTML = this.gameData.title + "&nbsp;";
 
     this.paintDocumentOptions();
     this._updateGameMembersList();

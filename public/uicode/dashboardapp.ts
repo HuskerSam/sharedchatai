@@ -93,7 +93,7 @@ export class DashboardApp extends BaseApp {
 
     this.gameFeedSubscription = firebase.firestore().collection(`Games`)
       .orderBy(`members.${this.uid}`, "desc")
-      .limit(20)
+      .limit(500)
       .onSnapshot((snapshot: any) => this.updateGamesFeed(snapshot));
   }
   /** paint games feed from firestore snapshot

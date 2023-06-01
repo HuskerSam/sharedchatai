@@ -330,9 +330,6 @@ export default class GameAPI {
     if (!displayImage) displayImage = "";
 
     const updatePacket: any = {
-      members: {
-        [uid]: new Date().toISOString(),
-      },
       memberNames: {
         [uid]: displayName,
       },
@@ -343,6 +340,9 @@ export default class GameAPI {
 
     if (!gameData.members[uid]) {
       updatePacket.lastActivity = new Date().toISOString();
+      updatePacket.members = {
+        [uid]: new Date().toISOString(),
+      };
     }
 
     await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).set(updatePacket, {

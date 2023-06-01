@@ -103,6 +103,9 @@ export default class ChatAI {
         await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).set({
             lastActivity: new Date().toISOString(),
             lastTicketId: ticketId,
+            members: {
+                [uid]: new Date().toISOString(),
+            },
         }, {
             merge: true,
         });
