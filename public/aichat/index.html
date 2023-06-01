@@ -92,6 +92,8 @@
           <span class="ticket_count_span"></span>
           &nbsp;
           <span class="selected_token_count_span"></span>
+          &nbsp;
+          <button class="btn btn-secondary show_document_options_modal">Options</button>
         </div>
         <div style="display:flex;flex-direction:row">
           <div class="document_usage_stats_line" style="flex:1"></div>
@@ -99,43 +101,9 @@
         </div>
         <ul class="list-unstyled ps-0">
           <li class="mb-1">
-            <button class="btn btn-toggle align-items-center rounded" data-bs-toggle="collapse"
-              data-bs-target="#users-menu-panel-collapse" aria-expanded="true">
-              Users
-            </button>
-            <div class="collapse show" id="users-menu-panel-collapse">
-              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small members_list"></ul>
-            </div>
-          </li>
-
-          <li class="mb-1">
-            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
-              data-bs-target="#document-menu-panel-collapse" aria-expanded="false">
-              Document
-            </button>
-            <div class="collapse" id="document-menu-panel-collapse">
-              <div style="text-align:center">
-                <button class="document_export_button btn btn-primary" data-bs-toggle="modal"
-                  data-bs-target="#exportModal">Export Tickets</button>
-                <button class="document_import_button btn btn-secondary" data-bs-toggle="modal"
-                  data-bs-target="#importModal">Import Tickets</button>
-                <button class="btn btn-primary show_document_options_modal">Show Options</button>
-
-              </div>
-              <br>
-              <div style="text-align: right">
-                <span class="gameid_span"></span>
-                <a href="#" style="display:none;" class="code_link_href">URL</a>
-                <button class="code_link_copy game"><i class="material-icons">content_copy</i>
-                  <span>url</span></button>
-              </div>
-            </div>
-          </li>
-
-          <li class="mb-1">
             <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
               data-bs-target="#options-menu-panel-collapse" aria-expanded="false">
-              Options
+              Engine
             </button>
             <div class="collapse" id="options-menu-panel-collapse">
               <button id="show_document_options_popup" style="display:none;" class="btn btn-primary"
@@ -167,6 +135,24 @@
               <div class="slider_label frequency_penalty_slider_label"></div>
             </div>
           </li>
+          <li class="mb-1">
+            <button class="btn btn-toggle align-items-center rounded" data-bs-toggle="collapse"
+              data-bs-target="#users-menu-panel-collapse" aria-expanded="true">
+              Users
+            </button>
+            <div class="collapse show" id="users-menu-panel-collapse">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small members_list"></ul>
+            </div>
+          </li>
+          <li class="mb-1">
+            <button class="btn btn-toggle align-items-center rounded" data-bs-toggle="collapse"
+              data-bs-target="#recentdocuments-menu-panel-collapse" aria-expanded="true">
+              Recent
+            </button>
+            <div class="collapse show" id="recentdocuments-menu-panel-collapse">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small recent_documents_list"></ul>
+            </div>
+          </li>
         </ul>
       </div>
     </div>
@@ -190,78 +176,6 @@
               Submit AI Ticket
             </button>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exportModalLabel">Export Tickets</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          Tickets:
-          <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-            <input type="radio" class="btn-check" name="tickets_filter" id="selected_filter" value="selected"
-              autocomplete="off" checked>
-            <label class="btn btn-outline-primary" for="selected_filter">Selected</label>
-            <input type="radio" class="btn-check" name="tickets_filter" id="all_filter" value="all" autocomplete="off">
-            <label class="btn btn-outline-primary" for="all_filter">All</label>
-          </div>
-          <br>
-          <br>
-          Format:
-          <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-            <input type="radio" class="btn-check" name="format_choice" id="text_format" value="text" autocomplete="off"
-              checked>
-            <label class="btn btn-outline-primary" for="text_format">Text</label>
-            <input type="radio" class="btn-check" name="format_choice" id="html_format" value="html" autocomplete="off">
-            <label class="btn btn-outline-primary" for="html_format">HTML</label>
-            <input type="radio" class="btn-check" name="format_choice" id="csv_format" value="csv" autocomplete="off">
-            <label class="btn btn-outline-primary" for="csv_format">CSV</label>
-            <input type="radio" class="btn-check" name="format_choice" id="json_format" value="json" autocomplete="off">
-            <label class="btn btn-outline-primary" for="json_format">JSON</label>
-          </div>
-          <br>
-          Preview
-          <br>
-          <textarea class="export_data_popup_preview"></textarea>
-          <br>
-          <span class="export_size"></span> bytes
-          <br>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary download_export_button">Download</button>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="importModalLabel">Import Tickets</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          Format:
-          <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-            <input type="radio" class="btn-check" name="format_choice" id="import_csv_format" value="csv"
-              autocomplete="off" checked>
-            <label class="btn btn-outline-primary" for="import_csv_format">CSV</label>
-            <input type="radio" class="btn-check" name="format_choice" id="import_json_format" value="json"
-              autocomplete="off">
-            <label class="btn btn-outline-primary" for="import_json_format">JSON</label>
-          </div>
-          <br>
-          <input class="import_upload_file" type="file">
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary upload_import_button">Import</button>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
     </div>

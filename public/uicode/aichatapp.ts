@@ -47,9 +47,7 @@ export class AIChatApp extends BaseApp {
   prompt_token_count: any = document.querySelector(".prompt_token_count");
   total_prompt_token_count: any = document.querySelector(".total_prompt_token_count");
   token_visualizer_preview: any = document.querySelector(".token_visualizer_preview");
-  code_link_href: any = document.querySelector(".code_link_href");
-  code_link_copy: any = document.querySelector(".code_link_copy");
-  gameid_span: any = document.querySelector(".gameid_span");
+
   main_view_splitter: any = document.querySelector(".main_view_splitter");
   show_document_options_modal: any = document.querySelector(".show_document_options_modal");
 
@@ -69,18 +67,7 @@ export class AIChatApp extends BaseApp {
   ticket_count_span: any = document.querySelector(".ticket_count_span");
   selected_ticket_count_span: any = document.querySelector(".selected_ticket_count_span");
   selected_token_count_span: any = document.querySelector(".selected_token_count_span");
-  export_data_popup_preview: any = document.querySelector(".export_data_popup_preview");
-  export_size: any = document.querySelector(".export_size");
 
-  selected_filter: any = document.getElementById("selected_filter");
-  all_filter: any = document.getElementById("all_filter");
-  text_format: any = document.getElementById("text_format");
-  html_format: any = document.getElementById("html_format");
-  csv_format: any = document.getElementById("csv_format");
-  json_format: any = document.getElementById("json_format");
-  download_export_button: any = document.querySelector(".download_export_button");
-  upload_import_button: any = document.querySelector(".upload_import_button");
-  import_upload_file: any = document.querySelector(".import_upload_file");
   show_document_options_popup: any = document.getElementById("show_document_options_popup");
   temperature_slider_label: any = document.querySelector(".temperature_slider_label");
   top_p_slider_label: any = document.querySelector(".top_p_slider_label");
@@ -101,18 +88,6 @@ export class AIChatApp extends BaseApp {
 
     document.addEventListener("visibilitychange", () => this.refreshOnlinePresence());
     this.ticket_content_input.addEventListener("input", () => this.updatePromptTokenStatus());
-
-    this.document_export_button.addEventListener("click", () => this.showExportModal());
-
-    this.selected_filter.addEventListener("click", () => this.refreshReportData());
-    this.all_filter.addEventListener("click", () => this.refreshReportData());
-    this.text_format.addEventListener("click", () => this.refreshReportData());
-    this.html_format.addEventListener("click", () => this.refreshReportData());
-    this.csv_format.addEventListener("click", () => this.refreshReportData());
-    this.json_format.addEventListener("click", () => this.refreshReportData());
-    this.download_export_button.addEventListener("click", () => this.downloadReportData());
-    this.upload_import_button.addEventListener("click", () => this.import_upload_file.click());
-    this.import_upload_file.addEventListener("change", () => this.uploadReportData());
     this.show_document_options_modal.addEventListener("click", () => this.showOptionsModal());
 
     this.docfield_temperature.addEventListener("input", () => this.optionSliderChange(true, "temperature",
@@ -595,7 +570,6 @@ export class AIChatApp extends BaseApp {
   authUpdateStatusUI() {
     super.authUpdateStatusUI();
     this.currentGame = null;
-    if (this.gameid_span) this.gameid_span.innerHTML = "";
 
     if (this.profile) {
       this.initRTDBPresence();
@@ -605,7 +579,6 @@ export class AIChatApp extends BaseApp {
       if (gameId) {
         this.gameAPIJoin(gameId);
         this.currentGame = gameId;
-        if (this.gameid_span) this.gameid_span.innerHTML = this.currentGame;
 
         if (this.gameSubscription) this.gameSubscription();
         this.gameSubscription = firebase.firestore().doc(`Games/${this.currentGame}`)
@@ -725,16 +698,6 @@ export class AIChatApp extends BaseApp {
     this.docfield_frequency_penalty.value = this.gameData.frequency_penalty;
     this.optionSliderChange(false, "frequency_penalty",
       this.docfield_frequency_penalty, this.frequency_penalty_slider_label, "Frequency Penalty: ");
-
-    if (this.code_link_href) {
-      const path = window.location.href;
-      this.code_link_href.setAttribute("href", path);
-    }
-  }
-  /** copy game link to global clipboard */
-  copyGameLinkToClipboard() {
-    const path = this.code_link_href.getAttribute("href");
-    navigator.clipboard.writeText(path);
   }
   /** update the splitter if needed */
   updateSplitter() {
@@ -787,162 +750,7 @@ export class AIChatApp extends BaseApp {
     this.selected_token_count_span.innerHTML = this.includeTotalTokens;
     this.total_prompt_token_count.innerHTML = this.includeTotalTokens + tokens.length;
   }
-  /** show export data popup */
-  showExportModal() {
-    this.refreshReportData();
-  }
-  /** generate export data
-   * @return { string } text for selected format and tickets
-  */
-  generateExportData() {
-    const ticketsFilterSelected: any = document.querySelector(`input[name="tickets_filter"]:checked`);
-    const ticketsFilter: any = ticketsFilterSelected.value;
-    const formatFilterSelected: any = document.querySelector(`input[name="format_choice"]:checked`);
-    const formatFilter: any = formatFilterSelected.value;
 
-    let resultText = "";
-    const tickets: Array<any> = [];
-    this.lastTicketsSnapshot.forEach((ticket: any) => {
-      if (ticketsFilter === "all" || ticket.data().includeInMessage) tickets.push(ticket);
-    });
-
-    let format = "";
-    let fileName = "";
-    if (formatFilter === "json") {
-      format = "application/json";
-      fileName = "export.json";
-      const rows: any = [];
-      tickets.forEach((ticket: any) => {
-        rows.push({
-          prompt: ticket.data().message,
-          completion: this.messageForCompletion(ticket.id),
-          selected: ticket.data().includeInMessage ? "y" : "n",
-        });
-      });
-      const jsonText = JSON.stringify(rows, null, "  ");
-      resultText = jsonText;
-    } else if (formatFilter === "csv") {
-      format = "application/csv";
-      fileName = "export.csv";
-      const rows: any = [];
-      tickets.forEach((ticket: any) => {
-        rows.push({
-          prompt: ticket.data().message,
-          completion: this.messageForCompletion(ticket.id),
-          selected: ticket.data().includeInMessage ? "y" : "n",
-        });
-      });
-      const csvText = window.Papa.unparse(rows);
-      resultText = csvText;
-    } else if (formatFilter === "text") {
-      format = "plain/text";
-      fileName = "report.txt";
-      resultText += new Date().toString() + " summary\n";
-      tickets.forEach((ticket: any) => {
-        const completion = this.messageForCompletion(ticket.id);
-        const prompt = ticket.data().message;
-
-        resultText += "Prompt: " + prompt + "\n";
-        if (completion) resultText += "Assist: " + completion + "\n";
-        resultText += "\n";
-      });
-    } else if (formatFilter === "html") {
-      fileName = "report.html";
-      format = "text/html";
-      resultText += `<div class="export_date">${new Date().toString()} summary</div>\n`;
-      resultText += `<style>\n`;
-      resultText += `.prompt-text {\n`;
-      resultText += `    font-weight: bold;\n`;
-      resultText += `}\n`;
-      resultText += `\n`;
-      resultText += `.completion-text {\n`;
-      resultText += `    white-space: pre-wrap;\n`;
-      resultText += `}\n`;
-      resultText += `\n`;
-      resultText += `</style>\n`;
-      tickets.forEach((ticket: any) => {
-        const prompt = <string>ticket.data().message;
-        const completion = <string> this.messageForCompletion(ticket.id);
-        const selected = <string>ticket.data().includeInMessage ? "✅" : "&nbsp;";
-
-        resultText += `<div class="ticket-item">\n`;
-        resultText += `    <div class="prompt-text">${selected} ${prompt}</div>\n`;
-        resultText += `    <div class="completion-text">${completion}</div>\n`;
-        resultText += `</div>`;
-      });
-    }
-
-    return {
-      resultText,
-      format,
-      fileName,
-    };
-  }
-  /** refresh report data
-   * @param { boolean } download
-  */
-  refreshReportData(download = false) {
-    const data = this.generateExportData();
-    this.export_data_popup_preview.innerHTML = data.resultText;
-    this.export_size.innerHTML = data.resultText.length;
-
-    if (download) {
-      const file = new File([data.resultText], data.fileName, {
-        type: data.format,
-      });
-
-      const link = document.createElement("a");
-      const url = URL.createObjectURL(file);
-
-      link.href = url;
-      link.download = file.name;
-      document.body.appendChild(link);
-      link.click();
-
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    }
-  }
-  /** download report data */
-  downloadReportData() {
-    this.refreshReportData(true);
-  }
-  /** upload report data */
-  async uploadReportData() {
-    if (!this.import_upload_file.files[0]) {
-      return;
-    }
-    const formatFilterSelected: any = document.querySelector(`input[name="format_choice"]:checked`);
-    const formatFilter: any = formatFilterSelected.value;
-
-    const fileContent = await this.import_upload_file.files[0].text();
-
-    try {
-      let records: Array<any> = [];
-      if (formatFilter === "json") {
-        records = JSON.parse(fileContent);
-      } else {
-        const result = window.Papa.parse(fileContent, {
-          header: true,
-        });
-        console.log("Papa result", result);
-        records = result.data;
-      }
-
-      for (let c = 0, l = records.length; c < l; c++) {
-        const ticket: any = records[c];
-        const error = await this.sendImportTicketToAPI({
-          prompt: ticket.prompt,
-          completion: ticket.completion,
-        });
-        if (error) break;
-      }
-    } catch (error: any) {
-      alert("Import failed");
-      console.log(error);
-      return;
-    }
-  }
   /** import ticket to api
    * @param { any } importData ticket data
    * @return { Promise<boolean> } returns true if error
