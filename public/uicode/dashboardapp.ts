@@ -2,6 +2,7 @@ import BaseApp from "./baseapp.js";
 import LoginHelper from "./loginhelper.js";
 import DocOptionsHelper from "./docoptionshelper.js";
 import DocCreateHelper from "./doccreatehelper.js";
+import ProfileHelper from "./profilehelper.js";
 declare const window: any;
 declare const firebase: any;
 
@@ -20,10 +21,12 @@ export class DashboardApp extends BaseApp {
   gameFeedInited = false;
   documentsLookup: any = {};
   document_label_filter: any = document.querySelector(".document_label_filter");
+  profile_menu_anchor: any = document.querySelector(".profile_menu_anchor");
 
   login = new LoginHelper(this);
   documentCreate = new DocCreateHelper(this);
   documentOptions = new DocOptionsHelper(this);
+  profileHelper = new ProfileHelper(this);
 
   /** */
   constructor() {
@@ -37,6 +40,12 @@ export class DashboardApp extends BaseApp {
     setInterval(() => this.updateTimeSince(this.dashboard_documents_view), 30000);
 
     this.document_label_filter.addEventListener("input", () => this.updateGamesFeed(null));
+
+    this.profile_menu_anchor.addEventListener("click", (event: any) => {
+      event.stopPropagation();
+      event.preventDefault();
+      this.profileHelper.show();
+    });
   }
   /** BaseApp override to update additional use profile status */
   authUpdateStatusUI() {

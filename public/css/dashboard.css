@@ -223,10 +223,6 @@ button.code_link {
   white-space: nowrap;
 }
 
-.profile_menu_anchor .name {
-  text-decoration: underline;
-}
-
 .accordion-button {
   display: flex;
   align-items: center;

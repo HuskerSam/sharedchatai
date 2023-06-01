@@ -59,7 +59,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item signed_in_options">
-          <a class="nav-link" href="/profile/">Profile</a>
+          <a class="nav-link profile_menu_anchor" href="profile">Profile</a>
         </li>
       </ul>
     </div>
@@ -68,14 +68,15 @@
   <div class="basic_page_wrapper app_panel">
     <div class="game_lobby">
       <div class="lobby_user_description">
-        <a class="profile_menu_anchor" href="/profile">
           <span class="userprofile_description"></span>
-        </a>
       </div>
       <button id="show_document_options_popup" style="display:none;" class="btn btn-primary" data-bs-toggle="modal"
         data-bs-target="#editDocumentModal"></button>
       <button class="btn btn-primary signin_show_modal" style="display:none" type="button" data-bs-toggle="modal" data-bs-target="#loginModal">
           Login
+        </button>
+        <button class="btn btn-primary profile_show_modal" style="display:none" type="button" data-bs-toggle="modal" data-bs-target="#userProfileModal">
+          Profile
         </button>
       <div class=" games_view_wrapper">
         <select class="document_label_filter">

@@ -120,7 +120,7 @@ export default class BaseApp {
   }
   /** create default user profile record and overwrite to database without merge (reset) */
   async _authCreateDefaultProfile() {
-    await this.readJSONFile(`/profile/logos.json`, "profileLogos");
+    await this.readJSONFile(`/data/logos.json`, "profileLogos");
     const keys = Object.keys(window.profileLogos);
     const imageIndex = Math.floor(Math.random() * keys.length);
     const logoName = keys[imageIndex];
