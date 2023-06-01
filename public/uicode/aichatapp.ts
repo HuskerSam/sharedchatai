@@ -2,6 +2,8 @@ import BaseApp from "./baseapp.js";
 import Split from "./split.js";
 import LoginHelper from "./loginhelper.js";
 import DocOptionsHelper from "./docoptionshelper.js";
+import DocCreateHelper from "./doccreatehelper.js";
+import ProfileHelper from "./profilehelper.js";
 
 declare const firebase: any;
 declare const window: any;
@@ -29,6 +31,8 @@ export class AIChatApp extends BaseApp {
   selectedTicketCount = 0;
   login = new LoginHelper(this);
   documentOptions = new DocOptionsHelper(this);
+  documentCreate = new DocCreateHelper(this);
+  profileHelper = new ProfileHelper(this);
   editedDocumentId = -1;
   documentsLookup: any = {};
   lastDocumentOptionChange = 0;
@@ -48,6 +52,9 @@ export class AIChatApp extends BaseApp {
   gameid_span: any = document.querySelector(".gameid_span");
   main_view_splitter: any = document.querySelector(".main_view_splitter");
   show_document_options_modal: any = document.querySelector(".show_document_options_modal");
+
+  show_profile_modal: any = document.querySelector(".show_profile_modal");
+  show_create_modal: any = document.querySelector(".show_create_modal");
 
   docfield_model: any = document.querySelector(".docfield_model");
   docfield_max_tokens: any = document.querySelector(".docfield_max_tokens");
@@ -122,6 +129,19 @@ export class AIChatApp extends BaseApp {
       this.saveDocumentOption("model", this.docfield_model.value);
     });
     this.updateSplitter();
+
+    this.show_profile_modal.addEventListener("click", (event: any) => {
+      event.stopPropagation();
+      event.preventDefault();
+
+      this.profileHelper.show();
+    });
+    this.show_create_modal.addEventListener("click", (event: any) => {
+      event.stopPropagation();
+      event.preventDefault();
+
+      this.documentCreate.show();
+    });
   }
   /** update temperature label and save to api
    * @param { boolean } saveToAPI true to save slider value to api
@@ -242,7 +262,7 @@ export class AIChatApp extends BaseApp {
     if (!this.gameData) {
       setTimeout(() => this.updateTicketsFeed(snapshot), 50);
       return;
-    } 
+    }
     if (snapshot) this.lastTicketsSnapshot = snapshot;
     else if (this.lastTicketsSnapshot) snapshot = this.lastTicketsSnapshot;
     else return;
@@ -343,6 +363,26 @@ export class AIChatApp extends BaseApp {
     const result = await fResult.json();
     if (!result.success) alert("Delete ticket failed");
   }
+  updateUserNamesImages() {
+    const imgCtls = document.querySelectorAll(".ticket_owner_image");
+    const nameCtls = document.querySelectorAll(".ticket_owner_name");
+   
+    imgCtls.forEach((imgCtl: any) => {
+      const uid: any = imgCtl.dataset.ticketowneruid;
+      if (uid !== undefined) {
+        const imgPath = this.gameData.memberImages[uid];
+        imgCtl.style.backgroundImage = "url(" + imgPath + ")";
+      }
+    });
+   
+    nameCtls.forEach((nameCtl: any) => {
+      const uid: any = nameCtl.dataset.ticketowneruid;
+      if (uid !== undefined) {
+        const name = this.gameData.memberNames[uid];
+        nameCtl.innerHTML = name;
+      }
+    });
+  }
   /** generate html for message card
    * @param { any } doc firestore message document
    * @return { any } card
@@ -375,10 +415,10 @@ export class AIChatApp extends BaseApp {
               <div style="display:flex;flex-direction:column">
                   <div class="m-1 user_assist_request_header">
                       <div class="user_img_wrapper member_desc">
-                          <span style="background-image:url(${img})"></span>
+                          <span class="ticket_owner_image" data-ticketowneruid="${data.uid}" style="background-image:url(${img})"></span>
                       </div>
                       <div>
-                          <span class="name">${name}</span>
+                          <span class="name ticket_owner_name" data-ticketowneruid="${data.uid}">${name}</span>
                       </div>
                       <div style="flex:1;text-align: center;"><div class="time_since last_submit_time" data-timesince="${data.submitted}"
                       data-showseconds="1">
@@ -586,6 +626,7 @@ export class AIChatApp extends BaseApp {
 
     this.paintDocumentOptions();
     this._updateGameMembersList();
+    this.updateUserNamesImages();
     this.updateUserPresence();
   }
   /** paint game members list */

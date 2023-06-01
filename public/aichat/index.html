@@ -70,9 +70,17 @@
               </a>
             </li>
             <li class="nav-item signed_in_options">
-              <a class="nav-link" href="/profile/">Profile</a>
+              <a class="nav-link show_profile_modal" href="profile">Profile</a>
             </li>
-
+            <li class="nav-item signed_in_options">
+              <a class="nav-link show_create_modal" href="create">Create</a>
+            </li>
+            <button class="btn btn-primary profile_show_modal" style="display:none" type="button" data-bs-toggle="modal" data-bs-target="#userProfileModal">
+              Profile
+            </button>
+            <button class="btn btn-primary doccreatehelper_show_modal" style="display:none" type="button" data-bs-toggle="modal" data-bs-target="#createDocumentModal">
+              Create Modal
+            </button>
           </ul>
         </div>
       </nav>
