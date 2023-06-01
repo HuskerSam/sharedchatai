@@ -14,11 +14,12 @@ export class DashboardApp extends BaseApp {
   dashboard_create_game: any = document.querySelector(".dashboard_create_game");
   editedDocumentId = "";
   gameFeedSubscription: any;
-  publicFeedSubscription: any;
   lastGamesFeedSnapshot: any;
-  lastPublicFeedSnapshot: any;
   gameFeedInited = false;
   documentsLookup: any = {};
+  lastTicketsSnapshot: any = null;
+  lastAssistsSnapshot: any = null;
+  assistsLookup: any = {};
   document_label_filter: any = document.querySelector(".document_label_filter");
   profile_menu_anchor: any = document.querySelector(".profile_menu_anchor");
 
@@ -46,6 +47,19 @@ export class DashboardApp extends BaseApp {
       this.profileHelper.show();
     });
   }
+  /** load tickets for options/export dialog */
+  async loadAndShowOptionsDialog(documentId: any) {
+    const btn: any = document.getElementById("show_document_options_popup");
+    btn.click();
+    this.editedDocumentId = documentId;
+    this.lastTicketsSnapshot = {};
+
+    this.lastTicketsSnapshot = await firebase.firestore().collection(`Games/${documentId}/tickets`).get();
+    this.lastAssistsSnapshot = await firebase.firestore().collection(`Games/${documentId}/assists`).get();
+    this.assistsLookup = {};
+    this.lastAssistsSnapshot.forEach((assistDoc: any) => this.assistsLookup[assistDoc.id] = assistDoc.data());
+    this.documentOptions.show();
+  }
   /** BaseApp override to update additional use profile status */
   authUpdateStatusUI() {
     super.authUpdateStatusUI();
@@ -57,8 +71,7 @@ export class DashboardApp extends BaseApp {
       let img = this.profile.displayImage;
       if (!name) name = "Anonymous";
       if (!img) img = "/images/defaultprofile.png";
-      // TO DO - put profile icon in navbar
-      //   this.userprofile_description.innerHTML = this.__getUserTemplate("", name, img);
+      this.userprofile_description.innerHTML = `<img src="${img}"> ${name}`;
     }
   }
   /** query dom for all chat_user_image and chat_user_name elements and update */
@@ -89,7 +102,6 @@ export class DashboardApp extends BaseApp {
     this.gameFeedInited = true;
 
     if (this.gameFeedSubscription) this.gameFeedSubscription();
-    if (this.publicFeedSubscription) this.publicFeedSubscription();
 
     this.gameFeedSubscription = firebase.firestore().collection(`Games`)
       .orderBy(`members.${this.uid}`, "desc")
@@ -140,14 +152,15 @@ export class DashboardApp extends BaseApp {
   */
   getDocumentCardElement(doc: any) {
     const data = doc.data();
-    let title = "";
-    if (doc.data().title) title = doc.data().title.slice(0, 120) + "...";
-    if (!title) title = "unused";
+    let title = doc.data().title;
+    if (!title) title = "";
+    const maxTitle = 120;
+    if (title.length > maxTitle) {
+      title = doc.data().title.slice(0, maxTitle) + "...";
+    }
+    if (title === "") title = `<span class="unused_chatroom_title_placeholder">unused</span>`;
     let ownerClass = "";
     if (data.createUser === this.uid) ownerClass += " feed_game_owner";
-
-    //  const ownerHTML = this.__getUserTemplate(data.createUser,
-    // data.memberNames[data.createUser], data.memberImages[data.createUser], true);
 
     let timeStr = this.isoToLocal(data.created).toISOString().substr(11, 5);
     let hour = Number(timeStr.substr(0, 2));
@@ -188,10 +201,7 @@ export class DashboardApp extends BaseApp {
     details.addEventListener("click", (e: any) => {
       e.stopPropagation();
       e.preventDefault();
-      const btn: any = document.getElementById("show_document_options_popup");
-      btn.click();
-      this.editedDocumentId = details.dataset.gamenumber;
-      this.documentOptions.show();
+      this.loadAndShowOptionsDialog(details.dataset.gamenumber);
     });
 
     return card;

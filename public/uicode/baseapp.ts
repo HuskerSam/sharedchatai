@@ -183,23 +183,23 @@ export default class BaseApp {
     const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
 
     let interval = seconds / 31536000;
-    if (interval > 1) return Math.floor(interval) + ` year${Math.floor(interval) === 1 ? "" : "s"} ago`;
+    if (interval > 1) return Math.floor(interval) + ` yr`;
 
     interval = seconds / 2592000;
-    if (interval > 1) return Math.floor(interval) + ` month${Math.floor(interval) === 1 ? "" : "s"} ago`;
+    if (interval > 1) return Math.floor(interval) + ` mon`;
 
     interval = seconds / 86400;
-    if (interval > 1) return Math.floor(interval) + ` day${Math.floor(interval) === 1 ? "" : "s"} ago`;
+    if (interval > 1) return Math.floor(interval) + ` day${Math.floor(interval) === 1 ? "" : "s"}`;
 
     interval = seconds / 3600;
-    if (interval > 1) return Math.floor(interval) + ` hour${Math.floor(interval) === 1 ? "" : "s"} ago`;
+    if (interval > 1) return Math.floor(interval) + ` hr`;
 
     interval = seconds / 60;
-    if (interval > 1) return Math.floor(interval) + ` min${Math.floor(interval) === 1 ? "" : "s"} ago`;
+    if (interval > 1) return Math.floor(interval) + ` min`;
 
-    if (showSeconds) return Math.floor(seconds) + " seconds ago";
+    if (showSeconds) return Math.floor(seconds) + "s";
 
-    return " just now";
+    return "now";
   }
   /** convert isodate to local date as Date Object
    * @param { string } startTimeISOString iso date GMT referenced

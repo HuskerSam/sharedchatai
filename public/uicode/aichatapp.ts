@@ -11,6 +11,7 @@ declare const window: any;
 /** Guess app class */
 export class AIChatApp extends BaseApp {
   apiType = "aichat";
+  maxTokenPreviewChars = 30;
   currentGame: any;
   lastTicketsSnapshot: any = [];
   gameSubscription: any;
@@ -191,7 +192,7 @@ export class AIChatApp extends BaseApp {
 
       title = title.substring(0, 100);
       const rowHTML = `<li>
-      <a href="/aichat/?game=${doc.id}">
+      <a href="/aichat/?game=${doc.id}" target="_blank">
         <div class="title">${title}</div>
         <div class="activity_date">${activityDate}</div>
       </a></li>`;
@@ -590,22 +591,6 @@ export class AIChatApp extends BaseApp {
       return 0;
     }
   }
-  /** check for assist message
- * @param { string } assistId ticket id to check for assist
- * @return { any } message
-*/
-  messageForCompletion(assistId: string): string {
-    try {
-      const assistData: any = this.assistsLookup[assistId];
-      if (!assistData || !assistData.assist || !assistData.assist.choices ||
-        !assistData.assist.choices["0"] || !assistData.assist.choices["0"].message ||
-        !assistData.assist.choices["0"].message.content) return "";
-      return assistData.assist.choices["0"].message.content;
-    } catch (assistError: any) {
-      console.log(assistError);
-      return "";
-    }
-  }
   /** BaseApp override to paint profile specific authorization parameters */
   authUpdateStatusUI() {
     super.authUpdateStatusUI();
@@ -782,11 +767,24 @@ export class AIChatApp extends BaseApp {
     const tokens = window.gpt3tokenizer.encode(this.ticket_content_input.value);
 
     let html = "";
-    tokens.forEach((token: any, index: number) => {
+    let totalChars = 0;
+    let tokensUsed = 0;
+    for (let c = tokens.length - 1; c >= 0; c--) {
+      const token = tokens[c];
       const text = window.gpt3tokenizer.decode([token]);
-      const tokenClass = (index % 2 === 0) ? "token_even" : "token_odd";
-      html += `<span class="${tokenClass}">${text}</span>`;
-    });
+
+      if (totalChars + text.length <= this.maxTokenPreviewChars) {
+        tokensUsed++;
+        totalChars += text.length;
+        const tokenClass = (c % 2 === 0) ? "token_even" : "token_odd";
+        html = `<span class="${tokenClass}">${text}</span>` + html;
+      } else {
+        break;
+      }
+    }
+
+    if (tokensUsed < tokens.length) html = "..." + html;
+
     this.token_visualizer_preview.innerHTML = html;
 
     this.prompt_token_count.innerHTML = tokens.length;

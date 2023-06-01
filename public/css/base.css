@@ -60,7 +60,6 @@ a {
 .basic_page_wrapper {
   text-align: center;
   margin: auto;
-  min-height: 100vh;
   min-width: inherit;
   box-sizing: border-box;
 }
@@ -226,14 +225,36 @@ a {
   color: rgb(240, 240, 240);
 }
 
+.list-group-item-action:hover {
+  background-color: rgb(50, 50, 50);
+  color: rgb(240, 240, 240);
+}
+
 select.form-select {
   background-color: rgb(52, 53, 65);
   color: rgb(240, 240, 240);
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgb%28240,240,240%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
 }
 
+<<<<<<< HEAD
 .app_panel .form-check-input:checked {
   background-color: rgb(25,135,84);
   color: rgb(25,135,84);
   transition: color .1s ease-out, background-color .1s ease-out;
+=======
+.scrollable_modal .modal-content {
+  flex: 1;
+  overflow: hidden;
+}
+
+.scrollable_modal .modal-dialog {
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.scrollable_modal .modal-body {
+  overflow: auto;
+>>>>>>> 7e2df7ba17aba81eb48e718f9e9802545e31cf11
 }

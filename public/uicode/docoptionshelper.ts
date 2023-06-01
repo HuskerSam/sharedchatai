@@ -148,154 +148,160 @@ export default class DocOptionsHelper {
      * @return { string } html template as string
      */
     getModalTemplate(): string {
-        return `<div class="modal fade" id="editDocumentModal" tabindex="-1" aria-labelledby="editDocumentModalLabel"
+        const exportModalTabHTML = this.getModalTabExportHTML();
+        const importModalTabHTML = this.getModalTabImportHTML();
+        return `<div class="modal fade scrollable_modal" id="editDocumentModal" tabindex="-1" aria-labelledby="editDocumentModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="editDocumentModalLabel">Edit Document</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editDocumentModalLabel">Edit Document</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="owner_options_edit_section">
+                        <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link active" id="options_tab_button" data-bs-toggle="tab" href="#options_tab_view" role="tab"
+                                    aria-controls="options_tab_view" aria-selected="true">Details</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="export_tab_button" data-bs-toggle="tab" href="#export_tab_view" role="tab"
+                                    aria-controls="export_tab_view" aria-selected="false">Export</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="import_tab_button" data-bs-toggle="tab" href="#import_tab_view" role="tab"
+                                    aria-controls="import_tab_view" aria-selected="false">Import</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="ex1-content">
+                            <div class="tab-pane fade show active" id="options_tab_view" role="tabpanel"
+                                aria-labelledby="options_tab_button">
+                                <div class="form-floating">
+                                    <textarea type="text" class="form-control document_title"
+                                        placeholder="Title"></textarea>
+                                    <label>Title</label>
+                                </div>
+                                <div style="text-align:center;">
+                                    <select class="edit_options_document_labels" multiple="multiple"
+                                        style="width:80%"></select>
+                                </div>
+                                <br>
+                                <div class="form-floating" style="display:inline-block;width:80%">
+                                    <input type="text" class="form-control" id="owner_note_field_edit" placeholder="Note">
+                                    <label>Note</label>
+                                </div>
+                                <div class="form-check" style="display:inline-block;width:auto;">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input docfield_archived_checkbox" type="checkbox" value="">
+                                        Archived
+                                    </label>
+                                </div>
+                                <br>
+                                <div class="form-floating" style="display:inline-block;width:auto;">
+                                    <input type="text" class="form-control docfield_usage_limit" placeholder="Usage Limit">
+                                    <label>Usage Limit</label>
+                                </div>
+                                <button class="delete_game btn btn-secondary">
+                                    Delete
+                                </button>
+                                <button class="leave_game btn btn-secondary">
+                                    Leave
+                                </button>
+                                <button class="code_link game btn btn-primary"></button>
+                                <br>
+                                <br>
+                                <div style="text-align:center">
+                                    <button class="document_import_button btn btn-secondary" data-bs-toggle="modal"
+                                        data-bs-target="#importModal">Import Tickets</button>
+    
+                                </div>
+                                <br>
+                                <div style="text-align: right">
+                                    <span class="gameid_span"></span>
+                                    <a href="#" style="display:none;" class="code_link_href">URL</a>
+                                    <button class="code_link_copy game"><i class="material-icons">content_copy</i>
+                                        <span>url</span></button>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="export_tab_view" role="tabpanel" aria-labelledby="export_tab_button">
+                                ${exportModalTabHTML}
+                            </div>
+                            <div class="tab-pane fade" id="import_tab_view" role="tabpanel" aria-labelledby="import_tab_button">
+                                ${importModalTabHTML}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary modal_close_button"
+                        data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary save_game_afterfeed_button">Save</button>
+                </div>
             </div>
-            <div class="modal-body">
-              <div class="owner_options_edit_section">
-                <div class="form-floating">
-                    <textarea type="text" class="form-control document_title" placeholder="Title"></textarea>
-                    <label>Title</label>
-                </div>
-                <div style="text-align:center;">
-                  <select class="edit_options_document_labels" multiple="multiple" style="width:80%"></select>
-                </div>
-                <br>
-                <div class="form-floating" style="display:inline-block;width:80%">
-                  <input type="text" class="form-control" id="owner_note_field_edit" placeholder="Note">
-                  <label>Note</label>
-                </div>
-                <div class="form-check" style="display:inline-block;width:auto;">
-                    <label class="form-check-label">
-                    <input class="form-check-input docfield_archived_checkbox" type="checkbox" value="">
-                    Archived
-                    </label>
-                </div>
-                <br>
-                <div class="form-floating" style="display:inline-block;width:auto;">
-                    <input type="text" class="form-control docfield_usage_limit" placeholder="Usage Limit">
-                    <label>Usage Limit</label>
-                </div>
-              </div>
-              <button class="delete_game btn btn-secondary">
-              Delete
-          </button>
-          <button class="leave_game btn btn-secondary">
-              Leave
-          </button>
-          <button class="code_link game btn btn-primary"></button>
-          <br>
-          <br>
-          <div style="text-align:center">
-          <button class="document_export_button btn btn-primary" data-bs-toggle="modal"
-            data-bs-target="#exportModal">Export Tickets</button>
-          <button class="document_import_button btn btn-secondary" data-bs-toggle="modal"
-            data-bs-target="#importModal">Import Tickets</button>
-
         </div>
-        <br>
-        <div style="text-align: right">
-          <span class="gameid_span"></span>
-          <a href="#" style="display:none;" class="code_link_href">URL</a>
-          <button class="code_link_copy game"><i class="material-icons">content_copy</i>
-            <span>url</span></button>
-        </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary modal_close_button"
-                data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary save_game_afterfeed_button">Save</button>
-            </div>
-          </div>
-        </div>
-      </div>` + this.getModalExportHTML() + this.getModalImportHTML();
+    </div>`;
     }
     /** return dialog html for document export
      * @return { string } html string
      */
-    getModalExportHTML(): string {
-        return `<div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exportModalLabel">Export Tickets</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              Tickets:
-              <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" class="btn-check" name="tickets_filter" id="selected_filter" value="selected"
-                  autocomplete="off" checked>
-                <label class="btn btn-outline-primary" for="selected_filter">Selected</label>
-                <input type="radio" class="btn-check" name="tickets_filter" id="all_filter" value="all" autocomplete="off">
-                <label class="btn btn-outline-primary" for="all_filter">All</label>
-              </div>
-              <br>
-              <br>
-              Format:
-              <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" class="btn-check" name="export_format_choice" id="text_format" value="text" autocomplete="off"
-                  checked>
-                <label class="btn btn-outline-primary" for="text_format">Text</label>
-                <input type="radio" class="btn-check" name="export_format_choice" id="html_format" value="html" autocomplete="off">
-                <label class="btn btn-outline-primary" for="html_format">HTML</label>
-                <input type="radio" class="btn-check" name="export_format_choice" id="csv_format" value="csv" autocomplete="off">
-                <label class="btn btn-outline-primary" for="csv_format">CSV</label>
-                <input type="radio" class="btn-check" name="export_format_choice" id="json_format" value="json" autocomplete="off">
-                <label class="btn btn-outline-primary" for="json_format">JSON</label>
-              </div>
-              <br>
-              Preview
-              <br>
-              <textarea class="export_data_popup_preview"></textarea>
-              <br>
-              <span class="export_size"></span> bytes
-              <br>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary download_export_button">Download</button>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-          </div>
+    getModalTabExportHTML(): string {
+        return `<div>
+        <h2>Tickets:</h2>
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check" name="tickets_filter" id="selected_filter" value="selected"
+                autocomplete="off" checked>
+            <label class="btn btn-outline-primary" for="selected_filter">Selected</label>
+            <input type="radio" class="btn-check" name="tickets_filter" id="all_filter" value="all" autocomplete="off">
+            <label class="btn btn-outline-primary" for="all_filter">All</label>
         </div>
-      </div>`;
+        <br>
+        <br>
+        Format:
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check" name="export_format_choice" id="text_format" value="text"
+                autocomplete="off" checked>
+            <label class="btn btn-outline-primary" for="text_format">Text</label>
+            <input type="radio" class="btn-check" name="export_format_choice" id="html_format" value="html"
+                autocomplete="off">
+            <label class="btn btn-outline-primary" for="html_format">HTML</label>
+            <input type="radio" class="btn-check" name="export_format_choice" id="csv_format" value="csv"
+                autocomplete="off">
+            <label class="btn btn-outline-primary" for="csv_format">CSV</label>
+            <input type="radio" class="btn-check" name="export_format_choice" id="json_format" value="json"
+                autocomplete="off">
+            <label class="btn btn-outline-primary" for="json_format">JSON</label>
+        </div>
+        <br>
+        Preview
+        <br>
+        <textarea class="export_data_popup_preview"></textarea>
+        <br>
+        <span class="export_size"></span> bytes
+        <br>
+    
+        <button type="button" class="btn btn-secondary download_export_button">Download</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    </div>`;
     }
     /** return dialog html for document import
      * @return { string } html string
      */
-    getModalImportHTML(): string {
-        return `<div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="importModalLabel">Import Tickets</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                Format:
-                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                  <input type="radio" class="btn-check" name="import_format_choice" id="import_csv_format" value="csv"
-                    autocomplete="off" checked>
-                  <label class="btn btn-outline-primary" for="import_csv_format">CSV</label>
-                  <input type="radio" class="btn-check" name="import_format_choice" id="import_json_format" value="json"
-                    autocomplete="off">
-                  <label class="btn btn-outline-primary" for="import_json_format">JSON</label>
-                </div>
-                <br>
-                <input class="import_upload_file" type="file">
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary upload_import_button">Import</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              </div>
-            </div>
-          </div>
-        </div>`;
+    getModalTabImportHTML(): string {
+        return `<div>
+        <span> Format:</span>
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check" name="import_format_choice" id="import_csv_format" value="csv"
+                autocomplete="off" checked>
+            <label class="btn btn-outline-primary" for="import_csv_format">CSV</label>
+            <input type="radio" class="btn-check" name="import_format_choice" id="import_json_format" value="json"
+                autocomplete="off">
+            <label class="btn btn-outline-primary" for="import_json_format">JSON</label>
+        </div>
+        <br>
+        <input class="import_upload_file" type="file">
+        <button type="button" class="btn btn-secondary upload_import_button">Import</button>
+    </div>`;
     }
     /** use jquery to extract label list from select2
      * @return { string } comma delimited list of labels
@@ -433,7 +439,13 @@ export default class DocOptionsHelper {
         const formatFilterSelected: any = document.querySelector(`input[name="export_format_choice"]:checked`);
         const formatFilter: any = formatFilterSelected.value;
 
-        if (!this.app.lastTicketsSnapshot) return;
+        if (!this.app.lastTicketsSnapshot) {
+            return {
+                resultText: "",
+                format: "",
+                fileName: "",
+            };
+        }
 
         let resultText = "";
         const tickets: Array<any> = [];
@@ -450,7 +462,7 @@ export default class DocOptionsHelper {
             tickets.forEach((ticket: any) => {
                 rows.push({
                     prompt: ticket.data().message,
-                    completion: this.app.messageForCompletion(ticket.id),
+                    completion: this.messageForCompletion(ticket.id),
                     selected: ticket.data().includeInMessage ? "y" : "n",
                 });
             });
@@ -463,7 +475,7 @@ export default class DocOptionsHelper {
             tickets.forEach((ticket: any) => {
                 rows.push({
                     prompt: ticket.data().message,
-                    completion: this.app.messageForCompletion(ticket.id),
+                    completion: this.messageForCompletion(ticket.id),
                     selected: ticket.data().includeInMessage ? "y" : "n",
                 });
             });
@@ -474,7 +486,7 @@ export default class DocOptionsHelper {
             fileName = "report.txt";
             resultText += new Date().toString() + " summary\n";
             tickets.forEach((ticket: any) => {
-                const completion = this.app.messageForCompletion(ticket.id);
+                const completion = this.messageForCompletion(ticket.id);
                 const prompt = ticket.data().message;
 
                 resultText += "Prompt: " + prompt + "\n";
@@ -497,7 +509,7 @@ export default class DocOptionsHelper {
             resultText += `</style>\n`;
             tickets.forEach((ticket: any) => {
                 const prompt = <string>ticket.data().message;
-                const completion = <string> this.app.messageForCompletion(ticket.id);
+                const completion = <string> this.messageForCompletion(ticket.id);
                 const selected = <string>ticket.data().includeInMessage ? "✅" : "&nbsp;";
 
                 resultText += `<div class="ticket-item">\n`;
@@ -513,6 +525,22 @@ export default class DocOptionsHelper {
             fileName,
         };
     }
+      /** check for assist message
+ * @param { string } assistId ticket id to check for assist
+ * @return { any } message
+*/
+  messageForCompletion(assistId: string): string {
+    try {
+      const assistData: any = this.app.assistsLookup[assistId];
+      if (!assistData || !assistData.assist || !assistData.assist.choices ||
+        !assistData.assist.choices["0"] || !assistData.assist.choices["0"].message ||
+        !assistData.assist.choices["0"].message.content) return "";
+      return assistData.assist.choices["0"].message.content;
+    } catch (assistError: any) {
+      console.log(assistError);
+      return "";
+    }
+  }
     /** refresh report data
      * @param { boolean } download
     */
