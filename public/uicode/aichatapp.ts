@@ -459,7 +459,6 @@ export class AIChatApp extends BaseApp {
               <input class="form-check-input ticket_item_include_checkbox" type="checkbox" ticketid="${doc.id}" value="">
           </div>
       </div>
-      <hr class="mb-0">
   </div>`;
     const cardDom = cardWrapper.children[0];
 

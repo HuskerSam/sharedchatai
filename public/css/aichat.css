@@ -79,6 +79,10 @@ body {
   display: initial;
 }
 
+.game_message_list_item {
+  overflow: hidden;
+}
+
 .game_message_list_item .user_assist_request_header {
   display: flex;
   flex-direction: row;
@@ -136,6 +140,7 @@ body {
   border: none;
   color: inherit;
   opacity: 0.5;
+  align-self: center;
 }
 
 .tickets_list .message_owner .delete_game {
@@ -225,13 +230,22 @@ body {
   text-align: center;
 }
 
+.message_list_send_wrapper {
+  position: relative;
+}
+
+.token_visualizer_preview {
+  margin: 0 8px 0px 8px;
+}
+
 .token_visualizer_preview .token_even {
   background: rgba(0, 0, 127);
   color: white;
+  word-wrap: break-word;
 }
 
 .token_visualizer_preview .token_odd {
-  background: rgba(127, 0, 0);
+  background: rgba(225, 193, 7);
   color: white;
 }
 
