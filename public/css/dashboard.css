@@ -18,7 +18,7 @@
   display: none;
 }
 
-.show_games_view.app_signed_in .games_view_wrapper {
+.app_signed_in .games_view_wrapper {
   display: block;
 }
 
@@ -32,13 +32,6 @@
 
 .document_list_item .accordion-button {
   background-color: rgba(250, 250, 250);
-}
-
-
-.show_profile_games .dashboard_document_header {
-  flex: 1;
-  display: flex;
-  align-items: center;
 }
 
 button.delete_game {
@@ -195,7 +188,7 @@ button.code_link {
 }
 
 .app_signed_in .lobby_user_description {
-  display: block;
+  display: inline-block;
 }
 
 
@@ -286,4 +279,9 @@ button.code_link {
   .owner_img {
     margin-right: 8px;
   }
+}
+
+.unused_chatroom_title_placeholder {
+  font-style: italic;
+  opacity: .85;
 }

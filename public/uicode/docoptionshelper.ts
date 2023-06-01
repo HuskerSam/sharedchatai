@@ -148,7 +148,7 @@ export default class DocOptionsHelper {
      * @return { string } html template as string
      */
     getModalTemplate(): string {
-        const export_modal_tab_html = this.getModalTabExportHTML();
+        const exportModalTabHTML = this.getModalTabExportHTML();
         const importModalTabHTML = this.getModalTabImportHTML();
         return `<div class="modal fade scrollable_modal" id="editDocumentModal" tabindex="-1" aria-labelledby="editDocumentModalLabel"
         aria-hidden="true">
@@ -225,7 +225,7 @@ export default class DocOptionsHelper {
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="export_tab_view" role="tabpanel" aria-labelledby="export_tab_button">
-                                ${export_modal_tab_html}
+                                ${exportModalTabHTML}
                             </div>
                             <div class="tab-pane fade" id="import_tab_view" role="tabpanel" aria-labelledby="import_tab_button">
                                 ${importModalTabHTML}
@@ -439,11 +439,13 @@ export default class DocOptionsHelper {
         const formatFilterSelected: any = document.querySelector(`input[name="export_format_choice"]:checked`);
         const formatFilter: any = formatFilterSelected.value;
 
-        if (!this.app.lastTicketsSnapshot) return {
-            resultText: "",
-            format: "",
-            fileName: "",
-        };
+        if (!this.app.lastTicketsSnapshot) {
+            return {
+                resultText: "",
+                format: "",
+                fileName: "",
+            };
+        }
 
         let resultText = "";
         const tickets: Array<any> = [];

@@ -60,7 +60,6 @@ a {
 .basic_page_wrapper {
   text-align: center;
   margin: auto;
-  min-height: 100vh;
   min-width: inherit;
   box-sizing: border-box;
 }
@@ -223,6 +222,11 @@ a {
 }
 
 .list-group-item {
+  color: rgb(240, 240, 240);
+}
+
+.list-group-item-action:hover {
+  background-color: rgb(50, 50, 50);
   color: rgb(240, 240, 240);
 }
 

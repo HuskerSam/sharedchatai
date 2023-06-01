@@ -48,7 +48,7 @@
   </script>
 </head>
 
-<body class="basic_beer_body show_games_view show_profile_games">
+<body class="basic_page_body">
   <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
     <a class="navbar-brand" href="/">ChatAI</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -67,34 +67,37 @@
 
   <div class="basic_page_wrapper app_panel">
     <div class="game_lobby">
-      <div class="lobby_user_description">
-          <span class="userprofile_description"></span>
-      </div>
       <button id="show_document_options_popup" style="display:none;" class="btn btn-primary" data-bs-toggle="modal"
         data-bs-target="#editDocumentModal"></button>
-      <button class="btn btn-primary signin_show_modal" style="display:none" type="button" data-bs-toggle="modal" data-bs-target="#loginModal">
-          Login
-        </button>
-        <button class="btn btn-primary profile_show_modal" style="display:none" type="button" data-bs-toggle="modal" data-bs-target="#userProfileModal">
-          Profile
-        </button>
-        <button class="btn btn-primary profile_show_modal" style="display:none" type="button" data-bs-toggle="modal" data-bs-target="#createDocumentModal">
-          Create Modal
-        </button>
-      <div class=" games_view_wrapper">
-        <select class="document_label_filter">
-          <option>All</option>
-        </select>
-        <div class="create_new_game_view">
-          <button class="my-3 btn btn-primary dashboard_create_game">
-            Create Game
-          </button>
-          <button class="my-3 btn btn-primary doccreatehelper_show_modal" style="display:none;" data-bs-toggle="modal" data-bs-target="#createDocumentModal">
-            Create Game
-          </button>
+      <button class="btn btn-primary signin_show_modal" style="display:none" type="button" data-bs-toggle="modal"
+        data-bs-target="#loginModal">
+        Login
+      </button>
+      <button class="btn btn-primary profile_show_modal" style="display:none" type="button" data-bs-toggle="modal"
+        data-bs-target="#userProfileModal">
+        Profile
+      </button>
+      <button class="my-3 btn btn-primary doccreatehelper_show_modal" style="display:none;" data-bs-toggle="modal"
+        data-bs-target="#createDocumentModal">
+        Show Create Modal
+      </button>
+      <div class="games_view_wrapper">
+        <div style="display:flex;flex-direction:row">
+          <div style="padding-top:1.5em;text-align:left;">
+            <select class="document_label_filter">
+              <option>All</option>
+            </select>
+          </div>
+          <div class="lobby_user_description" style="flex:1;text-align:center;">
+            <span class="userprofile_description"></span>
+            &nbsp;
+            <button class="my-3 btn btn-primary dashboard_create_game">
+              Create Game
+            </button>
+          </div>
         </div>
         <div class="d-flex text-start document_info_header align-items-end">
-          <div class="document_info_header_left">Name of this document</div>
+          <div class="document_info_header_left">Title</div>
           <div class="document_info_header_right d-flex flex-row me-3">
             <div>Owner</div>
             <div class="text-center text-md-end me-2">Last Activity</div>

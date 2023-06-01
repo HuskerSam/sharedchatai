@@ -57,8 +57,7 @@ export class DashboardApp extends BaseApp {
       let img = this.profile.displayImage;
       if (!name) name = "Anonymous";
       if (!img) img = "/images/defaultprofile.png";
-      // TO DO - put profile icon in navbar
-      //   this.userprofile_description.innerHTML = this.__getUserTemplate("", name, img);
+      this.userprofile_description.innerHTML = `<img src="${img}"> ${name}`;
     }
   }
   /** query dom for all chat_user_image and chat_user_name elements and update */
@@ -140,14 +139,15 @@ export class DashboardApp extends BaseApp {
   */
   getDocumentCardElement(doc: any) {
     const data = doc.data();
-    let title = "";
-    if (doc.data().title) title = doc.data().title.slice(0, 120) + "...";
-    if (!title) title = "unused";
+    let title = doc.data().title;
+    if (!title) title = "";
+    const maxTitle = 120;
+    if (title.length > maxTitle) {
+      title = doc.data().title.slice(0, maxTitle) + "...";
+    }
+    if (title === "") title = `<span class="unused_chatroom_title_placeholder">unused</span>`;
     let ownerClass = "";
     if (data.createUser === this.uid) ownerClass += " feed_game_owner";
-
-    //  const ownerHTML = this.__getUserTemplate(data.createUser,
-    // data.memberNames[data.createUser], data.memberImages[data.createUser], true);
 
     let timeStr = this.isoToLocal(data.created).toISOString().substr(11, 5);
     let hour = Number(timeStr.substr(0, 2));
