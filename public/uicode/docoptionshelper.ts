@@ -11,6 +11,8 @@ export default class DocOptionsHelper {
     copyLink: any = null;
     document_title: any = null;
     documentData: any = null;
+  docfield_archived_checkbox: any = null;
+  docfield_usage_limit: any = null;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -30,6 +32,9 @@ export default class DocOptionsHelper {
         this.save_game_afterfeed_button = this.modalContainer.querySelector(".save_game_afterfeed_button");
         this.modal_close_button = this.modalContainer.querySelector(".modal_close_button");
         this.document_title = this.modalContainer.querySelector(".document_title");
+
+        this.docfield_archived_checkbox = document.querySelector(".docfield_archived_checkbox");
+        this.docfield_usage_limit = document.querySelector(".docfield_usage_limit");
 
         this.save_game_afterfeed_button.addEventListener("click", () => this.saveDocumentOptions());
         const del: any = this.modalContainer.querySelector("button.delete_game");
@@ -64,12 +69,17 @@ export default class DocOptionsHelper {
         const docId = this.app.editedDocumentId;
         const label = this.scrapeDocumentEditLabels();
         const note = this.owner_note_field_edit.value;
-
+        const archived = this.docfield_archived_checkbox.checked ? "1" : "0";
+        const tokenUsageLimit = this.docfield_usage_limit.value;
+    
         const body: any = {
             gameNumber: docId,
-            label,
-            note,
         };
+
+        if (this.documentData.acrhived !== archived) body.archived = archived;
+        if (this.documentData.tokenUsageLimit !== archived) body.tokenUsageLimit = tokenUsageLimit;
+        if (this.documentData.label !== label) body.label = label;
+        if (this.documentData.note !== note) body.note = note;
 
         if (this.document_title.value.trim() !== this.documentData.title && this.document_title.value !== "") body.title = this.document_title.value.trim();
 
@@ -115,6 +125,17 @@ export default class DocOptionsHelper {
                 <div class="form-floating" style="display:inline-block;width:80%">
                   <input type="text" class="form-control" id="owner_note_field_edit" placeholder="Note">
                   <label>Note</label>
+                </div>
+                <div class="form-check" style="display:inline-block;width:auto;">
+                    <label class="form-check-label">
+                    <input class="form-check-input docfield_archived_checkbox" type="checkbox" value="">
+                    Archived
+                    </label>
+                </div>
+                <br>
+                <div class="form-floating" style="display:inline-block;width:auto;">
+                    <input type="text" class="form-control docfield_usage_limit" placeholder="Usage Limit">
+                    <label>Usage Limit</label>
                 </div>
               </div>
               <button class="delete_game btn btn-secondary">
@@ -223,7 +244,9 @@ export default class DocOptionsHelper {
             this.modalContainer.classList.remove("feed_game_owner");
         }
 
-        this.document_title.value = doc.title;
+        this.document_title.value = this.documentData.title;
+        this.docfield_usage_limit.value = this.documentData.tokenUsageLimit;
+        this.docfield_archived_checkbox.checked = this.documentData.archived;
 
         if (doc.createUser === this.app.uid) {
             const queryLabelSelect2 = window.$(".document_label_picker_edit");

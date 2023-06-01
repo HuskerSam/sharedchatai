@@ -50,18 +50,14 @@ export class AIChatApp extends BaseApp {
   main_view_splitter: any = document.querySelector(".main_view_splitter");
   show_document_options_modal: any = document.querySelector(".show_document_options_modal");
 
-
   docfield_model: any = document.querySelector(".docfield_model");
   docfield_max_tokens: any = document.querySelector(".docfield_max_tokens");
   docfield_temperature: any = document.querySelector(".docfield_temperature");
   docfield_top_p: any = document.querySelector(".docfield_top_p");
   docfield_presence_penalty: any = document.querySelector(".docfield_presence_penalty");
   docfield_frequency_penalty: any = document.querySelector(".docfield_frequency_penalty");
-  save_owner_options_button: any = document.querySelector(".save_owner_options_button");
   document_usage_stats_line: any = document.querySelector(".document_usage_stats_line");
   last_activity_display: any = document.querySelector(".last_activity_display");
-  docfield_archived_checkbox: any = document.querySelector(".docfield_archived_checkbox");
-  docfield_usage_limit: any = document.querySelector(".docfield_usage_limit");
   document_export_button: any = document.querySelector(".document_export_button");
   document_import_button: any = document.querySelector(".document_import_button");
   ticket_count_span: any = document.querySelector(".ticket_count_span");
@@ -100,7 +96,6 @@ export class AIChatApp extends BaseApp {
     document.addEventListener("visibilitychange", () => this.refreshOnlinePresence());
     this.ticket_content_input.addEventListener("input", () => this.updatePromptTokenStatus());
 
-    this.save_owner_options_button.addEventListener("click", () => this.scrapeOwnerOptions());
     this.document_export_button.addEventListener("click", () => this.showExportModal());
 
     this.selected_filter.addEventListener("click", () => this.refreshReportData());
@@ -612,36 +607,6 @@ export class AIChatApp extends BaseApp {
     }
     this.members_list.innerHTML = html;
   }
-  /** scrape options from UI and call api
-*/
-  async scrapeOwnerOptions() {
-    /* eslint-disable camelcase */
-    const archived = this.docfield_archived_checkbox.checked ? "1" : "0";
-    const tokenUsageLimit = this.docfield_usage_limit.value;
-
-    const body: any = {
-      gameNumber: this.currentGame,
-      archived,
-      tokenUsageLimit,
-    };
-    this.save_owner_options_button.innerHTML = "Saving...";
-    const token = await firebase.auth().currentUser.getIdToken();
-    const fResult = await fetch(this.basePath + "lobbyApi/games/owner/options", {
-      method: "POST",
-      mode: "cors",
-      cache: "no-cache",
-      headers: {
-        "Content-Type": "application/json",
-        token,
-      },
-      body: JSON.stringify(body),
-    });
-    const json = await fResult.json();
-    if (!json.success) {
-      alert("Unable to save options " + json.errorMessage);
-    }
-    this.save_owner_options_button.innerHTML = "Save Owner Options";
-  }
   /** save a single field to document
   */
   async saveDocumentOption(field: string, value: any) {
@@ -705,10 +670,6 @@ export class AIChatApp extends BaseApp {
     this.docfield_frequency_penalty.value = this.gameData.frequency_penalty;
     this.optionSliderChange(false, "frequency_penalty",
     this.docfield_frequency_penalty, this.frequency_penalty_slider_label, "Frequency Penalty: ");
-
-
-    this.docfield_usage_limit.value = this.gameData.tokenUsageLimit;
-    this.docfield_archived_checkbox.checked = this.gameData.archived;
 
     if (this.code_link_href) {
       const path = window.location.href;
