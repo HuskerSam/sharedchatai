@@ -33,30 +33,12 @@ a {
   color: rgb(217, 217, 227)
 }
 
-.app_panel {
-  color: rgb(127, 127, 127);
-  opacity: .15;
+.app_panel { 
+  background: rgb(68, 70, 84);
+  color: rgb(217, 217, 227);
   display: flex;
   flex-direction: column;
   transition: color .2s ease-out, background-color .2s ease-out, opacity .2s;
-}
-
-.app_panel h1,
-.app_panel h2,
-.app_panel h3 {
-  opacity: 0;
-}
-
-.loaded .app_panel h1,
-.loaded .app_panel h2,
-.loaded .app_panel h3 {
-  opacity: 1;
-}
-
-.loaded .app_panel {
-  opacity: 1;
-  background: rgb(68, 70, 84);
-  color: rgb(217, 217, 227)
 }
 
 .basic_page_wrapper {
@@ -285,8 +267,15 @@ select.form-select {
   min-height: 400px;
 }
 
-#editDocumentModal #import_tab_view,
-#editDocumentModal #import_tab_button
+.modal_options_shared_user #owner_tab_view,
+.modal_options_shared_user #owner_tab_button
+ {
+  display: none;
+}
+
+
+.dashboard_options_view #import_tab_view,
+.dashboard_options_view #import_tab_button
  {
   display: none;
 }

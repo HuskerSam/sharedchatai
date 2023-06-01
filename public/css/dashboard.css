@@ -39,11 +39,11 @@ button.delete_game {
   display: none;
 }
 
-.feed_game_owner .delete_game {
+.modal_options_owner_user .delete_game {
   display: inline-block;
 }
 
-.feed_game_owner button.leave_game {
+.modal_options_owner_user button.leave_game {
   display: none;
 }
 

@@ -619,6 +619,7 @@ export class AIChatApp extends BaseApp {
     if (gameDoc) this.gameData = gameDoc.data();
     if (!this.gameData) return;
 
+    document.body.classList.add("loaded");
     this.document_usage_stats_line.innerHTML = `
       <span>${this.gameData.totalTokens}</span>
       <span>${this.gameData.promptTokens}</span>
