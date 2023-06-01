@@ -14,11 +14,12 @@ export class DashboardApp extends BaseApp {
   dashboard_create_game: any = document.querySelector(".dashboard_create_game");
   editedDocumentId = "";
   gameFeedSubscription: any;
-  publicFeedSubscription: any;
   lastGamesFeedSnapshot: any;
-  lastPublicFeedSnapshot: any;
   gameFeedInited = false;
   documentsLookup: any = {};
+  lastTicketsSnapshot: any = null;
+  lastAssistsSnapshot: any = null;
+  assistsLookup: any = {};
   document_label_filter: any = document.querySelector(".document_label_filter");
   profile_menu_anchor: any = document.querySelector(".profile_menu_anchor");
 
@@ -45,6 +46,19 @@ export class DashboardApp extends BaseApp {
       event.preventDefault();
       this.profileHelper.show();
     });
+  }
+  /** load tickets for options/export dialog */
+  async loadAndShowOptionsDialog(documentId: any) {
+    const btn: any = document.getElementById("show_document_options_popup");
+    btn.click();
+    this.editedDocumentId = documentId;
+    this.lastTicketsSnapshot = {};
+
+    this.lastTicketsSnapshot = await firebase.firestore().collection(`Games/${documentId}/tickets`).get();
+    this.lastAssistsSnapshot = await firebase.firestore().collection(`Games/${documentId}/assists`).get();
+    this.assistsLookup = {};
+    this.lastAssistsSnapshot.forEach((assistDoc: any) => this.assistsLookup[assistDoc.id] = assistDoc.data());
+    this.documentOptions.show();
   }
   /** BaseApp override to update additional use profile status */
   authUpdateStatusUI() {
@@ -88,7 +102,6 @@ export class DashboardApp extends BaseApp {
     this.gameFeedInited = true;
 
     if (this.gameFeedSubscription) this.gameFeedSubscription();
-    if (this.publicFeedSubscription) this.publicFeedSubscription();
 
     this.gameFeedSubscription = firebase.firestore().collection(`Games`)
       .orderBy(`members.${this.uid}`, "desc")
@@ -188,10 +201,7 @@ export class DashboardApp extends BaseApp {
     details.addEventListener("click", (e: any) => {
       e.stopPropagation();
       e.preventDefault();
-      const btn: any = document.getElementById("show_document_options_popup");
-      btn.click();
-      this.editedDocumentId = details.dataset.gamenumber;
-      this.documentOptions.show();
+      this.loadAndShowOptionsDialog(details.dataset.gamenumber);
     });
 
     return card;

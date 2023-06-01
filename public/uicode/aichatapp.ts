@@ -592,22 +592,6 @@ export class AIChatApp extends BaseApp {
       return 0;
     }
   }
-  /** check for assist message
- * @param { string } assistId ticket id to check for assist
- * @return { any } message
-*/
-  messageForCompletion(assistId: string): string {
-    try {
-      const assistData: any = this.assistsLookup[assistId];
-      if (!assistData || !assistData.assist || !assistData.assist.choices ||
-        !assistData.assist.choices["0"] || !assistData.assist.choices["0"].message ||
-        !assistData.assist.choices["0"].message.content) return "";
-      return assistData.assist.choices["0"].message.content;
-    } catch (assistError: any) {
-      console.log(assistError);
-      return "";
-    }
-  }
   /** BaseApp override to paint profile specific authorization parameters */
   authUpdateStatusUI() {
     super.authUpdateStatusUI();

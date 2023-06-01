@@ -462,7 +462,7 @@ export default class DocOptionsHelper {
             tickets.forEach((ticket: any) => {
                 rows.push({
                     prompt: ticket.data().message,
-                    completion: this.app.messageForCompletion(ticket.id),
+                    completion: this.messageForCompletion(ticket.id),
                     selected: ticket.data().includeInMessage ? "y" : "n",
                 });
             });
@@ -475,7 +475,7 @@ export default class DocOptionsHelper {
             tickets.forEach((ticket: any) => {
                 rows.push({
                     prompt: ticket.data().message,
-                    completion: this.app.messageForCompletion(ticket.id),
+                    completion: this.messageForCompletion(ticket.id),
                     selected: ticket.data().includeInMessage ? "y" : "n",
                 });
             });
@@ -486,7 +486,7 @@ export default class DocOptionsHelper {
             fileName = "report.txt";
             resultText += new Date().toString() + " summary\n";
             tickets.forEach((ticket: any) => {
-                const completion = this.app.messageForCompletion(ticket.id);
+                const completion = this.messageForCompletion(ticket.id);
                 const prompt = ticket.data().message;
 
                 resultText += "Prompt: " + prompt + "\n";
@@ -509,7 +509,7 @@ export default class DocOptionsHelper {
             resultText += `</style>\n`;
             tickets.forEach((ticket: any) => {
                 const prompt = <string>ticket.data().message;
-                const completion = <string> this.app.messageForCompletion(ticket.id);
+                const completion = <string> this.messageForCompletion(ticket.id);
                 const selected = <string>ticket.data().includeInMessage ? "✅" : "&nbsp;";
 
                 resultText += `<div class="ticket-item">\n`;
@@ -525,6 +525,22 @@ export default class DocOptionsHelper {
             fileName,
         };
     }
+      /** check for assist message
+ * @param { string } assistId ticket id to check for assist
+ * @return { any } message
+*/
+  messageForCompletion(assistId: string): string {
+    try {
+      const assistData: any = this.app.assistsLookup[assistId];
+      if (!assistData || !assistData.assist || !assistData.assist.choices ||
+        !assistData.assist.choices["0"] || !assistData.assist.choices["0"].message ||
+        !assistData.assist.choices["0"].message.content) return "";
+      return assistData.assist.choices["0"].message.content;
+    } catch (assistError: any) {
+      console.log(assistError);
+      return "";
+    }
+  }
     /** refresh report data
      * @param { boolean } download
     */
