@@ -10,14 +10,15 @@ body {
   font-family: 'Arial';
   font-weight: normal;
   transition: color .4s ease-out, background-color .4s ease-out;
-  color: rgb(13,202,240);
+  color: rgb(13, 202, 240);
 }
 
 a {
   color: white;
 }
 
-.app_panel input, .app_panel textarea {
+.app_panel input,
+.app_panel textarea {
   background: rgb(52, 53, 65);
   color: rgb(217, 217, 227)
 }
@@ -26,7 +27,8 @@ a {
   color: rgb(240, 240, 240);
 }
 
-.app_panel input:focus, .app_panel textarea:focus {
+.app_panel input:focus,
+.app_panel textarea:focus {
   background: rgb(32, 33, 35);
   color: rgb(217, 217, 227)
 }
@@ -70,19 +72,21 @@ a {
 }
 
 .card {
-  background-color: rgba(127,127,127,.15);
+  background-color: rgba(127, 127, 127, .15);
 }
 
 .card_shadow_md {
-  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15)
 }
 
 .card_shadow_sm {
-  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)
+  box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075)
 }
 
 
-.dropdown-toggle { outline: 0; }
+.dropdown-toggle {
+  outline: 0;
+}
 
 .nav-flush .nav-link {
   border-radius: 0;
@@ -96,6 +100,7 @@ a {
   background-color: transparent;
   border: 0;
 }
+
 .btn-toggle:hover,
 .btn-toggle:focus {
   background-color: rgb(100, 100, 100);
@@ -112,6 +117,7 @@ a {
 .btn-toggle[aria-expanded="true"] {
   color: rgba(0, 0, 0, .85);
 }
+
 .btn-toggle[aria-expanded="true"]::before {
   transform: rotate(90deg);
 }
@@ -123,12 +129,14 @@ a {
   margin-left: 1.25rem;
   text-decoration: none;
 }
+
 .btn-toggle-nav a:hover,
 .btn-toggle-nav a:focus {
   background-color: rgb(100, 100, 100);
 }
 
-.btn-check:focus+.btn, .btn:focus {
+.btn-check:focus+.btn,
+.btn:focus {
   box-shadow: 0 0 0 0.25rem rgba(150, 150, 150, .3);
 }
 
@@ -136,8 +144,13 @@ a {
   overflow-y: auto;
 }
 
-.fw-semibold { font-weight: 600; }
-.lh-tight { line-height: 1.25; }
+.fw-semibold {
+  font-weight: 600;
+}
+
+.lh-tight {
+  line-height: 1.25;
+}
 
 .flex_shrink_wrapper {
   overflow: auto;
@@ -237,8 +250,8 @@ select.form-select {
 }
 
 .app_panel .form-check-input:checked {
-  background-color: rgb(25,135,84);
-  color: rgb(25,135,84);
+  background-color: rgb(25, 135, 84);
+  color: rgb(25, 135, 84);
 }
 
 .scrollable_modal .modal-content {
@@ -257,3 +270,17 @@ select.form-select {
   overflow: auto;
 }
 
+.export_data_popup_preview {
+  background: inherit;
+  color: inherit;
+  width: 100%;
+  min-height: 150px;
+}
+
+.export_bottom_bar {
+  text-align: right;
+}
+
+.modal-body {
+  min-height: 400px;
+}

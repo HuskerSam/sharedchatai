@@ -74,6 +74,9 @@ export class DashboardApp extends BaseApp {
       this.userprofile_description.innerHTML = `<img src="${img}"> ${name}`;
     }
   }
+  updateDocumentTitles() {
+    return;
+  }
   /** query dom for all chat_user_image and chat_user_name elements and update */
   updateUserNamesImages() {
     const imgCtls = document.querySelectorAll(".chat_user_image");
@@ -131,6 +134,13 @@ export class DashboardApp extends BaseApp {
         }
         this.dashboard_documents_view.appendChild(card);
         localLookup[doc.id] = doc.data();
+
+        const titleDom = card.querySelector(".document_name");
+        let title = doc.data().title;
+        if (!title) title = "";
+        if (title === "") title = `<span class="unused_chatroom_title_placeholder">unused</span>`;
+        titleDom.innerHTML = title;
+        this.updateDocumentTitles();
       }
       this.documentsLookup[doc.id] = doc.data();
     });
@@ -152,13 +162,7 @@ export class DashboardApp extends BaseApp {
   */
   getDocumentCardElement(doc: any) {
     const data = doc.data();
-    let title = doc.data().title;
-    if (!title) title = "";
-    const maxTitle = 120;
-    if (title.length > maxTitle) {
-      title = doc.data().title.slice(0, maxTitle) + "...";
-    }
-    if (title === "") title = `<span class="unused_chatroom_title_placeholder">unused</span>`;
+
     let ownerClass = "";
     if (data.createUser === this.uid) ownerClass += " feed_game_owner";
 
@@ -173,7 +177,7 @@ export class DashboardApp extends BaseApp {
        class="list-group-item list-group-item-action document_list_item card card_shadow_sm ${ownerClass}"
      data-gamenumber="${doc.id}" gamenumber="${doc.id}">
     <div class="d-flex justify-content-end">
-        <div class="document_name">${title}</div>
+        <div class="document_name" data-docid="${doc.id}"></div>
         <div class="document_status d-flex flex-row justify-content-between">
             <div class="user_img_wrapper">
                 <div class="d-flex flex-row">
@@ -236,7 +240,6 @@ export class DashboardApp extends BaseApp {
     const arr = Object.keys(labels).sort();
     return arr;
   }
-
   /** paint label select */
   paintLabelSelect() {
     const labels = this.getLabelsList();

@@ -8,14 +8,12 @@ export default class DocOptionsHelper {
     save_game_afterfeed_button: any = null;
     modal_close_button: any = null;
     modalContainer: any = null;
-    copyLink: any = null;
     document_title: any = null;
     documentData: any = null;
     docfield_archived_checkbox: any = null;
     docfield_usage_limit: any = null;
     code_link_href: any;
     code_link_copy: any;
-    gameid_span: any;
 
     export_data_popup_preview: any;
     export_size: any;
@@ -83,8 +81,6 @@ export default class DocOptionsHelper {
 
         this.code_link_href = document.querySelector(".code_link_href");
         this.code_link_copy = document.querySelector(".code_link_copy");
-        this.gameid_span = document.querySelector(".gameid_span");
-        this.copyLink = this.modalContainer.querySelector(".code_link");
 
         this.selected_filter.addEventListener("click", () => this.refreshReportData());
         this.all_filter.addEventListener("click", () => this.refreshReportData());
@@ -96,14 +92,16 @@ export default class DocOptionsHelper {
         this.upload_import_button.addEventListener("click", () => this.import_upload_file.click());
         this.import_upload_file.addEventListener("change", () => this.uploadReportData());
 
-        this.copyLink.addEventListener("click", () => this.copyGameLinkToClipboard());
+        this.code_link_copy.addEventListener("click", () => this.copyGameLink());
     }
     /** copy game url link to clipboard
  * @param { any } btn dom control
  */
     copyGameLink() {
         navigator.clipboard.writeText(window.location.origin + "/aichat/?game=" + this.app.editedDocumentId);
-        this.copyLink.innerHTML = "✅" + `<i class="material-icons">content_copy</i> <span>${this.app.editedDocumentId}</span>`;
+        const buttonText = `<i class="material-icons">content_copy</i> <span>${this.app.editedDocumentId}</span>`;
+        this.code_link_copy.innerHTML = "✅" + buttonText;
+        setTimeout(() => this.code_link_copy.innerHTML = buttonText, 1200);
     }
     /** send user (optional owner) settings for document to api */
     async saveDocumentOptions() {
@@ -155,41 +153,37 @@ export default class DocOptionsHelper {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editDocumentModalLabel">Edit Document</h5>
+                    <h5 class="modal-title" id="editDocumentModalLabel">Document Options</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="owner_options_edit_section">
                         <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link active" id="options_tab_button" data-bs-toggle="tab" href="#options_tab_view" role="tab"
-                                    aria-controls="options_tab_view" aria-selected="true">Details</a>
+                                <a class="nav-link active" id="options_tab_button" data-bs-toggle="tab"
+                                    href="#options_tab_view" role="tab" aria-controls="options_tab_view"
+                                    aria-selected="true">Details</a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="export_tab_button" data-bs-toggle="tab" href="#export_tab_view" role="tab"
-                                    aria-controls="export_tab_view" aria-selected="false">Export</a>
+                                <a class="nav-link" id="owner_tab_button" data-bs-toggle="tab" href="#owner_tab_view"
+                                    role="tab" aria-controls="owner_tab_view" aria-selected="false">Owner</a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="import_tab_button" data-bs-toggle="tab" href="#import_tab_view" role="tab"
-                                    aria-controls="import_tab_view" aria-selected="false">Import</a>
+                                <a class="nav-link" id="export_tab_button" data-bs-toggle="tab" href="#export_tab_view"
+                                    role="tab" aria-controls="export_tab_view" aria-selected="false">Export</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="import_tab_button" data-bs-toggle="tab" href="#import_tab_view"
+                                    role="tab" aria-controls="import_tab_view" aria-selected="false">Import</a>
                             </li>
                         </ul>
-                        <div class="tab-content" id="ex1-content">
+                        <div class="tab-content">
                             <div class="tab-pane fade show active" id="options_tab_view" role="tabpanel"
                                 aria-labelledby="options_tab_button">
                                 <div class="form-floating">
                                     <textarea type="text" class="form-control document_title"
                                         placeholder="Title"></textarea>
                                     <label>Title</label>
-                                </div>
-                                <div style="text-align:center;">
-                                    <select class="edit_options_document_labels" multiple="multiple"
-                                        style="width:80%"></select>
-                                </div>
-                                <br>
-                                <div class="form-floating" style="display:inline-block;width:80%">
-                                    <input type="text" class="form-control" id="owner_note_field_edit" placeholder="Note">
-                                    <label>Note</label>
                                 </div>
                                 <div class="form-check" style="display:inline-block;width:auto;">
                                     <label class="form-check-label">
@@ -202,40 +196,44 @@ export default class DocOptionsHelper {
                                     <input type="text" class="form-control docfield_usage_limit" placeholder="Usage Limit">
                                     <label>Usage Limit</label>
                                 </div>
-                                <button class="delete_game btn btn-secondary">
-                                    Delete
-                                </button>
-                                <button class="leave_game btn btn-secondary">
-                                    Leave
-                                </button>
-                                <button class="code_link game btn btn-primary"></button>
-                                <br>
-                                <br>
-                                <div style="text-align:center">
-                                    <button class="document_import_button btn btn-secondary" data-bs-toggle="modal"
-                                        data-bs-target="#importModal">Import Tickets</button>
+                                <a href="#" style="display:none;" class="code_link_href">URL</a>
+                                <button class="code_link_copy btn btn-primary"><i class="material-icons">content_copy</i>
+                                    <span>url</span></button>
+                            </div>
+                            <div class="tab-pane fade" id="owner_tab_view" role="tabpanel"
+                                aria-labelledby="owner_tab_button">
     
+                                <div style="text-align:center;">
+                                    <select class="edit_options_document_labels" multiple="multiple"
+                                        style="width:80%"></select>
                                 </div>
                                 <br>
-                                <div style="text-align: right">
-                                    <span class="gameid_span"></span>
-                                    <a href="#" style="display:none;" class="code_link_href">URL</a>
-                                    <button class="code_link_copy game"><i class="material-icons">content_copy</i>
-                                        <span>url</span></button>
+                                <div class="form-floating" style="display:inline-block;width:80%">
+                                    <input type="text" class="form-control" id="owner_note_field_edit" placeholder="Note">
+                                    <label>Note</label>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="export_tab_view" role="tabpanel" aria-labelledby="export_tab_button">
+                            <div class="tab-pane fade" id="export_tab_view" role="tabpanel"
+                                aria-labelledby="export_tab_button">
                                 ${exportModalTabHTML}
                             </div>
-                            <div class="tab-pane fade" id="import_tab_view" role="tabpanel" aria-labelledby="import_tab_button">
+                            <div class="tab-pane fade" id="import_tab_view" role="tabpanel"
+                                aria-labelledby="import_tab_button">
                                 ${importModalTabHTML}
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button class="delete_game btn btn-secondary" data-bs-dismiss="modal">
+                        Delete
+                    </button>
+                    <button class="leave_game btn btn-secondary" data-bs-dismiss="modal">
+                        Leave
+                    </button>
                     <button type="button" class="btn btn-secondary modal_close_button"
                         data-bs-dismiss="modal">Close</button>
+    
                     <button type="button" class="btn btn-primary save_game_afterfeed_button">Save</button>
                 </div>
             </div>
@@ -246,42 +244,38 @@ export default class DocOptionsHelper {
      * @return { string } html string
      */
     getModalTabExportHTML(): string {
-        return `<div>
-        <h2>Tickets:</h2>
-        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-            <input type="radio" class="btn-check" name="tickets_filter" id="selected_filter" value="selected"
-                autocomplete="off" checked>
-            <label class="btn btn-outline-primary" for="selected_filter">Selected</label>
-            <input type="radio" class="btn-check" name="tickets_filter" id="all_filter" value="all" autocomplete="off">
-            <label class="btn btn-outline-primary" for="all_filter">All</label>
+        return `<div style="display:flex;flex-direction:column">
+        <div>
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="tickets_filter" id="all_filter" value="all" autocomplete="off">
+                <label class="btn btn-outline-primary" for="all_filter">All Tickets</label>
+                <input type="radio" class="btn-check" name="tickets_filter" id="selected_filter" value="selected"
+                    autocomplete="off" checked>
+                <label class="btn btn-outline-primary" for="selected_filter">Selected</label>
+            </div>
+            &nbsp;
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="export_format_choice" id="text_format" value="text"
+                    autocomplete="off" checked>
+                <label class="btn btn-outline-primary" for="text_format">Text</label>
+                <input type="radio" class="btn-check" name="export_format_choice" id="html_format" value="html"
+                    autocomplete="off">
+                <label class="btn btn-outline-primary" for="html_format">HTML</label>
+                <input type="radio" class="btn-check" name="export_format_choice" id="csv_format" value="csv"
+                    autocomplete="off">
+                <label class="btn btn-outline-primary" for="csv_format">CSV</label>
+                <input type="radio" class="btn-check" name="export_format_choice" id="json_format" value="json"
+                    autocomplete="off">
+                <label class="btn btn-outline-primary" for="json_format">JSON</label>
+            </div>
         </div>
-        <br>
-        <br>
-        Format:
-        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-            <input type="radio" class="btn-check" name="export_format_choice" id="text_format" value="text"
-                autocomplete="off" checked>
-            <label class="btn btn-outline-primary" for="text_format">Text</label>
-            <input type="radio" class="btn-check" name="export_format_choice" id="html_format" value="html"
-                autocomplete="off">
-            <label class="btn btn-outline-primary" for="html_format">HTML</label>
-            <input type="radio" class="btn-check" name="export_format_choice" id="csv_format" value="csv"
-                autocomplete="off">
-            <label class="btn btn-outline-primary" for="csv_format">CSV</label>
-            <input type="radio" class="btn-check" name="export_format_choice" id="json_format" value="json"
-                autocomplete="off">
-            <label class="btn btn-outline-primary" for="json_format">JSON</label>
-        </div>
-        <br>
-        Preview
         <br>
         <textarea class="export_data_popup_preview"></textarea>
         <br>
-        <span class="export_size"></span> bytes
-        <br>
-    
-        <button type="button" class="btn btn-secondary download_export_button">Download</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <div class="export_bottom_bar">
+            <span class="export_size"></span> bytes
+            <button type="button" class="btn btn-secondary download_export_button">Download</button>
+        </div>
     </div>`;
     }
     /** return dialog html for document import
@@ -425,8 +419,7 @@ export default class DocOptionsHelper {
             this.code_link_href.setAttribute("href", path);
         }
 
-        this.copyLink.innerHTML = `<i class="material-icons">content_copy</i> <span>${this.app.editedDocumentId}</span>`;
-        this.copyLink.addEventListener("click", () => this.copyGameLink());
+        this.code_link_copy.innerHTML = `<i class="material-icons">content_copy</i> <span>${this.app.editedDocumentId}</span>`;
 
         this.refreshReportData();
     }
@@ -605,10 +598,5 @@ export default class DocOptionsHelper {
             console.log(error);
             return;
         }
-    }
-    /** copy game link to global clipboard */
-    copyGameLinkToClipboard() {
-      const path = this.code_link_href.getAttribute("href");
-      navigator.clipboard.writeText(path);
     }
 }

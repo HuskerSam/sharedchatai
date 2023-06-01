@@ -300,14 +300,6 @@ body {
   min-height: 100px;
 }
 
-.export_data_popup_preview {
-  width: 90%;
-  background: inherit;
-  color: inherit;
-  min-height: 30vh;
-  margin-left: 3%;
-}
-
 @media (min-width: 501px) {
   .navbar.snapped {
     transform: translateY(100%);
