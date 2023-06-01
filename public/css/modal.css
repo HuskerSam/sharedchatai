@@ -41,3 +41,11 @@
    {
     display: none;
   }
+
+  .modal_options_owner_user .leave_game {
+    display: none;
+  }
+
+  .modal_options_shared_user .delete_game {
+    display: none;
+  }

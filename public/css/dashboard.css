@@ -39,14 +39,6 @@ button.delete_game {
   display: none;
 }
 
-.modal_options_owner_user .delete_game {
-  display: inline-block;
-}
-
-.modal_options_owner_user button.leave_game {
-  display: none;
-}
-
 .visibility_select {
   display: inline-block;
 }
