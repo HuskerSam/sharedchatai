@@ -16,6 +16,7 @@
 
 .games_view_wrapper {
   display: none;
+  margin: 0 4px;
 }
 
 .app_signed_in .games_view_wrapper {
@@ -191,31 +192,6 @@ button.code_link {
   display: inline-block;
 }
 
-
-.userprofile_description span:nth-child(1) {
-  display: inline-block;
-  width: 32px;
-  height: 32px;
-  background-position: center center;
-  background-size: contain;
-  background-repeat: no-repeat;
-  position: relative;
-  top: 6px;
-}
-
-.userprofile_description span:nth-child(2) {
-  white-space: nowrap;
-  font-size: 24px;
-  line-height: 32px;
-  position: relative;
-  top: -5px;
-}
-
-.userprofile_description {
-  display: inline-block;
-  white-space: nowrap;
-}
-
 .accordion-button {
   display: flex;
   align-items: center;
@@ -231,10 +207,11 @@ button.code_link {
   flex: 1;
   text-align: left;
   padding-right: 8px;
+  line-break: anywhere;
 }
 
 .document_status {
-  flex: 1;
+  flex: .35;
   align-self: flex-start;
 }
 
@@ -284,4 +261,37 @@ button.code_link {
 .unused_chatroom_title_placeholder {
   font-style: italic;
   opacity: .85;
+}
+
+.games_view_header_wraper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.userprofile_description {
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+.user_dashboard_img {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  background-position: center center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: relative;
+  top: 6px;
+}
+
+.userprofile_description .user_name {
+  white-space: nowrap;
+  font-size: 1.25rem;
+  align-self: end;
+}
+
+.document_label_filter.form-select {
+  display: flex;
 }

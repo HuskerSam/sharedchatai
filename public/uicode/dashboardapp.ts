@@ -71,7 +71,8 @@ export class DashboardApp extends BaseApp {
       let img = this.profile.displayImage;
       if (!name) name = "Anonymous";
       if (!img) img = "/images/defaultprofile.png";
-      this.userprofile_description.innerHTML = `<img src="${img}"> ${name}`;
+      this.userprofile_description.innerHTML = `<img class="user_dashboard_img" src="${img}">
+      <span class="user_name">${name}</span>`;
     }
   }
   updateDocumentTitles() {
@@ -174,7 +175,7 @@ export class DashboardApp extends BaseApp {
     if (hour === 0) hour = 12;
     timeStr = hour.toString() + timeStr.substr(2) + " " + suffix;
     const html = `<a href="/${data.gameType}/?game=${data.gameNumber}"
-       class="list-group-item list-group-item-action document_list_item card card_shadow_sm ${ownerClass}"
+       class="list-group-item list-group-item-action document_list_item card shadow-sm my-1 rounded card_shadow_sm ${ownerClass}"
      data-gamenumber="${doc.id}" gamenumber="${doc.id}">
     <div class="d-flex justify-content-end">
         <div class="document_name" data-docid="${doc.id}"></div>
@@ -190,7 +191,7 @@ export class DashboardApp extends BaseApp {
                 </div>
             </div>
             <div class="mx-4 time_since last_submit_time text-center text-md-end" data-timesince="${data.lastActivity}"
-             data-showseconds="0"></div>
+            data-showseconds="0"></div>
         </div>
         <button class="details_game btn btn-secondary" data-gamenumber="${data.gameNumber}">
             Details
