@@ -357,32 +357,31 @@ export class AIChatApp extends BaseApp {
     const cardWrapper = document.createElement("div");
 
     cardWrapper.innerHTML =
-      `<div class="mt-1 m-1 mx-md-2 mx-sm-1 game_message_list_item${gameOwnerClass}${ownerClass}" ticketid="${doc.id}"
-      gamenumber="${doc.id}">
+      `<div class="mt-1 game_message_list_item${gameOwnerClass}${ownerClass}" ticketid="${doc.id}" gamenumber="${doc.id}">
       <div style="display:flex;flex-direction:row">
           <div style="flex:1;display:flex;flex-direction:column">
-              <div style="display:flex;flex-direction:row">
-                  <div class="message" style="flex:1;">${data.message}</div>
+              <div style="display:flex;flex-direction:column">
+                  <div class="message">${data.message}</div>
               </div>
               <div class="assist_section">pending...</div>
               <div style="display:flex;flex-direction:column">
                   <div class="m-1 user_assist_request_header">
-                      <div style="flex:1"></div>
+                      <div class="user_img_wrapper member_desc">
+                          <span style="background-image:url(${img})"></span>
+                      </div>
+                      <div>
+                          <span class="name">${name}</span>
+                      </div>
+                      <div style="flex:1;text-align: center;"><div class="time_since last_submit_time" data-timesince="${data.submitted}"
+                      data-showseconds="1">
+                      </div></div>
                       <span class="tokens_total"></span>
                       <span class="tokens_prompt"></span>
                       <span class="tokens_completion"></span>
                       <button class="rerun_ticket btn btn-secondary" data-ticketid="${doc.id}">Running...</button>
-                      <div class="time_since last_submit_time" data-timesince="${data.submitted}" data-showseconds="1">
-                      </div>
                       <button class="delete_game" data-gamenumber="${data.gameNumber}" data-messageid="${doc.id}">
                           <i class="material-icons">delete</i>
                       </button>
-                      <div class="m-1" style="text-align: right">
-                          <div class="user_img_wrapper member_desc">
-                              <span style="background-image:url(${img})"></span>
-                          </div>
-                          <span class="name" style="flex:1">${name}</span>
-                      </div>
                   </div>
               </div>
           </div>
@@ -390,6 +389,7 @@ export class AIChatApp extends BaseApp {
               <input class="form-check-input ticket_item_include_checkbox" type="checkbox" ticketid="${doc.id}" value="">
           </div>
       </div>
+      <hr class="mb-0">
   </div>`;
     const cardDom = cardWrapper.children[0];
 
@@ -667,7 +667,7 @@ export class AIChatApp extends BaseApp {
       this.docfield_presence_penalty, this.presence_penalty_slider_label, "Presence Penalty: ");
     this.docfield_frequency_penalty.value = this.gameData.frequency_penalty;
     this.optionSliderChange(false, "frequency_penalty",
-    this.docfield_frequency_penalty, this.frequency_penalty_slider_label, "Frequency Penalty: ");
+      this.docfield_frequency_penalty, this.frequency_penalty_slider_label, "Frequency Penalty: ");
 
     if (this.code_link_href) {
       const path = window.location.href;

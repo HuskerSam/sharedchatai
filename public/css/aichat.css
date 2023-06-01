@@ -82,7 +82,7 @@ body {
 .game_message_list_item .user_assist_request_header {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: end;
   flex: 1;
 }
 
@@ -103,10 +103,10 @@ body {
   text-align: left;
   font-size: 1rem;
   padding: 10px;
-  font-weight: bold;
   white-space: pre-wrap;
-  color: rgb(217, 217, 227);
-  background: rgb(52, 53, 65);
+  color: rgb(240, 240, 240);
+  background: rgb(32, 33, 35);
+  line-height: 1.5rem;
 }
 
 .game_message_list_item .game_date {
@@ -157,8 +157,11 @@ body {
 .assist_section {
   text-align: left;
   font-size: 1rem;
-  padding: 8px 8px 0px 8px;
+  padding: 8px 12px 0px 12px;
   white-space: pre-wrap;
+  line-height: 1.5rem;
+  margin-right: 0;
+  margin-left: 0;
 }
 
 .main_view_splitter {
@@ -174,7 +177,7 @@ body {
 .gutter.gutter-horizontal {
   background-image: url("/images/grip.png");
   background-size: contain;
-  background-position: center; 
+  background-position: center;
   cursor: col-resize;
   background-color: rgb(52, 53, 65);
 }
@@ -188,11 +191,12 @@ body {
 .tokens_prompt,
 .tokens_completion {
   padding: 10px;
-  color: rgba(13,202,240,.25);
+  color: rgba(13, 202, 240, .25);
+  font-size: .75rem;
 }
 
 .tokens_total {
-  color: rgba(13,202,240,.5);
+  color: rgba(13, 202, 240, .5);
 }
 
 .rerun_ticket {
@@ -296,12 +300,14 @@ body {
   }
 
   .game_message_list_item .message {
-    padding: 8px 14px;
+    padding-right: 10%;
+    padding-left: 2%;
+    padding-bottom: 12px;
   }
 
   .ticket_item_include_wrapper input {
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
   }
 
   .assist_section {
@@ -311,6 +317,14 @@ body {
     padding-bottom: 14px;
     margin-top: 1.25rem;
     margin-bottom: 1.25rem;
+    margin-right: 10%;
+    margin-left: 2%;
+  }
+
+  .tokens_total,
+  .tokens_prompt,
+  .tokens_completion {
+    font-size: 1rem;
   }
 }
 
