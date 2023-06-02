@@ -1,140 +1,160 @@
 .scrollable_modal .modal-content {
-    flex: 1;
-    overflow: hidden;
-  }
-  
-  .scrollable_modal .modal-dialog {
-    max-height: 90vh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-  
-  .scrollable_modal .modal-body {
-    overflow: auto;
-  }
-  
-  .export_data_popup_preview {
-    background: inherit;
-    color: inherit;
-    width: 100%;
-    height: 150px;
-    overflow: auto;
-    border: solid rgb(50, 220, 50) 1px;
-    padding: 4px;
-  }
+  flex: 1;
+  overflow: hidden;
+}
 
-  .json_preview.export_data_popup_preview,
-  .text_preview.export_data_popup_preview  {
-    white-space: pre-wrap;
-  }
+.scrollable_modal .modal-dialog {
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
 
-  .csv_preview.export_data_popup_preview {
-    white-space: pre;
-  }
-  
-  
-  .export_bottom_bar {
-    text-align: right;
-  }
-  
-  .modal_options_shared_user #owner_tab_view,
-  .modal_options_shared_user #owner_tab_button
-   {
-    display: none;
-  }
-  
-  .modal_options_owner_user .leave_game {
-    display: none;
-  }
+.scrollable_modal .modal-body {
+  overflow: auto;
+}
 
-  .modal_options_shared_user .delete_game {
-    display: none;
-  }
+.export_data_popup_preview {
+  background: inherit;
+  color: inherit;
+  width: 100%;
+  height: 150px;
+  overflow: auto;
+  border: solid rgb(50, 220, 50) 1px;
+  padding: 4px;
+}
 
-  .shared_archived_status_wrapper {
-    line-height: 2em;
-    font-weight: bold;
-    font-size: 1.5em;
-  }
+.json_preview.export_data_popup_preview,
+.text_preview.export_data_popup_preview {
+  white-space: pre-wrap;
+}
 
-  .modal_options_owner_user .shared_archived_status_wrapper {
-    display: none;
-  }
+.csv_preview.export_data_popup_preview {
+  white-space: pre;
+}
 
-  .owner_archived_input_wrapper {
-    display: inline-block;
-    width: auto;
-  }
 
-  .modal_options_shared_user .owner_archived_input_wrapper {
-    display: none;
-  }
+.export_bottom_bar {
+  text-align: right;
+}
 
-  .owner_usage_limit_wrapper {
-    display:inline-block;
-    width:auto;
-  }
+.modal_options_shared_user #owner_tab_view,
+.modal_options_shared_user #owner_tab_button {
+  display: none;
+}
 
-  .modal_options_shared_user .owner_usage_limit_wrapper {
-    display: none;
-  }
+.delete_game {
+  color: rgb(255, 0, 0);
+  background-color: rgb(50, 50, 50);
+}
 
- .shared_usage_limit_div {
+.modal_options_owner_user .leave_game {
+  display: none;
+}
+
+.modal_options_shared_user .delete_game {
+  display: none;
+}
+
+.shared_archived_status_wrapper {
   line-height: 2em;
   font-weight: bold;
   font-size: 1.5em;
- }
+}
 
- .modal_options_owner_user .shared_usage_limit_div {
+.modal_options_owner_user .shared_archived_status_wrapper {
   display: none;
- }
+}
 
- #editDocumentModal textarea.document_title.form-control {
+.owner_archived_input_wrapper {
+  display: inline-block;
+  width: auto;
+}
+
+.modal_options_shared_user .owner_archived_input_wrapper {
+  display: none;
+}
+
+.owner_usage_limit_wrapper {
+  display: inline-block;
+  width: auto;
+}
+
+.modal_options_shared_user .owner_usage_limit_wrapper {
+  display: none;
+}
+
+.shared_usage_limit_div {
+  line-height: 2em;
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+.modal_options_owner_user .shared_usage_limit_div {
+  display: none;
+}
+
+#editDocumentModal textarea.document_title.form-control {
   height: 125px;
- }
+}
 
- #owner_note_field_edit {
+#owner_note_field_edit {
   width: 90%;
- }
+}
 
- .code_link_href {
+.code_link_href {
   line-height: 2em;
   color: unset;
   display: none;
- }
+}
 
- .prompt-text {
+.prompt-text {
   font-weight: bold;
   white-space: pre-wrap;
- }
+}
 
- .completion-text {
+.completion-text {
   white-space: pre-wrap;
- }
+}
 
- .copy_export_clipboard {
+.copy_export_clipboard {
   padding-bottom: 0;
- }
+}
 
- .code_link_copy i {
+.code_link_copy i {
   position: relative;
   top: 5px;
- }
+}
 
- .help_viewer_iframe {
+.help_viewer_iframe {
   width: 100%;
   height: 400px;
-  color: inherit;
- }
+}
 
- .help_helper_wrapper {
-  background:  #5c636a;
+.help_helper_wrapper {
+  background: #5c636a;
   color: rgb(240, 240, 240);
- }
+}
 
- .show_import_tickets_help i {
+.show_import_tickets_help,
+.show_export_tickets_help,
+.show_document_details_options_help,
+.show_document_owner_options_help {
+  background: none;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+
+.show_import_tickets_help i,
+.show_document_owner_options_help i,
+.show_document_details_options_help i,
+.show_export_tickets_help i {
   position: relative;
   top: 4px;
-  color: orange;
+  color: white;
+}
+
+.tab-content {
+  position: relative;
 }

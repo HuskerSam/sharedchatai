@@ -31,6 +31,9 @@ export default class DocOptionsHelper {
     modal_upload_tickets_button: any;
     import_upload_file: any;
     show_import_tickets_help: any;
+    show_export_tickets_help: any;
+    show_document_details_options_help: any;
+    show_document_owner_options_help: any;
     /**
      * @param { any } app BaseApp derived application instance
      * @param { string } wrapperClass class to add to modal wrapper
@@ -73,6 +76,13 @@ export default class DocOptionsHelper {
 
         this.show_import_tickets_help = document.querySelector(".show_import_tickets_help");
         this.show_import_tickets_help.addEventListener("click", () => this.app.helpHelper.show("import_tickets"));
+        this.show_export_tickets_help = document.querySelector(".show_export_tickets_help");
+        this.show_export_tickets_help.addEventListener("click", () => this.app.helpHelper.show("export_tickets"));
+
+        this.show_document_details_options_help = document.querySelector(".show_document_details_options_help");
+        this.show_document_details_options_help.addEventListener("click", () => this.app.helpHelper.show("user_document_options"));
+        this.show_document_owner_options_help = document.querySelector(".show_document_owner_options_help");
+        this.show_document_owner_options_help.addEventListener("click", () => this.app.helpHelper.show("owner_document_options"));
 
         this.save_game_afterfeed_button.addEventListener("click", () => this.saveDocumentOptions());
         const del: any = this.modalContainer.querySelector("button.delete_game");
@@ -204,13 +214,13 @@ export default class DocOptionsHelper {
                             </li>
                         </ul>
                         <div class="tab-content">
-                            <div class="tab-pane fade show active" id="options_tab_view" role="tabpanel"
-                                aria-labelledby="options_tab_button">
-                                <div class="form-floating">
-                                    <textarea type="text" class="form-control document_title"
-                                        placeholder="Title"></textarea>
-                                    <label>Title</label>
-                                </div>
+                        <div class="tab-pane fade show active" id="options_tab_view" role="tabpanel"
+                        aria-labelledby="options_tab_button">
+
+                                <button class="btn btn-secondary show_document_details_options_help"><i 
+                                    class="material-icons">help</i></button>
+                                <label class="form-label">Status</label>
+                                <br>
                                 <div class="shared_archived_status_wrapper"></div>
                                 <div class="form-check owner_archived_input_wrapper">
                                     <label class="form-check-label">
@@ -220,14 +230,21 @@ export default class DocOptionsHelper {
                                 </div>
                                 <br>
                                 <br>
+                                <label class="form-label">Title</label>
+                                <br>
+                                <textarea type="text" class="form-control document_title"
+                                    placeholder="will autofill if empty"></textarea>
+                                <br>
+                                <label class="form-label">Token Usage Cap (0 for none)</label>
+                                <br>
                                 <div class="shared_usage_limit_div"></div>
-                                <div class="form-floating owner_usage_limit_wrapper">
-                                    <input type="text" class="form-control docfield_usage_limit" placeholder="Usage Limit">
-                                    <label>Usage Limit</label>
-                                </div>
+                                <input type="text" class="form-control docfield_usage_limit owner_usage_limit_wrapper" 
+                                    placeholder="Usage Limit">
                             </div>
                             <div class="tab-pane fade" id="owner_tab_view" role="tabpanel"
-                                aria-labelledby="owner_tab_button">
+                                aria-labelledby="owner_tab_button">                         
+                                <button class="btn btn-secondary show_document_owner_options_help"><i 
+                                    class="material-icons">help</i></button>
                                 <h3>Labels</h3>
                                 <div style="text-align:center;">
                                     <select class="edit_options_document_labels" multiple="multiple"
@@ -276,6 +293,7 @@ export default class DocOptionsHelper {
      */
     getModalTabExportHTML(): string {
         return `<div style="display:flex;flex-direction:column">
+        <button class="btn btn-secondary show_export_tickets_help"><i class="material-icons">help</i></button>
         <div style="text-align: center">
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                 <input type="radio" class="btn-check" name="tickets_filter" id="selected_filter" value="selected"
@@ -316,10 +334,7 @@ export default class DocOptionsHelper {
      */
     getModalTabImportHTML(): string {
         return `<div style="text-align:center">
-        <div style="text-align:right">
-            <button class="btn btn-secondary show_import_tickets_help"><i class="material-icons">help</i></button>
-            &nbsp;
-        </div>
+        <button class="btn btn-secondary show_import_tickets_help"><i class="material-icons">help</i></button>
         <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
             <input type="radio" class="btn-check" name="import_format_choice" id="import_csv_format" value="csv"
                 autocomplete="off" checked>
@@ -333,7 +348,8 @@ export default class DocOptionsHelper {
         
         <button class="btn btn-secondary modal_upload_tickets_button">Import Tickets</button>
         <input class="import_upload_file" style="display:none;" type="file">
-        
+        <br>
+        <br>
     </div>`;
     }
     /** use jquery to extract label list from select2

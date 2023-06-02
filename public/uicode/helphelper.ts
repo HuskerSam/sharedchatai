@@ -4,6 +4,7 @@ export class HelpHelper {
     modalContainer: any = null;
     help_show_modal: any;
     help_viewer_iframe: any;
+    wrapperClass = "";
     /**
      * @param { any } app BaseApp derived application instance
      * @param { string } wrapperClass class to add to modal wrapper
