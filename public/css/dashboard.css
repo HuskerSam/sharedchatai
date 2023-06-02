@@ -291,3 +291,9 @@ button.code_link {
   margin-left: 12px;
   margin-right: 12px;
 }
+
+.dashboard_options_view #import_tab_view,
+.dashboard_options_view #import_tab_button
+ {
+  display: none;
+}
