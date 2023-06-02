@@ -216,7 +216,6 @@ export default class DocOptionsHelper {
                         <div class="tab-content">
                         <div class="tab-pane fade show active" id="options_tab_view" role="tabpanel"
                         aria-labelledby="options_tab_button">
-
                                 <button class="btn btn-secondary show_document_details_options_help"><i 
                                     class="material-icons">help</i></button>
                                 <label class="form-label">Status</label>
@@ -245,21 +244,17 @@ export default class DocOptionsHelper {
                                 aria-labelledby="owner_tab_button">                         
                                 <button class="btn btn-secondary show_document_owner_options_help"><i 
                                     class="material-icons">help</i></button>
-                                <h3>Labels</h3>
-                                <div style="text-align:center;">
-                                    <select class="edit_options_document_labels" multiple="multiple"
-                                        style="width:80%"></select>
-                                </div>
-                                <h3>Note</h3>
-                                <div style="text-align:center;">
-                                    <div class="form-floating" style="display:inline-block;width:80%">
-                                        <input type="text" class="form-control" id="owner_note_field_edit" placeholder="Note">
-                                        <label>Note</label>
-                                    </div>
-                                </div>
-                                <a href="#" class="code_link_href">URL</a><br>
+                                <a href="#" class="code_link_href">URL</a>
                                 <button class="code_link_copy btn btn-primary"><i class="material-icons">content_copy</i>
                                     <span>url</span></button>
+                                <br>
+                                <br>
+                                <label class="form-label">Labels</label>
+                                    <select class="edit_options_document_labels" multiple="multiple"
+                                        style="width:100%"></select>
+                                <br>
+                                <label class="form-label">Reference</label>
+                                 <input type="text" class="form-control" id="owner_note_field_edit" placeholder="external key or private note">
                             </div>
                             <div class="tab-pane fade" id="export_tab_view" role="tabpanel"
                                 aria-labelledby="export_tab_button">
