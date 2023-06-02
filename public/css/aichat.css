@@ -109,7 +109,7 @@ body {
   padding: 10px;
   white-space: pre-wrap;
   color: rgb(240, 240, 240);
-  background: rgb(32, 33, 35);
+  background: rgb(52, 53, 65);
   line-height: 1.5rem;
 }
 
@@ -250,40 +250,6 @@ body {
   right: 8px;
 }
 
-@media (min-width: 501px) {
-  .navbar.snapped {
-    transform: translateY(100%);
-  }
-
-  .game_message_list_item .message {
-    padding-right: 10%;
-    padding-left: 2%;
-    padding-bottom: 12px;
-  }
-
-  .ticket_item_include_wrapper input {
-    width: 34px;
-    height: 34px;
-  }
-
-  .assist_section {
-    font-size: 1rem;
-    padding: 8px 4px 0px 8px;
-    padding-left: 12px;
-    padding-bottom: 14px;
-    margin-top: 1.25rem;
-    margin-bottom: 1.25rem;
-    margin-right: 10%;
-    margin-left: 2%;
-  }
-
-  .tokens_total,
-  .tokens_prompt,
-  .tokens_completion {
-    font-size: 1rem;
-  }
-}
-
 .slider_label {
   text-align: center;
 }
@@ -325,10 +291,58 @@ ul.recent_documents_list li a {
   width: 300px;
 }
 
+.left_panel_view .navbar{
+  border-bottom: 1px solid rgba(222,226,230,.2);
+}
+
 .vertical_split .left_panel_view {
   width: auto;
 }
 
 .right_panel_view {
   flex: 1;
+}
+
+.show_create_modal {
+  width: 150px;
+}
+
+@media (min-width: 501px) {
+  .navbar.snapped {
+    transform: translateY(100%);
+  }
+
+  .game_message_list_item .message {
+    padding-right: 10%;
+    padding-left: 2%;
+    padding-bottom: 12px;
+  }
+
+  .ticket_item_include_wrapper input {
+    width: 34px;
+    height: 34px;
+  }
+
+  .assist_section {
+    font-size: 1rem;
+    padding: 8px 4px 0px 8px;
+    padding-left: 12px;
+    padding-bottom: 14px;
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    margin-right: 10%;
+    margin-left: 2%;
+  }
+
+  .tokens_total,
+  .tokens_prompt,
+  .tokens_completion {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 990px) {
+  .show_create_modal {
+    width: 50px;
+  }
 }
