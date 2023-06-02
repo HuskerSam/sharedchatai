@@ -28,7 +28,7 @@ export default class DocOptionsHelper {
     csv_format: any;
     json_format: any;
     download_export_button: any;
-    upload_import_button: any;
+    modal_upload_tickets_button: any;
     import_upload_file: any;
     /**
      * @param { any } app BaseApp derived application instance
@@ -66,7 +66,7 @@ export default class DocOptionsHelper {
         this.csv_format = document.getElementById("csv_format");
         this.json_format = document.getElementById("json_format");
         this.download_export_button = document.querySelector(".download_export_button");
-        this.upload_import_button = document.querySelector(".upload_import_button");
+        this.modal_upload_tickets_button = document.querySelector(".modal_upload_tickets_button");
         this.import_upload_file = document.querySelector(".import_upload_file");
         this.copy_export_clipboard = document.querySelector(".copy_export_clipboard");
 
@@ -99,7 +99,9 @@ export default class DocOptionsHelper {
         this.csv_format.addEventListener("click", () => this.refreshReportData());
         this.json_format.addEventListener("click", () => this.refreshReportData());
         this.download_export_button.addEventListener("click", () => this.downloadReportData());
-        this.upload_import_button.addEventListener("click", () => this.import_upload_file.click());
+        this.modal_upload_tickets_button.addEventListener("click", () => {
+            this.import_upload_file.click();
+        });
         this.import_upload_file.addEventListener("change", () => this.uploadReportData());
         this.copy_export_clipboard.addEventListener("click", () => this.copyExportToClipboard());
 
@@ -115,7 +117,7 @@ export default class DocOptionsHelper {
     }
     /** copy export text area to clipboard */
     copyExportToClipboard() {
-        navigator.clipboard.writeText(this.export_data_popup_preview.value);
+        navigator.clipboard.writeText(this.export_data_popup_preview.innerHTML);
         const buttonText = `<i class="material-icons">content_copy</i>`;
         this.copy_export_clipboard.innerHTML = "✅" + buttonText;
         setTimeout(() => this.copy_export_clipboard.innerHTML = buttonText, 1200);
@@ -270,15 +272,15 @@ export default class DocOptionsHelper {
      */
     getModalTabExportHTML(): string {
         return `<div style="display:flex;flex-direction:column">
-        <div>
+        <div style="text-align: center">
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" class="btn-check" name="tickets_filter" id="all_filter" value="all" autocomplete="off">
-                <label class="btn btn-outline-primary" for="all_filter">All Tickets</label>
                 <input type="radio" class="btn-check" name="tickets_filter" id="selected_filter" value="selected"
                     autocomplete="off" checked>
-                <label class="btn btn-outline-primary" for="selected_filter">Selected</label>
+                <label class="btn btn-outline-primary" for="selected_filter">Selected Tickets</label>
+                <input type="radio" class="btn-check" name="tickets_filter" id="all_filter" value="all" autocomplete="off">
+                <label class="btn btn-outline-primary" for="all_filter">All Tickets</label>
             </div>
-            &nbsp;
+            <br><br>
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                 <input type="radio" class="btn-check" name="export_format_choice" id="text_format" value="text"
                     autocomplete="off" checked>
@@ -295,11 +297,12 @@ export default class DocOptionsHelper {
             </div>
         </div>
         <br>
-        <textarea class="export_data_popup_preview"></textarea>
+        <div class="export_data_popup_preview"></div>
         <br>
         <div class="export_bottom_bar">
             <span class="export_size"></span> bytes
             <button type="button" class="btn btn-secondary copy_export_clipboard"><i class="material-icons">content_copy</i></button>
+            &nbsp;
             <button type="button" class="btn btn-primary download_export_button">Download</button>
         </div>
     </div>`;
@@ -308,8 +311,7 @@ export default class DocOptionsHelper {
      * @return { string } html string
      */
     getModalTabImportHTML(): string {
-        return `<div>
-        <span> Format:</span>
+        return `<div style="text-align:center">
         <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
             <input type="radio" class="btn-check" name="import_format_choice" id="import_csv_format" value="csv"
                 autocomplete="off" checked>
@@ -319,8 +321,10 @@ export default class DocOptionsHelper {
             <label class="btn btn-outline-primary" for="import_json_format">JSON</label>
         </div>
         <br>
-        <input class="import_upload_file" type="file">
-        <button type="button" class="btn btn-secondary upload_import_button">Import</button>
+        <br>
+        <button class="btn btn-secondary modal_upload_tickets_button">Import Tickets</button>
+        <input class="import_upload_file" style="display:none;" type="file">
+        
     </div>`;
     }
     /** use jquery to extract label list from select2
@@ -506,7 +510,7 @@ export default class DocOptionsHelper {
         } else if (formatFilter === "text") {
             format = "plain/text";
             fileName = "report.txt";
-            resultText += new Date().toString() + " summary\n";
+            resultText += new Date().toISOString().substring(0, 10) + "\n";
             tickets.forEach((ticket: any) => {
                 const completion = this.messageForCompletion(ticket.id);
                 const prompt = ticket.data().message;
@@ -518,17 +522,7 @@ export default class DocOptionsHelper {
         } else if (formatFilter === "html") {
             fileName = "report.html";
             format = "text/html";
-            resultText += `<div class="export_date">${new Date().toString()} summary</div>\n`;
-            resultText += `<style>\n`;
-            resultText += `.prompt-text {\n`;
-            resultText += `    font-weight: bold;\n`;
-            resultText += `}\n`;
-            resultText += `\n`;
-            resultText += `.completion-text {\n`;
-            resultText += `    white-space: pre-wrap;\n`;
-            resultText += `}\n`;
-            resultText += `\n`;
-            resultText += `</style>\n`;
+            resultText += `<div class="export_date">${new Date().toISOString().substring(0, 10)}</div>\n`;
             tickets.forEach((ticket: any) => {
                 const prompt = <string> ticket.data().message;
                 const completion = <string> this.messageForCompletion(ticket.id);
@@ -544,6 +538,7 @@ export default class DocOptionsHelper {
         return {
             resultText,
             format,
+            formatFilter,
             fileName,
         };
     }
@@ -569,6 +564,11 @@ export default class DocOptionsHelper {
     refreshReportData(download = false) {
         const data = this.generateExportData();
         this.export_data_popup_preview.innerHTML = data.resultText;
+        this.export_data_popup_preview.classList.remove("text_preview");
+        this.export_data_popup_preview.classList.remove("csv_preview");
+        this.export_data_popup_preview.classList.remove("html_preview");
+        this.export_data_popup_preview.classList.remove("json_preview");
+        this.export_data_popup_preview.classList.add(data.formatFilter + "_preview");
         this.export_size.innerHTML = data.resultText.length;
 
         if (download) {
@@ -627,5 +627,7 @@ export default class DocOptionsHelper {
             console.log(error);
             return;
         }
+
+        this.import_upload_file.value = ""; // clear input
     }
 }

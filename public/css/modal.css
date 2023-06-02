@@ -18,8 +18,21 @@
     background: inherit;
     color: inherit;
     width: 100%;
-    min-height: 150px;
+    height: 150px;
+    overflow: auto;
+    border: solid rgb(50, 220, 50) 1px;
+    padding: 4px;
   }
+
+  .json_preview.export_data_popup_preview,
+  .text_preview.export_data_popup_preview  {
+    white-space: pre-wrap;
+  }
+
+  .csv_preview.export_data_popup_preview {
+    white-space: pre;
+  }
+  
   
   .export_bottom_bar {
     text-align: right;
@@ -93,4 +106,13 @@
   line-height: 2em;
   color: unset;
   display: none;
+ }
+
+ .prompt-text {
+  font-weight: bold;
+  white-space: pre-wrap;
+ }
+
+ .completion-text {
+  white-space: pre-wrap;
  }
