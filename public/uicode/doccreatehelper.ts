@@ -7,7 +7,7 @@ export default class DocCreateHelper {
     modal_close_button: any = null;
     modalContainer: any = null;
     create_game_afterfeed_button: any = null;
-    owner_note_field: any = null;
+    create_modal_note_field: any = null;
     doccreatehelper_show_modal: any = null;
     creatingNewRecord = false;
 
@@ -26,7 +26,7 @@ export default class DocCreateHelper {
         document.body.appendChild(this.modalContainer);
 
         this.create_game_afterfeed_button = this.modalContainer.querySelector(".create_game_afterfeed_button");
-        this.owner_note_field = this.modalContainer.querySelector("#owner_note_field");
+        this.create_modal_note_field = this.modalContainer.querySelector(".create_modal_note_field");
         this.doccreatehelper_show_modal = document.querySelector(".doccreatehelper_show_modal");
         this.create_game_afterfeed_button = this.modalContainer.querySelector(".create_game_afterfeed_button");
 
@@ -47,22 +47,49 @@ export default class DocCreateHelper {
         return `  <div class="modal fade" id="createDocumentModal" tabindex="-1" aria-labelledby="createDocumentModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
-          <div class="modal-content">
+          <div class="modal-content app_panel">
             <div class="modal-header">
               <h5 class="modal-title" id="createDocumentModalLabel">Create Document</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <div style="text-align:center;">
-                <select class="create_document_label_options" multiple="multiple" style="width:80%"></select>
+              <button class="btn btn-secondary show_create_dialog_help"><i 
+                  class="material-icons">help</i></button>
+                  <div style="display:inline-block">
+                    <label class="form-label">Template</label>
+                    <br>
+                    <button class="btn btn-secondary modal_create_template_tickets_button">Select File...</button>
+                    <input class="create_modal_template_file" style="display:none;" type="file">
+                  </div>
+                  &nbsp;
+              <div style="display:inline-block;">
+                <label class="form-label">Usage Cap</label>
+                <br>
+                <input type="text" class="form-control" id="document_usage_cap_field" placeholder="tokens limit">
               </div>
               <br>
-              <div class="form-floating" style="display:inline-block;width:80%">
-                <input type="text" class="form-control" id="owner_note_field" placeholder="Note">
-                <label>Note</label>
-              </div>
+              <br>
+              <label class="form-label" style="width:100%">
+                Title<br>
+                <input type="text" class="form-control create_modal_title_field" placeholder="autofills if blank">
+              </label>
+              <br>
+              <label class="form-label" style="width:100%">
+                Reference<br>
+                <input type="text" class="form-control create_modal_note_field" placeholder="optional">
+              </label>
+              <br>
+              <label class="form-label">Labels</label>
+              <br>
+              <select class="create_document_label_options" multiple="multiple" style="width:100%"></select>
             </div>
             <div class="modal-footer">
+              <div class="form-check" style="float:left">
+                <label class="form-check-label">
+                    <input class="form-check-input docfield_archived_checkbox" checked type="checkbox" value="">
+                    Open
+                </label>
+              </div>
               <button type="button" class="btn btn-secondary modal_close_button" data-bs-dismiss="modal">Close</button>
               <button type="button" class="btn btn-primary create_game_afterfeed_button">Create</button>
             </div>
@@ -83,7 +110,7 @@ export default class DocCreateHelper {
         const body = {
             gameType,
             label: this.scrapeLabels(),
-            note: this.owner_note_field.value,
+            note: this.create_modal_note_field.value,
         };
         const token = await firebase.auth().currentUser.getIdToken();
         const fResult = await fetch(this.app.basePath + "lobbyApi/games/create", {
@@ -123,7 +150,7 @@ export default class DocCreateHelper {
     }
     /** populate modal fields and show */
     show() {
-        this.owner_note_field.value = "";
+        this.create_modal_note_field.value = "";
 
         const queryLabelSelect2 = window.$(".create_document_label_options");
         queryLabelSelect2.val(null).trigger("change");

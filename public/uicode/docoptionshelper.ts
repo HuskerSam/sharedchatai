@@ -320,7 +320,7 @@ export default class DocOptionsHelper {
             <span class="export_size"></span> bytes
             <button type="button" class="btn btn-secondary copy_export_clipboard"><i class="material-icons">content_copy</i></button>
             &nbsp;
-            <button type="button" class="btn btn-primary download_export_button">Download</button>
+            <button type="button" class="btn btn-primary download_export_button">Download Template File</button>
         </div>
     </div>`;
     }
@@ -341,7 +341,7 @@ export default class DocOptionsHelper {
         <br>
         <br>
         
-        <button class="btn btn-secondary modal_upload_tickets_button">Import Tickets</button>
+        <button class="btn btn-secondary modal_upload_tickets_button">Select Template File...</button>
         <input class="import_upload_file" style="display:none;" type="file">
         <br>
         <br>
