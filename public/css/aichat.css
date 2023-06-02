@@ -214,7 +214,10 @@ body {
 }
 
 .last_activity_display {
-  text-align: center;
+  position: absolute;
+  display: inline-block;
+  top: -25px;
+  right: 5px;
 }
 
 .message_list_send_wrapper {

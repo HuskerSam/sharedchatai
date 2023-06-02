@@ -37,7 +37,7 @@ export class DashboardApp extends BaseApp {
     this.dashboard_create_game.addEventListener("click", () => this.documentCreate.show());
 
     // redraw feeds to update time since values
-    setInterval(() => this.updateTimeSince(this.dashboard_documents_view), 30000);
+    setInterval(() => this.updateTimeSince(this.dashboard_documents_view, true), 30000);
 
     this.document_label_filter.addEventListener("input", () => this.updateGamesFeed(null));
 
@@ -140,6 +140,12 @@ export class DashboardApp extends BaseApp {
         if (!title) title = "";
         if (title === "") title = `<span class="unused_chatroom_title_placeholder">unused</span>`;
         titleDom.innerHTML = title;
+
+        const sharedStatus = this.getDocumentSharedStatus(doc.data());
+        const sharedIcon = card.querySelector(".document_shared_status_icon");
+        if (sharedStatus === 0) sharedIcon.style.color = "Red";
+        if (sharedStatus === 1) sharedIcon.style.color = "Blue";
+        if (sharedStatus === 2) sharedIcon.style.color = "Green";
       }
       this.documentsLookup[doc.id] = doc.data();
     });
@@ -150,10 +156,26 @@ export class DashboardApp extends BaseApp {
         if (card) card.remove();
       }
     });
-    this.updateTimeSince(this.dashboard_documents_view);
+    this.updateTimeSince(this.dashboard_documents_view, true);
     this.paintLabelSelect();
     this.refreshOnlinePresence();
     this.updateUserNamesImages();
+  }
+  /** return document shared status for a aichat doc
+   * @param { any } doc aichat document
+   * @return { number } 0 for owner, not shared, 1 for shared not owner, 2 for owner and shared
+   */
+  getDocumentSharedStatus(doc: any) {
+    let sharedStatus = 0;
+    let memberCount = 0;
+    if (doc.members) memberCount = Object.keys(doc.members).length;
+
+    if (memberCount > 1) {
+      if (doc.createUser === this.uid) sharedStatus = 1;
+      else sharedStatus = 2;
+    }
+
+    return sharedStatus;
   }
   /** paint html list card
    * @param { any } doc Firestore doc for game
@@ -177,6 +199,11 @@ export class DashboardApp extends BaseApp {
        class="list-group-item list-group-item-action document_list_item card shadow-sm my-1 rounded card_shadow_sm ${ownerClass}"
      data-gamenumber="${doc.id}" gamenumber="${doc.id}">
     <div class="d-flex justify-content-end">
+        <div>
+          <span class="material-symbols-outlined document_shared_status_icon">
+            group
+          </span>
+        </div>
         <div class="document_name" data-docid="${doc.id}"></div>
         <div class="document_status">
             <div class="time_since last_submit_time text-center text-md-end" data-timesince="${data.lastActivity}"

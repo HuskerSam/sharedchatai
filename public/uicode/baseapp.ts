@@ -200,6 +200,33 @@ export default class BaseApp {
 
     return "now";
   }
+  /** get gmail like past date
+   * @param { Date } dt date to format
+   * @return { string } formatted date
+  */
+  showEmailAsGmail(dt: Date): string {
+    if (Date.now() - dt.getTime() < 24 * 60 * 60 * 1000) {
+     return this.formatAMPM(dt);
+    }
+
+    return dt.toLocaleDateString("en-us", {
+      month: "short",
+      day: "numeric",
+    });
+  }
+  /** return am pm format for date
+   * @param { Date } date date to return format string
+   * @return { string }
+  */
+  formatAMPM(date: Date): string {
+    let hours: any = date.getHours();
+    let minutes: any = date.getMinutes();
+    const ampm = hours >= 12 ? "pm" : "am";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    return hours + ":" + minutes + " " + ampm;
+  }
   /** convert isodate to local date as Date Object
    * @param { string } startTimeISOString iso date GMT referenced
    * @return { Date } JS Date object with date in local time zone reference
@@ -308,13 +335,21 @@ export default class BaseApp {
   }
   /** update all time_since spans in this container
    * @param { any } container dom element to query for spans
+   * @param { boolean } useGmailStyle true to return gmail style past date
    */
-  updateTimeSince(container: any) {
+  updateTimeSince(container: any, useGmailStyle = false) {
     const elements = container.querySelectorAll(".time_since");
     elements.forEach((ctl: any) => {
       const isoTime = ctl.dataset.timesince;
       const showSeconds = ctl.dataset.showseconds;
-      ctl.innerHTML = this.timeSince(new Date(isoTime), (showSeconds === "1")).replaceAll(" ago", "");
+
+      let dateDisplay: string;
+      if (useGmailStyle) {
+        dateDisplay = this.showEmailAsGmail(new Date(isoTime));
+      } else {
+        dateDisplay = this.timeSince(new Date(isoTime), (showSeconds === "1")).replaceAll(" ago", "");
+      }
+      ctl.innerHTML = dateDisplay;
     });
   }
 }

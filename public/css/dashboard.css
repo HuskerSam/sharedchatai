@@ -292,3 +292,9 @@ button.code_link {
  {
   display: none;
 }
+
+.document_shared_status_icon {
+  padding-right: 8px;
+  position: relative;
+  top: 2px;
+}

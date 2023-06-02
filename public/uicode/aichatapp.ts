@@ -206,8 +206,9 @@ export class AIChatApp extends BaseApp {
         const data = doc.data();
         let title = data.title;
         if (!title) title = "unused";
-        const activityDate = data.created.substring(5, 16).replace("T", " ").replace("-", "/");
+        // const activityDate = data.created.substring(5, 16).replace("T", " ").replace("-", "/");
         title = title.substring(0, 100);
+        const activityDate = this.showEmailAsGmail(new Date(data.lastActivity));
         const rowHTML = `<li>
         <a href="/aichat/?game=${doc.id}" target="_blank">
           <div class="title">${title}</div>
@@ -644,9 +645,7 @@ export class AIChatApp extends BaseApp {
       <span>${this.gameData.completionTokens}</span>
     `;
 
-    this.last_activity_display.innerHTML = this.isoToLocal(<string>
-      this.gameData.lastActivity)
-      .toISOString().substring(0, 19).replace("T", " ");
+    this.last_activity_display.innerHTML = this.showEmailAsGmail(new Date(this.gameData.lastActivity));
 
     this.sidebar_document_title.innerHTML = this.gameData.title + "&nbsp;";
 
