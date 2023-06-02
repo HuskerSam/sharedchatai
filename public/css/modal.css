@@ -35,12 +35,6 @@
     display: none;
   }
   
-  
-  .dashboard_options_view #import_tab_view,
-  .dashboard_options_view #import_tab_button
-   {
-    display: none;
-  }
 
   .modal_options_owner_user .leave_game {
     display: none;
