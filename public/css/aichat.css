@@ -24,8 +24,7 @@ body {
   display: flex;
 }
 
-
-.user_img_wrapper span:nth-child(1) {
+.members_feed_profile_image {
   display: inline-block;
   width: 24px;
   height: 24px;
@@ -36,25 +35,24 @@ body {
   top: 6px;
 }
 
-.user_img_wrapper span:nth-child(2) {
+.members_feed_profile_name {
   white-space: nowrap;
-  font-size: 24px;
-  line-height: 24px;
-  top: 6px;
+  flex: 1;
+  overflow: hidden;
 }
 
-.user_img_wrapper {
-  display: inline-block;
-  white-space: nowrap;
+.members_feed_line_wrapper {
+  display: flex;
+  flex-direction: row;
 }
 
-.member_list_time_since {
-  float: right;
-  clear: both;
-  line-height: 30px;
-  font-size: 18px;
+.members_feed_online_status {
+  background: white;
+}
+
+.members_feed_profile_lastactivity { 
   opacity: .55;
-  padding-right: 1em;
+  padding-right: 5px;
 }
 
 .member_online_status {
@@ -347,4 +345,41 @@ ul.recent_documents_list li a {
   .show_create_modal {
     width: 50px;
   }
+}
+
+.show_document_options_modal {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: none;
+  border: none;
+}
+
+.show_document_options_modal i {
+  position: relative;
+  top: 4px;
+}
+
+.show_document_options_modal:hover {
+  background: none;
+  border: none;
+  color: white;
+}
+
+.ticket_content_input {
+  max-height: 150px;
+  margin: 4px;
+}
+
+.prompt_token_count, .prompt_token_count, .selected_ticket_count_span, .ticket_count_span {
+  width: 4em;
+  display: inline-block;
+}
+
+.prompt_right_spacer {
+  width: 8em;
+}
+
+.recent_documents_list li {
+  margin-left: -15px;
 }

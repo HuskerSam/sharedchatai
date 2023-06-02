@@ -47,7 +47,9 @@ export class DashboardApp extends BaseApp {
       this.profileHelper.show();
     });
   }
-  /** load tickets for options/export dialog */
+  /** load tickets for options/export dialog
+   * @param { any } documentId firestore record id
+  */
   async loadAndShowOptionsDialog(documentId: any) {
     const btn: any = document.getElementById("show_document_options_popup");
     btn.click();
@@ -74,9 +76,6 @@ export class DashboardApp extends BaseApp {
       this.userprofile_description.innerHTML = `<img class="user_dashboard_img" src="${img}">
       <span class="user_name">${name}</span>`;
     }
-  }
-  updateDocumentTitles() {
-    return;
   }
   /** query dom for all chat_user_image and chat_user_name elements and update */
   updateUserNamesImages() {
@@ -141,7 +140,6 @@ export class DashboardApp extends BaseApp {
         if (!title) title = "";
         if (title === "") title = `<span class="unused_chatroom_title_placeholder">unused</span>`;
         titleDom.innerHTML = title;
-        this.updateDocumentTitles();
       }
       this.documentsLookup[doc.id] = doc.data();
     });
@@ -166,7 +164,7 @@ export class DashboardApp extends BaseApp {
 
     let ownerClass = "";
     if (data.createUser === this.uid) ownerClass += " dashboard_feed_owner_user";
-    else ownerClass += " dashboard_feed_shared_user"
+    else ownerClass += " dashboard_feed_shared_user";
 
     let timeStr = this.isoToLocal(data.created).toISOString().substr(11, 5);
     let hour = Number(timeStr.substr(0, 2));
@@ -181,16 +179,6 @@ export class DashboardApp extends BaseApp {
     <div class="d-flex justify-content-end">
         <div class="document_name" data-docid="${doc.id}"></div>
         <div class="document_status">
-            <div class="user_img_wrapper">
-                <div class="d-flex flex-row">
-                    <span class="align-self-center pe-2"><img class="owner_img chat_user_image" 
-                    data-docid="${doc.id}" data-chatuserid="${data.createUser}" 
-                    src="${data.memberImages[data.createUser]}"></span>
-                    <span class="owner_name chat_user_name" 
-                    data-chatuserid="${data.createUser}" 
-                    data-docid="${doc.id}">${data.memberNames[data.createUser]}</span>
-                </div>
-            </div>
             <div class="time_since last_submit_time text-center text-md-end" data-timesince="${data.lastActivity}"
             data-showseconds="0"></div>
             <button class="details_game btn btn-secondary" data-gamenumber="${data.gameNumber}">

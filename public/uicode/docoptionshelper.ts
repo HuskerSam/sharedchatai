@@ -113,6 +113,7 @@ export default class DocOptionsHelper {
         this.code_link_copy.innerHTML = "✅" + buttonText;
         setTimeout(() => this.code_link_copy.innerHTML = buttonText, 1200);
     }
+    /** copy export text area to clipboard */
     copyExportToClipboard() {
         navigator.clipboard.writeText(this.export_data_popup_preview.value);
         const buttonText = `<i class="material-icons">content_copy</i>`;
@@ -529,9 +530,9 @@ export default class DocOptionsHelper {
             resultText += `\n`;
             resultText += `</style>\n`;
             tickets.forEach((ticket: any) => {
-                const prompt = <string>ticket.data().message;
-                const completion = <string>this.messageForCompletion(ticket.id);
-                const selected = <string>ticket.data().includeInMessage ? "✅" : "&nbsp;";
+                const prompt = <string> ticket.data().message;
+                const completion = <string> this.messageForCompletion(ticket.id);
+                const selected = <string> ticket.data().includeInMessage ? "✅" : "&nbsp;";
 
                 resultText += `<div class="ticket-item">\n`;
                 resultText += `    <div class="prompt-text">${selected} ${prompt}</div>\n`;

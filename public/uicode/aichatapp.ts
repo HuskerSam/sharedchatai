@@ -70,7 +70,6 @@ export class AIChatApp extends BaseApp {
   document_import_button: any = document.querySelector(".document_import_button");
   ticket_count_span: any = document.querySelector(".ticket_count_span");
   selected_ticket_count_span: any = document.querySelector(".selected_ticket_count_span");
-  selected_token_count_span: any = document.querySelector(".selected_token_count_span");
 
   show_document_options_popup: any = document.getElementById("show_document_options_popup");
   temperature_slider_label: any = document.querySelector(".temperature_slider_label");
@@ -86,8 +85,12 @@ export class AIChatApp extends BaseApp {
     super();
 
     this.send_ticket_button.addEventListener("click", () => this.sendTicketToAPI());
-    this.ticket_content_input.addEventListener("keyup", (e: any) => {
-      if (e.key === "Enter" && e.shiftKey === false) this.sendTicketToAPI();
+    this.ticket_content_input.addEventListener("keydown", (e: any) => {
+      if (e.key === "Enter" && e.shiftKey === false) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.sendTicketToAPI();
+      }
     });
     // redraw message feed to update time since values
     setInterval(() => this.updateTimeSince(this.tickets_list), this.timeSinceRedraw);
@@ -111,9 +114,11 @@ export class AIChatApp extends BaseApp {
     });
     this.updateSplitter();
 
-    window.addEventListener('resize', () => {
+    window.addEventListener("resize", () => {
       this.updateSplitter();
     });
+
+    this.ticket_content_input.addEventListener("keydown", () => this.autoSizeTextArea());
 
     this.show_profile_modal.addEventListener("click", (event: any) => {
       event.stopPropagation();
@@ -127,6 +132,14 @@ export class AIChatApp extends BaseApp {
 
       this.documentCreate.show();
     });
+  }
+  /** expand prompt input textarea */
+  autoSizeTextArea() {
+    const el = this.ticket_content_input;
+    setTimeout(() => {
+      el.style.height = "auto";
+      el.style.height = el.scrollHeight + "px";
+    }, 0);
   }
   /** update temperature label and save to api
    * @param { boolean } saveToAPI true to save slider value to api
@@ -189,18 +202,19 @@ export class AIChatApp extends BaseApp {
 
     let html = "";
     this.lastDocumentsSnapshot.forEach((doc: any) => {
-      const data = doc.data();
-      let title = data.title;
-      if (!title) title = "unused";
-      const activityDate = data.created.substring(5, 16).replace("T", " ").replace("-", "/");
-
-      title = title.substring(0, 100);
-      const rowHTML = `<li>
-      <a href="/aichat/?game=${doc.id}" target="_blank">
-        <div class="title">${title}</div>
-        <div class="activity_date">${activityDate}</div>
-      </a></li>`;
-      html += rowHTML;
+      if (doc.id !== this.currentGame) {
+        const data = doc.data();
+        let title = data.title;
+        if (!title) title = "unused";
+        const activityDate = data.created.substring(5, 16).replace("T", " ").replace("-", "/");
+        title = title.substring(0, 100);
+        const rowHTML = `<li>
+        <a href="/aichat/?game=${doc.id}" target="_blank">
+          <div class="title">${title}</div>
+          <div class="activity_date">${activityDate}</div>
+        </a></li>`;
+        html += rowHTML;
+      }
     });
     this.recent_documents_list.innerHTML = html;
   }
@@ -441,7 +455,7 @@ export class AIChatApp extends BaseApp {
               <div class="assist_section">pending...</div>
               <div style="display:flex;flex-direction:column">
                   <div class="m-1 user_assist_request_header">
-                      <div class="user_img_wrapper member_desc">
+                      <div class="member_desc">
                           <span class="ticket_owner_image" data-ticketowneruid="${data.uid}" style="background-image:url(${img})"></span>
                       </div>
                       <div>
@@ -655,12 +669,12 @@ export class AIChatApp extends BaseApp {
 
         const timeSince = this.timeSince(new Date(members[member]));
         html += `<li class="member_list_item">
-          <div class="member_online_status" data-uid="${member}"></div>
-          <div class="user_img_wrapper">
-            <span style="background-image:url(${data.img})"></span>
-            <span>${data.name}</span>
+        <div class="members_feed_line_wrapper">
+            <div class="members_feed_online_status member_online_status" data-uid="${member}"></div>
+            <span class="members_feed_profile_image" style="background-image:url(${data.img})"></span>
+            <span class="members_feed_profile_name">${data.name}</span>
+            <span class="member_list_time_since members_feed_profile_lastactivity">${timeSince}</span>
           </div>
-          <span class="member_list_time_since">${timeSince}</span>
         </li>`;
       });
     }
@@ -740,8 +754,6 @@ export class AIChatApp extends BaseApp {
     }
 
     if (this.splitHorizontalCache !== horizontal) {
-      let direction = "vertical";
-      
       if (this.splitInstance) this.splitInstance.destroy();
       this.splitInstance = null;
       if (horizontal === false) {
@@ -756,7 +768,7 @@ export class AIChatApp extends BaseApp {
 
         this.splitInstance = <any>Split([".left_panel_view", ".right_panel_view"], {
           sizes,
-          direction,
+          direction: "vertical",
           minSize,
           maxSize,
           gutterSize,
@@ -765,7 +777,6 @@ export class AIChatApp extends BaseApp {
         this.main_view_splitter.style.flexDirection = "row";
         this.main_view_splitter.classList.remove("vertical_split");
         this.main_view_splitter.classList.add("horizontal_split");
-
       }
 
       this.splitHorizontalCache = horizontal;
@@ -797,7 +808,6 @@ export class AIChatApp extends BaseApp {
     this.token_visualizer_preview.innerHTML = html;
 
     this.prompt_token_count.innerHTML = tokens.length;
-    this.selected_token_count_span.innerHTML = this.includeTotalTokens;
     this.total_prompt_token_count.innerHTML = this.includeTotalTokens + tokens.length;
   }
 

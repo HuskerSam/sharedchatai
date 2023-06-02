@@ -83,22 +83,8 @@
           </ul>
         </div>
       </nav>
-      <div class="flex-shrink-0 p-1 flex_shrink_wrapper">
-        <div class="sidebar_document_title"></div>
-        <div style="text-align: center">
-          <span>Selected</span>
-          <span class="selected_ticket_count_span"></span>
-          /
-          <span class="ticket_count_span"></span>
-          &nbsp;
-          <span class="selected_token_count_span"></span>
-          &nbsp;
-          <button class="btn btn-secondary show_document_options_modal">Options</button>
-        </div>
-        <div style="display:flex;flex-direction:row">
-          <div class="document_usage_stats_line" style="flex:1"></div>
-          <div class="last_activity_display"></div>
-        </div>
+      <div class="flex-shrink-0 p-1 flex_shrink_wrapper" style="position:relative">
+        <button class="btn btn-secondary show_document_options_modal"><i class="material-icons">settings</i></button>
         <ul class="list-unstyled ps-0">
           <li class="mb-1">
             <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
@@ -133,6 +119,8 @@
               <br>
               <input type="range" class="form-range docfield_frequency_penalty" min="-2" max="2" step="0.01">
               <div class="slider_label frequency_penalty_slider_label"></div>
+              <b>Token Usage</b>
+              <div class="document_usage_stats_line" style="flex:1"></div>
             </div>
           </li>
           <li class="mb-1">
@@ -150,6 +138,10 @@
               Recent
             </button>
             <div class="collapse show" id="recentdocuments-menu-panel-collapse">
+              <div class="recent_header_current_document">
+                <div class="sidebar_document_title"></div>
+                <div class="last_activity_display"></div>
+              </div>
               <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small recent_documents_list"></ul>
             </div>
           </li>
@@ -160,21 +152,29 @@
       <div class="document_feed_view">
         <div class="tickets_list" style="flex:1;overflow:auto;"></div>
         <div class="message_list_send_wrapper">
-          <div class="token_visualizer_preview"></div>
           <div style="display:flex;flex-direction:row">
-            <div class="form-floating" style="flex:1;margin:4px;">
+            <div class="token_visualizer_preview" style="flex:1;"></div>
+            <div class="prompt_token_count"></div>
+            <div>   
+              <span class="selected_ticket_count_span"></span>
+              /
+              <span class="ticket_count_span"></span>
+            </div>
+            <div class="total_prompt_token_count"></div>
+            <div class="prompt_right_spacer"></div>
+          </div>
+          <div style="display:flex;flex-direction:row">
+            <div class="form-floating" style="flex:1">
               <textarea class="form-control ticket_content_input" name="ticketcontent" placeholder="AI Questions"
                 autocomplete="off"></textarea>
               <label>Ask Questions</label>
               <br>
             </div>
-            <div style="display:flex;flex-direction:column">
-              <div class="prompt_token_count"></div>
-              <div class="total_prompt_token_count"></div>
+            <div style="text-align:center">
+              <button class="send_ticket_button btn btn-primary" style="margin:8px;">
+                Send Ticket
+              </button>
             </div>
-            <button class="send_ticket_button btn btn-primary" style="margin:8px;">
-              Submit AI Ticket
-            </button>
           </div>
         </div>
       </div>
