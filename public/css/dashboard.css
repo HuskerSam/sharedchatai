@@ -35,10 +35,6 @@
   background-color: rgba(250, 250, 250);
 }
 
-button.delete_game {
-  display: none;
-}
-
 .visibility_select {
   display: inline-block;
 }
@@ -290,4 +286,10 @@ button.code_link {
   max-width: 800px;
   margin-left: 12px;
   margin-right: 12px;
+}
+
+.dashboard_options_view #import_tab_view,
+.dashboard_options_view #import_tab_button
+ {
+  display: none;
 }

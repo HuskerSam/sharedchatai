@@ -35,13 +35,6 @@
     display: none;
   }
   
-  
-  .dashboard_options_view #import_tab_view,
-  .dashboard_options_view #import_tab_button
-   {
-    display: none;
-  }
-
   .modal_options_owner_user .leave_game {
     display: none;
   }
@@ -49,3 +42,45 @@
   .modal_options_shared_user .delete_game {
     display: none;
   }
+
+  .shared_archived_status_wrapper {
+    line-height: 2em;
+    font-weight: bold;
+    font-size: 1.5em;
+  }
+
+  .modal_options_owner_user .shared_archived_status_wrapper {
+    display: none;
+  }
+
+  .owner_archived_input_wrapper {
+    display: inline-block;
+    width: auto;
+  }
+
+  .modal_options_shared_user .owner_archived_input_wrapper {
+    display: none;
+  }
+
+  .owner_usage_limit_wrapper {
+    display:inline-block;
+    width:auto;
+  }
+
+  .modal_options_shared_user .owner_usage_limit_wrapper {
+    display: none;
+  }
+
+ .shared_usage_limit_div {
+  line-height: 2em;
+  font-weight: bold;
+  font-size: 1.5em;
+ }
+
+ .modal_options_owner_user .shared_usage_limit_div {
+  display: none;
+ }
+
+ #editDocumentModal textarea.document_title.form-control {
+  height: 150px;
+ }

@@ -11,7 +11,10 @@ export default class DocOptionsHelper {
     document_title: any = null;
     documentData: any = null;
     docfield_archived_checkbox: any = null;
+    shared_archived_status_wrapper: any = null;
     docfield_usage_limit: any = null;
+    shared_usage_limit_div: any = null;
+    copy_export_clipboard: any = null;
     code_link_href: any;
     code_link_copy: any;
     wrapperClass = "";
@@ -50,7 +53,9 @@ export default class DocOptionsHelper {
         this.document_title = this.modalContainer.querySelector(".document_title");
 
         this.docfield_archived_checkbox = document.querySelector(".docfield_archived_checkbox");
+        this.shared_archived_status_wrapper = document.querySelector(".shared_archived_status_wrapper");
         this.docfield_usage_limit = document.querySelector(".docfield_usage_limit");
+        this.shared_usage_limit_div = document.querySelector(".shared_usage_limit_div");
 
         this.export_data_popup_preview = document.querySelector(".export_data_popup_preview");
         this.export_size = document.querySelector(".export_size");
@@ -63,6 +68,7 @@ export default class DocOptionsHelper {
         this.download_export_button = document.querySelector(".download_export_button");
         this.upload_import_button = document.querySelector(".upload_import_button");
         this.import_upload_file = document.querySelector(".import_upload_file");
+        this.copy_export_clipboard = document.querySelector(".copy_export_clipboard");
 
         this.save_game_afterfeed_button.addEventListener("click", () => this.saveDocumentOptions());
         const del: any = this.modalContainer.querySelector("button.delete_game");
@@ -95,17 +101,23 @@ export default class DocOptionsHelper {
         this.download_export_button.addEventListener("click", () => this.downloadReportData());
         this.upload_import_button.addEventListener("click", () => this.import_upload_file.click());
         this.import_upload_file.addEventListener("change", () => this.uploadReportData());
+        this.copy_export_clipboard.addEventListener("click", () => this.copyExportToClipboard());
 
         this.code_link_copy.addEventListener("click", () => this.copyGameLink());
     }
     /** copy game url link to clipboard
- * @param { any } btn dom control
- */
+     */
     copyGameLink() {
         navigator.clipboard.writeText(window.location.origin + "/aichat/?game=" + this.app.editedDocumentId);
         const buttonText = `<i class="material-icons">content_copy</i> <span>${this.app.editedDocumentId}</span>`;
         this.code_link_copy.innerHTML = "✅" + buttonText;
         setTimeout(() => this.code_link_copy.innerHTML = buttonText, 1200);
+    }
+    copyExportToClipboard() {
+        navigator.clipboard.writeText(this.export_data_popup_preview.value);
+        const buttonText = `<i class="material-icons">content_copy</i>`;
+        this.copy_export_clipboard.innerHTML = "✅" + buttonText;
+        setTimeout(() => this.copy_export_clipboard.innerHTML = buttonText, 1200);
     }
     /** send user (optional owner) settings for document to api */
     async saveDocumentOptions() {
@@ -188,14 +200,17 @@ export default class DocOptionsHelper {
                                         placeholder="Title"></textarea>
                                     <label>Title</label>
                                 </div>
-                                <div class="form-check" style="display:inline-block;width:auto;">
+                                <div class="shared_archived_status_wrapper"></div>
+                                <div class="form-check owner_archived_input_wrapper">
                                     <label class="form-check-label">
                                         <input class="form-check-input docfield_archived_checkbox" type="checkbox" value="">
                                         Archived
                                     </label>
                                 </div>
                                 <br>
-                                <div class="form-floating" style="display:inline-block;width:auto;">
+                                <div>Token Limit</div>
+                                <div class="shared_usage_limit_div"></div>
+                                <div class="form-floating owner_usage_limit_wrapper">
                                     <input type="text" class="form-control docfield_usage_limit" placeholder="Usage Limit">
                                     <label>Usage Limit</label>
                                 </div>
@@ -233,6 +248,7 @@ export default class DocOptionsHelper {
                     <button class="leave_game btn btn-secondary" data-bs-dismiss="modal">
                         Leave
                     </button>
+                    <div style="flex:1"></div>
                     <button type="button" class="btn btn-secondary modal_close_button"
                         data-bs-dismiss="modal">Close</button>
     
@@ -276,7 +292,8 @@ export default class DocOptionsHelper {
         <br>
         <div class="export_bottom_bar">
             <span class="export_size"></span> bytes
-            <button type="button" class="btn btn-secondary download_export_button">Download</button>
+            <button type="button" class="btn btn-secondary copy_export_clipboard"><i class="material-icons">content_copy</i></button>
+            <button type="button" class="btn btn-primary download_export_button">Download</button>
         </div>
     </div>`;
     }
@@ -389,7 +406,9 @@ export default class DocOptionsHelper {
 
         this.document_title.value = this.documentData.title;
         this.docfield_usage_limit.value = this.documentData.tokenUsageLimit;
+        this.shared_usage_limit_div.innerHTML = this.documentData.tokenUsageLimit;
         this.docfield_archived_checkbox.checked = this.documentData.archived;
+        this.shared_archived_status_wrapper.innerHTML = this.documentData.archived ? "Archived" : "Active";
 
         if (doc.createUser === this.app.uid) {
             const queryLabelSelect2 = window.$(".edit_options_document_labels");
