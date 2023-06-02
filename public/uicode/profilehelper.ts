@@ -20,6 +20,7 @@ export default class ProfileHelper {
     profile_show_modal: any;
     preset_logos_inited = false;
     save_profile_modal_button: any;
+    show_modal_profile_help: any;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -49,6 +50,7 @@ export default class ProfileHelper {
         this.randomize_name = document.querySelector(".randomize_name");
         this.save_profile_modal_button = document.querySelector(".save_profile_modal_button");
         this.profile_show_modal = document.querySelector(".profile_show_modal");
+        this.show_modal_profile_help = document.querySelector(".show_modal_profile_help");
 
         this.sign_out_button.addEventListener("click", (e: any) => {
             this.authSignout(e);
@@ -70,6 +72,7 @@ export default class ProfileHelper {
         this.profile_display_image_preset.addEventListener("input", () => this.handleImagePresetChange());
         this.randomize_name.addEventListener("click", () => this.randomizeProfileName());
         this.save_profile_modal_button.addEventListener("click", () => this.saveDialogData());
+        this.show_modal_profile_help.addEventListener("click", () => this.app.helpHelper.show("user_profile_options"));
 
         window.$(".label_profile_picker").select2({
             tags: true,
@@ -85,53 +88,50 @@ export default class ProfileHelper {
         return `<div class="modal fade" id="userProfileModal" tabindex="-1" aria-labelledby="userProfileModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
-          <div class="modal-content">
+          <div class="modal-content app_panel">
             <div class="modal-header">
               <h5 class="modal-title logged_in_status" id="userProfileModalLabel">User Profile</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body"> 
-        <h3>Labels</h3>
-        <br>
-        <div style="text-align:center;">
-          <select class="label_profile_picker" multiple="multiple" style="width:80%"></select>
-        </div>
+                <button class="btn btn-secondary show_modal_profile_help"><i class="material-icons">help</i></button>
+                <div style="float:left;white-space: nowrap;">
+                    <label class="form-label">Display Name
+                        <input type="text" class="form-control profile_display_name" placeholder="Display Name">
+                    </label>
+                    <button class="randomize_name btn btn-secondary">Random</button>
+                </div>
+            <br style="clear:both">
+            <label class="form-label">Display Image</label><br>
+            <div style="display:flex;flex-direction:row">
+                <div class="profile_display_image" style="background-image:url(/images/defaultprofile.png);"></div>
+                <div style="flex:1">
+                    &nbsp;
+                    <input type="file" class="file_upload_input" style="visibility:hidden;width:0">
+                    <button class="profile_display_image_clear btn btn-secondary"> Clear </button>
+                    &nbsp;
+                    <button class="profile_display_image_upload btn btn-secondary">Upload</button>
+                    <br>
+                    <br>
+                    <select class="profile_display_image_preset form-select">
+                        <option>Pick preset</option>
+                    </select>
+                </div>
+            </div>
+            <div style="clear:both"></div>
+            <br>
+            <label class="form-label">Document Label Picklist</label>
+            <br>
+            <select class="label_profile_picker" multiple="multiple" style="width:100%"></select>
         <br>
         <div class="settings_panel">
-          <h3 class="impact-font tag_header_label">Display Name</h3>
-          <div class="form-floating" style="display:inline-block;width:80%">
-            <input type="text" class="form-control profile_display_name" placeholder="Display Name">
-            <label>Display Name</label>
-          </div>
-          <br><br>
-          <button class="randomize_name btn btn-secondary">Randomize</button>
-          <hr>
-          <h3 class="impact-font tag_header_label">Display Image</h3>
-          <div class="profile_display_image" style="background-image:url(/images/defaultprofile.png)"></div>
-          <input type="file" class="file_upload_input" style="visibility:hidden;width:0">
-          <div style="display:inline-block;">
-            <button class="profile_display_image_clear btn btn-secondary"> Clear </button>
-            <br>
-            <br>
-            <button class="profile_display_image_upload btn btn-secondary">Upload</button>
-            <br>
-          </div>
-          <br>
-          <br>
-          <div style="text-align: center;">
-            <select class="profile_display_image_preset form-select"
-              style="max-width: 80%;width:auto;display: inline-block;">
-              <option>Pick preset</option>
-            </select>
-          </div>
-          <br>
-  
-          <br>
+
         </div> 
         </div>
         <div class="modal-footer">
           <button class="sign_out_button btn btn-secondary">Sign Out</button>
-          <button class="reset_profile btn btn-secondary">Reset</button>
+          <div style="flex:1"></div>
+          <button class="reset_profile btn btn-secondary" style="display:none">Reset</button>
           <button type="button" class="btn btn-secondary modal_close_button" data-bs-dismiss="modal">Close</button>
           <button type="button" class="btn btn-primary save_profile_modal_button">Save</button>
         </div>

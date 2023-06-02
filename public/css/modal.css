@@ -43,11 +43,6 @@
   display: none;
 }
 
-.delete_game {
-  color: rgb(255, 0, 0);
-  background-color: rgb(52, 53, 65);
-}
-
 .modal_options_owner_user .leave_game {
   display: none;
 }
@@ -141,6 +136,7 @@
 .show_export_tickets_help,
 .show_document_details_options_help,
 .show_create_dialog_help,
+.show_modal_profile_help,
 .show_document_owner_options_help {
   background: none;
   position: absolute;
@@ -148,14 +144,19 @@
   top: 0px;
 }
 
-.show_create_dialog_help {
-  top: 5px;
+.show_create_dialog_help,
+.show_modal_profile_help {
+  top: -5px;
+  right: -5px;
+  position: relative;
+  float: right;
 }
 
 .show_import_tickets_help i,
 .show_document_owner_options_help i,
 .show_document_details_options_help i,
 .show_create_dialog_help i,
+.show_modal_profile_help i,
 .show_export_tickets_help i {
   position: relative;
   top: 4px;
@@ -187,4 +188,49 @@
 
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
   background-color: #5c636a;
+}
+
+.profile_display_name {
+  width: 175px;
+}
+
+.randomize_name {
+  position: relative;
+  top: -3px;
+}
+
+.profile_display_image {
+  width: 64px;
+  height: 64px;
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+  margin-right: 10px;
+  padding-top: 100px;
+}
+
+.app_panel.modal-content label {
+  color: rgb(50, 220, 50);
+}
+
+.sign_out_button,
+.delete_game {
+  color: rgb(255, 0, 0);
+  background-color: rgb(52, 53, 65);
+}
+
+.profile_display_image_preset
+{
+  width: 100%;
+  display: inline-block;
+}
+
+.modal .modal-dialog .btn-close {
+  background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' stroke='rgb%28240,240,240%29' fill='%23000'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+}
+
+.modal .modal-header,
+.modal .modal-footer {
+  border-color: rgb(50, 120, 50);
 }

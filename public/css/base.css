@@ -154,16 +154,6 @@ a {
   text-align: left;
 }
 
-.profile_display_image {
-  width: 64px;
-  height: 64px;
-  display: inline-block;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: contain;
-  margin-right: 20px;
-}
-
 .form-check {
   display: inline-block;
   text-align: left;
