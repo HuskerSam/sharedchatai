@@ -466,6 +466,17 @@ export default class DocOptionsHelper {
                         }
                     }
                 });
+
+
+                let profileLabelString = this.app.profile.documentLabels;
+                if (!profileLabelString) profileLabelString = "";
+                const profileLabelArray = profileLabelString.split(",");
+                profileLabelArray.forEach((label: string) => {
+                    if (label !== "" && labelArray.indexOf(label) === -1) {
+                        const newOption = new Option(label, label, false, false);
+                        queryLabelSelect2.append(newOption).trigger("change");
+                    }
+                });
             } catch (error) {
                 console.log(error);
             }
@@ -550,7 +561,7 @@ export default class DocOptionsHelper {
             resultText += `<div class="export_date">${new Date().toISOString().substring(0, 10)}</div>\n`;
             tickets.forEach((ticket: any) => {
                 const prompt = <string>ticket.data().message;
-                const completion = <string> this.messageForCompletion(ticket.id);
+                const completion = <string>this.messageForCompletion(ticket.id);
                 const selected = <string>ticket.data().includeInMessage ? "✅" : "&nbsp;";
 
                 resultText += `<div class="ticket-item">\n`;
