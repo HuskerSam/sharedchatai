@@ -180,13 +180,6 @@ button.code_link {
   display: inline-block;
 }
 
-.accordion-button {
-  display: flex;
-  align-items: center;
-  background: none;
-  background-color: unset;
-}
-
 .select2-dropdown {
   z-index: 10000;
 }
@@ -220,7 +213,7 @@ button.code_link {
   width: 75px;
   white-space: nowrap;
   overflow: hidden;
-  text-align: right;
+  text-align: left;
   padding-right: 5px;
 }
 
