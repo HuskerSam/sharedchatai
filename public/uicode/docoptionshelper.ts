@@ -171,8 +171,8 @@ export default class DocOptionsHelper {
         const importModalTabHTML = this.getModalTabImportHTML();
         return `<div class="modal fade scrollable_modal" id="editDocumentModal" tabindex="-1" aria-labelledby="editDocumentModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
+        <div class="modal-dialog app_panel">
+            <div class="modal-content app_panel">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editDocumentModalLabel">Document Options</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

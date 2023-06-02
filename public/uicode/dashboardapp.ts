@@ -143,9 +143,9 @@ export class DashboardApp extends BaseApp {
 
         const sharedStatus = this.getDocumentSharedStatus(doc.data());
         const sharedIcon = card.querySelector(".document_shared_status_icon");
-        if (sharedStatus === 0) sharedIcon.style.color = "Red";
-        if (sharedStatus === 1) sharedIcon.style.color = "Blue";
-        if (sharedStatus === 2) sharedIcon.style.color = "Green";
+        if (sharedStatus === 0) sharedIcon.style.color = "rgb(50, 50, 50)";
+        if (sharedStatus === 1) sharedIcon.style.color = "rgb(80, 80, 255)";
+        if (sharedStatus === 2) sharedIcon.style.color = "rgb(20, 200, 20)";
       }
       this.documentsLookup[doc.id] = doc.data();
     });
@@ -205,13 +205,13 @@ export class DashboardApp extends BaseApp {
           </span>
         </div>
         <div class="document_name" data-docid="${doc.id}"></div>
-        <div class="document_status">
-            <div class="time_since last_submit_time text-center text-md-end" data-timesince="${data.lastActivity}"
-            data-showseconds="0"></div>
-            <button class="details_game btn btn-secondary" data-gamenumber="${data.gameNumber}">
-            Details
-            </button>
-        </div>
+        <div>
+          <button class="details_game btn btn-secondary" data-gamenumber="${data.gameNumber}">
+            <i class="material-icons">settings</i>
+          </button>
+        </div>  
+        <div class="document_status time_since last_submit_time" data-timesince="${data.lastActivity}"
+        data-showseconds="0"></div>
     </div></a>`;
     const ctl = document.createElement("div");
     ctl.innerHTML = html;
