@@ -216,7 +216,6 @@ export default class DocOptionsHelper {
                         <div class="tab-content">
                         <div class="tab-pane fade show active" id="options_tab_view" role="tabpanel"
                         aria-labelledby="options_tab_button">
-
                                 <button class="btn btn-secondary show_document_details_options_help"><i 
                                     class="material-icons">help</i></button>
                                 <label class="form-label">Status</label>
@@ -245,21 +244,17 @@ export default class DocOptionsHelper {
                                 aria-labelledby="owner_tab_button">                         
                                 <button class="btn btn-secondary show_document_owner_options_help"><i 
                                     class="material-icons">help</i></button>
-                                <h3>Labels</h3>
-                                <div style="text-align:center;">
-                                    <select class="edit_options_document_labels" multiple="multiple"
-                                        style="width:80%"></select>
-                                </div>
-                                <h3>Note</h3>
-                                <div style="text-align:center;">
-                                    <div class="form-floating" style="display:inline-block;width:80%">
-                                        <input type="text" class="form-control" id="owner_note_field_edit" placeholder="Note">
-                                        <label>Note</label>
-                                    </div>
-                                </div>
-                                <a href="#" class="code_link_href">URL</a><br>
+                                <a href="#" class="code_link_href">URL</a>
                                 <button class="code_link_copy btn btn-primary"><i class="material-icons">content_copy</i>
                                     <span>url</span></button>
+                                <br>
+                                <br>
+                                <label class="form-label">Labels</label>
+                                    <select class="edit_options_document_labels" multiple="multiple"
+                                        style="width:100%"></select>
+                                <br>
+                                <label class="form-label">Reference</label>
+                                 <input type="text" class="form-control" id="owner_note_field_edit" placeholder="external key or private note">
                             </div>
                             <div class="tab-pane fade" id="export_tab_view" role="tabpanel"
                                 aria-labelledby="export_tab_button">
@@ -325,7 +320,7 @@ export default class DocOptionsHelper {
             <span class="export_size"></span> bytes
             <button type="button" class="btn btn-secondary copy_export_clipboard"><i class="material-icons">content_copy</i></button>
             &nbsp;
-            <button type="button" class="btn btn-primary download_export_button">Download</button>
+            <button type="button" class="btn btn-primary download_export_button">Download Template File</button>
         </div>
     </div>`;
     }
@@ -346,7 +341,7 @@ export default class DocOptionsHelper {
         <br>
         <br>
         
-        <button class="btn btn-secondary modal_upload_tickets_button">Import Tickets</button>
+        <button class="btn btn-secondary modal_upload_tickets_button">Select Template File...</button>
         <input class="import_upload_file" style="display:none;" type="file">
         <br>
         <br>
@@ -466,6 +461,17 @@ export default class DocOptionsHelper {
                         }
                     }
                 });
+
+
+                let profileLabelString = this.app.profile.documentLabels;
+                if (!profileLabelString) profileLabelString = "";
+                const profileLabelArray = profileLabelString.split(",");
+                profileLabelArray.forEach((label: string) => {
+                    if (label !== "" && labelArray.indexOf(label) === -1) {
+                        const newOption = new Option(label, label, false, false);
+                        queryLabelSelect2.append(newOption).trigger("change");
+                    }
+                });
             } catch (error) {
                 console.log(error);
             }
@@ -550,7 +556,7 @@ export default class DocOptionsHelper {
             resultText += `<div class="export_date">${new Date().toISOString().substring(0, 10)}</div>\n`;
             tickets.forEach((ticket: any) => {
                 const prompt = <string>ticket.data().message;
-                const completion = <string> this.messageForCompletion(ticket.id);
+                const completion = <string>this.messageForCompletion(ticket.id);
                 const selected = <string>ticket.data().includeInMessage ? "✅" : "&nbsp;";
 
                 resultText += `<div class="ticket-item">\n`;
