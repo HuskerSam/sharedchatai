@@ -731,35 +731,39 @@ export class AIChatApp extends BaseApp {
   /** update the splitter if needed */
   updateSplitter() {
     let horizontal = true;
-    let minSize: any = 30;
-    if (window.document.body.scrollWidth <= 500) {
+    if (window.document.body.scrollWidth <= 650) {
       horizontal = false;
     }
 
     if (this.splitHorizontalCache !== horizontal) {
       let direction = "vertical";
-      let sizes: any = [];
-      let gutterSize = 10;
-      this.main_view_splitter.style.flexDirection = "column";
-      if (horizontal) {
-        this.main_view_splitter.style.flexDirection = "row";
-        direction = "horizontal";
-        minSize = [300, 0];
-        sizes = [25, 75];
-        gutterSize = 15;
+      
+      if (this.splitInstance) this.splitInstance.destroy();
+      this.splitInstance = null;
+      if (horizontal === false) {
+        const minSize = [0, 0];
+        const maxSize = [1000, 1000];
+        const sizes = [25, 75];
+        const gutterSize = 18;
+
+        this.main_view_splitter.style.flexDirection = "column";
+        this.main_view_splitter.classList.add("vertical_split");
+        this.main_view_splitter.classList.remove("horizontal_split");
+
+        this.splitInstance = <any>Split([".left_panel_view", ".right_panel_view"], {
+          sizes,
+          direction,
+          minSize,
+          maxSize,
+          gutterSize,
+        });
       } else {
-        minSize = [0, 0];
-        sizes = [25, 75];
-        gutterSize = 18;
+        this.main_view_splitter.style.flexDirection = "row";
+        this.main_view_splitter.classList.remove("vertical_split");
+        this.main_view_splitter.classList.add("horizontal_split");
+
       }
 
-      if (this.splitInstance) this.splitInstance.destroy();
-      this.splitInstance = <any>Split([".left_panel_view", ".right_panel_view"], {
-        sizes,
-        direction,
-        minSize,
-        gutterSize,
-      });
       this.splitHorizontalCache = horizontal;
     }
   }

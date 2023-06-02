@@ -320,3 +320,15 @@ ul.recent_documents_list li a {
 .members_list {
   max-height: 50vh;
 }
+
+.left_panel_view {
+  width: 300px;
+}
+
+.vertical_split .left_panel_view {
+  width: auto;
+}
+
+.right_panel_view {
+  flex: 1;
+}
