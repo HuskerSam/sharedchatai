@@ -26,24 +26,30 @@ body {
 
 .members_feed_profile_image {
   display: inline-block;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   background-position: center center;
   background-size: contain;
   background-repeat: no-repeat;
   position: relative;
-  top: 6px;
+  margin-right: 4px;
+  align-self: center;
 }
 
 .members_feed_profile_name {
   white-space: nowrap;
   flex: 1;
   overflow: hidden;
+  font-size: 16px;
+
 }
 
 .members_feed_line_wrapper {
   display: flex;
   flex-direction: row;
+  background: rgba(55,55,55,.5);
+  margin-bottom: 4px;
+  border-radius: 5%;
 }
 
 .members_feed_online_status {
@@ -57,12 +63,14 @@ body {
 
 .member_online_status {
   border-radius: 100%;
-  width: 18px;
-  height: 18px;
+  width: 14px;
+  height: 14px;
   background: rgb(127, 127, 127);
-  border: solid 1px rgb(47, 47, 47);
+  border: solid 1px rgba(47, 47, 47,.5);
   display: inline-block;
   position: relative;
+  margin: 0 4px;
+  align-self: center;
 }
 
 .member_online_status.online {
@@ -206,6 +214,7 @@ body {
 .document_usage_stats_line {
   display: flex;
   padding: 4px;
+  background-color: rgba(55,55,55,.5);
 }
 
 .document_usage_stats_line span {
