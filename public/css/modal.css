@@ -82,5 +82,15 @@
  }
 
  #editDocumentModal textarea.document_title.form-control {
-  height: 150px;
+  height: 125px;
+ }
+
+ #owner_note_field_edit {
+  width: 90%;
+ }
+
+ .code_link_href {
+  line-height: 2em;
+  color: unset;
+  display: none;
  }

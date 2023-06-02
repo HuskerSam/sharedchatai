@@ -109,7 +109,7 @@ export default class DocOptionsHelper {
      */
     copyGameLink() {
         navigator.clipboard.writeText(window.location.origin + "/aichat/?game=" + this.app.editedDocumentId);
-        const buttonText = `<i class="material-icons">content_copy</i> <span>${this.app.editedDocumentId}</span>`;
+        const buttonText = `<i class="material-icons">content_copy</i> <span>Copy URL</span>`;
         this.code_link_copy.innerHTML = "✅" + buttonText;
         setTimeout(() => this.code_link_copy.innerHTML = buttonText, 1200);
     }
@@ -136,8 +136,7 @@ export default class DocOptionsHelper {
         if (this.documentData.label !== label) body.label = label;
         if (this.documentData.note !== note) body.note = note;
 
-        if (this.document_title.value.trim() !== this.documentData.title &&
-            this.document_title.value !== "") {
+        if (this.document_title.value.trim() !== this.documentData.title) {
             body.title = this.document_title.value.trim();
         }
 
@@ -208,28 +207,30 @@ export default class DocOptionsHelper {
                                     </label>
                                 </div>
                                 <br>
-                                <div>Token Limit</div>
+                                <br>
                                 <div class="shared_usage_limit_div"></div>
                                 <div class="form-floating owner_usage_limit_wrapper">
                                     <input type="text" class="form-control docfield_usage_limit" placeholder="Usage Limit">
                                     <label>Usage Limit</label>
                                 </div>
-                                <a href="#" style="display:none;" class="code_link_href">URL</a>
-                                <button class="code_link_copy btn btn-primary"><i class="material-icons">content_copy</i>
-                                    <span>url</span></button>
                             </div>
                             <div class="tab-pane fade" id="owner_tab_view" role="tabpanel"
                                 aria-labelledby="owner_tab_button">
-    
+                                <h3>Labels</h3>
                                 <div style="text-align:center;">
                                     <select class="edit_options_document_labels" multiple="multiple"
                                         style="width:80%"></select>
                                 </div>
-                                <br>
-                                <div class="form-floating" style="display:inline-block;width:80%">
-                                    <input type="text" class="form-control" id="owner_note_field_edit" placeholder="Note">
-                                    <label>Note</label>
+                                <h3>Note</h3>
+                                <div style="text-align:center;">
+                                    <div class="form-floating" style="display:inline-block;width:80%">
+                                        <input type="text" class="form-control" id="owner_note_field_edit" placeholder="Note">
+                                        <label>Note</label>
+                                    </div>
                                 </div>
+                                <a href="#" class="code_link_href">URL</a><br>
+                                <button class="code_link_copy btn btn-primary"><i class="material-icons">content_copy</i>
+                                    <span>url</span></button>
                             </div>
                             <div class="tab-pane fade" id="export_tab_view" role="tabpanel"
                                 aria-labelledby="export_tab_button">
@@ -438,9 +439,10 @@ export default class DocOptionsHelper {
         if (this.code_link_href) {
             const path = window.location.href;
             this.code_link_href.setAttribute("href", path);
+            this.code_link_href.innerHTML = path;
         }
 
-        this.code_link_copy.innerHTML = `<i class="material-icons">content_copy</i> <span>${this.app.editedDocumentId}</span>`;
+        this.code_link_copy.innerHTML = `<i class="material-icons">content_copy</i> <span>Copy URL</span>`;
 
         this.refreshReportData();
     }

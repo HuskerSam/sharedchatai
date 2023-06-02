@@ -111,6 +111,10 @@ export class AIChatApp extends BaseApp {
     });
     this.updateSplitter();
 
+    window.addEventListener('resize', () => {
+      this.updateSplitter();
+    });
+
     this.show_profile_modal.addEventListener("click", (event: any) => {
       event.stopPropagation();
       event.preventDefault();

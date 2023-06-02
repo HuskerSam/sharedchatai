@@ -44,10 +44,6 @@
       let module = await import('/models/aichatapp.js');
       window.GuessApp = new module.AIChatApp();
     });
-
-    window.addEventListener('resize', () => {
-      window.GuessApp.updateSplitter();
-    });
   </script>
 </head>
 
