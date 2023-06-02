@@ -180,7 +180,7 @@ export class DashboardApp extends BaseApp {
      data-gamenumber="${doc.id}" gamenumber="${doc.id}">
     <div class="d-flex justify-content-end">
         <div class="document_name" data-docid="${doc.id}"></div>
-        <div class="document_status d-flex flex-row justify-content-between">
+        <div class="document_status">
             <div class="user_img_wrapper">
                 <div class="d-flex flex-row">
                     <span class="align-self-center pe-2"><img class="owner_img chat_user_image" 
@@ -191,12 +191,12 @@ export class DashboardApp extends BaseApp {
                     data-docid="${doc.id}">${data.memberNames[data.createUser]}</span>
                 </div>
             </div>
-            <div class="mx-4 time_since last_submit_time text-center text-md-end" data-timesince="${data.lastActivity}"
+            <div class="time_since last_submit_time text-center text-md-end" data-timesince="${data.lastActivity}"
             data-showseconds="0"></div>
-        </div>
-        <button class="details_game btn btn-secondary" data-gamenumber="${data.gameNumber}">
+            <button class="details_game btn btn-secondary" data-gamenumber="${data.gameNumber}">
             Details
-        </button>
+            </button>
+        </div>
     </div></a>`;
     const ctl = document.createElement("div");
     ctl.innerHTML = html;

@@ -279,8 +279,10 @@ ul.recent_documents_list li a {
 }
 
 .sidebar_document_title {
+  padding: 0 8px 12px 8px;
   overflow: hidden;
   max-height: 3em;
+  font-style: italic;
 }
 
 .members_list {

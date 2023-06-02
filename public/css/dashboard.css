@@ -200,10 +200,6 @@ button.code_link {
   overflow: hidden;
 }
 
-.document_status {
-  flex: .35;
-  align-self: flex-start;
-}
 
 .details_game {
   align-self: flex-start;
@@ -219,9 +215,9 @@ button.code_link {
   margin-left: 8px
 }
 
-.document_info_header_right {
-  flex: 1;
-  justify-content: space-between;
+.document_info_header_right,
+.document_status {
+  width: 150px;
 }
 
 
@@ -229,13 +225,16 @@ button.code_link {
   .games_view_wrapper {
     margin: 0 5% 0 5%;
   }
-
   .document_status,
   .document_info_header_right {
-    flex: .5;
-    justify-content: space-between;
+    width: 220px;
   }
 }
+
+@media (min-width: 600px) {
+ 
+}
+
 
 @media (min-width: 440px) {
   .owner_name {
@@ -272,7 +271,7 @@ button.code_link {
   background-size: contain;
   background-repeat: no-repeat;
   position: relative;
-  top: 6px;
+  top: 2px;
 }
 
 .userprofile_description .user_name {
