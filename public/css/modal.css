@@ -38,10 +38,6 @@
     text-align: right;
   }
   
-  #editDocumentModal .modal-body {
-    min-height: 400px;
-  }
-  
   .modal_options_shared_user #owner_tab_view,
   .modal_options_shared_user #owner_tab_button
    {
@@ -116,3 +112,29 @@
  .completion-text {
   white-space: pre-wrap;
  }
+
+ .copy_export_clipboard {
+  padding-bottom: 0;
+ }
+
+ .code_link_copy i {
+  position: relative;
+  top: 5px;
+ }
+
+ .help_viewer_iframe {
+  width: 100%;
+  height: 400px;
+  color: inherit;
+ }
+
+ .help_helper_wrapper {
+  background:  #5c636a;
+  color: rgb(240, 240, 240);
+ }
+
+ .show_import_tickets_help i {
+  position: relative;
+  top: 4px;
+  color: orange;
+}

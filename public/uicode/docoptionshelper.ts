@@ -30,6 +30,7 @@ export default class DocOptionsHelper {
     download_export_button: any;
     modal_upload_tickets_button: any;
     import_upload_file: any;
+    show_import_tickets_help: any;
     /**
      * @param { any } app BaseApp derived application instance
      * @param { string } wrapperClass class to add to modal wrapper
@@ -69,6 +70,9 @@ export default class DocOptionsHelper {
         this.modal_upload_tickets_button = document.querySelector(".modal_upload_tickets_button");
         this.import_upload_file = document.querySelector(".import_upload_file");
         this.copy_export_clipboard = document.querySelector(".copy_export_clipboard");
+
+        this.show_import_tickets_help = document.querySelector(".show_import_tickets_help");
+        this.show_import_tickets_help.addEventListener("click", () => this.app.helpHelper.show("import_tickets"));
 
         this.save_game_afterfeed_button.addEventListener("click", () => this.saveDocumentOptions());
         const del: any = this.modalContainer.querySelector("button.delete_game");
@@ -312,6 +316,10 @@ export default class DocOptionsHelper {
      */
     getModalTabImportHTML(): string {
         return `<div style="text-align:center">
+        <div style="text-align:right">
+            <button class="btn btn-secondary show_import_tickets_help"><i class="material-icons">help</i></button>
+            &nbsp;
+        </div>
         <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
             <input type="radio" class="btn-check" name="import_format_choice" id="import_csv_format" value="csv"
                 autocomplete="off" checked>
@@ -322,6 +330,7 @@ export default class DocOptionsHelper {
         </div>
         <br>
         <br>
+        
         <button class="btn btn-secondary modal_upload_tickets_button">Import Tickets</button>
         <input class="import_upload_file" style="display:none;" type="file">
         
@@ -524,9 +533,9 @@ export default class DocOptionsHelper {
             format = "text/html";
             resultText += `<div class="export_date">${new Date().toISOString().substring(0, 10)}</div>\n`;
             tickets.forEach((ticket: any) => {
-                const prompt = <string> ticket.data().message;
+                const prompt = <string>ticket.data().message;
                 const completion = <string> this.messageForCompletion(ticket.id);
-                const selected = <string> ticket.data().includeInMessage ? "✅" : "&nbsp;";
+                const selected = <string>ticket.data().includeInMessage ? "✅" : "&nbsp;";
 
                 resultText += `<div class="ticket-item">\n`;
                 resultText += `    <div class="prompt-text">${selected} ${prompt}</div>\n`;

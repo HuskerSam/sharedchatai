@@ -4,6 +4,9 @@ import LoginHelper from "./loginhelper.js";
 import DocOptionsHelper from "./docoptionshelper.js";
 import DocCreateHelper from "./doccreatehelper.js";
 import ProfileHelper from "./profilehelper.js";
+import {
+  HelpHelper,
+} from "./helphelper.js";
 
 declare const firebase: any;
 declare const window: any;
@@ -37,6 +40,7 @@ export class AIChatApp extends BaseApp {
   documentOptions = new DocOptionsHelper(this);
   documentCreate = new DocCreateHelper(this);
   profileHelper = new ProfileHelper(this);
+  helpHelper = new HelpHelper(this);
   editedDocumentId = -1;
   documentsLookup: any = {};
   lastDocumentOptionChange = 0;
@@ -54,7 +58,7 @@ export class AIChatApp extends BaseApp {
 
   main_view_splitter: any = document.querySelector(".main_view_splitter");
   show_document_options_modal: any = document.querySelector(".show_document_options_modal");
-
+  show_document_options_help: any = document.querySelector(".show_document_options_help");
   show_profile_modal: any = document.querySelector(".show_profile_modal");
   show_create_modal: any = document.querySelector(".show_create_modal");
 
@@ -98,6 +102,7 @@ export class AIChatApp extends BaseApp {
     document.addEventListener("visibilitychange", () => this.refreshOnlinePresence());
     this.ticket_content_input.addEventListener("input", () => this.updatePromptTokenStatus());
     this.show_document_options_modal.addEventListener("click", () => this.showOptionsModal());
+    this.show_document_options_help.addEventListener("click", () => this.helpHelper.show("chatroom_sidebar_document_header"));
 
     this.docfield_temperature.addEventListener("input", () => this.optionSliderChange(true, "temperature",
       this.docfield_temperature, this.temperature_slider_label, "Temperature: "));

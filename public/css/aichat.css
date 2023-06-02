@@ -350,7 +350,8 @@ ul.recent_documents_list li a {
   }
 }
 
-.show_document_options_modal {
+.show_document_options_modal,
+.show_document_options_help {
   position: absolute;
   top: 5px;
   right: 5px;
@@ -358,14 +359,20 @@ ul.recent_documents_list li a {
   border: none;
 }
 
-.show_document_options_modal i {
+.show_document_options_help {
+  right: 50px;
+}
+
+.show_document_options_modal i,
+.show_document_options_help i {
   position: relative;
   top: 4px;
 }
 
-.show_document_options_modal:hover {
-  background: none;
-  border: none;
+.show_document_options_modal:hover,
+.show_document_options_help:hover {
+  background: rgb(127, 127, 127);
+  border: white;
   color: white;
 }
 
