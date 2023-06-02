@@ -136,7 +136,12 @@ export default class DocOptionsHelper {
         if (this.documentData.label !== label) body.label = label;
         if (this.documentData.note !== note) body.note = note;
 
-        if (this.document_title.value.trim() !== this.documentData.title) {
+        const newTitle = this.document_title.value.trim();
+        if (newTitle !== this.documentData.title) {
+            if (this.document_title.value === "") {
+                alert("Please provide a title before saving");
+                return;
+            }
             body.title = this.document_title.value.trim();
         }
 
