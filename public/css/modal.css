@@ -171,7 +171,7 @@
   z-index: 100000;
 }
 
-#document_usage_cap_field {
+.document_usage_cap_field {
   width: 150px;
 }
 
@@ -233,4 +233,21 @@
 .modal .modal-header,
 .modal .modal-footer {
   border-color: rgb(50, 120, 50);
+}
+
+.modal_document_title_edit {
+  display: block;
+}
+
+.modal_document_title_display {
+  display: block;
+  min-height: 2em;
+}
+
+.modal_options_shared_user .modal_document_title_edit {
+  display: none;
+}
+
+.modal_options_owner_user .modal_document_title_display {
+  display: none;
 }

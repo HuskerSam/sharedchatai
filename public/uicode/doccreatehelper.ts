@@ -10,6 +10,9 @@ export default class DocCreateHelper {
     create_modal_note_field: any = null;
     doccreatehelper_show_modal: any = null;
     creatingNewRecord = false;
+    show_create_dialog_help: any;
+    create_modal_title_field: any;
+    document_usage_cap_field: any;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -29,6 +32,10 @@ export default class DocCreateHelper {
         this.create_modal_note_field = this.modalContainer.querySelector(".create_modal_note_field");
         this.doccreatehelper_show_modal = document.querySelector(".doccreatehelper_show_modal");
         this.create_game_afterfeed_button = this.modalContainer.querySelector(".create_game_afterfeed_button");
+        this.create_modal_title_field = this.modalContainer.querySelector(".create_modal_title_field");
+        this.document_usage_cap_field = this.modalContainer.querySelector(".document_usage_cap_field");
+        this.show_create_dialog_help = this.modalContainer.querySelector(".show_create_dialog_help");
+        this.show_create_dialog_help.addEventListener("click", () => this.app.helpHelper.show("create_document_modal"));
 
         this.create_game_afterfeed_button.addEventListener("click", () => this.createNewGame());
 
@@ -49,7 +56,7 @@ export default class DocCreateHelper {
         <div class="modal-dialog">
           <div class="modal-content app_panel">
             <div class="modal-header">
-              <h5 class="modal-title" id="createDocumentModalLabel">Create Document</h5>
+              <h5 class="modal-title" id="createDocumentModalLabel">New Chat Room</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -65,7 +72,7 @@ export default class DocCreateHelper {
               <div style="display:inline-block;">
                 <label class="form-label">Usage Cap</label>
                 <br>
-                <input type="text" class="form-control" id="document_usage_cap_field" placeholder="tokens limit">
+                <input type="text" class="form-control document_usage_cap_field" placeholder="tokens limit">
               </div>
               <br>
               <br>
@@ -106,12 +113,18 @@ export default class DocCreateHelper {
         this.create_game_afterfeed_button.setAttribute("disabled", true);
         this.create_game_afterfeed_button.innerHTML = "Creating...";
 
-        const gameType = "aichat";
-        const body = {
-            gameType,
+        let body: any = {
+            gameType: "aichat",
             label: this.scrapeLabels(),
-            note: this.create_modal_note_field.value,
+            note: this.create_modal_note_field.value.trim(),
+            title: this.create_modal_title_field.value.trim()
         };
+        
+        
+        if (this.document_usage_cap_field.value.trim() !== "") {
+          body.tokenUsageLimit = this.document_usage_cap_field.value.trim();
+        }
+
         const token = await firebase.auth().currentUser.getIdToken();
         const fResult = await fetch(this.app.basePath + "lobbyApi/games/create", {
             method: "POST",
@@ -131,7 +144,7 @@ export default class DocCreateHelper {
         }
 
         const a = document.createElement("a");
-        a.setAttribute("href", `/${gameType}/?game=${json.gameNumber}`);
+        a.setAttribute("href", `/${body.gameType}/?game=${json.gameNumber}`);
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);

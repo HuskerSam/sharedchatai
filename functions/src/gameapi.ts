@@ -99,6 +99,13 @@ export default class GameAPI {
 
     let note = "";
     if (req.body.note) note = req.body.note;
+
+    let title = "";
+    if (req.body.title) title = req.body.title;
+
+    let tokenUsageLimit = 0;
+    if (req.body.tokenUsageLimit) tokenUsageLimit = req.body.tokenUsageLimit;
+
     const game: any = {};
     Object.assign(game, BaseClass.defaultChatDocumentOptions());
     Object.assign(game,
@@ -111,11 +118,12 @@ export default class GameAPI {
         totalTokens: 0,
         completionTokens: 0,
         promptTokens: 0,
-        tokenUsageLimit: 0,
+        tokenUsageLimit,
         label,
         note,
+        title,
       });
-
+console.log(game);
     if (req.body.visibility) game.visibility = req.body.visibility;
     game.publicStatus = GameAPI._publicStatus(game);
 
@@ -127,7 +135,7 @@ export default class GameAPI {
 
     if (!displayName) displayName = "Anonymous";
     if (!displayImage) displayImage = "";
-    console.log(game);
+
     game.members = {
       [uid]: new Date().toISOString(),
     };

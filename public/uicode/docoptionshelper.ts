@@ -8,7 +8,8 @@ export default class DocOptionsHelper {
     save_game_afterfeed_button: any = null;
     modal_close_button: any = null;
     modalContainer: any = null;
-    document_title: any = null;
+    modal_document_title_edit: any = null;
+    modal_document_title_display: any;
     documentData: any = null;
     docfield_archived_checkbox: any = null;
     shared_archived_status_wrapper: any = null;
@@ -54,7 +55,8 @@ export default class DocOptionsHelper {
         this.owner_note_field_edit = this.modalContainer.querySelector("#owner_note_field_edit");
         this.save_game_afterfeed_button = this.modalContainer.querySelector(".save_game_afterfeed_button");
         this.modal_close_button = this.modalContainer.querySelector(".modal_close_button");
-        this.document_title = this.modalContainer.querySelector(".document_title");
+        this.modal_document_title_edit = this.modalContainer.querySelector(".modal_document_title_edit");
+        this.modal_document_title_display = this.modalContainer.querySelector(".modal_document_title_display");
 
         this.docfield_archived_checkbox = document.querySelector(".docfield_archived_checkbox");
         this.shared_archived_status_wrapper = document.querySelector(".shared_archived_status_wrapper");
@@ -149,17 +151,17 @@ export default class DocOptionsHelper {
         };
 
         if (this.documentData.acrhived !== archived) body.archived = archived;
-        if (this.documentData.tokenUsageLimit !== archived) body.tokenUsageLimit = tokenUsageLimit;
+        if (this.documentData.tokenUsageLimit !== tokenUsageLimit) body.tokenUsageLimit = tokenUsageLimit;
         if (this.documentData.label !== label) body.label = label;
         if (this.documentData.note !== note) body.note = note;
 
-        const newTitle = this.document_title.value.trim();
+        const newTitle = this.modal_document_title_edit.value.trim();
         if (newTitle !== this.documentData.title) {
-            if (this.document_title.value === "") {
+            if (this.modal_document_title_edit.value === "") {
                 alert("Please provide a title before saving");
                 return;
             }
-            body.title = this.document_title.value.trim();
+            body.title = this.modal_document_title_edit.value.trim();
         }
 
         const token = await firebase.auth().currentUser.getIdToken();
@@ -231,8 +233,9 @@ export default class DocOptionsHelper {
                                 <br>
                                 <label class="form-label">Title</label>
                                 <br>
-                                <textarea type="text" class="form-control document_title"
+                                <textarea type="text" class="form-control modal_document_title_edit"
                                     placeholder="will autofill if empty"></textarea>
+                                <div class="modal_document_title_display"></div>
                                 <br>
                                 <label class="form-label">Token Usage Cap (0 for none)</label>
                                 <br>
@@ -435,7 +438,8 @@ export default class DocOptionsHelper {
             this.modalContainer.classList.add("modal_options_shared_user");
         }
 
-        this.document_title.value = this.documentData.title;
+        this.modal_document_title_edit.value = this.documentData.title;
+        this.modal_document_title_display.innerHTML = this.documentData.title;
         this.docfield_usage_limit.value = this.documentData.tokenUsageLimit;
         this.shared_usage_limit_div.innerHTML = this.documentData.tokenUsageLimit;
         this.docfield_archived_checkbox.checked = this.documentData.archived;
