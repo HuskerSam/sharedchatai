@@ -296,7 +296,6 @@ button.btn-primary:active {
 }
 
 .app_panel input[type="range"] {
-  -webkit-appearance: none;
   width: 100%;
   height: 15px;
   border-radius: 5px;  
