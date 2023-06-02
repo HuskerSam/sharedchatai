@@ -35,10 +35,6 @@
   background-color: rgba(250, 250, 250);
 }
 
-button.delete_game {
-  display: none;
-}
-
 .visibility_select {
   display: inline-block;
 }
