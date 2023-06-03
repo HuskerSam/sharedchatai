@@ -132,8 +132,6 @@
   color: rgb(240, 240, 240);
 }
 
-.show_import_tickets_help,
-.show_export_tickets_help,
 .show_document_details_options_help,
 .show_create_dialog_help,
 .show_modal_profile_help,
@@ -142,6 +140,12 @@
   position: absolute;
   right: 5px;
   top: 0px;
+}
+
+.show_import_tickets_help,
+.show_document_owner_options_help,
+.show_export_tickets_help {
+  background: none;
 }
 
 .show_create_dialog_help,
@@ -258,5 +262,5 @@
 
 .doc_options_import_rows_preview {
   display: inline-block;
-  width: 100px;
+  width: 70px;
 }

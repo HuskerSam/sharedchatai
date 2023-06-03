@@ -131,14 +131,14 @@ export default class DocOptionsHelper {
     async updateImportRowsDisplay() {
         const records: any = await ChatDocument.getImportDataFromDomFile(this.import_upload_file);
         this.doc_options_import_rows_preview.innerHTML = records.length + " rows";
-        if (records.length > 0) this.modal_send_tickets_to_api_button.style.display = "inline-block";
-        else this.modal_send_tickets_to_api_button.style.display = "none";
+        if (records.length > 0) this.modal_send_tickets_to_api_button.style.visibility = "visible";
+        else this.modal_send_tickets_to_api_button.style.display = "hidden";
     }
     /** copy game url link to clipboard
      */
     copyGameLink() {
         navigator.clipboard.writeText(window.location.origin + "/aichat/?game=" + this.app.editedDocumentId);
-        const buttonText = `<i class="material-icons">content_copy</i> <span>Copy URL</span>`;
+        const buttonText = `<i class="material-icons">content_copy</i> <span>Link</span>`;
         this.code_link_copy.innerHTML = "✅" + buttonText;
         setTimeout(() => this.code_link_copy.innerHTML = buttonText, 1200);
     }
@@ -248,16 +248,25 @@ export default class DocOptionsHelper {
                                 <div class="shared_usage_limit_div"></div>
                                 <input type="text" class="form-control docfield_usage_limit owner_usage_limit_wrapper" 
                                     placeholder="Usage Limit">
-                                <br><br>
-                                <button class="btn btn-secondary modal_upload_tickets_button">Template...</button>
-                                <input class="import_upload_file" style="display:none;" type="file">
-                                &nbsp;
-                                <div class="doc_options_import_rows_preview"></div>
-                                <button class="btn btn-primary modal_send_tickets_to_api_button" 
-                                                    style="display:none">Import</button>
+                                <br>
+                                <div style="line-height:3em">
+                                    <button class="btn btn-secondary modal_upload_tickets_button">Template...</button>
+                                    <input class="import_upload_file" style="display:none;" type="file">
+                                    &nbsp;
+                                    <div class="doc_options_import_rows_preview"></div>
+                                    <button class="btn btn-primary modal_send_tickets_to_api_button" 
+                                                        style="visibility:hidden">Import</button>
+                                    <button class="btn btn-secondary show_import_tickets_help">
+                                    <i class="material-icons">help</i></button>
+                                </div>
                             </div>
                             <div class="tab-pane fade" id="owner_tab_view" role="tabpanel"
-                                aria-labelledby="owner_tab_button">                         
+                                aria-labelledby="owner_tab_button">  
+                                <div style="text-align:center">
+                                <a href="#" class="code_link_href">URL</a>
+                                <button class="code_link_copy btn btn-secondary"><i class="material-icons">content_copy</i>
+                                    <span>url</span></button>
+                            </div>                       
                                 <button class="btn btn-secondary show_document_owner_options_help"><i 
                                     class="material-icons">help</i></button>
 
@@ -269,17 +278,7 @@ export default class DocOptionsHelper {
                                  <input type="text" class="form-control" id="owner_note_field_edit" 
                                                         placeholder="external key or private note">
                                  <br>
-                                 <br>
-                                 <div style="text-align:center">
-                                 <button class="btn btn-secondary show_import_tickets_help">
-                                                <i class="material-icons">help</i></button>
-                                 <a href="#" class="code_link_href">URL</a>
-                                 <button class="send_email_with_link_button btn btn-primary">Send Email...</button>
-                                 &nbsp;
-                                 <button class="code_link_copy btn btn-secondary"><i class="material-icons">content_copy</i>
-                                     <span>url</span></button>
-                                    
-                             </div>
+
                             </div>
                             <div class="tab-pane fade" id="export_tab_view" role="tabpanel"
                                 aria-labelledby="export_tab_button">
@@ -309,7 +308,7 @@ export default class DocOptionsHelper {
      */
     getModalTabExportHTML(): string {
         return `<div style="display:flex;flex-direction:column">
-        <button class="btn btn-secondary show_export_tickets_help"><i class="material-icons">help</i></button>
+        
         <div style="text-align: center">
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                 <input type="radio" class="btn-check" name="tickets_filter" id="selected_filter" value="selected"
@@ -317,6 +316,7 @@ export default class DocOptionsHelper {
                 <label class="btn btn-outline-primary" for="selected_filter">Selected Tickets</label>
                 <input type="radio" class="btn-check" name="tickets_filter" id="all_filter" value="all" autocomplete="off">
                 <label class="btn btn-outline-primary" for="all_filter">All Tickets</label>
+                <button class="btn btn-secondary show_export_tickets_help"><i class="material-icons">help</i></button>
             </div>
             <br><br>
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
@@ -341,7 +341,7 @@ export default class DocOptionsHelper {
             <span class="export_size"></span> bytes
             <button type="button" class="btn btn-secondary copy_export_clipboard"><i class="material-icons">content_copy</i></button>
             &nbsp;
-            <button type="button" class="btn btn-primary download_export_button">Download Template File</button>
+            <button type="button" class="btn btn-primary download_export_button">Download</button>
         </div>
     </div>`;
     }
@@ -482,7 +482,7 @@ export default class DocOptionsHelper {
             this.code_link_href.innerHTML = path;
         }
 
-        this.code_link_copy.innerHTML = `<i class="material-icons">content_copy</i> <span>Copy URL</span>`;
+        this.code_link_copy.innerHTML = `<i class="material-icons">content_copy</i> <span>Link</span>`;
 
         this.refreshReportData();
     }
