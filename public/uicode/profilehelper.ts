@@ -21,16 +21,13 @@ export default class ProfileHelper {
     preset_logos_inited = false;
     save_profile_modal_button: any;
     show_modal_profile_help: any;
+    chat_token_usage_display: any;
 
     /**
      * @param { any } app BaseApp derived application instance
      */
     constructor(app: any) {
         this.app = app;
-        this.addModalToDOM();
-    }
-    /** instaniate and add modal #loginModal */
-    addModalToDOM() {
         const html = this.getModalTemplate();
         this.modalContainer = document.createElement("div");
         this.modalContainer.innerHTML = html;
@@ -51,6 +48,7 @@ export default class ProfileHelper {
         this.save_profile_modal_button = document.querySelector(".save_profile_modal_button");
         this.profile_show_modal = document.querySelector(".profile_show_modal");
         this.show_modal_profile_help = document.querySelector(".show_modal_profile_help");
+        this.chat_token_usage_display = document.querySelector(".chat_token_usage_display");
 
         this.sign_out_button.addEventListener("click", (e: any) => {
             this.authSignout(e);
@@ -123,6 +121,11 @@ export default class ProfileHelper {
             <label class="form-label">Document Label Picklist</label>
             <br>
             <select class="label_profile_picker" multiple="multiple" style="width:100%"></select>
+            <br>
+            <br>
+            <label class="form-label">Chat Token Usage</label>
+            <br>
+            <div class="chat_token_usage_display">&nbsp;</div>
         <br>
         <div class="settings_panel">
 
@@ -276,7 +279,7 @@ export default class ProfileHelper {
         }
     }
     /** populate modal fields and show */
-    show() {
+    async show() {
         let displayName = this.app.profile.displayName;
         if (!displayName) displayName = "";
         this.profile_display_name.value = displayName;
@@ -309,6 +312,68 @@ export default class ProfileHelper {
             });
         }
         this.updateImageDisplay();
+
+        // lookup usage stats
+        const usageDoc = await firebase.firestore().doc(`Users/${this.app.uid}/internal/tokenUsage`).get();
+        let usageData = usageDoc.data();
+        if (!usageData) usageData = {};
+
+        let allTimeDisplay = "";
+        let todayDisplay = "";
+        let monthlyDisplay = "";
+        let yearlyDisplay = "";
+        const today = new Date().toISOString();
+        const yearFrag = today.substring(0, 4);
+        const yearMonthFrag = today.substring(0, 7);
+        const ymdFrag = today.substring(0, 10);
+        let runningTokens: any = {};
+        if (usageData.runningTokens) runningTokens = usageData.runningTokens;
+
+        let allTimeTotalTokens = 0;
+        if (usageData.totalTokens) allTimeTotalTokens = usageData.totalTokens;
+        let allTimePromptTokens = 0;
+        if (usageData.promptTokens) allTimePromptTokens = usageData.promptTokens;
+        let allTimeCompletionTokens = 0;
+        if (usageData.completionTokens) allTimeCompletionTokens = usageData.completionTokens;
+
+        let yearlyTotalTokens = 0;
+        if (runningTokens["total_" + yearFrag]) yearlyTotalTokens = runningTokens["total_" + yearFrag];
+        let yearlyPromptTokens = 0;
+        if (runningTokens["prompt_" + yearFrag]) yearlyPromptTokens = runningTokens["prompt_" + yearFrag];
+        let yearlyCompletionTokens = 0;
+        if (runningTokens["completion_" + yearFrag]) yearlyCompletionTokens = runningTokens["completion_" + yearFrag];
+       
+        let monthlyTotalTokens = 0;
+        if (runningTokens["total_" + yearMonthFrag]) monthlyTotalTokens = runningTokens["total_" + yearMonthFrag];
+        let monthlyPromptTokens = 0;
+        if (runningTokens["prompt_" + yearMonthFrag]) monthlyPromptTokens = runningTokens["prompt_" + yearMonthFrag];
+        let monthlyCompletionTokens = 0;
+        if (runningTokens["completion_" + yearMonthFrag]) monthlyCompletionTokens = runningTokens["completion_" + yearMonthFrag];
+
+        let dailyTotalTokens = 0;
+        if (runningTokens["total_" + ymdFrag]) dailyTotalTokens = runningTokens["total_" + ymdFrag];
+        let dailyPromptTokens = 0;
+        if (runningTokens["prompt_" + ymdFrag]) dailyPromptTokens = runningTokens["prompt_" + ymdFrag];
+        let dailyCompletionTokens = 0;
+        if (runningTokens["completion_" + ymdFrag]) dailyCompletionTokens = runningTokens["completion_" + ymdFrag];
+
+        allTimeDisplay = `All Time -> Total: ${allTimeTotalTokens} 
+            Completion: ${allTimeCompletionTokens} 
+            Prompt: ${allTimePromptTokens}`;
+        yearlyDisplay = `Year -> Total: ${yearlyTotalTokens} 
+            Completion: ${yearlyCompletionTokens} 
+            Prompt: ${yearlyPromptTokens}`;
+        monthlyDisplay = `Month -> Total: ${monthlyTotalTokens} 
+            Completion: ${monthlyCompletionTokens} 
+            Prompt: ${monthlyPromptTokens}`;
+        todayDisplay = `Today -> Total: ${dailyTotalTokens} 
+            Completion: ${dailyCompletionTokens} 
+            Prompt: ${dailyPromptTokens}`;
+
+        this.chat_token_usage_display.innerHTML = allTimeDisplay + "<br>" +
+            "<b>" + todayDisplay + "</b>" + "<br>" +
+            monthlyDisplay + "<br>" +
+            yearlyDisplay + "<br>";
         this.profile_show_modal.click();
     }
 }

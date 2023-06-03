@@ -371,19 +371,49 @@ export default class ChatAI {
                 submitted,
             };
         }
-        await firebaseAdmin.firestore().doc(`Games/${packet.gameNumber}/assists/${id}`).set(aiResponse);
 
-        await firebaseAdmin.firestore().doc(`Games/${packet.gameNumber}`).set({
-            lastActivity: new Date().toISOString(),
-            // lastMessage: ticketData.message,
-            lastTicketId: packet.gameNumber,
-            // lastResponse,
-            totalTokens: FieldValue.increment(total_tokens),
-            promptTokens: FieldValue.increment(prompt_tokens),
-            completionTokens: FieldValue.increment(completion_tokens),
-        }, {
-            merge: true,
-        });
+        const today = new Date().toISOString();
+        const yearFrag = today.substring(0, 4);
+        const yearMonthFrag = today.substring(0, 7);
+        const ymdFrag = today.substring(0, 10);
+        
+        const promises = [
+            firebaseAdmin.firestore().doc(`Games/${packet.gameNumber}/assists/${id}`).set(aiResponse),
+            firebaseAdmin.firestore().doc(`Games/${packet.gameNumber}`).set({
+                lastActivity: new Date().toISOString(),
+                // lastMessage: ticketData.message,
+                lastTicketId: id,
+                // lastResponse,
+                totalTokens: FieldValue.increment(total_tokens),
+                promptTokens: FieldValue.increment(prompt_tokens),
+                completionTokens: FieldValue.increment(completion_tokens),
+            }, {
+                merge: true,
+            }),
+            firebaseAdmin.firestore().doc(`Users/${gameData.createUser}/internal/tokenUsage`).set({
+                lastActivity: new Date().toISOString(),
+                lastMessage: ticketData.message,
+                lastChatDocumentId: packet.gameNumber,
+                lastChatTicketId: id,
+                totalTokens: FieldValue.increment(total_tokens),
+                promptTokens: FieldValue.increment(prompt_tokens),
+                completionTokens: FieldValue.increment(completion_tokens),
+                runningTokens: {
+                    ["total_" + yearFrag]: FieldValue.increment(total_tokens),
+                    ["total_" + yearMonthFrag]: FieldValue.increment(total_tokens),
+                    ["total_" + ymdFrag]: FieldValue.increment(total_tokens),
+                    ["prompt_" + yearFrag]: FieldValue.increment(prompt_tokens),
+                    ["prompt_" + yearMonthFrag]: FieldValue.increment(prompt_tokens),
+                    ["prompt_" + ymdFrag]: FieldValue.increment(prompt_tokens),
+                    ["completion_" + yearFrag]: FieldValue.increment(completion_tokens),
+                    ["completion_" + yearMonthFrag]: FieldValue.increment(completion_tokens),
+                    ["completion_" + ymdFrag]: FieldValue.increment(completion_tokens),
+               },
+            }, {
+                merge: true,
+            }),
+        ];
+        await Promise.all(promises);
     }
     /** http endpoint for user deleting message from user chat
      * @param { any } req http request object
