@@ -438,6 +438,7 @@ export default class ProfileHelper {
         const currentLabels = this.getLabels();
         if (this.app.profile.documentLabels !== currentLabels) {
             const queryLabelSelect2 = window.$(".label_profile_picker");
+            queryLabelSelect2.html("");
             queryLabelSelect2.val(null).trigger("change");
 
             let labelString = this.app.profile.documentLabels;

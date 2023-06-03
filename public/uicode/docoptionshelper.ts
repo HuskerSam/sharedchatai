@@ -22,6 +22,7 @@ export default class DocOptionsHelper {
     code_link_href: any;
     code_link_copy: any;
     wrapperClass = "";
+    chatDocumentId = "";
 
     export_data_popup_preview: any;
     export_size: any;
@@ -137,7 +138,7 @@ export default class DocOptionsHelper {
     /** copy game url link to clipboard
      */
     copyGameLink() {
-        navigator.clipboard.writeText(window.location.origin + "/aichat/?game=" + this.app.editedDocumentId);
+        navigator.clipboard.writeText(window.location.origin + "/aichat/?game=" + this.chatDocumentId);
         const buttonText = `<i class="material-icons">content_copy</i> <span>Link</span>`;
         this.code_link_copy.innerHTML = "✅" + buttonText;
         setTimeout(() => this.code_link_copy.innerHTML = buttonText, 1200);
@@ -151,7 +152,7 @@ export default class DocOptionsHelper {
     }
     /** send user (optional owner) settings for document to api */
     async saveDocumentOptions() {
-        const docId = this.app.editedDocumentId;
+        const docId = this.chatDocumentId;
         const label = this.scrapeDocumentEditLabels();
         const note = this.owner_note_field_edit.value;
         const archived = this.docfield_archived_checkbox.checked ? "1" : "0";
@@ -361,13 +362,13 @@ export default class DocOptionsHelper {
     async deleteGame() {
         if (!confirm("Are you sure you want to delete this game?")) return;
 
-        if (!this.app.editedDocumentId) {
+        if (!this.chatDocumentId) {
             alert("Game Number not found - error");
             return;
         }
 
         const body = {
-            gameNumber: this.app.editedDocumentId,
+            gameNumber: this.chatDocumentId,
         };
         const token = await firebase.auth().currentUser.getIdToken();
         const fResult = await fetch(this.app.basePath + "lobbyApi/games/delete", {
@@ -391,13 +392,13 @@ export default class DocOptionsHelper {
     }
     /** logout api call */
     async logoutGame() {
-        if (!this.app.editedDocumentId) {
+        if (!this.chatDocumentId) {
             alert("Game Number not found - error");
             return;
         }
 
         const body = {
-            gameNumber: this.app.editedDocumentId,
+            gameNumber: this.chatDocumentId,
         };
         const token = await firebase.auth().currentUser.getIdToken();
         const fResult = await fetch(this.app.basePath + "lobbyApi/games/leave", {
@@ -418,73 +419,6 @@ export default class DocOptionsHelper {
         }
 
         this.modal_close_button.click();
-    }
-    /** populate modal fields and show */
-    show() {
-        const doc = this.app.documentsLookup[this.app.editedDocumentId];
-        this.documentData = doc;
-        if (doc.createUser === this.app.uid) {
-            (<any>document.querySelector("#owner_note_field_edit")).value = doc.note;
-            this.modalContainer.classList.add("modal_options_owner_user");
-            this.modalContainer.classList.remove("modal_options_shared_user");
-        } else {
-            (<any>document.querySelector("#owner_note_field_edit")).value = "Shared Document";
-            this.modalContainer.classList.remove("modal_options_owner_user");
-            this.modalContainer.classList.add("modal_options_shared_user");
-        }
-
-        this.modal_document_title_edit.value = this.documentData.title;
-        this.modal_document_title_display.innerHTML = this.documentData.title;
-        this.docfield_usage_limit.value = this.documentData.tokenUsageLimit;
-        this.shared_usage_limit_div.innerHTML = this.documentData.tokenUsageLimit;
-        this.docfield_archived_checkbox.checked = this.documentData.archived;
-        this.shared_archived_status_wrapper.innerHTML = this.documentData.archived ? "Archived" : "Active";
-
-        if (doc.createUser === this.app.uid) {
-            const queryLabelSelect2 = window.$(".edit_options_document_labels");
-            queryLabelSelect2.val(null).trigger("change");
-
-            try {
-                let labelString = doc.label;
-                if (!labelString) labelString = "";
-                const labelArray = labelString.split(",");
-                labelArray.forEach((label: string) => {
-                    if (label !== "") {
-                        if (queryLabelSelect2.find("option[value='" + label + "']").length) {
-                            queryLabelSelect2.val(label).trigger("change");
-                        } else {
-                            // Create a DOM Option and pre-select by default
-                            const newOption = new Option(label, label, true, true);
-                            // Append it to the select
-                            queryLabelSelect2.append(newOption).trigger("change");
-                        }
-                    }
-                });
-
-
-                let profileLabelString = this.app.profile.documentLabels;
-                if (!profileLabelString) profileLabelString = "";
-                const profileLabelArray = profileLabelString.split(",");
-                profileLabelArray.forEach((label: string) => {
-                    if (label !== "" && labelArray.indexOf(label) === -1) {
-                        const newOption = new Option(label, label, false, false);
-                        queryLabelSelect2.append(newOption).trigger("change");
-                    }
-                });
-            } catch (error) {
-                console.log(error);
-            }
-        }
-
-        if (this.code_link_href) {
-            const path = window.location.href;
-            this.code_link_href.setAttribute("href", path);
-            this.code_link_href.innerHTML = path;
-        }
-
-        this.code_link_copy.innerHTML = `<i class="material-icons">content_copy</i> <span>Link</span>`;
-
-        this.refreshReportData();
     }
     /** generate export data
      * @return { string } text for selected format and tickets
@@ -652,5 +586,73 @@ export default class DocOptionsHelper {
 
         this.import_upload_file.value = ""; // clear input
         this.updateImportRowsDisplay();
+    }
+    /** populate modal fields and show */
+    show(chatDocumentId: string, doc: any) {
+        this.chatDocumentId = chatDocumentId;
+        this.documentData = doc;
+        if (doc.createUser === this.app.uid) {
+            (<any>document.querySelector("#owner_note_field_edit")).value = doc.note;
+            this.modalContainer.classList.add("modal_options_owner_user");
+            this.modalContainer.classList.remove("modal_options_shared_user");
+        } else {
+            (<any>document.querySelector("#owner_note_field_edit")).value = "Shared Document";
+            this.modalContainer.classList.remove("modal_options_owner_user");
+            this.modalContainer.classList.add("modal_options_shared_user");
+        }
+
+        this.modal_document_title_edit.value = this.documentData.title;
+        this.modal_document_title_display.innerHTML = this.documentData.title;
+        this.docfield_usage_limit.value = this.documentData.tokenUsageLimit;
+        this.shared_usage_limit_div.innerHTML = this.documentData.tokenUsageLimit;
+        this.docfield_archived_checkbox.checked = this.documentData.archived;
+        this.shared_archived_status_wrapper.innerHTML = this.documentData.archived ? "Archived" : "Active";
+
+        if (doc.createUser === this.app.uid) {
+            const queryLabelSelect2 = window.$(".edit_options_document_labels");
+            queryLabelSelect2.html("");
+            queryLabelSelect2.val(null).trigger("change");
+
+            try {
+                let labelString = doc.label;
+                if (!labelString) labelString = "";
+                const labelArray = labelString.split(",");
+                labelArray.forEach((label: string) => {
+                    if (label !== "") {
+                        if (queryLabelSelect2.find("option[value='" + label + "']").length) {
+                            queryLabelSelect2.val(label).trigger("change");
+                        } else {
+                            // Create a DOM Option and pre-select by default
+                            const newOption = new Option(label, label, true, true);
+                            // Append it to the select
+                            queryLabelSelect2.append(newOption).trigger("change");
+                        }
+                    }
+                });
+
+
+                let profileLabelString = this.app.profile.documentLabels;
+                if (!profileLabelString) profileLabelString = "";
+                const profileLabelArray = profileLabelString.split(",");
+                profileLabelArray.forEach((label: string) => {
+                    if (label !== "" && labelArray.indexOf(label) === -1) {
+                        const newOption = new Option(label, label, false, false);
+                        queryLabelSelect2.append(newOption).trigger("change");
+                    }
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        if (this.code_link_href) {
+            const path = window.location.href;
+            this.code_link_href.setAttribute("href", path);
+            this.code_link_href.innerHTML = path;
+        }
+
+        this.code_link_copy.innerHTML = `<i class="material-icons">content_copy</i> <span>Link</span>`;
+
+        this.refreshReportData();
     }
 }

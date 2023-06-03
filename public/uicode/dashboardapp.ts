@@ -12,7 +12,6 @@ export class DashboardApp extends BaseApp {
   basic_options: any = document.querySelector(".basic_options");
   userprofile_description: any = document.querySelector(".userprofile_description");
   dashboard_create_game: any = document.querySelector(".dashboard_create_game");
-  editedDocumentId = "";
   gameFeedSubscription: any;
   lastGamesFeedSnapshot: any;
   gameFeedInited = false;
@@ -49,14 +48,13 @@ export class DashboardApp extends BaseApp {
   async loadAndShowOptionsDialog(documentId: any) {
     const btn: any = document.getElementById("show_document_options_popup");
     btn.click();
-    this.editedDocumentId = documentId;
     this.lastTicketsSnapshot = {};
 
     this.lastTicketsSnapshot = await firebase.firestore().collection(`Games/${documentId}/tickets`).get();
     this.lastAssistsSnapshot = await firebase.firestore().collection(`Games/${documentId}/assists`).get();
     this.assistsLookup = {};
     this.lastAssistsSnapshot.forEach((assistDoc: any) => this.assistsLookup[assistDoc.id] = assistDoc.data());
-    this.documentOptions.show();
+    this.documentOptions.show(documentId, this.documentsLookup[documentId]);
   }
   /** BaseApp override to update additional use profile status */
   authUpdateStatusUI() {

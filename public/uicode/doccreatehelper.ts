@@ -183,6 +183,7 @@ export default class DocCreateHelper {
     this.create_modal_note_field.value = "";
 
     const queryLabelSelect2 = window.$(".create_document_label_options");
+    queryLabelSelect2.html("");
     queryLabelSelect2.val(null).trigger("change");
 
     let labelString = this.app.profile.documentLabels;

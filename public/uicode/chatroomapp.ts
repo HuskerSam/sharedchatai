@@ -41,7 +41,6 @@ export class ChatRoomApp extends BaseApp {
   documentCreate = new DocCreateHelper(this);
   profileHelper = new ProfileHelper(this);
   helpHelper = new HelpHelper(this);
-  editedDocumentId = -1;
   documentsLookup: any = {};
   lastDocumentOptionChange = 0;
   debounceTimeout: any = null;
@@ -102,12 +101,8 @@ export class ChatRoomApp extends BaseApp {
     document.addEventListener("visibilitychange", () => this.refreshOnlinePresence());
     this.ticket_content_input.addEventListener("input", () => this.updatePromptTokenStatus());
     this.show_document_options_modal.addEventListener("click", () => {
-      this.editedDocumentId = this.currentGame;
-      this.documentsLookup = {
-        [this.currentGame]: this.gameData,
-      };
       this.show_document_options_popup.click();
-      this.documentOptions.show();
+      this.documentOptions.show(this.currentGame, this.gameData);
     });
     this.show_document_options_help.addEventListener("click", () => this.helpHelper.show("chatroom_sidebar_document_header"));
 
