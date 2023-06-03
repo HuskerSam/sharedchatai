@@ -123,7 +123,6 @@ export default class GameAPI {
         note,
         title,
       });
-console.log(game);
     if (req.body.visibility) game.visibility = req.body.visibility;
     game.publicStatus = GameAPI._publicStatus(game);
 

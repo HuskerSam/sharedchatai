@@ -251,3 +251,7 @@
 .modal_options_owner_user .modal_document_title_display {
   display: none;
 }
+
+.parsed_file_status {
+  display: inline-block;
+}

@@ -1,5 +1,6 @@
 declare const firebase: any;
 declare const window: any;
+import { ChatDocument } from "./chatdocument.js";
 
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
 export default class DocOptionsHelper {
@@ -58,23 +59,23 @@ export default class DocOptionsHelper {
         this.modal_document_title_edit = this.modalContainer.querySelector(".modal_document_title_edit");
         this.modal_document_title_display = this.modalContainer.querySelector(".modal_document_title_display");
 
-        this.docfield_archived_checkbox = document.querySelector(".docfield_archived_checkbox");
-        this.shared_archived_status_wrapper = document.querySelector(".shared_archived_status_wrapper");
-        this.docfield_usage_limit = document.querySelector(".docfield_usage_limit");
-        this.shared_usage_limit_div = document.querySelector(".shared_usage_limit_div");
+        this.docfield_archived_checkbox = this.modalContainer.querySelector(".docfield_archived_checkbox");
+        this.shared_archived_status_wrapper = this.modalContainer.querySelector(".shared_archived_status_wrapper");
+        this.docfield_usage_limit = this.modalContainer.querySelector(".docfield_usage_limit");
+        this.shared_usage_limit_div = this.modalContainer.querySelector(".shared_usage_limit_div");
 
-        this.export_data_popup_preview = document.querySelector(".export_data_popup_preview");
-        this.export_size = document.querySelector(".export_size");
-        this.selected_filter = document.getElementById("selected_filter");
-        this.all_filter = document.getElementById("all_filter");
-        this.text_format = document.getElementById("text_format");
-        this.html_format = document.getElementById("html_format");
-        this.csv_format = document.getElementById("csv_format");
-        this.json_format = document.getElementById("json_format");
-        this.download_export_button = document.querySelector(".download_export_button");
-        this.modal_upload_tickets_button = document.querySelector(".modal_upload_tickets_button");
-        this.import_upload_file = document.querySelector(".import_upload_file");
-        this.copy_export_clipboard = document.querySelector(".copy_export_clipboard");
+        this.export_data_popup_preview = this.modalContainer.querySelector(".export_data_popup_preview");
+        this.export_size = this.modalContainer.querySelector(".export_size");
+        this.selected_filter = this.modalContainer.querySelector("#selected_filter");
+        this.all_filter = this.modalContainer.querySelector("#all_filter");
+        this.text_format = this.modalContainer.querySelector("#text_format");
+        this.html_format = this.modalContainer.querySelector("#html_format");
+        this.csv_format = this.modalContainer.querySelector("#csv_format");
+        this.json_format = this.modalContainer.querySelector("#json_format");
+        this.download_export_button = this.modalContainer.querySelector(".download_export_button");
+        this.modal_upload_tickets_button = this.modalContainer.querySelector(".modal_upload_tickets_button");
+        this.import_upload_file = this.modalContainer.querySelector(".import_upload_file");
+        this.copy_export_clipboard = this.modalContainer.querySelector(".copy_export_clipboard");
 
         this.show_import_tickets_help = document.querySelector(".show_import_tickets_help");
         this.show_import_tickets_help.addEventListener("click", () => this.app.helpHelper.show("import_tickets"));
@@ -429,11 +430,11 @@ export default class DocOptionsHelper {
         const doc = this.app.documentsLookup[this.app.editedDocumentId];
         this.documentData = doc;
         if (doc.createUser === this.app.uid) {
-            (<any>document.getElementById("owner_note_field_edit")).value = doc.note;
+            (<any>document.querySelector("#owner_note_field_edit")).value = doc.note;
             this.modalContainer.classList.add("modal_options_owner_user");
             this.modalContainer.classList.remove("modal_options_shared_user");
         } else {
-            (<any>document.getElementById("owner_note_field_edit")).value = "Shared Document";
+            (<any>document.querySelector("#owner_note_field_edit")).value = "Shared Document";
             this.modalContainer.classList.remove("modal_options_owner_user");
             this.modalContainer.classList.add("modal_options_shared_user");
         }
@@ -629,39 +630,28 @@ export default class DocOptionsHelper {
     }
     /** upload report data */
     async uploadReportData() {
-        if (!this.import_upload_file.files[0]) {
-            return;
-        }
-        const formatFilterSelected: any = document.querySelector(`input[name="import_format_choice"]:checked`);
-        const formatFilter: any = formatFilterSelected.value;
-
-        const fileContent = await this.import_upload_file.files[0].text();
-
         try {
-            let records: Array<any> = [];
-            if (formatFilter === "json") {
-                records = JSON.parse(fileContent);
-            } else {
-                const result = window.Papa.parse(fileContent, {
-                    header: true,
-                });
-                console.log("Papa result", result);
-                records = result.data;
-            }
+            const records = await ChatDocument.getImportDataFromDomFile(this.import_upload_file);
 
             for (let c = 0, l = records.length; c < l; c++) {
                 const ticket: any = records[c];
-                const error = await this.app.sendImportTicketToAPI({
+                const error = await ChatDocument.sendImportTicketToAPI(this.app.currentGame, {
                     prompt: ticket.prompt,
                     completion: ticket.completion,
-                });
+                }, this.app.basePath);
                 if (error) break;
+
+                this.app.tickets_list.scrollTop = this.app.tickets_list.scrollHeight;
+                setTimeout(() => this.app.tickets_list.scrollTop = this.app.tickets_list.scrollHeight, 100);
             }
         } catch (error: any) {
             alert("Import failed");
             console.log(error);
             return;
         }
+
+        this.app.tickets_list.scrollTop = this.app.tickets_list.scrollHeight;
+        setTimeout(() => this.app.tickets_list.scrollTop = this.app.tickets_list.scrollHeight, 100);
 
         this.import_upload_file.value = ""; // clear input
     }

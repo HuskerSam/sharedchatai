@@ -1,57 +1,66 @@
+import { format } from "path";
+import { ChatDocument } from "./chatdocument.js";
 declare const firebase: any;
 declare const window: any;
 
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
 export default class DocCreateHelper {
-    app: any = null;
-    modal_close_button: any = null;
-    modalContainer: any = null;
-    create_game_afterfeed_button: any = null;
-    create_modal_note_field: any = null;
-    doccreatehelper_show_modal: any = null;
-    creatingNewRecord = false;
-    show_create_dialog_help: any;
-    create_modal_title_field: any;
-    document_usage_cap_field: any;
+  app: any = null;
+  modal_close_button: any = null;
+  modalContainer: any = null;
+  create_game_afterfeed_button: any = null;
+  create_modal_note_field: any = null;
+  doccreatehelper_show_modal: any = null;
+  creatingNewRecord = false;
+  show_create_dialog_help: any;
+  create_modal_title_field: any;
+  document_usage_cap_field: any;
+  create_modal_template_file: any;
+  modal_create_template_tickets_button: any;
+  parsed_file_status: any;
 
-    /**
-     * @param { any } app BaseApp derived application instance
-     */
-    constructor(app: any) {
-        this.app = app;
-        this.addModalToDOM();
-    }
-    /** instaniate and add modal #loginModal */
-    addModalToDOM() {
-        const html = this.getModalTemplate();
-        this.modalContainer = document.createElement("div");
-        this.modalContainer.innerHTML = html;
-        document.body.appendChild(this.modalContainer);
+  /**
+   * @param { any } app BaseApp derived application instance
+   */
+  constructor(app: any) {
+    this.app = app;
+    this.addModalToDOM();
+  }
+  /** instaniate and add modal #loginModal */
+  addModalToDOM() {
+    const html = this.getModalTemplate();
+    this.modalContainer = document.createElement("div");
+    this.modalContainer.innerHTML = html;
+    document.body.appendChild(this.modalContainer);
 
-        this.create_game_afterfeed_button = this.modalContainer.querySelector(".create_game_afterfeed_button");
-        this.create_modal_note_field = this.modalContainer.querySelector(".create_modal_note_field");
-        this.doccreatehelper_show_modal = document.querySelector(".doccreatehelper_show_modal");
-        this.create_game_afterfeed_button = this.modalContainer.querySelector(".create_game_afterfeed_button");
-        this.create_modal_title_field = this.modalContainer.querySelector(".create_modal_title_field");
-        this.document_usage_cap_field = this.modalContainer.querySelector(".document_usage_cap_field");
-        this.show_create_dialog_help = this.modalContainer.querySelector(".show_create_dialog_help");
-        this.show_create_dialog_help.addEventListener("click", () => this.app.helpHelper.show("create_document_modal"));
+    this.create_game_afterfeed_button = this.modalContainer.querySelector(".create_game_afterfeed_button");
+    this.create_modal_note_field = this.modalContainer.querySelector(".create_modal_note_field");
+    this.doccreatehelper_show_modal = document.querySelector(".doccreatehelper_show_modal");
+    this.create_game_afterfeed_button = this.modalContainer.querySelector(".create_game_afterfeed_button");
+    this.create_modal_title_field = this.modalContainer.querySelector(".create_modal_title_field");
+    this.document_usage_cap_field = this.modalContainer.querySelector(".document_usage_cap_field");
+    this.show_create_dialog_help = this.modalContainer.querySelector(".show_create_dialog_help");
+    this.show_create_dialog_help.addEventListener("click", () => this.app.helpHelper.show("create_document_modal"));
+    this.modal_create_template_tickets_button = this.modalContainer.querySelector(".modal_create_template_tickets_button");
+    this.modal_create_template_tickets_button.addEventListener("click", () => this.create_modal_template_file.click());
+    this.parsed_file_status = this.modalContainer.querySelector(".parsed_file_status");
 
-        this.create_game_afterfeed_button.addEventListener("click", () => this.createNewGame());
+    this.create_modal_template_file = this.modalContainer.querySelector(".create_modal_template_file");
+    this.create_modal_template_file.addEventListener("change", () => this.updateParsedFileStatus());
+    this.create_game_afterfeed_button.addEventListener("click", () => this.createNewGame());
 
-        this.modal_close_button = this.modalContainer.querySelector(".modal_close_button");
+    this.modal_close_button = this.modalContainer.querySelector(".modal_close_button");
 
-
-        window.$(".create_document_label_options").select2({
-            tags: true,
-            placeHolder: "Add labels...",
-        });
-    }
-    /** template as string for modal
-     * @return { string } html template as string
-     */
-    getModalTemplate(): string {
-        return `  <div class="modal fade" id="createDocumentModal" tabindex="-1" aria-labelledby="createDocumentModalLabel"
+    window.$(".create_document_label_options").select2({
+      tags: true,
+      placeHolder: "Add labels...",
+    });
+  }
+  /** template as string for modal
+   * @return { string } html template as string
+   */
+  getModalTemplate(): string {
+    return `  <div class="modal fade" id="createDocumentModal" tabindex="-1" aria-labelledby="createDocumentModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content app_panel">
@@ -69,6 +78,9 @@ export default class DocCreateHelper {
                     <input class="create_modal_template_file" style="display:none;" type="file">
                   </div>
                   &nbsp;
+                  <div class="parsed_file_status">None</div>
+               <br>
+               <br>
               <div style="display:inline-block;">
                 <label class="form-label">Usage Cap</label>
                 <br>
@@ -103,82 +115,114 @@ export default class DocCreateHelper {
           </div>
         </div>
       </div>`;
+  }
+  /** create new game api call */
+  async createNewGame() {
+    if (this.creatingNewRecord) return;
+    if (!this.app.profile) return;
+    this.creatingNewRecord = true;
+
+    this.create_game_afterfeed_button.setAttribute("disabled", true);
+    this.create_game_afterfeed_button.innerHTML = "Creating...";
+
+    let body: any = {
+      gameType: "aichat",
+      label: this.scrapeLabels(),
+      note: this.create_modal_note_field.value.trim(),
+      title: this.create_modal_title_field.value.trim()
+    };
+
+    if (this.document_usage_cap_field.value.trim() !== "") {
+      body.tokenUsageLimit = this.document_usage_cap_field.value.trim();
     }
-    /** create new game api call */
-    async createNewGame() {
-        if (this.creatingNewRecord) return;
-        if (!this.app.profile) return;
-        this.creatingNewRecord = true;
 
-        this.create_game_afterfeed_button.setAttribute("disabled", true);
-        this.create_game_afterfeed_button.innerHTML = "Creating...";
-
-        let body: any = {
-            gameType: "aichat",
-            label: this.scrapeLabels(),
-            note: this.create_modal_note_field.value.trim(),
-            title: this.create_modal_title_field.value.trim()
-        };
-        
-        
-        if (this.document_usage_cap_field.value.trim() !== "") {
-          body.tokenUsageLimit = this.document_usage_cap_field.value.trim();
-        }
-
-        const token = await firebase.auth().currentUser.getIdToken();
-        const fResult = await fetch(this.app.basePath + "lobbyApi/games/create", {
-            method: "POST",
-            mode: "cors",
-            cache: "no-cache",
-            headers: {
-                "Content-Type": "application/json",
-                token,
-            },
-            body: JSON.stringify(body),
-        });
-        const json = await fResult.json();
-        if (!json.success) {
-            console.log("failed create", json);
-            alert("failed to create game");
-            return;
-        }
-
-        const a = document.createElement("a");
-        a.setAttribute("href", `/${body.gameType}/?game=${json.gameNumber}`);
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+    const token = await firebase.auth().currentUser.getIdToken();
+    const fResult = await fetch(this.app.basePath + "lobbyApi/games/create", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      headers: {
+        "Content-Type": "application/json",
+        token,
+      },
+      body: JSON.stringify(body),
+    });
+    const json = await fResult.json();
+    if (!json.success) {
+      console.log("failed create", json);
+      alert("failed to create game");
+      return;
     }
-    /** scrape labels from dom and return comma delimited list
-    * @return { string } comma delimited list
-    */
-    scrapeLabels(): string {
-        const data = window.$(".create_document_label_options").select2("data");
-        const labels: Array<string> = [];
-        data.forEach((item: any) => {
-            if (item.text.trim()) labels.push(item.text.trim());
-        });
 
-        return labels.join(",");
+    const importError = await this.parseSelectedTemplateFile(json.gameNumber);
+    if (importError) {
+      alert("data import error");
+    } else {
+      const a = document.createElement("a");
+      a.setAttribute("href", `/${body.gameType}/?game=${json.gameNumber}`);
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);  
     }
-    /** populate modal fields and show */
-    show() {
-        this.create_modal_note_field.value = "";
+  }
+  /** scrape labels from dom and return comma delimited list
+  * @return { string } comma delimited list
+  */
+  scrapeLabels(): string {
+    const data = window.$(".create_document_label_options").select2("data");
+    const labels: Array<string> = [];
+    data.forEach((item: any) => {
+      if (item.text.trim()) labels.push(item.text.trim());
+    });
 
-        const queryLabelSelect2 = window.$(".create_document_label_options");
-        queryLabelSelect2.val(null).trigger("change");
+    return labels.join(",");
+  }
+  /** populate modal fields and show */
+  show() {
+    this.create_modal_note_field.value = "";
 
-        let labelString = this.app.profile.documentLabels;
-        if (!labelString) labelString = "";
-        const labelArray = labelString.split(",");
-        labelArray.forEach((label: string) => {
-            if (label !== "") {
-                // Create a DOM Option and pre-select by default
-                const newOption = new Option(label, label, false, false);
-                // Append it to the select
-                queryLabelSelect2.append(newOption).trigger("change");
-            }
-        });
-        this.doccreatehelper_show_modal.click();
+    const queryLabelSelect2 = window.$(".create_document_label_options");
+    queryLabelSelect2.val(null).trigger("change");
+
+    let labelString = this.app.profile.documentLabels;
+    if (!labelString) labelString = "";
+    const labelArray = labelString.split(",");
+    labelArray.forEach((label: string) => {
+      if (label !== "") {
+        // Create a DOM Option and pre-select by default
+        const newOption = new Option(label, label, false, false);
+        // Append it to the select
+        queryLabelSelect2.append(newOption).trigger("change");
+      }
+    });
+    this.doccreatehelper_show_modal.click();
+  }
+  /** parse template data from file input
+   * @param {string } documentId new document to add ticket imports
+   * @return { Promise<boolean> } true if import error
+   */
+  async parseSelectedTemplateFile(documentId: string):Promise<boolean>  {
+    try {
+      const records = await ChatDocument.getImportDataFromDomFile(this.create_modal_template_file);
+
+      for (let c = 0, l = records.length; c < l; c++) {
+        const ticket: any = records[c];
+        const error = await ChatDocument.sendImportTicketToAPI(documentId, {
+          prompt: ticket.prompt,
+          completion: ticket.completion,
+        }, this.app.basePath);
+        if (error) break;
+      }
+    } catch (error: any) {
+      console.log(error);
+      return true;
     }
+
+    return false;
+  }
+  /** */
+  async updateParsedFileStatus() {
+    const importData = await ChatDocument.getImportDataFromDomFile(this.create_modal_template_file);
+    this.parsed_file_status.innerHTML = importData.length + " rows";
+  }
 }

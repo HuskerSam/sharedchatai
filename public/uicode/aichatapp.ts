@@ -814,40 +814,6 @@ export class AIChatApp extends BaseApp {
     this.prompt_token_count.innerHTML = tokens.length;
     this.total_prompt_token_count.innerHTML = this.includeTotalTokens + tokens.length;
   }
-
-  /** import ticket to api
-   * @param { any } importData ticket data
-   * @return { Promise<boolean> } returns true if error
-  */
-  async sendImportTicketToAPI(importData: any): Promise<boolean> {
-    const body = {
-      gameNumber: this.currentGame,
-      prompt: importData.prompt,
-      completion: importData.completion,
-    };
-    console.log(body);
-    const token = await firebase.auth().currentUser.getIdToken();
-    const fResult = await fetch(this.basePath + "lobbyApi/aichat/message/import", {
-      method: "POST",
-      mode: "cors",
-      cache: "no-cache",
-      headers: {
-        "Content-Type": "application/json",
-        token,
-      },
-      body: JSON.stringify(body),
-    });
-    const json = await fResult.json();
-    let error = false;
-    if (!json.success) {
-      error = true;
-      console.log("message post", json);
-      alert(json.errorMessage);
-    }
-    this.tickets_list.scrollTop = this.tickets_list.scrollHeight;
-    setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 100);
-    return error;
-  }
   /** populate and show document options popup */
   showOptionsModal() {
     this.editedDocumentId = this.currentGame;
