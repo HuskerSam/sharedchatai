@@ -491,10 +491,15 @@ export class ChatRoomApp extends BaseApp {
       `<div class="${cardClass}" ticketid="${ticketId}" chatroomid="${ticketId}">
       <hr><span class="tokens_prompt"></span>
       <div class="m-1 user_assist_request_header">
-          <div style="flex:1;">
-            <span class="ticket_owner_image" data-ticketowneruid="${data.uid}"
-                style="background-image:url(${img})"></span>
-            <span class="ticket_owner_name" data-ticketowneruid="${data.uid}">${name}</span>
+        <div style="flex:1;" class="d-flex flex-column">
+            <div class="user_assist_request_header_user" >
+              <span class="ticket_owner_image" data-ticketowneruid="${data.uid}"
+                  style="background-image:url(${img})"></span>
+              <span class="ticket_owner_name" data-ticketowneruid="${data.uid}">${name}</span>
+            </div>
+            <div class="ps-3">
+              <div class="time_since last_submit_time" data-timesince="${data.submitted}" data-showseconds="1"></div>
+            </div>
           </div>
           <button class="rerun_ticket btn btn-secondary" data-ticketid="${ticketId}"><i
                   class="material-icons">loop</i></button>
@@ -503,7 +508,7 @@ export class ChatRoomApp extends BaseApp {
               <i class="material-icons">delete</i>
           </button>
           <div class="tokens_total_since_wrapper">
-            <div class="time_since last_submit_time" data-timesince="${data.submitted}" data-showseconds="1"></div>
+        
             <div class="tokens_total"></div>
           </div>
           <div>

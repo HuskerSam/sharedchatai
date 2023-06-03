@@ -93,8 +93,13 @@ body {
   flex-direction: row;
   align-items: end;
   flex: 1;
+  line-height: 1em;
   /* color: rgb(240, 240, 240);
   background: rgb(52, 53, 65); */
+}
+
+.time_since {
+  color: rgb(127, 127, 127);
 }
 
 .game_message_list_item .message {
