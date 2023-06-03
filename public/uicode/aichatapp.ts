@@ -144,7 +144,9 @@ export class AIChatApp extends BaseApp {
     const el = this.ticket_content_input;
     setTimeout(() => {
       el.style.height = "auto";
-      el.style.height = el.scrollHeight + "px";
+      let height = el.scrollHeight;
+      if (height < 60) height = 60;
+      el.style.height = height + "px";
     }, 0);
   }
   /** update temperature label and save to api
@@ -546,6 +548,7 @@ export class AIChatApp extends BaseApp {
     }
     if (message.length > 10000) message = message.substr(0, 10000);
     this.ticket_content_input.value = "";
+    this.autoSizeTextArea();
 
     const tempTicket = {
       uid: this.uid,

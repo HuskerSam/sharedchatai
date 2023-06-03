@@ -332,41 +332,7 @@ export default class ProfileHelper {
             window.location = "/profile";
         }
     }
-    /** populate modal fields and show */
-    async show() {
-        let displayName = this.app.profile.displayName;
-        if (!displayName) displayName = "";
-        this.profile_display_name.value = displayName;
-
-        let email = firebase.auth().currentUser.email;
-        if (!email) email = "Logged in as: Anonymous";
-
-        this.logged_in_status.innerHTML = email;
-
-        this.profile_display_image_preset.value = this.app.profile.displayImage;
-        const currentLabels = this.getLabels();
-        if (this.app.profile.documentLabels !== currentLabels) {
-            const queryLabelSelect2 = window.$(".label_profile_picker");
-            queryLabelSelect2.val(null).trigger("change");
-
-            let labelString = this.app.profile.documentLabels;
-            if (!labelString) labelString = "";
-            const labelArray = labelString.split(",");
-            labelArray.forEach((label: string) => {
-                if (label !== "") {
-                    if (queryLabelSelect2.find("option[value='" + label + "']").length) {
-                        queryLabelSelect2.val(label).trigger("change");
-                    } else {
-                        // Create a DOM Option and pre-select by default
-                        const newOption = new Option(label, label, true, true);
-                        // Append it to the select
-                        queryLabelSelect2.append(newOption).trigger("change");
-                    }
-                }
-            });
-        }
-        this.updateImageDisplay();
-
+    async updateTokenUsage() {
         // lookup usage stats
         const usageDoc = await firebase.firestore().doc(`Users/${this.app.uid}/internal/tokenUsage`).get();
         let usageData = usageDoc.data();
@@ -411,23 +377,66 @@ export default class ProfileHelper {
         let dailyCompletionTokens = 0;
         if (runningTokens["completion_" + ymdFrag]) dailyCompletionTokens = runningTokens["completion_" + ymdFrag];
 
-        allTimeDisplay = `All Time -> Total: ${allTimeTotalTokens} 
-            Completion: ${allTimeCompletionTokens} 
-            Prompt: ${allTimePromptTokens}`;
-        yearlyDisplay = `Year -> Total: ${yearlyTotalTokens} 
-            Completion: ${yearlyCompletionTokens} 
-            Prompt: ${yearlyPromptTokens}`;
-        monthlyDisplay = `Month -> Total: ${monthlyTotalTokens} 
-            Completion: ${monthlyCompletionTokens} 
-            Prompt: ${monthlyPromptTokens}`;
-        todayDisplay = `Today -> Total: ${dailyTotalTokens} 
-            Completion: ${dailyCompletionTokens} 
-            Prompt: ${dailyPromptTokens}`;
+        allTimeDisplay = `<span class="usage_prefix_label">All</span><span class="total_token">${allTimeTotalTokens}</span> 
+        <span class="completion_token">${allTimeCompletionTokens}</span> 
+        <span class="prompt_token">${allTimePromptTokens}</span>`;
+        yearlyDisplay = `<span class="usage_prefix_label">Year</span><span class="total_token">${yearlyTotalTokens}</span> 
+        <span class="completion_token">${yearlyCompletionTokens}</span> 
+        <span class="prompt_token">${yearlyPromptTokens}</span>`;
+        monthlyDisplay = `<span class="usage_prefix_label">Month</span><span class="total_token">${monthlyTotalTokens}</span>
+        <span class="completion_token">${monthlyCompletionTokens}</span> 
+        <span class="prompt_token">${monthlyPromptTokens}</span>`;
+        todayDisplay = `<span class="usage_prefix_label">Today</span><span class="total_token">${dailyTotalTokens}</span>
+                <span class="completion_token">${dailyCompletionTokens}</span>
+                <span class="prompt_token">${dailyPromptTokens}</span>`;
 
-        this.chat_token_usage_display.innerHTML = allTimeDisplay + "<br>" +
-            "<b>" + todayDisplay + "</b>" + "<br>" +
-            monthlyDisplay + "<br>" +
-            yearlyDisplay + "<br>";
+        const headerRow = `<span class="usage_prefix_label"></span>
+                <span class="total_token">Total</span>
+                <span class="completion_token">Completion</span>
+                <span class="prompt_token">Prompt</span>`;
+        this.chat_token_usage_display.innerHTML = `<div class="token_usage_table">` +
+            `<div class="token_usage_row header">` + headerRow + "</div>" +
+            `<div class="token_usage_row">` + todayDisplay + "</div>" +
+            `<div class="token_usage_row">` + monthlyDisplay + "</div>" +
+            `<div class="token_usage_row">` + yearlyDisplay + "</div>" +
+            `<div class="token_usage_row">` + allTimeDisplay + "</div>" +
+            `</div>`;
+    }
+    /** populate modal fields and show */
+    async show() {
+        let displayName = this.app.profile.displayName;
+        if (!displayName) displayName = "";
+        this.profile_display_name.value = displayName;
+
+        let email = firebase.auth().currentUser.email;
+        if (!email) email = "Logged in as: Anonymous";
+
+        this.logged_in_status.innerHTML = email;
+
+        this.profile_display_image_preset.value = this.app.profile.displayImage;
+        const currentLabels = this.getLabels();
+        if (this.app.profile.documentLabels !== currentLabels) {
+            const queryLabelSelect2 = window.$(".label_profile_picker");
+            queryLabelSelect2.val(null).trigger("change");
+
+            let labelString = this.app.profile.documentLabels;
+            if (!labelString) labelString = "";
+            const labelArray = labelString.split(",");
+            labelArray.forEach((label: string) => {
+                if (label !== "") {
+                    if (queryLabelSelect2.find("option[value='" + label + "']").length) {
+                        queryLabelSelect2.val(label).trigger("change");
+                    } else {
+                        // Create a DOM Option and pre-select by default
+                        const newOption = new Option(label, label, true, true);
+                        // Append it to the select
+                        queryLabelSelect2.append(newOption).trigger("change");
+                    }
+                }
+            });
+        }
+        this.updateImageDisplay();
+        this.updateTokenUsage();
         this.profile_show_modal.click();
     }
 }

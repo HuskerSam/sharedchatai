@@ -12,7 +12,6 @@ body {
   display: flex;
 }
 
-
 .tickets_list {
   display: block;
 }
@@ -47,7 +46,7 @@ body {
 .members_feed_line_wrapper {
   display: flex;
   flex-direction: row;
-  background: rgba(55,55,55,.5);
+  background: rgba(55, 55, 55, .5);
   margin-bottom: 4px;
   border-radius: 5%;
 }
@@ -56,7 +55,7 @@ body {
   background: white;
 }
 
-.members_feed_profile_lastactivity { 
+.members_feed_profile_lastactivity {
   opacity: .55;
   padding-right: 5px;
 }
@@ -66,7 +65,7 @@ body {
   width: 14px;
   height: 14px;
   background: rgb(127, 127, 127);
-  border: solid 1px rgba(47, 47, 47,.5);
+  border: solid 1px rgba(47, 47, 47, .5);
   display: inline-block;
   position: relative;
   margin: 0 4px;
@@ -214,7 +213,7 @@ body {
 .document_usage_stats_line {
   display: flex;
   padding: 4px;
-  background-color: rgba(55,55,55,.5);
+  background-color: rgba(55, 55, 55, .5);
 }
 
 .document_usage_stats_line span {
@@ -231,22 +230,7 @@ body {
 
 .message_list_send_wrapper {
   position: relative;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0,.7);
-}
-
-.token_visualizer_preview {
-  margin: 0 8px 0px 8px;
-}
-
-.token_visualizer_preview .token_even {
-  background: rgba(0, 0, 127);
-  color: white;
-  word-wrap: break-word;
-}
-
-.token_visualizer_preview .token_odd {
-  background: rgba(225, 193, 7);
-  color: white;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, .7);
 }
 
 .ticket_item_include_wrapper {
@@ -272,7 +256,7 @@ body {
 }
 
 ul.recent_documents_list {
-   width: 100%;
+  width: 100%;
 }
 
 ul.recent_documents_list li {
@@ -280,8 +264,8 @@ ul.recent_documents_list li {
 }
 
 ul.recent_documents_list li a {
-   display: block;
-   color: rgb(240, 240, 240);
+  display: block;
+  color: rgb(240, 240, 240);
 }
 
 .recent_documents_list .activity_date {
@@ -304,8 +288,8 @@ ul.recent_documents_list li a {
   width: 300px;
 }
 
-.left_panel_view .navbar{
-  border-bottom: 1px solid rgba(222,226,230,.2);
+.left_panel_view .navbar {
+  border-bottom: 1px solid rgba(222, 226, 230, .2);
 }
 
 .vertical_split .left_panel_view {
@@ -388,18 +372,90 @@ ul.recent_documents_list li a {
 
 .ticket_content_input {
   max-height: 150px;
-  margin: 4px;
-}
-
-.prompt_token_count, .prompt_token_count, .selected_ticket_count_span, .ticket_count_span {
-  width: 4em;
-  display: inline-block;
-}
-
-.prompt_right_spacer {
-  width: 8em;
+  margin-bottom: 8px;
+  margin-left: 8px;
+  height: 60px;
+  flex: 1;
 }
 
 .recent_documents_list li {
   margin-left: -15px;
+}
+
+.send_bar_send_button_wrapper {
+  text-align: center;
+  width: 100px;
+  flex-direction: column;
+  display: flex;
+  padding-right: 8px;
+  padding-left: 8px;
+}
+
+.send_ticket_ticketcount_display {
+  width: 100px;
+  text-align: center;
+  padding-right: 8px;
+}
+
+.ticket_count_span {
+  text-align: center;
+}
+
+.send_ticket_button {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.selected_ticket_count_span {
+  color: rgb(50, 255, 50);
+}
+
+.total_prompt_token_count {
+  text-align: right;
+  color: rgb(50, 255, 50);
+}
+
+.total_prompt_token_count {
+  min-width: 35px;
+  text-align: center;
+  color: rgb(200, 200, 200);
+  background: rgba(68, 70, 84, 0.5);
+}
+
+.send_bar_display_header {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+
+.prompt_token_count {
+  text-align: center;
+  width: 35px;
+  display: none;
+}
+
+.token_visualizer_preview {
+  margin: 0 8px 0px 8px;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align-last: right;
+}
+
+.token_visualizer_preview .token_even {
+  color: rgb(240, 240, 100);
+  word-wrap: break-word;
+  background: rgba(127, 127, 127, 0.5);
+}
+
+.token_visualizer_preview .token_odd {
+  color: rgb(240, 100, 240);
+  word-wrap: break-word;
+  background: rgba(127, 127, 127, 0.5);
+}
+
+@media (max-width: 380px) {
+  .token_visualizer_preview {
+    visibility: hidden;
+  }
 }

@@ -22,6 +22,7 @@ a {
 .app_panel .select2-selection {
   background: rgb(32, 33, 35);
   color: rgb(217, 217, 227);
+
 }
 
 .app_panel button.btn-toggle {
@@ -316,4 +317,28 @@ button.btn-primary:active {
   cursor: pointer;  
   position: relative;
   top: -4px;
+}
+
+.token_usage_row {
+  display: inline-flex;
+  flex-direction: row;
+  text-align: right;
+}
+
+.header.token_usage_row {
+  text-align: center;
+  color: rgb(50, 200, 20);
+  font-size: 0.85em;
+}
+
+.usage_prefix_label {
+  width: 32px;
+  text-align: left;
+  font-size: 0.85em;
+}
+
+.total_token,
+.completion_token,
+.prompt_token {
+  width: 80px;
 }

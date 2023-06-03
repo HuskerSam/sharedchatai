@@ -158,28 +158,23 @@
       <div class="document_feed_view">
         <div class="tickets_list" style="flex:1;overflow:auto;"></div>
         <div class="message_list_send_wrapper">
-          <div style="display:flex;flex-direction:row">
-            <div class="token_visualizer_preview" style="flex:1;"></div>
+          <div class="send_bar_display_header">
             <div class="prompt_token_count"></div>
-            <div>   
+            <div class="token_visualizer_preview"></div>
+            <div class="total_prompt_token_count"></div>
+            <div class="send_ticket_ticketcount_display">   
               <span class="selected_ticket_count_span"></span>
-              /
+              <span class="ticket_count_seperator">/</span>
               <span class="ticket_count_span"></span>
             </div>
-            <div class="total_prompt_token_count"></div>
-            <div class="prompt_right_spacer"></div>
           </div>
           <div style="display:flex;flex-direction:row">
-            <div class="form-floating" style="flex:1">
-              <textarea class="form-control ticket_content_input" name="ticketcontent" placeholder="AI Questions"
-                autocomplete="off"></textarea>
-              <label>Ask Questions</label>
-              <br>
-            </div>
-            <div style="text-align:center">
-              <button class="send_ticket_button btn btn-primary" style="margin:8px;">
-                Send Ticket
-              </button>
+            <textarea class="form-control ticket_content_input" name="ticketcontent" placeholder="Ask Questions"
+              autocomplete="off"></textarea>
+            <div class="send_bar_send_button_wrapper">
+              <div style="flex:1"></div>
+              <button class="send_ticket_button btn btn-primary">Send</button>
+              <div style="flex:1"></div>
             </div>
           </div>
         </div>
