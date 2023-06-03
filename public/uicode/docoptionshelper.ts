@@ -21,6 +21,7 @@ export default class DocOptionsHelper {
     wrapperClass = "";
     chatDocumentId = "";
     prompt_for_new_note: any;
+    noLabelSave = false;
 
     export_data_popup_preview: any;
     export_size: any;
@@ -115,6 +116,7 @@ export default class DocOptionsHelper {
             tags: true,
             placeHolder: "Add labels...",
         });
+        window.$(".edit_options_document_labels").on("change", () => this.saveDocumentLabels());
 
         this.code_link_href = document.querySelector(".code_link_href");
         this.code_link_copy = document.querySelector(".code_link_copy");
@@ -387,17 +389,17 @@ export default class DocOptionsHelper {
         </div>
     </div>`;
     }
-    /** use jquery to extract label list from select2
-     * @return { string } comma delimited list of labels
-      */
-    scrapeDocumentEditLabels(): string {
+    /** use jquery to extract label list from select2 */
+    saveDocumentLabels() {
+        if (this.noLabelSave) return;
         const data = window.$(".edit_options_document_labels").select2("data");
         const labels: Array<string> = [];
         data.forEach((item: any) => {
             if (item.text.trim()) labels.push(item.text.trim());
         });
 
-        return labels.join(",");
+        this.app.gameData.label = labels.join(",");
+        this.saveDocumentOwnerOption("label");
     }
     /** delete game api call */
     async deleteGame() {
@@ -576,7 +578,15 @@ export default class DocOptionsHelper {
         this.export_data_popup_preview.classList.remove("json_preview");
         this.export_data_popup_preview.classList.add(data.formatFilter + "_preview");
         this.export_size.innerHTML = data.resultText.length;
-
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+      
+        // Select paragraph
+        const range = document.createRange();
+        range.selectNodeContents(this.export_data_popup_preview);
+        selection.addRange(range);
+        this.export_data_popup_preview.focus()
+        
         if (download) {
             const file = new File([data.resultText], data.fileName, {
                 type: data.format,
@@ -651,8 +661,10 @@ export default class DocOptionsHelper {
 
         if (doc.createUser === this.app.uid) {
             const queryLabelSelect2 = window.$(".edit_options_document_labels");
+            this.noLabelSave = true;
             queryLabelSelect2.html("");
             queryLabelSelect2.val(null).trigger("change");
+            this.noLabelSave = false;
 
             try {
                 let labelString = doc.label;
@@ -661,12 +673,16 @@ export default class DocOptionsHelper {
                 labelArray.forEach((label: string) => {
                     if (label !== "") {
                         if (queryLabelSelect2.find("option[value='" + label + "']").length) {
+                            this.noLabelSave = true;
                             queryLabelSelect2.val(label).trigger("change");
+                            this.noLabelSave = false;
                         } else {
                             // Create a DOM Option and pre-select by default
                             const newOption = new Option(label, label, true, true);
                             // Append it to the select
+                            this.noLabelSave = true;
                             queryLabelSelect2.append(newOption).trigger("change");
+                            this.noLabelSave = false;
                         }
                     }
                 });
