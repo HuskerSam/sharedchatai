@@ -255,3 +255,8 @@
 .parsed_file_status {
   display: inline-block;
 }
+
+.doc_options_import_rows_preview {
+  display: inline-block;
+  width: 100px;
+}

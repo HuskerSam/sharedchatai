@@ -28,10 +28,8 @@ export class ChatDocument {
       body: JSON.stringify(body),
     });
     const json = await fResult.json();
-    let error = false;
     if (!json.success) {
-      error = true;
-      console.log("message post", json);
+      console.log("message post error", json);
       alert(json.errorMessage);
       return true;
     }

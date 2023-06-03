@@ -36,6 +36,8 @@ export default class DocOptionsHelper {
     show_export_tickets_help: any;
     show_document_details_options_help: any;
     show_document_owner_options_help: any;
+    doc_options_import_rows_preview: any;
+    modal_send_tickets_to_api_button: any;
     /**
      * @param { any } app BaseApp derived application instance
      * @param { string } wrapperClass class to add to modal wrapper
@@ -43,10 +45,7 @@ export default class DocOptionsHelper {
     constructor(app: any, wrapperClass = "") {
         this.app = app;
         this.wrapperClass = wrapperClass;
-        this.addModalToDOM();
-    }
-    /** instaniate and add modal #loginModal */
-    addModalToDOM() {
+
         const html = this.getModalTemplate();
         this.modalContainer = document.createElement("div");
         this.modalContainer.innerHTML = html;
@@ -76,6 +75,10 @@ export default class DocOptionsHelper {
         this.modal_upload_tickets_button = this.modalContainer.querySelector(".modal_upload_tickets_button");
         this.import_upload_file = this.modalContainer.querySelector(".import_upload_file");
         this.copy_export_clipboard = this.modalContainer.querySelector(".copy_export_clipboard");
+        this.doc_options_import_rows_preview = this.modalContainer.querySelector(".doc_options_import_rows_preview");
+
+        this.modal_send_tickets_to_api_button = this.modalContainer.querySelector(".modal_send_tickets_to_api_button");
+        this.modal_send_tickets_to_api_button.addEventListener("click", () => this.uploadReportData());
 
         this.show_import_tickets_help = document.querySelector(".show_import_tickets_help");
         this.show_import_tickets_help.addEventListener("click", () => this.app.helpHelper.show("import_tickets"));
@@ -119,10 +122,15 @@ export default class DocOptionsHelper {
         this.modal_upload_tickets_button.addEventListener("click", () => {
             this.import_upload_file.click();
         });
-        this.import_upload_file.addEventListener("change", () => this.uploadReportData());
+        this.import_upload_file.addEventListener("change", () => this.updateImportRowsDisplay());
         this.copy_export_clipboard.addEventListener("click", () => this.copyExportToClipboard());
 
         this.code_link_copy.addEventListener("click", () => this.copyGameLink());
+    }
+    /** */
+    async updateImportRowsDisplay() {
+        const records: any = await ChatDocument.getImportDataFromDomFile(this.import_upload_file);
+        this.doc_options_import_rows_preview.innerHTML = records.length + " rows";
     }
     /** copy game url link to clipboard
      */
@@ -187,7 +195,6 @@ export default class DocOptionsHelper {
      */
     getModalTemplate(): string {
         const exportModalTabHTML = this.getModalTabExportHTML();
-        const importModalTabHTML = this.getModalTabImportHTML();
         return `<div class="modal fade scrollable_modal" id="editDocumentModal" tabindex="-1" aria-labelledby="editDocumentModalLabel"
         aria-hidden="true">
         <div class="modal-dialog app_panel">
@@ -212,8 +219,8 @@ export default class DocOptionsHelper {
                                     role="tab" aria-controls="export_tab_view" aria-selected="false">Export</a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="import_tab_button" data-bs-toggle="tab" href="#import_tab_view"
-                                    role="tab" aria-controls="import_tab_view" aria-selected="false">Import</a>
+                                <a class="nav-link" id="share_tab_button" data-bs-toggle="tab" href="#shared_tab_view"
+                                    role="tab" aria-controls="shared_tab_view" aria-selected="false">Share</a>
                             </li>
                         </ul>
                         <div class="tab-content">
@@ -243,16 +250,18 @@ export default class DocOptionsHelper {
                                 <div class="shared_usage_limit_div"></div>
                                 <input type="text" class="form-control docfield_usage_limit owner_usage_limit_wrapper" 
                                     placeholder="Usage Limit">
+                                <br><br>
+                                <button class="btn btn-secondary modal_upload_tickets_button">Template...</button>
+                                <input class="import_upload_file" style="display:none;" type="file">
+                                &nbsp;
+                                <div class="doc_options_import_rows_preview"></div>
+                                <button class="btn btn-secondary modal_send_tickets_to_api_button">Import</button>
                             </div>
                             <div class="tab-pane fade" id="owner_tab_view" role="tabpanel"
                                 aria-labelledby="owner_tab_button">                         
                                 <button class="btn btn-secondary show_document_owner_options_help"><i 
                                     class="material-icons">help</i></button>
-                                <a href="#" class="code_link_href">URL</a>
-                                <button class="code_link_copy btn btn-primary"><i class="material-icons">content_copy</i>
-                                    <span>url</span></button>
-                                <br>
-                                <br>
+
                                 <label class="form-label">Labels</label>
                                     <select class="edit_options_document_labels" multiple="multiple"
                                         style="width:100%"></select>
@@ -264,9 +273,16 @@ export default class DocOptionsHelper {
                                 aria-labelledby="export_tab_button">
                                 ${exportModalTabHTML}
                             </div>
-                            <div class="tab-pane fade" id="import_tab_view" role="tabpanel"
-                                aria-labelledby="import_tab_button">
-                                ${importModalTabHTML}
+                            <div class="tab-pane fade" id="shared_tab_view" role="tabpanel"
+                                aria-labelledby="share_tab_button">
+                                <div style="text-align:center">
+                                    <button class="btn btn-secondary show_import_tickets_help"><i class="material-icons">help</i></button>
+                                    <a href="#" class="code_link_href">URL</a>
+                                    <button class="code_link_copy btn btn-primary"><i class="material-icons">content_copy</i>
+                                        <span>url</span></button>
+                                    <br>
+                                    <br>
+                                </div>
                             </div>
                         </div>
                 </div>
@@ -326,29 +342,6 @@ export default class DocOptionsHelper {
             &nbsp;
             <button type="button" class="btn btn-primary download_export_button">Download Template File</button>
         </div>
-    </div>`;
-    }
-    /** return dialog html for document import
-     * @return { string } html string
-     */
-    getModalTabImportHTML(): string {
-        return `<div style="text-align:center">
-        <button class="btn btn-secondary show_import_tickets_help"><i class="material-icons">help</i></button>
-        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-            <input type="radio" class="btn-check" name="import_format_choice" id="import_csv_format" value="csv"
-                autocomplete="off" checked>
-            <label class="btn btn-outline-primary" for="import_csv_format">CSV</label>
-            <input type="radio" class="btn-check" name="import_format_choice" id="import_json_format" value="json"
-                autocomplete="off">
-            <label class="btn btn-outline-primary" for="import_json_format">JSON</label>
-        </div>
-        <br>
-        <br>
-        
-        <button class="btn btn-secondary modal_upload_tickets_button">Select Template File...</button>
-        <input class="import_upload_file" style="display:none;" type="file">
-        <br>
-        <br>
     </div>`;
     }
     /** use jquery to extract label list from select2
@@ -633,6 +626,11 @@ export default class DocOptionsHelper {
         try {
             const records = await ChatDocument.getImportDataFromDomFile(this.import_upload_file);
 
+            if (records.length === 0) {
+                alert("no records found");
+                return;
+            }
+
             for (let c = 0, l = records.length; c < l; c++) {
                 const ticket: any = records[c];
                 const error = await ChatDocument.sendImportTicketToAPI(this.app.currentGame, {
@@ -654,5 +652,6 @@ export default class DocOptionsHelper {
         setTimeout(() => this.app.tickets_list.scrollTop = this.app.tickets_list.scrollHeight, 100);
 
         this.import_upload_file.value = ""; // clear input
+        this.updateImportRowsDisplay();
     }
 }

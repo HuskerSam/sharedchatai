@@ -1,4 +1,3 @@
-import { format } from "path";
 import { ChatDocument } from "./chatdocument.js";
 declare const firebase: any;
 declare const window: any;
@@ -24,10 +23,6 @@ export default class DocCreateHelper {
    */
   constructor(app: any) {
     this.app = app;
-    this.addModalToDOM();
-  }
-  /** instaniate and add modal #loginModal */
-  addModalToDOM() {
     const html = this.getModalTemplate();
     this.modalContainer = document.createElement("div");
     this.modalContainer.innerHTML = html;
@@ -74,7 +69,7 @@ export default class DocCreateHelper {
                   <div style="display:inline-block">
                     <label class="form-label">Template</label>
                     <br>
-                    <button class="btn btn-secondary modal_create_template_tickets_button">Select File...</button>
+                    <button class="btn btn-secondary modal_create_template_tickets_button">Template...</button>
                     <input class="create_modal_template_file" style="display:none;" type="file">
                   </div>
                   &nbsp;
