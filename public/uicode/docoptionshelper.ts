@@ -587,7 +587,10 @@ export default class DocOptionsHelper {
         this.import_upload_file.value = ""; // clear input
         this.updateImportRowsDisplay();
     }
-    /** populate modal fields and show */
+    /** populate modal fields and show
+     * @param { string } chatDocumentId firestore doc id
+     * @param { any } doc doc data
+    */
     show(chatDocumentId: string, doc: any) {
         this.chatDocumentId = chatDocumentId;
         this.documentData = doc;

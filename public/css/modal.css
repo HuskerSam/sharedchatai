@@ -142,14 +142,18 @@
   top: 0px;
 }
 
+.show_modal_profile_help {
+  float: right;
+  position: static;
+}
+
 .show_import_tickets_help,
 .show_document_owner_options_help,
 .show_export_tickets_help {
   background: none;
 }
 
-.show_create_dialog_help,
-.show_modal_profile_help {
+.show_create_dialog_help {
   top: -5px;
   right: -5px;
   position: relative;
@@ -196,11 +200,6 @@
 
 .profile_display_name {
   width: 175px;
-}
-
-.randomize_name {
-  position: relative;
-  top: -3px;
 }
 
 .profile_display_image {

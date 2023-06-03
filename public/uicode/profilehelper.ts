@@ -19,7 +19,8 @@ export default class ProfileHelper {
     randomize_name: any;
     profile_show_modal: any;
     preset_logos_inited = false;
-    save_profile_modal_button: any;
+    save_profile_labels_button: any;
+    save_profile_display_name: any;
     show_modal_profile_help: any;
     chat_token_usage_display: any;
     profile_text_large_checkbox: any;
@@ -47,7 +48,11 @@ export default class ProfileHelper {
         this.profile_display_image_clear = document.querySelector(".profile_display_image_clear");
         this.profile_display_image_preset = document.querySelector(".profile_display_image_preset");
         this.randomize_name = document.querySelector(".randomize_name");
-        this.save_profile_modal_button = document.querySelector(".save_profile_modal_button");
+        this.save_profile_labels_button = document.querySelector(".save_profile_labels_button");
+        this.profile_text_monospace_checkbox = document.querySelector(".profile_text_monospace_checkbox");
+        this.profile_text_large_checkbox = document.querySelector(".profile_text_large_checkbox");
+
+        this.save_profile_display_name = document.querySelector(".save_profile_display_name");
         this.profile_show_modal = document.querySelector(".profile_show_modal");
         this.show_modal_profile_help = document.querySelector(".show_modal_profile_help");
         this.chat_token_usage_display = document.querySelector(".chat_token_usage_display");
@@ -73,7 +78,10 @@ export default class ProfileHelper {
         this.profile_display_image_clear.addEventListener("click", () => this.clearProfileImage());
         this.profile_display_image_preset.addEventListener("input", () => this.handleImagePresetChange());
         this.randomize_name.addEventListener("click", () => this.randomizeProfileName());
-        this.save_profile_modal_button.addEventListener("click", () => this.saveDialogData());
+        this.save_profile_labels_button.addEventListener("click", () => this.saveProfileField("labels"));
+        this.save_profile_display_name.addEventListener("click", () => this.saveProfileField("name"));
+        this.profile_text_monospace_checkbox.addEventListener("input", () => this.saveProfileField("monospace"));
+        this.profile_text_large_checkbox.addEventListener("input", () => this.saveProfileField("largetext"));
         this.show_modal_profile_help.addEventListener("click", () => this.app.helpHelper.show("user_profile_options"));
 
         window.$(".label_profile_picker").select2({
@@ -87,76 +95,111 @@ export default class ProfileHelper {
      * @return { string } html template as string
      */
     getModalTemplate(): string {
-        return `<div class="modal fade" id="userProfileModal" tabindex="-1" aria-labelledby="userProfileModalLabel"
-        aria-hidden="true">
+        return `<div class="modal fade" id="userProfileModal" tabindex="-1" aria-labelledby="userProfileModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-          <div class="modal-content app_panel">
-            <div class="modal-header">
-              <h5 class="modal-title logged_in_status" id="userProfileModalLabel">User Profile</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body"> 
-                <button class="btn btn-secondary show_modal_profile_help"><i class="material-icons">help</i></button>
-                <div style="float:left;white-space: nowrap;">
-                    <label class="form-label">Display Name
-                        <input type="text" class="form-control profile_display_name" placeholder="Display Name">
-                    </label>
-                    <button class="randomize_name btn btn-secondary">Random</button>
+            <div class="modal-content app_panel">
+                <div class="modal-header">
+                    <h5 class="modal-title logged_in_status" id="userProfileModalLabel">User Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            <br style="clear:both">
-            <label class="form-label">Display Image</label><br>
-            <div style="display:flex;flex-direction:row">
-                <div class="profile_display_image" style="background-image:url(/images/defaultprofile.png);"></div>
-                <div style="flex:1">
-                    &nbsp;
-                    <input type="file" class="file_upload_input" style="visibility:hidden;width:0">
-                    <button class="profile_display_image_clear btn btn-secondary"> Clear </button>
-                    &nbsp;
-                    <button class="profile_display_image_upload btn btn-secondary">Upload</button>
-                    <br>
-                    <br>
-                    <select class="profile_display_image_preset form-select">
-                        <option>Pick preset</option>
-                    </select>
-                </div>
-            </div>
-            <div style="clear:both"></div>
-            <br>
-            <label class="form-label">Document Label Picklist</label>
-            <br>
-            <select class="label_profile_picker" multiple="multiple" style="width:100%"></select>
-            <br>
-            <br>
-            <div class="profile_text_options_wrapper">
-                <label class="form-check-label">
-                    <input class="form-check-input profile_text_large_checkbox" type="checkbox" value="">
-                    Larger Text
-                </label>
-                &nbsp;
-                <label class="form-check-label">
-                    <input class="form-check-input profile_text_monospace_checkbox" type="checkbox" value="">
-                    Monospace
-                </label>
-            </div>
-            <br>
-            <label class="form-label">Chat Token Usage</label>
-            <br>
-            <div class="chat_token_usage_display">&nbsp;</div>
-        <br>
-        <div class="settings_panel">
+                <div class="modal-body">
+                    <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="profile_user_tab_button" data-bs-toggle="tab"
+                                href="#profile_user_tab_view" role="tab" aria-controls="profile_user_tab_view"
+                                aria-selected="true">User</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="profile_labels_tab_button" data-bs-toggle="tab"
+                                href="#profile_user_labels_view" role="tab" aria-controls="profile_user_labels_view"
+                                aria-selected="false">Labels</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="usage_labels_tab_button" data-bs-toggle="tab"
+                                href="#profile_user_usage_view" role="tab" aria-controls="profile_user_usage_view"
+                                aria-selected="false">Usage</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="profile_user_tab_view" role="tabpanel"
+                            aria-labelledby="profile_user_tab_button">
+                            <button class="btn btn-secondary show_modal_profile_help"><i
+                                    class="material-icons">help</i></button>
+                            <div style="font-size: 1.25em">
+                                <label class="form-check-label">
+                                    <input class="form-check-input profile_text_large_checkbox" type="checkbox" value="">
+                                    Larger Text
+                                </label>
+                                &nbsp;
+                                <label class="form-check-label">
+                                    <input class="form-check-input profile_text_monospace_checkbox" type="checkbox"
+                                        value="">
+                                        Monospace
+                                </label>
+                            </div>
+                            <hr>
+                            <div>
+                                <div style="display:inline-block;">
+                                    <label class="form-label">Display Name</label>
+                                    <br>
+                                    <input type="text" class="form-control profile_display_name" placeholder="Display Name">
+                                </div>
+                                <div style="display:inline-block;text-align: center;position:relative;top: 10px;line-height: 3em">
+                                    <button type="button" class="btn btn-primary save_profile_display_name">Save</button>
+                                    <br>
+                                    <button class="randomize_name btn btn-secondary">Random</button>
+                                </div>
+                            </div>
+                            <hr>
+                            <label class="form-label">Display Image</label><br>
+                            <div style="display:flex;flex-direction:row">
+                                <div class="profile_display_image"
+                                    style="background-image:url(/images/defaultprofile.png);"></div>
+                                <div style="flex:1">
+                                    &nbsp;
+                                    <input type="file" class="file_upload_input" style="visibility:hidden;width:0">
+                                    <button class="profile_display_image_clear btn btn-secondary"> Clear </button>
+                                    &nbsp;
+                                    <button class="profile_display_image_upload btn btn-secondary">Upload</button>
+                                    <br>
+                                    <br>
+                                    <select class="profile_display_image_preset form-select">
+                                        <option>Pick preset</option>
+                                    </select>
+                                </div>
+                            </div>
+    
+                            <div style="clear:both"></div>
+                            
 
-        </div> 
+                        </div>
+                        <div class="tab-pane fade" id="profile_user_labels_view" role="tabpanel"
+                            aria-labelledby="profile_labels_tab_button">
+    
+                            <label class="form-label">Document Label Picklist</label>
+                            <br>
+                            <select class="label_profile_picker" multiple="multiple" style="width:100%"></select>
+                            <br>
+                            <div style="text-align:center;">
+                                <button class="btn btn-primary save_profile_labels_button">Save Labels</button>   
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="profile_user_usage_view" role="tabpanel"
+                            aria-labelledby="usage_labels_tab_button">
+                             <div class="chat_token_usage_display">&nbsp;</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="sign_out_button btn btn-secondary">Sign Out</button>
+                    <div style="flex:1"></div>
+                    <button class="reset_profile btn btn-secondary" style="display:none">Reset</button>
+                    <button type="button" class="btn btn-secondary modal_close_button"
+                        data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
-        <div class="modal-footer">
-          <button class="sign_out_button btn btn-secondary">Sign Out</button>
-          <div style="flex:1"></div>
-          <button class="reset_profile btn btn-secondary" style="display:none">Reset</button>
-          <button type="button" class="btn btn-secondary modal_close_button" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary save_profile_modal_button">Save</button>
-        </div>
-      </div>
-    </div>
-  </div>`;
+    </div>`;
     }
     /** load the team logos <select> */
     async initPresetLogos() {
@@ -294,25 +337,34 @@ export default class ProfileHelper {
 
         return labels.join(",");
     }
-    /**  */
-    async saveDialogData() {
-        this.app.profile.documentLabels = this.getLabels();
-        this.app.profile.displayName = this.profile_display_name.value.trim().substring(0, 15);
-        this.app.profile.textOptionsLarge = this.profile_text_large_checkbox.checked;
-        this.app.profile.textOptionsMonospace = this.profile_text_monospace_checkbox.checked;
+    /**
+     * @param { string } fieldType name for displayName, largetext for textOptionsLarge, monospace for textOptionsMonospace, 
+     * labels for documentLabels
+     */
+    async saveProfileField(fieldType: string) {
+        const updatePacket: any = {};
 
-        const updatePacket = {
-            documentLabels: this.app.profile.documentLabels,
-            displayName: this.app.profile.displayName,
-            textOptionsLarge: this.app.profile.textOptionsLarge,
-            textOptionsMonospace: this.app.profile.textOptionsMonospace,
-        };
+        if (fieldType === "name") {
+            this.app.profile.displayName = this.profile_display_name.value.trim().substring(0, 30);
+            updatePacket.displayName = this.app.profile.displayName;
+        }
+        if (fieldType === "monospace") {
+            this.app.profile.textOptionsMonospace = this.profile_text_monospace_checkbox.checked;
+            updatePacket.textOptionsMonospace = this.app.profile.textOptionsMonospace;
+        }
+        if (fieldType === "largetext") {
+            this.app.profile.textOptionsLarge = this.profile_text_large_checkbox.checked;
+            updatePacket.textOptionsLarge = this.app.profile.textOptionsLarge;
+        }
+        if (fieldType === "labels") {
+            this.app.profile.documentLabels = this.getLabels();
+            updatePacket.documentLabels = this.app.profile.documentLabels;
+        }
         if (this.app.fireToken) {
             await firebase.firestore().doc(`Users/${this.app.uid}`).set(updatePacket, {
                 merge: true,
             });
         }
-        this.modal_close_button.click();
     }
     /** team image <select> change handler */
     async handleImagePresetChange() {
