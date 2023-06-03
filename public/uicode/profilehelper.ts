@@ -15,16 +15,17 @@ export default class ProfileHelper {
     profile_display_image_upload: any;
     file_upload_input: any;
     profile_display_image_clear: any;
-    profile_display_image_preset: any;
+    profile_display_image_randomize: any;
     randomize_name: any;
     profile_show_modal: any;
     preset_logos_inited = false;
-    save_profile_labels_button: any;
-    save_profile_display_name: any;
+    prompt_for_new_user_name: any;
     show_modal_profile_help: any;
     chat_token_usage_display: any;
     profile_text_large_checkbox: any;
     profile_text_monospace_checkbox: any;
+    lastLabelsSave = 0;
+    noLabelSave = true;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -46,13 +47,14 @@ export default class ProfileHelper {
         this.profile_display_image_upload = document.querySelector(".profile_display_image_upload");
         this.file_upload_input = document.querySelector(".file_upload_input");
         this.profile_display_image_clear = document.querySelector(".profile_display_image_clear");
-        this.profile_display_image_preset = document.querySelector(".profile_display_image_preset");
         this.randomize_name = document.querySelector(".randomize_name");
-        this.save_profile_labels_button = document.querySelector(".save_profile_labels_button");
         this.profile_text_monospace_checkbox = document.querySelector(".profile_text_monospace_checkbox");
         this.profile_text_large_checkbox = document.querySelector(".profile_text_large_checkbox");
+        this.profile_display_image_randomize = document.querySelector(".profile_display_image_randomize");
+        this.profile_display_image_randomize.addEventListener("click", () => this.randomizeImage());
 
-        this.save_profile_display_name = document.querySelector(".save_profile_display_name");
+        this.prompt_for_new_user_name = document.querySelector(".prompt_for_new_user_name");
+        this.prompt_for_new_user_name.addEventListener("click", () => this.promptForNewUserName());
         this.profile_show_modal = document.querySelector(".profile_show_modal");
         this.show_modal_profile_help = document.querySelector(".show_modal_profile_help");
         this.chat_token_usage_display = document.querySelector(".chat_token_usage_display");
@@ -76,10 +78,8 @@ export default class ProfileHelper {
         this.profile_display_image_upload.addEventListener("click", () => this.uploadProfileImage());
         this.file_upload_input.addEventListener("input", () => this.fileUploadSelected());
         this.profile_display_image_clear.addEventListener("click", () => this.clearProfileImage());
-        this.profile_display_image_preset.addEventListener("input", () => this.handleImagePresetChange());
         this.randomize_name.addEventListener("click", () => this.randomizeProfileName());
-        this.save_profile_labels_button.addEventListener("click", () => this.saveProfileField("labels"));
-        this.save_profile_display_name.addEventListener("click", () => this.saveProfileField("name"));
+        this.prompt_for_new_user_name.addEventListener("click", () => this.saveProfileField("name"));
         this.profile_text_monospace_checkbox.addEventListener("input", () => this.saveProfileField("monospace"));
         this.profile_text_large_checkbox.addEventListener("input", () => this.saveProfileField("largetext"));
         this.show_modal_profile_help.addEventListener("click", () => this.app.helpHelper.show("user_profile_options"));
@@ -88,8 +88,17 @@ export default class ProfileHelper {
             tags: true,
             placeHolder: "Configure default labels",
         });
-
-        this.initPresetLogos();
+        window.$(".label_profile_picker").on("change", () => this.saveProfileLabels());
+    }
+    /** pick a random college logo for the profile image and save to firebase */
+    async randomizeImage() {
+        await this.app.readJSONFile(`/data/logos.json`, "profileLogos");
+        const keys = Object.keys(window.profileLogos);
+        const imageIndex = Math.floor(Math.random() * keys.length);
+        const logoName = keys[imageIndex];
+        this.app.profile.displayImage = window.profileLogos[logoName];
+        this.updateImageDisplay();
+        this.saveProfileField("image");
     }
     /** template as string for modal
      * @return { string } html template as string
@@ -134,7 +143,7 @@ export default class ProfileHelper {
                                 <label class="form-check-label">
                                     <input class="form-check-input profile_text_monospace_checkbox" type="checkbox"
                                         value="">
-                                        Monospace
+                                    Monospace
                                 </label>
                             </div>
                             <hr>
@@ -142,51 +151,44 @@ export default class ProfileHelper {
                                 <div style="display:inline-block;">
                                     <label class="form-label">Display Name</label>
                                     <br>
-                                    <input type="text" class="form-control profile_display_name" placeholder="Display Name">
+                                    <div class="form-control profile_display_name">
+                                    </div>
                                 </div>
-                                <div style="display:inline-block;text-align: center;position:relative;top: 10px;line-height: 3em">
-                                    <button type="button" class="btn btn-primary save_profile_display_name">Save</button>
+                                <div
+                                    style="display:inline-block;text-align: center;position:relative;top: 10px;line-height: 3em">
+                                    <button type="button"
+                                        class="btn btn-primary prompt_for_new_user_name">Change...</button>
                                     <br>
                                     <button class="randomize_name btn btn-secondary">Random</button>
                                 </div>
                             </div>
                             <hr>
                             <label class="form-label">Display Image</label><br>
-                            <div style="display:flex;flex-direction:row">
+                            <div>
                                 <div class="profile_display_image"
                                     style="background-image:url(/images/defaultprofile.png);"></div>
-                                <div style="flex:1">
-                                    &nbsp;
+                                <div style="display:inline-block;line-height:3em">
                                     <input type="file" class="file_upload_input" style="visibility:hidden;width:0">
                                     <button class="profile_display_image_clear btn btn-secondary"> Clear </button>
-                                    &nbsp;
-                                    <button class="profile_display_image_upload btn btn-secondary">Upload</button>
                                     <br>
+                                    <button class="profile_display_image_randomize btn btn-secondary">Random</button>
                                     <br>
-                                    <select class="profile_display_image_preset form-select">
-                                        <option>Pick preset</option>
-                                    </select>
+                                    <button class="profile_display_image_upload btn btn-primary">Upload</button>
                                 </div>
                             </div>
-    
                             <div style="clear:both"></div>
-                            
-
                         </div>
-                        <div class="tab-pane fade" id="profile_user_labels_view" role="tabpanel"
+                        <div class="tab-pane fade" id="profile_user_labels_view" style="min-height:10em; role="tabpanel"
                             aria-labelledby="profile_labels_tab_button">
     
-                            <label class="form-label">Document Label Picklist</label>
+                            <label class="form-label">Default Labels</label>
                             <br>
-                            <select class="label_profile_picker" multiple="multiple" style="width:100%"></select>
+                            <select class="label_profile_picker" multiple="multiple" style="width:100%;min-height:6em"></select>
                             <br>
-                            <div style="text-align:center;">
-                                <button class="btn btn-primary save_profile_labels_button">Save Labels</button>   
-                            </div>
                         </div>
                         <div class="tab-pane fade" id="profile_user_usage_view" role="tabpanel"
                             aria-labelledby="usage_labels_tab_button">
-                             <div class="chat_token_usage_display">&nbsp;</div>
+                            <div class="chat_token_usage_display">&nbsp;</div>
                         </div>
                     </div>
                 </div>
@@ -200,20 +202,6 @@ export default class ProfileHelper {
             </div>
         </div>
     </div>`;
-    }
-    /** load the team logos <select> */
-    async initPresetLogos() {
-        if (this.preset_logos_inited) return;
-        this.preset_logos_inited = true;
-
-        await this.app.readJSONFile(`/data/logos.json`, "profileLogos");
-        let html = "<option>Select a preset image</option>";
-
-        for (const logo in window.profileLogos) {
-            if (window.profileLogos[logo]) html += `<option value="${window.profileLogos[logo]}">${logo}</option>`;
-        }
-
-        this.profile_display_image_preset.innerHTML = html;
     }
     /** open file picker for custom profile image upload */
     uploadProfileImage() {
@@ -261,7 +249,6 @@ export default class ProfileHelper {
 
                 resultFile = this.dataURLtoFile(dataurl, "pimage.png");
 
-                this.profile_display_image_preset.value = "";
                 this.profile_display_image.style.backgroundImage = ``;
                 const sRef = firebase.storage().ref("Users").child(this.app.uid + "/pimage");
                 await sRef.put(resultFile);
@@ -291,13 +278,11 @@ export default class ProfileHelper {
         });
     }
     /** handle profile image upload complete
-     * @param { string } path cloud path to image (includes uid)
      */
-    async _finishImagePathUpdate(path: string) {
+    async _finishImagePathUpdate() {
         const sRef2 = firebase.storage().ref("Users").child(this.app.uid + "/pimage");
         const resizePath = await sRef2.getDownloadURL();
         const updatePacket = {
-            rawImage: path,
             displayImage: resizePath,
         };
         if (this.app.fireToken) {
@@ -318,12 +303,23 @@ export default class ProfileHelper {
             });
         }
         this.app.profile.displayImage = "";
-        this.profile_display_image_preset.value = this.app.profile.displayImage;
         this.updateImageDisplay();
     }
     /** generate a random "safe" name */
     async randomizeProfileName(): Promise<void> {
-        this.profile_display_name.value = Utility.generateName();
+        const name = Utility.generateName();
+        this.profile_display_name.innerHTML = name;
+        this.app.profile.displayName = name;
+        this.saveProfileField("name");
+    }
+    /** show window.prompt to get a new user name, cancel is no sve, empty string is valid */
+    async promptForNewUserName() {
+        const newName = prompt("New User Name", this.app.profile.displayName);
+        if (newName !== null) {
+            this.app.profile.displayName = newName.trim().substring(0, 30);
+            this.profile_display_name.innerHTML = this.app.profile.displayName;
+            this.saveProfileField("name");
+        }
     }
     /** get user label pick list comma delimited
    * @return { string } label list
@@ -337,15 +333,20 @@ export default class ProfileHelper {
 
         return labels.join(",");
     }
+    /** scrape and save select2 label list */
+    saveProfileLabels() {
+        if (this.noLabelSave) return;
+        this.app.profile.documentLabels = this.getLabels();
+        this.saveProfileField("labels");
+    }
     /**
-     * @param { string } fieldType name for displayName, largetext for textOptionsLarge, monospace for textOptionsMonospace, 
-     * labels for documentLabels
+     * @param { string } fieldType name for displayName, largetext for textOptionsLarge, monospace for textOptionsMonospace,
+     * labels for documentLabels, image for displayImage
      */
     async saveProfileField(fieldType: string) {
         const updatePacket: any = {};
 
         if (fieldType === "name") {
-            this.app.profile.displayName = this.profile_display_name.value.trim().substring(0, 30);
             updatePacket.displayName = this.app.profile.displayName;
         }
         if (fieldType === "monospace") {
@@ -357,31 +358,16 @@ export default class ProfileHelper {
             updatePacket.textOptionsLarge = this.app.profile.textOptionsLarge;
         }
         if (fieldType === "labels") {
-            this.app.profile.documentLabels = this.getLabels();
             updatePacket.documentLabels = this.app.profile.documentLabels;
+        }
+        if (fieldType === "image") {
+            updatePacket.displayImage = this.app.profile.displayImage;
         }
         if (this.app.fireToken) {
             await firebase.firestore().doc(`Users/${this.app.uid}`).set(updatePacket, {
                 merge: true,
             });
         }
-    }
-    /** team image <select> change handler */
-    async handleImagePresetChange() {
-        if (this.profile_display_image_preset.selectedIndex > 0) {
-            const updatePacket = {
-                rawImage: this.profile_display_image_preset.value,
-                displayImage: this.profile_display_image_preset.value,
-            };
-            if (this.app.fireToken) {
-                await firebase.firestore().doc(`Users/${this.app.uid}`).set(updatePacket, {
-                    merge: true,
-                });
-            }
-        }
-
-        this.app.profile.displayImage = this.profile_display_image_preset.value;
-        this.updateImageDisplay();
     }
     /** paint user image preview */
     updateImageDisplay() {
@@ -479,36 +465,34 @@ export default class ProfileHelper {
     async show() {
         let displayName = this.app.profile.displayName;
         if (!displayName) displayName = "";
-        this.profile_display_name.value = displayName;
+        this.profile_display_name.innerHTML = displayName;
 
         let email = firebase.auth().currentUser.email;
         if (!email) email = "Logged in as: Anonymous";
 
         this.logged_in_status.innerHTML = email;
 
-        this.profile_display_image_preset.value = this.app.profile.displayImage;
-        const currentLabels = this.getLabels();
-        if (this.app.profile.documentLabels !== currentLabels) {
-            const queryLabelSelect2 = window.$(".label_profile_picker");
-            queryLabelSelect2.html("");
-            queryLabelSelect2.val(null).trigger("change");
+        const queryLabelSelect2 = window.$(".label_profile_picker");
+        this.noLabelSave = true;
+        queryLabelSelect2.html("");
+        queryLabelSelect2.val(null).trigger("change");
+        this.noLabelSave = false;
 
-            let labelString = this.app.profile.documentLabels;
-            if (!labelString) labelString = "";
-            const labelArray = labelString.split(",");
-            labelArray.forEach((label: string) => {
-                if (label !== "") {
-                    if (queryLabelSelect2.find("option[value='" + label + "']").length) {
-                        queryLabelSelect2.val(label).trigger("change");
-                    } else {
-                        // Create a DOM Option and pre-select by default
-                        const newOption = new Option(label, label, true, true);
-                        // Append it to the select
-                        queryLabelSelect2.append(newOption).trigger("change");
-                    }
+        let labelString = this.app.profile.documentLabels;
+        if (!labelString) labelString = "";
+        const labelArray = labelString.split(",");
+        labelArray.forEach((label: string) => {
+            if (label !== "") {
+                if (queryLabelSelect2.find("option[value='" + label + "']").length) {
+                    queryLabelSelect2.val(label).trigger("change");
+                } else {
+                    // Create a DOM Option and pre-select by default
+                    const newOption = new Option(label, label, true, true);
+                    // Append it to the select
+                    queryLabelSelect2.append(newOption).trigger("change");
                 }
-            });
-        }
+            }
+        });
 
         this.profile_text_large_checkbox.checked = (this.app.profile.textOptionsLarge === true);
         this.profile_text_monospace_checkbox.checked = (this.app.profile.textOptionsMonospace === true);

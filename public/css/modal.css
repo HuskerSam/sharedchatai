@@ -200,17 +200,19 @@
 
 .profile_display_name {
   width: 175px;
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
 }
 
 .profile_display_image {
-  width: 64px;
-  height: 64px;
+  width: 100px;
+  height: 100px;
   display: inline-block;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: contain;
-  margin-right: 10px;
-  padding-top: 100px;
+  margin-right: 25px;
 }
 
 .app_panel.modal-content label {
@@ -219,14 +221,8 @@
 
 .sign_out_button,
 .delete_game {
-  color: rgb(255, 0, 0);
+  color: rgb(255, 100, 100);
   background-color: rgb(52, 53, 65);
-}
-
-.profile_display_image_preset
-{
-  width: 100%;
-  display: inline-block;
 }
 
 .modal .modal-dialog .btn-close {
