@@ -90,7 +90,7 @@ export default class ChatAI {
             ticketId = addResult.id;
         }
 
-        if (gameData.unsetTitle) {
+        if (gameData.unsetTitle && message) {
             const titleUpdate = {
                 unsetTitle: false,
                 title: message,
