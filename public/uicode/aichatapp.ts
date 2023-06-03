@@ -293,9 +293,7 @@ export class AIChatApp extends BaseApp {
       }
     });
 
-    if (scrollToBottom) {
-      setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 100);
-    }
+    if (scrollToBottom) this.scrollTicketListBottom();
 
     this.generateSubmitList();
     this.updatePromptTokenStatus();
@@ -358,9 +356,7 @@ export class AIChatApp extends BaseApp {
     const tempCards =  this.tickets_list.querySelectorAll(`.temp_ticket_card`);
     tempCards.forEach((card: any) => card.remove());
 
-    if (scrollToBottom) {
-      setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 100);
-    }
+    if (scrollToBottom) this.scrollTicketListBottom();
 
     this.updateTimeSince(this.tickets_list);
 
@@ -370,12 +366,21 @@ export class AIChatApp extends BaseApp {
     this.ticket_count_span.innerHTML = this.ticketCount;
     this.selected_ticket_count_span.innerHTML = this.selectedTicketCount;
   }
+  /** */
+  scrollTicketListBottom() {
+    this.tickets_list.scrollTop = this.tickets_list.scrollHeight;
+    setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 20);
+  }
   /** send rerun request to api
    * @param { any } reRunBtn dom button
    * @param { string } ticketId doc id
+   * @param { any } card card dom
    */
-  async reRunTicket(reRunBtn: any, ticketId: string): Promise<void> {
+  async reRunTicket(reRunBtn: any, ticketId: string, card: any): Promise<void> {
     const includeTickets = this.generateSubmitList(ticketId);
+    card.classList.add("running_ticket");
+    this.tickets_list.appendChild(card);
+    this.scrollTicketListBottom();
 
     const body = {
       gameNumber: this.currentGame,
@@ -518,7 +523,7 @@ export class AIChatApp extends BaseApp {
       this.deleteTicket(deleteBtn, deleteBtn.dataset.chatroomid, deleteBtn.dataset.messageid));
 
     const reRunBtn: any = cardDom.querySelector("button.rerun_ticket");
-    reRunBtn.addEventListener("click", () => this.reRunTicket(reRunBtn, reRunBtn.dataset.ticketid));
+    reRunBtn.addEventListener("click", () => this.reRunTicket(reRunBtn, reRunBtn.dataset.ticketid, cardDom));
 
     const includeChkBox: any = cardDom.querySelector(".ticket_item_include_checkbox");
     includeChkBox.addEventListener("input", async () => {
@@ -574,9 +579,7 @@ export class AIChatApp extends BaseApp {
 
     const tempCard = this.getTicketCardDom(new Date().toISOString(), tempTicket, true);
     this.tickets_list.appendChild(tempCard);
-
-    this.tickets_list.scrollTop = this.tickets_list.scrollHeight;
-    setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 50);
+    this.scrollTicketListBottom();
 
     this.updatePromptTokenStatus();
     const includeTickets = this.generateSubmitList();
@@ -602,8 +605,7 @@ export class AIChatApp extends BaseApp {
       console.log("message post", json);
       alert(json.errorMessage);
     }
-    this.tickets_list.scrollTop = this.tickets_list.scrollHeight;
-    setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 100);
+    this.scrollTicketListBottom();
   }
   /** process exisiting tickets and return list of ids to submit
    * @param { string } ticketId doc id
