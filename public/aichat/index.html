@@ -41,8 +41,8 @@
     window.addEventListener('load', async (event) => {
       window.gpt3tokenizer = await import('/models/gpttokenizer.js');
 
-      let module = await import('/models/aichatapp.js');
-      window.GuessApp = new module.AIChatApp();
+      let module = await import('/models/chatroomapp.js');
+      window.GuessApp = new module.ChatRoomApp();
     });
   </script>
 </head>

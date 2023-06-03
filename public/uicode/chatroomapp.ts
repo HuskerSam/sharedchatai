@@ -12,7 +12,7 @@ declare const firebase: any;
 declare const window: any;
 
 /** Guess app class */
-export class AIChatApp extends BaseApp {
+export class ChatRoomApp extends BaseApp {
   apiType = "aichat";
   maxTokenPreviewChars = 30;
   currentGame: any;
@@ -101,7 +101,14 @@ export class AIChatApp extends BaseApp {
 
     document.addEventListener("visibilitychange", () => this.refreshOnlinePresence());
     this.ticket_content_input.addEventListener("input", () => this.updatePromptTokenStatus());
-    this.show_document_options_modal.addEventListener("click", () => this.showOptionsModal());
+    this.show_document_options_modal.addEventListener("click", () => {
+      this.editedDocumentId = this.currentGame;
+      this.documentsLookup = {
+        [this.currentGame]: this.gameData,
+      };
+      this.show_document_options_popup.click();
+      this.documentOptions.show();
+    });
     this.show_document_options_help.addEventListener("click", () => this.helpHelper.show("chatroom_sidebar_document_header"));
 
     this.docfield_temperature.addEventListener("input", () => this.optionSliderChange(true, "temperature",
@@ -481,38 +488,37 @@ export class AIChatApp extends BaseApp {
 
     const tempTicketClass = tempTicket ? " temp_ticket_card" : "";
     const cardWrapper = document.createElement("div");
-    const cardHTML =
-      `<div class="mt-1 game_message_list_item${gameOwnerClass}${ownerClass}${tempTicketClass} ticket_running" ticketid="${ticketId}" chatroomid="${ticketId}">
-      <div style="display:flex;flex-direction:row">
-          <div style="flex:1;display:flex;flex-direction:column">
-              <div style="display:flex;flex-direction:column">
-                  <div class="message">${data.message}</div>
-              </div>
-              <div class="assist_section">Pending...</div>
-              <div style="display:flex;flex-direction:column">
-                  <div class="m-1 user_assist_request_header">
-                      <div class="member_desc">
-                          <span class="ticket_owner_image" data-ticketowneruid="${data.uid}" style="background-image:url(${img})"></span>
-                      </div>
-                      <div>
-                          <span class="name ticket_owner_name" data-ticketowneruid="${data.uid}">${name}</span>
-                      </div>
-                      <div style="flex:1;text-align: center;"><div class="time_since last_submit_time" data-timesince="${data.submitted}"
-                      data-showseconds="1">
-                      </div></div>
-                      <span class="tokens_total"></span>
-                      <span class="tokens_prompt"></span>
-                      <span class="tokens_completion"></span>
-                      <button class="rerun_ticket btn btn-secondary" data-ticketid="${ticketId}"><i class="material-icons">loop</i></button>
-                      <button class="delete_ticket btn btn-secondary" data-chatroomid="${data.gameNumber}" data-messageid="${ticketId}">
-                          <i class="material-icons">delete</i>
-                      </button>
-                  </div>
-              </div>
+    let cardClass = `mt-1 game_message_list_item${gameOwnerClass}${ownerClass}${tempTicketClass} ticket_running`;
+    const cardHTML = 
+      `<div class="${cardClass}" ticketid="${ticketId}" chatroomid="${ticketId}">
+      <hr><span class="tokens_prompt"></span>
+      <div class="m-1 user_assist_request_header">
+          <div style="flex:1;">
+            <span class="ticket_owner_image" data-ticketowneruid="${data.uid}"
+                style="background-image:url(${img})"></span>
+            <span class="ticket_owner_name" data-ticketowneruid="${data.uid}">${name}</span>
           </div>
-          <div class="ticket_item_include_wrapper">
-              <input class="form-check-input ticket_item_include_checkbox" type="checkbox" ticketid="${ticketId}" checked value="">
+          <button class="rerun_ticket btn btn-secondary" data-ticketid="${ticketId}"><i
+                  class="material-icons">loop</i></button>
+          <button class="delete_ticket btn btn-secondary" data-chatroomid="${data.gameNumber}"
+              data-messageid="${ticketId}">
+              <i class="material-icons">delete</i>
+          </button>
+          <div class="tokens_total_since_wrapper">
+            <div class="time_since last_submit_time" data-timesince="${data.submitted}" data-showseconds="1"></div>
+            <div class="tokens_total"></div>
           </div>
+          <div>
+            <input class="form-check-input ticket_item_include_checkbox" 
+              type="checkbox" ticketid="${ticketId}" checked value="">
+          </div>
+      </div>
+      <div class="ticket_header_section">
+          <div class="message">${data.message}</div>
+      </div>
+      <div class="assist_section_wrapper">
+          <div class="tokens_completion"></div>
+          <div class="assist_section">Pending...</div>
       </div>
   </div>`;
     cardWrapper.innerHTML = cardHTML;
@@ -848,14 +854,5 @@ export class AIChatApp extends BaseApp {
 
     this.prompt_token_count.innerHTML = tokens.length;
     this.total_prompt_token_count.innerHTML = this.includeTotalTokens + tokens.length;
-  }
-  /** populate and show document options popup */
-  showOptionsModal() {
-    this.editedDocumentId = this.currentGame;
-    this.documentsLookup = {
-      [this.currentGame]: this.gameData,
-    };
-    this.show_document_options_popup.click();
-    this.documentOptions.show();
   }
 }
