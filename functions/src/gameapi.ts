@@ -215,10 +215,9 @@ export default class GameAPI {
     }
 
     const updatePacket: any = {};
-    if (req.body.archived) {
-      const archived = (req.body.archived === "1");
-      updatePacket.archived = archived;
-      gameData.archived = archived;
+    if (req.body.archived !== undefined) {
+      updatePacket.archived = req.body.archived;
+      gameData.archived = updatePacket.archived;
     }
 
     if (req.body.tokenUsageLimit) {

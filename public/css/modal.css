@@ -70,23 +70,28 @@
   display: none;
 }
 
-.owner_usage_limit_wrapper {
-  display: inline-block;
-  width: auto;
-}
-
-.modal_options_shared_user .owner_usage_limit_wrapper {
-  display: none;
-}
-
 .shared_usage_limit_div {
   line-height: 2em;
   font-weight: bold;
   font-size: 1.5em;
+  display: inline-block;
+  width: 100px;
 }
 
-.modal_options_owner_user .shared_usage_limit_div {
+.prompt_for_new_usage {
   display: none;
+}
+
+.prompt_for_new_title {
+  display: none;
+}
+
+.modal_options_owner_user .prompt_for_new_title {
+  display: inline-block;
+}
+
+.modal_options_owner_user .prompt_for_new_usage {
+  display: inline-block;
 }
 
 #editDocumentModal textarea.document_title.form-control {
@@ -234,21 +239,9 @@
   border-color: rgb(50, 120, 50);
 }
 
-.modal_document_title_edit {
-  display: block;
-}
-
 .modal_document_title_display {
   display: block;
   min-height: 2em;
-}
-
-.modal_options_shared_user .modal_document_title_edit {
-  display: none;
-}
-
-.modal_options_owner_user .modal_document_title_display {
-  display: none;
 }
 
 .parsed_file_status {
