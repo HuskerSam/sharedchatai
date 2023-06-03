@@ -491,7 +491,7 @@ export class ChatRoomApp extends BaseApp {
 
     const tempTicketClass = tempTicket ? " temp_ticket_card" : "";
     const cardWrapper = document.createElement("div");
-    let cardClass = `mt-1 game_message_list_item${gameOwnerClass}${ownerClass}${tempTicketClass} ticket_running`;
+    const cardClass = `mt-1 game_message_list_item${gameOwnerClass}${ownerClass}${tempTicketClass} ticket_running`;
     const cardHTML =
       `<div class="${cardClass}" ticketid="${ticketId}" chatroomid="${ticketId}">
       <hr><span class="tokens_prompt"></span>
@@ -673,8 +673,6 @@ export class ChatRoomApp extends BaseApp {
       else document.body.classList.remove("profile_text_option_large");
       if (this.profile.textOptionsMonospace) document.body.classList.add("profile_text_option_monospace");
       else document.body.classList.remove("profile_text_option_monospace");
-
-      
 
       const gameId = this.urlParams.get("game");
       if (gameId) {

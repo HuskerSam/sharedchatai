@@ -53,7 +53,7 @@ export default class ProfileHelper {
         this.chat_token_usage_display = document.querySelector(".chat_token_usage_display");
         this.profile_text_large_checkbox = document.querySelector(".profile_text_large_checkbox");
         this.profile_text_monospace_checkbox = document.querySelector(".profile_text_monospace_checkbox");
-        
+
         this.sign_out_button.addEventListener("click", (e: any) => {
             this.authSignout(e);
             e.preventDefault();
@@ -300,7 +300,7 @@ export default class ProfileHelper {
         this.app.profile.displayName = this.profile_display_name.value.trim().substring(0, 15);
         this.app.profile.textOptionsLarge = this.profile_text_large_checkbox.checked;
         this.app.profile.textOptionsMonospace = this.profile_text_monospace_checkbox.checked;
-        
+
         const updatePacket = {
             documentLabels: this.app.profile.documentLabels,
             displayName: this.app.profile.displayName,
@@ -352,6 +352,7 @@ export default class ProfileHelper {
             window.location = "/profile";
         }
     }
+    /** fetch and paint user token usage */
     async updateTokenUsage() {
         // lookup usage stats
         const usageDoc = await firebase.firestore().doc(`Users/${this.app.uid}/internal/tokenUsage`).get();

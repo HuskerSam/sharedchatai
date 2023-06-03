@@ -155,7 +155,7 @@ export default class DocCreateHelper {
     if (this.create_modal_template_file.files[0]) {
       importError = await this.parseSelectedTemplateFile(json.gameNumber);
     }
-    
+
     if (importError) {
       alert("data import error");
     } else {
