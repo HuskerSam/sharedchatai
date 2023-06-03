@@ -35,10 +35,6 @@ export class DashboardApp extends BaseApp {
     this.initRTDBPresence();
 
     this.dashboard_create_game.addEventListener("click", () => this.documentCreate.show());
-
-    // redraw feeds to update time since values
-    setInterval(() => this.updateTimeSince(this.dashboard_documents_view, true), 30000);
-
     this.document_label_filter.addEventListener("input", () => this.updateGamesFeed(null));
 
     this.profile_menu_anchor.addEventListener("click", (event: any) => {
