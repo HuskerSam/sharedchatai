@@ -1,6 +1,8 @@
 declare const firebase: any;
 declare const window: any;
-import { ChatDocument } from "./chatdocument.js";
+import {
+    ChatDocument,
+} from "./chatdocument.js";
 
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
 export default class DocOptionsHelper {
@@ -251,7 +253,8 @@ export default class DocOptionsHelper {
                                 <input class="import_upload_file" style="display:none;" type="file">
                                 &nbsp;
                                 <div class="doc_options_import_rows_preview"></div>
-                                <button class="btn btn-primary modal_send_tickets_to_api_button" style="display:none">Import</button>
+                                <button class="btn btn-primary modal_send_tickets_to_api_button" 
+                                                    style="display:none">Import</button>
                             </div>
                             <div class="tab-pane fade" id="owner_tab_view" role="tabpanel"
                                 aria-labelledby="owner_tab_button">                         
@@ -263,11 +266,13 @@ export default class DocOptionsHelper {
                                         style="width:100%"></select>
                                 <br>
                                 <label class="form-label">Reference</label>
-                                 <input type="text" class="form-control" id="owner_note_field_edit" placeholder="external key or private note">
+                                 <input type="text" class="form-control" id="owner_note_field_edit" 
+                                                        placeholder="external key or private note">
                                  <br>
                                  <br>
                                  <div style="text-align:center">
-                                 <button class="btn btn-secondary show_import_tickets_help"><i class="material-icons">help</i></button>
+                                 <button class="btn btn-secondary show_import_tickets_help">
+                                                <i class="material-icons">help</i></button>
                                  <a href="#" class="code_link_href">URL</a>
                                  <button class="send_email_with_link_button btn btn-primary">Send Email...</button>
                                  &nbsp;
@@ -550,7 +555,8 @@ export default class DocOptionsHelper {
             resultText += `<div class="export_date">${new Date().toISOString().substring(0, 10)}</div>\n`;
             tickets.forEach((ticket: any) => {
                 const prompt = <string>ticket.data().message;
-                const completion = <string>this.messageForCompletion(ticket.id);
+                const completion = <string>
+                    this.messageForCompletion(ticket.id);
                 const selected = <string>ticket.data().includeInMessage ? "✅" : "&nbsp;";
 
                 resultText += `<div class="ticket-item">\n`;

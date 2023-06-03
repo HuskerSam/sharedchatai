@@ -1,4 +1,6 @@
-import { ChatDocument } from "./chatdocument.js";
+import {
+  ChatDocument,
+} from "./chatdocument.js";
 declare const firebase: any;
 declare const window: any;
 
@@ -120,11 +122,11 @@ export default class DocCreateHelper {
     this.create_game_afterfeed_button.setAttribute("disabled", true);
     this.create_game_afterfeed_button.innerHTML = "Creating...";
 
-    let body: any = {
+    const body: any = {
       gameType: "aichat",
       label: this.scrapeLabels(),
       note: this.create_modal_note_field.value.trim(),
-      title: this.create_modal_title_field.value.trim()
+      title: this.create_modal_title_field.value.trim(),
     };
 
     if (this.document_usage_cap_field.value.trim() !== "") {
@@ -157,7 +159,7 @@ export default class DocCreateHelper {
       a.setAttribute("href", `/${body.gameType}/?game=${json.gameNumber}`);
       document.body.appendChild(a);
       a.click();
-      document.body.removeChild(a);  
+      document.body.removeChild(a);
     }
   }
   /** scrape labels from dom and return comma delimited list
@@ -196,7 +198,7 @@ export default class DocCreateHelper {
    * @param {string } documentId new document to add ticket imports
    * @return { Promise<boolean> } true if import error
    */
-  async parseSelectedTemplateFile(documentId: string):Promise<boolean>  {
+  async parseSelectedTemplateFile(documentId: string):Promise<boolean> {
     try {
       const records = await ChatDocument.getImportDataFromDomFile(this.create_modal_template_file);
 

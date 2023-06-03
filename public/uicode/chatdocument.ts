@@ -3,7 +3,6 @@ declare const window: any;
 
 /** static functions for UI and api calls  */
 export class ChatDocument {
-
   /** import ticket to api
    * @param { string } documentId chat doc id
    * @param { any } importData ticket data
@@ -35,7 +34,7 @@ export class ChatDocument {
     }
     return false;
   }
-  /** 
+  /**
    * @param { any } fileInput DOM file input element
    * @return { Promise<Array<any>> } array of data
   */
@@ -58,7 +57,7 @@ export class ChatDocument {
         });
         records = result.data;
       }
-      
+
       return records;
     } catch (importError) {
       console.log("Import ERROR", importError);
