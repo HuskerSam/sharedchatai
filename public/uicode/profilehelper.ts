@@ -162,25 +162,80 @@ export default class ProfileHelper {
     }
     /** handle local profile image selected for upload and store it */
     async fileUploadSelected() {
+        if (!this.file_upload_input.files[0]) return;
         const file = this.file_upload_input.files[0];
-        const sRef = firebase.storage().ref("Users").child(this.app.uid + "/pimage");
+        const reader = new FileReader();
+        let resultFile: any = null;
+        reader.onload = (e: any) => {
+            const img = document.createElement("img");
 
-        if (file.size > 5000000) {
-            alert("File needs to be less than 1mb in size");
-            return;
+            img.onload = async () => {
+                // Dynamically create a canvas element
+                const canvas: any = document.createElement("canvas");
+                canvas.width = 300;
+                canvas.height = 300;
+
+                // var canvas = document.getElementById("canvas");
+                const ctx: any = canvas.getContext("2d");
+
+                // Actual resizing
+                const width = img.width;
+                const height = img.height;
+                let w = 300;
+                let h = 300;
+                let left = 0;
+                let top = 0;
+                if (width > height) {
+                    w = 300;
+                    h = 300 * height / width;
+                    top = (300 - h) / 2;
+                }
+                if (height > width) {
+                    h = 300;
+                    w = 300 * width / height;
+                    left = (300 - w) / 2;
+                }
+                ctx.drawImage(img, left, top, w, h);
+
+                // Show resized image in preview element
+                const dataurl = canvas.toDataURL("image/png");
+
+                resultFile = this.dataURLtoFile(dataurl, "pimage.png");
+
+                this.profile_display_image_preset.value = "";
+                this.profile_display_image.style.backgroundImage = ``;
+                const sRef = firebase.storage().ref("Users").child(this.app.uid + "/pimage");
+                await sRef.put(resultFile);
+                const path = await sRef.getDownloadURL();
+                setTimeout(() => this._finishImagePathUpdate(path), 1500);
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+    /**
+     * @param { string } dataurl
+     * @param { string } filename
+     * @return { any } file dom obj
+     */
+    dataURLtoFile(dataurl: string, filename: string) {
+        const arr: any = dataurl.split(",");
+        const mime = arr[0].match(/:(.*?);/)[1];
+        const bstr = atob(arr[1]);
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
         }
-        this.profile_display_image_preset.value = "";
-        this.profile_display_image.style.backgroundImage = ``;
-
-        await sRef.put(file);
-        const path = await sRef.getDownloadURL();
-        setTimeout(() => this._finishImagePathUpdate(path), 1500);
+        return new File([u8arr], filename, {
+            type: mime,
+        });
     }
     /** handle profile image upload complete
      * @param { string } path cloud path to image (includes uid)
      */
     async _finishImagePathUpdate(path: string) {
-        const sRef2 = firebase.storage().ref("Users").child(this.app.uid + "/_resized/pimage_700x700");
+        const sRef2 = firebase.storage().ref("Users").child(this.app.uid + "/pimage");
         const resizePath = await sRef2.getDownloadURL();
         const updatePacket = {
             rawImage: path,
@@ -192,7 +247,6 @@ export default class ProfileHelper {
             });
         }
         this.updateImageDisplay();
-        setTimeout(() => this.updateImageDisplay(), 500);
     }
     /** reset profile image (and store result in user profile) */
     async clearProfileImage() {
@@ -342,7 +396,7 @@ export default class ProfileHelper {
         if (runningTokens["prompt_" + yearFrag]) yearlyPromptTokens = runningTokens["prompt_" + yearFrag];
         let yearlyCompletionTokens = 0;
         if (runningTokens["completion_" + yearFrag]) yearlyCompletionTokens = runningTokens["completion_" + yearFrag];
-       
+
         let monthlyTotalTokens = 0;
         if (runningTokens["total_" + yearMonthFrag]) monthlyTotalTokens = runningTokens["total_" + yearMonthFrag];
         let monthlyPromptTokens = 0;

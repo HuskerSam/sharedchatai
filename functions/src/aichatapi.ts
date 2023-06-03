@@ -376,7 +376,7 @@ export default class ChatAI {
         const yearFrag = today.substring(0, 4);
         const yearMonthFrag = today.substring(0, 7);
         const ymdFrag = today.substring(0, 10);
-        
+
         const promises = [
             firebaseAdmin.firestore().doc(`Games/${packet.gameNumber}/assists/${id}`).set(aiResponse),
             firebaseAdmin.firestore().doc(`Games/${packet.gameNumber}`).set({
