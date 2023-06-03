@@ -81,7 +81,7 @@ export default class DocOptionsHelper {
         this.modal_send_tickets_to_api_button.addEventListener("click", () => this.uploadReportData());
 
         this.show_import_tickets_help = document.querySelector(".show_import_tickets_help");
-        this.show_import_tickets_help.addEventListener("click", () => this.app.helpHelper.show("import_tickets"));
+        this.show_import_tickets_help.addEventListener("click", () => this.app.helpHelper.show("share_document_options_tab"));
         this.show_export_tickets_help = document.querySelector(".show_export_tickets_help");
         this.show_export_tickets_help.addEventListener("click", () => this.app.helpHelper.show("export_tickets"));
 
@@ -119,9 +119,7 @@ export default class DocOptionsHelper {
         this.csv_format.addEventListener("click", () => this.refreshReportData());
         this.json_format.addEventListener("click", () => this.refreshReportData());
         this.download_export_button.addEventListener("click", () => this.downloadReportData());
-        this.modal_upload_tickets_button.addEventListener("click", () => {
-            this.import_upload_file.click();
-        });
+        this.modal_upload_tickets_button.addEventListener("click", () => this.import_upload_file.click());
         this.import_upload_file.addEventListener("change", () => this.updateImportRowsDisplay());
         this.copy_export_clipboard.addEventListener("click", () => this.copyExportToClipboard());
 
@@ -131,6 +129,8 @@ export default class DocOptionsHelper {
     async updateImportRowsDisplay() {
         const records: any = await ChatDocument.getImportDataFromDomFile(this.import_upload_file);
         this.doc_options_import_rows_preview.innerHTML = records.length + " rows";
+        if (records.length > 0) this.modal_send_tickets_to_api_button.style.display = "inline-block";
+        else this.modal_send_tickets_to_api_button.style.display = "none";
     }
     /** copy game url link to clipboard
      */
@@ -211,12 +211,12 @@ export default class DocOptionsHelper {
                                     aria-selected="true">Details</a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="owner_tab_button" data-bs-toggle="tab" href="#owner_tab_view"
-                                    role="tab" aria-controls="owner_tab_view" aria-selected="false">Owner</a>
-                            </li>
-                            <li class="nav-item" role="presentation">
                                 <a class="nav-link" id="export_tab_button" data-bs-toggle="tab" href="#export_tab_view"
                                     role="tab" aria-controls="export_tab_view" aria-selected="false">Export</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="owner_tab_button" data-bs-toggle="tab" href="#owner_tab_view"
+                                    role="tab" aria-controls="owner_tab_view" aria-selected="false">Owner</a>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link" id="share_tab_button" data-bs-toggle="tab" href="#shared_tab_view"
@@ -255,7 +255,7 @@ export default class DocOptionsHelper {
                                 <input class="import_upload_file" style="display:none;" type="file">
                                 &nbsp;
                                 <div class="doc_options_import_rows_preview"></div>
-                                <button class="btn btn-secondary modal_send_tickets_to_api_button">Import</button>
+                                <button class="btn btn-primary modal_send_tickets_to_api_button" style="display:none">Import</button>
                             </div>
                             <div class="tab-pane fade" id="owner_tab_view" role="tabpanel"
                                 aria-labelledby="owner_tab_button">                         
