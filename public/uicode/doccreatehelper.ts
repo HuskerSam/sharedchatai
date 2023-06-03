@@ -202,13 +202,16 @@ export default class DocCreateHelper {
     try {
       const records = await ChatDocument.getImportDataFromDomFile(this.create_modal_template_file);
 
-      for (let c = 0, l = records.length; c < l; c++) {
-        const ticket: any = records[c];
-        const error = await ChatDocument.sendImportTicketToAPI(documentId, {
-          prompt: ticket.prompt,
-          completion: ticket.completion,
-        }, this.app.basePath);
-        if (error) break;
+      if (records.length === 0) {
+          alert("no records found");
+          return true;
+      }
+
+      const recordsToUpload: any = ChatDocument.processImportTicketsToUpload(records);
+      const error = await ChatDocument.sendImportTicketToAPI(documentId, recordsToUpload, this.app.basePath);
+      if (error) {
+          alert("Import error");
+          return true;
       }
     } catch (error: any) {
       console.log(error);

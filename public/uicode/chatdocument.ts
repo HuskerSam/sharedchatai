@@ -5,15 +5,14 @@ declare const window: any;
 export class ChatDocument {
   /** import ticket to api
    * @param { string } documentId chat doc id
-   * @param { any } importData ticket data
+   * @param { Array<any> } importedTickets imported ticket array
    * @param { any } basePath API basePath
    * @return { Promise<boolean> } returns true if error
   */
-  static async sendImportTicketToAPI(documentId: string, importData: any, basePath: string): Promise<boolean> {
+  static async sendImportTicketToAPI(documentId: string, importedTickets: Array<any>, basePath: string): Promise<boolean> {
     const body = {
       gameNumber: documentId,
-      prompt: importData.prompt,
-      completion: importData.completion,
+      importedTickets,
     };
     const token = await firebase.auth().currentUser.getIdToken();
     const fResult = await fetch(basePath + "lobbyApi/aichat/message/import", {
@@ -29,10 +28,25 @@ export class ChatDocument {
     const json = await fResult.json();
     if (!json.success) {
       console.log("message post error", json);
-      alert(json.errorMessage);
       return true;
     }
     return false;
+  }
+  /**
+   * @param { Array<any> } tickets raw import tickets
+   * @return { Array<any> } array prompt/completion data
+  */
+  static processImportTicketsToUpload(tickets: Array<any>): Array<any> {
+    const recordsToUpload: any = [];
+    for (let c = 0, l = tickets.length; c < l; c++) {
+        const ticket: any = tickets[c];
+
+        recordsToUpload.push({
+            prompt: ticket.prompt,
+            completion: ticket.completion,
+        });
+    }
+    return recordsToUpload;
   }
   /**
    * @param { any } fileInput DOM file input element

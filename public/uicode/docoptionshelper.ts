@@ -633,17 +633,14 @@ export default class DocOptionsHelper {
                 return;
             }
 
-            for (let c = 0, l = records.length; c < l; c++) {
-                const ticket: any = records[c];
-                const error = await ChatDocument.sendImportTicketToAPI(this.app.currentGame, {
-                    prompt: ticket.prompt,
-                    completion: ticket.completion,
-                }, this.app.basePath);
-                if (error) break;
-
-                this.app.tickets_list.scrollTop = this.app.tickets_list.scrollHeight;
-                setTimeout(() => this.app.tickets_list.scrollTop = this.app.tickets_list.scrollHeight, 100);
+            const recordsToUpload: any = ChatDocument.processImportTicketsToUpload(records);
+            const error = await ChatDocument.sendImportTicketToAPI(this.app.currentGame, recordsToUpload, this.app.basePath);
+            if (error) {
+                alert("Import error");
             }
+
+            this.app.tickets_list.scrollTop = this.app.tickets_list.scrollHeight;
+            setTimeout(() => this.app.tickets_list.scrollTop = this.app.tickets_list.scrollHeight, 100);
         } catch (error: any) {
             alert("Import failed");
             console.log(error);

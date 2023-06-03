@@ -127,88 +127,93 @@ export default class ChatAI {
 
         const uid = authResults.uid;
         const gameNumber = req.body.gameNumber;
-        let prompt = req.body.prompt;
-        if (prompt) {
-            prompt = BaseClass.escapeHTML(prompt);
-            if (prompt.length > 10000) prompt = prompt.substr(0, 10000);
-        }
-        if (!prompt) {
-            return BaseClass.respondError(res, "Prompt is empty");
-        }
-        let completion = "";
-        if (req.body.completion) {
-            completion = req.body.completion;
-        }
-        const gameQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).get();
-        const gameData = gameQuery.data();
-        if (!gameData) {
-            return BaseClass.respondError(res, "Document not found");
-        }
+        const importedTickets: any = req.body.importedTickets;
 
-        const userQ = await firebaseAdmin.firestore().doc(`Users/${gameData.createUser}`).get();
-        const ownerProfile = userQ.data();
-        if (!ownerProfile) {
-            return BaseClass.respondError(res, "User not found");
-        }
+        for (let c = 0, l = importedTickets.length; c < l; c++) {
+            const importTicket = importedTickets[c];
+            let prompt = importTicket.prompt;
+            if (prompt) {
+                prompt = BaseClass.escapeHTML(prompt);
+                if (prompt.length > 10000) prompt = prompt.substr(0, 10000);
+            }
+            if (!prompt) {
+                return BaseClass.respondError(res, "Prompt is empty");
+            }
+            let completion = "";
+            if (importTicket.completion) {
+                completion = importTicket.completion;
+            }
+            const gameQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).get();
+            const gameData = gameQuery.data();
+            if (!gameData) {
+                return BaseClass.respondError(res, "Document not found");
+            }
 
-        const isOwner = uid === gameData.createUser;
+            const userQ = await firebaseAdmin.firestore().doc(`Users/${gameData.createUser}`).get();
+            const ownerProfile = userQ.data();
+            if (!ownerProfile) {
+                return BaseClass.respondError(res, "User not found");
+            }
 
-        const memberImage = gameData.memberImages[uid] ? gameData.memberImages[uid] : "";
-        const memberName = gameData.memberNames[uid] ? gameData.memberNames[uid] : "";
+            const isOwner = uid === gameData.createUser;
 
-        const createDate = new Date().toISOString();
-        const ticket = {
-            uid,
-            message: prompt,
-            created: createDate,
-            submitted: createDate,
-            messageType: "user",
-            gameNumber,
-            isOwner,
-            memberName,
-            memberImage,
-            includeInMessage: true,
-        };
-        const newTicketResult = await firebaseAdmin.firestore().collection(`Games/${gameNumber}/tickets`).add(ticket);
+            const memberImage = gameData.memberImages[uid] ? gameData.memberImages[uid] : "";
+            const memberName = gameData.memberNames[uid] ? gameData.memberNames[uid] : "";
 
-        const assistRecord: any = {
-            success: true,
-            created: createDate,
-            submitted: createDate,
-        };
-        if (completion) {
-            assistRecord.assist = {
-                choices: [
-                    {
-                        message: {
-                            content: completion,
-                        },
-                    },
-                ],
-                usage: {
-                    total_tokens: 0,
-                    prompt_tokens: 0,
-                    completion_tokens: 0,
-                },
+            const createDate = new Date().toISOString();
+            const ticket = {
+                uid,
+                message: prompt,
+                created: createDate,
+                submitted: createDate,
+                messageType: "user",
+                gameNumber,
+                isOwner,
+                memberName,
+                memberImage,
+                includeInMessage: true,
             };
-        } else {
-            assistRecord.assist = {
-                choices: [
-                    {
-                        message: {
-                            content: "Imported message only not Submitted",
-                        },
-                    },
-                ],
-                usage: {
-                    total_tokens: 0,
-                    prompt_tokens: 0,
-                    completion_tokens: 0,
-                },
-            };
-        }
+            const newTicketResult = await firebaseAdmin.firestore().collection(`Games/${gameNumber}/tickets`).add(ticket);
 
-        await firebaseAdmin.firestore().doc(`Games/${gameNumber}/assists/${newTicketResult.id}`).set(assistRecord);
+            const assistRecord: any = {
+                success: true,
+                created: createDate,
+                submitted: createDate,
+            };
+            if (completion) {
+                assistRecord.assist = {
+                    choices: [
+                        {
+                            message: {
+                                content: completion,
+                            },
+                        },
+                    ],
+                    usage: {
+                        total_tokens: 0,
+                        prompt_tokens: 0,
+                        completion_tokens: 0,
+                    },
+                };
+            } else {
+                assistRecord.assist = {
+                    choices: [
+                        {
+                            message: {
+                                content: "Imported message only not Submitted",
+                            },
+                        },
+                    ],
+                    usage: {
+                        total_tokens: 0,
+                        prompt_tokens: 0,
+                        completion_tokens: 0,
+                    },
+                };
+            }
+
+            await firebaseAdmin.firestore().doc(`Games/${gameNumber}/assists/${newTicketResult.id}`).set(assistRecord);
+        }
 
         return res.status(200).send({
             success: true,
