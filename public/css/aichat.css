@@ -139,24 +139,6 @@ body {
   margin-left: 5px;
 }
 
-.tickets_list .delete_game {
-  visibility: hidden;
-  background: none;
-  border: none;
-  color: inherit;
-  opacity: 0.5;
-  align-self: center;
-}
-
-.tickets_list .message_owner .delete_game {
-  visibility: visible;
-  opacity: 1;
-}
-
-.game_owner .tickets_list .delete_game {
-  visibility: visible;
-}
-
 .assist_section {
   text-align: left;
   font-size: 1rem;
@@ -196,10 +178,6 @@ body {
 
 .tokens_total {
   color: rgba(13, 202, 240, .5);
-}
-
-.rerun_ticket {
-  margin: 4px;
 }
 
 .left_panel_view {
@@ -458,4 +436,24 @@ ul.recent_documents_list li a {
   .token_visualizer_preview {
     visibility: hidden;
   }
+}
+
+.rerun_ticket i,
+.delete_ticket i {
+  top: 4px;
+  position: relative;
+}
+
+.rerun_ticket,
+.delete_ticket {
+  margin: 4px;
+}
+
+.ticket_running .rerun_ticket,
+.ticket_running .delete_ticket {
+  visibility: hidden;
+}
+
+.last_submit_time {
+  text-align: center;
 }

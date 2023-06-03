@@ -46,7 +46,6 @@ export class AIChatApp extends BaseApp {
   lastDocumentOptionChange = 0;
   debounceTimeout: any = null;
   splitInstance: any = null;
-  lastTempCard: any = null;
 
   tickets_list: any = document.querySelector(".tickets_list");
   members_list: any = document.querySelector(".members_list");
@@ -237,48 +236,59 @@ export class AIChatApp extends BaseApp {
     const scrollToBottom = this.atBottom(this.tickets_list);
 
     this.assistsLookup = {};
-    snapshot.forEach((doc: any) => {
-      this.assistsLookup[doc.id] = doc.data();
-      const assistSection: any = document.querySelector(`div[ticketid="${doc.id}"] .assist_section`);
-      const lastSubmit: any = document.querySelector(`div[ticketid="${doc.id}"] .last_submit_time`);
-      if (lastSubmit) lastSubmit.dataset.showseconds = "0";
+    snapshot.forEach((doc: any) => this.assistsLookup[doc.id] = doc.data());
 
-      if (assistSection) {
-        const totalSpan: any = document.querySelector(`div[ticketid="${doc.id}"] .tokens_total`);
-        const promptSpan: any = document.querySelector(`div[ticketid="${doc.id}"] .tokens_prompt`);
-        const completionSpan: any = document.querySelector(`div[ticketid="${doc.id}"] .tokens_completion`);
-        const reRunTicket: any = document.querySelector(`div[ticketid="${doc.id}"] .rerun_ticket`);
+    const ticketIds = Object.keys(this.ticketsLookup);
+    ticketIds.forEach((ticketId: string) => {
+      const ticketData = this.ticketsLookup[ticketId];
+      const assistData = this.assistsLookup[ticketId];
+      const card: any = this.tickets_list.querySelector(`div[ticketid="${ticketId}"]`);
+      if (card) {
+        let ticketRunning = true;
+        ticketRunning = (!assistData || assistData.submitted !== ticketData.submitted);
 
-        const data: any = doc.data();
-        if (data.success) {
-          if (data.assist.error) {
-            let result = "";
-            if (data.assist.error.code) {
-              result += data.assist.error.code + " ";
+        const assistSection: any = card.querySelector(`.assist_section`);
+        const totalSpan: any = card.querySelector(`.tokens_total`);
+        const promptSpan: any = card.querySelector(`.tokens_prompt`);
+        const completionSpan: any = card.querySelector(`.tokens_completion`);
+        totalSpan.innerHTML = "";
+        promptSpan.innerHTML = "";
+        completionSpan.innerHTML = "";
+
+
+        if (!ticketRunning) {
+          if (assistData.success) {
+            if (assistData.assist.error) {
+              let result = "";
+              if (assistData.assist.error.code) {
+                result += assistData.assist.error.code + " ";
+              }
+              if (assistData.assist.error.message) {
+                result += assistData.assist.error.message + " ";
+              }
+              assistSection.innerHTML = result;
+            } else {
+              assistSection.innerHTML = assistData.assist.choices["0"].message.content;
+
+              totalSpan.innerHTML = assistData.assist.usage.total_tokens;
+              promptSpan.innerHTML = assistData.assist.usage.prompt_tokens;
+              completionSpan.innerHTML = assistData.assist.usage.completion_tokens;
             }
-            if (data.assist.error.message) {
-              result += data.assist.error.message + " ";
-            }
-            assistSection.innerHTML = result;
           } else {
-            assistSection.innerHTML = data.assist.choices["0"].message.content;
-
-            totalSpan.innerHTML = data.assist.usage.total_tokens;
-            promptSpan.innerHTML = data.assist.usage.prompt_tokens;
-            completionSpan.innerHTML = data.assist.usage.completion_tokens;
+            let msg = "API Error";
+            if (assistData.error) msg = assistData.error;
+            assistSection.innerHTML = msg;
           }
-        } else {
-          let msg = "API Error";
-          if (data.error) msg = data.error;
-          assistSection.innerHTML = msg;
         }
 
-        const ticketData = this.ticketsLookup[doc.id];
-        if (ticketData && data.submitted === ticketData.submitted) {
-          reRunTicket.innerHTML = "Rerun";
-        } else {
-          reRunTicket.innerHTML = "Running";
+        const lastSubmit: any = card.querySelector(`.last_submit_time`);
+        if (ticketRunning) {
+          assistSection.innerHTML = "pending...";
+          card.classList.add("ticket_running");
           lastSubmit.dataset.showseconds = "1";
+        } else {
+          card.classList.remove("ticket_running");
+          lastSubmit.dataset.showseconds = "0";
         }
       }
     });
@@ -323,7 +333,7 @@ export class AIChatApp extends BaseApp {
     this.ticketCount = 0;
     snapshot.forEach((doc: any) => {
       this.ticketCount++;
-      let card: any = this.tickets_list.querySelector(`div[gamenumber="${doc.id}"]`);
+      let card: any = this.tickets_list.querySelector(`div[ticketid="${doc.id}"]`);
       if (!card) {
         card = this.getTicketCardDom(doc.id, doc.data());
       }
@@ -340,15 +350,13 @@ export class AIChatApp extends BaseApp {
 
     oldKeys.forEach((key: string) => {
       if (!this.ticketsLookup[key]) {
-        const card: any = this.tickets_list.querySelector(`div[gamenumber="${key}"]`);
+        const card: any = this.tickets_list.querySelector(`div[ticketid="${key}"]`);
         if (card) card.remove();
       }
     });
 
-    if (this.lastTempCard) {
-      this.lastTempCard.remove();
-      this.lastTempCard = null;
-    }
+    const tempCards =  this.tickets_list.querySelectorAll(`.temp_ticket_card`);
+    tempCards.forEach((card: any) => card.remove());
 
     if (scrollToBottom) {
       setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 100);
@@ -363,9 +371,10 @@ export class AIChatApp extends BaseApp {
     this.selected_ticket_count_span.innerHTML = this.selectedTicketCount;
   }
   /** send rerun request to api
+   * @param { any } reRunBtn dom button
    * @param { string } ticketId doc id
    */
-  async reRunTicket(ticketId: string): Promise<void> {
+  async reRunTicket(reRunBtn: any, ticketId: string): Promise<void> {
     const includeTickets = this.generateSubmitList(ticketId);
 
     const body = {
@@ -396,7 +405,12 @@ export class AIChatApp extends BaseApp {
    * @param { string } ticketId firestore message id
    */
   async deleteTicket(btn: any, gameNumber: string, ticketId: string) {
-    btn.setAttribute("disabled", "true");
+    if (!confirm("Are you sure you want to delete this ticket?")) {
+      return;
+    }
+
+    const card: any = this.tickets_list.querySelector(`div[ticketid="${ticketId}"]`);
+    if (card) card.remove();
 
     const body = {
       gameNumber,
@@ -415,7 +429,9 @@ export class AIChatApp extends BaseApp {
     });
 
     const result = await fResult.json();
-    if (!result.success) alert("Delete ticket failed");
+    if (!result.success) {
+      alert("Delete ticket failed");
+    }
   }
   /** query dom for all ticket_owner_image and ticket_owner_name elements and update */
   updateUserNamesImages() {
@@ -439,11 +455,12 @@ export class AIChatApp extends BaseApp {
     });
   }
   /** generate html for message card
-   * @param { string } docId doc id
+   * @param { string } ticketId doc id
    * @param { any } data firestore message document
+   * @param { boolean } tempTicket remove on next document refresh
    * @return { any } card
    */
-  getTicketCardDom(docId: string, data: any): any {
+  getTicketCardDom(ticketId: string, data: any, tempTicket = false): any {
     const gameOwnerClass = data.isGameOwner ? " message_game_owner" : "";
     const ownerClass = data.uid === this.uid ? " message_owner" : "";
 
@@ -457,16 +474,16 @@ export class AIChatApp extends BaseApp {
     if (ticketUserImage) img = ticketUserImage;
     else if (data.memberImage) img = data.memberImage;
 
+    const tempTicketClass = tempTicket ? " temp_ticket_card" : "";
     const cardWrapper = document.createElement("div");
-
-    cardWrapper.innerHTML =
-      `<div class="mt-1 game_message_list_item${gameOwnerClass}${ownerClass}" ticketid="${docId}" gamenumber="${docId}">
+    const cardHTML =
+      `<div class="mt-1 game_message_list_item${gameOwnerClass}${ownerClass}${tempTicketClass} ticket_running" ticketid="${ticketId}" chatroomid="${ticketId}">
       <div style="display:flex;flex-direction:row">
           <div style="flex:1;display:flex;flex-direction:column">
               <div style="display:flex;flex-direction:column">
                   <div class="message">${data.message}</div>
               </div>
-              <div class="assist_section">pending...</div>
+              <div class="assist_section">Pending...</div>
               <div style="display:flex;flex-direction:column">
                   <div class="m-1 user_assist_request_header">
                       <div class="member_desc">
@@ -481,30 +498,27 @@ export class AIChatApp extends BaseApp {
                       <span class="tokens_total"></span>
                       <span class="tokens_prompt"></span>
                       <span class="tokens_completion"></span>
-                      <button class="rerun_ticket btn btn-secondary" data-ticketid="${docId}">Running...</button>
-                      <button class="delete_game" data-gamenumber="${data.gameNumber}" data-messageid="${docId}">
+                      <button class="rerun_ticket btn btn-secondary" data-ticketid="${ticketId}"><i class="material-icons">loop</i></button>
+                      <button class="delete_ticket btn btn-secondary" data-chatroomid="${data.gameNumber}" data-messageid="${ticketId}">
                           <i class="material-icons">delete</i>
                       </button>
                   </div>
               </div>
           </div>
           <div class="ticket_item_include_wrapper">
-              <input class="form-check-input ticket_item_include_checkbox" type="checkbox" ticketid="${docId}" value="">
+              <input class="form-check-input ticket_item_include_checkbox" type="checkbox" ticketid="${ticketId}" checked value="">
           </div>
       </div>
   </div>`;
+    cardWrapper.innerHTML = cardHTML;
     const cardDom = cardWrapper.children[0];
 
-    const deleteBtn: any = cardDom.querySelector("button.delete_game");
-    deleteBtn.addEventListener("click", () => {
-      this.deleteTicket(deleteBtn, deleteBtn.dataset.gamenumber, deleteBtn.dataset.messageid);
-    });
+    const deleteBtn: any = cardDom.querySelector("button.delete_ticket");
+    deleteBtn.addEventListener("click", () =>
+      this.deleteTicket(deleteBtn, deleteBtn.dataset.chatroomid, deleteBtn.dataset.messageid));
 
     const reRunBtn: any = cardDom.querySelector("button.rerun_ticket");
-    reRunBtn.addEventListener("click", async () => {
-      reRunBtn.innerHTML = "Running...";
-      await this.reRunTicket(reRunBtn.dataset.ticketid);
-    });
+    reRunBtn.addEventListener("click", () => this.reRunTicket(reRunBtn, reRunBtn.dataset.ticketid));
 
     const includeChkBox: any = cardDom.querySelector(".ticket_item_include_checkbox");
     includeChkBox.addEventListener("input", async () => {
@@ -557,16 +571,12 @@ export class AIChatApp extends BaseApp {
       gameNumber: this.currentGame,
       submitted: new Date().toISOString(),
     };
-    
-    if (this.lastTempCard) {
-      this.lastTempCard.remove();
-      this.lastTempCard = null;
-    }
-    this.lastTempCard = this.getTicketCardDom(new Date().toISOString(), tempTicket);
-    this.tickets_list.appendChild(this.lastTempCard, this.tickets_list.firstChild);
 
-    setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 100);
+    const tempCard = this.getTicketCardDom(new Date().toISOString(), tempTicket, true);
+    this.tickets_list.appendChild(tempCard);
+
     this.tickets_list.scrollTop = this.tickets_list.scrollHeight;
+    setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 50);
 
     this.updatePromptTokenStatus();
     const includeTickets = this.generateSubmitList();
