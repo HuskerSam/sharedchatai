@@ -156,8 +156,7 @@ export default class ProfileHelper {
                                 </div>
                                 <div
                                     style="display:inline-block;text-align: center;position:relative;top: 10px;line-height: 3em">
-                                    <button type="button"
-                                        class="btn btn-primary prompt_for_new_user_name">Change...</button>
+                                    <button class="btn btn-primary prompt_for_new_user_name">Change...</button>
                                     <br>
                                     <button class="randomize_name btn btn-secondary">Random</button>
                                 </div>
@@ -252,8 +251,7 @@ export default class ProfileHelper {
                 this.profile_display_image.style.backgroundImage = ``;
                 const sRef = firebase.storage().ref("Users").child(this.app.uid + "/pimage");
                 await sRef.put(resultFile);
-                const path = await sRef.getDownloadURL();
-                setTimeout(() => this._finishImagePathUpdate(path), 1500);
+                setTimeout(() => this._finishImagePathUpdate(), 1500);
             };
             img.src = e.target.result;
         };

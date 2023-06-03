@@ -7,22 +7,20 @@ import {
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
 export default class DocOptionsHelper {
     app: any = null;
-    owner_note_field_edit: any = null;
-    save_game_afterfeed_button: any = null;
+    owner_note_display_div: any = null;
     modal_close_button: any = null;
     modalContainer: any = null;
-    modal_document_title_edit: any = null;
     modal_document_title_display: any;
     documentData: any = null;
     docfield_archived_checkbox: any = null;
     shared_archived_status_wrapper: any = null;
-    docfield_usage_limit: any = null;
     shared_usage_limit_div: any = null;
     copy_export_clipboard: any = null;
     code_link_href: any;
     code_link_copy: any;
     wrapperClass = "";
     chatDocumentId = "";
+    prompt_for_new_note: any;
 
     export_data_popup_preview: any;
     export_size: any;
@@ -41,6 +39,9 @@ export default class DocOptionsHelper {
     show_document_owner_options_help: any;
     doc_options_import_rows_preview: any;
     modal_send_tickets_to_api_button: any;
+    prompt_for_new_title: any;
+    prompt_for_new_usage: any;
+
     /**
      * @param { any } app BaseApp derived application instance
      * @param { string } wrapperClass class to add to modal wrapper
@@ -55,16 +56,20 @@ export default class DocOptionsHelper {
         document.body.appendChild(this.modalContainer);
         if (this.wrapperClass) this.modalContainer.classList.add(this.wrapperClass);
 
-        this.owner_note_field_edit = this.modalContainer.querySelector("#owner_note_field_edit");
-        this.save_game_afterfeed_button = this.modalContainer.querySelector(".save_game_afterfeed_button");
+        this.owner_note_display_div = this.modalContainer.querySelector(".owner_note_display_div");
         this.modal_close_button = this.modalContainer.querySelector(".modal_close_button");
-        this.modal_document_title_edit = this.modalContainer.querySelector(".modal_document_title_edit");
         this.modal_document_title_display = this.modalContainer.querySelector(".modal_document_title_display");
 
         this.docfield_archived_checkbox = this.modalContainer.querySelector(".docfield_archived_checkbox");
+        this.docfield_archived_checkbox.addEventListener("input", () => this.updateArchivedStatus());
         this.shared_archived_status_wrapper = this.modalContainer.querySelector(".shared_archived_status_wrapper");
-        this.docfield_usage_limit = this.modalContainer.querySelector(".docfield_usage_limit");
         this.shared_usage_limit_div = this.modalContainer.querySelector(".shared_usage_limit_div");
+        this.prompt_for_new_title = this.modalContainer.querySelector(".prompt_for_new_title");
+        this.prompt_for_new_title.addEventListener("click", () => this.promptForNewTitle());
+        this.prompt_for_new_usage = this.modalContainer.querySelector(".prompt_for_new_usage");
+        this.prompt_for_new_usage.addEventListener("click", () => this.promptForNewUsageLimit());
+        this.prompt_for_new_note = this.modalContainer.querySelector(".prompt_for_new_note");
+        this.prompt_for_new_note.addEventListener("click", () => this.promptForNewNote());
 
         this.export_data_popup_preview = this.modalContainer.querySelector(".export_data_popup_preview");
         this.export_size = this.modalContainer.querySelector(".export_size");
@@ -93,7 +98,6 @@ export default class DocOptionsHelper {
         this.show_document_owner_options_help = document.querySelector(".show_document_owner_options_help");
         this.show_document_owner_options_help.addEventListener("click", () => this.app.helpHelper.show("owner_document_options"));
 
-        this.save_game_afterfeed_button.addEventListener("click", () => this.saveDocumentOptions());
         const del: any = this.modalContainer.querySelector("button.delete_game");
         del.addEventListener("click", (e: any) => {
             e.stopPropagation();
@@ -150,30 +154,73 @@ export default class DocOptionsHelper {
         this.copy_export_clipboard.innerHTML = "✅" + buttonText;
         setTimeout(() => this.copy_export_clipboard.innerHTML = buttonText, 1200);
     }
-    /** send user (optional owner) settings for document to api */
-    async saveDocumentOptions() {
-        const docId = this.chatDocumentId;
-        const label = this.scrapeDocumentEditLabels();
-        const note = this.owner_note_field_edit.value;
-        const archived = this.docfield_archived_checkbox.checked ? "1" : "0";
-        const tokenUsageLimit = this.docfield_usage_limit.value;
+    /** prompt and send title to api */
+    promptForNewTitle() {
+        let newTitle = prompt("Document Title", this.documentData.title);
+        if (newTitle !== null) {
+            newTitle = newTitle.trim();
+            if (!newTitle) {
+                alert("no title entered");
+                return;
+            }
+            this.app.gameData.title = newTitle;
+            this.saveDocumentOwnerOption("title");
+            this.modal_document_title_display.innerHTML = this.documentData.title;
+        }
+    }
+    /** prompt and send not to api */
+    promptForNewNote() {
+        let newNote = prompt("Reference Note", this.documentData.note);
+        if (newNote !== null) {
+            newNote = newNote.trim();
+            this.app.gameData.note = newNote;
+            this.saveDocumentOwnerOption("note");
+            this.owner_note_display_div.innerHTML = this.documentData.note;
+        }  
+    }
+    /** prompt and send token limit usage to api */
+    promptForNewUsageLimit() {
+        let newLimit: any = prompt("Token Usage Limit", this.documentData.tokenUsageLimit);
+        if (newLimit !== null) {
+            newLimit = Number(newLimit);
+            if (isNaN(newLimit)) {
+                alert("invalid value");
+                return;
+            }
+            this.app.gameData.tokenUsageLimit = newLimit;
+            this.saveDocumentOwnerOption("usage");
 
-        const body: any = {
+            this.shared_usage_limit_div.innerHTML = this.documentData.tokenUsageLimit;
+        }
+    }
+    /** */
+    updateArchivedStatus() {
+        this.app.gameData.archived = this.docfield_archived_checkbox.checked;
+        this.saveDocumentOwnerOption("archived");
+    }
+    /** send owner setting for document to api
+     * @param { string } fieldKey title for title, usage for tokenUsageLimit, note for note
+    */
+    async saveDocumentOwnerOption(fieldKey: string) {
+        const docId = this.chatDocumentId;
+        let updatePacket: any = {
             gameNumber: docId,
         };
 
-        if (this.documentData.acrhived !== archived) body.archived = archived;
-        if (this.documentData.tokenUsageLimit !== tokenUsageLimit) body.tokenUsageLimit = tokenUsageLimit;
-        if (this.documentData.label !== label) body.label = label;
-        if (this.documentData.note !== note) body.note = note;
-
-        const newTitle = this.modal_document_title_edit.value.trim();
-        if (newTitle !== this.documentData.title) {
-            if (this.modal_document_title_edit.value === "") {
-                alert("Please provide a title before saving");
-                return;
-            }
-            body.title = this.modal_document_title_edit.value.trim();
+        if (fieldKey === "title") {
+            updatePacket.title = this.app.gameData.title;
+        }
+        if (fieldKey === "usage") {
+            updatePacket.tokenUsageLimit = this.app.gameData.tokenUsageLimit;
+        }
+        if (fieldKey === "note") {
+            updatePacket.note = this.app.gameData.note;        
+        }
+        if (fieldKey === "label") {
+            updatePacket.label = this.app.gameData.label;        
+        }
+        if (fieldKey = "archived") {
+            updatePacket.archived = this.app.gameData.archived;
         }
 
         const token = await firebase.auth().currentUser.getIdToken();
@@ -185,13 +232,12 @@ export default class DocOptionsHelper {
                 "Content-Type": "application/json",
                 token,
             },
-            body: JSON.stringify(body),
+            body: JSON.stringify(updatePacket),
         });
         const json = await fResult.json();
         if (!json.success) {
             alert("Unable to save options " + json.errorMessage);
         }
-        this.modal_close_button.click();
     }
     /** template as string for modal
      * @return { string } html template as string
@@ -227,8 +273,6 @@ export default class DocOptionsHelper {
                         aria-labelledby="options_tab_button">
                                 <button class="btn btn-secondary show_document_details_options_help"><i 
                                     class="material-icons">help</i></button>
-                                <label class="form-label">Status</label>
-                                <br>
                                 <div class="shared_archived_status_wrapper"></div>
                                 <div class="form-check owner_archived_input_wrapper">
                                     <label class="form-check-label">
@@ -236,20 +280,19 @@ export default class DocOptionsHelper {
                                         Archived
                                     </label>
                                 </div>
-                                <br>
-                                <br>
+                                <hr>
                                 <label class="form-label">Title</label>
                                 <br>
-                                <textarea type="text" class="form-control modal_document_title_edit"
-                                    placeholder="will autofill if empty"></textarea>
+                                <button class="btn btn-primary prompt_for_new_title" style="float:right;">Change...</button>
                                 <div class="modal_document_title_display"></div>
                                 <br>
+                                
                                 <label class="form-label">Token Usage Cap (0 for none)</label>
-                                <br>
-                                <div class="shared_usage_limit_div"></div>
-                                <input type="text" class="form-control docfield_usage_limit owner_usage_limit_wrapper" 
-                                    placeholder="Usage Limit">
-                                <br>
+                                <div>
+                                    <div class="shared_usage_limit_div"></div>
+                                    <button class="btn btn-primary prompt_for_new_usage">Change...</button>
+                                </div>
+                                <hr>
                                 <div style="line-height:3em">
                                     <button class="btn btn-secondary modal_upload_tickets_button">Template...</button>
                                     <input class="import_upload_file" style="display:none;" type="file">
@@ -274,12 +317,12 @@ export default class DocOptionsHelper {
                                 <label class="form-label">Labels</label>
                                     <select class="edit_options_document_labels" multiple="multiple"
                                         style="width:100%"></select>
-                                <br>
+                                <hr>
                                 <label class="form-label">Reference</label>
-                                 <input type="text" class="form-control" id="owner_note_field_edit" 
-                                                        placeholder="external key or private note">
-                                 <br>
-
+                                <br>
+                                <button class="btn btn-primary prompt_for_new_note" style="float:right;">Change...</button>
+                                <div class="owner_note_display_div"></div>                      
+                                <br>
                             </div>
                             <div class="tab-pane fade" id="export_tab_view" role="tabpanel"
                                 aria-labelledby="export_tab_button">
@@ -297,8 +340,6 @@ export default class DocOptionsHelper {
                     <div style="flex:1"></div>
                     <button type="button" class="btn btn-secondary modal_close_button"
                         data-bs-dismiss="modal">Close</button>
-    
-                    <button type="button" class="btn btn-primary save_game_afterfeed_button">Save</button>
                 </div>
             </div>
         </div>
@@ -595,18 +636,15 @@ export default class DocOptionsHelper {
         this.chatDocumentId = chatDocumentId;
         this.documentData = doc;
         if (doc.createUser === this.app.uid) {
-            (<any>document.querySelector("#owner_note_field_edit")).value = doc.note;
+            this.owner_note_display_div.innerHTML = doc.note;
             this.modalContainer.classList.add("modal_options_owner_user");
             this.modalContainer.classList.remove("modal_options_shared_user");
         } else {
-            (<any>document.querySelector("#owner_note_field_edit")).value = "Shared Document";
             this.modalContainer.classList.remove("modal_options_owner_user");
             this.modalContainer.classList.add("modal_options_shared_user");
         }
 
-        this.modal_document_title_edit.value = this.documentData.title;
         this.modal_document_title_display.innerHTML = this.documentData.title;
-        this.docfield_usage_limit.value = this.documentData.tokenUsageLimit;
         this.shared_usage_limit_div.innerHTML = this.documentData.tokenUsageLimit;
         this.docfield_archived_checkbox.checked = this.documentData.archived;
         this.shared_archived_status_wrapper.innerHTML = this.documentData.archived ? "Archived" : "Active";
