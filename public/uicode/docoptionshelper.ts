@@ -218,10 +218,6 @@ export default class DocOptionsHelper {
                                 <a class="nav-link" id="owner_tab_button" data-bs-toggle="tab" href="#owner_tab_view"
                                     role="tab" aria-controls="owner_tab_view" aria-selected="false">Owner</a>
                             </li>
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="share_tab_button" data-bs-toggle="tab" href="#shared_tab_view"
-                                    role="tab" aria-controls="shared_tab_view" aria-selected="false">Share</a>
-                            </li>
                         </ul>
                         <div class="tab-content">
                         <div class="tab-pane fade show active" id="options_tab_view" role="tabpanel"
@@ -268,21 +264,21 @@ export default class DocOptionsHelper {
                                 <br>
                                 <label class="form-label">Reference</label>
                                  <input type="text" class="form-control" id="owner_note_field_edit" placeholder="external key or private note">
+                                 <br>
+                                 <br>
+                                 <div style="text-align:center">
+                                 <button class="btn btn-secondary show_import_tickets_help"><i class="material-icons">help</i></button>
+                                 <a href="#" class="code_link_href">URL</a>
+                                 <button class="send_email_with_link_button btn btn-primary">Send Email...</button>
+                                 &nbsp;
+                                 <button class="code_link_copy btn btn-secondary"><i class="material-icons">content_copy</i>
+                                     <span>url</span></button>
+                                    
+                             </div>
                             </div>
                             <div class="tab-pane fade" id="export_tab_view" role="tabpanel"
                                 aria-labelledby="export_tab_button">
                                 ${exportModalTabHTML}
-                            </div>
-                            <div class="tab-pane fade" id="shared_tab_view" role="tabpanel"
-                                aria-labelledby="share_tab_button">
-                                <div style="text-align:center">
-                                    <button class="btn btn-secondary show_import_tickets_help"><i class="material-icons">help</i></button>
-                                    <a href="#" class="code_link_href">URL</a>
-                                    <button class="code_link_copy btn btn-primary"><i class="material-icons">content_copy</i>
-                                        <span>url</span></button>
-                                    <br>
-                                    <br>
-                                </div>
                             </div>
                         </div>
                 </div>

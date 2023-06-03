@@ -294,12 +294,6 @@ button.code_link {
   margin-right: 12px;
 }
 
-.dashboard_options_view #shared_tab_view,
-.dashboard_options_view #share_tab_button
- {
-  display: none;
-}
-
 .document_shared_status_icon {
   padding-right: 8px;
   position: relative;
