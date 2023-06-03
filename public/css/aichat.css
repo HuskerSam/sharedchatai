@@ -471,3 +471,18 @@ ul.recent_documents_list li a {
 
 .game_message_list_item .time_since {
 }
+
+.gutter {
+  background-color: rgb(100, 100, 100);
+}
+
+.profile_text_option_large .game_message_list_item .message,
+.profile_text_option_large .game_message_list_item  .assist_section  {
+  font-size: 1.25em;
+  line-height: 1.75em;
+}
+
+.profile_text_option_monospace .game_message_list_item .message,
+.profile_text_option_monospace .game_message_list_item  .assist_section  {
+  font-family: monospace;
+}

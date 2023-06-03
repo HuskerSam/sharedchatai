@@ -22,6 +22,8 @@ export default class ProfileHelper {
     save_profile_modal_button: any;
     show_modal_profile_help: any;
     chat_token_usage_display: any;
+    profile_text_large_checkbox: any;
+    profile_text_monospace_checkbox: any;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -49,7 +51,9 @@ export default class ProfileHelper {
         this.profile_show_modal = document.querySelector(".profile_show_modal");
         this.show_modal_profile_help = document.querySelector(".show_modal_profile_help");
         this.chat_token_usage_display = document.querySelector(".chat_token_usage_display");
-
+        this.profile_text_large_checkbox = document.querySelector(".profile_text_large_checkbox");
+        this.profile_text_monospace_checkbox = document.querySelector(".profile_text_monospace_checkbox");
+        
         this.sign_out_button.addEventListener("click", (e: any) => {
             this.authSignout(e);
             e.preventDefault();
@@ -122,6 +126,18 @@ export default class ProfileHelper {
             <br>
             <select class="label_profile_picker" multiple="multiple" style="width:100%"></select>
             <br>
+            <br>
+            <div class="profile_text_options_wrapper">
+                <label class="form-check-label">
+                    <input class="form-check-input profile_text_large_checkbox" type="checkbox" value="">
+                    Larger Text
+                </label>
+                &nbsp;
+                <label class="form-check-label">
+                    <input class="form-check-input profile_text_monospace_checkbox" type="checkbox" value="">
+                    Monospace
+                </label>
+            </div>
             <br>
             <label class="form-label">Chat Token Usage</label>
             <br>
@@ -282,10 +298,14 @@ export default class ProfileHelper {
     async saveDialogData() {
         this.app.profile.documentLabels = this.getLabels();
         this.app.profile.displayName = this.profile_display_name.value.trim().substring(0, 15);
-
+        this.app.profile.textOptionsLarge = this.profile_text_large_checkbox.checked;
+        this.app.profile.textOptionsMonospace = this.profile_text_monospace_checkbox.checked;
+        
         const updatePacket = {
             documentLabels: this.app.profile.documentLabels,
             displayName: this.app.profile.displayName,
+            textOptionsLarge: this.app.profile.textOptionsLarge,
+            textOptionsMonospace: this.app.profile.textOptionsMonospace,
         };
         if (this.app.fireToken) {
             await firebase.firestore().doc(`Users/${this.app.uid}`).set(updatePacket, {
@@ -435,6 +455,9 @@ export default class ProfileHelper {
                 }
             });
         }
+
+        this.profile_text_large_checkbox.checked = (this.app.profile.textOptionsLarge === true);
+        this.profile_text_monospace_checkbox.checked = (this.app.profile.textOptionsMonospace === true);
         this.updateImageDisplay();
         this.updateTokenUsage();
         this.profile_show_modal.click();

@@ -144,6 +144,9 @@ export class ChatRoomApp extends BaseApp {
 
       this.documentCreate.show();
     });
+
+    this.scrollTicketListBottom();
+    this.autoSizeTextArea();
   }
   /** expand prompt input textarea */
   autoSizeTextArea() {
@@ -319,6 +322,11 @@ export class ChatRoomApp extends BaseApp {
     if (st == sh - ht) return true;
     else return false;
   }
+  /** */
+  scrollTicketListBottom() {
+    this.tickets_list.scrollTop = this.tickets_list.scrollHeight;
+    setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 20);
+  }
   /** paint user message feed
    * @param { any } snapshot firestore query data snapshot
    */
@@ -360,7 +368,7 @@ export class ChatRoomApp extends BaseApp {
       }
     });
 
-    const tempCards =  this.tickets_list.querySelectorAll(`.temp_ticket_card`);
+    const tempCards = this.tickets_list.querySelectorAll(`.temp_ticket_card`);
     tempCards.forEach((card: any) => card.remove());
 
     if (scrollToBottom) this.scrollTicketListBottom();
@@ -372,11 +380,6 @@ export class ChatRoomApp extends BaseApp {
 
     this.ticket_count_span.innerHTML = this.ticketCount;
     this.selected_ticket_count_span.innerHTML = this.selectedTicketCount;
-  }
-  /** */
-  scrollTicketListBottom() {
-    this.tickets_list.scrollTop = this.tickets_list.scrollHeight;
-    setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 20);
   }
   /** send rerun request to api
    * @param { any } reRunBtn dom button
@@ -489,7 +492,7 @@ export class ChatRoomApp extends BaseApp {
     const tempTicketClass = tempTicket ? " temp_ticket_card" : "";
     const cardWrapper = document.createElement("div");
     let cardClass = `mt-1 game_message_list_item${gameOwnerClass}${ownerClass}${tempTicketClass} ticket_running`;
-    const cardHTML = 
+    const cardHTML =
       `<div class="${cardClass}" ticketid="${ticketId}" chatroomid="${ticketId}">
       <hr><span class="tokens_prompt"></span>
       <div class="m-1 user_assist_request_header">
@@ -665,6 +668,13 @@ export class ChatRoomApp extends BaseApp {
       this.initRTDBPresence();
       this.initTicketFeed();
       this.initRecentDocumentsFeed();
+
+      if (this.profile.textOptionsLarge) document.body.classList.add("profile_text_option_large");
+      else document.body.classList.remove("profile_text_option_large");
+      if (this.profile.textOptionsMonospace) document.body.classList.add("profile_text_option_monospace");
+      else document.body.classList.remove("profile_text_option_monospace");
+
+      
 
       const gameId = this.urlParams.get("game");
       if (gameId) {
