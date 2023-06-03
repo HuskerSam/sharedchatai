@@ -46,6 +46,7 @@ export class AIChatApp extends BaseApp {
   lastDocumentOptionChange = 0;
   debounceTimeout: any = null;
   splitInstance: any = null;
+  lastTempCard: any = null;
 
   tickets_list: any = document.querySelector(".tickets_list");
   members_list: any = document.querySelector(".members_list");
@@ -322,7 +323,7 @@ export class AIChatApp extends BaseApp {
       this.ticketCount++;
       let card: any = this.tickets_list.querySelector(`div[gamenumber="${doc.id}"]`);
       if (!card) {
-        card = this.getTicketCardDom(doc);
+        card = this.getTicketCardDom(doc.id, doc.data());
       }
       this.tickets_list.insertBefore(card, this.tickets_list.firstChild);
       this.ticketsLookup[doc.id] = doc.data();
@@ -341,6 +342,11 @@ export class AIChatApp extends BaseApp {
         if (card) card.remove();
       }
     });
+
+    if (this.lastTempCard) {
+      this.lastTempCard.remove();
+      this.lastTempCard = null;
+    }
 
     if (scrollToBottom) {
       setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 100);
@@ -431,11 +437,11 @@ export class AIChatApp extends BaseApp {
     });
   }
   /** generate html for message card
-   * @param { any } doc firestore message document
+   * @param { string } docId doc id
+   * @param { any } data firestore message document
    * @return { any } card
    */
-  getTicketCardDom(doc: any): any {
-    const data = doc.data();
+  getTicketCardDom(docId: string, data: any): any {
     const gameOwnerClass = data.isGameOwner ? " message_game_owner" : "";
     const ownerClass = data.uid === this.uid ? " message_owner" : "";
 
@@ -452,7 +458,7 @@ export class AIChatApp extends BaseApp {
     const cardWrapper = document.createElement("div");
 
     cardWrapper.innerHTML =
-      `<div class="mt-1 game_message_list_item${gameOwnerClass}${ownerClass}" ticketid="${doc.id}" gamenumber="${doc.id}">
+      `<div class="mt-1 game_message_list_item${gameOwnerClass}${ownerClass}" ticketid="${docId}" gamenumber="${docId}">
       <div style="display:flex;flex-direction:row">
           <div style="flex:1;display:flex;flex-direction:column">
               <div style="display:flex;flex-direction:column">
@@ -473,15 +479,15 @@ export class AIChatApp extends BaseApp {
                       <span class="tokens_total"></span>
                       <span class="tokens_prompt"></span>
                       <span class="tokens_completion"></span>
-                      <button class="rerun_ticket btn btn-secondary" data-ticketid="${doc.id}">Running...</button>
-                      <button class="delete_game" data-gamenumber="${data.gameNumber}" data-messageid="${doc.id}">
+                      <button class="rerun_ticket btn btn-secondary" data-ticketid="${docId}">Running...</button>
+                      <button class="delete_game" data-gamenumber="${data.gameNumber}" data-messageid="${docId}">
                           <i class="material-icons">delete</i>
                       </button>
                   </div>
               </div>
           </div>
           <div class="ticket_item_include_wrapper">
-              <input class="form-check-input ticket_item_include_checkbox" type="checkbox" ticketid="${doc.id}" value="">
+              <input class="form-check-input ticket_item_include_checkbox" type="checkbox" ticketid="${docId}" value="">
           </div>
       </div>
   </div>`;
@@ -541,8 +547,22 @@ export class AIChatApp extends BaseApp {
     if (message.length > 10000) message = message.substr(0, 10000);
     this.ticket_content_input.value = "";
 
+    const tempTicket = {
+      uid: this.uid,
+      message,
+      isGameOwner: this.uid === this.gameData.createUser,
+      gameNumber: this.currentGame,
+      submitted: new Date().toISOString(),
+    };
+    
+    if (this.lastTempCard) {
+      this.lastTempCard.remove();
+      this.lastTempCard = null;
+    }
+    this.lastTempCard = this.getTicketCardDom(new Date().toISOString(), tempTicket);
+    this.tickets_list.appendChild(this.lastTempCard, this.tickets_list.firstChild);
+
     setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 100);
-    // scroll to bottom
     this.tickets_list.scrollTop = this.tickets_list.scrollHeight;
 
     this.updatePromptTokenStatus();
