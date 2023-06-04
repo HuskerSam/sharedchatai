@@ -485,6 +485,7 @@ export default class DocOptionsHelper {
             return;
         }
 
+        if (this.chatRoomView) window.location = "/dashboard";
         this.modal_close_button.click();
     }
     /** generate export data
