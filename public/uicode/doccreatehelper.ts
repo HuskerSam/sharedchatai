@@ -19,6 +19,7 @@ export default class DocCreateHelper {
   create_modal_template_file: any;
   modal_create_template_tickets_button: any;
   parsed_file_status: any;
+  modal_open_new_document: any;
 
   /**
    * @param { any } app BaseApp derived application instance
@@ -41,6 +42,7 @@ export default class DocCreateHelper {
     this.modal_create_template_tickets_button = this.modalContainer.querySelector(".modal_create_template_tickets_button");
     this.modal_create_template_tickets_button.addEventListener("click", () => this.create_modal_template_file.click());
     this.parsed_file_status = this.modalContainer.querySelector(".parsed_file_status");
+    this.modal_open_new_document = this.modalContainer.querySelector(".modal_open_new_document");
 
     this.create_modal_template_file = this.modalContainer.querySelector(".create_modal_template_file");
     this.create_modal_template_file.addEventListener("change", () => this.updateParsedFileStatus());
@@ -102,7 +104,7 @@ export default class DocCreateHelper {
             <div class="modal-footer">
               <div class="form-check" style="float:left">
                 <label class="form-check-label">
-                    <input class="form-check-input docfield_archived_checkbox" checked type="checkbox" value="">
+                    <input class="form-check-input modal_open_new_document" checked type="checkbox" value="">
                     Open
                 </label>
               </div>
@@ -119,8 +121,7 @@ export default class DocCreateHelper {
     if (!this.app.profile) return;
     this.creatingNewRecord = true;
 
-    this.create_game_afterfeed_button.setAttribute("disabled", true);
-    this.create_game_afterfeed_button.innerHTML = "Creating...";
+    this.create_game_afterfeed_button.innerHTML = "Creating";
 
     const body: any = {
       gameType: "aichat",
@@ -155,15 +156,18 @@ export default class DocCreateHelper {
     if (this.create_modal_template_file.files[0]) {
       importError = await this.parseSelectedTemplateFile(json.gameNumber);
     }
-
+    this.create_game_afterfeed_button.innerHTML = "Create";
+    this.creatingNewRecord = false;
     if (importError) {
       alert("data import error");
     } else {
-      const a = document.createElement("a");
-      a.setAttribute("href", `/${body.gameType}/?game=${json.gameNumber}`);
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      if (this.modal_open_new_document.checked) {
+        const a = document.createElement("a");
+        a.setAttribute("href", `/${body.gameType}/?game=${json.gameNumber}`);
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
     }
   }
   /** scrape labels from dom and return comma delimited list

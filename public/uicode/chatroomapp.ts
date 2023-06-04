@@ -430,7 +430,7 @@ export class ChatRoomApp extends BaseApp {
       alert(json.errorMessage);
     }
 
-    //refresh the counts
+    // refresh the counts
     this.scrollTicketListBottom();
   }
   /** api call for delete user message
@@ -591,7 +591,9 @@ export class ChatRoomApp extends BaseApp {
       console.log("ticket include fail post", json);
     }
   }
-  /** api user send message */
+  /** api user send message
+   * @param { boolean } ignoreThreshold true to send regardless of size
+  */
   async sendTicketToAPI(ignoreThreshold = false) {
     if (this.isOverSendThreshold() && !ignoreThreshold) {
       this.showOverthresholdToSendModal();
@@ -870,7 +872,7 @@ export class ChatRoomApp extends BaseApp {
   /** count input token */
   updatePromptTokenStatus() {
     if (!this.gameData) return;
-    //generate fresh buffer numbers
+    // generate fresh buffer numbers
     this.generateSubmitList();
 
     const tokens = window.gpt3tokenizer.encode(this.ticket_content_input.value);
