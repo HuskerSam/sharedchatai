@@ -501,10 +501,22 @@ ul.recent_documents_list li a {
 .ticket_owner_name {
   position: relative;
   top: -8px;
+  max-width: 100px;
+  overflow: hidden;
+  display: inline-block;
+  white-space: nowrap;
 }
 
-.game_message_list_item hr {
-  margin-bottom: -3px;
+@media (min-width: 380px) {
+  .ticket_owner_name {
+    max-width: 125px;
+  }
+}
+
+@media (min-width: 500px) {
+  .ticket_owner_name {
+    max-width: 200px;
+  }
 }
 
 .gutter {
