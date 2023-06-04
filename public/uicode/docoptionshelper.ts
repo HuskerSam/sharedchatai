@@ -155,9 +155,9 @@ export default class DocOptionsHelper {
     copyExportToClipboard() {
         if (this.lastReportData.formatFilter === "html") {
             navigator.clipboard.write([new ClipboardItem({
-                'text/plain': new Blob([this.export_data_popup_preview.innerText], {type: 'text/plain'}),
-                'text/html': new Blob([this.export_data_popup_preview.innerHTML], {type: 'text/html'})
-              })]);    
+                "text/plain": new Blob([this.export_data_popup_preview.innerText], {type: "text/plain"}),
+                "text/html": new Blob([this.export_data_popup_preview.innerHTML], {type: "text/html"}),
+              })]);
         } else {
             navigator.clipboard.writeText(this.lastReportData.resultText);
         }
@@ -166,7 +166,7 @@ export default class DocOptionsHelper {
         setTimeout(() => this.copy_export_clipboard.innerHTML = buttonText, 1200);
     }
     /** detect if chatroom view
-     * @return { boolean } for navigation after delete 
+     * @return { boolean } for navigation after delete
      */
     get chatRoomView(): boolean {
         if (this.app.gameData) return true;
