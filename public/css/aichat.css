@@ -484,6 +484,10 @@ ul.recent_documents_list li a {
   visibility: visible;
 }
 
+.game_owner .delete_ticket {
+  visibility: visible;
+}
+
 .ticket_owner .delete_ticket {
   visibility: visible;
 }
