@@ -556,3 +556,24 @@ ul.recent_documents_list li a {
   font-size: 0.9em;
   color: rgb(50, 255, 50);
 }
+
+.archived_chat_document .app_panel .engine_sidebar_menu_button {
+  color: rgb(255, 50, 50);
+}
+
+.archived_chat_document .game_message_list_item .delete_ticket,
+.archived_chat_document .game_message_list_item .rerun_ticket {
+  visibility: hidden;
+}
+
+.archived_chat_document .message_list_send_wrapper {
+  display: none;
+}
+
+.archived_chat_document .sidebar_tree_options_container input[type="range"] {
+  display: none;
+}
+
+.archived_chat_document .template_import_options_section {
+  display: none;
+}

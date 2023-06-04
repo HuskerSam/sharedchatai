@@ -295,7 +295,7 @@ export default class DocOptionsHelper {
                                     <button class="btn btn-primary prompt_for_new_usage">Change...</button>
                                 </div>
                                 <hr>
-                                <div style="line-height:3em">
+                                <div style="line-height:3em;" class="template_import_options_section">
                                     <button class="btn btn-secondary modal_upload_tickets_button">Template...</button>
                                     <input class="import_upload_file" style="display:none;" type="file">
                                     &nbsp;

@@ -131,7 +131,12 @@ export class ChatRoomApp extends BaseApp {
     this.docfield_max_tokens.addEventListener("input", () => this.optionSliderChange(true, "max_tokens",
       this.docfield_max_tokens, this.max_tokens_slider_label, "Completion Tokens: "));
     this.docfield_model.addEventListener("change", () => {
-      this.saveDocumentOption("model", this.docfield_model.value);
+      if (this.gameData.archived) {
+        this.docfield_model.value = this.gameData.model;
+      } else {
+        this.saveDocumentOption("model", this.docfield_model.value);
+      }
+
     });
     this.updateSplitter();
     this.exclude_tickets_button.addEventListener("click", () => this.autoExcludeTicketsToMeetThreshold());
@@ -812,6 +817,9 @@ export class ChatRoomApp extends BaseApp {
   paintDocumentOptions() {
     if (this.gameData.createUser === this.uid) document.body.classList.add("game_owner");
     else document.body.classList.remove("game_owner");
+
+    if (this.gameData.archived) document.body.classList.add("archived_chat_document");
+    else document.body.classList.remove("archived_chat_document");
 
     if (this.lastDocumentOptionChange + 2000 > new Date().getTime()) return;
 
