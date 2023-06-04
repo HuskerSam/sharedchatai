@@ -24,6 +24,7 @@ export default class ProfileHelper {
     chat_token_usage_display: any;
     profile_text_large_checkbox: any;
     profile_text_monospace_checkbox: any;
+    profile_text_lessdetail_checkbox: any;
     lastLabelsSave = 0;
     noLabelSave = true;
 
@@ -49,6 +50,7 @@ export default class ProfileHelper {
         this.profile_display_image_clear = document.querySelector(".profile_display_image_clear");
         this.randomize_name = document.querySelector(".randomize_name");
         this.profile_text_monospace_checkbox = document.querySelector(".profile_text_monospace_checkbox");
+        this.profile_text_lessdetail_checkbox = document.querySelector(".profile_text_lessdetail_checkbox");
         this.profile_text_large_checkbox = document.querySelector(".profile_text_large_checkbox");
         this.profile_display_image_randomize = document.querySelector(".profile_display_image_randomize");
         this.profile_display_image_randomize.addEventListener("click", () => this.randomizeImage());
@@ -59,7 +61,6 @@ export default class ProfileHelper {
         this.show_modal_profile_help = document.querySelector(".show_modal_profile_help");
         this.chat_token_usage_display = document.querySelector(".chat_token_usage_display");
         this.profile_text_large_checkbox = document.querySelector(".profile_text_large_checkbox");
-        this.profile_text_monospace_checkbox = document.querySelector(".profile_text_monospace_checkbox");
 
         this.sign_out_button.addEventListener("click", (e: any) => {
             this.authSignout(e);
@@ -83,6 +84,7 @@ export default class ProfileHelper {
         this.profile_text_monospace_checkbox.addEventListener("input", () => this.saveProfileField("monospace"));
         this.profile_text_large_checkbox.addEventListener("input", () => this.saveProfileField("largetext"));
         this.show_modal_profile_help.addEventListener("click", () => this.app.helpHelper.show("user_profile_options"));
+        this.profile_text_lessdetail_checkbox.addEventListener("click", () => this.saveProfileField("lessdetail"));
 
         window.$(".label_profile_picker").select2({
             tags: true,
@@ -145,6 +147,13 @@ export default class ProfileHelper {
                                         value="">
                                     Monospace
                                 </label>
+                                &nbsp;
+                                <label class="form-check-label">
+                                    <input class="form-check-input profile_text_lessdetail_checkbox" type="checkbox"
+                                        value="">
+                                    Less Details
+                                </label>
+
                             </div>
                             <hr>
                             <div>
@@ -360,6 +369,10 @@ export default class ProfileHelper {
         }
         if (fieldType === "image") {
             updatePacket.displayImage = this.app.profile.displayImage;
+        }
+        if (fieldType === "lessdetail") {
+            this.app.profile.lessTokenDetails = this.profile_text_lessdetail_checkbox.checked;
+            updatePacket.lessTokenDetails = this.app.profile.lessTokenDetails;
         }
         if (this.app.fireToken) {
             await firebase.firestore().doc(`Users/${this.app.uid}`).set(updatePacket, {

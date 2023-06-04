@@ -680,6 +680,8 @@ export class ChatRoomApp extends BaseApp {
       else document.body.classList.remove("profile_text_option_large");
       if (this.profile.textOptionsMonospace) document.body.classList.add("profile_text_option_monospace");
       else document.body.classList.remove("profile_text_option_monospace");
+      if (this.profile.lessTokenDetails) document.body.classList.add("profile_text_less_token_details");
+      else document.body.classList.remove("profile_text_less_token_details");
 
       const gameId = this.urlParams.get("game");
       if (gameId) {
