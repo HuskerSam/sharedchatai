@@ -29,9 +29,9 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
-        integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
@@ -41,11 +41,11 @@
     <link rel="stylesheet" href="/css/home.css" />
     <script>
         window.addEventListener("load", async (event) => {
-          let module = await import("/models/homepageapp.js");
-    
-          window.HomePageApp = new module.HomePageApp();
+            let module = await import("/models/homepageapp.js");
+
+            window.HomePageApp = new module.HomePageApp();
         });
-      </script>
+    </script>
 </head>
 
 <body class="basic_page_body">
@@ -65,11 +65,23 @@
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item signed_in_options">
                     <a class="info_anchor nav-link" href="/dashboard">
-                        Dashboard
+                        <span class="mobile_custom_icon_label">
+                            <i class="fa-solid fa-bars-staggered fa-xl"></i>
+                        </span>
+                        <span class="mobile_custom_title_label">
+                            Dashboard
+                        </span>
                     </a>
                 </li>
                 <li class="nav-item signed_in_options">
-                    <a class="nav-link show_profile_modal" href="profile">Profile</a>
+                    <a class="nav-link show_profile_modal" href="profile">
+                        <span class="mobile_custom_icon_label">
+                            <i class="fa-solid fa-circle-user fa-xl"></i>
+                        </span>
+                        <span class="mobile_custom_title_label">
+                            Profile
+                        </span>
+                    </a>
                 </li>
                 <li class="nav-item signed_in_options">
                     <a class="nav-link show_create_modal btn btn-outline-success" href="create">New Chat</a>
@@ -77,12 +89,14 @@
             </ul>
         </div>
     </nav>
-    <button class="btn btn-primary profile_show_modal" style="display:none" type="button" data-bs-toggle="modal" data-bs-target="#userProfileModal">
+    <button class="btn btn-primary profile_show_modal" style="display:none" type="button" data-bs-toggle="modal"
+        data-bs-target="#userProfileModal">
         Profile
-      </button>
-      <button class="btn btn-primary doccreatehelper_show_modal" style="display:none" type="button" data-bs-toggle="modal" data-bs-target="#createDocumentModal">
+    </button>
+    <button class="btn btn-primary doccreatehelper_show_modal" style="display:none" type="button" data-bs-toggle="modal"
+        data-bs-target="#createDocumentModal">
         Create Modal
-      </button>
+    </button>
 
     <div class="basic_page_wrapper app_panel">
         <br> <br>
@@ -90,4 +104,5 @@
         <br> <br>
     </div>
 </body>
+
 </html>

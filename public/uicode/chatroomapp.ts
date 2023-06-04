@@ -76,6 +76,7 @@ export class ChatRoomApp extends BaseApp {
   docfield_presence_penalty: any = document.querySelector(".docfield_presence_penalty");
   docfield_frequency_penalty: any = document.querySelector(".docfield_frequency_penalty");
   document_usage_stats_line: any = document.querySelector(".document_usage_stats_line");
+  document_menutop_usage_stats_line: any = document.querySelector(".document_menutop_usage_stats_line");
   last_activity_display: any = document.querySelector(".last_activity_display");
   document_export_button: any = document.querySelector(".document_export_button");
   document_import_button: any = document.querySelector(".document_import_button");
@@ -735,6 +736,7 @@ export class ChatRoomApp extends BaseApp {
       <span>${this.gameData.promptTokens}</span>
       <span>${this.gameData.completionTokens}</span>
     `;
+    this.document_menutop_usage_stats_line.innerHTML = `${this.gameData.totalTokens} Usage`;
 
     this.last_activity_display.innerHTML = this.showEmailAsGmail(new Date(this.gameData.lastActivity));
 

@@ -17,16 +17,16 @@
   <script src="/__/firebase/init.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-  
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
-    integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
@@ -63,36 +63,59 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
+            <li class="nav-item signed_in_options">
               <a class="info_anchor nav-link" href="/dashboard">
-                Dashboard
+                <span class="mobile_custom_icon_label">
+                  <i class="fa-solid fa-bars-staggered fa-xl" ></i>
+                </span>
+                <span class="mobile_custom_title_label">
+                  Dashboard
+                </span>
               </a>
             </li>
             <li class="nav-item signed_in_options">
-              <a class="nav-link show_profile_modal" href="profile">Profile</a>
+              <a class="nav-link show_profile_modal" href="profile">
+                <span class="mobile_custom_icon_label">
+                  <i class="fa-solid fa-circle-user fa-xl" ></i>
+                </span>
+                <span class="mobile_custom_title_label">
+                  Profile
+                </span>
+              </a>
             </li>
-            <li class="nav-item signed_in_options">
+            <li class="nav-item signed_in_options new_button_wrapper">
               <a class="nav-link show_create_modal btn btn-outline-success" href="create">New</a>
             </li>
-            <button class="btn btn-primary profile_show_modal" style="display:none" type="button" data-bs-toggle="modal" data-bs-target="#userProfileModal">
+            <button class="btn btn-primary profile_show_modal" style="display:none" type="button" data-bs-toggle="modal"
+              data-bs-target="#userProfileModal">
               Profile
             </button>
-            <button class="btn btn-primary help_show_modal" style="display:none" type="button" data-bs-toggle="modal" data-bs-target="#helpIframeModal">
+            <button class="btn btn-primary help_show_modal" style="display:none" type="button" data-bs-toggle="modal"
+              data-bs-target="#helpIframeModal">
               Help
             </button>
-            <button class="btn btn-primary doccreatehelper_show_modal" style="display:none" type="button" data-bs-toggle="modal" data-bs-target="#createDocumentModal">
+            <button class="btn btn-primary doccreatehelper_show_modal" style="display:none" type="button"
+              data-bs-toggle="modal" data-bs-target="#createDocumentModal">
               Create Modal
             </button>
           </ul>
         </div>
       </nav>
       <div class="flex-shrink-0 p-1 flex_shrink_wrapper" style="position:relative">
-        <button class="btn btn-secondary show_document_options_help"><i class="material-icons">help</i></button>
-        <button class="btn btn-secondary show_document_options_modal"><i class="material-icons">settings</i></button>
+
+        <div class="recent_header_current_document">
+          <div class="sidebar_document_title"></div>
+        </div>
+        <div style="position: relative;">
+          <div class="document_menutop_usage_stats_line"></div>
+          <div class="last_activity_display"></div>
+          <button class="btn btn-secondary show_document_options_help"><i class="material-icons">help</i></button>
+          <button class="btn btn-secondary show_document_options_modal"><i class="material-icons">settings</i></button>
+        </div>
         <ul class="list-unstyled ps-0 sidebar_tree">
           <li class="mb-1">
-            <button class="btn btn-toggle align-items-center rounded collapsed engine_sidebar_menu_button" data-bs-toggle="collapse"
-              data-bs-target="#options-menu-panel-collapse" aria-expanded="false">
+            <button class="btn btn-toggle align-items-center rounded collapsed engine_sidebar_menu_button"
+              data-bs-toggle="collapse" data-bs-target="#options-menu-panel-collapse" aria-expanded="false">
               Engine
             </button>
             <div class="collapse" id="options-menu-panel-collapse">
@@ -110,24 +133,26 @@
                 </select>
               </div>
               <div class="sidebar_tree_options_container">
-              <input type="range" class="form-range docfield_max_tokens" min="8" max="4000" step="1">
-              <div class="slider_label max_tokens_slider_label"></div>
-              <br>
-              <input type="range" class="form-range docfield_temperature" min="0" max="2" step="0.01">
-              <div class="slider_label temperature_slider_label"></div>
-              <br>
-              <input type="range" class="form-range docfield_top_p" min="0" max="1" step="0.01">
-              <div class="slider_label top_p_slider_label"></div>
-              <br>
-              <input type="range" class="form-range docfield_presence_penalty" min="-2" max="2" step="0.01">
-              <div class="slider_label presence_penalty_slider_label"></div>
-              <br>
-              <input type="range" class="form-range docfield_frequency_penalty" min="-2" max="2" step="0.01">
-              <div class="slider_label frequency_penalty_slider_label"></div>
-              <br>
+                <input type="range" class="form-range docfield_max_tokens" min="8" max="4000" step="1">
+                <div class="slider_label max_tokens_slider_label"></div>
+                <br>
+                <input type="range" class="form-range docfield_temperature" min="0" max="2" step="0.01">
+                <div class="slider_label temperature_slider_label"></div>
+                <br>
+                <input type="range" class="form-range docfield_top_p" min="0" max="1" step="0.01">
+                <div class="slider_label top_p_slider_label"></div>
+                <br>
+                <input type="range" class="form-range docfield_presence_penalty" min="-2" max="2" step="0.01">
+                <div class="slider_label presence_penalty_slider_label"></div>
+                <br>
+                <input type="range" class="form-range docfield_frequency_penalty" min="-2" max="2" step="0.01">
+                <div class="slider_label frequency_penalty_slider_label"></div>
+                <br>
               </div>
-              <div class="document_usage_stats_line" style="flex:1"></div>
-              <div class="text-center"><b>Total Token Used</b></div>
+              <div class="engine_sub_panel_usage_stat">
+                <div class="document_usage_stats_line" style="flex:1"></div>
+                <div class="text-center"><b>Total Token Used</b></div>
+              </div>
             </div>
           </li>
           <li class="mb-1">
@@ -145,11 +170,6 @@
               Recent
             </button>
             <div class="collapse show" id="recentdocuments-menu-panel-collapse" style="position: relative;">
-              <div class="last_activity_display"></div>
-              <div class="recent_header_current_document">
-                <div class="sidebar_document_title"></div>
-              </div>
-              <hr>
               <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small recent_documents_list"></ul>
             </div>
           </li>
@@ -164,7 +184,7 @@
             <div class="prompt_token_count"></div>
             <div class="token_visualizer_preview"></div>
             <div class="total_prompt_token_count"></div>
-            <div class="send_ticket_ticketcount_display">   
+            <div class="send_ticket_ticketcount_display">
               <span class="selected_ticket_count_span"></span>
               <span class="ticket_count_seperator">/</span>
               <span class="ticket_count_span"></span>
@@ -183,51 +203,52 @@
       </div>
     </div>
   </div>
-  <button class="show_overthreshold_dialog" style="display:none" data-bs-toggle="modal" data-bs-target="#overthresholdModalDialog"></button>
+  <button class="show_overthreshold_dialog" style="display:none" data-bs-toggle="modal"
+    data-bs-target="#overthresholdModalDialog"></button>
   <div class="modal fade" id="overthresholdModalDialog" tabindex="-1" aria-labelledby="overthresholdModalDialogLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content app_panel">
-            <div class="modal-header">
-              <h5 class="modal-title" id="overthresholdModalDialogLabel">Sequence Limit</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <table class="token_submit_summary">
-                <tr>
-                  <th>Total</th>
-                  <th>History</th>
-                  <th>Completion</th>
-                  <th>Prompt</th>
-                </tr>
-                <tr class="value_row">
-                  <td class="chat_threshold_total_tokens"></td>
-                  <td class="chat_history_tokens"></td>
-                  <td class="chat_completion_tokens"></td>
-                  <td class="chat_new_prompt_tokens"></td>
-                </tr>
-                <tr class="description_row">
-                  <td>4097</td>
-                  <td class="ticket_stats"></td>
-                  <td>Setting</td>
-                  <td>Message</td>
-                </tr>
-              </table>
-              <br>
-              <div style="text-align:center">
-                <button class="btn btn-secondary show_token_threshold_dialog"><i 
-                  class="material-icons">help</i></button>
-                <button class="btn btn-primary exclude_tickets_button">Exclude Old Tickets</button>
-                <br style="clear:both">
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary modal_close_button" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-secondary auto_run_overthreshold_ticket" data-bs-dismiss="modal">Send</button>
-            </div>
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content app_panel">
+        <div class="modal-header">
+          <h5 class="modal-title" id="overthresholdModalDialogLabel">Sequence Limit</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <table class="token_submit_summary">
+            <tr>
+              <th>Total</th>
+              <th>History</th>
+              <th>Completion</th>
+              <th>Prompt</th>
+            </tr>
+            <tr class="value_row">
+              <td class="chat_threshold_total_tokens"></td>
+              <td class="chat_history_tokens"></td>
+              <td class="chat_completion_tokens"></td>
+              <td class="chat_new_prompt_tokens"></td>
+            </tr>
+            <tr class="description_row">
+              <td>4097</td>
+              <td class="ticket_stats"></td>
+              <td>Setting</td>
+              <td>Message</td>
+            </tr>
+          </table>
+          <br>
+          <div style="text-align:center">
+            <button class="btn btn-secondary show_token_threshold_dialog"><i class="material-icons">help</i></button>
+            <button class="btn btn-primary exclude_tickets_button">Exclude Old Tickets</button>
+            <br style="clear:both">
           </div>
         </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary modal_close_button" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary auto_run_overthreshold_ticket"
+            data-bs-dismiss="modal">Send</button>
+        </div>
       </div>
+    </div>
+  </div>
 </body>
 
 </html>

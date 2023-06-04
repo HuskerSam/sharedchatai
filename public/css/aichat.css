@@ -201,16 +201,19 @@ body {
   background-color: rgba(55, 55, 55, .5);
 }
 
+.document_menutop_usage_stats_line {
+  padding: 10px;
+  background-color: rgba(55, 55, 55, .5);
+  display: inline-block;
+}
+
 .document_usage_stats_line span {
   flex: 1;
   text-align: center;
 }
 
 .last_activity_display {
-  position: absolute;
   display: inline-block;
-  top: -25px;
-  right: 5px;
 }
 
 .message_list_send_wrapper {
@@ -255,7 +258,7 @@ ul.recent_documents_list li a {
   color: rgb(127, 127, 127);
 }
 
-.sidebar_tree_recent_title { 
+.sidebar_tree_recent_title {
   text-decoration: underline;
 }
 
@@ -396,6 +399,10 @@ ul.recent_documents_list li a {
   padding-bottom: 10px;
 }
 
+.over_token_sendlimit .send_ticket_button {
+  background: rgb(150, 20, 150);
+}
+
 .total_prompt_token_count {
   text-align: right;
   min-width: 35px;
@@ -524,16 +531,16 @@ ul.recent_documents_list li a {
 }
 
 .profile_text_option_large .game_message_list_item .message,
-.profile_text_option_large .game_message_list_item  .assist_section,
-.profile_text_option_large .ticket_content_input  {
+.profile_text_option_large .game_message_list_item .assist_section,
+.profile_text_option_large .ticket_content_input {
   font-size: 1.25em;
   line-height: 1.75em;
-  
+
 }
 
 .profile_text_option_monospace .game_message_list_item .message,
-.profile_text_option_monospace .game_message_list_item  .assist_section,
-.profile_text_option_monospace .ticket_content_input  {
+.profile_text_option_monospace .game_message_list_item .assist_section,
+.profile_text_option_monospace .ticket_content_input {
   font-family: monospace;
 }
 
@@ -585,4 +592,13 @@ ul.recent_documents_list li a {
 
 .archived_chat_document .template_import_options_section {
   display: none;
+}
+
+@media (min-width: 990px) {
+  .new_button_wrapper {
+    width: 100px;
+  }
+  .show_create_modal  {
+    float: right;
+  }
 }
