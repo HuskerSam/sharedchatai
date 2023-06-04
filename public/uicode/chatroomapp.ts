@@ -307,7 +307,7 @@ export class ChatRoomApp extends BaseApp {
 
         const lastSubmit: any = card.querySelector(`.last_submit_time`);
         if (ticketRunning) {
-          assistSection.innerHTML = "pending...";
+          assistSection.innerHTML = "Pending...";
           card.classList.add("ticket_running");
           lastSubmit.dataset.showseconds = "1";
         } else {
