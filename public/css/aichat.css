@@ -205,15 +205,24 @@ body {
   padding: 10px;
   background-color: rgba(55, 55, 55, .5);
   display: inline-block;
+  font-size: 0.75em;
+}
+
+.last_activity_display {
+  display: inline-block;
+  font-size: 0.75em;
+}
+
+.show_document_options_modal,
+.show_document_options_help {
+  background: none;
+  float: right;
+  margin-right: 8px;
 }
 
 .document_usage_stats_line span {
   flex: 1;
   text-align: center;
-}
-
-.last_activity_display {
-  display: inline-block;
 }
 
 .message_list_send_wrapper {
@@ -330,15 +339,6 @@ ul.recent_documents_list li a {
   .show_create_modal {
     width: 50px;
   }
-}
-
-.show_document_options_modal,
-.show_document_options_help {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  background: none;
-  border: none;
 }
 
 .show_document_options_help {
@@ -601,4 +601,9 @@ ul.recent_documents_list li a {
   .show_create_modal  {
     float: right;
   }
+}
+.header_usage_time_line {
+  margin-top: 4px;
+  padding-top: 0px;
+  margin-bottom: -2px;
 }
