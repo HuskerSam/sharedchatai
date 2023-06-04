@@ -23,6 +23,7 @@ export default class DocOptionsHelper {
     chatDocumentId = "";
     prompt_for_new_note: any;
     noLabelSave = false;
+    lastReportData: any;
 
     export_data_popup_preview: any;
     export_size: any;
@@ -152,7 +153,14 @@ export default class DocOptionsHelper {
     }
     /** copy export text area to clipboard */
     copyExportToClipboard() {
-        navigator.clipboard.writeText(this.export_data_popup_preview.innerHTML);
+        if (this.lastReportData.formatFilter === "html") {
+            navigator.clipboard.write([new ClipboardItem({
+                'text/plain': new Blob([this.export_data_popup_preview.innerText], {type: 'text/plain'}),
+                'text/html': new Blob([this.export_data_popup_preview.innerHTML], {type: 'text/html'})
+              })]);    
+        } else {
+            navigator.clipboard.writeText(this.lastReportData.resultText);
+        }
         const buttonText = `<i class="material-icons">content_copy</i>`;
         this.copy_export_clipboard.innerHTML = "✅" + buttonText;
         setTimeout(() => this.copy_export_clipboard.innerHTML = buttonText, 1200);
@@ -395,10 +403,10 @@ export default class DocOptionsHelper {
         <div class="export_data_popup_preview"></div>
         <br>
         <div class="export_bottom_bar">
-            <span class="export_size"></span> bytes
+            <span class="export_size"></span>&nbsp;
             <button type="button" class="btn btn-secondary copy_export_clipboard"><i class="material-icons">content_copy</i></button>
             &nbsp;
-            <button type="button" class="btn btn-primary download_export_button">Download</button>
+            <button type="button" class="btn btn-primary download_export_button">Download Template</button>
         </div>
     </div>`;
     }
@@ -533,7 +541,7 @@ export default class DocOptionsHelper {
         } else if (formatFilter === "text") {
             format = "plain/text";
             fileName = "report.txt";
-            resultText += new Date().toISOString().substring(0, 10) + "\n";
+            resultText += "Exported: " + new Date().toISOString().substring(0, 10) + "\n";
             tickets.forEach((ticket: any) => {
                 const completion = this.messageForCompletion(ticket.id);
                 const prompt = ticket.data().message;
@@ -545,7 +553,7 @@ export default class DocOptionsHelper {
         } else if (formatFilter === "html") {
             fileName = "report.html";
             format = "text/html";
-            resultText += `<div class="export_date">${new Date().toISOString().substring(0, 10)}</div>\n`;
+            resultText += `<div class="export_date">Exported: ${new Date().toISOString().substring(0, 10)}</div>\n`;
             tickets.forEach((ticket: any) => {
                 const prompt = <string>ticket.data().message;
                 const completion = <string>
@@ -587,12 +595,13 @@ export default class DocOptionsHelper {
     */
     refreshReportData(download = false) {
         const data = this.generateExportData();
+        this.lastReportData = data;
         this.export_data_popup_preview.innerHTML = data.resultText;
-        this.export_data_popup_preview.classList.remove("text_preview");
-        this.export_data_popup_preview.classList.remove("csv_preview");
-        this.export_data_popup_preview.classList.remove("html_preview");
-        this.export_data_popup_preview.classList.remove("json_preview");
-        this.export_data_popup_preview.classList.add(data.formatFilter + "_preview");
+        this.modalContainer.classList.remove("text_preview");
+        this.modalContainer.classList.remove("csv_preview");
+        this.modalContainer.classList.remove("html_preview");
+        this.modalContainer.classList.remove("json_preview");
+        this.modalContainer.classList.add(data.formatFilter + "_preview");
         this.export_size.innerHTML = data.resultText.length;
         const selection = window.getSelection();
         selection.removeAllRanges();

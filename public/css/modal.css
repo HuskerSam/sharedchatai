@@ -24,12 +24,12 @@
   padding: 4px;
 }
 
-.json_preview.export_data_popup_preview,
-.text_preview.export_data_popup_preview {
+.json_preview .export_data_popup_preview,
+.text_preview .export_data_popup_preview {
   white-space: pre-wrap;
 }
 
-.csv_preview.export_data_popup_preview {
+.csv_preview .export_data_popup_preview {
   white-space: pre;
 }
 
@@ -252,3 +252,14 @@
   display: inline-block;
   width: 70px;
 }
+
+.text_preview .download_export_button,
+.html_preview .download_export_button {
+  display: none;
+}
+
+.json_preview .copy_export_clipboard,
+.csv_preview .copy_export_clipboard {
+  display: none;
+}
+
