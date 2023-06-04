@@ -178,7 +178,7 @@ export default class DocOptionsHelper {
             this.app.gameData.note = newNote;
             this.saveDocumentOwnerOption("note");
             this.owner_note_display_div.innerHTML = this.documentData.note;
-        }  
+        }
     }
     /** prompt and send token limit usage to api */
     promptForNewUsageLimit() {
@@ -205,7 +205,7 @@ export default class DocOptionsHelper {
     */
     async saveDocumentOwnerOption(fieldKey: string) {
         const docId = this.chatDocumentId;
-        let updatePacket: any = {
+        const updatePacket: any = {
             gameNumber: docId,
         };
 
@@ -216,12 +216,12 @@ export default class DocOptionsHelper {
             updatePacket.tokenUsageLimit = this.app.gameData.tokenUsageLimit;
         }
         if (fieldKey === "note") {
-            updatePacket.note = this.app.gameData.note;        
+            updatePacket.note = this.app.gameData.note;
         }
         if (fieldKey === "label") {
-            updatePacket.label = this.app.gameData.label;        
+            updatePacket.label = this.app.gameData.label;
         }
-        if (fieldKey = "archived") {
+        if (fieldKey === "archived") {
             updatePacket.archived = this.app.gameData.archived;
         }
 
@@ -580,13 +580,13 @@ export default class DocOptionsHelper {
         this.export_size.innerHTML = data.resultText.length;
         const selection = window.getSelection();
         selection.removeAllRanges();
-      
+
         // Select paragraph
         const range = document.createRange();
         range.selectNodeContents(this.export_data_popup_preview);
         selection.addRange(range);
-        this.export_data_popup_preview.focus()
-        
+        this.export_data_popup_preview.focus();
+
         if (download) {
             const file = new File([data.resultText], data.fileName, {
                 type: data.format,

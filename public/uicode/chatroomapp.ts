@@ -117,7 +117,7 @@ export class ChatRoomApp extends BaseApp {
       this.documentOptions.show(this.currentGame, this.gameData);
     });
     this.show_document_options_help.addEventListener("click", () => this.helpHelper.show("chatroom_sidebar_document_header"));
-    this.show_token_threshold_dialog.addEventListener("click", () => this.helpHelper.show("token_threshold"))
+    this.show_token_threshold_dialog.addEventListener("click", () => this.helpHelper.show("token_threshold"));
 
     this.docfield_temperature.addEventListener("input", () => this.optionSliderChange(true, "temperature",
       this.docfield_temperature, this.temperature_slider_label, "Temperature: "));
@@ -315,7 +315,7 @@ export class ChatRoomApp extends BaseApp {
     if (scrollToBottom) {
       this.scrollTicketListBottom();
       setTimeout(() => this.scrollTicketListBottom(), 100);
-    } 
+    }
   }
   /** tests if dom scroll is at bottom
    * @param { any } ele element to test
@@ -359,7 +359,7 @@ export class ChatRoomApp extends BaseApp {
       this.ticketsLookup[doc.id] = doc.data();
 
       if (this.ticketsLookup[doc.id].includeInMessage) this.selectedTicketCount++;
-      
+
       const chkBox: any = card.querySelector(`input[ticketid="${doc.id}"]`);
       const submittedTime: any = card.querySelector(".last_submit_time");
       submittedTime.setAttribute("data-timesince", doc.data().submitted);
@@ -394,7 +394,6 @@ export class ChatRoomApp extends BaseApp {
     this.selected_ticket_count_span.innerHTML = this.selectedTicketCount;
 
     if (scrollToBottom) this.scrollTicketListBottom();
-
   }
   /** send rerun request to api
    * @param { any } reRunBtn dom button
@@ -905,14 +904,22 @@ export class ChatRoomApp extends BaseApp {
     } else {
       document.body.classList.remove("over_token_sendlimit");
     }
-
   }
+  /**
+   *
+   * @return { boolean } true if over 4097 for submit token count
+   */
   isOverSendThreshold(): boolean {
     return this.includeTotalTokens + this.gameData.max_tokens + this.lastInputTokenCount > 4097;
   }
+  /** shows over threshold modal */
   showOverthresholdToSendModal() {
     this.show_overthreshold_dialog.click();
   }
+  /**
+   *
+   * @param { any } currentTicketId ticketid to ignore (optional)
+   */
   autoExcludeTicketsToMeetThreshold(currentTicketId: any = null) {
     if (!this.isOverSendThreshold()) return;
     let tokenReduction = this.includeTotalTokens + this.gameData.max_tokens + this.lastInputTokenCount - 4000;
@@ -923,7 +930,7 @@ export class ChatRoomApp extends BaseApp {
       if (tokenReduction > 0) {
         const ticket = doc.data();
         const ticketId = doc.id;
-  
+
         let include = false;
         if (ticket && ticket.includeInMessage) include = true;
         if (currentTicketId !== ticketId && include) {
@@ -933,7 +940,7 @@ export class ChatRoomApp extends BaseApp {
           const tokenCountCompletion = this.tokenCountForCompletion(doc.id);
           const promptTokens = window.gpt3tokenizer.encode(ticket.message);
           tokenReduction -= tokenCountCompletion + promptTokens.length;
-        }  
+        }
       }
     });
   }
