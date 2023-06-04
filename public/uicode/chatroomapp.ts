@@ -241,7 +241,7 @@ export class ChatRoomApp extends BaseApp {
         title = title.substring(0, 100);
         const activityDate = this.showEmailAsGmail(new Date(data.lastActivity));
         const rowHTML = `<li>
-        <a href="/aichat/?game=${doc.id}" target="_blank">
+        <a href="/aichat/?game=${doc.id}">
           <div class="sidebar_tree_recent_title title">${title}</div>
           <div class="activity_date">${activityDate}</div>
         </a></li>`;
@@ -291,7 +291,7 @@ export class ChatRoomApp extends BaseApp {
               }
               assistSection.innerHTML = result;
             } else {
-              assistSection.innerHTML = assistData.assist.choices["0"].message.content;
+              assistSection.innerHTML = BaseApp.escapeHTML(assistData.assist.choices["0"].message.content);
 
               totalSpan.innerHTML = assistData.assist.usage.total_tokens;
               promptSpan.innerHTML = assistData.assist.usage.prompt_tokens;
@@ -545,7 +545,7 @@ export class ChatRoomApp extends BaseApp {
           </div>
       </div>
       <div class="ticket_header_section">
-          <div class="message">${data.message}</div>
+          <div class="message">${BaseApp.escapeHTML(data.message)}</div>
       </div>
       <div class="assist_section_wrapper">
           <div class="tokens_completion"></div>

@@ -24,7 +24,7 @@ export default class ChatAI {
         const reRunticket: any = req.body.reRunTicket;
         let message = req.body.message;
         if (message) {
-            message = BaseClass.escapeHTML(message);
+            //message = BaseClass.escapeHTML(message);
             if (message.length > 10000) message = message.substr(0, 10000);
         }
 
@@ -133,7 +133,7 @@ export default class ChatAI {
             const importTicket = importedTickets[c];
             let prompt = importTicket.prompt;
             if (prompt) {
-                prompt = BaseClass.escapeHTML(prompt);
+                //prompt = BaseClass.escapeHTML(prompt);
                 if (prompt.length > 10000) prompt = prompt.substr(0, 10000);
             }
             if (!prompt) {

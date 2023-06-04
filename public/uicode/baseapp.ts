@@ -206,7 +206,7 @@ export default class BaseApp {
   */
   showEmailAsGmail(dt: Date): string {
     if (Date.now() - dt.getTime() < 24 * 60 * 60 * 1000) {
-     return this.formatAMPM(dt);
+      return this.formatAMPM(dt);
     }
 
     return dt.toLocaleDateString("en-us", {
@@ -351,5 +351,24 @@ export default class BaseApp {
       }
       ctl.innerHTML = dateDisplay;
     });
+  }
+  /** escape html
+   * @param { string } str  raw string to escape
+   * @return { string } escaped string
+  */
+  static escapeHTML(str: string): string {
+    if (!str) str = "";
+    return str.replace(/[&<>'"]/g,
+      (match) => {
+        switch (match) {
+          case "&": return "&amp;";
+          case "<": return "&lt;";
+          case ">": return "&gt;";
+          case "'": return "&#39;";
+          case "\"": return "&quot;";
+        }
+
+        return match;
+      });
   }
 }
