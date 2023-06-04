@@ -661,8 +661,10 @@ export class ChatRoomApp extends BaseApp {
     this.includeTotalTokens = 0;
     this.includeMessageTokens = 0;
     this.includeAssistTokens = 0;
+    // return reverse order for submission
     this.lastTicketsSnapshot.forEach((doc: any) => {
       const ticket: any = this.ticketsLookup[doc.id];
+      console.log(ticket);
       let include = false;
       if (ticket && ticket.includeInMessage) include = true;
       if (ticketId !== doc.id && include) {
@@ -676,7 +678,7 @@ export class ChatRoomApp extends BaseApp {
         }
       }
     });
-    return tickets;
+    return tickets.reverse();
   }
   /** lookup token usage
    * @param { string } assistId ticket id to check for assist
