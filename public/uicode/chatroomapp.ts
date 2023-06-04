@@ -46,10 +46,12 @@ export class ChatRoomApp extends BaseApp {
   lastDocumentOptionChange = 0;
   debounceTimeout: any = null;
   splitInstance: any = null;
+
   chat_history_tokens: any = document.querySelector(".chat_history_tokens");
   chat_completion_tokens: any = document.querySelector(".chat_completion_tokens");
   chat_new_prompt_tokens: any = document.querySelector(".chat_new_prompt_tokens");
   chat_threshold_total_tokens: any = document.querySelector(".chat_threshold_total_tokens");
+  exclude_tickets_button: any = document.querySelector(".exclude_tickets_button");
 
   tickets_list: any = document.querySelector(".tickets_list");
   members_list: any = document.querySelector(".members_list");
@@ -90,11 +92,14 @@ export class ChatRoomApp extends BaseApp {
   show_overthreshold_dialog: any = document.querySelector(".show_overthreshold_dialog");
   show_token_threshold_dialog: any = document.querySelector(".show_token_threshold_dialog");
 
+  auto_run_overthreshold_ticket: any = document.querySelector(".auto_run_overthreshold_ticket");
+
   /**  */
   constructor() {
     super();
 
     this.send_ticket_button.addEventListener("click", () => this.sendTicketToAPI());
+    this.auto_run_overthreshold_ticket.addEventListener("click", () => this.sendTicketToAPI());
     this.ticket_content_input.addEventListener("keydown", (e: any) => {
       if (e.key === "Enter" && e.shiftKey === false) {
         e.preventDefault();
@@ -128,6 +133,7 @@ export class ChatRoomApp extends BaseApp {
       this.saveDocumentOption("model", this.docfield_model.value);
     });
     this.updateSplitter();
+    this.exclude_tickets_button.addEventListener("click", () => this.autoExcludeTicketsToMeetThreshold());
 
     window.addEventListener("resize", () => {
       this.updateSplitter();
@@ -209,7 +215,7 @@ export class ChatRoomApp extends BaseApp {
     if (this.recentDocumentsSubscription) this.recentDocumentsSubscription();
     this.recentDocumentsSubscription = firebase.firestore().collection(`Games`)
       .orderBy(`members.${this.uid}`, "desc")
-      .limit(10)
+      .limit(11)
       .onSnapshot((snapshot: any) => this.updateRecentDocumentFeed(snapshot));
   }
   /** paint recent document feed
@@ -380,7 +386,7 @@ export class ChatRoomApp extends BaseApp {
     tempCards.forEach((card: any) => card.remove());
 
     this.updateTimeSince(this.tickets_list);
-
+    this.updatePromptTokenStatus();
     this.refreshOnlinePresence();
     this.updateAssistsFeed(null);
 
@@ -889,6 +895,10 @@ export class ChatRoomApp extends BaseApp {
     this.prompt_token_count.innerHTML = tokens.length;
     this.lastInputTokenCount = tokens.length;
     this.total_prompt_token_count.innerHTML = this.includeTotalTokens + tokens.length;
+    this.chat_history_tokens.innerHTML = this.includeTotalTokens;
+    this.chat_completion_tokens.innerHTML = this.gameData.max_tokens;
+    this.chat_new_prompt_tokens.innerHTML = this.lastInputTokenCount;
+    this.chat_threshold_total_tokens.innerHTML = (this.includeTotalTokens + this.gameData.max_tokens + this.lastInputTokenCount).toString();
 
     if (this.isOverSendThreshold()) {
       document.body.classList.add("over_token_sendlimit");
@@ -901,11 +911,30 @@ export class ChatRoomApp extends BaseApp {
     return this.includeTotalTokens + this.gameData.max_tokens + this.lastInputTokenCount > 4097;
   }
   showOverthresholdToSendModal() {
-    this.chat_history_tokens.innerHTML = this.includeTotalTokens;
-    this.chat_completion_tokens.innerHTML = this.gameData.max_tokens;
-    this.chat_new_prompt_tokens.innerHTML = this.lastInputTokenCount;
-    this.chat_threshold_total_tokens.innerHTML = (this.includeTotalTokens + this.gameData.max_tokens + this.lastInputTokenCount).toString();
-
     this.show_overthreshold_dialog.click();
+  }
+  autoExcludeTicketsToMeetThreshold(currentTicketId: any = null) {
+    if (!this.isOverSendThreshold()) return;
+    let tokenReduction = this.includeTotalTokens + this.gameData.max_tokens + this.lastInputTokenCount - 4000;
+
+    const tickets: Array<any> = [];
+    this.lastTicketsSnapshot.forEach((doc: any) => tickets.unshift(doc));
+    tickets.forEach((doc: any) => {
+      if (tokenReduction > 0) {
+        const ticket = doc.data();
+        const ticketId = doc.id;
+  
+        let include = false;
+        if (ticket && ticket.includeInMessage) include = true;
+        if (currentTicketId !== ticketId && include) {
+          ticket.includeInMessage = false;
+          this.includeTicketSendToAPI(ticketId, false);
+
+          const tokenCountCompletion = this.tokenCountForCompletion(doc.id);
+          const promptTokens = window.gpt3tokenizer.encode(ticket.message);
+          tokenReduction -= tokenCountCompletion + promptTokens.length;
+        }  
+      }
+    });
   }
 }
