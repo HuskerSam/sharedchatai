@@ -239,7 +239,6 @@ export class ChatRoomApp extends BaseApp {
     else if (this.lastAssistsSnapShot) snapshot = this.lastAssistsSnapShot;
     else return;
     const scrollToBottom = this.atBottom(this.tickets_list);
-
     this.assistsLookup = {};
     snapshot.forEach((doc: any) => this.assistsLookup[doc.id] = doc.data());
 
@@ -298,29 +297,26 @@ export class ChatRoomApp extends BaseApp {
       }
     });
 
-    if (scrollToBottom) this.scrollTicketListBottom();
-
-    this.generateSubmitList();
     this.updatePromptTokenStatus();
+    if (scrollToBottom) {
+      this.scrollTicketListBottom();
+      setTimeout(() => this.scrollTicketListBottom(), 100);
+    } 
   }
   /** tests if dom scroll is at bottom
    * @param { any } ele element to test
    * @return { boolean } true is scrolled to bottom
    */
   atBottom(ele: any): boolean {
-    const sh = ele.scrollHeight;
-    const st = ele.scrollTop;
-    const ht = ele.offsetHeight;
-    if (ht == 0) {
-      return true;
-    }
-    if (st == sh - ht) return true;
-    else return false;
+    if (ele.scrollTop + ele.offsetHeight >= ele.scrollHeight) return true;
+    return false;
   }
   /** */
   scrollTicketListBottom() {
+    this.tickets_list.offsetHeight;
     this.tickets_list.scrollTop = this.tickets_list.scrollHeight;
     setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 20);
+    setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight, 50);
   }
   /** paint user message feed
    * @param { any } snapshot firestore query data snapshot
@@ -348,12 +344,21 @@ export class ChatRoomApp extends BaseApp {
       this.tickets_list.insertBefore(card, this.tickets_list.firstChild);
       this.ticketsLookup[doc.id] = doc.data();
 
-      const chkBox: any = card.querySelector(`input[ticketid="${doc.id}"]`);
-      chkBox.checked = this.ticketsLookup[doc.id].includeInMessage;
       if (this.ticketsLookup[doc.id].includeInMessage) this.selectedTicketCount++;
-
+      
+      const chkBox: any = card.querySelector(`input[ticketid="${doc.id}"]`);
       const submittedTime: any = card.querySelector(".last_submit_time");
       submittedTime.setAttribute("data-timesince", doc.data().submitted);
+
+      if (this.ticketsLookup[doc.id].includeInMessage === true) {
+        chkBox.checked = true;
+        card.classList.add("ticket_selected");
+        card.classList.remove("ticket_not_selected");
+      } else {
+        chkBox.checked = false;
+        card.classList.remove("ticket_selected");
+        card.classList.add("ticket_not_selected");
+      }
     });
 
     oldKeys.forEach((key: string) => {
@@ -366,8 +371,6 @@ export class ChatRoomApp extends BaseApp {
     const tempCards = this.tickets_list.querySelectorAll(`.temp_ticket_card`);
     tempCards.forEach((card: any) => card.remove());
 
-    if (scrollToBottom) this.scrollTicketListBottom();
-
     this.updateTimeSince(this.tickets_list);
 
     this.refreshOnlinePresence();
@@ -375,6 +378,9 @@ export class ChatRoomApp extends BaseApp {
 
     this.ticket_count_span.innerHTML = this.ticketCount;
     this.selected_ticket_count_span.innerHTML = this.selectedTicketCount;
+
+    if (scrollToBottom) this.scrollTicketListBottom();
+
   }
   /** send rerun request to api
    * @param { any } reRunBtn dom button
@@ -408,6 +414,7 @@ export class ChatRoomApp extends BaseApp {
       console.log("ticket rerun post", json);
       alert(json.errorMessage);
     }
+    this.scrollTicketListBottom();
   }
   /** api call for delete user message
    * @param { any } btn dom control
