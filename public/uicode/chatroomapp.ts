@@ -565,7 +565,12 @@ export class ChatRoomApp extends BaseApp {
 
     const includeChkBox: any = cardDom.querySelector(".ticket_item_include_checkbox");
     includeChkBox.addEventListener("input", async () => {
-      await this.includeTicketSendToAPI(reRunBtn.dataset.ticketid, includeChkBox.checked);
+      if (!this.gameData) return;
+      if (!this.gameData.archived) {
+        this.includeTicketSendToAPI(reRunBtn.dataset.ticketid, includeChkBox.checked);
+      } else {
+        includeChkBox.checked = data.includeInMessage;
+      }
     });
 
     return cardDom;
