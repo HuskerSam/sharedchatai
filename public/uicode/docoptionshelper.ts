@@ -513,9 +513,11 @@ export default class DocOptionsHelper {
 
         let format = "";
         let fileName = "";
+        let displayText = "";
         if (formatFilter === "json") {
             format = "application/json";
             fileName = "export.json";
+     
             const rows: any = [];
             tickets.forEach((ticket: any) => {
                 rows.push({
@@ -526,6 +528,7 @@ export default class DocOptionsHelper {
             });
             const jsonText = JSON.stringify(rows, null, "  ");
             resultText = jsonText;
+            displayText = BaseApp.escapeHTML(resultText);
         } else if (formatFilter === "csv") {
             format = "application/csv";
             fileName = "export.csv";
@@ -539,6 +542,7 @@ export default class DocOptionsHelper {
             });
             const csvText = window.Papa.unparse(rows);
             resultText = csvText;
+            displayText = BaseApp.escapeHTML(resultText);
         } else if (formatFilter === "text") {
             format = "plain/text";
             fileName = "report.txt";
@@ -550,25 +554,27 @@ export default class DocOptionsHelper {
                 resultText += "Prompt: " + prompt + "\n";
                 if (completion) resultText += "Assist: " + completion + "\n";
                 resultText += "\n";
+                displayText = BaseApp.escapeHTML(resultText);
             });
         } else if (formatFilter === "html") {
             fileName = "report.html";
             format = "text/html";
             resultText += `<div class="export_date">Exported: ${new Date().toISOString().substring(0, 10)}</div>\n`;
             tickets.forEach((ticket: any) => {
-                const prompt = <string>ticket.data().message;
-                const completion = <string>
-                    this.messageForCompletion(ticket.id);
-                const selected = <string>ticket.data().includeInMessage ? "✅" : "&nbsp;";
+                const prompt = BaseApp.escapeHTML(ticket.data().message);
+                const completion = BaseApp.escapeHTML(this.messageForCompletion(ticket.id));
+                const selected = ticket.data().includeInMessage ? "✅" : "&nbsp;";
 
                 resultText += `<div class="ticket-item">\n`;
                 resultText += `    <div class="prompt-text">${selected} ${prompt}</div>\n`;
                 resultText += `    <div class="completion-text">${completion}</div>\n`;
                 resultText += `</div>`;
+                displayText = resultText;
             });
         }
 
         return {
+            displayText,
             resultText,
             format,
             formatFilter,
@@ -597,7 +603,7 @@ export default class DocOptionsHelper {
     refreshReportData(download = false) {
         const data = this.generateExportData();
         this.lastReportData = data;
-        this.export_data_popup_preview.innerHTML = data.resultText;
+        this.export_data_popup_preview.innerHTML = data.displayText;
         this.modalContainer.classList.remove("text_preview");
         this.modalContainer.classList.remove("csv_preview");
         this.modalContainer.classList.remove("html_preview");
