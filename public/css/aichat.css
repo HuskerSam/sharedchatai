@@ -497,3 +497,12 @@ ul.recent_documents_list li a {
 .profile_text_option_monospace .ticket_content_input  {
   font-family: monospace;
 }
+
+.sidebar_tree_options_container {
+  padding: 0 16px;
+}
+
+.ticket_not_selected .message,
+.ticket_not_selected .assist_section {
+  opacity: 0.6;
+}
