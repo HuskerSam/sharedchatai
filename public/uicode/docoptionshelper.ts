@@ -94,7 +94,7 @@ export default class DocOptionsHelper {
         this.show_import_tickets_help = document.querySelector(".show_import_tickets_help");
         this.show_import_tickets_help.addEventListener("click", () => this.app.helpHelper.show("share_document_options_tab"));
         this.show_export_tickets_help = document.querySelector(".show_export_tickets_help");
-        this.show_export_tickets_help.addEventListener("click", () => this.app.helpHelper.show("export_tickets"));
+        this.show_export_tickets_help.addEventListener("click", () => this.app.helpHelper.show("templates"));
 
         this.show_document_details_options_help = document.querySelector(".show_document_details_options_help");
         this.show_document_details_options_help.addEventListener("click", () => this.app.helpHelper.show("user_document_options"));
