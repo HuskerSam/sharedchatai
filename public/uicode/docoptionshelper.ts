@@ -396,7 +396,8 @@ export default class DocOptionsHelper {
         const data = window.$(".edit_options_document_labels").select2("data");
         const labels: Array<string> = [];
         data.forEach((item: any) => {
-            if (item.text.trim()) labels.push(item.text.trim());
+            const text = item.text.trim().substring(0, 20);
+            if (text) labels.push(text);
         });
 
         this.app.gameData.label = labels.join(",");

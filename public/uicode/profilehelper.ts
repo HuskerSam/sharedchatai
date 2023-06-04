@@ -335,7 +335,8 @@ export default class ProfileHelper {
         const data = window.$(".label_profile_picker").select2("data");
         const labels: Array<string> = [];
         data.forEach((item: any) => {
-            if (item.text.trim()) labels.push(item.text.trim());
+            const text = item.text.trim().substring(0, 20);
+            if (text) labels.push(text);
         });
 
         return labels.join(",");
