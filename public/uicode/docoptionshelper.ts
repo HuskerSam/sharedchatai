@@ -157,6 +157,13 @@ export default class DocOptionsHelper {
         this.copy_export_clipboard.innerHTML = "✅" + buttonText;
         setTimeout(() => this.copy_export_clipboard.innerHTML = buttonText, 1200);
     }
+    /** detect if chatroom view
+     * @return { boolean } for navigation after delete 
+     */
+    get chatRoomView(): boolean {
+        if (this.app.gameData) return true;
+        return false;
+    }
     /** docData to support dashboard and chatroom */
     get docData(): any {
         if (this.app.gameData) return this.app.gameData;
@@ -438,7 +445,8 @@ export default class DocOptionsHelper {
             alert("Delete failed");
             return;
         }
-        window.location = "/dashboard";
+
+        if (this.chatRoomView) window.location = "/dashboard";
         this.modal_close_button.click();
     }
     /** logout api call */
