@@ -517,7 +517,7 @@ export default class DocOptionsHelper {
         if (formatFilter === "json") {
             format = "application/json";
             fileName = "export.json";
-     
+
             const rows: any = [];
             tickets.forEach((ticket: any) => {
                 rows.push({
