@@ -556,9 +556,6 @@ ul.recent_documents_list li a {
   color: rgb(255, 50, 50);
 }
 
-.chat_history_tokens {
-}
-
 .token_submit_summary {
   text-align: center;
   width: 100%;

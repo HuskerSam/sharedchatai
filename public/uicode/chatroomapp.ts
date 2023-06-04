@@ -136,7 +136,6 @@ export class ChatRoomApp extends BaseApp {
       } else {
         this.saveDocumentOption("model", this.docfield_model.value);
       }
-
     });
     this.updateSplitter();
     this.exclude_tickets_button.addEventListener("click", () => this.autoExcludeTicketsToMeetThreshold());

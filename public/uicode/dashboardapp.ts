@@ -248,7 +248,9 @@ export class DashboardApp extends BaseApp {
         if (str) labels[str] = true;
       });
     });
-    const arr = Object.keys(labels).sort();
+    const arr = Object.keys(labels).sort((a: string, b: string) => {
+      return a.toLowerCase().localeCompare(b.toLowerCase());
+    });
     return arr;
   }
   /** paint label select */
