@@ -297,6 +297,11 @@ export class ChatRoomApp extends BaseApp {
               totalSpan.innerHTML = assistData.assist.usage.total_tokens;
               promptSpan.innerHTML = assistData.assist.usage.prompt_tokens;
               completionSpan.innerHTML = assistData.assist.usage.completion_tokens;
+              if (assistData.assist.usage.completion_tokens >= this.gameData.max_tokens) {
+                completionSpan.classList.add("completion_max_tokens_reached");
+              } else {
+                completionSpan.classList.remove("completion_max_tokens_reached");
+              }
             }
           } else {
             let msg = "API Error";
@@ -549,7 +554,7 @@ export class ChatRoomApp extends BaseApp {
           <div class="message">${BaseApp.escapeHTML(data.message)}</div>
       </div>
       <div class="assist_section_wrapper">
-          <div class="tokens_completion"></div>
+          <div class="tokens_completion"></span></div>
           <div class="assist_section">Pending...</div>
       </div>
   </div>`;

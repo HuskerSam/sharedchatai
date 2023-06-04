@@ -187,6 +187,10 @@ body {
   color: rgb(150, 150, 150);
 }
 
+.completion_max_tokens_reached {
+  color: rgb(255, 50, 50);
+}
+
 
 .left_panel_view {
   display: flex;
@@ -400,8 +404,16 @@ ul.recent_documents_list li a {
   padding-bottom: 10px;
 }
 
+.exclude_tickets_button {
+  background-color: rgba(68, 70, 84, 0.5);
+}
+.over_token_sendlimit .exclude_tickets_button {
+  background-color: rgb(50, 150, 50);
+  border-color: rgb(120, 255, 120);
+}
+
 .over_token_sendlimit .send_ticket_button {
-  background: rgb(150, 20, 150);
+  background-color: rgb(150, 20, 150);
 }
 
 .total_prompt_token_count {
