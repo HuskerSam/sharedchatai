@@ -171,7 +171,7 @@ export default class DocOptionsHelper {
     }
     /** prompt and send title to api */
     promptForNewTitle() {
-        let newTitle = prompt("Document Title", "");
+        let newTitle = prompt("Document Title", this.docData.title);
         if (newTitle !== null) {
             newTitle = newTitle.trim();
             if (!newTitle) {
@@ -185,7 +185,7 @@ export default class DocOptionsHelper {
     }
     /** prompt and send not to api */
     promptForNewNote() {
-        let newNote = prompt("Reference Note", "");
+        let newNote = prompt("Reference Note", this.docData.note);
         if (newNote !== null) {
             newNote = newNote.trim();
             this.docData.note = newNote;
@@ -662,7 +662,7 @@ export default class DocOptionsHelper {
         this.chatDocumentId = chatDocumentId;
         this.documentData = doc;
         if (doc.createUser === this.app.uid) {
-            this.owner_note_display_div.innerHTML = doc.note;
+            this.owner_note_display_div.innerHTML = BaseApp.escapeHTML(doc.note);
             this.modalContainer.classList.add("modal_options_owner_user");
             this.modalContainer.classList.remove("modal_options_shared_user");
         } else {
@@ -670,7 +670,7 @@ export default class DocOptionsHelper {
             this.modalContainer.classList.add("modal_options_shared_user");
         }
 
-        this.modal_document_title_display.innerHTML = this.documentData.title;
+        this.modal_document_title_display.innerHTML = BaseApp.escapeHTML(this.documentData.title);
         this.shared_usage_limit_div.innerHTML = this.documentData.tokenUsageLimit;
         this.docfield_archived_checkbox.checked = this.documentData.archived;
         this.shared_archived_status_wrapper.innerHTML = this.documentData.archived ? "Archived" : "Active";

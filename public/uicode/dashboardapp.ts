@@ -130,7 +130,7 @@ export class DashboardApp extends BaseApp {
         localLookup[doc.id] = doc.data();
 
         const titleDom = card.querySelector(".document_name");
-        let title = doc.data().title;
+        let title = BaseApp.escapeHTML(doc.data().title);
         if (!title) title = "";
         if (title === "") title = `<span class="unused_chatroom_title_placeholder">unused</span>`;
         titleDom.innerHTML = title;

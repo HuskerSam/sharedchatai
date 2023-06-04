@@ -235,7 +235,7 @@ export class ChatRoomApp extends BaseApp {
     this.lastDocumentsSnapshot.forEach((doc: any) => {
       if (doc.id !== this.currentGame) {
         const data = doc.data();
-        let title = data.title;
+        let title = BaseApp.escapeHTML(data.title);
         if (!title) title = "unused";
         // const activityDate = data.created.substring(5, 16).replace("T", " ").replace("-", "/");
         title = title.substring(0, 100);
@@ -738,7 +738,7 @@ export class ChatRoomApp extends BaseApp {
 
     this.last_activity_display.innerHTML = this.showEmailAsGmail(new Date(this.gameData.lastActivity));
 
-    this.sidebar_document_title.innerHTML = this.gameData.title + "&nbsp;";
+    this.sidebar_document_title.innerHTML = BaseApp.escapeHTML(this.gameData.title);
 
     this.paintDocumentOptions();
     this._updateGameMembersList();
