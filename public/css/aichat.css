@@ -108,7 +108,7 @@ body {
   padding: 10px;
   white-space: pre-wrap;
   line-height: 1.5rem;
-  color: rgb(150, 255, 150);
+
 }
 
 .game_message_list_item .game_date {
@@ -140,6 +140,7 @@ body {
   line-height: 1.5rem;
   margin-right: 0;
   margin-left: 0;
+  color: rgb(150, 255, 150);
 }
 
 .gutter {
