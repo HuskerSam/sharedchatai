@@ -223,7 +223,7 @@ export class ChatRoomApp extends BaseApp {
         const activityDate = this.showEmailAsGmail(new Date(data.lastActivity));
         const rowHTML = `<li>
         <a href="/aichat/?game=${doc.id}" target="_blank">
-          <div class="title">${title}</div>
+          <div class="sidebar_tree_recent_title title">${title}</div>
           <div class="activity_date">${activityDate}</div>
         </a></li>`;
         html += rowHTML;
