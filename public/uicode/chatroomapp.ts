@@ -478,8 +478,8 @@ export class ChatRoomApp extends BaseApp {
    * @return { any } card
    */
   getTicketCardDom(ticketId: string, data: any, tempTicket = false): any {
-    const gameOwnerClass = data.isGameOwner ? " message_game_owner" : "";
-    const ownerClass = data.uid === this.uid ? " message_owner" : "";
+    const gameOwnerClass = data.isGameOwner ? " ticket_game_owner" : "";
+    const ownerClass = data.uid === this.uid ? " ticket_owner" : "";
 
     let name = "Anonymous";
     const ticketUserName = this.gameData.memberNames[data.uid];
