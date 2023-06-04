@@ -98,10 +98,10 @@ export default class GameAPI {
     if (req.body.label) label = req.body.label;
 
     let note = "";
-    if (req.body.note) note = req.body.note;
+    if (req.body.note) note = BaseClass.escapeHTML(req.body.note);
 
     let title = "";
-    if (req.body.title) title = req.body.title;
+    if (req.body.title) title = BaseClass.escapeHTML(req.body.title);
 
     let tokenUsageLimit = 0;
     if (req.body.tokenUsageLimit) tokenUsageLimit = req.body.tokenUsageLimit;
@@ -229,10 +229,10 @@ export default class GameAPI {
       updatePacket.label = req.body.label;
     }
     if (req.body.note !== undefined) {
-      updatePacket.note = req.body.note;
+      updatePacket.note = BaseClass.escapeHTML(req.body.note);
     }
     if (req.body.title !== undefined) {
-      updatePacket.title = req.body.title;
+      updatePacket.title = BaseClass.escapeHTML(req.body.title);
     }
     updatePacket.publicStatus = GameAPI._publicStatus(gameData);
 
