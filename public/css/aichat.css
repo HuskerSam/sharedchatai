@@ -255,6 +255,10 @@ ul.recent_documents_list li a {
   color: rgb(127, 127, 127);
 }
 
+.sidebar_tree_recent_title { 
+  text-decoration: underline;
+}
+
 .sidebar_document_title {
   padding: 0 8px 12px 8px;
   overflow: hidden;
@@ -451,6 +455,18 @@ ul.recent_documents_list li a {
 .delete_ticket {
   margin: 4px;
   background: none;
+}
+
+.delete_ticket {
+  visibility: hidden;
+}
+
+.ticket_game_owner .delete_ticket {
+  visibility: visible;
+}
+
+.ticket_owner .delete_ticket {
+  visibility: visible;
 }
 
 .ticket_running .rerun_ticket,
