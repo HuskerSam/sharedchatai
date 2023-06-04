@@ -157,6 +157,10 @@ export default class DocOptionsHelper {
         this.copy_export_clipboard.innerHTML = "✅" + buttonText;
         setTimeout(() => this.copy_export_clipboard.innerHTML = buttonText, 1200);
     }
+    get docData(): any {
+        if (this.app.gameData) return this.app.gameData;
+        else return this.documentData;
+    }
     /** prompt and send title to api */
     promptForNewTitle() {
         let newTitle = prompt("Document Title", "");
@@ -166,7 +170,7 @@ export default class DocOptionsHelper {
                 alert("no title entered");
                 return;
             }
-            this.app.gameData.title = newTitle;
+            this.docData.title = newTitle;
             this.saveDocumentOwnerOption("title");
             this.modal_document_title_display.innerHTML = BaseApp.escapeHTML(newTitle);
         }
@@ -176,7 +180,7 @@ export default class DocOptionsHelper {
         let newNote = prompt("Reference Note", "");
         if (newNote !== null) {
             newNote = newNote.trim();
-            this.app.gameData.note = newNote;
+            this.docData.note = newNote;
             this.saveDocumentOwnerOption("note");
             this.owner_note_display_div.innerHTML = BaseApp.escapeHTML(newNote);
         }
@@ -190,7 +194,7 @@ export default class DocOptionsHelper {
                 alert("invalid value");
                 return;
             }
-            this.app.gameData.tokenUsageLimit = newLimit;
+            this.docData.tokenUsageLimit = newLimit;
             this.saveDocumentOwnerOption("usage");
 
             this.shared_usage_limit_div.innerHTML = this.documentData.tokenUsageLimit;
@@ -198,7 +202,7 @@ export default class DocOptionsHelper {
     }
     /** */
     updateArchivedStatus() {
-        this.app.gameData.archived = this.docfield_archived_checkbox.checked;
+        this.docData.archived = this.docfield_archived_checkbox.checked;
         this.saveDocumentOwnerOption("archived");
     }
     /** send owner setting for document to api
@@ -211,19 +215,19 @@ export default class DocOptionsHelper {
         };
 
         if (fieldKey === "title") {
-            updatePacket.title = this.app.gameData.title;
+            updatePacket.title = this.docData.title;
         }
         if (fieldKey === "usage") {
-            updatePacket.tokenUsageLimit = this.app.gameData.tokenUsageLimit;
+            updatePacket.tokenUsageLimit = this.docData.tokenUsageLimit;
         }
         if (fieldKey === "note") {
-            updatePacket.note = this.app.gameData.note;
+            updatePacket.note = this.docData.note;
         }
         if (fieldKey === "label") {
-            updatePacket.label = this.app.gameData.label;
+            updatePacket.label = this.docData.label;
         }
         if (fieldKey === "archived") {
-            updatePacket.archived = this.app.gameData.archived;
+            updatePacket.archived = this.docData.archived;
         }
 
         const token = await firebase.auth().currentUser.getIdToken();
@@ -400,7 +404,7 @@ export default class DocOptionsHelper {
             if (text) labels.push(text);
         });
 
-        this.app.gameData.label = labels.join(",");
+        this.docData.label = labels.join(",");
         this.saveDocumentOwnerOption("label");
     }
     /** delete game api call */

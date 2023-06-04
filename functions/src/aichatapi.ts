@@ -92,7 +92,7 @@ export default class ChatAI {
         if (gameData.unsetTitle && message) {
             const titleUpdate = {
                 unsetTitle: false,
-                title: message,
+                title: message.substring(0, 100),
             };
             await firebaseAdmin.firestore().doc(`Games/${ticket.gameNumber}`).set(titleUpdate, {
                 merge: true,

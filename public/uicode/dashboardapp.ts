@@ -244,7 +244,7 @@ export class DashboardApp extends BaseApp {
       if (doc.label) commaLabels = doc.label;
       const docLabels = commaLabels.split(",");
       docLabels.forEach((label: string) => {
-        const str = label.trim();
+        const str = BaseApp.escapeHTML(label.trim());
         if (str) labels[str] = true;
       });
     });
