@@ -277,14 +277,14 @@ export default class DocOptionsHelper {
                 </div>
                 <div class="modal-body">
                         <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link active" id="options_tab_button" data-bs-toggle="tab"
-                                    href="#options_tab_view" role="tab" aria-controls="options_tab_view"
-                                    aria-selected="true">Details</a>
+                        <li class="nav-item" role="presentation">
+                                <a class="nav-link active" id="export_tab_button" data-bs-toggle="tab" href="#export_tab_view"
+                                    role="tab" aria-controls="export_tab_view" aria-selected="false">Export</a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="export_tab_button" data-bs-toggle="tab" href="#export_tab_view"
-                                    role="tab" aria-controls="export_tab_view" aria-selected="false">Export</a>
+                                <a class="nav-link" id="options_tab_button" data-bs-toggle="tab"
+                                    href="#options_tab_view" role="tab" aria-controls="options_tab_view"
+                                    aria-selected="true">Details</a>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link" id="owner_tab_button" data-bs-toggle="tab" href="#owner_tab_view"
@@ -292,7 +292,11 @@ export default class DocOptionsHelper {
                             </li>
                         </ul>
                         <div class="tab-content">
-                        <div class="tab-pane fade show active" id="options_tab_view" role="tabpanel"
+                        <div class="tab-pane fade show active" id="export_tab_view" role="tabpanel"
+                        aria-labelledby="export_tab_button">
+                        ${exportModalTabHTML}
+                    </div>
+                        <div class="tab-pane fade" id="options_tab_view" role="tabpanel"
                         aria-labelledby="options_tab_button">
                                 <button class="btn btn-secondary show_document_details_options_help"><i 
                                     class="material-icons">help</i></button>
@@ -346,10 +350,6 @@ export default class DocOptionsHelper {
                                 <button class="btn btn-primary prompt_for_new_note" style="float:right;">Change...</button>
                                 <div class="owner_note_display_div"></div>                      
                                 <br>
-                            </div>
-                            <div class="tab-pane fade" id="export_tab_view" role="tabpanel"
-                                aria-labelledby="export_tab_button">
-                                ${exportModalTabHTML}
                             </div>
                         </div>
                 </div>
