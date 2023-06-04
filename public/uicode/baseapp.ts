@@ -169,7 +169,7 @@ export default class BaseApp {
     firebase.auth().signInWithEmailLink(email, window.location.href)
       .then(() => {
         window.localStorage.removeItem("emailForSignIn");
-        window.location = "/profile";
+        window.location = "/";
       })
       .catch((e: any) => console.log(e));
   }

@@ -157,6 +157,7 @@ export default class DocOptionsHelper {
         this.copy_export_clipboard.innerHTML = "✅" + buttonText;
         setTimeout(() => this.copy_export_clipboard.innerHTML = buttonText, 1200);
     }
+    /** docData to support dashboard and chatroom */
     get docData(): any {
         if (this.app.gameData) return this.app.gameData;
         else return this.documentData;
@@ -437,6 +438,7 @@ export default class DocOptionsHelper {
             alert("Delete failed");
             return;
         }
+        window.location = "/dashboard";
         this.modal_close_button.click();
     }
     /** logout api call */
@@ -489,7 +491,7 @@ export default class DocOptionsHelper {
         let resultText = "";
         const tickets: Array<any> = [];
         this.app.lastTicketsSnapshot.forEach((ticket: any) => {
-            if (ticketsFilter === "all" || ticket.data().includeInMessage) tickets.push(ticket);
+            if (ticketsFilter === "all" || ticket.data().includeInMessage) tickets.unshift(ticket);
         });
 
         let format = "";

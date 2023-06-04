@@ -399,7 +399,7 @@ export default class ProfileHelper {
             this.app.fireUser = null;
             this.app.uid = null;
 
-            window.location = "/profile";
+            window.location = "/";
         }
     }
     /** fetch and paint user token usage */
