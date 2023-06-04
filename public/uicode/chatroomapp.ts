@@ -24,6 +24,7 @@ export class ChatRoomApp extends BaseApp {
   ticketFeedRegistered = false;
   recentDocumentFeedRegistered = false;
   recentDocumentsSubscription: any = null;
+  lastInputTokenCount = 0;
   lastDocumentsSnapshot: any = null;
   gameData: any;
   alertErrors = false;
@@ -45,6 +46,10 @@ export class ChatRoomApp extends BaseApp {
   lastDocumentOptionChange = 0;
   debounceTimeout: any = null;
   splitInstance: any = null;
+  chat_history_tokens: any = document.querySelector(".chat_history_tokens");
+  chat_completion_tokens: any = document.querySelector(".chat_completion_tokens");
+  chat_new_prompt_tokens: any = document.querySelector(".chat_new_prompt_tokens");
+  chat_threshold_total_tokens: any = document.querySelector(".chat_threshold_total_tokens");
 
   tickets_list: any = document.querySelector(".tickets_list");
   members_list: any = document.querySelector(".members_list");
@@ -82,6 +87,8 @@ export class ChatRoomApp extends BaseApp {
   max_tokens_slider_label: any = document.querySelector(".max_tokens_slider_label");
   recent_documents_list: any = document.querySelector(".recent_documents_list");
   sidebar_document_title: any = document.querySelector(".sidebar_document_title");
+  show_overthreshold_dialog: any = document.querySelector(".show_overthreshold_dialog");
+  show_token_threshold_dialog: any = document.querySelector(".show_token_threshold_dialog");
 
   /**  */
   constructor() {
@@ -105,6 +112,7 @@ export class ChatRoomApp extends BaseApp {
       this.documentOptions.show(this.currentGame, this.gameData);
     });
     this.show_document_options_help.addEventListener("click", () => this.helpHelper.show("chatroom_sidebar_document_header"));
+    this.show_token_threshold_dialog.addEventListener("click", () => this.helpHelper.show("token_threshold"))
 
     this.docfield_temperature.addEventListener("input", () => this.optionSliderChange(true, "temperature",
       this.docfield_temperature, this.temperature_slider_label, "Temperature: "));
@@ -576,6 +584,11 @@ export class ChatRoomApp extends BaseApp {
   }
   /** api user send message */
   async sendTicketToAPI() {
+    if (this.isOverSendThreshold()) {
+      this.showOverthresholdToSendModal();
+      return;
+    }
+
     let message = this.ticket_content_input.value.trim();
     if (message === "") {
       alert("Please supply a message");
@@ -716,6 +729,7 @@ export class ChatRoomApp extends BaseApp {
     this._updateGameMembersList();
     this.updateUserNamesImages();
     this.updateUserPresence();
+    this.updatePromptTokenStatus();
   }
   /** paint game members list */
   _updateGameMembersList() {
@@ -846,6 +860,9 @@ export class ChatRoomApp extends BaseApp {
   }
   /** count input token */
   updatePromptTokenStatus() {
+    if (!this.gameData) return;
+    this.generateSubmitList();
+
     const tokens = window.gpt3tokenizer.encode(this.ticket_content_input.value);
 
     let html = "";
@@ -870,6 +887,25 @@ export class ChatRoomApp extends BaseApp {
     this.token_visualizer_preview.innerHTML = html;
 
     this.prompt_token_count.innerHTML = tokens.length;
+    this.lastInputTokenCount = tokens.length;
     this.total_prompt_token_count.innerHTML = this.includeTotalTokens + tokens.length;
+
+    if (this.isOverSendThreshold()) {
+      document.body.classList.add("over_token_sendlimit");
+    } else {
+      document.body.classList.remove("over_token_sendlimit");
+    }
+
+  }
+  isOverSendThreshold(): boolean {
+    return this.includeTotalTokens + this.gameData.max_tokens + this.lastInputTokenCount > 4097;
+  }
+  showOverthresholdToSendModal() {
+    this.chat_history_tokens.innerHTML = this.includeTotalTokens;
+    this.chat_completion_tokens.innerHTML = this.gameData.max_tokens;
+    this.chat_new_prompt_tokens.innerHTML = this.lastInputTokenCount;
+    this.chat_threshold_total_tokens.innerHTML = (this.includeTotalTokens + this.gameData.max_tokens + this.lastInputTokenCount).toString();
+
+    this.show_overthreshold_dialog.click();
   }
 }

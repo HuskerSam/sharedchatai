@@ -183,6 +183,56 @@
       </div>
     </div>
   </div>
+  <button class="show_overthreshold_dialog" style="display:none" data-bs-toggle="modal" data-bs-target="#overthresholdModalDialog"></button>
+  <div class="modal fade" id="overthresholdModalDialog" tabindex="-1" aria-labelledby="overthresholdModalDialogLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content app_panel">
+            <div class="modal-header">
+              <h5 class="modal-title" id="overthresholdModalDialogLabel">Prompt over threshold for AI</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <button class="btn btn-secondary show_token_threshold_dialog"><i 
+                  class="material-icons">help</i></button>
+              <span class="form-label">Chat Overhead Tokens</span>
+              <br>
+              <span class="chat_history_tokens"></span>
+              <br>
+               - Uncheck previous tickets to reduce this value
+              <hr>
+              <span class="form-title">Completion Tokens</span>
+              <br>
+              <span class="chat_completion_tokens"></span>
+              <br>
+              - Lower this amount in the sidebar under Engine
+              <hr>
+              <span class="form-title">New Prompt</span> 
+              <br>
+              <span class="chat_new_prompt_tokens"></span>
+              <br>
+              - Shorten you new message to reduce this value
+              <hr>
+              <span>Total Tokens Submitted</span>
+              <br>
+              <span class="chat_threshold_total_tokens"></span>
+              <br>
+              This value must be under 4097 currently or it return an error<br>
+              <hr>
+                <span style="form-title">Auto Run</span> 
+                <br>
+                Tickets will be unchecked oldest first to get under the threshold
+                <br>
+                <br>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary run_as_is_button" data-bs-dismiss="modal">Run Anyways</button>
+              <button type="button" class="btn btn-secondary modal_close_button" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary auto_run_overthreshold_ticket">Auto Run</button>
+            </div>
+          </div>
+        </div>
+      </div>
 </body>
 
 </html>

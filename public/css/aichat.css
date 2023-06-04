@@ -330,7 +330,8 @@ ul.recent_documents_list li a {
 }
 
 .show_document_options_modal,
-.show_document_options_help {
+.show_document_options_help,
+.show_token_threshold_dialog {
   position: absolute;
   top: 5px;
   right: 5px;
@@ -343,7 +344,8 @@ ul.recent_documents_list li a {
 }
 
 .show_document_options_modal i,
-.show_document_options_help i {
+.show_document_options_help i,
+.activity_dateshow_token_threshold_dialog i, {
   position: relative;
   top: 4px;
 }
@@ -407,6 +409,10 @@ ul.recent_documents_list li a {
   background: rgba(68, 70, 84, 0.5);
 }
 
+.over_token_sendlimit .total_prompt_token_count {
+  color: rgb(255, 50, 50);
+}
+
 .send_bar_display_header {
   display: flex;
   flex-direction: row;
@@ -428,13 +434,13 @@ ul.recent_documents_list li a {
 }
 
 .token_visualizer_preview .token_even {
-  color: rgb(240, 240, 100);
+  color: rgb(240, 240, 50);
   word-wrap: break-word;
   background: rgba(127, 127, 127, 0.5);
 }
 
 .token_visualizer_preview .token_odd {
-  color: rgb(240, 100, 240);
+  color: rgb(240, 200, 150);
   word-wrap: break-word;
   background: rgba(127, 127, 127, 0.5);
 }
@@ -521,4 +527,12 @@ ul.recent_documents_list li a {
 .ticket_not_selected .message,
 .ticket_not_selected .assist_section {
   opacity: 0.6;
+}
+
+.chat_threshold_total_tokens {
+  color: rgb(255, 50, 50);
+}
+
+.chat_history_tokens {
+  color: rgb(50, 255, 50);
 }
