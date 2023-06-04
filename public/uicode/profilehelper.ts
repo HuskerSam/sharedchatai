@@ -148,7 +148,7 @@ export default class ProfileHelper {
                                     Monospace
                                 </label>
                                 &nbsp;
-                                <label class="form-check-label">
+                                <label class="form-check-label" style="display:none;">
                                     <input class="form-check-input profile_text_lessdetail_checkbox" type="checkbox"
                                         value="">
                                     Less Details

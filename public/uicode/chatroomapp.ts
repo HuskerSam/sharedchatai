@@ -46,6 +46,7 @@ export class ChatRoomApp extends BaseApp {
   lastDocumentOptionChange = 0;
   debounceTimeout: any = null;
   splitInstance: any = null;
+  ticket_stats: any = document.querySelector(".ticket_stats");
 
   chat_history_tokens: any = document.querySelector(".chat_history_tokens");
   chat_completion_tokens: any = document.querySelector(".chat_completion_tokens");
@@ -99,7 +100,7 @@ export class ChatRoomApp extends BaseApp {
     super();
 
     this.send_ticket_button.addEventListener("click", () => this.sendTicketToAPI());
-    this.auto_run_overthreshold_ticket.addEventListener("click", () => this.sendTicketToAPI());
+    this.auto_run_overthreshold_ticket.addEventListener("click", () => this.sendTicketToAPI(true));
     this.ticket_content_input.addEventListener("keydown", (e: any) => {
       if (e.key === "Enter" && e.shiftKey === false) {
         e.preventDefault();
@@ -117,7 +118,7 @@ export class ChatRoomApp extends BaseApp {
       this.documentOptions.show(this.currentGame, this.gameData);
     });
     this.show_document_options_help.addEventListener("click", () => this.helpHelper.show("chatroom_sidebar_document_header"));
-    this.show_token_threshold_dialog.addEventListener("click", () => this.helpHelper.show("token_threshold"));
+    this.show_token_threshold_dialog.addEventListener("click", () => this.helpHelper.show("sequence_limit"));
 
     this.docfield_temperature.addEventListener("input", () => this.optionSliderChange(true, "temperature",
       this.docfield_temperature, this.temperature_slider_label, "Temperature: "));
@@ -392,6 +393,7 @@ export class ChatRoomApp extends BaseApp {
 
     this.ticket_count_span.innerHTML = this.ticketCount;
     this.selected_ticket_count_span.innerHTML = this.selectedTicketCount;
+    this.ticket_stats.innerHTML = this.selectedTicketCount;
 
     if (scrollToBottom) this.scrollTicketListBottom();
   }
@@ -427,6 +429,8 @@ export class ChatRoomApp extends BaseApp {
       console.log("ticket rerun post", json);
       alert(json.errorMessage);
     }
+
+    //refresh the counts
     this.scrollTicketListBottom();
   }
   /** api call for delete user message
@@ -588,8 +592,8 @@ export class ChatRoomApp extends BaseApp {
     }
   }
   /** api user send message */
-  async sendTicketToAPI() {
-    if (this.isOverSendThreshold()) {
+  async sendTicketToAPI(ignoreThreshold = false) {
+    if (this.isOverSendThreshold() && !ignoreThreshold) {
       this.showOverthresholdToSendModal();
       return;
     }
@@ -866,6 +870,7 @@ export class ChatRoomApp extends BaseApp {
   /** count input token */
   updatePromptTokenStatus() {
     if (!this.gameData) return;
+    //generate fresh buffer numbers
     this.generateSubmitList();
 
     const tokens = window.gpt3tokenizer.encode(this.ticket_content_input.value);
