@@ -3,6 +3,7 @@ declare const window: any;
 import {
     ChatDocument,
 } from "./chatdocument.js";
+import BaseApp from "./baseapp.js"; // only for escapeHTML
 
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
 export default class DocOptionsHelper {
@@ -158,7 +159,7 @@ export default class DocOptionsHelper {
     }
     /** prompt and send title to api */
     promptForNewTitle() {
-        let newTitle = prompt("Document Title", this.documentData.title);
+        let newTitle = prompt("Document Title", "");
         if (newTitle !== null) {
             newTitle = newTitle.trim();
             if (!newTitle) {
@@ -167,17 +168,17 @@ export default class DocOptionsHelper {
             }
             this.app.gameData.title = newTitle;
             this.saveDocumentOwnerOption("title");
-            this.modal_document_title_display.innerHTML = this.documentData.title;
+            this.modal_document_title_display.innerHTML = BaseApp.escapeHTML(newTitle);
         }
     }
     /** prompt and send not to api */
     promptForNewNote() {
-        let newNote = prompt("Reference Note", this.documentData.note);
+        let newNote = prompt("Reference Note", "");
         if (newNote !== null) {
             newNote = newNote.trim();
             this.app.gameData.note = newNote;
             this.saveDocumentOwnerOption("note");
-            this.owner_note_display_div.innerHTML = this.documentData.note;
+            this.owner_note_display_div.innerHTML = BaseApp.escapeHTML(newNote);
         }
     }
     /** prompt and send token limit usage to api */
