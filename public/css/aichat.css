@@ -1,7 +1,6 @@
 body, html {
   min-height: unset;
   height: 100%;
-  overflow: hidden;
 }
 
 .main_view_splitter {
@@ -669,4 +668,8 @@ ul.recent_documents_list li a {
 .mobile_layout_mode .sidebar_tree_menu {
   max-height: 50vh;
   overflow: auto;
+}
+
+.mobile_layout_mode .left_panel_view {
+  display: none;
 }
