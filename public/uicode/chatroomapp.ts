@@ -1,5 +1,4 @@
 import BaseApp from "./baseapp.js";
-import Split from "./split.js";
 import LoginHelper from "./loginhelper.js";
 import DocOptionsHelper from "./docoptionshelper.js";
 import DocCreateHelper from "./doccreatehelper.js";
@@ -28,7 +27,7 @@ export class ChatRoomApp extends BaseApp {
   lastDocumentsSnapshot: any = null;
   gameData: any;
   alertErrors = false;
-  splitHorizontalCache: any = null;
+  mobileLayoutCache: any = null;
   ticketsLookup: any = {};
   ticketsTokenCounts: any = {};
   assistsLookup: any = {};
@@ -45,7 +44,6 @@ export class ChatRoomApp extends BaseApp {
   documentsLookup: any = {};
   lastDocumentOptionChange = 0;
   debounceTimeout: any = null;
-  splitInstance: any = null;
   ticket_stats: any = document.querySelector(".ticket_stats");
   defaultUIEngineSettings: any = {
     model: "gpt-3.5-turbo",
@@ -61,6 +59,12 @@ export class ChatRoomApp extends BaseApp {
   chat_new_prompt_tokens: any = document.querySelector(".chat_new_prompt_tokens");
   chat_threshold_total_tokens: any = document.querySelector(".chat_threshold_total_tokens");
   exclude_tickets_button: any = document.querySelector(".exclude_tickets_button");
+  sidebar_tree_menu: any = document.querySelector(".sidebar_tree_menu");
+  mobile_sidebar_Menu_Layout_container: any = document.querySelector(".mobile_sidebar_Menu_Layout_container");
+  desktop_sidebar_menu_wrapper: any = document.querySelector(".desktop_sidebar_menu_wrapper");
+  menu_nav_bar: any = document.querySelector(".menu_nav_bar");
+  left_panel_view: any = document.querySelector(".left_panel_view");
+  main_view_splitter: any = document.querySelector(".main_view_splitter");
 
   tickets_list: any = document.querySelector(".tickets_list");
   members_list: any = document.querySelector(".members_list");
@@ -71,7 +75,6 @@ export class ChatRoomApp extends BaseApp {
   total_prompt_token_count: any = document.querySelector(".total_prompt_token_count");
   token_visualizer_preview: any = document.querySelector(".token_visualizer_preview");
 
-  main_view_splitter: any = document.querySelector(".main_view_splitter");
   show_document_options_modal: any = document.querySelector(".show_document_options_modal");
   show_document_options_help: any = document.querySelector(".show_document_options_help");
   show_profile_modal: any = document.querySelector(".show_profile_modal");
@@ -149,11 +152,11 @@ export class ChatRoomApp extends BaseApp {
     });
     this.reset_engine_options_button.addEventListener("click", () => this.resetEngineDefaults());
 
-    this.updateSplitter();
+    this.updateMobileLayout();
     this.exclude_tickets_button.addEventListener("click", () => this.autoExcludeTicketsToMeetThreshold());
 
     window.addEventListener("resize", () => {
-      this.updateSplitter();
+      this.updateMobileLayout();
     });
 
     this.ticket_content_input.addEventListener("keydown", () => this.autoSizeTextArea());
@@ -875,40 +878,26 @@ export class ChatRoomApp extends BaseApp {
       this.docfield_frequency_penalty, this.frequency_penalty_slider_label, "Frequency Penalty: ");
   }
   /** update the splitter if needed */
-  updateSplitter() {
-    let horizontal = true;
+  updateMobileLayout() {
+    let desktopView = true;
     if (window.document.body.scrollWidth <= 650) {
-      horizontal = false;
+      desktopView = false;
     }
 
-    if (this.splitHorizontalCache !== horizontal) {
-      if (this.splitInstance) this.splitInstance.destroy();
-      this.splitInstance = null;
-      if (horizontal === false) {
-        const minSize = [0, 0];
-        const maxSize = [1000, 1000];
-        const sizes = [25, 75];
-        const gutterSize = 18;
-
-        this.main_view_splitter.style.flexDirection = "column";
-        this.main_view_splitter.classList.add("vertical_split");
-        this.main_view_splitter.classList.remove("horizontal_split");
-
-        this.splitInstance = <any>Split([".left_panel_view", ".right_panel_view"], {
-          sizes,
-          direction: "vertical",
-          minSize,
-          maxSize,
-          gutterSize,
-        });
+    if (this.mobileLayoutCache !== desktopView) {
+      if (desktopView) {
+        this.desktop_sidebar_menu_wrapper.appendChild(this.sidebar_tree_menu);
+        this.left_panel_view.insertBefore(this.menu_nav_bar, this.left_panel_view.firstChild);
+        document.body.classList.remove("mobile_layout_mode");
+        this.menu_nav_bar.classList.remove("fixed-top")
       } else {
-        this.main_view_splitter.style.flexDirection = "row";
-        this.main_view_splitter.classList.remove("vertical_split");
-        this.main_view_splitter.classList.add("horizontal_split");
+        this.mobile_sidebar_Menu_Layout_container.appendChild(this.sidebar_tree_menu);
+        document.body.insertBefore(this.menu_nav_bar, document.body.firstChild);
+        this.menu_nav_bar.classList.add("fixed-top")
+        document.body.classList.add("mobile_layout_mode");
       }
-
-      this.splitHorizontalCache = horizontal;
-    }
+      this.mobileLayoutCache = desktopView;
+    } 
   }
   /** count input token */
   updatePromptTokenStatus() {

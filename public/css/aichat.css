@@ -11,6 +11,7 @@ body, html {
 .loaded .main_view_splitter {
   display: flex;
   height: 100%;
+  flex-direction: row;
 }
 
 .tickets_list {
@@ -305,10 +306,6 @@ ul.recent_documents_list li a {
   overflow: auto;
 }
 
-.vertical_split .left_panel_view {
-  width: auto;
-}
-
 .right_panel_view {
   flex: 1;
 }
@@ -554,10 +551,6 @@ ul.recent_documents_list li a {
   }
 }
 
-.gutter {
-  background-color: rgb(100, 100, 100);
-}
-
 .profile_text_option_large .game_message_list_item .message,
 .profile_text_option_large .game_message_list_item .assist_section,
 .profile_text_option_large .ticket_content_input {
@@ -655,4 +648,22 @@ ul.recent_documents_list li a {
 
 .description_row {
   display: none;
+}
+
+.mobile_sidebar_Menu_Layout_container {
+  display: none;
+}
+
+.mobile_layout_mode .mobile_sidebar_Menu_Layout_container {
+  display: unset;
+}
+
+.mobile_layout_mode .left_panel_view {
+  width: unset;
+}
+
+.sidebar_tree_menu {
+  background-color: unset;
+  max-height: 50vh;
+  overflow: auto;
 }
