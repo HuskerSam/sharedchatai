@@ -664,6 +664,9 @@ ul.recent_documents_list li a {
 
 .sidebar_tree_menu {
   background-color: unset;
+}
+
+.mobile_layout_mode .sidebar_tree_menu {
   max-height: 50vh;
   overflow: auto;
 }
