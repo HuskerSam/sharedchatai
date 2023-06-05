@@ -12,8 +12,20 @@ export default class LoginHelper {
      * @param { any } app baseapp derived instance
      */
     constructor(app: any) {
-        this.app = app;
-        this.addModalToDOM();
+        this.app = app;       
+        const html = this.getModalTemplate();
+        const modalContainer = document.createElement("div");
+        modalContainer.innerHTML = html;
+        document.body.appendChild(modalContainer);
+
+        this.login_google = document.getElementById("login_google");
+        this.login_email_anchor = document.getElementById("login_email_anchor");
+        this.anon_login_anchor = document.querySelector(".anon_login_anchor");
+        this.login_email = document.querySelector(".login_email");
+
+        this.login_google.addEventListener("click", (e: any) => this.app.authGoogleSignIn(e));
+        this.login_email_anchor.addEventListener("click", (e: any) => this.signInByEmail(e));
+        this.anon_login_anchor.addEventListener("click", (e: any) => this.app.signInAnon(e));
     }
     /** get modal template
      * @return { string } template
@@ -52,22 +64,6 @@ export default class LoginHelper {
       </div>
     </div>
   </div>`;
-    }
-    /** instaniate and add modal #loginModal */
-    addModalToDOM() {
-        const html = this.getModalTemplate();
-        const modalContainer = document.createElement("div");
-        modalContainer.innerHTML = html;
-        document.body.appendChild(modalContainer);
-
-        this.login_google = document.getElementById("login_google");
-        this.login_email_anchor = document.getElementById("login_email_anchor");
-        this.anon_login_anchor = document.querySelector(".anon_login_anchor");
-        this.login_email = document.querySelector(".login_email");
-
-        this.login_google.addEventListener("click", (e: any) => this.app.authGoogleSignIn(e));
-        this.login_email_anchor.addEventListener("click", (e: any) => this.signInByEmail(e));
-        this.anon_login_anchor.addEventListener("click", (e: any) => this.app.signInAnon(e));
     }
     /** email sign in handler from UI (sends email to user for logging in)
     * @param { any } e dom event - preventDefault is called if passed

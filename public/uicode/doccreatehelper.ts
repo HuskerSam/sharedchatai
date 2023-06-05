@@ -19,6 +19,7 @@ export default class DocCreateHelper {
   create_modal_template_file: any;
   modal_create_template_tickets_button: any;
   parsed_file_status: any;
+  parsed_file_name: any;
   modal_open_new_document: any;
 
   /**
@@ -42,6 +43,7 @@ export default class DocCreateHelper {
     this.modal_create_template_tickets_button = this.modalContainer.querySelector(".modal_create_template_tickets_button");
     this.modal_create_template_tickets_button.addEventListener("click", () => this.create_modal_template_file.click());
     this.parsed_file_status = this.modalContainer.querySelector(".parsed_file_status");
+    this.parsed_file_name = this.modalContainer.querySelector(".parsed_file_name");
     this.modal_open_new_document = this.modalContainer.querySelector(".modal_open_new_document");
 
     this.create_modal_template_file = this.modalContainer.querySelector(".create_modal_template_file");
@@ -77,7 +79,9 @@ export default class DocCreateHelper {
                     <input class="create_modal_template_file" style="display:none;" type="file">
                   </div>
                   &nbsp;
-                  <div class="parsed_file_status">None</div>
+                  <div class="parsed_file_status"></div>
+                  &nbsp;
+                  <div class="parsed_file_name"></div>
                <br>
                <br>
               <div style="display:inline-block;">
@@ -230,8 +234,18 @@ export default class DocCreateHelper {
     return false;
   }
   /** */
-  async updateParsedFileStatus() {
+  async updateParsedFileStatus(): Promise<Array<any>> {
     const importData = await ChatDocument.getImportDataFromDomFile(this.create_modal_template_file);
-    this.parsed_file_status.innerHTML = importData.length + " rows";
+    let contentCount = "";
+    if (importData.length > 0) {
+      contentCount = importData.length + " rows";
+    } else {
+      importData.length = 0;
+    }
+    this.parsed_file_status.innerHTML = contentCount;
+    let fileName = "";
+    if (this.create_modal_template_file.files[0]) fileName = this.create_modal_template_file.files[0].name;
+    this.parsed_file_name.innerHTML = fileName;
+    return importData;
   }
 }

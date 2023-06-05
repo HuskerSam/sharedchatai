@@ -248,6 +248,10 @@
   display: inline-block;
 }
 
+.parsed_file_name {
+  display: inline-block;
+}
+
 .doc_options_import_rows_preview {
   display: inline-block;
   width: 70px;

@@ -46,9 +46,10 @@ export default class BaseApp {
   /** reads a json file async and sets window.varName to it's value
    * @param { string } path url to json data
    * @param { string } varName window.variable to hold data
+   * @return { any } file contents or {}
    */
-  async readJSONFile(path: string, varName: string) {
-    if (window[varName]) return;
+  async readJSONFile(path: string, varName: string): Promise<any> {
+    if (window[varName]) return window[varName];
 
     try {
       const response = await fetch(path);
@@ -57,6 +58,7 @@ export default class BaseApp {
       console.log("ERROR with download of " + varName, e);
       window[varName] = {};
     }
+    return window[varName];
   }
   /** Paints UI display/status for user profile based changes */
   authUpdateStatusUI() {
