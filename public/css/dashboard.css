@@ -304,3 +304,8 @@ button.code_link {
   position: relative;
   top: 4px;
 }
+
+.show_dashboard_help_button i {
+  position: relative;
+  float: right;
+}

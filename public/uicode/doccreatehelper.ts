@@ -39,7 +39,7 @@ export default class DocCreateHelper {
     this.create_modal_title_field = this.modalContainer.querySelector(".create_modal_title_field");
     this.document_usage_cap_field = this.modalContainer.querySelector(".document_usage_cap_field");
     this.show_create_dialog_help = this.modalContainer.querySelector(".show_create_dialog_help");
-    this.show_create_dialog_help.addEventListener("click", () => this.app.helpHelper.show("create_document_modal"));
+    this.show_create_dialog_help.addEventListener("click", () => this.app.helpHelper.show("create"));
     this.modal_create_template_tickets_button = this.modalContainer.querySelector(".modal_create_template_tickets_button");
     this.modal_create_template_tickets_button.addEventListener("click", () => this.create_modal_template_file.click());
     this.parsed_file_status = this.modalContainer.querySelector(".parsed_file_status");

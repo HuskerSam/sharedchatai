@@ -118,8 +118,8 @@ export class ChatRoomApp extends BaseApp {
       this.show_document_options_popup.click();
       this.documentOptions.show(this.currentGame, this.gameData);
     });
-    this.show_document_options_help.addEventListener("click", () => this.helpHelper.show("chatroom_sidebar_document_header"));
-    this.show_token_threshold_dialog.addEventListener("click", () => this.helpHelper.show("sequence_limit"));
+    this.show_document_options_help.addEventListener("click", () => this.helpHelper.show("sidebar"));
+    this.show_token_threshold_dialog.addEventListener("click", () => this.helpHelper.show("tickets"));
 
     this.docfield_temperature.addEventListener("input", () => this.optionSliderChange(true, "temperature",
       this.docfield_temperature, this.temperature_slider_label, "Temperature: "));
@@ -934,10 +934,10 @@ export class ChatRoomApp extends BaseApp {
   }
   /**
    *
-   * @return { boolean } true if over 4097 for submit token count
+   * @return { boolean } true if over 4096 for submit token count
    */
   isOverSendThreshold(): boolean {
-    return this.includeTotalTokens + this.gameData.max_tokens + this.lastInputTokenCount > 4097;
+    return this.includeTotalTokens + this.gameData.max_tokens + this.lastInputTokenCount >= 4096;
   }
   /** shows over threshold modal */
   showOverthresholdToSendModal() {

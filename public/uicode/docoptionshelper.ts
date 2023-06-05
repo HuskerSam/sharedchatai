@@ -93,14 +93,14 @@ export default class DocOptionsHelper {
         this.modal_send_tickets_to_api_button.addEventListener("click", () => this.uploadReportData());
 
         this.show_import_tickets_help = document.querySelector(".show_import_tickets_help");
-        this.show_import_tickets_help.addEventListener("click", () => this.app.helpHelper.show("share_document_options_tab"));
+        this.show_import_tickets_help.addEventListener("click", () => this.app.helpHelper.show("templates"));
         this.show_export_tickets_help = document.querySelector(".show_export_tickets_help");
         this.show_export_tickets_help.addEventListener("click", () => this.app.helpHelper.show("templates"));
 
         this.show_document_details_options_help = document.querySelector(".show_document_details_options_help");
-        this.show_document_details_options_help.addEventListener("click", () => this.app.helpHelper.show("user_document_options"));
+        this.show_document_details_options_help.addEventListener("click", () => this.app.helpHelper.show("document"));
         this.show_document_owner_options_help = document.querySelector(".show_document_owner_options_help");
-        this.show_document_owner_options_help.addEventListener("click", () => this.app.helpHelper.show("owner_document_options"));
+        this.show_document_owner_options_help.addEventListener("click", () => this.app.helpHelper.show("document"));
         this.clone_current_chatroom_button = this.modalContainer.querySelector(".clone_current_chatroom_button");
         this.clone_current_chatroom_button.addEventListener("click", async (event: any) => {
             event.stopPropagation();

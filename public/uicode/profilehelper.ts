@@ -83,7 +83,7 @@ export default class ProfileHelper {
         this.prompt_for_new_user_name.addEventListener("click", () => this.saveProfileField("name"));
         this.profile_text_monospace_checkbox.addEventListener("input", () => this.saveProfileField("monospace"));
         this.profile_text_large_checkbox.addEventListener("input", () => this.saveProfileField("largetext"));
-        this.show_modal_profile_help.addEventListener("click", () => this.app.helpHelper.show("user_profile_options"));
+        this.show_modal_profile_help.addEventListener("click", () => this.app.helpHelper.show("profile"));
         this.profile_text_lessdetail_checkbox.addEventListener("click", () => this.saveProfileField("lessdetail"));
 
         window.$(".label_profile_picker").select2({
