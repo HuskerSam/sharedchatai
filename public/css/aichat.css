@@ -586,7 +586,6 @@ ul.recent_documents_list li a {
 }
 
 .over_token_sendlimit .chat_threshold_total_tokens,
-.over_token_sendlimit .ticket_stats,
 .over_token_sendlimit .selected_ticket_count_span {
   color: rgb(255, 50, 50);
 }
@@ -652,4 +651,8 @@ ul.recent_documents_list li a {
 .reset_engine_options_button {
   position: relative;
   top: -12px;
+}
+
+.description_row {
+  display: none;
 }
