@@ -423,7 +423,8 @@ ul.recent_documents_list li a {
 }
 
 .over_token_sendlimit .send_ticket_button {
-  background-color: rgb(150, 20, 150);
+    background-color: rgb(140, 140, 0);
+    color: white;
 }
 
 .total_prompt_token_count {
