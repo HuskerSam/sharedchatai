@@ -11,6 +11,7 @@ export class HomePageApp extends BaseApp {
     show_profile_modal: any = document.querySelector(".show_profile_modal");
     show_create_modal: any = document.querySelector(".show_create_modal");
     checkTemplateURL = false;
+    homepage_signin_show_modal: any = document.querySelector(".homepage_signin_show_modal");
     /** */
     constructor() {
         super();
@@ -32,10 +33,15 @@ export class HomePageApp extends BaseApp {
         if (this.profile) {
             if (!this.checkTemplateURL) {
                 this.checkTemplateURL = true;
+                const templatePath = this.urlParams.get("templatepath");
                 const title = this.urlParams.get("title");
                 if (title) this.documentCreate.create_modal_title_field.value = title;
-                const templatePath = this.urlParams.get("templatepath");
                 if (templatePath) this.showCreateDialog(templatePath);
+            }
+        } else if (!this.checkTemplateURL && this.urlParams.get("templatepath")) {
+            if (!this.fireUser) {
+                this.checkTemplateURL = true;
+                this.homepage_signin_show_modal.click();
             }
         }
     }
@@ -43,7 +49,7 @@ export class HomePageApp extends BaseApp {
         const templateData = await this.readJSONFile(templatePath, "importTemplateFilePath");
         const pathParts = templatePath.split("/");
         const fileName = pathParts[pathParts.length - 1];
-        const file = new File([JSON.stringify(templateData)], fileName, {type: 'application/json'});
+        const file = new File([JSON.stringify(templateData)], fileName, { type: 'application/json' });
         const transfer = new DataTransfer();
         transfer.items.add(file);
         this.documentCreate.create_modal_template_file.files = transfer.files;
