@@ -169,7 +169,7 @@ export default class ChatAI {
                 isOwner,
                 memberName,
                 memberImage,
-                includeInMessage: true,
+                includeInMessage: importedTickets.selected === "y",
             };
             const newTicketResult = await firebaseAdmin.firestore().collection(`Games/${gameNumber}/tickets`).add(ticket);
 

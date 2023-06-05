@@ -624,3 +624,7 @@ ul.recent_documents_list li a {
   padding-top: 0px;
   margin-bottom: -2px;
 }
+
+.clone_current_chatroom_button {
+  display: inline-block;
+}
