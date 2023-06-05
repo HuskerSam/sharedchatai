@@ -153,6 +153,8 @@ export default class ChatAI {
                 return BaseClass.respondError(res, "User not found");
             }
 
+            console.log(importTicket);
+
             const isOwner = uid === gameData.createUser;
 
             const memberImage = gameData.memberImages[uid] ? gameData.memberImages[uid] : "";
@@ -169,7 +171,7 @@ export default class ChatAI {
                 isOwner,
                 memberName,
                 memberImage,
-                includeInMessage: true,
+                includeInMessage: importTicket.selected !== "n",
             };
             const newTicketResult = await firebaseAdmin.firestore().collection(`Games/${gameNumber}/tickets`).add(ticket);
 

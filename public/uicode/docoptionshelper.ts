@@ -44,6 +44,7 @@ export default class DocOptionsHelper {
     modal_send_tickets_to_api_button: any;
     prompt_for_new_title: any;
     prompt_for_new_usage: any;
+    clone_current_chatroom_button: any;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -92,14 +93,35 @@ export default class DocOptionsHelper {
         this.modal_send_tickets_to_api_button.addEventListener("click", () => this.uploadReportData());
 
         this.show_import_tickets_help = document.querySelector(".show_import_tickets_help");
-        this.show_import_tickets_help.addEventListener("click", () => this.app.helpHelper.show("share_document_options_tab"));
+        this.show_import_tickets_help.addEventListener("click", () => this.app.helpHelper.show("templates"));
         this.show_export_tickets_help = document.querySelector(".show_export_tickets_help");
         this.show_export_tickets_help.addEventListener("click", () => this.app.helpHelper.show("templates"));
 
         this.show_document_details_options_help = document.querySelector(".show_document_details_options_help");
-        this.show_document_details_options_help.addEventListener("click", () => this.app.helpHelper.show("user_document_options"));
+        this.show_document_details_options_help.addEventListener("click", () => this.app.helpHelper.show("document"));
         this.show_document_owner_options_help = document.querySelector(".show_document_owner_options_help");
-        this.show_document_owner_options_help.addEventListener("click", () => this.app.helpHelper.show("owner_document_options"));
+        this.show_document_owner_options_help.addEventListener("click", () => this.app.helpHelper.show("document"));
+        this.clone_current_chatroom_button = this.modalContainer.querySelector(".clone_current_chatroom_button");
+        this.clone_current_chatroom_button.addEventListener("click", async (event: any) => {
+            event.stopPropagation();
+            event.preventDefault();
+            const exportData = this.generateExportData(true, true);
+            const templateData = JSON.parse(exportData.resultText);
+            let fileName = this.app.gameData.title;
+            if (!fileName) fileName = "Cloned";
+            const file = new File([JSON.stringify(templateData)], fileName, {
+                type: "application/json",
+            });
+            const transfer = new DataTransfer();
+            transfer.items.add(file);
+            this.app.documentCreate.create_modal_template_file.files = transfer.files;
+            const templateRows = await this.app.documentCreate.updateParsedFileStatus();
+            if (!templateRows || templateRows.length === 0) {
+                this.app.documentCreate.create_modal_template_file.value = "";
+            }
+            this.app.documentCreate.create_modal_title_field.value = fileName;
+            this.app.documentCreate.show();
+        });
 
         const del: any = this.modalContainer.querySelector("button.delete_game");
         del.addEventListener("click", (e: any) => {
@@ -155,9 +177,13 @@ export default class DocOptionsHelper {
     copyExportToClipboard() {
         if (this.lastReportData.formatFilter === "html") {
             navigator.clipboard.write([new ClipboardItem({
-                "text/plain": new Blob([this.export_data_popup_preview.innerText], {type: "text/plain"}),
-                "text/html": new Blob([this.export_data_popup_preview.innerHTML], {type: "text/html"}),
-              })]);
+                "text/plain": new Blob([this.export_data_popup_preview.innerText], {
+                    type: "text/plain",
+                }),
+                "text/html": new Blob([this.export_data_popup_preview.innerHTML], {
+                    type: "text/html",
+                }),
+            })]);
         } else {
             navigator.clipboard.writeText(this.lastReportData.resultText);
         }
@@ -361,6 +387,10 @@ export default class DocOptionsHelper {
                         Leave
                     </button>
                     <div style="flex:1"></div>
+                    <button class="clone_current_chatroom_button btn btn-secondary" data-bs-dismiss="modal">
+                        Clone
+                    </button>
+                    <div style="flex:1"></div>
                     <button type="button" class="btn btn-secondary modal_close_button"
                         data-bs-dismiss="modal">Close</button>
                 </div>
@@ -489,9 +519,11 @@ export default class DocOptionsHelper {
         this.modal_close_button.click();
     }
     /** generate export data
+     * @param { boolean } forceJSON true to force json format
+     * @param { boolean } forceAllTickets true to force all tickets included
      * @return { string } text for selected format and tickets
     */
-    generateExportData(): any {
+    generateExportData(forceJSON = false, forceAllTickets = false): any {
         const ticketsFilterSelected: any = document.querySelector(`input[name="tickets_filter"]:checked`);
         const ticketsFilter: any = ticketsFilterSelected.value;
         const formatFilterSelected: any = document.querySelector(`input[name="export_format_choice"]:checked`);
@@ -508,13 +540,15 @@ export default class DocOptionsHelper {
         let resultText = "";
         const tickets: Array<any> = [];
         this.app.lastTicketsSnapshot.forEach((ticket: any) => {
-            if (ticketsFilter === "all" || ticket.data().includeInMessage) tickets.unshift(ticket);
+            if (ticketsFilter === "all" || ticket.data().includeInMessage ||
+                forceAllTickets) tickets.unshift(ticket);
         });
 
         let format = "";
         let fileName = "";
         let displayText = "";
-        if (formatFilter === "json") {
+
+        if (formatFilter === "json" || forceJSON) {
             format = "application/json";
             fileName = "export.json";
 

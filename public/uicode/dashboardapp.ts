@@ -4,6 +4,9 @@ import DocOptionsHelper from "./docoptionshelper.js";
 import DocCreateHelper from "./doccreatehelper.js";
 import ProfileHelper from "./profilehelper.js";
 declare const firebase: any;
+import {
+  HelpHelper,
+} from "./helphelper.js";
 
 /** Dashboard Document Management App - for listing, joining and creating games  */
 export class DashboardApp extends BaseApp {
@@ -21,12 +24,12 @@ export class DashboardApp extends BaseApp {
   assistsLookup: any = {};
   document_label_filter: any = document.querySelector(".document_label_filter");
   profile_menu_anchor: any = document.querySelector(".profile_menu_anchor");
-
+  show_dashboard_help_button: any = document.querySelector(".show_dashboard_help_button");
   login = new LoginHelper(this);
   documentCreate = new DocCreateHelper(this);
   documentOptions = new DocOptionsHelper(this, "dashboard_options_view");
   profileHelper = new ProfileHelper(this);
-
+  helpHelper = new HelpHelper(this);
   /** */
   constructor() {
     super();
@@ -36,6 +39,7 @@ export class DashboardApp extends BaseApp {
     this.dashboard_create_game.addEventListener("click", () => this.documentCreate.show());
     this.document_label_filter.addEventListener("input", () => this.updateGamesFeed(null));
 
+    this.show_dashboard_help_button.addEventListener("click", () => this.helpHelper.show("document"));
     this.profile_menu_anchor.addEventListener("click", (event: any) => {
       event.stopPropagation();
       event.preventDefault();
