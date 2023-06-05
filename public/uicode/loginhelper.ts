@@ -31,31 +31,29 @@ export default class LoginHelper {
      * @return { string } template
      */
     getModalTemplate(): string {
-        return `<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        return `<div class="modal fade login_modal_container" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="loginModalLabel">Import Tickets</h5>
+          <h5 class="modal-title" id="loginModalLabel">Login Options</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <div class="card card_shadow_md">
-            <h2>Login Options</h2>
             <p class="text-muted">Experience seamless login
              with three methods: email, Google authentication, or anonymous login. No password required!</p>
-            <h4 class="mt-1">Passwordless Email Login</h3>
+            <h6 class="mt-1">Passwordless Email Login</h6>
               <div class="input-group mb-3">
                 <input type="text" name="email" class="form-control login_email mx-1" placeholder="Email">
                 <button class="btn btn-success" id="login_email_anchor">Send Link</button>
               </div>
-              <h5>or</h5>
+              <h6>or</h6>
               <button class="btn btn-primary" id="login_google">
                 <img class="google_logo" src="/images/google_signin.png">
                 Sign in with Google</button>
               <br>
               <button class="anon_login_anchor btn btn-primary">Login Anonymously</button>
               <br>
-          </div>
+         
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary upload_import_button">Import</button>

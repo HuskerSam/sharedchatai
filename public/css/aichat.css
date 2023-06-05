@@ -293,6 +293,7 @@ ul.recent_documents_list li a {
 
 .left_panel_view .navbar {
   border-bottom: 1px solid rgba(222, 226, 230, .2);
+  overflow: auto;
 }
 
 .vertical_split .left_panel_view {
