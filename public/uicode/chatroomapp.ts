@@ -196,11 +196,11 @@ export class ChatRoomApp extends BaseApp {
   */
   async optionSliderChange(saveToAPI = false, sliderField: string, sliderCtl: any,
     sliderLabel: any, prefix: string) {
-    this.lastDocumentOptionChange = new Date().getTime();
     sliderLabel.innerHTML = prefix + sliderCtl.value;
 
     if (saveToAPI) {
       clearTimeout(this.debounceTimeout);
+      this.lastDocumentOptionChange = new Date().getTime();
       this.debounceTimeout = setTimeout(() => {
         this.saveDocumentOption(sliderField, Number(sliderCtl.value));
       }, 75);
