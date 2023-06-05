@@ -756,6 +756,11 @@ export class ChatRoomApp extends BaseApp {
     this.paintDocumentOptions();
     this._updateGameMembersList();
     this.updateUserNamesImages();
+    setTimeout(() => {
+      this._updateGameMembersList();
+      this.updateUserNamesImages();
+      this.updateUserPresence();
+    }, 100);
     this.updateUserPresence();
     this.updatePromptTokenStatus();
   }

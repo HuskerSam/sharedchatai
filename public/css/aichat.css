@@ -88,6 +88,14 @@ body {
   overflow: hidden;
 }
 
+.game_message_list_item .delete_ticket {
+  color: rgb(130, 130, 130);
+}
+
+.game_message_list_item.ticket_owner .delete_ticket {
+  color: rgb(240, 240, 240);
+}
+
 .game_message_list_item .user_assist_request_header {
   display: flex;
   flex-direction: row;
