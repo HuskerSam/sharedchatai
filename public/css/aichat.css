@@ -1,4 +1,4 @@
-body {
+body, html {
   min-height: unset;
   height: 100%;
   overflow: hidden;
@@ -10,6 +10,7 @@ body {
 
 .loaded .main_view_splitter {
   display: flex;
+  height: 100%;
 }
 
 .tickets_list {
