@@ -27,8 +27,8 @@ export class HomePageApp extends BaseApp {
 
             this.documentCreate.show();
         });
-
     }
+    /** override event that happens after authentication resolution */
     authUpdateStatusUI(): void {
         if (this.profile) {
             if (!this.checkTemplateURL) {
@@ -45,11 +45,16 @@ export class HomePageApp extends BaseApp {
             }
         }
     }
+    /** show create dialog if a url "templatepath" is passed in
+     * @param { string } templatePath url to json tickets import
+    */
     async showCreateDialog(templatePath: string) {
         const templateData = await this.readJSONFile(templatePath, "importTemplateFilePath");
         const pathParts = templatePath.split("/");
         const fileName = pathParts[pathParts.length - 1];
-        const file = new File([JSON.stringify(templateData)], fileName, { type: 'application/json' });
+        const file = new File([JSON.stringify(templateData)], fileName, {
+            type: "application/json",
+        });
         const transfer = new DataTransfer();
         transfer.items.add(file);
         this.documentCreate.create_modal_template_file.files = transfer.files;
@@ -60,6 +65,5 @@ export class HomePageApp extends BaseApp {
         } else {
             this.documentCreate.show();
         }
-
     }
 }

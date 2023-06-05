@@ -12,7 +12,7 @@ export default class LoginHelper {
      * @param { any } app baseapp derived instance
      */
     constructor(app: any) {
-        this.app = app;       
+        this.app = app;
         const html = this.getModalTemplate();
         const modalContainer = document.createElement("div");
         modalContainer.innerHTML = html;

@@ -109,7 +109,9 @@ export default class DocOptionsHelper {
             const templateData = JSON.parse(exportData.resultText);
             let fileName = this.app.gameData.title;
             if (!fileName) fileName = "Cloned";
-            const file = new File([JSON.stringify(templateData)], fileName, { type: 'application/json' });
+            const file = new File([JSON.stringify(templateData)], fileName, {
+                type: "application/json",
+            });
             const transfer = new DataTransfer();
             transfer.items.add(file);
             this.app.documentCreate.create_modal_template_file.files = transfer.files;
@@ -175,8 +177,12 @@ export default class DocOptionsHelper {
     copyExportToClipboard() {
         if (this.lastReportData.formatFilter === "html") {
             navigator.clipboard.write([new ClipboardItem({
-                "text/plain": new Blob([this.export_data_popup_preview.innerText], { type: "text/plain" }),
-                "text/html": new Blob([this.export_data_popup_preview.innerHTML], { type: "text/html" }),
+                "text/plain": new Blob([this.export_data_popup_preview.innerText], {
+                    type: "text/plain",
+                }),
+                "text/html": new Blob([this.export_data_popup_preview.innerHTML], {
+                    type: "text/html",
+                }),
             })]);
         } else {
             navigator.clipboard.writeText(this.lastReportData.resultText);
@@ -513,6 +519,8 @@ export default class DocOptionsHelper {
         this.modal_close_button.click();
     }
     /** generate export data
+     * @param { boolean } forceJSON true to force json format
+     * @param { boolean } forceAllTickets true to force all tickets included
      * @return { string } text for selected format and tickets
     */
     generateExportData(forceJSON = false, forceAllTickets = false): any {
