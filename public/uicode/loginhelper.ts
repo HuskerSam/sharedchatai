@@ -31,9 +31,9 @@ export default class LoginHelper {
      * @return { string } template
      */
     getModalTemplate(): string {
-        return `<div class="modal fade login_modal_container" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        return `<div class="modal fade " id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
+      <div class="modal-content login_modal_container">
         <div class="modal-header">
           <h5 class="modal-title" id="loginModalLabel">Login Options</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -56,7 +56,7 @@ export default class LoginHelper {
          
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary upload_import_button">Import</button>
+          <button type="button" class="btn btn-secondary upload_import_button">Import</button><br>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
