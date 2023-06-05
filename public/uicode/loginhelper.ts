@@ -50,13 +50,13 @@ export default class LoginHelper {
               <button class="btn btn-primary" id="login_google">
                 <img class="google_logo" src="/images/google_signin.png">
                 Sign in with Google</button>
-              <br>
+              <br><br>
               <button class="anon_login_anchor btn btn-primary">Login Anonymously</button>
               <br>
          
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary upload_import_button">Import</button><br>
+          <button type="button" class="btn btn-secondary upload_import_button">Import</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
