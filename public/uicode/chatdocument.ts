@@ -44,6 +44,7 @@ export class ChatDocument {
         recordsToUpload.push({
             prompt: ticket.prompt,
             completion: ticket.completion,
+            selected: ticket.selected,
         });
     }
     return recordsToUpload;

@@ -105,7 +105,7 @@ export default class DocOptionsHelper {
         this.clone_current_chatroom_button.addEventListener("click", async (event: any) => {
             event.stopPropagation();
             event.preventDefault();
-            const exportData = this.generateExportData(true);
+            const exportData = this.generateExportData(true, true);
             const templateData = JSON.parse(exportData.resultText);
             let fileName = this.app.gameData.title;
             if (!fileName) fileName = "Cloned";
@@ -117,7 +117,7 @@ export default class DocOptionsHelper {
             if (!templateRows || templateRows.length === 0) {
                 this.app.documentCreate.create_modal_template_file.value = "";
             }
-            
+
             this.app.documentCreate.show();
         });
 
@@ -175,9 +175,9 @@ export default class DocOptionsHelper {
     copyExportToClipboard() {
         if (this.lastReportData.formatFilter === "html") {
             navigator.clipboard.write([new ClipboardItem({
-                "text/plain": new Blob([this.export_data_popup_preview.innerText], {type: "text/plain"}),
-                "text/html": new Blob([this.export_data_popup_preview.innerHTML], {type: "text/html"}),
-              })]);
+                "text/plain": new Blob([this.export_data_popup_preview.innerText], { type: "text/plain" }),
+                "text/html": new Blob([this.export_data_popup_preview.innerHTML], { type: "text/html" }),
+            })]);
         } else {
             navigator.clipboard.writeText(this.lastReportData.resultText);
         }
@@ -515,7 +515,7 @@ export default class DocOptionsHelper {
     /** generate export data
      * @return { string } text for selected format and tickets
     */
-    generateExportData(forceJSON = false): any {
+    generateExportData(forceJSON = false, forceAllTickets = false): any {
         const ticketsFilterSelected: any = document.querySelector(`input[name="tickets_filter"]:checked`);
         const ticketsFilter: any = ticketsFilterSelected.value;
         const formatFilterSelected: any = document.querySelector(`input[name="export_format_choice"]:checked`);
@@ -532,7 +532,8 @@ export default class DocOptionsHelper {
         let resultText = "";
         const tickets: Array<any> = [];
         this.app.lastTicketsSnapshot.forEach((ticket: any) => {
-            if (ticketsFilter === "all" || ticket.data().includeInMessage) tickets.unshift(ticket);
+            if (ticketsFilter === "all" || ticket.data().includeInMessage ||
+                forceAllTickets) tickets.unshift(ticket);
         });
 
         let format = "";
