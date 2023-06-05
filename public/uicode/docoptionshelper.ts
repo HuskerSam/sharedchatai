@@ -117,7 +117,7 @@ export default class DocOptionsHelper {
             if (!templateRows || templateRows.length === 0) {
                 this.app.documentCreate.create_modal_template_file.value = "";
             }
-
+            this.app.documentCreate.create_modal_title_field.value = fileName;
             this.app.documentCreate.show();
         });
 
