@@ -47,7 +47,7 @@ export class ChatRoomApp extends BaseApp {
   debounceTimeout: any = null;
   splitInstance: any = null;
   ticket_stats: any = document.querySelector(".ticket_stats");
-  defaultUIEngineSettings = {
+  defaultUIEngineSettings: any = {
     model: "gpt-3.5-turbo",
     max_tokens: 500,
     temperature: 1,
@@ -852,7 +852,7 @@ export class ChatRoomApp extends BaseApp {
     else document.body.classList.remove("archived_chat_document");
 
     if (this.testForEngineNotDefault()) document.body.classList.add("engine_settings_not_default");
-    else document.body.classList.remove("engine_settings_not_default"); 
+    else document.body.classList.remove("engine_settings_not_default");
 
     if (this.lastDocumentOptionChange + 2000 > new Date().getTime()) return;
 
@@ -992,7 +992,9 @@ export class ChatRoomApp extends BaseApp {
       }
     });
   }
-  /** */
+  /**
+   * @return { boolean } true if engine is not default
+  */
   testForEngineNotDefault(): boolean {
     let fieldChanged = false;
     Object.keys(this.defaultUIEngineSettings).forEach((key) => {
