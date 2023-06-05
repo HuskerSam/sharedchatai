@@ -660,7 +660,9 @@ export class ChatRoomApp extends BaseApp {
       console.log("message post", json);
       alert(json.errorMessage);
     }
+
     this.scrollTicketListBottom();
+    setTimeout(() => this.scrollTicketListBottom(), 150);
   }
   /** process exisiting tickets and return list of ids to submit
    * @param { string } ticketId doc id
@@ -942,7 +944,7 @@ export class ChatRoomApp extends BaseApp {
    * @return { boolean } true if over 4096 for submit token count
    */
   isOverSendThreshold(): boolean {
-    return this.includeTotalTokens + this.gameData.max_tokens + this.lastInputTokenCount >= 4096;
+    return this.includeTotalTokens + this.gameData.max_tokens + this.lastInputTokenCount > 4096;
   }
   /** shows over threshold modal */
   showOverthresholdToSendModal() {
@@ -954,7 +956,7 @@ export class ChatRoomApp extends BaseApp {
    */
   autoExcludeTicketsToMeetThreshold(currentTicketId: any = null) {
     if (!this.isOverSendThreshold()) return;
-    let tokenReduction = this.includeTotalTokens + this.gameData.max_tokens + this.lastInputTokenCount - 4000;
+    let tokenReduction = this.includeTotalTokens + this.gameData.max_tokens + this.lastInputTokenCount - 4050;
 
     const tickets: Array<any> = [];
     this.lastTicketsSnapshot.forEach((doc: any) => tickets.unshift(doc));
