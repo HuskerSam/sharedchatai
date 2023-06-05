@@ -666,10 +666,18 @@ ul.recent_documents_list li a {
 }
 
 .mobile_layout_mode .sidebar_tree_menu {
-  max-height: 50vh;
+
+}
+
+.mobile_layout_mode .menu_nav_bar {
+  max-height: 100%;
   overflow: auto;
 }
 
 .mobile_layout_mode .left_panel_view {
   display: none;
+}
+
+.mobile_layout_mode .right_panel_view {
+  padding-top: 3em;
 }
