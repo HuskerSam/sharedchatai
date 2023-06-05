@@ -284,7 +284,7 @@ export default class GameAPI {
     ];
     const updatePacket: any = {};
     fieldsFilter.forEach((field: string) => {
-      if (req.body[field]) {
+      if (req.body[field] !== undefined) {
         const value = req.body[field];
         if (gameData[field] !== value) {
           updatePacket[field] = value;
@@ -292,7 +292,6 @@ export default class GameAPI {
         }
       }
     });
-
     updatePacket.publicStatus = GameAPI._publicStatus(gameData);
 
     await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).set(updatePacket, {

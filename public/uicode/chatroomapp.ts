@@ -47,6 +47,14 @@ export class ChatRoomApp extends BaseApp {
   debounceTimeout: any = null;
   splitInstance: any = null;
   ticket_stats: any = document.querySelector(".ticket_stats");
+  defaultUIEngineSettings = {
+    model: "gpt-3.5-turbo",
+    max_tokens: 500,
+    temperature: 1,
+    top_p: 1,
+    presence_penalty: 0,
+    frequency_penalty: 0,
+  };
 
   chat_history_tokens: any = document.querySelector(".chat_history_tokens");
   chat_completion_tokens: any = document.querySelector(".chat_completion_tokens");
@@ -82,6 +90,7 @@ export class ChatRoomApp extends BaseApp {
   document_import_button: any = document.querySelector(".document_import_button");
   ticket_count_span: any = document.querySelector(".ticket_count_span");
   selected_ticket_count_span: any = document.querySelector(".selected_ticket_count_span");
+  reset_engine_options_button: any = document.querySelector(".reset_engine_options_button");
 
   show_document_options_popup: any = document.getElementById("show_document_options_popup");
   temperature_slider_label: any = document.querySelector(".temperature_slider_label");
@@ -138,6 +147,8 @@ export class ChatRoomApp extends BaseApp {
         this.saveDocumentOption("model", this.docfield_model.value);
       }
     });
+    this.reset_engine_options_button.addEventListener("click", () => this.resetEngineDefaults());
+
     this.updateSplitter();
     this.exclude_tickets_button.addEventListener("click", () => this.autoExcludeTicketsToMeetThreshold());
 
@@ -840,6 +851,9 @@ export class ChatRoomApp extends BaseApp {
     if (this.gameData.archived) document.body.classList.add("archived_chat_document");
     else document.body.classList.remove("archived_chat_document");
 
+    if (this.testForEngineNotDefault()) document.body.classList.add("engine_settings_not_default");
+    else document.body.classList.remove("engine_settings_not_default"); 
+
     if (this.lastDocumentOptionChange + 2000 > new Date().getTime()) return;
 
     this.docfield_model.value = this.gameData.model;
@@ -977,5 +991,38 @@ export class ChatRoomApp extends BaseApp {
         }
       }
     });
+  }
+  /** */
+  testForEngineNotDefault(): boolean {
+    let fieldChanged = false;
+    Object.keys(this.defaultUIEngineSettings).forEach((key) => {
+      const value = this.defaultUIEngineSettings[key];
+      if (value.toString() !== this.gameData[key].toString()) fieldChanged = true;
+    });
+    return fieldChanged;
+  }
+  /** */
+  async resetEngineDefaults() {
+    if (!this.testForEngineNotDefault()) return;
+
+    const body: any = {
+      gameNumber: this.currentGame,
+    };
+    Object.assign(body, this.defaultUIEngineSettings);
+    const token = await firebase.auth().currentUser.getIdToken();
+    const fResult = await fetch(this.basePath + "lobbyApi/games/options", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      headers: {
+        "Content-Type": "application/json",
+        token,
+      },
+      body: JSON.stringify(body),
+    });
+    if (this.verboseLog) {
+      const json = await fResult.json();
+      console.log("reset options failed", json);
+    }
   }
 }
