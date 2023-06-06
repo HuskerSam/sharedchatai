@@ -40,9 +40,10 @@ export default class BaseApp {
     this.load();
 
     document.addEventListener("visibilitychange", () => {
-      if (<any>document.visibilityState === 'visible') {
         this.refreshOnlinePresence();
-      } 
+    });
+      document.addEventListener("focus", () => {
+        this.refreshOnlinePresence();
     });
   }
   /** asynchronous loads - data setup  */
