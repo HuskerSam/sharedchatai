@@ -195,10 +195,10 @@ export default class BaseApp {
     interval = seconds / 3600;
     if (interval > 1) return Math.floor(interval) + ` hr`;
 
+    if (showSeconds) return Math.floor(seconds) + "s";
+
     interval = seconds / 60;
     if (interval > 1) return Math.floor(interval) + ` min`;
-
-    if (showSeconds) return Math.floor(seconds) + "s";
 
     return "now";
   }
