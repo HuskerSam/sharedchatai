@@ -309,7 +309,7 @@ export default class BaseApp {
           div.classList.add("online");
         } else {
           div.classList.remove("online");
-          if (div.data.uid === this.uid) {
+          if (div.dataset.uid === this.uid) {
             this.refreshOnlinePresence();
           }
         }
