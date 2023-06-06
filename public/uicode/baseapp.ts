@@ -38,6 +38,12 @@ export default class BaseApp {
     this.signInWithURL();
 
     this.load();
+
+    document.addEventListener("visibilitychange", () => {
+      if (<any>document.visibilityState === 'visible') {
+        this.refreshOnlinePresence();
+      } 
+    });
   }
   /** asynchronous loads - data setup  */
   async load() {
