@@ -370,3 +370,9 @@ button.btn-primary:active {
 .text-success { 
   color: rgb(100, 255, 100)!important;
 }
+
+.navbar-brand img {
+  width: 125px;
+  position: relative;
+  top: -4px;
+}
