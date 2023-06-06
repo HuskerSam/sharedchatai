@@ -375,7 +375,7 @@ ul.recent_documents_list li a {
 }
 
 .ticket_content_input {
-  max-height: 150px;
+  max-height: 30vh;
   margin-bottom: 8px;
   margin-left: 8px;
   height: 60px;
@@ -614,9 +614,6 @@ ul.recent_documents_list li a {
 }
 
 @media (min-width: 990px) {
-  .new_button_wrapper {
-    width: 100px;
-  }
   .show_create_modal  {
     float: right;
   }
@@ -663,10 +660,6 @@ ul.recent_documents_list li a {
 
 .sidebar_tree_menu {
   background-color: unset;
-}
-
-.mobile_layout_mode .sidebar_tree_menu {
-
 }
 
 .mobile_layout_mode .menu_nav_bar {

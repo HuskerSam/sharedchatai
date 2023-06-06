@@ -35,29 +35,25 @@ export default class LoginHelper {
     <div class="modal-dialog">
       <div class="modal-content login_modal_container">
         <div class="modal-header">
-          <h5 class="modal-title" id="loginModalLabel">Login Options</h5>
+          <h5 class="modal-title" id="loginModalLabel">Passwordless Authentication</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <p class="text-muted">Experience seamless login
-             with three methods: email, Google authentication, or anonymous login. No password required!</p>
             <h6 class="mt-1">Passwordless Email Login</h6>
               <div class="input-group mb-3">
                 <input type="text" name="email" class="form-control login_email mx-1" placeholder="Email">
-                <button class="btn btn-success" id="login_email_anchor">Send Link</button>
               </div>
-              <h6>or</h6>
+              <div style="text-align:center">
+                <button class="btn btn-success" id="login_email_anchor">Log in with Email Link</button>
+              <hr>
               <button class="btn btn-primary" id="login_google">
-                <img class="google_logo" src="/images/google_signin.png">
-                Sign in with Google</button>
-              <br><br>
-              <button class="anon_login_anchor btn btn-primary">Login Anonymously</button>
+                Log in with Google &nbsp;<img class="google_logo" style="margin-right:-8px;" src="/images/google_signin.png"></button>
+                <hr>
+              <button class="anon_login_anchor btn btn-primary">Log in Anonymously</button>
               <br>
-         
+              </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary upload_import_button">Import</button>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
