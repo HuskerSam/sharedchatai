@@ -309,10 +309,6 @@ ul.recent_documents_list li a {
   flex: 1;
 }
 
-.show_create_modal {
-  width: 150px;
-}
-
 .ticket_header_section {
   flex: 1;
   display: flex;
@@ -346,11 +342,6 @@ ul.recent_documents_list li a {
   }
 }
 
-@media (min-width: 990px) {
-  .show_create_modal {
-    width: 50px;
-  }
-}
 
 .show_document_options_help {
   right: 50px;
@@ -613,11 +604,6 @@ ul.recent_documents_list li a {
   display: none;
 }
 
-@media (min-width: 990px) {
-  .show_create_modal  {
-    float: right;
-  }
-}
 .header_usage_time_line {
   margin-top: 4px;
   padding-top: 0px;

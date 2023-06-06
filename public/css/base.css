@@ -355,8 +355,18 @@ button.btn-primary:active {
   margin-right: 8px;
 }
 
+.mobile_custom_icon_label {
+  width: 34px;
+  overflow: hidden;
+  display: inline-block;
+}
+
 @media (min-width: 990px) {
   .mobile_custom_title_label {
     display: none;
   }
+}
+
+.text-success { 
+  color: rgb(100, 255, 100)!important;
 }
