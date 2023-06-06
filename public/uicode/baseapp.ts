@@ -38,13 +38,6 @@ export default class BaseApp {
     this.signInWithURL();
 
     this.load();
-
-    document.addEventListener("visibilitychange", () => {
-        this.refreshOnlinePresence();
-    });
-      document.addEventListener("focus", () => {
-        this.refreshOnlinePresence();
-    });
   }
   /** asynchronous loads - data setup  */
   async load() {
@@ -312,8 +305,14 @@ export default class BaseApp {
   updateUserPresence() {
     document.querySelectorAll(".member_online_status")
       .forEach((div: any) => {
-        if (this.userPresenceStatus[div.dataset.uid]) div.classList.add("online");
-        else div.classList.remove("online");
+        if (this.userPresenceStatus[div.dataset.uid]) {
+          div.classList.add("online");
+        } else {
+          div.classList.remove("online");
+          if (div.dataset.uid === this.uid) {
+            this.refreshOnlinePresence();
+          }
+        }
       });
   }
   /** call join game api
