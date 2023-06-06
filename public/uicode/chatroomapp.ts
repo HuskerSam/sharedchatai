@@ -130,8 +130,8 @@ export class ChatRoomApp extends BaseApp {
       this.show_document_options_popup.click();
       this.documentOptions.show(this.currentGame, this.gameData);
     });
-    this.show_document_options_help.addEventListener("click", () => this.helpHelper.show("sidebar"));
-    this.show_token_threshold_dialog.addEventListener("click", () => this.helpHelper.show("tickets"));
+    this.show_document_options_help.addEventListener("click", () => this.helpHelper.show("engine"));
+    this.show_token_threshold_dialog.addEventListener("click", () => this.helpHelper.show("prompts"));
 
     this.docfield_temperature.addEventListener("input", () => this.optionSliderChange(true, "temperature",
       this.docfield_temperature, this.temperature_slider_label, "Temperature: "));

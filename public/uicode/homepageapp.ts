@@ -2,6 +2,10 @@ import BaseApp from "./baseapp.js";
 import LoginHelper from "./loginhelper.js";
 import DocCreateHelper from "./doccreatehelper.js";
 import ProfileHelper from "./profilehelper.js";
+import {
+    HelpHelper,
+  } from "./helphelper.js";
+  
 
 /** Guess app class */
 export class HomePageApp extends BaseApp {
@@ -12,6 +16,8 @@ export class HomePageApp extends BaseApp {
     show_create_modal: any = document.querySelector(".show_create_modal");
     checkTemplateURL = false;
     homepage_signin_show_modal: any = document.querySelector(".homepage_signin_show_modal");
+    helpHelper = new HelpHelper(this);
+    help_show_modal: any = document.querySelector(".help_show_modal");
     /** */
     constructor() {
         super();

@@ -133,8 +133,18 @@
 }
 
 .help_helper_wrapper {
-  background: rgba(55, 55, 55, .5);
-  color: rgb(217, 217, 227);
+  color: white;
+  font-size: 1.1em;
+  line-height: 1.75em;
+  padding-right: 8px;
+}
+
+.help_helper_wrapper li {
+  padding-top: 4px;
+}
+
+.help_helper_wrapper a {
+  color: rgb(255, 255, 50);
 }
 
 .show_document_details_options_help,
