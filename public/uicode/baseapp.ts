@@ -128,7 +128,8 @@ export default class BaseApp {
     this.profile = {
       displayName: Utility.generateName(),
       displayImage: window.profileLogos[logoName],
-      documentLabels: "Personal,Business,Misc",
+      documentLabels: "Personal,Business,Archived",
+      markdownDisplay: true,
     };
 
     await firebase.firestore().doc(`Users/${this.uid}`).set(this.profile);

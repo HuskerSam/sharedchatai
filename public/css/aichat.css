@@ -337,7 +337,7 @@ ul.recent_documents_list li a {
     padding: 8px 4px 0px 8px;
     padding-left: 12px;
     margin-top: 1.25rem;
-    margin-right: 10%;
+    margin-right: 3%;
     margin-left: 2%;
   }
 }
@@ -524,7 +524,6 @@ ul.recent_documents_list li a {
   position: relative;
   top: -8px;
   max-width: 100px;
-  overflow: hidden;
   display: inline-block;
   white-space: nowrap;
 }
@@ -659,4 +658,17 @@ ul.recent_documents_list li a {
 
 .mobile_layout_mode .right_panel_view {
   padding-top: 3em;
+}
+
+pre code {
+  display: block;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  overflow: auto;
+  font-size: .875em;  
+  background-color: rgba(0, 0, 0, 0.1);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: rgb(240, 240, 240);
+  border-style: solid;
+  padding: 8px;
 }

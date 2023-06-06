@@ -41,9 +41,11 @@ export class ChatRoomApp extends BaseApp {
   documentCreate = new DocCreateHelper(this);
   profileHelper = new ProfileHelper(this);
   helpHelper = new HelpHelper(this);
+  markdownConverter = new window.showdown.Converter();
   documentsLookup: any = {};
   lastDocumentOptionChange = 0;
   debounceTimeout: any = null;
+  markdownCurrentFormat: any = null;
   ticket_stats: any = document.querySelector(".ticket_stats");
   defaultUIEngineSettings: any = {
     model: "gpt-3.5-turbo",
@@ -268,7 +270,7 @@ export class ChatRoomApp extends BaseApp {
   /** paint user message feed
  * @param { any } snapshot firestore query data snapshot
  */
-  updateAssistsFeed(snapshot: any) {
+  updateAssistsFeed(snapshot: any = null) {
     if (snapshot) this.lastAssistsSnapShot = snapshot;
     else if (this.lastAssistsSnapShot) snapshot = this.lastAssistsSnapShot;
     else return;
@@ -306,7 +308,14 @@ export class ChatRoomApp extends BaseApp {
               }
               assistSection.innerHTML = result;
             } else {
-              assistSection.innerHTML = BaseApp.escapeHTML(assistData.assist.choices["0"].message.content);
+              let completionDisplay = "";
+              const completionRawText = assistData.assist.choices["0"].message.content;
+              if (this.profile.markdownDisplay) {
+                completionDisplay = this.markdownConverter.makeHtml(completionRawText);
+              } else {
+                completionDisplay = BaseApp.escapeHTML(completionRawText);
+              }
+              assistSection.innerHTML = completionDisplay;
 
               totalSpan.innerHTML = assistData.assist.usage.total_tokens;
               promptSpan.innerHTML = assistData.assist.usage.prompt_tokens;
@@ -740,13 +749,18 @@ export class ChatRoomApp extends BaseApp {
       else document.body.classList.remove("profile_text_less_token_details");
 
       const gameId = this.urlParams.get("game");
-      if (gameId) {
+      if (gameId && !this.currentGame) {
         this.gameAPIJoin(gameId);
         this.currentGame = gameId;
 
         if (this.gameSubscription) this.gameSubscription();
         this.gameSubscription = firebase.firestore().doc(`Games/${this.currentGame}`)
           .onSnapshot((doc: any) => this.paintGameData(doc));
+      }
+
+      if (this.profile.markdownDisplay !== this.markdownCurrentFormat) {
+        this.markdownCurrentFormat = this.profile.markdownDisplay;
+        this.updateAssistsFeed();
       }
     }
   }

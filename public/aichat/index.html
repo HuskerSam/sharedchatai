@@ -34,6 +34,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"
+    integrity="sha512-LhccdVNGe2QMEfI3x4DVV3ckMRe36TfydKss6mJpdHjNFiV07dFpS2xzeZedptKZrwxfICJpez09iNioiSZ3hA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <link rel="stylesheet" href="/css/base.css" />
   <link rel="stylesheet" href="/css/modal.css" />
   <link rel="stylesheet" href="/css/aichat.css" />
@@ -42,7 +45,7 @@
       window.gpt3tokenizer = await import('/models/gpttokenizer.js');
 
       let module = await import('/models/chatroomapp.js');
-      window.GuessApp = new module.ChatRoomApp();
+      window.ChatRoomApp = new module.ChatRoomApp();
     });
   </script>
 </head>

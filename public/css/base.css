@@ -375,4 +375,5 @@ button.btn-primary:active {
   width: 125px;
   position: relative;
   top: -4px;
+  margin-right: -6px;
 }
