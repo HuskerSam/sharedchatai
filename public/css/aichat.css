@@ -123,7 +123,7 @@ html {
   padding: 10px;
   white-space: pre-wrap;
   line-height: 1.5rem;
-
+  padding-right: 40px;
 }
 
 .game_message_list_item .game_date {
@@ -481,8 +481,10 @@ ul.recent_documents_list li a {
 .rerun_ticket,
 .delete_ticket {
   margin: 4px;
-  background: none;
+  background-color:rgba(68, 70, 84, 0.5);
   color: rgb(240, 240, 240);
+  position: relative;
+  z-index: 10;
 }
 
 .delete_ticket {
@@ -524,19 +526,9 @@ ul.recent_documents_list li a {
   max-width: 100px;
   display: inline-block;
   white-space: nowrap;
+  width: 10px;
 }
 
-@media (min-width: 380px) {
-  .ticket_owner_name {
-    max-width: 125px;
-  }
-}
-
-@media (min-width: 500px) {
-  .ticket_owner_name {
-    max-width: 200px;
-  }
-}
 
 .profile_text_option_large .game_message_list_item .message,
 .profile_text_option_large .game_message_list_item .assist_section,
@@ -695,7 +687,9 @@ pre code {
   bottom: 0px;
   background: none;
   color: rgb(240, 240, 240);
+  background-color:rgba(68, 70, 84, 0.5);
   right: 4px;
+  z-index: 1;
 }
 
 .copy_response_block_button i {
@@ -709,7 +703,9 @@ pre code {
   position: absolute;
   color: rgb(240, 240, 240);
   right: 8px;
-  top: 0;
+  top: 0;  
+  background-color:rgba(68, 70, 84, 0.5);
+  z-index: 1;
 }
 
 .copy_ticket_to_clipboard i {
