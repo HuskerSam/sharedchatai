@@ -232,6 +232,7 @@ body, html {
   background: none;
   float: right;
   margin-right: 8px;
+  margin-top: -4px;
 }
 
 .document_usage_stats_line span {
