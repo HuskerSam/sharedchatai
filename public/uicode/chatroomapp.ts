@@ -49,6 +49,7 @@ export class ChatRoomApp extends BaseApp {
   copyResponseCache: any = {};
   copyTicketCache: any = {};
   ticket_stats: any = document.querySelector(".ticket_stats");
+  updateAssistFeedTimeout: any = null;
   defaultUIEngineSettings: any = {
     model: "gpt-3.5-turbo",
     max_tokens: 500,
@@ -271,10 +272,12 @@ export class ChatRoomApp extends BaseApp {
   }
   /** paint user message feed
  * @param { any } snapshot firestore query data snapshot
+ * @param { boolean } runWithoutTimeOut throttle the redraws - only update once every 50ms
  */
-  updateAssistsFeed(snapshot: any = null) {
-    if (!window.hljs || !window.hljs.highlightElement) {
-      setTimeout(() => this.updateAssistsFeed(snapshot), 50);
+  updateAssistsFeed(snapshot: any = null, runWithoutTimeOut = false) {
+    if (!window.hljs || !window.hljs.highlightElement || !runWithoutTimeOut) {
+      clearTimeout(this.updateAssistFeedTimeout);
+      this.updateAssistFeedTimeout = setTimeout(() => this.updateAssistsFeed(snapshot, true), 50);
       return;
     }
     if (snapshot) this.lastAssistsSnapShot = snapshot;
