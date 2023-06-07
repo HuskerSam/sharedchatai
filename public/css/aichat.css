@@ -123,7 +123,7 @@ html {
   padding: 10px;
   white-space: pre-wrap;
   line-height: 1.5rem;
-  padding-right: 40px;
+  padding-left: 54px;
 }
 
 .game_message_list_item .game_date {
@@ -307,6 +307,71 @@ ul.recent_documents_list li a {
   position: relative;
 }
 
+
+pre code {
+  display: block;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  overflow: auto;
+  font-size: .875em;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: rgb(240, 240, 240);
+  border-style: solid;
+  padding: 8px;
+}
+
+.copy_code_block_button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(40, 43, 46, 0.5);
+  color: rgb(240, 240, 240);
+}
+
+.copy_code_block_button i {
+  position: relative;
+  top: 2px;
+  font-size: 16px;
+}
+
+.code_block_wrapper {
+  position: relative;
+  padding: 10px;
+}
+
+.copy_response_block_button {
+  position: absolute;
+  bottom: 0px;
+  background: none;
+  color: rgb(240, 240, 240);
+  background-color:rgba(68, 70, 84, 0.5);
+  right: 4px;
+  z-index: 1;
+}
+
+.copy_response_block_button i {
+  position: relative;
+  top: 2px;
+  font-size: 16px;
+}
+
+.copy_ticket_to_clipboard {
+  background: none;
+  position: absolute;
+  color: rgb(240, 240, 240);
+  left: 8px;
+  top: 2px;  
+  background-color:rgba(68, 70, 84, 0.5);
+  z-index: 1;
+}
+
+.copy_ticket_to_clipboard i {
+  position: relative;
+  top: 2px;
+  font-size: 16px;
+}
+
 @media (min-width: 501px) {
   .navbar.snapped {
     transform: translateY(100%);
@@ -314,8 +379,11 @@ ul.recent_documents_list li a {
 
   .game_message_list_item .message {
     padding-right: 10%;
-    padding-left: 2%;
-    padding-bottom: 12px;
+    padding-bottom: 8px;
+  }
+
+  .copy_ticket_to_clipboard {
+    top: 1px;
   }
 
   .ticket_item_include_checkbox {
@@ -648,68 +716,4 @@ ul.recent_documents_list li a {
 
 .mobile_layout_mode .right_panel_view {
   padding-top: 3em;
-}
-
-pre code {
-  display: block;
-  margin-top: 0;
-  margin-bottom: 1rem;
-  overflow: auto;
-  font-size: .875em;
-  background-color: rgba(0, 0, 0, 0.1);
-  border-color: rgba(255, 255, 255, 0.1);
-  color: rgb(240, 240, 240);
-  border-style: solid;
-  padding: 8px;
-}
-
-.copy_code_block_button {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background: none;
-  color: rgb(240, 240, 240);
-}
-
-.copy_code_block_button i {
-  position: relative;
-  top: 2px;
-  font-size: 16px;
-}
-
-.code_block_wrapper {
-  position: relative;
-  padding: 10px;
-}
-
-.copy_response_block_button {
-  position: absolute;
-  bottom: 0px;
-  background: none;
-  color: rgb(240, 240, 240);
-  background-color:rgba(68, 70, 84, 0.5);
-  right: 4px;
-  z-index: 1;
-}
-
-.copy_response_block_button i {
-  position: relative;
-  top: 2px;
-  font-size: 16px;
-}
-
-.copy_ticket_to_clipboard {
-  background: none;
-  position: absolute;
-  color: rgb(240, 240, 240);
-  right: 8px;
-  top: 0;  
-  background-color:rgba(68, 70, 84, 0.5);
-  z-index: 1;
-}
-
-.copy_ticket_to_clipboard i {
-  position: relative;
-  top: 2px;
-  font-size: 16px;
 }
