@@ -209,24 +209,6 @@ body, html {
   color: rgb(217, 217, 227)
 }
 
-.document_usage_stats_line {
-  display: flex;
-  padding: 4px;
-  background-color: rgba(55, 55, 55, .5);
-}
-
-.document_menutop_usage_stats_line {
-  padding: 10px;
-  background-color: rgba(55, 55, 55, .5);
-  display: inline-block;
-  font-size: 0.75em;
-}
-
-.last_activity_display {
-  display: inline-block;
-  font-size: 0.75em;
-}
-
 .show_document_options_modal,
 .show_document_options_help {
   background: none;
@@ -235,10 +217,6 @@ body, html {
   margin-top: -4px;
 }
 
-.document_usage_stats_line span {
-  flex: 1;
-  text-align: center;
-}
 
 .message_list_send_wrapper {
   position: relative;
@@ -262,6 +240,11 @@ body, html {
   text-align: center;
   padding-top: 15px;
   padding-bottom: 15px;
+  height: 75px;
+}
+
+.document_option_model_select_wrapper select {
+  float: left;
 }
 
 ul.recent_documents_list {
@@ -607,7 +590,7 @@ ul.recent_documents_list li a {
 .header_usage_time_line {
   margin-top: 4px;
   padding-top: 0px;
-  margin-bottom: -2px;
+  line-height: 60px;
 }
 
 .clone_current_chatroom_button {
