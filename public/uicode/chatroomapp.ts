@@ -274,10 +274,10 @@ export class ChatRoomApp extends BaseApp {
  * @param { any } snapshot firestore query data snapshot
  * @param { boolean } runWithoutTimeOut throttle the redraws - only update once every 50ms
  */
-  updateAssistsFeed(snapshot: any = null, runWithoutTimeOut = false) {
-    if (!window.hljs || !window.hljs.highlightElement || !runWithoutTimeOut) {
+  updateAssistsFeed(snapshot: any = null) {
+    if (!window.hljs || !window.hljs.highlightElement) {
       clearTimeout(this.updateAssistFeedTimeout);
-      this.updateAssistFeedTimeout = setTimeout(() => this.updateAssistsFeed(snapshot, true), 50);
+      this.updateAssistFeedTimeout = setTimeout(() => this.updateAssistsFeed(snapshot), 30);
       return;
     }
     if (snapshot) this.lastAssistsSnapShot = snapshot;
