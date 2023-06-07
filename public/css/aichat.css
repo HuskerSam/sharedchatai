@@ -686,8 +686,12 @@ pre code {
 }
 
 .engine_settings_not_default .app_panel .engine_sidebar_menu_button {
-  color: rgb(230, 200, 50);
+  color: rgb(200, 200, 50);
 }
+
+.engine_settings_tweaked .app_panel .engine_sidebar_menu_button {
+  color: rgb(255, 127, 50);
+} 
 
 .reset_engine_options_button {
   position: relative;

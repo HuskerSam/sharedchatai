@@ -929,6 +929,9 @@ export class ChatRoomApp extends BaseApp {
     if (this.testForEngineNotDefault()) document.body.classList.add("engine_settings_not_default");
     else document.body.classList.remove("engine_settings_not_default");
 
+    if (this.testForEngineTweaked()) document.body.classList.add("engine_settings_tweaked");
+    else document.body.classList.remove("engine_settings_tweaked");
+
     if (this.lastDocumentOptionChange + 2000 > new Date().getTime()) return;
 
     this.docfield_model.value = this.gameData.model;
@@ -1069,6 +1072,19 @@ export class ChatRoomApp extends BaseApp {
     Object.keys(this.defaultUIEngineSettings).forEach((key) => {
       const value = this.defaultUIEngineSettings[key];
       if (value.toString() !== this.gameData[key].toString()) fieldChanged = true;
+    });
+    return fieldChanged;
+  }
+  /**
+   * @return { boolean } true if engine is not default
+  */
+  testForEngineTweaked(): boolean {
+    let fieldChanged = false;
+    Object.keys(this.defaultUIEngineSettings).forEach((key) => {
+      const value = this.defaultUIEngineSettings[key];
+      if (key !== 'model' && key !== 'max_tokens') {
+        if (value.toString() !== this.gameData[key].toString()) fieldChanged = true;
+      }
     });
     return fieldChanged;
   }
