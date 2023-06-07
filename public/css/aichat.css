@@ -220,7 +220,7 @@ html {
 .show_document_options_help {
   background: none;
   float: right;
-  margin-right: 8px;
+  right: 8px;
   margin-top: -4px;
   position: relative;
   top: 8px;
@@ -411,7 +411,8 @@ pre code {
 }
 
 .show_document_options_help {
-  right: 50px;
+  right: 8px;
+  top: -4px;
 }
 
 .show_document_options_modal i,
