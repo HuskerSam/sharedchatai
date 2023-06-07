@@ -1,4 +1,5 @@
-body, html {
+body,
+html {
   min-height: unset;
   height: 100%;
 }
@@ -389,14 +390,15 @@ ul.recent_documents_list li a {
 .exclude_tickets_button {
   background-color: rgba(68, 70, 84, 0.5);
 }
+
 .over_token_sendlimit .exclude_tickets_button {
   background-color: rgb(50, 150, 50);
   border-color: rgb(120, 255, 120);
 }
 
 .over_token_sendlimit .send_ticket_button {
-    background-color: rgb(140, 140, 0);
-    color: white;
+  background-color: rgb(140, 140, 0);
+  color: white;
 }
 
 .total_prompt_token_count {
@@ -461,7 +463,8 @@ ul.recent_documents_list li a {
 
 .rerun_ticket i,
 .delete_ticket i {
-  top: 4px;
+  top: 2px;
+  font-size: 16px;
   position: relative;
 }
 
@@ -469,6 +472,7 @@ ul.recent_documents_list li a {
 .delete_ticket {
   margin: 4px;
   background: none;
+  color: rgb(240, 240, 240);
 }
 
 .delete_ticket {
@@ -650,7 +654,7 @@ pre code {
   margin-top: 0;
   margin-bottom: 1rem;
   overflow: auto;
-  font-size: .875em;  
+  font-size: .875em;
   background-color: rgba(0, 0, 0, 0.1);
   border-color: rgba(255, 255, 255, 0.1);
   color: rgb(240, 240, 240);
@@ -663,11 +667,13 @@ pre code {
   top: 12px;
   right: 12px;
   background: none;
+  color: rgb(240, 240, 240);
 }
 
 .copy_code_block_button i {
   position: relative;
-  top: 4px;
+  top: 2px;
+  font-size: 16px;
 }
 
 .code_block_wrapper {
@@ -678,23 +684,26 @@ pre code {
   position: absolute;
   bottom: 0px;
   background: none;
-  font-size: 0.8em;
+  color: rgb(240, 240, 240);
   right: 4px;
 }
 
 .copy_response_block_button i {
   position: relative;
-  top: 4px;
+  top: 2px;
+  font-size: 16px;
 }
 
 .copy_ticket_to_clipboard {
   background: none;
   position: absolute;
+  color: rgb(240, 240, 240);
   right: 4px;
   top: 0;
 }
 
 .copy_ticket_to_clipboard i {
   position: relative;
-  top: 4px;
+  top: 2px;
+  font-size: 16px;
 }
