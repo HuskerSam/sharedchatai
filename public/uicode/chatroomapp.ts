@@ -313,12 +313,24 @@ export class ChatRoomApp extends BaseApp {
               const l = markDownPieces.length;
               markDownPieces.forEach((responseFrag: string, index: number) => {
                 if (index % 2 === 1 && index < l - 1) {
-                  completionDisplay += "" + this.markdownConverter.makeHtml("```" + responseFrag + "```\n") + "";
+                  completionDisplay += `<div class="code_block_wrapper">`
+                    + `<button class="copy_code_block_button btn btn-secondary" data-content="${encodeURIComponent(responseFrag)}"><i class="material-icons">content_copy</i></button>` 
+                    + this.markdownConverter.makeHtml("```" + responseFrag + "```") + "</div>";
                 } else {
                   completionDisplay += BaseApp.escapeHTML(responseFrag);
                 }
               })
               assistSection.innerHTML = completionDisplay;
+
+              assistSection.querySelectorAll(".copy_code_block_button").forEach((btn: any) => {
+                btn.addEventListener("click", () => {
+                  const data = decodeURIComponent(btn.dataset.content);
+                  navigator.clipboard.writeText(data);
+                  const buttonText = `<i class="material-icons">content_copy</i>`;
+                  btn.innerHTML = "✅" + buttonText;
+                  setTimeout(() => btn.innerHTML = buttonText, 1200);
+                })
+              })
 
               totalSpan.innerHTML = assistData.assist.usage.total_tokens;
               promptSpan.innerHTML = assistData.assist.usage.prompt_tokens;

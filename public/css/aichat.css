@@ -656,3 +656,18 @@ pre code {
   border-style: solid;
   padding: 8px;
 }
+
+.copy_code_block_button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.copy_code_block_button i {
+  position: relative;
+  top: 4px;
+}
+
+.code_block_wrapper {
+  position: relative;
+}
