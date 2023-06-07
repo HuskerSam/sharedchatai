@@ -45,6 +45,7 @@ export class ChatRoomApp extends BaseApp {
   documentsLookup: any = {};
   lastDocumentOptionChange = 0;
   debounceTimeout: any = null;
+  fragmentCache: any = {};
   ticket_stats: any = document.querySelector(".ticket_stats");
   defaultUIEngineSettings: any = {
     model: "gpt-3.5-turbo",
@@ -270,6 +271,10 @@ export class ChatRoomApp extends BaseApp {
  * @param { any } snapshot firestore query data snapshot
  */
   updateAssistsFeed(snapshot: any = null) {
+    if (!window.hljs || !window.hljs.highlightElement) {
+      setTimeout(() => this.updateAssistsFeed(snapshot), 50);
+      return;
+    }
     if (snapshot) this.lastAssistsSnapShot = snapshot;
     else if (this.lastAssistsSnapShot) snapshot = this.lastAssistsSnapShot;
     else return;
@@ -294,7 +299,6 @@ export class ChatRoomApp extends BaseApp {
         promptSpan.innerHTML = "";
         completionSpan.innerHTML = "";
 
-
         if (!ticketRunning) {
           if (assistData.success) {
             if (assistData.assist.error) {
@@ -307,24 +311,39 @@ export class ChatRoomApp extends BaseApp {
               }
               assistSection.innerHTML = result;
             } else {
-              let completionDisplay = "";
               let completionRawText = assistData.assist.choices["0"].message.content;
+
               const markDownPieces = completionRawText.split("```");
               const l = markDownPieces.length;
+              assistSection.innerHTML = "";
               markDownPieces.forEach((responseFrag: string, index: number) => {
+                const fragmentId = ticketId + "_" + index;
+                this.fragmentCache[fragmentId] = responseFrag;
                 if (index % 2 === 1 && index < l - 1) {
-                  completionDisplay += `<div class="code_block_wrapper">`
-                    + `<button class="copy_code_block_button btn btn-secondary" data-content="${encodeURIComponent(responseFrag)}"><i class="material-icons">content_copy</i></button>` 
-                    + this.markdownConverter.makeHtml("```" + responseFrag + "```") + "</div>";
+                  const htmlForMarkdown = this.markdownConverter.makeHtml("```" + responseFrag + "```");
+
+                  const sectionDiv = document.createElement("div");
+                  sectionDiv.innerHTML = `<div class="code_block_wrapper">`
+                    + htmlForMarkdown + "</div>";
+
+                  window.hljs.highlightElement(sectionDiv.children[0]);
+                  const btn = document.createElement("button");
+                  btn.setAttribute("fragmentid", fragmentId);
+                  btn.setAttribute("class" , "copy_code_block_button btn btn-secondary");
+                  btn.innerHTML = `<i class="material-icons">content_copy</i>`;
+                  sectionDiv.children[0].appendChild(btn);
+                    
+                  if (sectionDiv.children.length > 0) assistSection.appendChild(sectionDiv.children[0]);
                 } else {
-                  completionDisplay += BaseApp.escapeHTML(responseFrag);
+                  const sectionDiv = document.createElement("div");
+                  sectionDiv.innerHTML = "<div>" + BaseApp.escapeHTML(responseFrag) + "</div>";
+                  if (sectionDiv.children.length > 0) assistSection.appendChild(sectionDiv.children[0]);
                 }
-              })
-              assistSection.innerHTML = completionDisplay;
+              });
 
               assistSection.querySelectorAll(".copy_code_block_button").forEach((btn: any) => {
                 btn.addEventListener("click", () => {
-                  const data = decodeURIComponent(btn.dataset.content);
+                  const data = decodeURIComponent(this.fragmentCache[btn.getAttribute("fragmentid")]);
                   navigator.clipboard.writeText(data);
                   const buttonText = `<i class="material-icons">content_copy</i>`;
                   btn.innerHTML = "✅" + buttonText;
@@ -921,7 +940,7 @@ export class ChatRoomApp extends BaseApp {
         document.body.classList.add("mobile_layout_mode");
       }
       this.mobileLayoutCache = desktopView;
-    } 
+    }
   }
   /** count input token */
   updatePromptTokenStatus() {
