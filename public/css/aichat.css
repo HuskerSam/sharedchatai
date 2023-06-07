@@ -222,8 +222,9 @@ html {
   float: right;
   margin-right: 8px;
   margin-top: -4px;
+  position: relative;
+  top: 8px;
 }
-
 
 .message_list_send_wrapper {
   position: relative;
@@ -260,6 +261,7 @@ ul.recent_documents_list {
 
 ul.recent_documents_list li {
   display: block;
+  position: relative;
 }
 
 ul.recent_documents_list li a {
@@ -268,8 +270,14 @@ ul.recent_documents_list li a {
 }
 
 .recent_documents_list .activity_date {
-  text-align: right;
-  color: rgb(127, 127, 127);
+  padding: 1px 2px 4px 1px;
+  color: rgb(200, 200, 200);
+  background: rgba(32, 33, 35, 0.75);
+  position: absolute;
+  right: 4px;
+  bottom: 2px;
+  border-radius: 5px;
+  z-index: 100;
 }
 
 .sidebar_tree_recent_title {
@@ -400,7 +408,6 @@ pre code {
     margin-left: 2%;
   }
 }
-
 
 .show_document_options_help {
   right: 50px;
@@ -597,13 +604,13 @@ pre code {
   width: 10px;
 }
 
-
+.profile_text_option_large .sidebar_document_title, 
 .profile_text_option_large .game_message_list_item .message,
 .profile_text_option_large .game_message_list_item .assist_section,
 .profile_text_option_large .ticket_content_input,
 .profile_text_option_large ul.recent_documents_list {
   font-size: 1.25em;
-  line-height: 1.75em;
+  line-height: 1.65em;
   margin-top: -6px;
 }
 
