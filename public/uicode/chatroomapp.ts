@@ -328,13 +328,16 @@ export class ChatRoomApp extends BaseApp {
                   sectionDiv.innerHTML = `<div class="code_block_wrapper">`
                     + htmlForMarkdown + "</div>";
 
+                  window.hljs.configure({
+                    ignoreUnescapedHTML: true,
+                  })
                   window.hljs.highlightElement(sectionDiv.children[0]);
                   const btn = document.createElement("button");
                   btn.setAttribute("fragmentid", fragmentId);
-                  btn.setAttribute("class" , "copy_code_block_button btn btn-secondary");
+                  btn.setAttribute("class", "copy_code_block_button btn btn-secondary");
                   btn.innerHTML = `<i class="material-icons">content_copy</i>`;
                   sectionDiv.children[0].appendChild(btn);
-                    
+
                   if (sectionDiv.children.length > 0) assistSection.appendChild(sectionDiv.children[0]);
                 } else {
                   const sectionDiv = document.createElement("div");
@@ -356,7 +359,7 @@ export class ChatRoomApp extends BaseApp {
               this.copyResponseCache[ticketId] = completionRawText;
               const btn = document.createElement("button");
               btn.setAttribute("ticketid", ticketId);
-              btn.setAttribute("class" , "copy_response_block_button btn btn-secondary");
+              btn.setAttribute("class", "copy_response_block_button btn btn-secondary");
               btn.innerHTML = `<i class="material-icons">content_copy</i>`;
               assistSection.appendChild(btn);
               btn.addEventListener("click", () => {

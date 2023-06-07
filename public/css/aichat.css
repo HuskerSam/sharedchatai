@@ -678,6 +678,7 @@ pre code {
 
 .code_block_wrapper {
   position: relative;
+  padding: 10px;
 }
 
 .copy_response_block_button {
