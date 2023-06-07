@@ -600,10 +600,11 @@ pre code {
 
 .profile_text_option_large .game_message_list_item .message,
 .profile_text_option_large .game_message_list_item .assist_section,
-.profile_text_option_large .ticket_content_input {
+.profile_text_option_large .ticket_content_input,
+.profile_text_option_large ul.recent_documents_list {
   font-size: 1.25em;
   line-height: 1.75em;
-
+  margin-top: -6px;
 }
 
 .profile_text_option_monospace .game_message_list_item .message,
