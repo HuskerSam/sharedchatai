@@ -51,6 +51,7 @@ export class ChatRoomApp extends BaseApp {
   ticket_stats: any = document.querySelector(".ticket_stats");
   updateAssistFeedTimeout: any = null;
   excludingTicketsRunning = false;
+  paintOptionsDebounceTimer: any = null;
   defaultUIEngineSettings: any = {
     model: "gpt-3.5-turbo",
     max_tokens: 500,
@@ -932,7 +933,11 @@ export class ChatRoomApp extends BaseApp {
     if (this.testForEngineTweaked()) document.body.classList.add("engine_settings_tweaked");
     else document.body.classList.remove("engine_settings_tweaked");
 
-    if (this.lastDocumentOptionChange + 2000 > new Date().getTime()) return;
+    if (this.lastDocumentOptionChange + 300 > new Date().getTime()) {
+      clearTimeout(this.paintOptionsDebounceTimer);
+      this.paintOptionsDebounceTimer = setTimeout(() => this.paintDocumentOptions(), 300);
+      return;
+    };
 
     this.docfield_model.value = this.gameData.model;
 
