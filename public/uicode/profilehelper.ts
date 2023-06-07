@@ -24,7 +24,6 @@ export default class ProfileHelper {
     chat_token_usage_display: any;
     profile_text_large_checkbox: any;
     profile_text_monospace_checkbox: any;
-    markdown_completion_display_checkbox: any;
     profile_text_lessdetail_checkbox: any;
     lastLabelsSave = 0;
     noLabelSave = true;
@@ -51,7 +50,6 @@ export default class ProfileHelper {
         this.profile_display_image_clear = document.querySelector(".profile_display_image_clear");
         this.randomize_name = document.querySelector(".randomize_name");
         this.profile_text_monospace_checkbox = document.querySelector(".profile_text_monospace_checkbox");
-        this.markdown_completion_display_checkbox = document.querySelector(".markdown_completion_display_checkbox");
         this.profile_text_lessdetail_checkbox = document.querySelector(".profile_text_lessdetail_checkbox");
         this.profile_text_large_checkbox = document.querySelector(".profile_text_large_checkbox");
         this.profile_display_image_randomize = document.querySelector(".profile_display_image_randomize");
@@ -84,7 +82,6 @@ export default class ProfileHelper {
         this.randomize_name.addEventListener("click", () => this.randomizeProfileName());
         this.prompt_for_new_user_name.addEventListener("click", () => this.saveProfileField("name"));
         this.profile_text_monospace_checkbox.addEventListener("input", () => this.saveProfileField("monospace"));
-        this.markdown_completion_display_checkbox.addEventListener("input", () => this.saveProfileField("markdownDisplay"));
         this.profile_text_large_checkbox.addEventListener("input", () => this.saveProfileField("largetext"));
         this.show_modal_profile_help.addEventListener("click", () => this.app.helpHelper.show("profile"));
         this.profile_text_lessdetail_checkbox.addEventListener("click", () => this.saveProfileField("lessdetail"));
@@ -155,12 +152,6 @@ export default class ProfileHelper {
                                     <input class="form-check-input profile_text_lessdetail_checkbox" type="checkbox"
                                         value="">
                                     Less Details
-                                </label>
-                                &nbsp;
-                                <label class="form-check-label">
-                                    <input class="form-check-input markdown_completion_display_checkbox" type="checkbox"
-                                        value="">
-                                    Markdown
                                 </label>
                             </div>
                             <hr>
@@ -369,10 +360,6 @@ export default class ProfileHelper {
             this.app.profile.textOptionsMonospace = this.profile_text_monospace_checkbox.checked;
             updatePacket.textOptionsMonospace = this.app.profile.textOptionsMonospace;
         }
-        if (fieldType === "markdownDisplay") {
-            this.app.profile.markdownDisplay = this.markdown_completion_display_checkbox.checked;
-            updatePacket.markdownDisplay = this.app.profile.markdownDisplay;
-        }
         if (fieldType === "largetext") {
             this.app.profile.textOptionsLarge = this.profile_text_large_checkbox.checked;
             updatePacket.textOptionsLarge = this.app.profile.textOptionsLarge;
@@ -520,7 +507,6 @@ export default class ProfileHelper {
 
         this.profile_text_large_checkbox.checked = (this.app.profile.textOptionsLarge === true);
         this.profile_text_monospace_checkbox.checked = (this.app.profile.textOptionsMonospace === true);
-        this.markdown_completion_display_checkbox.checked = (this.app.profile.markdownDisplay === true);
         this.updateImageDisplay();
         this.updateTokenUsage();
         this.profile_show_modal.click();

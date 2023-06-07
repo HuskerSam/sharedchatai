@@ -45,7 +45,6 @@ export class ChatRoomApp extends BaseApp {
   documentsLookup: any = {};
   lastDocumentOptionChange = 0;
   debounceTimeout: any = null;
-  markdownCurrentFormat: any = null;
   ticket_stats: any = document.querySelector(".ticket_stats");
   defaultUIEngineSettings: any = {
     model: "gpt-3.5-turbo",
@@ -309,12 +308,16 @@ export class ChatRoomApp extends BaseApp {
               assistSection.innerHTML = result;
             } else {
               let completionDisplay = "";
-              const completionRawText = assistData.assist.choices["0"].message.content;
-              if (this.profile.markdownDisplay) {
-                completionDisplay = this.markdownConverter.makeHtml(completionRawText);
-              } else {
-                completionDisplay = BaseApp.escapeHTML(completionRawText);
-              }
+              let completionRawText = assistData.assist.choices["0"].message.content;
+              const markDownPieces = completionRawText.split("```");
+              const l = markDownPieces.length;
+              markDownPieces.forEach((responseFrag: string, index: number) => {
+                if (index % 2 === 1 && index < l - 1) {
+                  completionDisplay += "" + this.markdownConverter.makeHtml("```" + responseFrag + "```\n") + "";
+                } else {
+                  completionDisplay += BaseApp.escapeHTML(responseFrag);
+                }
+              })
               assistSection.innerHTML = completionDisplay;
 
               totalSpan.innerHTML = assistData.assist.usage.total_tokens;
@@ -756,11 +759,6 @@ export class ChatRoomApp extends BaseApp {
         if (this.gameSubscription) this.gameSubscription();
         this.gameSubscription = firebase.firestore().doc(`Games/${this.currentGame}`)
           .onSnapshot((doc: any) => this.paintGameData(doc));
-      }
-
-      if (this.profile.markdownDisplay !== this.markdownCurrentFormat) {
-        this.markdownCurrentFormat = this.profile.markdownDisplay;
-        this.updateAssistsFeed();
       }
     }
   }
