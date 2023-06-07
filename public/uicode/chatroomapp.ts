@@ -50,6 +50,7 @@ export class ChatRoomApp extends BaseApp {
   copyTicketCache: any = {};
   ticket_stats: any = document.querySelector(".ticket_stats");
   updateAssistFeedTimeout: any = null;
+  excludingTicketsRunning = false;
   defaultUIEngineSettings: any = {
     model: "gpt-3.5-turbo",
     max_tokens: 500,
@@ -129,7 +130,6 @@ export class ChatRoomApp extends BaseApp {
     // redraw message feed to update time since values
     setInterval(() => this.updateTimeSince(this.tickets_list), this.timeSinceRedraw);
 
-    document.addEventListener("visibilitychange", () => this.refreshOnlinePresence());
     this.ticket_content_input.addEventListener("input", () => this.updatePromptTokenStatus());
     this.show_document_options_modal.addEventListener("click", () => {
       this.show_document_options_popup.click();
@@ -272,7 +272,6 @@ export class ChatRoomApp extends BaseApp {
   }
   /** paint user message feed
  * @param { any } snapshot firestore query data snapshot
- * @param { boolean } runWithoutTimeOut throttle the redraws - only update once every 50ms
  */
   updateAssistsFeed(snapshot: any = null) {
     if (!window.hljs || !window.hljs.highlightElement) {
@@ -316,8 +315,7 @@ export class ChatRoomApp extends BaseApp {
               }
               assistSection.innerHTML = result;
             } else {
-              let completionRawText = assistData.assist.choices["0"].message.content;
-
+              const completionRawText = assistData.assist.choices["0"].message.content;
               const markDownPieces = completionRawText.split("```");
               const l = markDownPieces.length;
               assistSection.innerHTML = "";
@@ -328,12 +326,12 @@ export class ChatRoomApp extends BaseApp {
                   const htmlForMarkdown = this.markdownConverter.makeHtml("```" + responseFrag + "```");
 
                   const sectionDiv = document.createElement("div");
-                  sectionDiv.innerHTML = `<div class="code_block_wrapper">`
-                    + htmlForMarkdown + "</div>";
+                  sectionDiv.innerHTML = `<div class="code_block_wrapper">` +
+                    htmlForMarkdown + "</div>";
 
                   window.hljs.configure({
                     ignoreUnescapedHTML: true,
-                  })
+                  });
                   window.hljs.highlightElement(sectionDiv.children[0]);
                   const btn = document.createElement("button");
                   btn.setAttribute("fragmentid", fragmentId);
@@ -356,7 +354,7 @@ export class ChatRoomApp extends BaseApp {
                   const buttonText = `<i class="material-icons">content_copy</i>`;
                   btn.innerHTML = "✅" + buttonText;
                   setTimeout(() => btn.innerHTML = buttonText, 1200);
-                })
+                });
               });
 
               this.copyResponseCache[ticketId] = completionRawText;
@@ -376,7 +374,10 @@ export class ChatRoomApp extends BaseApp {
               totalSpan.innerHTML = assistData.assist.usage.total_tokens;
               promptSpan.innerHTML = assistData.assist.usage.prompt_tokens;
               completionSpan.innerHTML = assistData.assist.usage.completion_tokens;
-              if (assistData.assist.usage.completion_tokens >= this.gameData.max_tokens) {
+
+              let responseCap = this.gameData.max_tokens;
+              if (ticketData.max_tokens !== undefined) responseCap = ticketData.max_tokens;
+              if (assistData.assist.usage.completion_tokens >= responseCap) {
                 completionSpan.classList.add("completion_max_tokens_reached");
               } else {
                 completionSpan.classList.remove("completion_max_tokens_reached");
@@ -610,9 +611,6 @@ export class ChatRoomApp extends BaseApp {
                   style="background-image:url(${img})"></span>
               <span class="ticket_owner_name" data-ticketowneruid="${data.uid}">${name}</span>
             </div>
-            <div class="ps-3">
-              <div class="time_since last_submit_time" data-timesince="${data.submitted}" data-showseconds="1"></div>
-            </div>
           </div>
           <button class="rerun_ticket btn btn-secondary" data-ticketid="${ticketId}"><i
                   class="material-icons">loop</i></button>
@@ -621,7 +619,7 @@ export class ChatRoomApp extends BaseApp {
               <i class="material-icons">delete</i>
           </button>
           <div class="tokens_total_since_wrapper">
-        
+            <div class="time_since last_submit_time" data-timesince="${data.submitted}" data-showseconds="1"></div>
             <div class="tokens_total"></div>
           </div>
           <div>
@@ -963,11 +961,11 @@ export class ChatRoomApp extends BaseApp {
         this.desktop_sidebar_menu_wrapper.appendChild(this.sidebar_tree_menu);
         this.left_panel_view.insertBefore(this.menu_nav_bar, this.left_panel_view.firstChild);
         document.body.classList.remove("mobile_layout_mode");
-        this.menu_nav_bar.classList.remove("fixed-top")
+        this.menu_nav_bar.classList.remove("fixed-top");
       } else {
         this.mobile_sidebar_Menu_Layout_container.appendChild(this.sidebar_tree_menu);
         document.body.insertBefore(this.menu_nav_bar, document.body.firstChild);
-        this.menu_nav_bar.classList.add("fixed-top")
+        this.menu_nav_bar.classList.add("fixed-top");
         document.body.classList.add("mobile_layout_mode");
       }
       this.mobileLayoutCache = desktopView;
@@ -1033,6 +1031,9 @@ export class ChatRoomApp extends BaseApp {
    */
   autoExcludeTicketsToMeetThreshold(currentTicketId: any = null) {
     if (!this.isOverSendThreshold()) return;
+    if (this.excludingTicketsRunning) return;
+    this.excludingTicketsRunning = true;
+    document.body.classList.add("exclude_tickets_running");
     let tokenReduction = this.includeTotalTokens + this.gameData.max_tokens + this.lastInputTokenCount - 4050;
 
     const tickets: Array<any> = [];
@@ -1054,6 +1055,11 @@ export class ChatRoomApp extends BaseApp {
         }
       }
     });
+
+    setTimeout(() => {
+      this.excludingTicketsRunning = false;
+      document.body.classList.remove("exclude_tickets_running");
+    }, 500);
   }
   /**
    * @return { boolean } true if engine is not default

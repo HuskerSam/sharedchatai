@@ -47,6 +47,9 @@ export default class ChatAI {
             return BaseClass.respondError(res, "User not found");
         }
 
+        /* eslint-disable camelcase */
+        const defaults = BaseClass.defaultChatDocumentOptions();
+        const max_tokens = BaseClass.getNumberOrDefault(gameData.max_tokens, defaults.max_tokens);
         const isOwner = uid === gameData.createUser;
         // const chatGptKey = ownerProfile.chatGptKey;
         const chatGptKey = localInstance.privateConfig.chatGPTKey;
@@ -68,6 +71,7 @@ export default class ChatAI {
 
             await firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${reRunticket}`).set({
                 submitted,
+                max_tokens,
             }, {
                 merge: true,
             });
@@ -83,6 +87,7 @@ export default class ChatAI {
                 isOwner,
                 memberName,
                 memberImage,
+                max_tokens,
                 includeInMessage: true,
             };
             const addResult: any = await firebaseAdmin.firestore().collection(`Games/${gameNumber}/tickets`).add(ticket);

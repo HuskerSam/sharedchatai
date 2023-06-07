@@ -27,8 +27,8 @@ html {
 
 .members_feed_profile_image {
   display: inline-block;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   background-position: center center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -88,6 +88,11 @@ html {
 
 .game_message_list_item {
   overflow: hidden;
+  padding-bottom: 16px;
+}
+
+.game_message_list_item hr {
+  margin-top: 0;
 }
 
 .game_message_list_item .delete_ticket {
@@ -396,6 +401,11 @@ ul.recent_documents_list li a {
   border-color: rgb(120, 255, 120);
 }
 
+.exclude_tickets_running .exclude_tickets_button {
+  background-color: rgba(0,0,0,1);
+  border-color: rgba(0,0,0,1);
+}
+
 .over_token_sendlimit .send_ticket_button {
   background-color: rgb(140, 140, 0);
   color: white;
@@ -500,13 +510,12 @@ ul.recent_documents_list li a {
   margin-left: 8px;
   margin-right: 2px;
   display: inline-block;
-  width: 16px;
-  height: 16px;
+  width: 32px;
+  height: 32px;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
   position: relative;
-  top: -7px;
 }
 
 .ticket_owner_name {
@@ -699,7 +708,7 @@ pre code {
   background: none;
   position: absolute;
   color: rgb(240, 240, 240);
-  right: 4px;
+  right: 8px;
   top: 0;
 }
 
