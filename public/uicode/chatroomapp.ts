@@ -46,6 +46,8 @@ export class ChatRoomApp extends BaseApp {
   lastDocumentOptionChange = 0;
   debounceTimeout: any = null;
   fragmentCache: any = {};
+  copyResponseCache: any = {};
+  copyTicketCache: any = {};
   ticket_stats: any = document.querySelector(".ticket_stats");
   defaultUIEngineSettings: any = {
     model: "gpt-3.5-turbo",
@@ -343,13 +345,27 @@ export class ChatRoomApp extends BaseApp {
 
               assistSection.querySelectorAll(".copy_code_block_button").forEach((btn: any) => {
                 btn.addEventListener("click", () => {
-                  const data = decodeURIComponent(this.fragmentCache[btn.getAttribute("fragmentid")]);
+                  const data = this.fragmentCache[btn.getAttribute("fragmentid")];
                   navigator.clipboard.writeText(data);
                   const buttonText = `<i class="material-icons">content_copy</i>`;
                   btn.innerHTML = "✅" + buttonText;
                   setTimeout(() => btn.innerHTML = buttonText, 1200);
                 })
-              })
+              });
+
+              this.copyResponseCache[ticketId] = completionRawText;
+              const btn = document.createElement("button");
+              btn.setAttribute("ticketid", ticketId);
+              btn.setAttribute("class" , "copy_response_block_button btn btn-secondary");
+              btn.innerHTML = `<i class="material-icons">content_copy</i>`;
+              assistSection.appendChild(btn);
+              btn.addEventListener("click", () => {
+                const data = this.copyResponseCache[<any>btn.getAttribute("ticketid")];
+                navigator.clipboard.writeText(data);
+                const buttonText = `<i class="material-icons">content_copy</i>`;
+                btn.innerHTML = "✅" + buttonText;
+                setTimeout(() => btn.innerHTML = buttonText, 1200);
+              });
 
               totalSpan.innerHTML = assistData.assist.usage.total_tokens;
               promptSpan.innerHTML = assistData.assist.usage.prompt_tokens;
@@ -608,6 +624,7 @@ export class ChatRoomApp extends BaseApp {
           </div>
       </div>
       <div class="ticket_header_section">
+          <button class="copy_ticket_to_clipboard btn btn-secondary"><i class="material-icons">content_copy</i></button>
           <div class="message">${BaseApp.escapeHTML(data.message)}</div>
       </div>
       <div class="assist_section_wrapper">
@@ -617,6 +634,14 @@ export class ChatRoomApp extends BaseApp {
   </div>`;
     cardWrapper.innerHTML = cardHTML;
     const cardDom = cardWrapper.children[0];
+
+    const copyClipboardBtn: any = cardDom.querySelector(".copy_ticket_to_clipboard");
+    copyClipboardBtn.addEventListener("click", () => {
+      navigator.clipboard.writeText(data.message);
+      const buttonText = `<i class="material-icons">content_copy</i>`;
+      copyClipboardBtn.innerHTML = "✅" + buttonText;
+      setTimeout(() => copyClipboardBtn.innerHTML = buttonText, 1200);
+    });
 
     const deleteBtn: any = cardDom.querySelector("button.delete_ticket");
     deleteBtn.addEventListener("click", () =>

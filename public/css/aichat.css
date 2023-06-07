@@ -150,6 +150,7 @@ body, html {
   margin-right: 0;
   margin-left: 0;
   color: rgb(150, 255, 150);
+  position: relative;
 }
 
 .gutter {
@@ -661,6 +662,7 @@ pre code {
   position: absolute;
   top: 12px;
   right: 12px;
+  background: none;
 }
 
 .copy_code_block_button i {
@@ -670,4 +672,29 @@ pre code {
 
 .code_block_wrapper {
   position: relative;
+}
+
+.copy_response_block_button {
+  position: absolute;
+  bottom: 0px;
+  background: none;
+  font-size: 0.8em;
+  right: 4px;
+}
+
+.copy_response_block_button i {
+  position: relative;
+  top: 4px;
+}
+
+.copy_ticket_to_clipboard {
+  background: none;
+  position: absolute;
+  right: 4px;
+  top: 0;
+}
+
+.copy_ticket_to_clipboard i {
+  position: relative;
+  top: 4px;
 }
