@@ -167,6 +167,7 @@
 .show_document_owner_options_help,
 .show_export_tickets_help {
   background: none;
+  border-color: transparent;
 }
 
 .show_create_dialog_help {
