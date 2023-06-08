@@ -137,6 +137,7 @@
   font-size: 1.1em;
   line-height: 1.75em;
   padding-right: 8px;
+  border-color: transparent;
 }
 
 .help_helper_wrapper li {
@@ -155,6 +156,7 @@
   position: absolute;
   right: 5px;
   top: 0px;
+  border-color: transparent;
 }
 
 .show_modal_profile_help {

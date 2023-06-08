@@ -841,10 +841,9 @@ export class ChatRoomApp extends BaseApp {
     if (!this.gameData) return;
 
     document.body.classList.add("loaded");
-    BaseApp.setHTML(this.document_usage_stats_line, `
-      <span>${this.gameData.totalTokens}</span>
-      <span>${this.gameData.promptTokens}</span>
-      <span>${this.gameData.completionTokens}</span>
+    BaseApp.setHTML(this.document_usage_stats_line, `&nbsp;Prompt: 
+      <span>${this.gameData.promptTokens}</span> &nbsp;
+      Completion: <span>${this.gameData.completionTokens}</span>
     `);
 
     BaseApp.setHTML(this.document_menutop_usage_stats_line, `<span class="usage">${this.gameData.totalTokens}</span> Usage`);

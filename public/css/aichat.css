@@ -229,6 +229,7 @@ html {
   margin-top: -4px;
   position: relative;
   top: 8px;
+  border-color: transparent;
 }
 
 .show_document_options_modal {
@@ -427,6 +428,7 @@ pre code {
 .show_document_options_help {
   right: 8px;
   top: 0;
+  border-color: transparent;
 }
 
 .show_document_options_modal i,
@@ -760,4 +762,8 @@ pre code {
 .ticket_user_display_header {
   position: relative;
   top: -6px;
+}
+
+.document_usage_stats_line {
+  text-align: center;
 }

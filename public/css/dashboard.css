@@ -271,6 +271,7 @@ button.code_link {
 .show_dashboard_help_button {
   background: none;
   margin-right: 10px;
+  border-color: transparent;
 }
 
 .dashboard_item_flex_wrapper {
