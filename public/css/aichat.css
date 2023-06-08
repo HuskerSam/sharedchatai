@@ -776,3 +776,7 @@ pre code {
     display: none;
   }
 }
+
+.show_create_modal_on_bar {
+  padding-top: 4px;
+}
