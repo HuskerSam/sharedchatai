@@ -426,6 +426,7 @@ pre code {
 
 .show_document_options_help {
   right: 8px;
+  top: 0;
 }
 
 .show_document_options_modal i,

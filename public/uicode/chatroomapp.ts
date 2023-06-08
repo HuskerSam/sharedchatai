@@ -45,7 +45,7 @@ export class ChatRoomApp extends BaseApp {
   markdownConverter = new window.showdown.Converter();
   documentsLookup: any = {};
   lastDocumentOptionChange = 0;
-  debounceTimeout: any = null;
+  sliderChangeDebounceTimeout: any = null;
   fragmentCache: any = {};
   copyResponseCache: any = {};
   copyTicketCache: any = {};
@@ -143,7 +143,7 @@ export class ChatRoomApp extends BaseApp {
     this.docfield_temperature.addEventListener("input", () => this.optionSliderChange(true, "temperature",
       this.docfield_temperature, this.temperature_slider_label, "Temperature: "));
     this.docfield_top_p.addEventListener("input", () => this.optionSliderChange(true, "top_p",
-      this.docfield_top_p, this.top_p_slider_label, "Top p: "));
+      this.docfield_top_p, this.top_p_slider_label, "Top P: "));
     this.docfield_presence_penalty.addEventListener("input", () => this.optionSliderChange(true, "presence_penalty",
       this.docfield_presence_penalty, this.presence_penalty_slider_label, "Presence Penalty: "));
     this.docfield_frequency_penalty.addEventListener("input", () => this.optionSliderChange(true, "frequency_penalty",
@@ -206,11 +206,12 @@ export class ChatRoomApp extends BaseApp {
     BaseApp.setHTML(sliderLabel, prefix + sliderCtl.value);
 
     if (saveToAPI) {
-      clearTimeout(this.debounceTimeout);
+      clearTimeout(this.sliderChangeDebounceTimeout);
       this.lastDocumentOptionChange = new Date().getTime();
-      this.debounceTimeout = setTimeout(() => {
+      this.sliderChangeDebounceTimeout = setTimeout(() => {
+        this.lastDocumentOptionChange = new Date().getTime();
         this.saveDocumentOption(sliderField, Number(sliderCtl.value));
-      }, 75);
+      }, 300);
     }
   }
   /** setup data listender for user messages */
@@ -907,7 +908,7 @@ export class ChatRoomApp extends BaseApp {
       const json = await fResult.json();
       console.log("change game options result", json);
     }
-    this.paintDocumentOptions();
+    setTimeout(() => this.paintDocumentOptions(), 500);
   }
   /** member data for a user
    * @param { string } uid user id
@@ -939,9 +940,9 @@ export class ChatRoomApp extends BaseApp {
     if (this.testForEngineTweaked()) document.body.classList.add("engine_settings_tweaked");
     else document.body.classList.remove("engine_settings_tweaked");
 
-    if (this.lastDocumentOptionChange + 300 > new Date().getTime()) {
+    if (this.lastDocumentOptionChange + 1000 > new Date().getTime()) {
       clearTimeout(this.paintOptionsDebounceTimer);
-      this.paintOptionsDebounceTimer = setTimeout(() => this.paintDocumentOptions(), 300);
+      this.paintOptionsDebounceTimer = setTimeout(() => this.paintDocumentOptions(), 50);
       return;
     }
 
@@ -952,10 +953,10 @@ export class ChatRoomApp extends BaseApp {
       this.docfield_max_tokens, this.max_tokens_slider_label, "Completion Tokens: ");
     this.docfield_temperature.value = this.gameData.temperature;
     this.optionSliderChange(false, "temperature",
-      this.docfield_temperature, this.temperature_slider_label, "temperature: ");
+      this.docfield_temperature, this.temperature_slider_label, "Temperature: ");
     this.docfield_top_p.value = this.gameData.top_p;
     this.optionSliderChange(false, "top_p",
-      this.docfield_top_p, this.top_p_slider_label, "top_p: ");
+      this.docfield_top_p, this.top_p_slider_label, "Top p: ");
     this.docfield_presence_penalty.value = this.gameData.presence_penalty;
     this.optionSliderChange(false, "presence_penalty",
       this.docfield_presence_penalty, this.presence_penalty_slider_label, "Presence Penalty: ");
@@ -1122,5 +1123,6 @@ export class ChatRoomApp extends BaseApp {
       const json = await fResult.json();
       console.log("reset options failed", json);
     }
+    setTimeout(() => this.paintDocumentOptions(), 500);
   }
 }
