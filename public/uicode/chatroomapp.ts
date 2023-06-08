@@ -395,7 +395,7 @@ export class ChatRoomApp extends BaseApp {
 
         const lastSubmit: any = card.querySelector(`.last_submit_time`);
         if (ticketRunning) {
-          BaseApp.setHTML(assistSection, "Pending...");
+          BaseApp.setHTML(assistSection, "Prompt sent to OpenAI for processing...");
           card.classList.add("ticket_running");
           lastSubmit.dataset.showseconds = "1";
           this.ticketIsPending = true;
@@ -640,7 +640,7 @@ export class ChatRoomApp extends BaseApp {
       </div>
       <div class="assist_section_wrapper">
           <div class="tokens_completion"></span></div>
-          <div class="assist_section">Pending...</div>
+          <div class="assist_section">Prompt sent to OpenAI for processing...</div>
       </div>
   </div>`;
     cardWrapper.innerHTML = cardHTML;
