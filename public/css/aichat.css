@@ -461,7 +461,6 @@ pre code {
 
 .send_bar_send_button_wrapper {
   text-align: center;
-  width: 100px;
   flex-direction: column;
   display: flex;
   padding-right: 8px;
@@ -481,6 +480,9 @@ pre code {
 .send_ticket_button {
   padding-top: 10px;
   padding-bottom: 10px;
+  padding-left: 0px;
+  padding-right: 0px;
+  width: 65px;
 }
 
 .exclude_tickets_button {
@@ -613,7 +615,7 @@ pre code {
 
 .ticket_owner_name {
   position: relative;
-  top: -8px;
+  top: -10px;
   max-width: 100px;
   display: inline-block;
   white-space: nowrap;
