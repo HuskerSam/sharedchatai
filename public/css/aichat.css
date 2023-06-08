@@ -16,6 +16,7 @@ html {
 
 .tickets_list {
   display: block;
+  padding-top: 8px;
 }
 
 .document_feed_view {

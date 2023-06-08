@@ -7,6 +7,7 @@ import fetch from "node-fetch";
 import {
     encode,
 } from "gpt-3-encoder";
+import GameAPI from "./gameapi";
 
 /** Match game specific turn logic wrapped in a transaction */
 export default class ChatAI {
@@ -20,7 +21,6 @@ export default class ChatAI {
 
         const uid = authResults.uid;
         const gameNumber = req.body.gameNumber;
-
         const reRunticket: any = req.body.reRunTicket;
         let message = req.body.message;
         if (message) {
@@ -318,6 +318,47 @@ export default class ChatAI {
 
         return packet;
     }
+    static async submitOpenAIRequest(aiRequest: any, submitted: string, chatGptKey: string): Promise<any> {
+        return new Promise(async (res: any) => {
+            try {
+                const timeoutTest = setTimeout(() => {
+                    res({
+                        success: false,
+                        created: new Date().toISOString(),
+                        error: "5 minute response timeout reached",
+                        submitted,
+                    });
+                }, 4.9 * 60 * 1000);
+
+                const response: any = await fetch(`https://api.openai.com/v1/chat/completions`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + chatGptKey,
+                    },
+                    body: JSON.stringify(aiRequest),
+                });
+                const assist: any = await response.json();
+                const aiResponse = {
+                    success: true,
+                    created: new Date().toISOString(),
+                    assist,
+                    submitted,
+                };
+                clearTimeout(timeoutTest);
+                res(aiResponse);
+
+            } catch (aiRequestError: any) {
+                const aiResponse = {
+                    success: false,
+                    created: new Date().toISOString(),
+                    error: aiRequestError.message,
+                    submitted,
+                };
+                res(aiResponse)
+            }
+        });
+    }
     /** submit ticket to AI engine and store response in /games/{gameid}/assists/{ticketid}
      * @param { any } packet message details
      * @param { any } gameData game doc
@@ -329,57 +370,27 @@ export default class ChatAI {
      */
     static async _processTicket(packet: any, gameData: any, ticketData: any,
         id: string, chatGptKey: string, submitted: string): Promise<void> {
-        let aiResponse: any = {};
         let total_tokens = 0;
         let prompt_tokens = 0;
         let completion_tokens = 0;
 
-        try {
-            if (gameData.archived) {
-                throw new Error("Submit Blocked: Document is set to archived");
-            }
 
-            const usageLimit = BaseClass.getNumberOrDefault(gameData.tokenUsageLimit, 0);
-            const documentUsed = BaseClass.getNumberOrDefault(gameData.totalTokens, 0);
-            if (usageLimit > 0 && documentUsed >= usageLimit) {
-                throw new Error("Submit Blocked: Document Usage Limit Reached");
-            }
+        if (gameData.archived) {
+            throw new Error("Submit Blocked: Document is set to archived");
+        }
 
-            const response: any = await fetch(`https://api.openai.com/v1/chat/completions`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + chatGptKey,
-                },
-                body: JSON.stringify(packet.aiRequest),
-            });
+        const usageLimit = BaseClass.getNumberOrDefault(gameData.tokenUsageLimit, 0);
+        const documentUsed = BaseClass.getNumberOrDefault(gameData.totalTokens, 0);
+        if (usageLimit > 0 && documentUsed >= usageLimit) {
+            throw new Error("Submit Blocked: Document Usage Limit Reached");
+        }
 
-            const assist: any = await response.json();
-            aiResponse = {
-                success: true,
-                created: new Date().toISOString(),
-                assist,
-                submitted,
-            };
-            /*
-            if (!assist.error) {
-                lastResponse = aiResponse.assist.choices["0"].message.content;
-            } else {
-                lastResponse = "error";
-            }
-            */
-            if (assist.usage) {
-                total_tokens = BaseClass.getNumberOrDefault(assist.usage.total_tokens, 0);
-                prompt_tokens = BaseClass.getNumberOrDefault(assist.usage.prompt_tokens, 0);
-                completion_tokens = BaseClass.getNumberOrDefault(assist.usage.completion_tokens, 0);
-            }
-        } catch (aiRequestError: any) {
-            aiResponse = {
-                success: false,
-                created: new Date().toISOString(),
-                error: aiRequestError.message,
-                submitted,
-            };
+        const aiResponse = await ChatAI.submitOpenAIRequest(packet.aiRequest, submitted, chatGptKey);
+
+        if (aiResponse.assist && aiResponse.assist.usage) {
+            total_tokens = BaseClass.getNumberOrDefault(aiResponse.assist.usage.total_tokens, 0);
+            prompt_tokens = BaseClass.getNumberOrDefault(aiResponse.assist.usage.prompt_tokens, 0);
+            completion_tokens = BaseClass.getNumberOrDefault(aiResponse.assist.usage.completion_tokens, 0);
         }
 
         const today = new Date().toISOString();
@@ -418,7 +429,7 @@ export default class ChatAI {
                     ["completion_" + yearFrag]: FieldValue.increment(completion_tokens),
                     ["completion_" + yearMonthFrag]: FieldValue.increment(completion_tokens),
                     ["completion_" + ymdFrag]: FieldValue.increment(completion_tokens),
-               },
+                },
             }, {
                 merge: true,
             }),
