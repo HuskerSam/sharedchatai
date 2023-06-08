@@ -902,6 +902,7 @@ export class ChatRoomApp extends BaseApp {
       const json = await fResult.json();
       console.log("change game options result", json);
     }
+    this.paintDocumentOptions();
   }
   /** member data for a user
    * @param { string } uid user id
