@@ -829,6 +829,8 @@ export class ChatRoomApp extends BaseApp {
         this.gameSubscription = firebase.firestore().doc(`Games/${this.currentGame}`)
           .onSnapshot((doc: any) => this.paintGameData(doc));
       }
+
+      setTimeout(() => this._updateGameMembersList(), 1000);
     }
   }
   /** paint game data (game document change handler)
@@ -851,11 +853,8 @@ export class ChatRoomApp extends BaseApp {
 
     this.paintDocumentOptions();
     this._updateGameMembersList();
-    this.updateUserNamesImages();
     setTimeout(() => {
       this._updateGameMembersList();
-      this.updateUserNamesImages();
-      this.updateUserPresence();
     }, 100);
     this.updateUserPresence();
     this.updatePromptTokenStatus();
@@ -882,6 +881,8 @@ export class ChatRoomApp extends BaseApp {
           </div>
         </li>`;
       });
+      this.updateUserNamesImages();
+      this.updateUserPresence();
     }
     BaseApp.setHTML(this.members_list, html);
   }
