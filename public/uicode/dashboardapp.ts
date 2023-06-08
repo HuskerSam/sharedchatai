@@ -143,7 +143,7 @@ export class DashboardApp extends BaseApp {
 
         const usageDom = card.querySelector(".document_usage");
         let usage: string = doc.data().completionTokens;
-        if (!usage) usage = "";
+        if (!usage) usage = "&nbsp;";
         usageDom.innerHTML = usage;
 
         const sharedStatus = this.getDocumentSharedStatus(doc.data());
@@ -209,10 +209,12 @@ export class DashboardApp extends BaseApp {
             group
           </span>
         </div>
-        <div class="document_name" data-docid="${doc.id}"></div> 
-        <div class="document_usage" data-docid="${doc.id}"></div> 
-        <div class="document_status time_since last_submit_time" data-timesince="${data.lastActivity}"
-        data-showseconds="0"></div>
+        <div class="document_name" data-docid="${doc.id}"></div>
+        <div class="session_sidebar_wrapper">
+          <div class="document_usage" data-docid="${doc.id}"></div> 
+          <div class="document_status time_since last_submit_time" data-timesince="${data.lastActivity}"
+            data-showseconds="0"></div>
+        </div>
         <div>
         <button class="details_game btn btn-secondary" data-gamenumber="${data.gameNumber}">
           <i class="material-icons">settings</i>

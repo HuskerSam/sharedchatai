@@ -357,7 +357,7 @@ export default class BaseApp {
       } else {
         dateDisplay = this.timeSince(new Date(isoTime), (showSeconds === "1")).replaceAll(" ago", "");
       }
-      ctl.innerHTML = dateDisplay;
+      if (ctl.innerHTML !== dateDisplay) ctl.innerHTML = dateDisplay;
     });
   }
   /** escape html
