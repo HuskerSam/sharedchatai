@@ -167,7 +167,7 @@ export default class DocOptionsHelper {
     copyGameLink() {
         navigator.clipboard.writeText(window.location.origin + "/aichat/?game=" + this.chatDocumentId);
         const buttonText = `<i class="material-icons">content_copy</i> <span>Link</span>`;
-        this.code_link_copy.innerHTML = "✅" + buttonText;
+        this.code_link_copy.innerHTML = "✅ " + buttonText;
         setTimeout(() => this.code_link_copy.innerHTML = buttonText, 1200);
     }
     /** copy export text area to clipboard */
@@ -185,7 +185,7 @@ export default class DocOptionsHelper {
             navigator.clipboard.writeText(this.lastReportData.resultText);
         }
         const buttonText = `<i class="material-icons">content_copy</i>`;
-        this.copy_export_clipboard.innerHTML = "✅" + buttonText;
+        this.copy_export_clipboard.innerHTML = "✅ " + buttonText;
         setTimeout(() => this.copy_export_clipboard.innerHTML = buttonText, 1200);
     }
     /** detect if chatroom view
@@ -594,7 +594,7 @@ export default class DocOptionsHelper {
             tickets.forEach((ticket: any) => {
                 const prompt = BaseApp.escapeHTML(ticket.data().message);
                 const completion = BaseApp.escapeHTML(this.messageForCompletion(ticket.id));
-                const selected = ticket.data().includeInMessage ? "✅" : "&nbsp;";
+                const selected = ticket.data().includeInMessage ? "✅ " : "&nbsp;";
 
                 resultText += `<div class="ticket-item">\n`;
                 resultText += `    <div class="prompt-text">${selected} ${prompt}</div>\n`;

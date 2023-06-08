@@ -356,7 +356,7 @@ export class ChatRoomApp extends BaseApp {
                   const data = this.fragmentCache[btn.getAttribute("fragmentid")];
                   navigator.clipboard.writeText(data);
                   const buttonText = `<i class="material-icons">content_copy</i>`;
-                  btn.innerHTML = "✅" + buttonText;
+                  btn.innerHTML = "✅ " + buttonText;
                   setTimeout(() => btn.innerHTML = buttonText, 1200);
                 });
               });
@@ -371,7 +371,7 @@ export class ChatRoomApp extends BaseApp {
                 const data = this.copyResponseCache[<any>btn.getAttribute("ticketid")];
                 navigator.clipboard.writeText(data);
                 const buttonText = `<i class="material-icons">content_copy</i>`;
-                btn.innerHTML = "✅" + buttonText;
+                btn.innerHTML = "✅ " + buttonText;
                 setTimeout(() => btn.innerHTML = buttonText, 1200);
               });
 
@@ -652,7 +652,7 @@ export class ChatRoomApp extends BaseApp {
     copyClipboardBtn.addEventListener("click", () => {
       navigator.clipboard.writeText(data.message);
       const buttonText = `<i class="material-icons">content_copy</i>`;
-      copyClipboardBtn.innerHTML = "✅" + buttonText;
+      copyClipboardBtn.innerHTML = "✅ " + buttonText;
       setTimeout(() => copyClipboardBtn.innerHTML = buttonText, 1200);
     });
 
