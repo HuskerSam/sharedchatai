@@ -938,7 +938,7 @@ export class ChatRoomApp extends BaseApp {
       clearTimeout(this.paintOptionsDebounceTimer);
       this.paintOptionsDebounceTimer = setTimeout(() => this.paintDocumentOptions(), 300);
       return;
-    };
+    }
 
     this.docfield_model.value = this.gameData.model;
 
@@ -1088,7 +1088,7 @@ export class ChatRoomApp extends BaseApp {
     let fieldChanged = false;
     Object.keys(this.defaultUIEngineSettings).forEach((key) => {
       const value = this.defaultUIEngineSettings[key];
-      if (key !== 'model' && key !== 'max_tokens') {
+      if (key !== "model" && key !== "max_tokens") {
         if (value.toString() !== this.gameData[key].toString()) fieldChanged = true;
       }
     });
