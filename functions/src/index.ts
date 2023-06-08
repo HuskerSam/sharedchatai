@@ -13,7 +13,7 @@ gameAPIApp.set("view engine", "ejs");
 
 firebaseAdmin.initializeApp();
 const runtimeOpts: functions.RuntimeOptions = {
-    timeoutSeconds: 180,
+    timeoutSeconds: 300,
     memory: "128MB",
   };
 
