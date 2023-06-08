@@ -226,6 +226,10 @@ html {
   top: 8px;
 }
 
+.show_document_options_modal {
+  top: 16px;
+}
+
 .message_list_send_wrapper {
   position: relative;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, .7);
@@ -412,7 +416,7 @@ pre code {
 
 .show_document_options_help {
   right: 8px;
-  top: -4px;
+  top: -12px;
 }
 
 .show_document_options_modal i,
@@ -606,7 +610,6 @@ pre code {
   width: 10px;
 }
 
-.profile_text_option_large .sidebar_document_title, 
 .profile_text_option_large .game_message_list_item .message,
 .profile_text_option_large .game_message_list_item .assist_section,
 .profile_text_option_large .ticket_content_input,
@@ -616,10 +619,16 @@ pre code {
   margin-top: -6px;
 }
 
+.profile_text_option_large .sidebar_document_title {
+  font-size: 1.25em;
+  line-height: 1.75em; 
+  max-height: 3.5em;
+}
+
 .profile_text_option_monospace .game_message_list_item .message,
 .profile_text_option_monospace .game_message_list_item .assist_section,
 .profile_text_option_monospace .ticket_content_input {
-  font-family: monospace;
+  font-family: 'Lucida Sans', monospace;
 }
 
 .sidebar_tree_options_container {
@@ -672,7 +681,6 @@ pre code {
 }
 
 .header_usage_time_line {
-  margin-top: 4px;
   padding-top: 0px;
   line-height: 60px;
 }
