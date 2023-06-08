@@ -41,7 +41,7 @@ export class DashboardApp extends BaseApp {
     this.dashboard_create_game.addEventListener("click", () => this.documentCreate.show());
     this.document_label_filter.addEventListener("input", () => this.updateGamesFeed(null));
 
-    this.show_dashboard_help_button.addEventListener("click", () => this.helpHelper.show("document"));
+    this.show_dashboard_help_button.addEventListener("click", () => this.helpHelper.show("session"));
     this.profile_menu_anchor.addEventListener("click", (event: any) => {
       event.stopPropagation();
       event.preventDefault();

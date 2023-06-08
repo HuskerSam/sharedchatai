@@ -770,3 +770,9 @@ pre code {
 .document_usage_stats_line {
   text-align: center;
 }
+
+@media (min-width: 990px) {
+  .show_create_modal_on_bar {
+    display: none;
+  }
+}

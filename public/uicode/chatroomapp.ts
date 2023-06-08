@@ -113,6 +113,7 @@ export class ChatRoomApp extends BaseApp {
   sidebar_document_title: any = document.querySelector(".sidebar_document_title");
   show_overthreshold_dialog: any = document.querySelector(".show_overthreshold_dialog");
   show_token_threshold_dialog: any = document.querySelector(".show_token_threshold_dialog");
+  show_create_modal_on_bar: any = document.querySelector(".show_create_modal_on_bar");
 
   auto_run_overthreshold_ticket: any = document.querySelector(".auto_run_overthreshold_ticket");
 
@@ -138,7 +139,7 @@ export class ChatRoomApp extends BaseApp {
       this.documentOptions.show(this.currentGame, this.gameData);
     });
     this.show_document_options_help.addEventListener("click", () => this.helpHelper.show("engine"));
-    this.show_token_threshold_dialog.addEventListener("click", () => this.helpHelper.show("prompts"));
+    this.show_token_threshold_dialog.addEventListener("click", () => this.helpHelper.show("engine"));
 
     this.docfield_temperature.addEventListener("input", () => this.optionSliderChange(true, "temperature",
       this.docfield_temperature, this.temperature_slider_label, "Temperature: "));
@@ -175,6 +176,12 @@ export class ChatRoomApp extends BaseApp {
       this.profileHelper.show();
     });
     this.show_create_modal.addEventListener("click", (event: any) => {
+      event.stopPropagation();
+      event.preventDefault();
+
+      this.documentCreate.show();
+    });
+    this.show_create_modal_on_bar.addEventListener("click", (event: any) => {
       event.stopPropagation();
       event.preventDefault();
 
