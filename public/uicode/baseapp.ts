@@ -287,8 +287,8 @@ export default class BaseApp {
     });
   }
   /** register a uid to watch for online state
- * @param { string } uid user id
-*/
+   * @param { string } uid user id
+  */
   addUserPresenceWatch(uid: string) {
     if (!this.userPresenceStatusRefs[uid]) {
       this.userPresenceStatusRefs[uid] = firebase.database().ref("OnlinePresence/" + uid);

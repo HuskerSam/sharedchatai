@@ -856,7 +856,6 @@ export class ChatRoomApp extends BaseApp {
     setTimeout(() => {
       this._updateGameMembersList();
     }, 100);
-    this.updateUserPresence();
     this.updatePromptTokenStatus();
   }
   /** paint game members list */
@@ -881,10 +880,10 @@ export class ChatRoomApp extends BaseApp {
           </div>
         </li>`;
       });
-      this.updateUserNamesImages();
-      this.updateUserPresence();
     }
     BaseApp.setHTML(this.members_list, html);
+    this.updateUserNamesImages();
+    this.updateUserPresence();
   }
   /** save a single field to document
    * @param { string } field document field name
