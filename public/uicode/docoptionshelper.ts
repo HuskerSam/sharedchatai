@@ -107,7 +107,7 @@ export default class DocOptionsHelper {
             event.preventDefault();
             const exportData = this.generateExportData(true, true);
             const templateData = JSON.parse(exportData.resultText);
-            let fileName = this.app.gameData.title;
+            let fileName = this.docData.title;
             if (!fileName) fileName = "Cloned";
             const file = new File([JSON.stringify(templateData)], fileName, {
                 type: "application/json",
@@ -298,7 +298,7 @@ export default class DocOptionsHelper {
         <div class="modal-dialog app_panel">
             <div class="modal-content app_panel">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editDocumentModalLabel">Prompt History Options</h5>
+                    <h5 class="modal-title" id="editDocumentModalLabel">Prompt History Details</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
