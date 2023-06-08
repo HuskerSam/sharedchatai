@@ -22,6 +22,7 @@
   overflow: auto;
   border: solid rgb(50, 220, 50) 1px;
   padding: 4px;
+  background-color: rgb(52, 53, 65);
 }
 
 .json_preview .export_data_popup_preview,
@@ -98,9 +99,8 @@
   height: 125px;
 }
 
-.create_modal_note_field,
 .create_modal_title_field {
-  width: 100%;
+  width: calc(100% - 60px);
 }
 
 .code_link_href {
@@ -162,20 +162,17 @@
   position: static;
 }
 
-.show_import_tickets_help,
 .show_document_owner_options_help,
 .show_export_tickets_help {
   background: none;
 }
 
 .show_create_dialog_help {
-  top: -5px;
-  right: -5px;
-  position: relative;
-  float: right;
+  top: 8px;
+  right: 8px;
+  position: absolute;
 }
 
-.show_import_tickets_help i,
 .show_document_owner_options_help i,
 .show_document_details_options_help i,
 .show_create_dialog_help i,
@@ -194,8 +191,9 @@
   z-index: 100000;
 }
 
-.document_usage_cap_field {
+.document_usage_cap_field, .create_modal_note_field {
   width: 150px;
+  display: inline-block;
 }
 
 .select2-dropdown.select2-dropdown--below {
@@ -231,7 +229,11 @@
 }
 
 .app_panel.modal-content label {
-  color: rgb(50, 220, 50);
+  color: white;
+}
+
+.app_panel.modal-content .btn-check:checked+.btn-outline-primary label {
+  color:rgb(50, 220, 50);
 }
 
 .sign_out_button,
@@ -280,4 +282,9 @@
 .login_modal_container {
   background: rgb(68, 70, 84);
   color: rgb(217, 217, 227);
+}
+
+.labels_label {
+  margin-top: 10px;
+  margin-bottom: 4px;
 }

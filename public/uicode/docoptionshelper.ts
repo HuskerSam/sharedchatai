@@ -36,7 +36,6 @@ export default class DocOptionsHelper {
     download_export_button: any;
     modal_upload_tickets_button: any;
     import_upload_file: any;
-    show_import_tickets_help: any;
     show_export_tickets_help: any;
     show_document_details_options_help: any;
     show_document_owner_options_help: any;
@@ -92,8 +91,6 @@ export default class DocOptionsHelper {
         this.modal_send_tickets_to_api_button = this.modalContainer.querySelector(".modal_send_tickets_to_api_button");
         this.modal_send_tickets_to_api_button.addEventListener("click", () => this.uploadReportData());
 
-        this.show_import_tickets_help = document.querySelector(".show_import_tickets_help");
-        this.show_import_tickets_help.addEventListener("click", () => this.app.helpHelper.show("prompthistory"));
         this.show_export_tickets_help = document.querySelector(".show_export_tickets_help");
         this.show_export_tickets_help.addEventListener("click", () => this.app.helpHelper.show("prompthistory"));
 
@@ -336,25 +333,24 @@ export default class DocOptionsHelper {
                                 <hr>
                                 <label class="form-label">Title</label>
                                 <br>
-                                <button class="btn btn-primary prompt_for_new_title" style="float:right;">Change...</button>
+                                <button class="btn btn-secondary prompt_for_new_title" style="float:right;">Change...</button>
                                 <div class="modal_document_title_display"></div>
                                 <br>
                                 
                                 <label class="form-label">Token Usage Cap (0 for none)</label>
                                 <div>
                                     <div class="shared_usage_limit_div"></div>
-                                    <button class="btn btn-primary prompt_for_new_usage">Change...</button>
+                                    <button class="btn btn-secondary prompt_for_new_usage">Change...</button>
                                 </div>
                                 <hr>
+                                <div class="form-label">Import Session</div>
                                 <div style="line-height:3em;" class="template_import_options_section">
-                                    <button class="btn btn-secondary modal_upload_tickets_button">Template...</button>
+                                    <button class="btn btn-secondary modal_upload_tickets_button">Select...</button>
                                     <input class="import_upload_file" style="display:none;" type="file">
                                     &nbsp;
                                     <div class="doc_options_import_rows_preview"></div>
                                     <button class="btn btn-primary modal_send_tickets_to_api_button" 
                                                         style="visibility:hidden">Import</button>
-                                    <button class="btn btn-secondary show_import_tickets_help">
-                                    <i class="material-icons">help</i></button>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="owner_tab_view" role="tabpanel"
@@ -373,7 +369,7 @@ export default class DocOptionsHelper {
                                 <hr>
                                 <label class="form-label">Reference</label>
                                 <br>
-                                <button class="btn btn-primary prompt_for_new_note" style="float:right;">Change...</button>
+                                <button class="btn btn-secondary prompt_for_new_note" style="float:right;">Change...</button>
                                 <div class="owner_note_display_div"></div>                      
                                 <br>
                             </div>
@@ -387,11 +383,11 @@ export default class DocOptionsHelper {
                         Leave
                     </button>
                     <div style="flex:1"></div>
-                    <button class="clone_current_chatroom_button btn btn-secondary" data-bs-dismiss="modal">
+                    <button class="clone_current_chatroom_button btn btn-primary" data-bs-dismiss="modal">
                         Clone
                     </button>
                     <div style="flex:1"></div>
-                    <button type="button" class="btn btn-secondary modal_close_button"
+                    <button type="button" class="btn btn-primary modal_close_button"
                         data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -677,6 +673,7 @@ export default class DocOptionsHelper {
     }
     /** upload report data */
     async uploadReportData() {
+        this.modal_close_button.click();
         try {
             const records = await ChatDocument.getImportDataFromDomFile(this.import_upload_file);
 

@@ -72,38 +72,39 @@ export default class DocCreateHelper {
             <div class="modal-body">
               <button class="btn btn-secondary show_create_dialog_help"><i 
                   class="material-icons">help</i></button>
-                  <div style="display:inline-block">
-                    <label class="form-label">Template</label>
-                    <br>
-                    <button class="btn btn-secondary modal_create_template_tickets_button">Template...</button>
-                    <input class="create_modal_template_file" style="display:none;" type="file">
-                  </div>
-                  &nbsp;
-                  <div class="parsed_file_status"></div>
-                  &nbsp;
-                  <div class="parsed_file_name"></div>
-               <br>
-               <br>
-              <div style="display:inline-block;">
-                <label class="form-label">Usage Cap</label>
-                <br>
-                <input type="text" class="form-control document_usage_cap_field" placeholder="tokens limit">
-              </div>
-              <br>
-              <br>
               <label class="form-label" style="width:100%">
                 Title<br>
                 <input type="text" class="form-control create_modal_title_field" placeholder="autofills if blank">
               </label>
               <br>
-              <label class="form-label" style="width:100%">
-                Reference<br>
+              <div style="display:inline-block;">
+                <label class="form-label">Session Usage Cap</label>
+                <br>
+                <input type="text" class="form-control document_usage_cap_field" placeholder="blank for none">
+              </div>
+              <div style="display:inline-block;">
+                <label class="form-label">Reference</label>
+                <br>
                 <input type="text" class="form-control create_modal_note_field" placeholder="optional">
-              </label>
-              <br>
-              <label class="form-label">Labels</label>
+              </div>
+
+              <hr>
+
+              <label class="form-label labels_label">Labels</label>
               <br>
               <select class="create_document_label_options" multiple="multiple" style="width:100%"></select>
+              <hr>
+              <div style="display:inline-block">
+              <label class="form-label">Import Previous Session</label>
+              <br>
+              <button class="btn btn-secondary modal_create_template_tickets_button">Select...</button>
+              <input class="create_modal_template_file" style="display:none;" type="file">
+            </div>
+            &nbsp;
+            <div class="parsed_file_status"></div>
+            &nbsp;
+            <div class="parsed_file_name"></div>
+         <br>
             </div>
             <div class="modal-footer">
               <div class="form-check" style="float:left">
