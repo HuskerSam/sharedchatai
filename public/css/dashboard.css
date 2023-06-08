@@ -170,7 +170,6 @@ button.code_link {
   text-align: right;
   padding-right: 8px;
   padding-left: 4px;
-  padding-top: 6px;
 }
 
 .document_usage {
@@ -301,8 +300,4 @@ button.code_link {
 
 .dashboard_create_game {
   margin-left: 8px;
-}
-
-.session_sidebar_wrapper {
-
 }
