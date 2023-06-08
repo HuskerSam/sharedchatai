@@ -568,8 +568,8 @@ pre code {
 
 .rerun_ticket i,
 .delete_ticket i {
-  top: 2px;
-  font-size: 16px;
+  top: 5px;
+  font-size: 24px;
   position: relative;
 }
 
