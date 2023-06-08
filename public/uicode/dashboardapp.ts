@@ -139,6 +139,11 @@ export class DashboardApp extends BaseApp {
         if (title === "") title = `<span class="unused_chatroom_title_placeholder">unused</span>`;
         titleDom.innerHTML = title;
 
+        const usageDom = card.querySelector(".document_usage");
+        let usage: string = doc.data().completionTokens;
+        if (!usage) usage = "";
+        usageDom.innerHTML = usage;
+
         const sharedStatus = this.getDocumentSharedStatus(doc.data());
         const sharedIcon = card.querySelector(".document_shared_status_icon");
         if (sharedStatus === 0) sharedIcon.style.color = "rgb(120, 120, 120)";
@@ -196,13 +201,14 @@ export class DashboardApp extends BaseApp {
     const html = `<a href="/${data.gameType}/?game=${data.gameNumber}"
        class="list-group-item list-group-item-action document_list_item card shadow-sm my-1 rounded card_shadow_sm ${ownerClass}"
      data-gamenumber="${doc.id}" gamenumber="${doc.id}">
-    <div class="d-flex justify-content-end">
-        <div>
+    <div style="display:flex;flex-direction:row">
+        <div class="document_shared_status_icon_wrapper">
           <span class="material-symbols-outlined document_shared_status_icon">
             group
           </span>
         </div>
         <div class="document_name" data-docid="${doc.id}"></div> 
+        <div class="document_usage" data-docid="${doc.id}"></div> 
         <div class="document_status time_since last_submit_time" data-timesince="${data.lastActivity}"
         data-showseconds="0"></div>
         <div>
