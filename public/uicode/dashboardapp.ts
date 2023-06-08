@@ -119,6 +119,11 @@ export class DashboardApp extends BaseApp {
     else if (this.lastGamesFeedSnapshot) snapshot = this.lastGamesFeedSnapshot;
     else return;
 
+    if (snapshot.size === 0) document.body.classList.add("no_documents_in_feed");
+    else document.body.classList.remove("no_documents_in_feed");
+
+    document.body.classList.add("documents_feed_loaded");
+
     const oldKeys = Object.keys(this.documentsLookup);
     this.documentsLookup = {};
     const localLookup: any = {};

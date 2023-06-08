@@ -14,15 +14,6 @@
   display: block;
 }
 
-.games_view_wrapper {
-  display: none;
-  margin: 0 4px;
-}
-
-.app_signed_in .games_view_wrapper {
-  display: block;
-}
-
 .document_list_item {
   display: block;
 }
@@ -297,6 +288,7 @@ button.code_link {
   background: none;
   margin-right: 10px;
   border-color: transparent;
+  color: rgb(200,125,200);
 }
 
 .dashboard_item_flex_wrapper {
@@ -325,4 +317,26 @@ button.code_link {
 
 .dashboard_create_game {
   margin-left: 8px;
+}
+
+.no_games_in_dashboard {
+  display: none;
+}
+
+
+.games_view_wrapper {
+  display: none;
+  margin: 0 4px;
+}
+
+.documents_feed_loaded .games_view_wrapper {
+  display: block;
+}
+
+.no_documents_in_feed .games_view_wrapper {
+  display: none;
+}
+
+.no_documents_in_feed .no_games_in_dashboard {
+  display: block;
 }

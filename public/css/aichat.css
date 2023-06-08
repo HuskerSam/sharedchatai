@@ -235,6 +235,10 @@ html {
   border-color: transparent;
 }
 
+.show_document_options_help {
+  color: rgb(200,125,200);
+}
+
 .show_document_options_modal {
   top: 12px;
   border-color: transparent;

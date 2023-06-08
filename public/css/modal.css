@@ -157,16 +157,13 @@
   right: 5px;
   top: 0px;
   border-color: transparent;
+  color: rgb(200,125,200);
 }
 
 .show_modal_profile_help {
   float: right;
-  position: static;
-}
-
-.show_export_tickets_help {
-  background: none;
-  border-color: transparent;
+  position: relative;
+  top: -8px;
 }
 
 .show_create_dialog_help {
@@ -175,12 +172,17 @@
   position: absolute;
 }
 
+.show_export_tickets_help {
+  background: none;
+  border-color: transparent;
+  color: rgb(200,125,200);
+}
+
 .show_create_dialog_help i,
-.show_modal_profile_help i,
-.show_export_tickets_help i {
+.show_export_tickets_help i,
+.show_modal_profile_help i {
   position: relative;
   top: 4px;
-  color: white;
 }
 
 .tab-content {
