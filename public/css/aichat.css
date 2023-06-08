@@ -578,6 +578,7 @@ pre code {
   color: rgb(240, 240, 240);
   position: relative;
   z-index: 10;
+  border-color: transparent;
 }
 
 .delete_ticket {
