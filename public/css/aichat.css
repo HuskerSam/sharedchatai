@@ -477,9 +477,10 @@ pre code {
 }
 
 .send_ticket_ticketcount_display {
-  width: 100px;
-  text-align: center;
-  padding-right: 8px;
+  width: 84px;
+  text-align: right;
+  padding-right: 16px;
+  overflow: visible;
 }
 
 .ticket_count_span {
@@ -783,4 +784,10 @@ pre code {
 
 .show_create_modal_on_bar {
   padding-top: 12px;
+}
+
+.document_usage_detail_header {
+  text-align: center;
+  font-weight: bold;
+  color: rgb(200, 200, 200);
 }

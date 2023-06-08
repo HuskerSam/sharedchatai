@@ -187,18 +187,18 @@ export default class BaseApp {
     if (interval > 1) return Math.floor(interval) + ` yr`;
 
     interval = seconds / 2592000;
-    if (interval > 1) return Math.floor(interval) + ` mon`;
+    if (interval > 1) return Math.floor(interval) + ` M`;
 
     interval = seconds / 86400;
-    if (interval > 1) return Math.floor(interval) + ` day${Math.floor(interval) === 1 ? "" : "s"}`;
+    if (interval > 1) return Math.floor(interval) + ` d`;
 
     interval = seconds / 3600;
     if (interval > 1) return Math.floor(interval) + ` hr`;
 
-    if (showSeconds) return Math.floor(seconds) + "s";
+    if (showSeconds) return Math.floor(seconds) + " s";
 
     interval = seconds / 60;
-    if (interval > 1) return Math.floor(interval) + ` min`;
+    if (interval > 1) return Math.floor(interval) + ` m`;
 
     return "now";
   }

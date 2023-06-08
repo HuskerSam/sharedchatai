@@ -130,6 +130,9 @@ export class ChatRoomApp extends BaseApp {
         e.stopPropagation();
         this.sendTicketToAPI();
       }
+      if (this.atBottom(this.tickets_list)) {  
+        setTimeout(() => this.scrollTicketListBottom(), 100);
+      }
     });
     // redraw message feed to update time since values
     setInterval(() => this.updateTimeSince(this.tickets_list), this.timeSinceRedraw);
