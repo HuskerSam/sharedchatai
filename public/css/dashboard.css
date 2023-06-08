@@ -287,4 +287,7 @@ button.code_link {
   .show_dashboard_help_button {
     margin-right: 18px;
   }
+  .document_label_filter {
+    margin-right: 20%;
+  }
 }
