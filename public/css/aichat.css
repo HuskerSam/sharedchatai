@@ -93,6 +93,7 @@ html {
 
 .game_message_list_item hr {
   margin-top: 0;
+  margin-bottom: 0;
 }
 
 .game_message_list_item .delete_ticket {
@@ -377,6 +378,7 @@ pre code {
 
 .copy_ticket_to_clipboard {
   background: none;
+  border: none;
   position: absolute;
   color: rgb(240, 240, 240);
   left: 8px;
