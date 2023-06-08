@@ -206,7 +206,7 @@ export default class BaseApp {
    * @param { Date } dt date to format
    * @return { string } formatted date
   */
-  showEmailAsGmail(dt: Date): string {
+  showGmailStyleDate(dt: Date): string {
     if (Date.now() - dt.getTime() < 24 * 60 * 60 * 1000) {
       return this.formatAMPM(dt);
     }
@@ -353,11 +353,11 @@ export default class BaseApp {
 
       let dateDisplay: string;
       if (useGmailStyle) {
-        dateDisplay = this.showEmailAsGmail(new Date(isoTime));
+        dateDisplay = this.showGmailStyleDate(new Date(isoTime));
       } else {
         dateDisplay = this.timeSince(new Date(isoTime), (showSeconds === "1")).replaceAll(" ago", "");
       }
-      if (ctl.innerHTML !== dateDisplay) ctl.innerHTML = dateDisplay;
+      BaseApp.setHTML(ctl, dateDisplay);
     });
   }
   /** escape html
@@ -378,5 +378,17 @@ export default class BaseApp {
 
         return match;
       });
+  }
+  /** set html only if different
+   * @param { any } ctl dom element to set html
+   * @param { string } html innerHtml
+   * @return { boolean } true if set
+   */
+  static setHTML(ctl: any, html: string): boolean {
+    if (ctl.innerHTML !== html) {
+      ctl.innerHTML = html;
+      return true;
+    }
+    return false;
   }
 }

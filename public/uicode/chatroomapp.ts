@@ -203,7 +203,7 @@ export class ChatRoomApp extends BaseApp {
   */
   async optionSliderChange(saveToAPI = false, sliderField: string, sliderCtl: any,
     sliderLabel: any, prefix: string) {
-    sliderLabel.innerHTML = prefix + sliderCtl.value;
+    BaseApp.setHTML(sliderLabel, prefix + sliderCtl.value);
 
     if (saveToAPI) {
       clearTimeout(this.debounceTimeout);
@@ -261,7 +261,7 @@ export class ChatRoomApp extends BaseApp {
         if (!title) title = "unused";
         // const activityDate = data.created.substring(5, 16).replace("T", " ").replace("-", "/");
         title = title.substring(0, 100);
-        const activityDate = this.showEmailAsGmail(new Date(data.lastActivity));
+        const activityDate = this.showGmailStyleDate(new Date(data.lastActivity));
         const rowHTML = `<li>
         <a href="/aichat/?game=${doc.id}">
           <div class="sidebar_tree_recent_title title">${title}</div>
@@ -395,7 +395,7 @@ export class ChatRoomApp extends BaseApp {
 
         const lastSubmit: any = card.querySelector(`.last_submit_time`);
         if (ticketRunning) {
-          assistSection.innerHTML = "Pending...";
+          BaseApp.setHTML(assistSection, "Pending...");
           card.classList.add("ticket_running");
           lastSubmit.dataset.showseconds = "1";
           this.ticketIsPending = true;
@@ -581,7 +581,7 @@ export class ChatRoomApp extends BaseApp {
       const uid: any = nameCtl.dataset.ticketowneruid;
       if (uid !== undefined) {
         const name = this.gameData.memberNames[uid];
-        nameCtl.innerHTML = name;
+        BaseApp.setHTML(nameCtl, name);
       }
     });
   }
@@ -837,16 +837,15 @@ export class ChatRoomApp extends BaseApp {
     if (!this.gameData) return;
 
     document.body.classList.add("loaded");
-    this.document_usage_stats_line.innerHTML = `
+    BaseApp.setHTML(this.document_usage_stats_line.innerHTML, `
       <span>${this.gameData.totalTokens}</span>
       <span>${this.gameData.promptTokens}</span>
       <span>${this.gameData.completionTokens}</span>
-    `;
-    this.document_menutop_usage_stats_line.innerHTML = `${this.gameData.totalTokens} Usage`;
+    `);
 
-    this.last_activity_display.innerHTML = this.showEmailAsGmail(new Date(this.gameData.lastActivity));
-
-    this.sidebar_document_title.innerHTML = BaseApp.escapeHTML(this.gameData.title);
+    BaseApp.setHTML(this.document_menutop_usage_stats_line, `${this.gameData.totalTokens} Usage`);
+    BaseApp.setHTML(this.last_activity_display, this.showGmailStyleDate(new Date(this.gameData.lastActivity)));
+    BaseApp.setHTML(this.sidebar_document_title, BaseApp.escapeHTML(this.gameData.title));
 
     this.paintDocumentOptions();
     this._updateGameMembersList();
@@ -882,7 +881,7 @@ export class ChatRoomApp extends BaseApp {
         </li>`;
       });
     }
-    if (this.members_list.innerHTML !== html) this.members_list.innerHTML = html;
+    BaseApp.setHTML(this.members_list, html);
   }
   /** save a single field to document
    * @param { string } field document field name

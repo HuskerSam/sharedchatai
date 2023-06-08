@@ -73,8 +73,8 @@ export class DashboardApp extends BaseApp {
       let img = this.profile.displayImage;
       if (!name) name = "Anonymous";
       if (!img) img = "/images/defaultprofile.png";
-      this.userprofile_description.innerHTML = `<img class="user_dashboard_img" src="${img}">
-      <span class="user_name">${name}</span>`;
+      BaseApp.setHTML(this.userprofile_description, `<img class="user_dashboard_img" src="${img}">
+      <span class="user_name">${name}</span>`);
     }
   }
   /** query dom for all chat_user_image and chat_user_name elements and update */
@@ -95,7 +95,7 @@ export class DashboardApp extends BaseApp {
       const docid: any = nameCtl.dataset.docid;
       if (uid !== undefined && docid != undefined) {
         const name = this.documentsLookup[docid].memberNames[uid];
-        nameCtl.innerHTML = name;
+        BaseApp.setHTML(nameCtl, name);
       }
     });
   }
@@ -139,12 +139,12 @@ export class DashboardApp extends BaseApp {
         let title = BaseApp.escapeHTML(doc.data().title);
         if (!title) title = "";
         if (title === "") title = `<span class="unused_chatroom_title_placeholder">unused</span>`;
-        titleDom.innerHTML = title;
+        BaseApp.setHTML(titleDom, title);
 
         const usageDom = card.querySelector(".document_usage");
         let usage: string = doc.data().completionTokens;
         if (!usage) usage = "&nbsp;";
-        usageDom.innerHTML = usage;
+        BaseApp.setHTML(usageDom, usage);
 
         const sharedStatus = this.getDocumentSharedStatus(doc.data());
         const sharedIcon = card.querySelector(".document_shared_status_icon");
@@ -274,11 +274,13 @@ export class DashboardApp extends BaseApp {
     const startingValue = this.document_label_filter.value;
 
     labels.forEach((label: string) => html += `<option>${label}</option>`);
-    this.document_label_filter.innerHTML = html;
-    this.document_label_filter.value = startingValue;
-    if (this.document_label_filter.selectedIndex === -1) {
-      this.document_label_filter.selectedIndex = 0;
-      this.updateGamesFeed(null);
+
+    if (BaseApp.setHTML(this.document_label_filter, html)) {
+      this.document_label_filter.value = startingValue;
+      if (this.document_label_filter.selectedIndex === -1) {
+        this.document_label_filter.selectedIndex = 0;
+        this.updateGamesFeed(null);
+      }
     }
   }
 }
