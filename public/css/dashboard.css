@@ -204,9 +204,10 @@ button.code_link {
 
 .games_view_header_wraper {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  flex-direction: row;
   margin-bottom: 12px;
+  display:flex;
+  margin-top: 12px;
 }
 
 .userprofile_description {
@@ -233,10 +234,12 @@ button.code_link {
 }
 
 .document_label_filter.form-select {
-  display: flex;
-  max-width: 800px;
-  margin-left: 12px;
-  margin-right: 12px;
+  flex: 1;
+}
+
+.document_label_filter {
+  margin-left: 5%;
+  margin-right: 5%;
 }
 
 .document_shared_status_icon {
@@ -265,6 +268,23 @@ button.code_link {
 }
 
 .show_dashboard_help_button {
-  margin-left: 12px;
   background: none;
+  margin-right: 10px;
+}
+
+.dashboard_item_flex_wrapper {
+  display: flex;
+  flex-direction: row;
+  margin-right: -8px;
+  margin-left: -8px;
+}
+
+@media (min-width: 800px) {
+  .dashboard_item_flex_wrapper {
+    margin-right: 0;
+    margin-left: 0;
+  }
+  .show_dashboard_help_button {
+    margin-right: 18px;
+  }
 }

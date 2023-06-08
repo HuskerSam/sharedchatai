@@ -57,11 +57,6 @@
         <button class="my-3 btn btn-success dashboard_create_game">
       <i class="fa-solid fa-plus"></i> New
     </button>
-    <button class="btn btn-secondary show_dashboard_help_button"><i class="material-icons">help</i></button>
-    <button class="btn btn-primary help_show_modal" style="display:none" type="button" data-bs-toggle="modal"
-      data-bs-target="#helpIframeModal">
-      Help
-    </button>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -94,13 +89,16 @@
         data-bs-target="#createDocumentModal">
         Show Create Modal
       </button>
+      <button class="btn btn-primary help_show_modal" style="display:none" type="button" data-bs-toggle="modal"
+        data-bs-target="#helpIframeModal">
+        Help
+      </button>
       <div class="games_view_wrapper">
         <div class="games_view_header_wraper">
-          <div class="pt-3 text-center align-items-center flex-1 d-flex justify-content-center">
-            <select class="document_label_filter form-select form-select-lg">
-              <option>All</option>
-            </select>
-          </div>
+          <select class="document_label_filter form-select form-select-lg">
+            <option>All</option>
+          </select>
+          <button class="btn btn-secondary show_dashboard_help_button"><i class="material-icons">help</i></button>
         </div>
         <div class="d-flex text-start document_info_header align-items-end">
           <div class="document_info_header_left">Title</div>

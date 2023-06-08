@@ -93,9 +93,9 @@ export default class DocOptionsHelper {
         this.modal_send_tickets_to_api_button.addEventListener("click", () => this.uploadReportData());
 
         this.show_import_tickets_help = document.querySelector(".show_import_tickets_help");
-        this.show_import_tickets_help.addEventListener("click", () => this.app.helpHelper.show("templates"));
+        this.show_import_tickets_help.addEventListener("click", () => this.app.helpHelper.show("prompthistory"));
         this.show_export_tickets_help = document.querySelector(".show_export_tickets_help");
-        this.show_export_tickets_help.addEventListener("click", () => this.app.helpHelper.show("templates"));
+        this.show_export_tickets_help.addEventListener("click", () => this.app.helpHelper.show("prompthistory"));
 
         this.show_document_details_options_help = document.querySelector(".show_document_details_options_help");
         this.show_document_details_options_help.addEventListener("click", () => this.app.helpHelper.show("document"));
@@ -298,19 +298,19 @@ export default class DocOptionsHelper {
         <div class="modal-dialog app_panel">
             <div class="modal-content app_panel">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editDocumentModalLabel">Document Options</h5>
+                    <h5 class="modal-title" id="editDocumentModalLabel">Prompt History Options</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                         <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
                         <li class="nav-item" role="presentation">
                                 <a class="nav-link active" id="export_tab_button" data-bs-toggle="tab" href="#export_tab_view"
-                                    role="tab" aria-controls="export_tab_view" aria-selected="false">Export</a>
+                                    role="tab" aria-controls="export_tab_view" aria-selected="false">Prompts</a>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link" id="options_tab_button" data-bs-toggle="tab"
                                     href="#options_tab_view" role="tab" aria-controls="options_tab_view"
-                                    aria-selected="true">Details</a>
+                                    aria-selected="true">Options</a>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link" id="owner_tab_button" data-bs-toggle="tab" href="#owner_tab_view"
@@ -403,16 +403,17 @@ export default class DocOptionsHelper {
      */
     getModalTabExportHTML(): string {
         return `<div style="display:flex;flex-direction:column">
-        
         <div style="text-align: center">
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="tickets_filter" id="all_filter" value="all"
+                    checked autocomplete="off">
+                <label class="btn btn-outline-primary" for="all_filter">All</label>
                 <input type="radio" class="btn-check" name="tickets_filter" id="selected_filter" value="selected"
-                    autocomplete="off" checked>
-                <label class="btn btn-outline-primary" for="selected_filter">Selected Tickets</label>
-                <input type="radio" class="btn-check" name="tickets_filter" id="all_filter" value="all" autocomplete="off">
-                <label class="btn btn-outline-primary" for="all_filter">All Tickets</label>
-                <button class="btn btn-secondary show_export_tickets_help"><i class="material-icons">help</i></button>
+                    autocomplete="off">
+                <label class="btn btn-outline-primary" for="selected_filter">Selected</label>
             </div>
+            &nbsp;
+            <button class="btn btn-secondary show_export_tickets_help"><i class="material-icons">help</i></button>
             <br><br>
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                 <input type="radio" class="btn-check" name="export_format_choice" id="text_format" value="text"

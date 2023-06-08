@@ -30,6 +30,8 @@ export class DashboardApp extends BaseApp {
   documentOptions = new DocOptionsHelper(this, "dashboard_options_view");
   profileHelper = new ProfileHelper(this);
   helpHelper = new HelpHelper(this);
+  help_show_modal: any = document.querySelector(".help_show_modal");
+
   /** */
   constructor() {
     super();
@@ -201,7 +203,7 @@ export class DashboardApp extends BaseApp {
     const html = `<a href="/${data.gameType}/?game=${data.gameNumber}"
        class="list-group-item list-group-item-action document_list_item card shadow-sm my-1 rounded card_shadow_sm ${ownerClass}"
      data-gamenumber="${doc.id}" gamenumber="${doc.id}">
-    <div style="display:flex;flex-direction:row">
+    <div class="dashboard_item_flex_wrapper">
         <div class="document_shared_status_icon_wrapper">
           <span class="material-symbols-outlined document_shared_status_icon">
             group

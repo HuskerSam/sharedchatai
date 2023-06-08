@@ -277,10 +277,6 @@
   display: none;
 }
 
-.clone_current_chatroom_button {
-  display: none;
-}
-
 .login_modal_container {
   background: rgb(68, 70, 84);
   color: rgb(217, 217, 227);
