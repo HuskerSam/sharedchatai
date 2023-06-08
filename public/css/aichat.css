@@ -628,7 +628,7 @@ pre code {
 .profile_text_option_monospace .game_message_list_item .message,
 .profile_text_option_monospace .game_message_list_item .assist_section,
 .profile_text_option_monospace .ticket_content_input {
-  font-family: 'Lucida Sans', monospace;
+  font-family: 'Lucida Console', monospace;
 }
 
 .sidebar_tree_options_container {
