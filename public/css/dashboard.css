@@ -290,4 +290,12 @@ button.code_link {
   .document_label_filter {
     margin-right: 20%;
   }
+}  
+
+#navbarSupportedContent {
+  margin-left: 16px;
+}
+
+.dashboard_create_game {
+  margin-left: 8px;
 }

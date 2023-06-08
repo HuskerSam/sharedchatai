@@ -66,7 +66,7 @@ export default class DocCreateHelper {
         <div class="modal-dialog">
           <div class="modal-content app_panel">
             <div class="modal-header">
-              <h5 class="modal-title" id="createDocumentModalLabel">New Chat Room</h5>
+              <h5 class="modal-title" id="createDocumentModalLabel">New Prompt History</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
