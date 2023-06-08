@@ -456,7 +456,7 @@ export default class DocOptionsHelper {
     }
     /** delete game api call */
     async deleteGame() {
-        if (!confirm("Are you sure you want to delete this game?")) return;
+        if (!confirm("Delete this session?")) return;
 
         if (!this.chatDocumentId) {
             alert("Game Number not found - error");

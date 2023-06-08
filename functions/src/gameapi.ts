@@ -378,7 +378,7 @@ export default class GameAPI {
     }
 
     const game: any = gameData.data();
-    if (uid === game.createUser) return BaseClass.respondError(res, "Owner has to stay in game");
+    if (uid === game.createUser) return BaseClass.respondError(res, "Owner has to stay in session (delete)");
 
     const updatePacket: any = {
       members: {

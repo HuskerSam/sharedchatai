@@ -152,7 +152,7 @@ export default class DocCreateHelper {
     const json = await fResult.json();
     if (!json.success) {
       console.log("failed create", json);
-      alert("failed to create game");
+      alert("failed to create session");
       return;
     }
 

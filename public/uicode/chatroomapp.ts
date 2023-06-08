@@ -35,6 +35,7 @@ export class ChatRoomApp extends BaseApp {
   includeMessageTokens = 0;
   includeAssistTokens = 0;
   ticketCount = 0;
+  ticketIsPending = false;
   selectedTicketCount = 0;
   login = new LoginHelper(this);
   documentOptions = new DocOptionsHelper(this);
@@ -287,6 +288,7 @@ export class ChatRoomApp extends BaseApp {
     this.assistsLookup = {};
     snapshot.forEach((doc: any) => this.assistsLookup[doc.id] = doc.data());
 
+    this.ticketIsPending = false;
     const ticketIds = Object.keys(this.ticketsLookup);
     ticketIds.forEach((ticketId: string) => {
       const ticketData = this.ticketsLookup[ticketId];
@@ -396,12 +398,16 @@ export class ChatRoomApp extends BaseApp {
           assistSection.innerHTML = "Pending...";
           card.classList.add("ticket_running");
           lastSubmit.dataset.showseconds = "1";
+          this.ticketIsPending = true;
         } else {
           card.classList.remove("ticket_running");
           lastSubmit.dataset.showseconds = "0";
         }
       }
     });
+
+    if (this.ticketIsPending) document.body.classList.add("ticket_sent_api_pending");
+    else document.body.classList.remove("ticket_sent_api_pending");
 
     this.updatePromptTokenStatus();
     if (scrollToBottom) {
