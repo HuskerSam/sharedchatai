@@ -115,7 +115,6 @@ html {
 }
 
 .time_since {
-  color:    rgb(100, 200, 255);
   padding-right: 4px;
 }
 
@@ -233,7 +232,8 @@ html {
 }
 
 .show_document_options_modal {
-  top: 16px;
+  top: 12px;
+  border-color: transparent;
 }
 
 .message_list_send_wrapper {
@@ -282,18 +282,18 @@ ul.recent_documents_list li a {
 }
 
 .recent_documents_list .activity_date {
-  color: rgb(50, 120, 210);
   background-color: rgba(32, 33, 35, 0.75);
   position: absolute;
   right: 4px;
-  bottom: 2px;
+  bottom: 10px;
   border-radius: 5px;
   z-index: 100;
   padding: 2px 8px;
+  text-decoration: underline;
 }
 
-.sidebar_tree_recent_title {
-  text-decoration: underline;
+.sidebar_tree_recent_title  {
+  padding-bottom: 8px;
 }
 
 .sidebar_document_title {
@@ -426,7 +426,6 @@ pre code {
 
 .show_document_options_help {
   right: 8px;
-  top: -12px;
 }
 
 .show_document_options_modal i,
@@ -748,4 +747,8 @@ pre code {
 
 .pending_message {
   color: rgb(240, 240, 50);
+}
+
+.ticket_sent_api_pending .document_menutop_usage_stats_line .usage {
+  color: rgb(50, 255, 50);
 }

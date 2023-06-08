@@ -843,7 +843,7 @@ export class ChatRoomApp extends BaseApp {
       <span>${this.gameData.completionTokens}</span>
     `);
 
-    BaseApp.setHTML(this.document_menutop_usage_stats_line, `${this.gameData.totalTokens} Usage`);
+    BaseApp.setHTML(this.document_menutop_usage_stats_line, `<span class="usage">${this.gameData.totalTokens}</span> Usage`);
     BaseApp.setHTML(this.last_activity_display, this.showGmailStyleDate(new Date(this.gameData.lastActivity)));
     BaseApp.setHTML(this.sidebar_document_title, BaseApp.escapeHTML(this.gameData.title));
 
