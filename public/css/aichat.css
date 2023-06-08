@@ -595,7 +595,8 @@ pre code {
   visibility: visible;
 }
 
-.ticket_running .rerun_ticket {
+.ticket_running .rerun_ticket,
+.ticket_running .delete_ticket {
   visibility: hidden;
 }
 
