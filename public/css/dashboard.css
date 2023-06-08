@@ -129,11 +129,7 @@ button.code_link {
   overflow: hidden;
   margin-top: auto;
   margin-bottom: auto;
-}
-
-.document_shared_status_icon_wrapper {
-  margin-top: auto;
-  margin-bottom: auto;
+  margin-left: -8px;
 }
 
 .document_usage {
@@ -164,11 +160,16 @@ button.code_link {
   padding-right: 15px;
 }
 
+.session_sidebar_wrapper {
+  margin-right: -12px;
+}
+
 .document_status {
   font-size: .9em;
   text-align: right;
   padding-right: 8px;
   padding-left: 4px;
+  color: rgb(200, 200, 200);
 }
 
 .document_usage {
@@ -243,10 +244,30 @@ button.code_link {
   margin-right: 5%;
 }
 
-.document_shared_status_icon {
-  padding-right: 8px;
+.document_shared_status_icon_wrapper {
+  margin-top: auto;
+  margin-bottom: auto;
+  background: none;
+  border-color: transparent;
   position: relative;
-  top: 2px;
+  left: -8px;
+}
+
+.document_shared_status_icon_wrapper span {
+  position: relative;
+  top: 4px;
+}
+
+.shared_status_not {
+  color: rgb(180, 180, 180);
+}
+
+.shared_status_withusers {
+  color: rgb(80, 120, 255);
+}
+
+.shared_status_withothers {
+  color: rgb(20, 200, 20);
 }
 
 .details_game i {
@@ -261,6 +282,9 @@ button.code_link {
 
 .details_game  {
   background: none;
+  border-color: transparent;
+  position: relative;
+  right: -4px;
 }
 
 .userprofile_description .user_name {

@@ -103,12 +103,6 @@
   width: calc(100% - 60px);
 }
 
-.code_link_href {
-  line-height: 2em;
-  color: unset;
-  display: none;
-}
-
 .prompt-text {
   font-weight: bold;
   white-space: pre-wrap;
@@ -120,6 +114,14 @@
 
 .copy_export_clipboard {
   padding-bottom: 0;
+}
+
+.code_link_copy {
+  float: right;
+  background: none;
+  border-color: transparent;
+  position: relative;
+  top: -4px;
 }
 
 .code_link_copy i {
@@ -148,10 +150,8 @@
   color: rgb(255, 255, 50);
 }
 
-.show_document_details_options_help,
 .show_create_dialog_help,
-.show_modal_profile_help,
-.show_document_owner_options_help {
+.show_modal_profile_help {
   background: none;
   position: absolute;
   right: 5px;
@@ -164,7 +164,6 @@
   position: static;
 }
 
-.show_document_owner_options_help,
 .show_export_tickets_help {
   background: none;
   border-color: transparent;
@@ -176,8 +175,6 @@
   position: absolute;
 }
 
-.show_document_owner_options_help i,
-.show_document_details_options_help i,
 .show_create_dialog_help i,
 .show_modal_profile_help i,
 .show_export_tickets_help i {

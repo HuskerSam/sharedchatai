@@ -17,7 +17,6 @@ export default class DocOptionsHelper {
     shared_archived_status_wrapper: any = null;
     shared_usage_limit_div: any = null;
     copy_export_clipboard: any = null;
-    code_link_href: any;
     code_link_copy: any;
     wrapperClass = "";
     chatDocumentId = "";
@@ -37,8 +36,6 @@ export default class DocOptionsHelper {
     modal_upload_tickets_button: any;
     import_upload_file: any;
     show_export_tickets_help: any;
-    show_document_details_options_help: any;
-    show_document_owner_options_help: any;
     doc_options_import_rows_preview: any;
     modal_send_tickets_to_api_button: any;
     prompt_for_new_title: any;
@@ -94,10 +91,6 @@ export default class DocOptionsHelper {
         this.show_export_tickets_help = document.querySelector(".show_export_tickets_help");
         this.show_export_tickets_help.addEventListener("click", () => this.app.helpHelper.show("session"));
 
-        this.show_document_details_options_help = document.querySelector(".show_document_details_options_help");
-        this.show_document_details_options_help.addEventListener("click", () => this.app.helpHelper.show("session"));
-        this.show_document_owner_options_help = document.querySelector(".show_document_owner_options_help");
-        this.show_document_owner_options_help.addEventListener("click", () => this.app.helpHelper.show("session"));
         this.clone_current_chatroom_button = this.modalContainer.querySelector(".clone_current_chatroom_button");
         this.clone_current_chatroom_button.addEventListener("click", async (event: any) => {
             event.stopPropagation();
@@ -139,7 +132,6 @@ export default class DocOptionsHelper {
         });
         window.$(".edit_options_document_labels").on("change", () => this.saveDocumentLabels());
 
-        this.code_link_href = document.querySelector(".code_link_href");
         this.code_link_copy = document.querySelector(".code_link_copy");
 
         this.selected_filter.addEventListener("click", () => this.refreshReportData());
@@ -166,7 +158,7 @@ export default class DocOptionsHelper {
      */
     copyGameLink() {
         navigator.clipboard.writeText(window.location.origin + "/aichat/?game=" + this.chatDocumentId);
-        const buttonText = `<i class="material-icons">content_copy</i> <span>Link</span>`;
+        const buttonText = `<i class="material-icons">link</i>`;
         this.code_link_copy.innerHTML = "✅ " + buttonText;
         setTimeout(() => this.code_link_copy.innerHTML = buttonText, 1200);
     }
@@ -321,8 +313,6 @@ export default class DocOptionsHelper {
                     </div>
                         <div class="tab-pane fade" id="options_tab_view" role="tabpanel"
                         aria-labelledby="options_tab_button">
-                                <button class="btn btn-secondary show_document_details_options_help"><i 
-                                    class="material-icons">help</i></button>
                                 <div class="shared_archived_status_wrapper"></div>
                                 <div class="form-check owner_archived_input_wrapper">
                                     <label class="form-check-label">
@@ -330,6 +320,7 @@ export default class DocOptionsHelper {
                                         Archived
                                     </label>
                                 </div>
+                                <button class="code_link_copy btn btn-secondary"><i class="material-icons">link</i></button>
                                 <hr>
                                 <label class="form-label">Title</label>
                                 <br>
@@ -354,15 +345,7 @@ export default class DocOptionsHelper {
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="owner_tab_view" role="tabpanel"
-                                aria-labelledby="owner_tab_button">  
-                                <div style="text-align:center">
-                                <a href="#" class="code_link_href">URL</a>
-                                <button class="code_link_copy btn btn-secondary"><i class="material-icons">content_copy</i>
-                                    <span>url</span></button>
-                            </div>                       
-                                <button class="btn btn-secondary show_document_owner_options_help"><i 
-                                    class="material-icons">help</i></button>
-
+                                aria-labelledby="owner_tab_button">                        
                                 <label class="form-label">Labels</label>
                                     <select class="edit_options_document_labels" multiple="multiple"
                                         style="width:100%"></select>
@@ -766,13 +749,7 @@ export default class DocOptionsHelper {
             }
         }
 
-        if (this.code_link_href) {
-            const path = window.location.href;
-            this.code_link_href.setAttribute("href", path);
-            this.code_link_href.innerHTML = path;
-        }
-
-        this.code_link_copy.innerHTML = `<i class="material-icons">content_copy</i> <span>Link</span>`;
+        this.code_link_copy.innerHTML = `<i class="material-icons">link</i>`;
 
         this.refreshReportData();
     }

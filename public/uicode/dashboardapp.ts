@@ -147,10 +147,14 @@ export class DashboardApp extends BaseApp {
         BaseApp.setHTML(usageDom, usage);
 
         const sharedStatus = this.getDocumentSharedStatus(doc.data());
-        const sharedIcon = card.querySelector(".document_shared_status_icon");
-        if (sharedStatus === 0) sharedIcon.style.color = "rgb(120, 120, 120)";
-        if (sharedStatus === 1) sharedIcon.style.color = "rgb(80, 120, 255)";
-        if (sharedStatus === 2) sharedIcon.style.color = "rgb(20, 200, 20)";
+        const sharedIcon = card.querySelector(".document_shared_status_icon_wrapper");
+        sharedIcon.classList.remove("shared_status_not");
+        sharedIcon.classList.remove("shared_status_withusers");
+        sharedIcon.classList.remove("shared_status_withothers");
+
+        if (sharedStatus === 0) sharedIcon.classList.add("shared_status_not");
+        if (sharedStatus === 1) sharedIcon.classList.add("shared_status_withusers");
+        if (sharedStatus === 2) sharedIcon.classList.add("shared_status_withothers");
       }
       this.documentsLookup[doc.id] = doc.data();
     });
@@ -204,10 +208,10 @@ export class DashboardApp extends BaseApp {
        class="list-group-item list-group-item-action document_list_item card shadow-sm my-1 rounded card_shadow_sm ${ownerClass}"
      data-gamenumber="${doc.id}" gamenumber="${doc.id}">
     <div class="dashboard_item_flex_wrapper">
-        <div class="document_shared_status_icon_wrapper">
-          <span class="material-symbols-outlined document_shared_status_icon">
-            group
-          </span>
+        <div>
+          <button class="btn btn-secondary document_shared_status_icon_wrapper">
+            <span class="material-symbols-outlined">link</span>
+          </button>
         </div>
         <div class="document_name" data-docid="${doc.id}"></div>
         <div class="session_sidebar_wrapper">
@@ -233,6 +237,15 @@ export class DashboardApp extends BaseApp {
       this.loadAndShowOptionsDialog(details.dataset.gamenumber);
     });
 
+    const linkCopy: any = card.querySelector(".document_shared_status_icon_wrapper");
+    linkCopy.addEventListener("click", (e: any) => {
+      e.stopPropagation();
+      e.preventDefault();
+      navigator.clipboard.writeText(window.location.origin + "/aichat/?game=" + data.gameNumber);
+      const buttonText = `<i class="material-icons">link</i>`;
+      linkCopy.innerHTML = "✅ " + buttonText;
+      setTimeout(() => linkCopy.innerHTML = buttonText, 1200);
+    });
     return card;
   }
   /** update storage to show online for current user */
