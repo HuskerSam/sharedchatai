@@ -754,3 +754,8 @@ pre code {
 .ticket_sent_api_pending .document_menutop_usage_stats_line .usage {
   color: rgb(50, 255, 50);
 }
+
+.ticket_user_display_header {
+  position: relative;
+  top: -6px;
+}

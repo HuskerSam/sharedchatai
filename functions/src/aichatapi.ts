@@ -7,7 +7,6 @@ import fetch from "node-fetch";
 import {
     encode,
 } from "gpt-3-encoder";
-import GameAPI from "./gameapi";
 
 /** Match game specific turn logic wrapped in a transaction */
 export default class ChatAI {
@@ -318,8 +317,14 @@ export default class ChatAI {
 
         return packet;
     }
+    /** promise wrapper submit with timeout detection
+     * @param { any } aiRequest request packet
+     * @param { string } submitted iso date
+     * @param { string } chatGptKey
+     * @return { Promise<any> } aiResponse containing assist or error
+    */
     static async submitOpenAIRequest(aiRequest: any, submitted: string, chatGptKey: string): Promise<any> {
-        return new Promise(async (res: any) => {
+        return new Promise((res: any) => {
             try {
                 const timeoutTest = setTimeout(() => {
                     res({
@@ -330,24 +335,24 @@ export default class ChatAI {
                     });
                 }, 4.9 * 60 * 1000);
 
-                const response: any = await fetch(`https://api.openai.com/v1/chat/completions`, {
+                fetch(`https://api.openai.com/v1/chat/completions`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                         "Authorization": "Bearer " + chatGptKey,
                     },
                     body: JSON.stringify(aiRequest),
+                }).then(async (response: any) => {
+                    const assist: any = await response.json();
+                    const aiResponse = {
+                        success: true,
+                        created: new Date().toISOString(),
+                        assist,
+                        submitted,
+                    };
+                    clearTimeout(timeoutTest);
+                    res(aiResponse);
                 });
-                const assist: any = await response.json();
-                const aiResponse = {
-                    success: true,
-                    created: new Date().toISOString(),
-                    assist,
-                    submitted,
-                };
-                clearTimeout(timeoutTest);
-                res(aiResponse);
-
             } catch (aiRequestError: any) {
                 const aiResponse = {
                     success: false,
@@ -355,7 +360,7 @@ export default class ChatAI {
                     error: aiRequestError.message,
                     submitted,
                 };
-                res(aiResponse)
+                res(aiResponse);
             }
         });
     }

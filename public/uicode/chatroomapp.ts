@@ -613,7 +613,7 @@ export class ChatRoomApp extends BaseApp {
       `<div class="${cardClass}" ticketid="${ticketId}" chatroomid="${ticketId}">
       <hr><span class="tokens_prompt"></span>
       <div class="m-1 user_assist_request_header">
-        <div style="flex:1;" class="d-flex flex-column">
+        <div style="flex:1;" class="ticket_user_display_header d-flex flex-column">
             <div class="user_assist_request_header_user" >
               <span class="ticket_owner_image" data-ticketowneruid="${data.uid}"
                   style="background-image:url(${img})"></span>
