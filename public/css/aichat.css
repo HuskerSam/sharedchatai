@@ -93,7 +93,7 @@ html {
 }
 
 .game_message_list_item hr {
-  margin-bottom: 0;
+  margin-bottom: -12px;
 }
 
 .game_message_list_item .delete_ticket {
