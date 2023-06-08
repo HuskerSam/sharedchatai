@@ -96,7 +96,7 @@ html {
 }
 
 .game_message_list_item .delete_ticket {
-  color: rgb(130, 130, 130);
+  color: rgb(150, 150, 150);
 }
 
 .game_message_list_item.ticket_owner .delete_ticket {
@@ -114,7 +114,8 @@ html {
 }
 
 .time_since {
-  color: rgb(127, 127, 127);
+  color:    rgb(100, 200, 255);
+  padding-right: 4px;
 }
 
 .game_message_list_item .message {
@@ -157,6 +158,7 @@ html {
   margin-left: 0;
   color: rgb(150, 255, 150);
   position: relative;
+  min-height: 75px;
 }
 
 .gutter {
@@ -184,7 +186,7 @@ html {
 
 .tokens_total {
   padding: 4px;
-  color: rgb(150, 150, 150);
+  color: rgb(200, 240, 190); 
 }
 
 .tokens_total_since_wrapper {
@@ -198,7 +200,7 @@ html {
 
 .tokens_completion {
   position: absolute;
-  right: 10px;
+  right: 24px;
   top: 4px;
   color: rgb(150, 150, 150);
 }
@@ -276,13 +278,14 @@ ul.recent_documents_list li a {
 }
 
 .recent_documents_list .activity_date {
-  color: rgb(127, 127, 127);
-  background: rgba(32, 33, 35, 0.75);
+  color: rgb(50, 120, 210);
+  background-color: rgba(32, 33, 35, 0.75);
   position: absolute;
   right: 4px;
   bottom: 2px;
   border-radius: 5px;
   z-index: 100;
+  padding: 2px 8px;
 }
 
 .sidebar_tree_recent_title {

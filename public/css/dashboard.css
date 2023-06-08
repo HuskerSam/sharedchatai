@@ -138,7 +138,7 @@ button.code_link {
 
 .document_usage {
   text-align: right;
-  padding-right: 16px;
+  padding-right: 4px;
   overflow: hidden;
 }
 
@@ -165,19 +165,19 @@ button.code_link {
 }
 
 .document_status {
-  color: rgb(240, 221, 190);
+  color:    rgb(100, 200, 255);
   font-size: .9em;
-  padding-top: 10px;
   text-align: right;
   padding-right: 8px;
-  width: 65px;
+  padding-left: 4px;
+  padding-top: 6px;
 }
 
 .document_usage {
   color: rgb(200, 240, 190); 
   font-size: .8em;
-  padding-top: 10px;
-  padding-left: 4px;
+  padding-top: 2px;
+  padding-right: 8px;
 }
 
 .document_info_header_right {
@@ -188,6 +188,9 @@ button.code_link {
 @media (min-width: 800px) {
   .games_view_wrapper {
     margin: 0 5% 0 5%;
+  }
+  .document_status {
+    width: 75px;
   }
 }
 
@@ -298,4 +301,8 @@ button.code_link {
 
 .dashboard_create_game {
   margin-left: 8px;
+}
+
+.session_sidebar_wrapper {
+
 }

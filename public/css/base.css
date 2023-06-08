@@ -51,9 +51,15 @@ a {
 }
 
 .navbar {
-  padding-left: 10px;
   text-align: left;
   background: rgb(32, 33, 35);
+}
+
+
+@media (min-width: 440px) {
+  .navbar {
+    padding-left: 10px;
+  }
 }
 
 .navbar-light .navbar-nav .nav-link,
