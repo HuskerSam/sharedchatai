@@ -876,7 +876,7 @@ export class ChatRoomApp extends BaseApp {
         </li>`;
       });
     }
-    this.members_list.innerHTML = html;
+    if (this.members_list.innerHTML !== html) this.members_list.innerHTML = html;
   }
   /** save a single field to document
    * @param { string } field document field name
