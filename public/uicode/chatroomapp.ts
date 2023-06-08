@@ -53,6 +53,7 @@ export class ChatRoomApp extends BaseApp {
   updateAssistFeedTimeout: any = null;
   excludingTicketsRunning = false;
   paintOptionsDebounceTimer: any = null;
+  lastMembersHTMLCache = "";
   defaultUIEngineSettings: any = {
     model: "gpt-3.5-turbo",
     max_tokens: 500,
@@ -887,7 +888,11 @@ export class ChatRoomApp extends BaseApp {
         </li>`;
       });
     }
-    BaseApp.setHTML(this.members_list, html);
+
+    if (this.lastMembersHTMLCache !== html) {
+      this.lastMembersHTMLCache = html;
+      BaseApp.setHTML(this.members_list, html);
+    }
     this.updateUserNamesImages();
     this.updateUserPresence();
   }
