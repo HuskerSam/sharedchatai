@@ -201,8 +201,11 @@ html {
 .tokens_completion {
   position: absolute;
   right: 24px;
-  top: 4px;
-  color: rgb(150, 150, 150);
+  top: -16px;
+  padding: 4px;
+  color: rgb(255, 255, 255);
+  z-index: 1;
+  background-color: rgba(68, 70, 84, 0.6);
 }
 
 .completion_max_tokens_reached {
@@ -500,8 +503,8 @@ pre code {
   text-align: right;
   min-width: 35px;
   text-align: center;
-  color: rgb(200, 200, 200);
-  background: rgba(68, 70, 84, 0.5);
+  color: rgb(220, 220, 220);
+  padding-bottom: 4px;
 }
 
 .over_token_sendlimit .total_prompt_token_count {
