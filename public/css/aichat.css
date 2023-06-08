@@ -364,7 +364,7 @@ pre code {
   position: absolute;
   bottom: 0px;
   background: none;
-  border: none;
+  border-color: transparent;
   color: rgb(240, 240, 240);
   background-color:rgba(68, 70, 84, 0.5);
   right: 4px;
@@ -379,11 +379,11 @@ pre code {
 
 .copy_ticket_to_clipboard {
   background: none;
-  border: none;
+  border-color: transparent;
   position: absolute;
   color: rgb(240, 240, 240);
   left: 8px;
-  top: 2px;  
+  top: 3px;  
   background-color:rgba(68, 70, 84, 0.5);
   z-index: 1;
 }
@@ -405,7 +405,7 @@ pre code {
   }
 
   .copy_ticket_to_clipboard {
-    top: 1px;
+    top: 3px;
   }
 
   .ticket_item_include_checkbox {
