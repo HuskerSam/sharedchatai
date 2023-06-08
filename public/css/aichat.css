@@ -745,3 +745,7 @@ pre code {
 .mobile_layout_mode .right_panel_view {
   padding-top: 3em;
 }
+
+.pending_message {
+  color: rgb(240, 240, 50);
+}

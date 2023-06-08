@@ -640,7 +640,7 @@ export class ChatRoomApp extends BaseApp {
       </div>
       <div class="assist_section_wrapper">
           <div class="tokens_completion"></span></div>
-          <div class="assist_section">Prompt sent to OpenAI for processing...</div>
+          <div class="assist_section"><div class="pending_message">Prompt sent to OpenAI for processing...</div></div>
       </div>
   </div>`;
     cardWrapper.innerHTML = cardHTML;
