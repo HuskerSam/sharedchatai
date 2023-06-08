@@ -192,6 +192,9 @@ html {
 .tokens_total_since_wrapper {
   width: 60px;
   text-align: right;
+  position: relative;
+  left: -18px;
+  margin-right: -18px;
 }
 
 .assist_section_wrapper {
