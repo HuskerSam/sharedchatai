@@ -611,7 +611,7 @@ export class ChatRoomApp extends BaseApp {
     const cardClass = `mt-1 game_message_list_item${gameOwnerClass}${ownerClass}${tempTicketClass} ticket_running`;
     const cardHTML =
       `<div class="${cardClass}" ticketid="${ticketId}" chatroomid="${ticketId}">
-      <hr><span class="tokens_prompt"></span>
+      <span class="tokens_prompt"></span>
       <div class="m-1 user_assist_request_header">
         <div style="flex:1;" class="ticket_user_display_header d-flex flex-column">
             <div class="user_assist_request_header_user" >
@@ -643,6 +643,7 @@ export class ChatRoomApp extends BaseApp {
           <div class="tokens_completion"></span></div>
           <div class="assist_section"><div class="pending_message">Prompt sent to OpenAI for processing...</div></div>
       </div>
+      <hr>
   </div>`;
     cardWrapper.innerHTML = cardHTML;
     const cardDom = cardWrapper.children[0];
