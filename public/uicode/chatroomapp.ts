@@ -394,6 +394,12 @@ export class ChatRoomApp extends BaseApp {
                 setTimeout(() => btn.innerHTML = buttonText, 1200);
               });
 
+              const continueButton = document.createElement("button");
+              continueButton.setAttribute("class", "continue_previous_response btn btn-primary");
+              continueButton.innerHTML = `Continue`;
+              assistSection.appendChild(continueButton);
+              continueButton.addEventListener("click", () => this.sendTicketToAPI(true, "Continue Previous"));
+
               totalSpan.innerHTML = assistData.assist.usage.total_tokens;
               promptSpan.innerHTML = assistData.assist.usage.prompt_tokens;
               completionSpan.innerHTML = assistData.assist.usage.completion_tokens;
@@ -401,9 +407,9 @@ export class ChatRoomApp extends BaseApp {
               let responseCap = this.gameData.max_tokens;
               if (ticketData.max_tokens !== undefined) responseCap = ticketData.max_tokens;
               if (assistData.assist.usage.completion_tokens >= responseCap) {
-                completionSpan.classList.add("completion_max_tokens_reached");
+                card.classList.add("completion_max_tokens_reached");
               } else {
-                completionSpan.classList.remove("completion_max_tokens_reached");
+                card.classList.remove("completion_max_tokens_reached");
               }
             }
           } else {
@@ -723,14 +729,15 @@ export class ChatRoomApp extends BaseApp {
   }
   /** api user send message
    * @param { boolean } ignoreThreshold true to send regardless of size
+   * @param { string } message optional - read from ticket_content_input if not provided
   */
-  async sendTicketToAPI(ignoreThreshold = false) {
+  async sendTicketToAPI(ignoreThreshold = false, message = "") {
     if (this.isOverSendThreshold() && !ignoreThreshold) {
       this.showOverthresholdToSendModal();
       return;
     }
 
-    let message = this.ticket_content_input.value.trim();
+    if (!message) message = this.ticket_content_input.value.trim();
     if (message === "") {
       alert("Please supply a message");
       return;

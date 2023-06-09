@@ -213,7 +213,7 @@ html {
   background-color: rgba(68, 70, 84, 0.6);
 }
 
-.completion_max_tokens_reached {
+.completion_max_tokens_reached .tokens_completion {
   color: rgb(255, 100, 100);
 }
 
@@ -812,4 +812,18 @@ pre code {
 
 .max_tokens_slider_label.engine_field_not_default span {
   color: rgb(240, 240, 50);
+}
+
+.continue_previous_response {
+  display: none;
+  position: absolute;
+  bottom: 0px;
+  color: rgb(240, 240, 240);
+  background-color:rgba(68, 70, 84, 0.5);
+  right: 44px;
+  z-index: 1;
+}
+
+.completion_max_tokens_reached .continue_previous_response {
+  display: inline-block;
 }
