@@ -207,11 +207,11 @@ html {
 .tokens_completion {
   position: absolute;
   right: 24px;
-  top: -16px;
+  top: -20px;
   padding: 4px;
   color: rgb(190, 190, 190);
   z-index: 1;
-  background-color: rgba(68, 70, 84, 0.6);
+  background-color:transparent;
 }
 
 .completion_max_tokens_reached .tokens_completion {
@@ -379,7 +379,7 @@ pre code {
   background: none;
   border-color: transparent;
   color: rgb(240, 240, 240);
-  background-color: rgba(68, 70, 84, 0.5);
+  background-color: transparent;
   right: 4px;
   z-index: 1;
 }
@@ -397,7 +397,7 @@ pre code {
   color: rgb(240, 240, 240);
   left: 8px;
   top: 3px;
-  background-color: rgba(68, 70, 84, 0.5);
+  background-color:transparent;
   z-index: 1;
 }
 
@@ -586,7 +586,7 @@ pre code {
 .rerun_ticket,
 .delete_ticket {
   margin: 4px;
-  background-color: rgba(68, 70, 84, 0.5);
+  background-color: transparent;
   color: rgb(240, 240, 240);
   position: relative;
   z-index: 10;
