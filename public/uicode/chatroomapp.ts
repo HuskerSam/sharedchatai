@@ -148,7 +148,7 @@ export class ChatRoomApp extends BaseApp {
     this.docfield_temperature.addEventListener("input", () => this.optionSliderChange(true, "temperature",
       this.docfield_temperature, this.temperature_slider_label, "Temperature: "));
     this.docfield_top_p.addEventListener("input", () => this.optionSliderChange(true, "top_p",
-      this.docfield_top_p, this.top_p_slider_label, "Top P: "));
+      this.docfield_top_p, this.top_p_slider_label, "Top p: "));
     this.docfield_presence_penalty.addEventListener("input", () => this.optionSliderChange(true, "presence_penalty",
       this.docfield_presence_penalty, this.presence_penalty_slider_label, "Presence Penalty: "));
     this.docfield_frequency_penalty.addEventListener("input", () => this.optionSliderChange(true, "frequency_penalty",
@@ -591,7 +591,8 @@ export class ChatRoomApp extends BaseApp {
     imgCtls.forEach((imgCtl: any) => {
       const uid: any = imgCtl.dataset.ticketowneruid;
       if (uid !== undefined) {
-        const imgPath = this.gameData.memberImages[uid];
+        let imgPath = this.gameData.memberImages[uid];
+        if (!imgPath) imgPath = "/images/defaultprofile.png";
         imgCtl.style.backgroundImage = "url(" + imgPath + ")";
       }
     });
