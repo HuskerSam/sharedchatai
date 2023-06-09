@@ -209,11 +209,18 @@ export default class BaseApp {
   }
   /** get gmail like past date
    * @param { Date } dt date to format
+   * @param { boolean } amFormat use am and pm for time if true
    * @return { string } formatted date
   */
-  showGmailStyleDate(dt: Date): string {
+  showGmailStyleDate(dt: Date, amFormat = false): string {
     if (Date.now() - dt.getTime() < 24 * 60 * 60 * 1000) {
-      return this.formatAMPM(dt);
+      if (amFormat) return this.formatAMPM(dt);
+
+      const tzoffset = (new Date()).getTimezoneOffset() * 60000;
+      const localISOTime = (new Date(dt.getTime() - tzoffset)).toISOString().slice(0, -1);
+      let response = localISOTime.substring(11, 16);
+      if (response.substring(0, 1) === "0") response = response.replace("0", " ");
+      return response;
     }
 
     return dt.toLocaleDateString("en-us", {

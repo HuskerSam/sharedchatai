@@ -14,7 +14,7 @@ declare const window: any;
 export class ChatRoomApp extends BaseApp {
   apiType = "aichat";
   maxTokenPreviewChars = 30;
-  currentGame: any;
+  documentId: any;
   lastTicketsSnapshot: any = [];
   gameSubscription: any;
   assistsSubscription: any;
@@ -83,6 +83,7 @@ export class ChatRoomApp extends BaseApp {
   prompt_token_count: any = document.querySelector(".prompt_token_count");
   total_prompt_token_count: any = document.querySelector(".total_prompt_token_count");
   token_visualizer_preview: any = document.querySelector(".token_visualizer_preview");
+  menu_profile_user_image_span: any = document.querySelector(".menu_profile_user_image_span");
 
   show_document_options_modal: any = document.querySelector(".show_document_options_modal");
   show_document_options_help: any = document.querySelector(".show_document_options_help");
@@ -140,7 +141,7 @@ export class ChatRoomApp extends BaseApp {
     this.ticket_content_input.addEventListener("input", () => this.updatePromptTokenStatus());
     this.show_document_options_modal.addEventListener("click", () => {
       this.show_document_options_popup.click();
-      this.documentOptions.show(this.currentGame, this.gameData);
+      this.documentOptions.show(this.documentId, this.gameData);
     });
     this.show_document_options_help.addEventListener("click", () => this.helpHelper.show("engine"));
     this.show_token_threshold_dialog.addEventListener("click", () => this.helpHelper.show("engine"));
@@ -275,7 +276,7 @@ export class ChatRoomApp extends BaseApp {
 
     let html = "";
     this.lastDocumentsSnapshot.forEach((doc: any) => {
-      if (doc.id !== this.currentGame) {
+      if (doc.id !== this.documentId) {
         const data = doc.data();
         let title = BaseApp.escapeHTML(data.title);
         if (!title) title = "unused";
@@ -439,6 +440,7 @@ export class ChatRoomApp extends BaseApp {
     if (scrollToBottom) {
       this.scrollTicketListBottom();
       setTimeout(() => this.scrollTicketListBottom(), 100);
+      setTimeout(() => this.scrollTicketListBottom(), 150);
     }
   }
   /** tests if dom scroll is at bottom
@@ -532,7 +534,7 @@ export class ChatRoomApp extends BaseApp {
     this.scrollTicketListBottom();
 
     const body = {
-      gameNumber: this.currentGame,
+      gameNumber: this.documentId,
       includeTickets,
       reRunTicket: ticketId.toString(),
     };
@@ -707,7 +709,7 @@ export class ChatRoomApp extends BaseApp {
   */
   async includeTicketSendToAPI(ticketId: string, include: boolean) {
     const body = {
-      gameNumber: this.currentGame,
+      gameNumber: this.documentId,
       ticketId,
       include,
     };
@@ -755,7 +757,7 @@ export class ChatRoomApp extends BaseApp {
       uid: this.uid,
       message,
       isGameOwner: this.uid === this.gameData.createUser,
-      gameNumber: this.currentGame,
+      gameNumber: this.documentId,
       submitted: new Date().toISOString(),
     };
 
@@ -767,7 +769,7 @@ export class ChatRoomApp extends BaseApp {
     const includeTickets = this.generateSubmitList();
 
     const body = {
-      gameNumber: this.currentGame,
+      gameNumber: this.documentId,
       message,
       includeTickets,
     };
@@ -838,7 +840,7 @@ export class ChatRoomApp extends BaseApp {
   /** BaseApp override to paint profile specific authorization parameters */
   authUpdateStatusUI() {
     super.authUpdateStatusUI();
-    this.currentGame = null;
+    this.documentId = null;
 
     if (this.profile) {
       this.initRTDBPresence();
@@ -853,15 +855,18 @@ export class ChatRoomApp extends BaseApp {
       else document.body.classList.remove("profile_text_less_token_details");
 
       const gameId = this.urlParams.get("game");
-      if (gameId && !this.currentGame) {
+      if (gameId && !this.documentId) {
         this.gameAPIJoin(gameId);
-        this.currentGame = gameId;
+        this.documentId = gameId;
 
         if (this.gameSubscription) this.gameSubscription();
-        this.gameSubscription = firebase.firestore().doc(`Games/${this.currentGame}`)
+        this.gameSubscription = firebase.firestore().doc(`Games/${this.documentId}`)
           .onSnapshot((doc: any) => this.paintGameData(doc));
       }
 
+    let img = this.profile.displayImage;
+    if (!img) img = "/images/defaultprofile.png";
+      this.menu_profile_user_image_span.style.backgroundImage = "url(" + img + ")";
       setTimeout(() => this._updateGameMembersList(), 1000);
     }
   }
@@ -879,7 +884,7 @@ export class ChatRoomApp extends BaseApp {
     `);
 
     BaseApp.setHTML(this.document_menutop_usage_stats_line, `<span class="usage">${this.gameData.totalTokens}</span> Usage`);
-    BaseApp.setHTML(this.last_activity_display, this.showGmailStyleDate(new Date(this.gameData.lastActivity)));
+    BaseApp.setHTML(this.last_activity_display, this.showGmailStyleDate(new Date(this.gameData.lastActivity), true));
     BaseApp.setHTML(this.sidebar_document_title, BaseApp.escapeHTML(this.gameData.title));
 
     this.paintDocumentOptions();
@@ -926,7 +931,7 @@ export class ChatRoomApp extends BaseApp {
   */
   async saveDocumentOption(field: string, value: any) {
     const body: any = {
-      gameNumber: this.currentGame,
+      gameNumber: this.documentId,
       [field]: value,
     };
     const token = await firebase.auth().currentUser.getIdToken();
@@ -1140,7 +1145,7 @@ export class ChatRoomApp extends BaseApp {
     if (!this.testForEngineNotDefault()) return;
 
     const body: any = {
-      gameNumber: this.currentGame,
+      gameNumber: this.documentId,
     };
     Object.assign(body, this.defaultUIEngineSettings);
     const token = await firebase.auth().currentUser.getIdToken();

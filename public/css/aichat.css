@@ -188,7 +188,7 @@ html {
 
 .tokens_total {
   padding: 4px;
-  color: rgb(200, 240, 190); 
+  color: rgb(200, 240, 190);
 }
 
 .tokens_total_since_wrapper {
@@ -238,7 +238,7 @@ html {
 }
 
 .show_document_options_help {
-  color: rgb(200,125,200);
+  color: rgb(200, 125, 200);
 }
 
 .show_document_options_modal {
@@ -304,7 +304,7 @@ ul.recent_documents_list li a {
   text-decoration: underline;
 }
 
-.sidebar_tree_recent_title  {
+.sidebar_tree_recent_title {
   padding-bottom: 8px;
 }
 
@@ -378,7 +378,7 @@ pre code {
   background: none;
   border-color: transparent;
   color: rgb(240, 240, 240);
-  background-color:rgba(68, 70, 84, 0.5);
+  background-color: rgba(68, 70, 84, 0.5);
   right: 4px;
   z-index: 1;
 }
@@ -395,8 +395,8 @@ pre code {
   position: absolute;
   color: rgb(240, 240, 240);
   left: 8px;
-  top: 3px;  
-  background-color:rgba(68, 70, 84, 0.5);
+  top: 3px;
+  background-color: rgba(68, 70, 84, 0.5);
   z-index: 1;
 }
 
@@ -509,8 +509,8 @@ pre code {
 }
 
 .exclude_tickets_running .exclude_tickets_button {
-  background-color: rgba(0,0,0,1);
-  border-color: rgba(0,0,0,1);
+  background-color: rgba(0, 0, 0, 1);
+  border-color: rgba(0, 0, 0, 1);
 }
 
 .over_token_sendlimit .send_ticket_button {
@@ -588,7 +588,7 @@ pre code {
 .rerun_ticket,
 .delete_ticket {
   margin: 4px;
-  background-color:rgba(68, 70, 84, 0.5);
+  background-color: rgba(68, 70, 84, 0.5);
   color: rgb(240, 240, 240);
   position: relative;
   z-index: 10;
@@ -650,7 +650,7 @@ pre code {
 
 .profile_text_option_large .sidebar_document_title {
   font-size: 1.25em;
-  line-height: 1.75em; 
+  line-height: 1.75em;
   max-height: 3.5em;
 }
 
@@ -720,12 +720,12 @@ pre code {
 }
 
 .engine_settings_not_default .app_panel .engine_sidebar_menu_button {
-  color:  rgb(240, 240, 50);
+  color: rgb(240, 240, 50);
 }
 
 .engine_settings_tweaked .app_panel .engine_sidebar_menu_button {
   color: rgb(255, 127, 50);
-} 
+}
 
 .reset_engine_options_button {
   position: relative;
@@ -789,7 +789,8 @@ pre code {
 }
 
 .show_create_modal_on_bar {
-  padding-top: 12px;
+  position: relative;
+  top: -4px;
 }
 
 .document_usage_detail_header {
@@ -819,11 +820,36 @@ pre code {
   position: absolute;
   bottom: 0px;
   color: rgb(240, 240, 240);
-  background-color:rgba(68, 70, 84, 0.5);
+  background-color: rgba(68, 70, 84, 0.5);
   right: 44px;
   z-index: 1;
 }
 
 .completion_max_tokens_reached .continue_previous_response {
   display: inline-block;
+}
+
+.menu_profile_user_image_span {
+  width: 30px;
+  height: 30px;
+  background-size: contain;
+  background-position: center center;
+  background-color: rgba(255, 255, 255, 0.2);
+  position: relative;
+  float: left;
+  top: 8px;
+  border-radius: 6px;
+}
+
+@media (min-width: 990px) {
+  .menu_profile_user_image_span {
+    float: none;
+    display: inline-block;
+    top: 0px;
+  }
+}
+
+.mobile_custom_icon_label i {
+  top: 1px;
+  position: relative;
 }

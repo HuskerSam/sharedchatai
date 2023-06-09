@@ -51,7 +51,7 @@ export default class ProfileHelper {
         this.randomize_name = document.querySelector(".randomize_name");
         this.profile_text_monospace_checkbox = document.querySelector(".profile_text_monospace_checkbox");
         this.profile_prefixname_checkbox = document.querySelector(".profile_prefixname_checkbox");
-        
+
         this.profile_text_large_checkbox = document.querySelector(".profile_text_large_checkbox");
         this.profile_display_image_randomize = document.querySelector(".profile_display_image_randomize");
         this.profile_display_image_randomize.addEventListener("click", () => this.randomizeImage());
@@ -86,7 +86,7 @@ export default class ProfileHelper {
         this.profile_prefixname_checkbox.addEventListener("input", () => this.saveProfileField("prefixname"));
         this.profile_text_large_checkbox.addEventListener("input", () => this.saveProfileField("largetext"));
         this.show_modal_profile_help.addEventListener("click", () => this.app.helpHelper.show("profile"));
-        
+
         window.$(".label_profile_picker").select2({
             tags: true,
             placeHolder: "Configure default labels",
@@ -374,7 +374,7 @@ export default class ProfileHelper {
         if (fieldType === "prefixname") {
             this.app.profile.prefixName = this.profile_prefixname_checkbox.checked;
             updatePacket.prefixName = this.app.profile.prefixName;
-        }        
+        }
         if (this.app.fireToken) {
             await firebase.firestore().doc(`Users/${this.app.uid}`).set(updatePacket, {
                 merge: true,
