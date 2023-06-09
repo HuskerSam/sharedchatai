@@ -149,7 +149,7 @@ export class DashboardApp extends BaseApp {
         const usageDom = card.querySelector(".document_usage");
         // let usage: string = doc.data().completionTokens;
         let usage: string = doc.data().totalTickets;
-        if (!usage) usage = "&nbsp;";
+        if (!usage) usage = "0";
         BaseApp.setHTML(usageDom, usage);
 
         const sharedStatus = this.getDocumentSharedStatus(doc.data());
