@@ -6,6 +6,7 @@ import ProfileHelper from "./profilehelper.js";
 import {
   HelpHelper,
 } from "./helphelper.js";
+import Utility from "./utility.js";
 
 declare const firebase: any;
 declare const window: any;
@@ -130,7 +131,7 @@ export class ChatRoomApp extends BaseApp {
         e.stopPropagation();
         this.sendTicketToAPI();
       }
-      if (this.atBottom(this.tickets_list)) {  
+      if (this.atBottom(this.tickets_list)) {
         setTimeout(() => this.scrollTicketListBottom(), 100);
       }
     });
@@ -214,7 +215,11 @@ export class ChatRoomApp extends BaseApp {
   */
   async optionSliderChange(saveToAPI = false, sliderField: string, sliderCtl: any,
     sliderLabel: any, prefix: string) {
-    BaseApp.setHTML(sliderLabel, prefix + sliderCtl.value);
+    let value = Number(sliderCtl.value);
+    if (isNaN(value)) value = 0;
+    let outPercent = Math.round(value * 100) + "%";
+    if (sliderField === "max_tokens") outPercent = value.toString();
+    BaseApp.setHTML(sliderLabel, prefix + outPercent);
 
     if (saveToAPI) {
       clearTimeout(this.sliderChangeDebounceTimeout);
