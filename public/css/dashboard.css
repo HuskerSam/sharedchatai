@@ -78,9 +78,6 @@ span.next_label {
   display: none;
 }
 
-button.game.sit_button {
-  background: none;
-}
 
 .header_copyright {
   font-size: 16px;
@@ -220,6 +217,7 @@ button.code_link {
   position: relative;
   top: 2px;
   background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
 }
 
 .userprofile_description .user_name {

@@ -37,6 +37,7 @@ html {
   margin-right: 4px;
   align-self: center;
   background-color: rgba(255, 255, 255, .2);
+  border-radius: 6px;
 }
 
 .members_feed_profile_name {
@@ -626,6 +627,7 @@ pre code {
   background-repeat: no-repeat;
   position: relative;
   background-color: rgba(255, 255, 255, .1);
+  border-radius: 6px;
 }
 
 .ticket_owner_name {
