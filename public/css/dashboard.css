@@ -282,7 +282,7 @@ button.code_link {
 
 .userprofile_description .user_name {
   padding-left: 8px;
-  text-decoration: underline;
+  color: rgb(230, 230, 230);
 }
 
 .show_dashboard_help_button {
@@ -312,6 +312,17 @@ button.code_link {
   }
 }  
 
+.menu_profile_name_spacer {
+  flex: 6;
+  display: none;
+}
+
+@media (min-width: 990px) {
+  .menu_profile_name_spacer {
+    display: block;
+  }
+}
+
 #navbarSupportedContent {
   margin-left: 16px;
 }
@@ -323,7 +334,6 @@ button.code_link {
 .no_games_in_dashboard {
   display: none;
 }
-
 
 .games_view_wrapper {
   display: none;
@@ -340,4 +350,8 @@ button.code_link {
 
 .no_documents_in_feed .no_games_in_dashboard {
   display: block;
+}
+
+.navbar-light .navbar-nav .nav-link.show_profile_modal {
+  color: rgb(230, 230, 230)
 }
