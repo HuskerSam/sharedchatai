@@ -1031,7 +1031,7 @@ export class ChatRoomApp extends BaseApp {
   /** update the splitter if needed */
   updateMobileLayout() {
     let desktopView = true;
-    if (window.document.body.scrollWidth <= 650) {
+    if (window.document.body.scrollWidth <= 990) {
       desktopView = false;
     }
 
