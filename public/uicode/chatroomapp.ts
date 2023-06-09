@@ -229,7 +229,7 @@ export class ChatRoomApp extends BaseApp {
       this.sliderChangeDebounceTimeout = setTimeout(() => {
         this.lastDocumentOptionChange = new Date().getTime();
         this.saveDocumentOption(sliderField, Number(sliderCtl.value));
-      }, 300);
+      }, 50);
     }
   }
   /** setup data listender for user messages */
@@ -931,7 +931,6 @@ export class ChatRoomApp extends BaseApp {
       const json = await fResult.json();
       console.log("change game options result", json);
     }
-    setTimeout(() => this.paintDocumentOptions(), 500);
   }
   /** member data for a user
    * @param { string } uid user id
