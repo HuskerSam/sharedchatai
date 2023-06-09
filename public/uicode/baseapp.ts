@@ -1,4 +1,3 @@
-import Utility from "./utility.js";
 declare const firebase: any;
 declare const window: any;
 
@@ -122,12 +121,12 @@ export default class BaseApp {
   /** create default user profile record and overwrite to database without merge (reset) */
   async _authCreateDefaultProfile() {
     await this.readJSONFile(`/data/logos.json`, "profileLogos");
-    const keys = Object.keys(window.profileLogos);
-    const imageIndex = Math.floor(Math.random() * keys.length);
-    const logoName = keys[imageIndex];
+    // const keys = Object.keys(window.profileLogos);
+    // const imageIndex = Math.floor(Math.random() * keys.length);
+    // const logoName = keys[imageIndex];
     this.profile = {
-      displayName: Utility.generateName(),
-      displayImage: window.profileLogos[logoName],
+      displayName: "", // Utility.generateName(),
+      displayImage: "", // window.profileLogos[logoName],
       documentLabels: "Personal,Business,Archived",
     };
 
@@ -147,6 +146,10 @@ export default class BaseApp {
       "prompt": "select_account",
     });
     await firebase.auth().signInWithPopup(provider);
+    setTimeout(() => {
+      if (location.pathname === "/") location.href = location.origin + "/dashboard";
+      else location.reload();
+    }, 1);
   }
   /** anonymous sign in handler
    * @param { any } e dom event - preventDefault is called if passed
@@ -155,7 +158,8 @@ export default class BaseApp {
     e.preventDefault();
     await firebase.auth().signInAnonymously();
     setTimeout(() => {
-      location.reload();
+      if (location.pathname === "/") location.href = location.origin + "/dashboard";
+      else location.reload();
     }, 1);
     return true;
   }
@@ -163,15 +167,16 @@ export default class BaseApp {
   /** for use on page load - tests if a signIn token was included in the URL */
   signInWithURL() {
     if (!firebase.auth().isSignInWithEmailLink) return;
-    if (firebase.auth().isSignInWithEmailLink(window.location.href) !== true) return;
+    if (firebase.auth().isSignInWithEmailLink(location.href) !== true) return;
 
     let email = window.localStorage.getItem("emailForSignIn");
     if (!email) email = window.prompt("Please provide your email for confirmation");
 
-    firebase.auth().signInWithEmailLink(email, window.location.href)
+    firebase.auth().signInWithEmailLink(email, location.href)
       .then(() => {
         window.localStorage.removeItem("emailForSignIn");
-        window.location = "/";
+        if (location.pathname === "/") location.href = location.origin + "/dashboard";
+        else location.reload();
       })
       .catch((e: any) => console.log(e));
   }

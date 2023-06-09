@@ -78,8 +78,11 @@ export default class LoginHelper {
             return;
         }
 
+        let url = location.origin + "/dashboard";
+        if (location.href !== "/") url = location.href;
+
         const actionCodeSettings = {
-            url: window.location.href,
+            url,
             handleCodeInApp: true,
         };
         await firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings);

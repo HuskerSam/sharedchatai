@@ -36,6 +36,7 @@ html {
   position: relative;
   margin-right: 4px;
   align-self: center;
+  background-color: rgba(255, 255, 255, .2);
 }
 
 .members_feed_profile_name {
@@ -242,6 +243,7 @@ html {
 .show_document_options_modal {
   top: 12px;
   border-color: transparent;
+  color: rgb(220, 220, 220);
 }
 
 .message_list_send_wrapper {
@@ -622,6 +624,7 @@ pre code {
   background-position: center;
   background-repeat: no-repeat;
   position: relative;
+  background-color: rgba(255, 255, 255, .1);
 }
 
 .ticket_owner_name {
@@ -790,4 +793,12 @@ pre code {
   text-align: center;
   font-weight: bold;
   color: rgb(200, 200, 200);
+}
+
+.navbar-light .navbar-nav .nav-link.show_profile_modal {
+  color: rgb(220, 220, 220);
+}
+
+.navbar-light .navbar-nav .nav-link.info_anchor {
+  color: rgb(220, 220, 220);
 }
