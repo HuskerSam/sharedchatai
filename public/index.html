@@ -47,7 +47,12 @@
 
 <body class="basic_page_body">
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
-        <a class="navbar-brand">prompt➕</a>
+        <a class="navbar-brand" href="/"><img src="/images/fulllogo600x200.png"></a>
+        <div class="signed_in_options">
+            <button class="my-3 btn btn-success show_create_modal">
+                New Prompt
+        </div>
+        </button>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -80,81 +85,77 @@
                         </span>
                     </a>
                 </li>
-                <li class="nav-item signed_in_options">
-                    <a class="nav-link show_create_modal" href="create">
-                        <span class="mobile_custom_icon_label">
-                            <i class="fa-solid fa-plus fa-xl text-success"></i>
-                        </span>
-                        <span class="mobile_custom_title_label">
-                            New
-                        </span>
-                    </a>
-                </li>
             </ul>
         </div>
     </nav>
     <div class="basic_page_wrapper app_panel">
         <!---- hero section with featured video-->
         <div class="hero_section">
+            <div class="hero_section_video">
+                <video src="#" autoplay loop muted></video>
+            </div>
             <div class="hero_section_content">
-                <h1 class="hero_section_title">Get the Most from Your Chatgpt Prompts</h1>
-                <p class="hero_section_description">Designed for dedicated learners looking to maximize their prompt
-                    engineering potential. Explore Advanced API Features, Access Public Examples, and Collaborate with
-                    Teams to Create and Share Prompts. </p>
-                <div class="hero_section_buttons">
+                <h1>Get the Most from Chatgpt Prompts</h1>
+                <p>Prompt controls, Advanced API Features and more in a Collaborative Environment.</p>
+                <div>
                     <button type="button" class="btn btn-primary btn-lg px-4 me-sm-3 homepage_signin_show_modal">
                         Sign up
                     </button>
+                    <button type="button" class="btn btn-outline-secondary btn-lg px-4">
+                        Contact Us
+                    </button>
                 </div>
-            </div>
-            <div class="hero_section_video">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/2QKZQf2WqkE"
-                    title="YouTube video player" frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
             </div>
         </div>
-        <!---- feature section -->
-        <section class="container features_section">
-            <div class="d-flex flex-column">
-                <h2 class="feature_header display-5 fw-normal">True Command Over your prompts</h2>
-                <div class="feature_tools d-flex justify-content-center align-content-center">
-                    <div class="d-flex flex-column">
-                        <i class="fa-solid fa-trash"></i>
-                        <i class="fa-solid fa-arrows-spin"></i>
-                        <i class="fa-regular fa-square-check"></i>
-                    </div>
-                    <div class="place_holder_img_wrapper">
-                        <img src="https://placehold.co/200" alt="">
-                    </div>
-                </div>
-                <p class="feature_descr lead fw-normal">Delete, select included messages, and even rerun prompts with
+        <!---- feature list -->
+        <section class="feature-list container">
+            <div class="feature-item">
+                <i class="fa-solid fa-toolbox"></i>
+                <h3>Advance Prompt Controls</h3>
+                <p>Delete, select included messages, and even rerun prompts with
                     new parameters to save time and improve results.</p>
             </div>
+
+            <div class="feature-item">
+                <i class="fas fa-cog"></i>
+                <h3>Complete API Parameters</h3>
+                <p>Access the backend to optimize prompts for creativity, repetition, or other factors that align with
+                    your specific needs.</p>
+            </div>
+
+            <div class="feature-item">
+                <i class="fas fa-user"></i>
+                <h3>Fully Collaborative Environment</h3>
+                <p>Work together as a team to document, share, and provide feedback on prompts, fostering a dynamic
+                    process of prompt engineering</p>
+            </div>
+        </section>
+        <!---- feature section -->
+        <section class="container features_highlight">
             <div class="d-flex flex-column">
-                <h2 class="feature_header display-5 fw-normal">Get the most out of ChatGPT's backend</h2>
-                <p class="feature_descr lead">Control the knobs that affect creativity, repetition,
-                    or other factors that affect your results.</p>
+                <h2 class="feature_header display-6 fw-normal">With Prompt+, it's simple to customize parameters that optimize ChatGPT prompts.</h2>
+                <p class="feature_descr lead fw-normal">We give you access to the ChatGPT backend's built-in features for response predictability, creativity, and repetition elimination.</p>
+            </div>
+            <div class="d-flex flex-column">
                 <div class="code_snippet_wrapper">
                     <div class="code_snippet">
-                        <span class="term">temperature</span> : <span class="comment">Controls randomness</span>,
+                        <span class="term">temperature</span> : <span class="comment">to control randomness</span>,
                     </div>
                     <p class="api_descr fw-normal">Higher = more diverse options, lower = less diversity.
                     </p>
                     <div class="code_snippet">
-                        <span class="term">top_p</span> : <span class="comment">Adjusts the AI's
-                            unpredictability</span>,
+                        <span class="term">top_p</span> : <span class="comment">to adjusts predictability</span>,
                     </div>
                     <p class="api_descr fw-normal"> Higher = more varied responses, lower = more focused responses.
                     </p>
                     <div class="code_snippet">
-                        <span class="term">frequency_penalty</span> : <span class="comment">Deters common
+                        <span class="term">frequency_penalty</span> : <span class="comment">to deter common
                             phrases</span>,
                     </div>
                     <p class="api_descr fw-normal"> Higher = avoids clichés, lower = allows common phrases.
                     </p>
                     <div class="code_snippet">
-                        <span class="term">presence_penalty</span> : <span class="comment">Restricts new
+                        <span class="term">presence_penalty</span> : <span class="comment"> to restricts new
                             topics</span>,
                     </div>
                     <p class="api_descr fw-normal"> Higher = sticks to existing topics, lower = introduces new topics.
@@ -163,6 +164,9 @@
             </div>
             <p class="feature_descr lead">Combine our tools for the ultimate precision optimization by select which
                 prompts you want included and adjusting API parameters.</p>
+        </section>
+        <section class="how_to">
+            <p class="feature_descr_standout">Follow these steps to make the most of our advanced API features:</p>
         </section>
         <section>
             <div class="container px-4" id="icon-grid">
