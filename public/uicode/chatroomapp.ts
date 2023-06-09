@@ -83,7 +83,6 @@ export class ChatRoomApp extends BaseApp {
   prompt_token_count: any = document.querySelector(".prompt_token_count");
   total_prompt_token_count: any = document.querySelector(".total_prompt_token_count");
   token_visualizer_preview: any = document.querySelector(".token_visualizer_preview");
-  menu_profile_user_image_span: any = document.querySelector(".menu_profile_user_image_span");
 
   show_document_options_modal: any = document.querySelector(".show_document_options_modal");
   show_document_options_help: any = document.querySelector(".show_document_options_help");
@@ -864,9 +863,6 @@ export class ChatRoomApp extends BaseApp {
           .onSnapshot((doc: any) => this.paintGameData(doc));
       }
 
-    let img = this.profile.displayImage;
-    if (!img) img = "/images/defaultprofile.png";
-      this.menu_profile_user_image_span.style.backgroundImage = "url(" + img + ")";
       setTimeout(() => this._updateGameMembersList(), 1000);
     }
   }

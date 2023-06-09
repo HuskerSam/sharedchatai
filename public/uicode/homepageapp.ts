@@ -4,9 +4,9 @@ import DocCreateHelper from "./doccreatehelper.js";
 import ProfileHelper from "./profilehelper.js";
 import {
     HelpHelper,
-  } from "./helphelper.js";
+} from "./helphelper.js";
 
- declare const firebase: any;
+declare const firebase: any;
 
 /** Guess app class */
 export class HomePageApp extends BaseApp {
@@ -46,13 +46,14 @@ export class HomePageApp extends BaseApp {
             this.documentCreate.show();
         });
 
-        this.engine_settings_help.addEventListener("click", () => this.helpHelper.show("engine"));
-        this.user_profile_help.addEventListener("click", () => this.helpHelper.show("profile"));
-        this.optimizng_prompts_help.addEventListener("click", () => this.helpHelper.show("prompts"));
-        this.shared_sessions_help.addEventListener("click", () => this.helpHelper.show("session"));
+        if (this.engine_settings_help) this.engine_settings_help.addEventListener("click", () => this.helpHelper.show("engine"));
+        if (this.user_profile_help) this.user_profile_help.addEventListener("click", () => this.helpHelper.show("profile"));
+        if (this.optimizng_prompts_help) this.optimizng_prompts_help.addEventListener("click", () => this.helpHelper.show("prompts"));
+        if (this.shared_sessions_help) this.shared_sessions_help.addEventListener("click", () => this.helpHelper.show("session"));
     }
     /** override event that happens after authentication resolution */
     authUpdateStatusUI(): void {
+        super.authUpdateStatusUI();
         if (this.profile) {
             if (!this.checkTemplateURL) {
                 this.checkTemplateURL = true;
@@ -91,40 +92,40 @@ export class HomePageApp extends BaseApp {
         }
     }
 
-      /** setup data listener for recent document feed */
-  async initRecentDocumentsFeed() {
-    if (this.recentDocumentFeedRegistered) return;
-    this.recentDocumentFeedRegistered = true;
+    /** setup data listener for recent document feed */
+    async initRecentDocumentsFeed() {
+        if (this.recentDocumentFeedRegistered) return;
+        this.recentDocumentFeedRegistered = true;
 
-    if (this.recentDocumentsSubscription) this.recentDocumentsSubscription();
-    this.recentDocumentsSubscription = firebase.firestore().collection(`Games`)
-      .orderBy(`members.${this.uid}`, "desc")
-      .limit(5)
-      .onSnapshot((snapshot: any) => this.updateRecentDocumentFeed(snapshot));
-  }
-      /** paint recent document feed
-  * @param { any } snapshot firestore query data snapshot
-  */
-  updateRecentDocumentFeed(snapshot: any = null) {
-    if (snapshot) this.lastDocumentsSnapshot = snapshot;
-    else if (this.lastDocumentsSnapshot) snapshot = this.lastDocumentsSnapshot;
-    else return;
+        if (this.recentDocumentsSubscription) this.recentDocumentsSubscription();
+        this.recentDocumentsSubscription = firebase.firestore().collection(`Games`)
+            .orderBy(`members.${this.uid}`, "desc")
+            .limit(5)
+            .onSnapshot((snapshot: any) => this.updateRecentDocumentFeed(snapshot));
+    }
+    /** paint recent document feed
+* @param { any } snapshot firestore query data snapshot
+*/
+    updateRecentDocumentFeed(snapshot: any = null) {
+        if (snapshot) this.lastDocumentsSnapshot = snapshot;
+        else if (this.lastDocumentsSnapshot) snapshot = this.lastDocumentsSnapshot;
+        else return;
 
-    let html = "";
-    this.lastDocumentsSnapshot.forEach((doc: any) => {
-        const data = doc.data();
-        let title = BaseApp.escapeHTML(data.title);
-        if (!title) title = "unused";
-        // const activityDate = data.created.substring(5, 16).replace("T", " ").replace("-", "/");
-        title = title.substring(0, 100);
-        const activityDate = this.showGmailStyleDate(new Date(data.lastActivity));
-        const rowHTML = `<li>
+        let html = "";
+        this.lastDocumentsSnapshot.forEach((doc: any) => {
+            const data = doc.data();
+            let title = BaseApp.escapeHTML(data.title);
+            if (!title) title = "unused";
+            // const activityDate = data.created.substring(5, 16).replace("T", " ").replace("-", "/");
+            title = title.substring(0, 100);
+            const activityDate = this.showGmailStyleDate(new Date(data.lastActivity));
+            const rowHTML = `<li>
         <a href="/aichat/?game=${doc.id}">
           <div class="sidebar_tree_recent_title title">${title}</div>
           <div class="activity_date">${activityDate}</div>
         </a></li>`;
-        html += rowHTML;
-    });
-    this.recent_documents_list.innerHTML = html;
-  }
+            html += rowHTML;
+        });
+        this.recent_documents_list.innerHTML = html;
+    }
 }

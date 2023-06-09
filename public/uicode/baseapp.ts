@@ -23,6 +23,7 @@ export default class BaseApp {
   userPresenceStatus: any = {};
   userPresenceStatusRefs: any = {};
   userStatusDatabaseRef: any;
+  menu_profile_user_image_span: any = document.querySelector(".menu_profile_user_image_span");
 
   /** constructor  */
   constructor() {
@@ -134,6 +135,11 @@ export default class BaseApp {
   }
   /** update user auth status, username/email etc */
   updateUserStatus() {
+    if (this.menu_profile_user_image_span) {
+      let img = this.profile.displayImage;
+      if (!img) img = "/images/defaultprofile.png";
+      this.menu_profile_user_image_span.style.backgroundImage = "url(" + img + ")";
+    }
     return;
   }
   /** google sign in handler

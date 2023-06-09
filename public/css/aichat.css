@@ -828,28 +828,3 @@ pre code {
 .completion_max_tokens_reached .continue_previous_response {
   display: inline-block;
 }
-
-.menu_profile_user_image_span {
-  width: 30px;
-  height: 30px;
-  background-size: contain;
-  background-position: center center;
-  background-color: rgba(255, 255, 255, 0.2);
-  position: relative;
-  float: left;
-  top: 8px;
-  border-radius: 6px;
-}
-
-@media (min-width: 990px) {
-  .menu_profile_user_image_span {
-    float: none;
-    display: inline-block;
-    top: 0px;
-  }
-}
-
-.mobile_custom_icon_label i {
-  top: 1px;
-  position: relative;
-}
