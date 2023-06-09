@@ -306,3 +306,11 @@
   background-color: rgba(255, 255, 255, .1);
   border-radius: 6px;
 }
+
+.form-check-label {
+  margin-right: 12px;
+}
+
+.modal-dialog .app_panel {
+  background: rgb(30, 30, 70);
+}

@@ -147,19 +147,16 @@ export default class ProfileHelper {
                                     <input class="form-check-input profile_text_large_checkbox" type="checkbox" value="">
                                     Large Text
                                 </label>
-                                &nbsp;
                                 <label class="form-check-label">
                                     <input class="form-check-input profile_text_monospace_checkbox" type="checkbox"
                                         value="">
                                     Monospace
                                 </label>
-                                &nbsp;
                                 <label class="form-check-label">
                                     <input class="form-check-input profile_prefixname_checkbox" type="checkbox"
                                         value="">
                                     Prefix Name
                                 </label>
-                                &nbsp;
                                 <label class="form-check-label">
                                     <input class="form-check-input profile_autoexclude_checkbox" type="checkbox"
                                         value="">
