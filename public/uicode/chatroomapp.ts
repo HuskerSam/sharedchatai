@@ -46,6 +46,7 @@ export class ChatRoomApp extends BaseApp {
   documentsLookup: any = {};
   lastDocumentOptionChange = 0;
   sliderChangeDebounceTimeout: any = {};
+  sliderPaintDebounceTimeout: any = {};
   fragmentCache: any = {};
   copyResponseCache: any = {};
   copyTicketCache: any = {};
@@ -148,7 +149,7 @@ export class ChatRoomApp extends BaseApp {
     this.docfield_temperature.addEventListener("input", () => this.optionSliderChange(true, "temperature",
       this.docfield_temperature, this.temperature_slider_label, "Temperature: "));
     this.docfield_top_p.addEventListener("input", () => this.optionSliderChange(true, "top_p",
-      this.docfield_top_p, this.top_p_slider_label, "Top p: "));
+      this.docfield_top_p, this.top_p_slider_label, "Top P: "));
     this.docfield_presence_penalty.addEventListener("input", () => this.optionSliderChange(true, "presence_penalty",
       this.docfield_presence_penalty, this.presence_penalty_slider_label, "Presence Penalty: "));
     this.docfield_frequency_penalty.addEventListener("input", () => this.optionSliderChange(true, "frequency_penalty",
@@ -230,7 +231,7 @@ export class ChatRoomApp extends BaseApp {
       this.sliderChangeDebounceTimeout[sliderField] = setTimeout(() => {
         this.saveDocumentOption(sliderField, Number(sliderCtl.value));
         this.sliderChangeDebounceTimeout[sliderField] = null;
-      }, 50);
+      }, 75);
     }
   }
   /** setup data listender for user messages */
@@ -863,7 +864,7 @@ export class ChatRoomApp extends BaseApp {
           .onSnapshot((doc: any) => this.paintGameData(doc));
       }
 
-      setTimeout(() => this._updateGameMembersList(), 1000);
+      setTimeout(() => this._updateGameMembersList(), 50);
     }
   }
   /** paint game data (game document change handler)
@@ -886,6 +887,7 @@ export class ChatRoomApp extends BaseApp {
     this.paintDocumentOptions();
     this._updateGameMembersList();
     setTimeout(() => {
+      this.paintDocumentOptions();
       this._updateGameMembersList();
     }, 100);
     this.updatePromptTokenStatus();
@@ -976,29 +978,30 @@ export class ChatRoomApp extends BaseApp {
     if (this.testForEngineTweaked()) document.body.classList.add("engine_settings_tweaked");
     else document.body.classList.remove("engine_settings_tweaked");
 
-    if (this.lastDocumentOptionChange + 1000 > new Date().getTime()) {
-      clearTimeout(this.paintOptionsDebounceTimer);
-      this.paintOptionsDebounceTimer = setTimeout(() => this.paintDocumentOptions(), 500);
-      return;
-    }
+    const debounce = (this.lastDocumentOptionChange + 500 > new Date().getTime());
 
     this.docfield_model.value = this.gameData.model;
 
-    this.docfield_max_tokens.value = this.gameData.max_tokens;
-    this.optionSliderChange(false, "max_tokens",
-      this.docfield_max_tokens, this.max_tokens_slider_label, "Completion Tokens: ");
-    this.docfield_temperature.value = this.gameData.temperature;
-    this.optionSliderChange(false, "temperature",
-      this.docfield_temperature, this.temperature_slider_label, "Temperature: ");
-    this.docfield_top_p.value = this.gameData.top_p;
-    this.optionSliderChange(false, "top_p",
-      this.docfield_top_p, this.top_p_slider_label, "Top p: ");
-    this.docfield_presence_penalty.value = this.gameData.presence_penalty;
-    this.optionSliderChange(false, "presence_penalty",
-      this.docfield_presence_penalty, this.presence_penalty_slider_label, "Presence Penalty: ");
-    this.docfield_frequency_penalty.value = this.gameData.frequency_penalty;
-    this.optionSliderChange(false, "frequency_penalty",
-      this.docfield_frequency_penalty, this.frequency_penalty_slider_label, "Frequency Penalty: ");
+    this.__debounceSliderPaint("max_tokens", debounce, "Completion Tokens: ");
+    this.__debounceSliderPaint("temperature", debounce, "Temperature: ");
+    this.__debounceSliderPaint("top_p", debounce, "Top P: ");
+    this.__debounceSliderPaint("presence_penalty", debounce, "Presence Penalty: ");
+    this.__debounceSliderPaint("frequency_penalty", debounce, "Frequency Penalty: ");
+  }
+  __debounceSliderPaint(field: string, debounce: boolean, label: string) {
+    if (debounce && this.sliderChangeDebounceTimeout[field]) {
+      clearTimeout(this.sliderPaintDebounceTimeout[field]);
+      this.sliderPaintDebounceTimeout[field] = setTimeout(() =>  {
+        this.__debounceSliderPaint(field, debounce, label);
+        this.sliderPaintDebounceTimeout[field] = null;
+      }, 50);
+      return;
+    }
+
+    const ele: any = (<any>this)["docfield_" + field];
+    const labelEle: any = (<any>this)[field + "_slider_label"];
+    ele.value = this.gameData[field];
+    this.optionSliderChange(false, field, ele, labelEle, label);
   }
   /** update the splitter if needed */
   updateMobileLayout() {
@@ -1159,6 +1162,7 @@ export class ChatRoomApp extends BaseApp {
       const json = await fResult.json();
       console.log("reset options failed", json);
     }
-    setTimeout(() => this.paintDocumentOptions(), 500);
+    this.sliderChangeDebounceTimeout = {};
+    this.paintDocumentOptions();
   }
 }
