@@ -24,7 +24,7 @@ export default class ProfileHelper {
     chat_token_usage_display: any;
     profile_text_large_checkbox: any;
     profile_text_monospace_checkbox: any;
-    profile_text_lessdetail_checkbox: any;
+    profile_prefixname_checkbox: any;
     lastLabelsSave = 0;
     noLabelSave = true;
 
@@ -50,7 +50,8 @@ export default class ProfileHelper {
         this.profile_display_image_clear = document.querySelector(".profile_display_image_clear");
         this.randomize_name = document.querySelector(".randomize_name");
         this.profile_text_monospace_checkbox = document.querySelector(".profile_text_monospace_checkbox");
-        this.profile_text_lessdetail_checkbox = document.querySelector(".profile_text_lessdetail_checkbox");
+        this.profile_prefixname_checkbox = document.querySelector(".profile_prefixname_checkbox");
+        
         this.profile_text_large_checkbox = document.querySelector(".profile_text_large_checkbox");
         this.profile_display_image_randomize = document.querySelector(".profile_display_image_randomize");
         this.profile_display_image_randomize.addEventListener("click", () => this.randomizeImage());
@@ -82,10 +83,10 @@ export default class ProfileHelper {
         this.randomize_name.addEventListener("click", () => this.randomizeProfileName());
         this.prompt_for_new_user_name.addEventListener("click", () => this.saveProfileField("name"));
         this.profile_text_monospace_checkbox.addEventListener("input", () => this.saveProfileField("monospace"));
+        this.profile_prefixname_checkbox.addEventListener("input", () => this.saveProfileField("prefixname"));
         this.profile_text_large_checkbox.addEventListener("input", () => this.saveProfileField("largetext"));
         this.show_modal_profile_help.addEventListener("click", () => this.app.helpHelper.show("profile"));
-        this.profile_text_lessdetail_checkbox.addEventListener("click", () => this.saveProfileField("lessdetail"));
-
+        
         window.$(".label_profile_picker").select2({
             tags: true,
             placeHolder: "Configure default labels",
@@ -128,7 +129,7 @@ export default class ProfileHelper {
                         <li class="nav-item" role="presentation">
                             <a class="nav-link" id="usage_labels_tab_button" data-bs-toggle="tab"
                                 href="#profile_user_usage_view" role="tab" aria-controls="profile_user_usage_view"
-                                aria-selected="false">Usage</a>
+                                aria-selected="false">Account</a>
                         </li>
                     </ul>
                     <div class="tab-content">
@@ -148,10 +149,10 @@ export default class ProfileHelper {
                                     Monospace
                                 </label>
                                 &nbsp;
-                                <label class="form-check-label" style="display:none;">
-                                    <input class="form-check-input profile_text_lessdetail_checkbox" type="checkbox"
+                                <label class="form-check-label">
+                                    <input class="form-check-input profile_prefixname_checkbox" type="checkbox"
                                         value="">
-                                    Less Details
+                                    Prefix Name
                                 </label>
                             </div>
                             <hr>
@@ -370,10 +371,10 @@ export default class ProfileHelper {
         if (fieldType === "image") {
             updatePacket.displayImage = this.app.profile.displayImage;
         }
-        if (fieldType === "lessdetail") {
-            this.app.profile.lessTokenDetails = this.profile_text_lessdetail_checkbox.checked;
-            updatePacket.lessTokenDetails = this.app.profile.lessTokenDetails;
-        }
+        if (fieldType === "prefixname") {
+            this.app.profile.prefixName = this.profile_prefixname_checkbox.checked;
+            updatePacket.prefixName = this.app.profile.prefixName;
+        }        
         if (this.app.fireToken) {
             await firebase.firestore().doc(`Users/${this.app.uid}`).set(updatePacket, {
                 merge: true,
@@ -507,6 +508,7 @@ export default class ProfileHelper {
 
         this.profile_text_large_checkbox.checked = (this.app.profile.textOptionsLarge === true);
         this.profile_text_monospace_checkbox.checked = (this.app.profile.textOptionsMonospace === true);
+        this.profile_prefixname_checkbox.checked = (this.app.profile.prefixName === true);
         this.updateImageDisplay();
         this.updateTokenUsage();
         this.profile_show_modal.click();

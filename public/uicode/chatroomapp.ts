@@ -742,6 +742,11 @@ export class ChatRoomApp extends BaseApp {
       alert("Please supply a message");
       return;
     }
+    if (this.profile.prefixName) {
+      let displayName = this.profile.displayName;
+      if (!displayName) displayName = "Anonymous";
+      message = displayName + ": " + message;
+    }
     if (message.length > 10000) message = message.substr(0, 10000);
     this.ticket_content_input.value = "";
     this.autoSizeTextArea();
