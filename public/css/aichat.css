@@ -273,6 +273,7 @@ html {
 
 .document_option_model_select_wrapper select {
   float: left;
+  margin-left: 16px;
 }
 
 ul.recent_documents_list {
@@ -717,7 +718,7 @@ pre code {
 }
 
 .engine_settings_not_default .app_panel .engine_sidebar_menu_button {
-  color: rgb(200, 200, 50);
+  color:  rgb(240, 240, 50);
 }
 
 .engine_settings_tweaked .app_panel .engine_sidebar_menu_button {
@@ -801,4 +802,12 @@ pre code {
 
 .navbar-light .navbar-nav .nav-link.info_anchor {
   color: rgb(220, 220, 220);
+}
+
+.engine_field_not_default span {
+  color: rgb(255, 127, 50);
+}
+
+.max_tokens_slider_label.engine_field_not_default span {
+  color: rgb(240, 240, 50);
 }

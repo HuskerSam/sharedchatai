@@ -219,7 +219,10 @@ export class ChatRoomApp extends BaseApp {
     if (isNaN(value)) value = 0;
     let outPercent = Math.round(value * 100) + "%";
     if (sliderField === "max_tokens") outPercent = value.toString();
-    BaseApp.setHTML(sliderLabel, prefix + outPercent);
+    BaseApp.setHTML(sliderLabel, prefix + "<span>" + outPercent + "</span>");
+
+    if (value !== this.defaultUIEngineSettings[sliderField]) sliderLabel.classList.add("engine_field_not_default");
+    else sliderLabel.classList.remove("engine_field_not_default");
 
     if (saveToAPI) {
       clearTimeout(this.sliderChangeDebounceTimeout);
