@@ -45,7 +45,7 @@ export class ChatRoomApp extends BaseApp {
   markdownConverter = new window.showdown.Converter();
   documentsLookup: any = {};
   lastDocumentOptionChange = 0;
-  sliderChangeDebounceTimeout: any = null;
+  sliderChangeDebounceTimeout: any = {};
   fragmentCache: any = {};
   copyResponseCache: any = {};
   copyTicketCache: any = {};
@@ -223,13 +223,14 @@ export class ChatRoomApp extends BaseApp {
     if (value !== this.defaultUIEngineSettings[sliderField]) sliderLabel.classList.add("engine_field_not_default");
     else sliderLabel.classList.remove("engine_field_not_default");
 
+    // only update every 50ms
     if (saveToAPI) {
-      clearTimeout(this.sliderChangeDebounceTimeout);
+      if (this.sliderChangeDebounceTimeout[sliderField]) clearTimeout(this.sliderChangeDebounceTimeout[sliderField]);
       this.lastDocumentOptionChange = new Date().getTime();
-      this.sliderChangeDebounceTimeout = setTimeout(() => {
-        this.lastDocumentOptionChange = new Date().getTime();
+      this.sliderChangeDebounceTimeout[sliderField] = setTimeout(() => {
         this.saveDocumentOption(sliderField, Number(sliderCtl.value));
-      }, 300);
+        this.sliderChangeDebounceTimeout[sliderField] = null;
+      }, 50);
     }
   }
   /** setup data listender for user messages */
@@ -931,7 +932,6 @@ export class ChatRoomApp extends BaseApp {
       const json = await fResult.json();
       console.log("change game options result", json);
     }
-    setTimeout(() => this.paintDocumentOptions(), 500);
   }
   /** member data for a user
    * @param { string } uid user id
@@ -965,7 +965,7 @@ export class ChatRoomApp extends BaseApp {
 
     if (this.lastDocumentOptionChange + 1000 > new Date().getTime()) {
       clearTimeout(this.paintOptionsDebounceTimer);
-      this.paintOptionsDebounceTimer = setTimeout(() => this.paintDocumentOptions(), 50);
+      this.paintOptionsDebounceTimer = setTimeout(() => this.paintDocumentOptions(), 500);
       return;
     }
 
