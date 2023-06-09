@@ -21,6 +21,7 @@ export default class DocCreateHelper {
   parsed_file_status: any;
   parsed_file_name: any;
   modal_open_new_document: any;
+  createDocumentModal: any;
 
   /**
    * @param { any } app BaseApp derived application instance
@@ -36,6 +37,7 @@ export default class DocCreateHelper {
     this.create_modal_note_field = this.modalContainer.querySelector(".create_modal_note_field");
     this.doccreatehelper_show_modal = document.querySelector(".doccreatehelper_show_modal");
     this.create_game_afterfeed_button = this.modalContainer.querySelector(".create_game_afterfeed_button");
+    this.createDocumentModal = this.modalContainer.querySelector("#createDocumentModal");
     this.create_modal_title_field = this.modalContainer.querySelector(".create_modal_title_field");
     this.create_modal_title_field.addEventListener("keydown", (e: any) => {
       if (e.key === "Enter" && e.shiftKey === false) {
@@ -214,6 +216,9 @@ export default class DocCreateHelper {
       }
     });
     this.doccreatehelper_show_modal.click();
+    this.createDocumentModal.addEventListener("shown.bs.modal", () => {
+      this.create_modal_title_field.focus()
+    });
   }
   /** parse template data from file input
    * @param {string } documentId new document to add ticket imports
