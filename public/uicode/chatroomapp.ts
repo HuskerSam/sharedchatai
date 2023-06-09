@@ -875,10 +875,18 @@ export class ChatRoomApp extends BaseApp {
       if (gameId && !this.documentId) {
         this.gameAPIJoin(gameId);
         this.documentId = gameId;
-
+        let reloading = false;
         if (this.gameSubscription) this.gameSubscription();
         this.gameSubscription = firebase.firestore().doc(`Games/${this.documentId}`)
-          .onSnapshot((doc: any) => this.paintGameData(doc));
+          .onSnapshot((doc: any) => {
+            if (!doc.data() && !reloading) {
+              alert("Session not found, returning to home");
+              reloading = true;
+              location.href ="/";
+              return;
+            }
+            this.paintGameData(doc);
+          });
       }
 
       setTimeout(() => this._updateGameMembersList(), 50);
