@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "sharedchatai"
+    "default": "sharedchatai",
+    "production": "promptplusai"
   }
 }

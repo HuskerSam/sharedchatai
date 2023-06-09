@@ -48,9 +48,7 @@ export default class LoginHelper {
               <hr>
               <button class="btn btn-primary" id="login_google">
                 Log in with Google &nbsp;<img class="google_logo" style="margin-right:-8px;" src="/images/google_signin.png"></button>
-                <hr>
-              <button class="anon_login_anchor btn btn-primary">Log in Anonymously</button>
-              <br>
+              <button class="anon_login_anchor btn btn-primary" style="display:none;">Log in Anonymously</button>
               </div>
         </div>
         <div class="modal-footer">
