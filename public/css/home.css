@@ -260,7 +260,6 @@
     width: 16px;
     height: 16px;
     background-color: #198754;
-    /* bullet color */
     position: absolute;
     top: 12px;
     left: 0;
@@ -276,8 +275,6 @@
     /* button color */
     color: #fff;
     border: none;
-    border-radius: 1.5rem;
-    padding: 1rem 2rem;
   }
   
   .btn:hover {
