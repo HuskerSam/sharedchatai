@@ -25,6 +25,7 @@ export default class ProfileHelper {
     profile_text_large_checkbox: any;
     profile_text_monospace_checkbox: any;
     profile_prefixname_checkbox: any;
+    profile_autoexclude_checkbox: any;
     lastLabelsSave = 0;
     noLabelSave = true;
 
@@ -51,7 +52,8 @@ export default class ProfileHelper {
         this.randomize_name = document.querySelector(".randomize_name");
         this.profile_text_monospace_checkbox = document.querySelector(".profile_text_monospace_checkbox");
         this.profile_prefixname_checkbox = document.querySelector(".profile_prefixname_checkbox");
-
+        this.profile_autoexclude_checkbox = document.querySelector(".profile_autoexclude_checkbox");
+        
         this.profile_text_large_checkbox = document.querySelector(".profile_text_large_checkbox");
         this.profile_display_image_randomize = document.querySelector(".profile_display_image_randomize");
         this.profile_display_image_randomize.addEventListener("click", () => this.randomizeImage());
@@ -84,6 +86,8 @@ export default class ProfileHelper {
         this.prompt_for_new_user_name.addEventListener("click", () => this.saveProfileField("name"));
         this.profile_text_monospace_checkbox.addEventListener("input", () => this.saveProfileField("monospace"));
         this.profile_prefixname_checkbox.addEventListener("input", () => this.saveProfileField("prefixname"));
+        this.profile_autoexclude_checkbox.addEventListener("input", () => this.saveProfileField("autoexclude"));
+        
         this.profile_text_large_checkbox.addEventListener("input", () => this.saveProfileField("largetext"));
         this.show_modal_profile_help.addEventListener("click", () => this.app.helpHelper.show("profile"));
 
@@ -100,14 +104,15 @@ export default class ProfileHelper {
         const imageIndex = Math.floor(Math.random() * keys.length);
         const logoName = keys[imageIndex];
         this.app.profile.displayImage = window.profileLogos[logoName];
-        this.updateImageDisplay();
+        this.updateUserImageAndName();
         this.saveProfileField("image");
     }
     /** template as string for modal
      * @return { string } html template as string
      */
     getModalTemplate(): string {
-        return `<div class="modal fade" id="userProfileModal" tabindex="-1" aria-labelledby="userProfileModalLabel" aria-hidden="true">
+        return `<div class="modal fade" id="userProfileModal" tabindex="-1" aria-labelledby="userProfileModalLabel"
+             aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content app_panel">
                 <div class="modal-header">
@@ -140,7 +145,7 @@ export default class ProfileHelper {
                             <div style="font-size: 1.25em">
                                 <label class="form-check-label">
                                     <input class="form-check-input profile_text_large_checkbox" type="checkbox" value="">
-                                    Larger Text
+                                    Large Text
                                 </label>
                                 &nbsp;
                                 <label class="form-check-label">
@@ -154,34 +159,43 @@ export default class ProfileHelper {
                                         value="">
                                     Prefix Name
                                 </label>
+                                &nbsp;
+                                <label class="form-check-label">
+                                    <input class="form-check-input profile_autoexclude_checkbox" type="checkbox"
+                                        value="">
+                                    Auto Exclude
+                                </label>
                             </div>
                             <hr>
                             <div>
-                                <div style="display:inline-block;">
-                                    <label class="form-label">Display Name</label>
-                                    <br>
-                                    <div class="form-control profile_display_name">
+                                <div>
+                                    <div style="float:left;">
+                                        <label class="form-label">Name</label>
+                                        <br>
+                                        <div class="profile_display_name"></div>
+                                    </div>
+                                    <div class="display_name_button_wrapper">
+                                        <button class="btn bnt-90 btn-primary prompt_for_new_user_name">Change...</button>
+                                        <br>
+                                        <button class="randomize_name btn btn-90 btn-secondary">Random</button>
                                     </div>
                                 </div>
-                                <div
-                                    style="display:inline-block;text-align: center;position:relative;top: 10px;line-height: 3em">
-                                    <button class="btn btn-primary prompt_for_new_user_name">Change...</button>
-                                    <br>
-                                    <button class="randomize_name btn btn-secondary">Random</button>
-                                </div>
+                                <br style="clear:both;">
                             </div>
                             <hr>
-                            <label class="form-label">Display Image</label><br>
                             <div>
-                                <div class="profile_display_image"
-                                    style="background-image:url(/images/defaultprofile.png);"></div>
-                                <div style="display:inline-block;line-height:3em">
-                                    <input type="file" class="file_upload_input" style="visibility:hidden;width:0">
-                                    <button class="profile_display_image_clear btn btn-secondary"> Clear </button>
+                                <div style="float: left;">
+                                    <label class="form-label">Image</label><br>
+                                    <div class="profile_display_image"
+                                        style="background-image:url(/images/defaultprofile.png);"></div>
+                                </div>
+                                <div style="float:left;line-height:3em">
+                                    <input type="file" class="file_upload_input" style="display:none;">
+                                    <button class="profile_display_image_clear btn btn-90 btn-secondary">Clear</button>
                                     <br>
-                                    <button class="profile_display_image_randomize btn btn-secondary">Random</button>
+                                    <button class="profile_display_image_randomize btn btn-90 btn-secondary">Random</button>
                                     <br>
-                                    <button class="profile_display_image_upload btn btn-primary">Upload</button>
+                                    <button class="profile_display_image_upload btn btn-90 btn-primary">Upload</button>
                                 </div>
                             </div>
                             <div style="clear:both"></div>
@@ -201,10 +215,10 @@ export default class ProfileHelper {
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="sign_out_button btn btn-secondary">Sign Out</button>
+                    <button class="sign_out_button btn btn-90 btn-secondary">Sign Out</button>
                     <div style="flex:1"></div>
                     <button class="reset_profile btn btn-secondary" style="display:none">Reset</button>
-                    <button type="button" class="btn btn-secondary modal_close_button"
+                    <button type="button" class="btn btn-90 btn-secondary modal_close_button"
                         data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -297,7 +311,7 @@ export default class ProfileHelper {
                 merge: true,
             });
         }
-        this.updateImageDisplay();
+        this.updateUserImageAndName();
     }
     /** reset profile image (and store result in user profile) */
     async clearProfileImage() {
@@ -310,7 +324,7 @@ export default class ProfileHelper {
             });
         }
         this.app.profile.displayImage = "";
-        this.updateImageDisplay();
+        this.updateUserImageAndName();
     }
     /** generate a random "safe" name */
     async randomizeProfileName(): Promise<void> {
@@ -375,6 +389,11 @@ export default class ProfileHelper {
             this.app.profile.prefixName = this.profile_prefixname_checkbox.checked;
             updatePacket.prefixName = this.app.profile.prefixName;
         }
+        if (fieldType === "autoexclude") {
+            this.app.profile.autoExclude = this.profile_autoexclude_checkbox.checked;
+            updatePacket.autoExclude = this.app.profile.autoExclude;
+        }
+        
         if (this.app.fireToken) {
             await firebase.firestore().doc(`Users/${this.app.uid}`).set(updatePacket, {
                 merge: true,
@@ -382,10 +401,14 @@ export default class ProfileHelper {
         }
     }
     /** paint user image preview */
-    updateImageDisplay() {
-        this.profile_display_image.style.backgroundImage = "";
-        if (this.app.profile.displayImage) this.profile_display_image.style.backgroundImage = `url(${this.app.profile.displayImage})`;
-        else this.profile_display_image.style.backgroundImage = `url(/images/defaultprofile.png)`;
+    updateUserImageAndName() {
+        let bkg = `url(/images/defaultprofile.png)`;
+        if (this.app.profile.displayImage) bkg = `url(${this.app.profile.displayImage})`;
+        this.profile_display_image.style.backgroundImage = bkg;
+
+        let displayName = this.app.profile.displayName;
+        if (!displayName) displayName = "Anonymous";
+        this.profile_display_name.innerHTML = displayName;
     }
     /** signout of firebase authorization
      * @param { any } e dom event
@@ -476,7 +499,7 @@ export default class ProfileHelper {
     /** populate modal fields and show */
     async show() {
         let displayName = this.app.profile.displayName;
-        if (!displayName) displayName = "";
+        if (!displayName) displayName = "Anonymous";
         this.profile_display_name.innerHTML = displayName;
 
         let email = firebase.auth().currentUser.email;
@@ -509,7 +532,8 @@ export default class ProfileHelper {
         this.profile_text_large_checkbox.checked = (this.app.profile.textOptionsLarge === true);
         this.profile_text_monospace_checkbox.checked = (this.app.profile.textOptionsMonospace === true);
         this.profile_prefixname_checkbox.checked = (this.app.profile.prefixName === true);
-        this.updateImageDisplay();
+        this.profile_autoexclude_checkbox.checked = (this.app.profile.autoExclude === true);
+        this.updateUserImageAndName();
         this.updateTokenUsage();
         this.profile_show_modal.click();
     }

@@ -128,8 +128,21 @@ button.code_link {
 
 .details_game {
   align-self: flex-start;
-  color: rgb(230, 230, 230);
+  border-color: rgb(170, 170, 170);
+  border-style: dashed;
+  background: none;
+  position: relative;
+  right: -4px;
+  padding: 0;
+  width: 55px;
+  text-align: center;
 }
+
+.details_game i {
+  position: relative;
+  top: 4px;
+}
+
 
 .document_info_header {
   border-bottom: 1px solid rgba(222,226,230,.5);
@@ -149,10 +162,6 @@ button.code_link {
   padding-right: 15px;
 }
 
-.session_sidebar_wrapper {
-  margin-right: -12px;
-}
-
 .document_status {
   font-size: .9em;
   text-align: right;
@@ -170,15 +179,12 @@ button.code_link {
 
 .document_info_header_right {
   position: relative;
-  left: -60px;
+  left: 16px;
 }
 
 @media (min-width: 800px) {
-  .games_view_wrapper {
-    margin: 0 5% 0 5%;
-  }
-  .document_status {
-    width: 75px;
+  .document_info_header_right {
+    left: 6px;
   }
 }
 
@@ -261,22 +267,11 @@ button.code_link {
   color: rgb(20, 200, 20);
 }
 
-.details_game i {
-  position: relative;
-  top: 4px;
-}
-
 .show_dashboard_help_button i {
   position: relative;
   float: right;
 }
 
-.details_game  {
-  background: none;
-  border-color: transparent;
-  position: relative;
-  right: -4px;
-}
 
 .userprofile_description .user_name {
   padding-left: 8px;

@@ -203,13 +203,13 @@ export class DashboardApp extends BaseApp {
     if (data.createUser === this.uid) ownerClass += " dashboard_feed_owner_user";
     else ownerClass += " dashboard_feed_shared_user";
 
-    let timeStr = this.isoToLocal(data.created).toISOString().substr(11, 5);
-    let hour = Number(timeStr.substr(0, 2));
+    let timeStr = this.isoToLocal(data.created).toISOString().substring(11, 16);
+    let hour = Number(timeStr.substring(0, 2));
     const suffix = hour < 12 ? "am" : "pm";
 
     hour = hour % 12;
     if (hour === 0) hour = 12;
-    timeStr = hour.toString() + timeStr.substr(2) + " " + suffix;
+    timeStr = hour.toString() + timeStr.substring(2) + " " + suffix;
     const html = `<a href="/${data.gameType}/?game=${data.gameNumber}"
        class="list-group-item list-group-item-action document_list_item card shadow-sm my-1 rounded card_shadow_sm ${ownerClass}"
      data-gamenumber="${doc.id}" gamenumber="${doc.id}">
@@ -220,21 +220,17 @@ export class DashboardApp extends BaseApp {
           </button>
         </div>
         <div class="document_name" data-docid="${doc.id}"></div>
-        <div class="session_sidebar_wrapper">
+        <div>
+        <button class="details_game btn btn-secondary" data-gamenumber="${data.gameNumber}">
           <div class="document_usage" data-docid="${doc.id}"></div> 
           <div class="document_status time_since last_submit_time" data-timesince="${data.lastActivity}"
             data-showseconds="0"></div>
-        </div>
-        <div>
-        <button class="details_game btn btn-secondary" data-gamenumber="${data.gameNumber}">
-          <i class="material-icons">settings</i>
         </button>
       </div> 
     </div></a>`;
     const ctl = document.createElement("div");
     ctl.innerHTML = html;
     const card = ctl.children[0];
-
 
     const details: any = card.querySelector("button.details_game");
     details.addEventListener("click", (e: any) => {

@@ -414,3 +414,7 @@ button.btn-primary:active {
   top: 1px;
   position: relative;
 }
+
+.btn-90 {
+  min-width: 90px;
+}

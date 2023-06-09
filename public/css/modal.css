@@ -157,7 +157,7 @@
   right: 5px;
   top: 0px;
   border-color: transparent;
-  color: rgb(200,125,200);
+  color: rgb(200, 125, 200);
 }
 
 .show_modal_profile_help {
@@ -175,7 +175,7 @@
 .show_export_tickets_help {
   background: none;
   border-color: transparent;
-  color: rgb(200,125,200);
+  color: rgb(200, 125, 200);
 }
 
 .show_create_dialog_help i,
@@ -193,7 +193,8 @@
   z-index: 100000;
 }
 
-.document_usage_cap_field, .create_modal_note_field {
+.document_usage_cap_field,
+.create_modal_note_field {
   width: 150px;
   display: inline-block;
 }
@@ -213,31 +214,12 @@
   background-color: #5c636a;
 }
 
-.profile_display_name {
-  width: 175px;
-  overflow: hidden;
-  white-space: nowrap;
-  display: inline-block;
-}
-
-.profile_display_image {
-  width: 100px;
-  height: 100px;
-  display: inline-block;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: contain;
-  margin-right: 25px;
-  background-color: rgba(255,255,255,.1);
-  border-radius: 6px;
-}
-
 .app_panel.modal-content label {
   color: white;
 }
 
 .app_panel.modal-content .btn-check:checked+.btn-outline-primary label {
-  color:rgb(50, 220, 50);
+  color: rgb(50, 220, 50);
 }
 
 .sign_out_button,
@@ -295,4 +277,32 @@
 
 .open_button_wrapper {
   padding-right: 4px;
+}
+
+.display_name_button_wrapper {
+  float: left;
+  margin-left: 12px;
+  text-align: left;
+  line-height: 3em;
+}
+
+.profile_display_name {
+  width: 160px;
+  overflow: visible;
+  white-space: nowrap;
+  height: 3em;
+  line-height: calc(3em - 16px);
+  padding: 8px;
+}
+
+.profile_display_image {
+  width: 100px;
+  height: 100px;
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+  margin-right: 12px;
+  background-color: rgba(255, 255, 255, .1);
+  border-radius: 6px;
 }

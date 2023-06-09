@@ -68,6 +68,9 @@ export default class BaseApp {
 
     if (this.profile) {
       this.updateUserStatus();
+      if ((<any>this).profileHelper) {
+        (<any>this).profileHelper.updateUserImageAndName();
+      }
     }
   }
   /** firebase authorization event handler
