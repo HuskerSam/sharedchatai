@@ -147,7 +147,7 @@ export class DashboardApp extends BaseApp {
         BaseApp.setHTML(titleDom, title);
 
         const usageDom = card.querySelector(".document_usage");
-        //let usage: string = doc.data().completionTokens;
+        // let usage: string = doc.data().completionTokens;
         let usage: string = doc.data().totalTickets;
         if (!usage) usage = "&nbsp;";
         BaseApp.setHTML(usageDom, usage);

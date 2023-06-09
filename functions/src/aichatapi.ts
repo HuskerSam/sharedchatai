@@ -475,7 +475,7 @@ export default class ChatAI {
         await firebaseAdmin.firestore().doc(`Games/${gameNumber}/assists/${ticketId}`).delete();
         await firebaseAdmin.firestore().doc(`Games/${gameNumber}/packets/${ticketId}`).delete();
         await firebaseAdmin.firestore().doc(`Games/${gameNumber}/reports/${ticketId}`).delete();
-        
+
         return res.status(200).send({
             success: true,
         });

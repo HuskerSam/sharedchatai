@@ -6,7 +6,6 @@ import ProfileHelper from "./profilehelper.js";
 import {
   HelpHelper,
 } from "./helphelper.js";
-import Utility from "./utility.js";
 
 declare const firebase: any;
 declare const window: any;
