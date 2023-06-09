@@ -91,6 +91,7 @@ export default class ChatAI {
             };
             const addResult: any = await firebaseAdmin.firestore().collection(`Games/${gameNumber}/tickets`).add(ticket);
             ticketId = addResult.id;
+            ChatAI.increateTicketCount(gameNumber, 1);
         }
 
         if (gameData.unsetTitle && message) {
@@ -157,8 +158,6 @@ export default class ChatAI {
                 return BaseClass.respondError(res, "User not found");
             }
 
-            console.log(importTicket);
-
             const isOwner = uid === gameData.createUser;
 
             const memberImage = gameData.memberImages[uid] ? gameData.memberImages[uid] : "";
@@ -178,6 +177,7 @@ export default class ChatAI {
                 includeInMessage: importTicket.selected !== "n",
             };
             const newTicketResult = await firebaseAdmin.firestore().collection(`Games/${gameNumber}/tickets`).add(ticket);
+            ChatAI.increateTicketCount(gameNumber, 1);
 
             const assistRecord: any = {
                 success: true,
@@ -470,11 +470,12 @@ export default class ChatAI {
 
         const isOwner = (message.uid === uid);
         if (!isOwner && !isGameOwner) return BaseClass.respondError(res, "Must own game or message to delete");
-
+        ChatAI.increateTicketCount(gameNumber, -1);
         await firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${ticketId}`).delete();
         await firebaseAdmin.firestore().doc(`Games/${gameNumber}/assists/${ticketId}`).delete();
         await firebaseAdmin.firestore().doc(`Games/${gameNumber}/packets/${ticketId}`).delete();
         await firebaseAdmin.firestore().doc(`Games/${gameNumber}/reports/${ticketId}`).delete();
+        
         return res.status(200).send({
             success: true,
         });
@@ -504,4 +505,16 @@ export default class ChatAI {
             success: true,
         });
     }
+    /** increase or decrease the ticket
+     * @param { string } sessionId
+     * @param { number } inc value to adjust ticket count by
+    */
+   static async increateTicketCount(sessionId: string, inc: number) {
+        await firebaseAdmin.firestore().doc(`Games/${sessionId}`).set({
+            lastActivity: new Date().toISOString(),
+            totalTickets: FieldValue.increment(inc),
+        }, {
+            merge: true,
+        });
+   }
 }
