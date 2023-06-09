@@ -513,9 +513,11 @@ pre code {
   border-color: rgba(0, 0, 0, 1);
 }
 
-.over_token_sendlimit .send_ticket_button {
+.over_token_sendlimit .send_ticket_button,
+.over_token_sendlimit .auto_run_overthreshold_ticket {
   background-color: rgb(140, 140, 0);
   color: white;
+  border-color: #6c757d;
 }
 
 .total_prompt_token_count {
@@ -533,11 +535,6 @@ pre code {
 .auto_run_overthreshold_ticket {
   background-color: rgb(0, 120, 0);
   border-color: rgb(70, 220, 70);
-}
-
-.over_token_sendlimit .auto_run_overthreshold_ticket {
-  background-color: #6c757d;
-  border-color: #6c757d;
 }
 
 .send_bar_display_header {
