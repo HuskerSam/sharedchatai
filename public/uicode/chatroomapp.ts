@@ -528,7 +528,14 @@ export class ChatRoomApp extends BaseApp {
    * @param { any } card card dom
    */
   async reRunTicket(reRunBtn: any, ticketId: string, card: any): Promise<void> {
-    const includeTickets = this.generateSubmitList(ticketId);
+    let removedTickets: Array<any> = [];
+    if (this.isOverSendThreshold()) {
+      if (this.profile.autoExclude) {
+        this.excludingTicketsRunning = false;
+        removedTickets = this.autoExcludeTicketsToMeetThreshold();
+      }
+    }
+    const includeTickets = this.generateSubmitList(ticketId, removedTickets);
     card.classList.add("running_ticket");
     this.tickets_list.appendChild(card);
     this.scrollTicketListBottom();
@@ -734,9 +741,17 @@ export class ChatRoomApp extends BaseApp {
    * @param { string } message optional - read from ticket_content_input if not provided
   */
   async sendTicketToAPI(ignoreThreshold = false, message = "") {
+    let removedTickets: Array<any> = [];
     if (this.isOverSendThreshold() && !ignoreThreshold) {
-      this.showOverthresholdToSendModal();
-      return;
+      if (this.profile.autoExclude) {
+        this.excludingTicketsRunning = false;
+        removedTickets = this.autoExcludeTicketsToMeetThreshold();
+      } else {
+        if (!ignoreThreshold) {
+          this.showOverthresholdToSendModal();
+          return;
+        }
+      }
     }
 
     if (!message) message = this.ticket_content_input.value.trim();
@@ -766,7 +781,7 @@ export class ChatRoomApp extends BaseApp {
     this.scrollTicketListBottom();
 
     this.updatePromptTokenStatus();
-    const includeTickets = this.generateSubmitList();
+    const includeTickets = this.generateSubmitList("", removedTickets);
 
     const body = {
       gameNumber: this.documentId,
@@ -797,7 +812,7 @@ export class ChatRoomApp extends BaseApp {
    * @param { string } ticketId doc id
    * @return { Array<string> } list of ticket ids
   */
-  generateSubmitList(ticketId = ""): Array<string> {
+  generateSubmitList(ticketId = "", removedTickets: Array<any> = []): Array<string> {
     const tickets: Array<string> = [];
     this.includeTotalTokens = 0;
     this.includeMessageTokens = 0;
@@ -805,16 +820,18 @@ export class ChatRoomApp extends BaseApp {
     // return reverse order for submission
     this.lastTicketsSnapshot.forEach((doc: any) => {
       const ticket: any = this.ticketsLookup[doc.id];
-      let include = false;
-      if (ticket && ticket.includeInMessage) include = true;
-      if (ticketId !== doc.id && include) {
-        const tokenCountCompletion = this.tokenCountForCompletion(doc.id);
-        const promptTokens = window.gpt3tokenizer.encode(ticket.message);
-        if (tokenCountCompletion > 0) {
-          this.includeMessageTokens += promptTokens.length;
-          this.includeAssistTokens += tokenCountCompletion;
-          this.includeTotalTokens += tokenCountCompletion + promptTokens.length;
-          tickets.push(doc.id);
+      if (removedTickets.indexOf(doc.id) === -1) {
+        let include = false;
+        if (ticket && ticket.includeInMessage) include = true;
+        if (ticketId !== doc.id && include) {
+          const tokenCountCompletion = this.tokenCountForCompletion(doc.id);
+          const promptTokens = window.gpt3tokenizer.encode(ticket.message);
+          if (tokenCountCompletion > 0) {
+            this.includeMessageTokens += promptTokens.length;
+            this.includeAssistTokens += tokenCountCompletion;
+            this.includeTotalTokens += tokenCountCompletion + promptTokens.length;
+            tickets.push(doc.id);
+          }
         }
       }
     });
@@ -991,7 +1008,7 @@ export class ChatRoomApp extends BaseApp {
   __debounceSliderPaint(field: string, debounce: boolean, label: string) {
     if (debounce && this.sliderChangeDebounceTimeout[field]) {
       clearTimeout(this.sliderPaintDebounceTimeout[field]);
-      this.sliderPaintDebounceTimeout[field] = setTimeout(() =>  {
+      this.sliderPaintDebounceTimeout[field] = setTimeout(() => {
         this.__debounceSliderPaint(field, debounce, label);
         this.sliderPaintDebounceTimeout[field] = null;
       }, 50);
@@ -1083,7 +1100,7 @@ export class ChatRoomApp extends BaseApp {
    *
    * @param { any } currentTicketId ticketid to ignore (optional)
    */
-  autoExcludeTicketsToMeetThreshold(currentTicketId: any = null) {
+  autoExcludeTicketsToMeetThreshold(currentTicketId: any = null): any {
     if (!this.isOverSendThreshold()) return;
     if (this.excludingTicketsRunning) return;
     this.excludingTicketsRunning = true;
@@ -1092,6 +1109,7 @@ export class ChatRoomApp extends BaseApp {
 
     const tickets: Array<any> = [];
     this.lastTicketsSnapshot.forEach((doc: any) => tickets.unshift(doc));
+    const ticketsRemoved: Array<any> = [];
     tickets.forEach((doc: any) => {
       if (tokenReduction > 0) {
         const ticket = doc.data();
@@ -1106,6 +1124,8 @@ export class ChatRoomApp extends BaseApp {
           const tokenCountCompletion = this.tokenCountForCompletion(doc.id);
           const promptTokens = window.gpt3tokenizer.encode(ticket.message);
           tokenReduction -= tokenCountCompletion + promptTokens.length;
+
+          ticketsRemoved.push(ticket);
         }
       }
     });
@@ -1114,6 +1134,8 @@ export class ChatRoomApp extends BaseApp {
       this.excludingTicketsRunning = false;
       document.body.classList.remove("exclude_tickets_running");
     }, 500);
+
+    return ticketsRemoved;
   }
   /**
    * @return { boolean } true if engine is not default
