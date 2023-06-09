@@ -203,7 +203,7 @@ export default class ProfileHelper {
                         <div class="tab-pane fade" id="profile_user_labels_view" style="min-height:10em; role="tabpanel"
                             aria-labelledby="profile_labels_tab_button">
     
-                            <label class="form-label">Default Labels</label>
+                            <label class="form-label">Default Labels - [Enter] to add</label>
                             <br>
                             <select class="label_profile_picker" multiple="multiple" style="width:100%;min-height:6em"></select>
                             <br>

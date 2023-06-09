@@ -37,6 +37,13 @@ export default class DocCreateHelper {
     this.doccreatehelper_show_modal = document.querySelector(".doccreatehelper_show_modal");
     this.create_game_afterfeed_button = this.modalContainer.querySelector(".create_game_afterfeed_button");
     this.create_modal_title_field = this.modalContainer.querySelector(".create_modal_title_field");
+    this.create_modal_title_field.addEventListener("keydown", (e: any) => {
+      if (e.key === "Enter" && e.shiftKey === false) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.createNewGame();
+      }
+    });
     this.document_usage_cap_field = this.modalContainer.querySelector(".document_usage_cap_field");
     this.show_create_dialog_help = this.modalContainer.querySelector(".show_create_dialog_help");
     this.show_create_dialog_help.addEventListener("click", () => this.app.helpHelper.show("prompts"));
