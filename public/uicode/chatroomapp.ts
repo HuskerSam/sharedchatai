@@ -965,7 +965,7 @@ export class ChatRoomApp extends BaseApp {
 
     if (this.lastDocumentOptionChange + 1000 > new Date().getTime()) {
       clearTimeout(this.paintOptionsDebounceTimer);
-      this.paintOptionsDebounceTimer = setTimeout(() => this.paintDocumentOptions(), 300);
+      this.paintOptionsDebounceTimer = setTimeout(() => this.paintDocumentOptions(), 500);
       return;
     }
 
