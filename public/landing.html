@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Chat AI Lobby</title>
+
+    <link rel="shortcut icon" href="/images/logo64.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+    <!-- Firebase links -->
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-firestore.js"></script>
+    <script src="/__/firebase/init.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/modal.css" />
+    <link rel="stylesheet" href="/css/home.css" />
+    <script>
+        window.addEventListener("load", async (event) => {
+            let module = await import("/models/homepageapp.js");
+
+            window.HomePageApp = new module.HomePageApp();
+        });
+    </script>
+</head>
+
+<body class="basic_page_body">
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <a class="navbar-brand" href="/"><img src="/images/fulllogo600x200.png"></a>
+        <div class="signed_in_options">
+            <button class="my-3 btn btn-success show_create_modal">
+                New Prompt
+        </div>
+        </button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="signed_out_options">
+            <button class="btn btn-primary homepage_signin_show_modal" type="button" data-bs-toggle="modal"
+                data-bs-target="#loginModal">
+                Login
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item signed_in_options">
+                    <a class="info_anchor nav-link" href="/dashboard">
+                        <span class="mobile_custom_icon_label">
+                            <i class="fa-regular fa-folder fa-xl"></i>
+                        </span>
+                        <span class="mobile_custom_title_label">
+                            Dashboard
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item signed_in_options">
+                    <a class="nav-link show_profile_modal" href="profile">
+                        <span class="mobile_custom_icon_label">
+                            <i class="fa-solid fa-circle-user fa-xl"></i>
+                        </span>
+                        <span class="mobile_custom_title_label">
+                            Profile
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="basic_page_wrapper app_panel">
+        <!---- hero section with featured video-->
+        <div class="hero_section">
+            <div class="hero_section_video">
+                <video src="https://hcwebflow.s3.us-west-2.amazonaws.com/videos/chatpublic.mp4" autoplay loop muted></video>
+                <div class="video-overlay"></div>
+            </div>
+            <div class="hero_section_content">
+                <h1>Get the Most from Chatgpt Prompts</h1>
+                <p>Prompt controls, Advanced API Features and more in a Collaborative Environment.</p>
+                <div>
+                    <button type="button" class="btn btn-primary btn-lg px-4 me-sm-3 homepage_signin_show_modal">
+                        Sign up
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary btn-lg px-4">
+                        Contact Us
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!---- feature list -->
+        <section class="feature-list container">
+            <div class="feature-item">
+                <i class="fa-solid fa-toolbox"></i>
+                <h3>Advance Prompt Controls</h3>
+                <p>Delete, select included messages, and even rerun prompts with
+                    new parameters to save time and improve results.</p>
+            </div>
+
+            <div class="feature-item">
+                <i class="fas fa-cog"></i>
+                <h3>Complete API Parameters</h3>
+                <p>Access the backend to optimize prompts for creativity, repetition, or other factors that align with
+                    your specific needs.</p>
+            </div>
+
+            <div class="feature-item">
+                <i class="fas fa-user"></i>
+                <h3>Fully Collaborative Environment</h3>
+                <p>Work together as a team to document, share, and provide feedback on prompts, fostering a dynamic
+                    process of prompt engineering</p>
+            </div>
+        </section>
+        <!---- feature section -->
+        <section class="container features_highlight">
+            <div class="d-flex flex-column">
+                <h2 class="feature_header display-6 fw-normal">With Prompt+, it's simple to customize parameters that optimize ChatGPT prompts.</h2>
+                <p class="feature_descr lead fw-normal">We give you access to the ChatGPT backend's built-in features for response predictability, creativity, and repetition elimination.</p>
+            </div>
+            <div class="d-flex flex-column">
+                <div class="code_snippet_wrapper">
+                    <div class="code_snippet">
+                        <span class="term">temperature</span> : <span class="comment">to control randomness</span>,
+                    </div>
+                    <p class="api_descr fw-normal">Higher = more diverse options, lower = less diversity.
+                    </p>
+                    <div class="code_snippet">
+                        <span class="term">top_p</span> : <span class="comment">to adjusts predictability</span>,
+                    </div>
+                    <p class="api_descr fw-normal"> Higher = more varied responses, lower = more focused responses.
+                    </p>
+                    <div class="code_snippet">
+                        <span class="term">frequency_penalty</span> : <span class="comment">to deter common
+                            phrases</span>,
+                    </div>
+                    <p class="api_descr fw-normal"> Higher = avoids clichés, lower = allows common phrases.
+                    </p>
+                    <div class="code_snippet">
+                        <span class="term">presence_penalty</span> : <span class="comment"> to restricts new
+                            topics</span>,
+                    </div>
+                    <p class="api_descr fw-normal"> Higher = sticks to existing topics, lower = introduces new topics.
+                    </p>
+                </div>
+            </div>
+            <p class="feature_descr lead">Combine our tools for the ultimate precision optimization by select which
+                prompts you want included and adjusting API parameters.</p>
+        </section>
+        <section class="how_to">
+            <p class="feature_descr_standout">Follow these steps to make the most of our advanced API features:</p>
+        </section>
+        <section>
+            <div class="container px-4" id="icon-grid">
+                <h2 class="feature_header display-5 fw-normal">Collaborate seamlessly with your team to enhance your
+                    prompt engineering results. </h2>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5">
+                    <div class="feature_card">
+                        <i class="fa-solid fa-users-between-lines"></i>
+                        <div>
+                            <p>Collaborate and share yours prompt sessions with other users in realtime. </p>
+                        </div>
+                    </div>
+                    <div class="feature_card">
+                        <i class="fa-solid fa-file-import"></i>
+                        <div>
+                            <p>Copy and paste reports for email or text</p>
+                        </div>
+                    </div>
+                    <div class="feature_card">
+                        <i class="fa-solid fa-file-lines"></i>
+                        <div>
+                            <p> Download and upload prompt template files</p>
+                        </div>
+                    </div>
+                    <div class="feature_card">
+                        <i class="fa-solid fa-handshake-simple"></i>
+                        <div>
+                            <p>Clone another users document to start your own</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <a class="p-3 fs-2 text-center"
+            href="/?templatepath=/templates/createhelpchat.json&title=Create Dialog Help">Clone
+            chat session used to
+            create this document.</a>
+        <button class="btn btn-primary profile_show_modal" style="display:none" type="button" data-bs-toggle="modal"
+            data-bs-target="#userProfileModal">
+            Profile
+        </button>
+        <button class="btn btn-primary doccreatehelper_show_modal" style="display:none" type="button"
+            data-bs-toggle="modal" data-bs-target="#createDocumentModal">
+            Create Modal
+        </button>
+        <button class="btn btn-primary help_show_modal" style="display:none" type="button" data-bs-toggle="modal"
+            data-bs-target="#helpIframeModal">
+            Help
+        </button>
+    </div>
+    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small recent_documents_list"></ul>
+</body>
+
+</html>

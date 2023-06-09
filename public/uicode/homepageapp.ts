@@ -5,7 +5,8 @@ import ProfileHelper from "./profilehelper.js";
 import {
     HelpHelper,
   } from "./helphelper.js";
-  
+
+ declare const firebase: any;
 
 /** Guess app class */
 export class HomePageApp extends BaseApp {
@@ -17,7 +18,18 @@ export class HomePageApp extends BaseApp {
     checkTemplateURL = false;
     homepage_signin_show_modal: any = document.querySelector(".homepage_signin_show_modal");
     helpHelper = new HelpHelper(this);
+
     help_show_modal: any = document.querySelector(".help_show_modal");
+    engine_settings_help: any = document.querySelector(".engine_settings_help");
+    user_profile_help: any = document.querySelector(".user_profile_help");
+    optimizng_prompts_help: any = document.querySelector(".optimizng_prompts_help");
+    shared_sessions_help: any = document.querySelector(".shared_sessions_help");
+
+    recent_documents_list: any = document.querySelector(".recent_documents_list");
+    lastDocumentsSnapshot: any = null;
+    recentDocumentFeedRegistered = false;
+    recentDocumentsSubscription: any = null;
+
     /** */
     constructor() {
         super();
@@ -33,6 +45,11 @@ export class HomePageApp extends BaseApp {
 
             this.documentCreate.show();
         });
+
+        this.engine_settings_help.addEventListener("click", () => this.helpHelper.show("engine"));
+        this.user_profile_help.addEventListener("click", () => this.helpHelper.show("profile"));
+        this.optimizng_prompts_help.addEventListener("click", () => this.helpHelper.show("prompts"));
+        this.shared_sessions_help.addEventListener("click", () => this.helpHelper.show("session"));
     }
     /** override event that happens after authentication resolution */
     authUpdateStatusUI(): void {
@@ -44,6 +61,7 @@ export class HomePageApp extends BaseApp {
                 if (title) this.documentCreate.create_modal_title_field.value = title;
                 if (templatePath) this.showCreateDialog(templatePath);
             }
+            this.initRecentDocumentsFeed();
         } else if (!this.checkTemplateURL && this.urlParams.get("templatepath")) {
             if (!this.fireUser) {
                 this.checkTemplateURL = true;
@@ -72,4 +90,41 @@ export class HomePageApp extends BaseApp {
             this.documentCreate.show();
         }
     }
+
+      /** setup data listener for recent document feed */
+  async initRecentDocumentsFeed() {
+    if (this.recentDocumentFeedRegistered) return;
+    this.recentDocumentFeedRegistered = true;
+
+    if (this.recentDocumentsSubscription) this.recentDocumentsSubscription();
+    this.recentDocumentsSubscription = firebase.firestore().collection(`Games`)
+      .orderBy(`members.${this.uid}`, "desc")
+      .limit(5)
+      .onSnapshot((snapshot: any) => this.updateRecentDocumentFeed(snapshot));
+  }
+      /** paint recent document feed
+  * @param { any } snapshot firestore query data snapshot
+  */
+  updateRecentDocumentFeed(snapshot: any = null) {
+    if (snapshot) this.lastDocumentsSnapshot = snapshot;
+    else if (this.lastDocumentsSnapshot) snapshot = this.lastDocumentsSnapshot;
+    else return;
+
+    let html = "";
+    this.lastDocumentsSnapshot.forEach((doc: any) => {
+        const data = doc.data();
+        let title = BaseApp.escapeHTML(data.title);
+        if (!title) title = "unused";
+        // const activityDate = data.created.substring(5, 16).replace("T", " ").replace("-", "/");
+        title = title.substring(0, 100);
+        const activityDate = this.showGmailStyleDate(new Date(data.lastActivity));
+        const rowHTML = `<li>
+        <a href="/aichat/?game=${doc.id}">
+          <div class="sidebar_tree_recent_title title">${title}</div>
+          <div class="activity_date">${activityDate}</div>
+        </a></li>`;
+        html += rowHTML;
+    });
+    this.recent_documents_list.innerHTML = html;
+  }
 }

@@ -3,11 +3,9 @@
 }
 
 .hero_section {
-    background: url(../images/hero-bg.jpg) no-repeat center center;
     background-size: cover;
     position: relative;
     height: 100vh;
-    background-color: rgba(68, 70, 84, 0.1);
 }
 
 .hero_section_video {
@@ -17,7 +15,8 @@
     top: 0;
     left: 0;
     object-fit: cover;
-
+    height: 100vh;
+    filter: brightness(70%);
 }
 
 .hero_section_content {
