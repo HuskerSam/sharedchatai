@@ -343,3 +343,11 @@ button.code_link {
 .navbar-light .navbar-nav .nav-link.show_profile_modal {
   color: rgb(230, 230, 230)
 }
+
+.main_outer_view {
+  visibility: hidden;
+}
+
+.list_loaded .main_outer_view {
+  visibility: visible;
+}

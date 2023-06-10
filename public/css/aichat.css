@@ -5,13 +5,14 @@ html {
 }
 
 .session_sidebar_splitter_div {
-  display: none;
-}
-
-.loaded .session_sidebar_splitter_div {
+  visibility: hidden;
   display: flex;
   height: 100%;
   flex-direction: row;
+}
+
+.loaded .session_sidebar_splitter_div {
+  visibility: visible;
 }
 
 .tickets_list {

@@ -109,6 +109,7 @@ export class DashboardApp extends BaseApp {
         if (firstLoad) {
           this.refreshDocumentsLookup(snapshot);
           this.paintLabelSelect(true);
+          setTimeout(() =>  document.body.classList.add("list_loaded"), 100);
         }
         this.updateGamesFeed(snapshot);
         firstLoad = false;
