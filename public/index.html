@@ -48,26 +48,26 @@
 
 <body class="basic_page_body">
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
-        <a class="navbar-brand" href="/"><img src="/images/fulllogo600x200.png"></a>
+        <a class="navbar-brand ms-md-3" href="/"><img src="/images/fulllogo600x200.png"></a>
         <div class="signed_in_options">
-            <button class="my-3 btn btn-success show_create_modal">
+            <button class="my-3 btn btn-success ms-md-5 show_create_modal">
                 New Prompt
+            </button>
         </div>
-        </button>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="signed_out_options">
-            <button class="btn btn-primary homepage_signin_show_modal" type="button" data-bs-toggle="modal"
-                data-bs-target="#loginModal">
-                Login
-            </button>
-        </div>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
+                <li class="nav-item signed_in_options me-md-5">
+                    <a class="nav-link show_profile_modal profile_menu_anchor" href="profile">
+                        <span class="menu_profile_user_image_span"></span>
+                        <span class="menu_profile_user_name_span"></span>
+                    </a>
+                </li>
                 <li class="nav-item signed_in_options">
-                    <a class="info_anchor nav-link" href="/dashboard">
+                    <a class="info_anchor nav-link me-md-5" href="/dashboard">
                         <span class="mobile_custom_icon_label">
                             <i class="fa-regular fa-folder fa-xl"></i>
                         </span>
@@ -76,46 +76,72 @@
                         </span>
                     </a>
                 </li>
-                <li class="nav-item signed_in_options">
-                    <a class="nav-link show_profile_modal profile_menu_anchor" href="profile">
-                        <span class="menu_profile_user_image_span"></span>
-                        <span class="menu_profile_user_name_span"></span>
-                    </a>
-                </li>
             </ul>
         </div>
     </nav>
-    <div class="container-fluid d-flex flex-column flex-lg-row p-3 justify-content-center">
-        <div class="main_block signed_in_options">
-            <p class="header_recent_document">Recent Sessions</p>
-            <div class="recent_sessions_list card">
-                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small recent_documents_list"></ul>
-            </div>
-            <p class="header_recent_document">Template Repo</p>
-            <div class="template_list_wrapper card">
-                <ul class="template_list_wrapper">
-                    <li>
-                        <a class="p-3 text-center"
-                            href="/?templatepath=/templates/createhelpchat.json&title=Create Dialog Help">Prompt+ user help</a>
-                            <span class="caption">How to create user end documentation</span>
-                    </li>
-                </ul>
-            </div>
+    <div class="container">
+        <h1 class="homepage_display_header display-9">Early Adoptor Launchpad</h1>
+        <div class="container signed_out_options">
+            <button class="btn btn-primary homepage_signin_show_modal" type="button" data-bs-toggle="modal"
+                data-bs-target="#loginModal">
+                Login
+            </button>
         </div>
-        <div class="side_block p-3 mx-sm-3">
-            <p class="header_recent_document">FAQ</p>
-            <div class="faq card p-3">
-                <div class="help-buttons">
-                    <button class="btn engine_settings_help">Engine Settings</button>
-                    <button class="btn user_profile_help">User Profile</button>
-                    <button class="btn optimizng_prompts_help">Optimizing Prompts</button>
-                    <button class="btn shared_sessions_help">Shared Sessions</button>
+        <div class="d-flex flex-column flex-lg-row p-3 justify-content-center">
+            <div class="side_block p-3 mx-lg-3">
+                <p class="header_recent_document">Updates</p>
+                <div class="coming-soon card">
+                    <p class="coming-soon-header display-5">Homepage Coming Soon</p>
+                    <p class="coming-soon-descr">A page for attracting new users</p>
+                </div>
+                <p class="header_recent_document">FAQ</p>
+                <div class="faq card p-3">
+                    <div class="help-buttons">
+                        <button class="btn engine_settings_help">Engine Settings</button>
+                        <button class="btn user_profile_help">User Profile</button>
+                        <button class="btn optimizng_prompts_help">Optimizing Prompts</button>
+                        <button class="btn shared_sessions_help">Shared Sessions</button>
+                    </div>
                 </div>
             </div>
-            <div class="coming-soon card m-5">
-                <h1 class="display-6">Homepage Coming Soon</h1>
-                <p class="coming-soon-descr">We are working hard to bring you the best AI chat experience.</p>
-                <button class="cta btn btn-primary signed_out_options homepage_signin_show_modal">Sign Up</button>
+            <div class="main_block signed_in_options">
+                <p class="header_recent_document">Example Repo</p>
+                <div class="template_list_wrapper card">
+                    <ul class="template_list_wrapper">
+                        <li>
+                            <a class="p-3 text-center"
+                                href="/?templatepath=/templates/createhelpchat.json&title=Create Dialog Help">Prompt+
+                                user help
+                            <span class="caption">How to create user end documentation</span></a>
+                        </li>
+                        <li>
+                            <a class="p-3 text-center"
+                                href="/?templatepath=/templates/multipleusers.json&title=Multiple Users">Multiple users
+                                talking
+                            <span class="caption">Configure system message to register pre-text id</span></a>
+                        </li>
+                        <li>
+                            <a class="p-3 text-center"
+                                href="/?templatepath=/templates/ogmetatag.json&title=SEO Social Metatag Help">SEO Social Tags - Metatag Help
+                            <span class="caption">Get social media metatag syntax</span></a>
+                        </li>
+                        <li>
+                            <a class="p-3 text-center"
+                                href="/?templatepath=/templates/homepage3.json&title=Creating Homepage Copy">Writing copy
+                                for the homepage
+                            <span class="caption">Have a conversation about brand copy</span></a>
+                        </li>
+                        <li>
+                            <a class="p-3 text-center"
+                                href="/?templatepath=/templates/session.json&title=Help for Chat Sessions">Writing help for chat sessions
+                            <span class="caption">Using back and forth to create help</span></a>
+                        </li>
+                    </ul>
+                </div>
+                <p class="header_recent_document">Recent Sessions</p>
+                <div class="recent_sessions_list card">
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small recent_documents_list"></ul>
+                </div>
             </div>
         </div>
     </div>

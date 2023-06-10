@@ -5,33 +5,45 @@
   margin-bottom: 1rem;
 }
 
+.homepage_display_header {
+  color: rgba(28, 228, 60, 0.8);
+  letter-spacing: 0.1em;
+  margin-top: 1.5rem;
+  margin-bottom: .5rem;
+  text-align: center;
+  font-weight: 900;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
 .coming-soon {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 3rem;
+  padding: 1rem 3rem;
   border-radius: 6px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.coming-soon h1 {
-  color:rgb(255, 255, 255);
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  font-weight: 700;
+.coming-soon .coming-soon-header {
+  color: rgb(220, 220, 220);
+  font-weight: 300;
+  margin-bottom: 1.5rem;
 }
 
 .coming-soon-descr {
   margin-bottom: 30px;
-  color:#198754;
+  color: #198754;
   font-size: 1.5rem;
-  margin-bottom: 1.5rem;
 }
 
 .header_recent_document {
-  color:#fff;
+  color: #fff;
   font-size: 2.5rem;
   text-align: left;
   padding-left: 4px;
-  margin-bottom: 1rem;
+  font-weight: 500;
+  margin: 1rem 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .cta {
@@ -75,7 +87,7 @@
 /** from AI chat **/
 
 .recent_sessions_list {
-  background-color: rgba(211, 211, 211,.1);
+  background-color: rgba(211, 211, 211, .1);
 }
 
 ul.recent_documents_list {
@@ -127,7 +139,7 @@ ul.recent_documents_list li a {
   align-items: center;
 }
 
-.menu_profile_user_image_span {
+.profile_menu_anchor .menu_profile_user_image_span {
   display: inline-block;
   width: 32px;
   height: 32px;
@@ -158,17 +170,19 @@ ul.recent_documents_list li a {
   margin-top: 8px;
   list-style: none;
   display: flex;
+  flex-wrap: wrap;
 }
 
 .template_list_wrapper li {
   margin-right: 1rem;
-  position: relative;
+  margin-bottom: .5rem;
+  display: block;
 }
 
 .template_list_wrapper li a {
   color: rgb(255, 255, 0);
   text-decoration: none;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
 .template_list_wrapper li a:hover {
@@ -176,11 +190,12 @@ ul.recent_documents_list li a {
 }
 
 .template_list_wrapper li .caption {
-  text-align: center;
+  text-align: left;
   font-size: 0.9rem;
   color: rgb(200, 125, 200);
   font-style: italic;
-  display: inline;
+  display: inline-block;
+  margin-left: 2rem;
 }
 
 
@@ -200,31 +215,74 @@ ul.recent_documents_list li a {
   justify-content: center;
 }
 
+.signed_out_options .homepage_signin_show_modal {
+  font-size: 24px;
+  padding: 10px 50px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.signed_out_options .homepage_signin_show_modal:hover {
+  color: #000031;
+  background-color: rgb(28, 228, 60);
+}
+
+@media (max-width: 991px) {
+  .side_block {
+    order: 2;
+  }
+  .faq {
+    flex-direction: column;
+  }
+  .profile_menu_anchor .menu_profile_user_image_span {
+    top: 0px;
+  }
+}
 
 @media (max-width: 767px) {
   .coming-soon {
-    padding: 0 1rem;
+    padding: 1rem;
   }
-  .coming-soon h1 {
-    font-size: 3rem;
-  }
+
   .coming-soon-descr {
     font-size: 1.2rem;
   }
-  .coming-soon h4 {
-    font-size: 1rem;
-  }
+
   .header_recent_document {
     font-size: 2rem;
   }
+
   .cta {
     font-size: 16px;
     padding: 10px 30px;
   }
+
   .help-buttons button {
     font-size: 14px;
   }
-  .template_list_wrapper li .caption {
-   display: block;
+
+  .template_list_wrapper li {
+    display: block;
+
+  }
+    .template_list_wrapper li .caption {
+    margin-left: 1rem;
   }
 }
+
+@media (min-width: 992px) {
+  .navbar-expand-lg .navbar-collapse {
+    display: flex !important;
+    flex-basis: auto;
+    justify-content: flex-end;
+  }
+  .fa-folder {
+    font-size: 2.5rem;
+    margin-top: .8rem;
+  }
+}
+
