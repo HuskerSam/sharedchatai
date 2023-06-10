@@ -934,6 +934,10 @@ export class ChatRoomApp extends BaseApp {
     BaseApp.setHTML(this.sidebar_document_title, BaseApp.escapeHTML(this.sessionDocumentData.title));
     BaseApp.setHTML(this.menu_bar_doc_title, BaseApp.escapeHTML(this.sessionDocumentData.title));
 
+    let windowTitle = this.sessionDocumentData.title;
+    if (!windowTitle) windowTitle = "New Prompt+ Session";
+    document.title = windowTitle;
+
     this.paintDocumentOptions();
     setTimeout(() => {
       this.paintDocumentOptions();
