@@ -127,18 +127,20 @@ export default class BaseApp {
       });
   }
   /** create default user profile record and overwrite to database without merge (reset) */
-  async _authCreateDefaultProfile() {
+  async _authCreateDefaultProfile(displayName = "", displayImage = "") {
     await this.readJSONFile(`/data/logos.json`, "profileLogos");
     // const keys = Object.keys(window.profileLogos);
     // const imageIndex = Math.floor(Math.random() * keys.length);
     // const logoName = keys[imageIndex];
     this.profile = {
-      displayName: "", // Utility.generateName(),
-      displayImage: "", // window.profileLogos[logoName],
+      displayName, // Utility.generateName(),
+      displayImage, // window.profileLogos[logoName],
       documentLabels: "Personal,Business,Archived",
     };
 
-    await firebase.firestore().doc(`Users/${this.uid}`).set(this.profile);
+    await firebase.firestore().doc(`Users/${this.uid}`).set(this.profile, {
+      merge: true,
+    });
   }
   /** update user auth status, username/email etc */
   updateUserStatus() {
@@ -163,7 +165,11 @@ export default class BaseApp {
     provider.setCustomParameters({
       "prompt": "select_account",
     });
-    await firebase.auth().signInWithPopup(provider);
+    const loginResult = await firebase.auth().signInWithPopup(provider);
+    if (loginResult.additionalUserInfo && loginResult.additionalUserInfo.profile && loginResult.user.uid) {
+      this.uid = loginResult.user.uid;
+      await this._authCreateDefaultProfile(loginResult.additionalUserInfo.profile.name, loginResult.additionalUserInfo.profile.picture);
+    }
     setTimeout(() => {
       if (location.pathname === "/") location.href = location.origin + "/dashboard";
       else location.reload();
