@@ -79,4 +79,12 @@ export class ChatDocument {
       return [];
     }
   }
+  /**
+   * @param { any } ticketData
+   * @param { any } assistData
+   * @return { boolean } true if ticket running
+  */
+  static isTicketRunning(ticketData: any, assistData: any = null): boolean {
+    return !assistData || assistData.submitted !== ticketData.submitted;
+  }
 }

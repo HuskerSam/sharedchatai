@@ -702,7 +702,6 @@ export default class DocOptionsHelper {
         Completion: <span>${this.documentData.completionTokens}</span>
       `);
       this.modal_document_title_display.innerHTML = BaseApp.escapeHTML(this.documentData.title);
-        
     }
     /** populate modal fields and show
      * @param { string } chatDocumentId firestore doc id

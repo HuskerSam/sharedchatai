@@ -114,7 +114,9 @@ export class DashboardApp extends BaseApp {
         firstLoad = false;
       });
   }
-  /** */
+  /**
+   * @param { any } snapshot firestore query result snapshot for session documents
+  */
   refreshDocumentsLookup(snapshot: any) {
     this.documentsLookup = {};
     snapshot.forEach((doc: any) => {
@@ -292,7 +294,9 @@ export class DashboardApp extends BaseApp {
     });
     return arr;
   }
-  /** paint label select */
+  /** paint label select
+   * @param { boolean } firstLoad true if firstload to set profile value to control
+  */
   paintLabelSelect(firstLoad = false) {
     const labels = this.getLabelsList();
     let html = "<option>All</option>";
@@ -308,6 +312,5 @@ export class DashboardApp extends BaseApp {
         if (!firstLoad) this.updateGamesFeed(null);
       }
     }
-
   }
 }
