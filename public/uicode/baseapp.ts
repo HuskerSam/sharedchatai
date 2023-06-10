@@ -108,9 +108,10 @@ export default class BaseApp {
   }
   /** setup watch for user profile changes */
   async _authInitProfile() {
+    if (this.profileInited) return;
+    
     this.profileSubscription = firebase.firestore().doc(`Users/${this.uid}`)
       .onSnapshot(async (snapshot: any) => {
-        this.profileInited = true;
         this.profile = snapshot.data();
         if (!this.profile) {
           if (this.fireUser.email) {
@@ -121,19 +122,15 @@ export default class BaseApp {
 
           await this._authCreateDefaultProfile();
         }
-
+        this.profileInited = true;
         this.authUpdateStatusUI();
       });
   }
   /** create default user profile record and overwrite to database without merge (reset) */
   async _authCreateDefaultProfile(displayName = "", displayImage = "") {
-    await this.readJSONFile(`/data/logos.json`, "profileLogos");
-    // const keys = Object.keys(window.profileLogos);
-    // const imageIndex = Math.floor(Math.random() * keys.length);
-    // const logoName = keys[imageIndex];
     this.profile = {
-      displayName, // Utility.generateName(),
-      displayImage, // window.profileLogos[logoName],
+      displayName,
+      displayImage,
       documentLabels: "Personal,Business,Archived",
     };
 
@@ -162,12 +159,15 @@ export default class BaseApp {
     const loginResult = await firebase.auth().signInWithPopup(provider);
     if (loginResult.additionalUserInfo && loginResult.additionalUserInfo.profile && loginResult.user.uid) {
       this.uid = loginResult.user.uid;
-      await this._authCreateDefaultProfile(loginResult.additionalUserInfo.profile.name, loginResult.additionalUserInfo.profile.picture);
+      const profile = await firebase.firestore().doc(`Users/${this.uid}`).get();
+      if (!profile.data() || !profile.data().displayName) {
+        await this._authCreateDefaultProfile(loginResult.additionalUserInfo.profile.name, loginResult.additionalUserInfo.profile.picture);
+      }
     }
     setTimeout(() => {
       if (location.pathname === "/") location.href = location.origin + "/dashboard";
       else location.reload();
-    }, 1);
+    }, 150);
   }
   /** anonymous sign in handler
    * @param { any } e dom event - preventDefault is called if passed
