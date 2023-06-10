@@ -189,12 +189,12 @@ export default class DocOptionsHelper {
      * @return { boolean } for navigation after delete
      */
     get chatRoomView(): boolean {
-        if (this.app.gameData) return true;
+        if (this.app.sessionDocumentData) return true;
         return false;
     }
     /** docData to support dashboard and chatroom */
     get docData(): any {
-        if (this.app.gameData) return this.app.gameData;
+        if (this.app.sessionDocumentData) return this.app.sessionDocumentData;
         else return this.documentData;
     }
     /** prompt and send title to api */

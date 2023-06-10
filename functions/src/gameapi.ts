@@ -167,12 +167,12 @@ export default class GameAPI {
 
     const gameNumber = req.body.gameNumber;
 
-    const gameDataRef = firebaseAdmin.firestore().doc(`Games/${gameNumber}`);
-    const gameDataQuery = await gameDataRef.get();
-    const gameData = gameDataQuery.data();
+    const sessionDocumentDataRef = firebaseAdmin.firestore().doc(`Games/${gameNumber}`);
+    const sessionDocumentDataQuery = await sessionDocumentDataRef.get();
+    const sessionDocumentData = sessionDocumentDataQuery.data();
     let success = false;
-    if (gameData && gameData.createUser === uid) {
-      await gameDataRef.delete();
+    if (sessionDocumentData && sessionDocumentData.createUser === uid) {
+      await sessionDocumentDataRef.delete();
       await GameAPI.deleteCollection(firebaseAdmin.firestore(), `Games/${gameNumber}/messages`, 50);
       await GameAPI.deleteCollection(firebaseAdmin.firestore(), `Games/${gameNumber}/tickets`, 50);
       await GameAPI.deleteCollection(firebaseAdmin.firestore(), `Games/${gameNumber}/assists`, 50);
@@ -199,8 +199,8 @@ export default class GameAPI {
     await localInstance.init();
 
     const gameQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).get();
-    const gameData = gameQuery.data();
-    if (!gameData) {
+    const sessionDocumentData = gameQuery.data();
+    if (!sessionDocumentData) {
       return BaseClass.respondError(res, "Game not found");
     }
 
@@ -210,14 +210,14 @@ export default class GameAPI {
       return BaseClass.respondError(res, "User not found");
     }
 
-    if (uid !== gameData.createUser) {
+    if (uid !== sessionDocumentData.createUser) {
       return BaseClass.respondError(res, "Must be owner to set owner options");
     }
 
     const updatePacket: any = {};
     if (req.body.archived !== undefined) {
       updatePacket.archived = req.body.archived;
-      gameData.archived = updatePacket.archived;
+      sessionDocumentData.archived = updatePacket.archived;
     }
 
     if (req.body.tokenUsageLimit) {
@@ -234,7 +234,7 @@ export default class GameAPI {
     if (req.body.title !== undefined) {
       updatePacket.title = req.body.title;
     }
-    updatePacket.publicStatus = GameAPI._publicStatus(gameData);
+    updatePacket.publicStatus = GameAPI._publicStatus(sessionDocumentData);
 
     await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).set(updatePacket, {
       merge: true,
@@ -259,8 +259,8 @@ export default class GameAPI {
     await localInstance.init();
 
     const gameQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).get();
-    const gameData = gameQuery.data();
-    if (!gameData) {
+    const sessionDocumentData = gameQuery.data();
+    if (!sessionDocumentData) {
       return BaseClass.respondError(res, "Game not found");
     }
 
@@ -286,13 +286,13 @@ export default class GameAPI {
     fieldsFilter.forEach((field: string) => {
       if (req.body[field] !== undefined) {
         const value = req.body[field];
-        if (gameData[field] !== value) {
+        if (sessionDocumentData[field] !== value) {
           updatePacket[field] = value;
-          gameData[field] = value;
+          sessionDocumentData[field] = value;
         }
       }
     });
-    updatePacket.publicStatus = GameAPI._publicStatus(gameData);
+    updatePacket.publicStatus = GameAPI._publicStatus(sessionDocumentData);
 
     await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).set(updatePacket, {
       merge: true,
@@ -317,8 +317,8 @@ export default class GameAPI {
     await localInstance.init();
 
     const gameQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).get();
-    const gameData = gameQuery.data();
-    if (!gameData) {
+    const sessionDocumentData = gameQuery.data();
+    if (!sessionDocumentData) {
       return BaseClass.respondError(res, "Game not found");
     }
 
@@ -343,7 +343,7 @@ export default class GameAPI {
       },
     };
 
-    if (!gameData.members[uid]) {
+    if (!sessionDocumentData.members[uid]) {
       updatePacket.lastActivity = new Date().toISOString();
       updatePacket.members = {
         [uid]: new Date().toISOString(),
@@ -372,12 +372,12 @@ export default class GameAPI {
     const localInstance = BaseClass.newLocalInstance();
     await localInstance.init();
 
-    const gameData = await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).get();
-    if (!gameData.data()) {
+    const sessionDocumentData = await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).get();
+    if (!sessionDocumentData.data()) {
       return BaseClass.respondError(res, "Game not found");
     }
 
-    const game: any = gameData.data();
+    const game: any = sessionDocumentData.data();
     if (uid === game.createUser) return BaseClass.respondError(res, "Owner has to stay in session (delete)");
 
     const updatePacket: any = {

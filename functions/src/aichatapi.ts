@@ -35,12 +35,12 @@ export default class ChatAI {
         await localInstance.init();
 
         const gameQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).get();
-        const gameData = gameQuery.data();
-        if (!gameData) {
+        const sessionDocumentData = gameQuery.data();
+        if (!sessionDocumentData) {
             return BaseClass.respondError(res, "Game not found");
         }
 
-        const userQ = await firebaseAdmin.firestore().doc(`Users/${gameData.createUser}`).get();
+        const userQ = await firebaseAdmin.firestore().doc(`Users/${sessionDocumentData.createUser}`).get();
         const ownerProfile = userQ.data();
         if (!ownerProfile) {
             return BaseClass.respondError(res, "User not found");
@@ -48,12 +48,12 @@ export default class ChatAI {
 
         /* eslint-disable camelcase */
         const defaults = BaseClass.defaultChatDocumentOptions();
-        const max_tokens = BaseClass.getNumberOrDefault(gameData.max_tokens, defaults.max_tokens);
+        const max_tokens = BaseClass.getNumberOrDefault(sessionDocumentData.max_tokens, defaults.max_tokens);
         // const chatGptKey = ownerProfile.chatGptKey;
         const chatGptKey = localInstance.privateConfig.chatGPTKey;
 
-        const memberImage = gameData.memberImages[uid] ? gameData.memberImages[uid] : "";
-        const memberName = gameData.memberNames[uid] ? gameData.memberNames[uid] : "";
+        const memberImage = sessionDocumentData.memberImages[uid] ? sessionDocumentData.memberImages[uid] : "";
+        const memberName = sessionDocumentData.memberNames[uid] ? sessionDocumentData.memberNames[uid] : "";
 
         let ticketId = "";
         let ticket: any;
@@ -103,7 +103,7 @@ export default class ChatAI {
                 [uid]: new Date().toISOString(),
             },
         };
-        if (gameData.unsetTitle && message) {
+        if (sessionDocumentData.unsetTitle && message) {
             sessionPacket.unsetTitle = false;
             sessionPacket.title = message.substring(0, 100);
         }
@@ -112,8 +112,8 @@ export default class ChatAI {
             merge: true,
         });
 
-        const packet = await this._generatePacket(ticket, gameData, gameNumber, ticketId, includeTickets);
-        await this._processTicket(packet, gameData, ticket, ticketId, chatGptKey, submitted);
+        const packet = await this._generatePacket(ticket, sessionDocumentData, gameNumber, ticketId, includeTickets);
+        await this._processTicket(packet, sessionDocumentData, ticket, ticketId, chatGptKey, submitted);
 
         return res.status(200).send({
             success: true,
@@ -145,19 +145,19 @@ export default class ChatAI {
                 completion = importTicket.completion;
             }
             const gameQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).get();
-            const gameData = gameQuery.data();
-            if (!gameData) {
+            const sessionDocumentData = gameQuery.data();
+            if (!sessionDocumentData) {
                 return BaseClass.respondError(res, "Document not found");
             }
 
-            const userQ = await firebaseAdmin.firestore().doc(`Users/${gameData.createUser}`).get();
+            const userQ = await firebaseAdmin.firestore().doc(`Users/${sessionDocumentData.createUser}`).get();
             const ownerProfile = userQ.data();
             if (!ownerProfile) {
                 return BaseClass.respondError(res, "User not found");
             }
 
-            const memberImage = gameData.memberImages[uid] ? gameData.memberImages[uid] : "";
-            const memberName = gameData.memberNames[uid] ? gameData.memberNames[uid] : "";
+            const memberImage = sessionDocumentData.memberImages[uid] ? sessionDocumentData.memberImages[uid] : "";
+            const memberName = sessionDocumentData.memberNames[uid] ? sessionDocumentData.memberNames[uid] : "";
 
             const createDate = new Date().toISOString();
             const ticket = {
@@ -221,12 +221,12 @@ export default class ChatAI {
     }
     /** generate ai api request including previous messages and store in /games/{gameid}/packets/{ticketid}
      * @param { any } ticket message details
-     * @param { any } gameData chat document
+     * @param { any } sessionDocumentData chat document
      * @param { string } gameNumber document id
      * @param { string } ticketId ticketId
      * @param { Array<string> } includeTickets tickets sent to packet
      */
-    static async _generatePacket(ticket: any, gameData: any, gameNumber: string, ticketId: string,
+    static async _generatePacket(ticket: any, sessionDocumentData: any, gameNumber: string, ticketId: string,
         includeTickets: Array<string>): Promise<any> {
         const messages: Array<any> = [];
         // const gameQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).get();
@@ -266,14 +266,14 @@ export default class ChatAI {
         });
         /* eslint-disable camelcase */
         const defaults = BaseClass.defaultChatDocumentOptions();
-        const model = gameData.model;
-        const max_tokens = BaseClass.getNumberOrDefault(gameData.max_tokens, defaults.max_tokens);
-        const temperature = BaseClass.getNumberOrDefault(gameData.model, defaults.temperature);
-        const top_p = BaseClass.getNumberOrDefault(gameData.top_p, defaults.top_p);
-        const presence_penalty = BaseClass.getNumberOrDefault(gameData.presence_penalty, defaults.presence_penalty);
-        const frequency_penalty = BaseClass.getNumberOrDefault(gameData.frequency_penalty, defaults.frequency_penalty);
+        const model = sessionDocumentData.model;
+        const max_tokens = BaseClass.getNumberOrDefault(sessionDocumentData.max_tokens, defaults.max_tokens);
+        const temperature = BaseClass.getNumberOrDefault(sessionDocumentData.model, defaults.temperature);
+        const top_p = BaseClass.getNumberOrDefault(sessionDocumentData.top_p, defaults.top_p);
+        const presence_penalty = BaseClass.getNumberOrDefault(sessionDocumentData.presence_penalty, defaults.presence_penalty);
+        const frequency_penalty = BaseClass.getNumberOrDefault(sessionDocumentData.frequency_penalty, defaults.frequency_penalty);
 
-        let logit_bias_text = gameData.logit_bias;
+        let logit_bias_text = sessionDocumentData.logit_bias;
         if (!logit_bias_text) logit_bias_text = "";
         let includeBias = false;
         const bias_lines = logit_bias_text.replaceAll("\n", "").split(",");
@@ -362,26 +362,26 @@ export default class ChatAI {
     }
     /** submit ticket to AI engine and store response in /games/{gameid}/assists/{ticketid}
      * @param { any } packet message details
-     * @param { any } gameData game doc
+     * @param { any } sessionDocumentData game doc
      * @param { any } ticketData ticket doc
      * @param { string } id document id
      * @param { string } chatGptKey api key from user profile
      * @param { string } submitted submitted date
      * @return { Promise<void> }
      */
-    static async _processTicket(packet: any, gameData: any, ticketData: any,
+    static async _processTicket(packet: any, sessionDocumentData: any, ticketData: any,
         id: string, chatGptKey: string, submitted: string): Promise<void> {
         let total_tokens = 0;
         let prompt_tokens = 0;
         let completion_tokens = 0;
 
 
-        if (gameData.archived) {
+        if (sessionDocumentData.archived) {
             throw new Error("Submit Blocked: Document is set to archived");
         }
 
-        const usageLimit = BaseClass.getNumberOrDefault(gameData.tokenUsageLimit, 0);
-        const documentUsed = BaseClass.getNumberOrDefault(gameData.totalTokens, 0);
+        const usageLimit = BaseClass.getNumberOrDefault(sessionDocumentData.tokenUsageLimit, 0);
+        const documentUsed = BaseClass.getNumberOrDefault(sessionDocumentData.totalTokens, 0);
         if (usageLimit > 0 && documentUsed >= usageLimit) {
             throw new Error("Submit Blocked: Document Usage Limit Reached");
         }
@@ -412,7 +412,7 @@ export default class ChatAI {
             }, {
                 merge: true,
             }),
-            firebaseAdmin.firestore().doc(`Users/${gameData.createUser}/internal/tokenUsage`).set({
+            firebaseAdmin.firestore().doc(`Users/${sessionDocumentData.createUser}/internal/tokenUsage`).set({
                 lastActivity: new Date().toISOString(),
                 lastMessage: ticketData.message,
                 lastChatDocumentId: packet.gameNumber,
@@ -453,13 +453,13 @@ export default class ChatAI {
         const gameNumber = req.body.gameNumber;
         const ticketId = req.body.ticketId;
 
-        const gameDataRef = firebaseAdmin.firestore().doc(`Games/${gameNumber}`);
-        const gameDataQuery = await gameDataRef.get();
-        const gameData = gameDataQuery.data();
+        const sessionDocumentDataRef = firebaseAdmin.firestore().doc(`Games/${gameNumber}`);
+        const sessionDocumentDataQuery = await sessionDocumentDataRef.get();
+        const sessionDocumentData = sessionDocumentDataQuery.data();
 
-        if (!gameData) return BaseClass.respondError(res, "Game not found");
+        if (!sessionDocumentData) return BaseClass.respondError(res, "Game not found");
 
-        const isGameOwner = (gameData.createUser === uid);
+        const isGameOwner = (sessionDocumentData.createUser === uid);
 
         const messageQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${ticketId}`).get();
         const message: any = messageQuery.data();

@@ -24,7 +24,7 @@ export class ChatRoomApp extends BaseApp {
   recentDocumentsSubscription: any = null;
   lastInputTokenCount = 0;
   lastDocumentsSnapshot: any = null;
-  gameData: any;
+  sessionDocumentData: any;
   alertErrors = false;
   mobileLayoutCache: any = null;
   ticketsLookup: any = {};
@@ -140,7 +140,7 @@ export class ChatRoomApp extends BaseApp {
     this.ticket_content_input.addEventListener("input", () => this.updatePromptTokenStatus());
     this.show_document_options_modal.addEventListener("click", () => {
       this.show_document_options_popup.click();
-      this.documentOptions.show(this.documentId, this.gameData);
+      this.documentOptions.show(this.documentId, this.sessionDocumentData);
     });
     this.show_document_options_help.addEventListener("click", () => this.helpHelper.show("engine"));
     this.show_token_threshold_dialog_help.addEventListener("click", () => this.helpHelper.show("engine"));
@@ -156,8 +156,8 @@ export class ChatRoomApp extends BaseApp {
     this.docfield_max_tokens.addEventListener("input", () => this.optionSliderChange(true, "max_tokens",
       this.docfield_max_tokens, this.max_tokens_slider_label, "Completion Tokens: "));
     this.docfield_model.addEventListener("change", () => {
-      if (this.gameData.archived) {
-        this.docfield_model.value = this.gameData.model;
+      if (this.sessionDocumentData.archived) {
+        this.docfield_model.value = this.sessionDocumentData.model;
       } else {
         this.saveDocumentOption("model", this.docfield_model.value);
       }
@@ -416,7 +416,7 @@ export class ChatRoomApp extends BaseApp {
               promptSpan.innerHTML = assistData.assist.usage.prompt_tokens;
               completionSpan.innerHTML = assistData.assist.usage.completion_tokens;
 
-              let responseCap = this.gameData.max_tokens;
+              let responseCap = this.sessionDocumentData.max_tokens;
               if (ticketData.max_tokens !== undefined) responseCap = ticketData.max_tokens;
               if (assistData.assist.usage.completion_tokens >= responseCap) {
                 card.classList.add("completion_max_tokens_reached");
@@ -473,7 +473,7 @@ export class ChatRoomApp extends BaseApp {
    * @param { any } snapshot firestore query data snapshot
    */
   updateTicketsFeed(snapshot: any = null) {
-    if (!this.gameData) {
+    if (!this.sessionDocumentData) {
       setTimeout(() => this.updateTicketsFeed(snapshot), 50);
       return;
     }
@@ -502,7 +502,7 @@ export class ChatRoomApp extends BaseApp {
       const submittedTime: any = card.querySelector(".last_submit_time");
       submittedTime.setAttribute("data-timesince", doc.data().submitted);
 
-      let name = this.gameData.memberNames[this.ticketsLookup[doc.id].uid];
+      let name = this.sessionDocumentData.memberNames[this.ticketsLookup[doc.id].uid];
       if (!name) name = "Anonymous";
       const ele1: any = card.querySelector(".ticket_owner_name");
       if (ele1.innerHTML !== name) {
@@ -510,7 +510,7 @@ export class ChatRoomApp extends BaseApp {
         ele1.setAttribute("ticketowneruid", this.ticketsLookup[doc.id].uid);
       } 
   
-      let img = this.gameData.memberImages[this.ticketsLookup[doc.id].uid];
+      let img = this.sessionDocumentData.memberImages[this.ticketsLookup[doc.id].uid];
       if (!img) img = "/images/defaultprofile.png";
       const ele: any = card.querySelector(".ticket_owner_image");
       if (ele.style.backgroundImage !== `url(${img})`) {
@@ -519,7 +519,7 @@ export class ChatRoomApp extends BaseApp {
         ele.setAttribute("ticketowneruid", this.ticketsLookup[doc.id].uid);
       }
 
-      if (this.ticketCount === rowCount) console.log(this.ticketsLookup[doc.id].uid, name, img);
+      // if (this.ticketCount === rowCount) console.log(this.ticketsLookup[doc.id].uid, name, img);
 
       if (this.ticketsLookup[doc.id].includeInMessage === true) {
         chkBox.checked = true;
@@ -646,7 +646,7 @@ export class ChatRoomApp extends BaseApp {
     imgCtls.forEach((imgCtl: any) => {
       const uid: any = imgCtl.getAttribute("ticketowneruid");
       if (uid !== undefined) {
-        let imgPath = this.gameData.memberImages[uid];
+        let imgPath = this.sessionDocumentData.memberImages[uid];
         if (!imgPath) imgPath = "/images/defaultprofile.png";
         imgCtl.style.backgroundImage = "url(" + imgPath + ")";
       }
@@ -655,7 +655,7 @@ export class ChatRoomApp extends BaseApp {
     nameCtls.forEach((nameCtl: any) => {
       const uid: any = nameCtl.getAttribute("ticketowneruid");
       if (uid !== undefined) {
-        let name = this.gameData.memberNames[uid];
+        let name = this.sessionDocumentData.memberNames[uid];
         if (!name) name = "Anonymous";
         BaseApp.setHTML(nameCtl, name);
       }
@@ -729,8 +729,8 @@ export class ChatRoomApp extends BaseApp {
 
     const includeChkBox: any = cardDom.querySelector(".ticket_item_include_checkbox");
     includeChkBox.addEventListener("input", async () => {
-      if (!this.gameData) return;
-      if (!this.gameData.archived) {
+      if (!this.sessionDocumentData) return;
+      if (!this.sessionDocumentData.archived) {
         this.includeTicketSendToAPI(reRunBtn.dataset.ticketid, includeChkBox.checked);
       } else {
         includeChkBox.checked = data.includeInMessage;
@@ -800,7 +800,7 @@ export class ChatRoomApp extends BaseApp {
     const tempTicket = {
       uid: this.uid,
       message,
-      isGameOwner: this.uid === this.gameData.createUser,
+      isGameOwner: this.uid === this.sessionDocumentData.createUser,
       gameNumber: this.documentId,
       submitted: new Date().toISOString(),
     };
@@ -917,7 +917,7 @@ export class ChatRoomApp extends BaseApp {
               location.href = "/";
               return;
             }
-            this.paintGameData(doc);
+            this.paintDocumentData(doc);
 
             if (firstLoad) this.ticket_content_input.focus();
 
@@ -931,16 +931,16 @@ export class ChatRoomApp extends BaseApp {
   /** paint game data (game document change handler)
    * @param { any } gameDoc firestore query snapshot
    */
-  paintGameData(gameDoc: any = null) {
-    if (gameDoc) this.gameData = gameDoc.data();
-    if (!this.gameData) return;
+  paintDocumentData(gameDoc: any = null) {
+    if (gameDoc) this.sessionDocumentData = gameDoc.data();
+    if (!this.sessionDocumentData) return;
 
     document.body.classList.add("loaded");
 
-    BaseApp.setHTML(this.document_menutop_usage_stats_line, `<span class="usage">${this.gameData.totalTokens}</span> Usage`);
-    BaseApp.setHTML(this.last_activity_display, this.showGmailStyleDate(new Date(this.gameData.lastActivity), true));
-    BaseApp.setHTML(this.sidebar_document_title, BaseApp.escapeHTML(this.gameData.title));
-    BaseApp.setHTML(this.menu_bar_doc_title, BaseApp.escapeHTML(this.gameData.title));
+    BaseApp.setHTML(this.document_menutop_usage_stats_line, `<span class="usage">${this.sessionDocumentData.totalTokens}</span> Usage`);
+    BaseApp.setHTML(this.last_activity_display, this.showGmailStyleDate(new Date(this.sessionDocumentData.lastActivity), true));
+    BaseApp.setHTML(this.sidebar_document_title, BaseApp.escapeHTML(this.sessionDocumentData.title));
+    BaseApp.setHTML(this.menu_bar_doc_title, BaseApp.escapeHTML(this.sessionDocumentData.title));
 
     this.paintDocumentOptions();
     this._updateGameMembersList();
@@ -954,14 +954,14 @@ export class ChatRoomApp extends BaseApp {
   /** paint game members list */
   _updateGameMembersList() {
     let html = "";
-    if (this.gameData) {
+    if (this.sessionDocumentData) {
       let members: any = {};
 
-      if (this.gameData.members) members = this.gameData.members;
+      if (this.sessionDocumentData.members) members = this.sessionDocumentData.members;
       let membersList = Object.keys(members);
       membersList = membersList.sort((a: string, b: string) => {
-        if (this.gameData.members[a] > this.gameData.members[b]) return -1;
-        if (this.gameData.members[a] < this.gameData.members[b]) return 1;
+        if (this.sessionDocumentData.members[a] > this.sessionDocumentData.members[b]) return -1;
+        if (this.sessionDocumentData.members[a] < this.sessionDocumentData.members[b]) return 1;
         return 0;
       });
 
@@ -983,7 +983,7 @@ export class ChatRoomApp extends BaseApp {
         const data = this._gameMemberData(member);
 
         const timeSince = this.timeSince(new Date(members[member]));
-        const isOwner = member === this.gameData.createUser ? " is_document_owner" : "";
+        const isOwner = member === this.sessionDocumentData.createUser ? " is_document_owner" : "";
         let selected = memberSelectedCounts[member];
         if (selected === undefined) selected = 0;
         let ticketCount = memberTicketCounts[member];
@@ -1042,8 +1042,8 @@ export class ChatRoomApp extends BaseApp {
    * @return { any } name, img
    */
   _gameMemberData(uid: string) {
-    let name = this.gameData.memberNames[uid];
-    let img = this.gameData.memberImages[uid];
+    let name = this.sessionDocumentData.memberNames[uid];
+    let img = this.sessionDocumentData.memberImages[uid];
     if (!name) name = "Anonymous";
     if (!img) img = "/images/defaultprofile.png";
 
@@ -1055,10 +1055,10 @@ export class ChatRoomApp extends BaseApp {
   /** paint user editable game options
   */
   paintDocumentOptions() {
-    if (this.gameData.createUser === this.uid) document.body.classList.add("game_owner");
+    if (this.sessionDocumentData.createUser === this.uid) document.body.classList.add("game_owner");
     else document.body.classList.remove("game_owner");
 
-    if (this.gameData.archived) document.body.classList.add("archived_chat_document");
+    if (this.sessionDocumentData.archived) document.body.classList.add("archived_chat_document");
     else document.body.classList.remove("archived_chat_document");
 
     if (this.testForEngineNotDefault()) document.body.classList.add("engine_settings_not_default");
@@ -1069,7 +1069,7 @@ export class ChatRoomApp extends BaseApp {
 
     const debounce = (this.lastDocumentOptionChange + 500 > new Date().getTime());
 
-    this.docfield_model.value = this.gameData.model;
+    this.docfield_model.value = this.sessionDocumentData.model;
 
     this.__debounceSliderPaint("max_tokens", debounce, "Completion Tokens: ");
     this.__debounceSliderPaint("temperature", debounce, "Temperature: ");
@@ -1095,7 +1095,7 @@ export class ChatRoomApp extends BaseApp {
 
     const ele: any = (this as any)["docfield_" + field];
     const labelEle: any = (this as any)[field + "_slider_label"];
-    ele.value = this.gameData[field];
+    ele.value = this.sessionDocumentData[field];
     this.optionSliderChange(false, field, ele, labelEle, label);
   }
   /** update the splitter if needed */
@@ -1122,7 +1122,7 @@ export class ChatRoomApp extends BaseApp {
   }
   /** count input token */
   updatePromptTokenStatus() {
-    if (!this.gameData) return;
+    if (!this.sessionDocumentData) return;
     // generate fresh buffer numbers
     this.generateSubmitList();
 
@@ -1151,11 +1151,11 @@ export class ChatRoomApp extends BaseApp {
 
     this.prompt_token_count.innerHTML = tokens.length;
     this.lastInputTokenCount = tokens.length;
-    this.total_prompt_token_count.innerHTML = this.includeTotalTokens + tokens.length + this.gameData.max_tokens;
+    this.total_prompt_token_count.innerHTML = this.includeTotalTokens + tokens.length + this.sessionDocumentData.max_tokens;
     this.chat_history_tokens.innerHTML = this.includeTotalTokens;
-    this.chat_completion_tokens.innerHTML = this.gameData.max_tokens;
+    this.chat_completion_tokens.innerHTML = this.sessionDocumentData.max_tokens;
     this.chat_new_prompt_tokens.innerHTML = this.lastInputTokenCount;
-    this.chat_threshold_total_tokens.innerHTML = (this.includeTotalTokens + this.gameData.max_tokens + this.lastInputTokenCount).toString();
+    this.chat_threshold_total_tokens.innerHTML = (this.includeTotalTokens + this.sessionDocumentData.max_tokens + this.lastInputTokenCount).toString();
 
     if (this.isOverSendThreshold()) {
       document.body.classList.add("over_token_sendlimit");
@@ -1168,7 +1168,7 @@ export class ChatRoomApp extends BaseApp {
    * @return { boolean } true if over 4096 for submit token count
    */
   isOverSendThreshold(): boolean {
-    return this.includeTotalTokens + this.gameData.max_tokens + this.lastInputTokenCount > 4096;
+    return this.includeTotalTokens + this.sessionDocumentData.max_tokens + this.lastInputTokenCount > 4096;
   }
   /** shows over threshold modal */
   showOverthresholdToSendModal() {
@@ -1183,7 +1183,7 @@ export class ChatRoomApp extends BaseApp {
     if (this.excludingTicketsRunning) return [];
     this.excludingTicketsRunning = true;
     document.body.classList.add("exclude_tickets_running");
-    let tokenReduction = this.includeTotalTokens + this.gameData.max_tokens + this.lastInputTokenCount - 4050;
+    let tokenReduction = this.includeTotalTokens + this.sessionDocumentData.max_tokens + this.lastInputTokenCount - 4050;
 
     const tickets: Array<any> = [];
     this.lastTicketsSnapshot.forEach((doc: any) => tickets.unshift(doc));
@@ -1224,7 +1224,7 @@ export class ChatRoomApp extends BaseApp {
     let fieldChanged = false;
     Object.keys(this.defaultUIEngineSettings).forEach((key) => {
       const value = this.defaultUIEngineSettings[key];
-      if (value.toString() !== this.gameData[key].toString()) fieldChanged = true;
+      if (value.toString() !== this.sessionDocumentData[key].toString()) fieldChanged = true;
     });
     return fieldChanged;
   }
@@ -1236,7 +1236,7 @@ export class ChatRoomApp extends BaseApp {
     Object.keys(this.defaultUIEngineSettings).forEach((key) => {
       const value = this.defaultUIEngineSettings[key];
       if (key !== "model" && key !== "max_tokens") {
-        if (value.toString() !== this.gameData[key].toString()) fieldChanged = true;
+        if (value.toString() !== this.sessionDocumentData[key].toString()) fieldChanged = true;
       }
     });
     return fieldChanged;
