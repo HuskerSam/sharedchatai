@@ -85,14 +85,30 @@
             </ul>
         </div>
     </nav>
-    <div class="container-fluid d-flex flex-column flex-lg-row p-3">
-        <div class="main_block">
+    <div class="container-fluid d-flex flex-column flex-lg-row p-3 justify-content-center">
+        <div class="main_block signed_in_options">
+            <div class="recent_sessions_list card">
+                <p class="header_recent_document">See Recent Sessions</p>
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small recent_documents_list"></ul>
+            </div>
+            <div class="template_list_wrapper card">
+                <p class="header_recent_document">Template Repo</p>
+                <ul class="template_list_wrapper">
+                    <li>
+                        <a class="p-3 text-center"
+                            href="/?templatepath=/templates/createhelpchat.json&title=Create Dialog Help">Creating help
+                            documentation</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="side_block p-3 mx-sm-3">
             <div class="coming-soon card">
                 <h1 class="display-3">Homepage Coming Soon</h1>
                 <p class="coming-soon-descr">We are working hard to bring you the best AI chat experience.</p>
                 <button class="cta btn btn-primary signed_out_options homepage_signin_show_modal">Sign Up</button>
             </div>
-            <div class="faq card">
+            <div class="faq card p-3">
                 <h4>FAQ</h4>
                 <div class="help-buttons">
                     <button class="btn engine_settings_help">Engine Settings</button>
@@ -101,10 +117,6 @@
                     <button class="btn shared_sessions_help">Shared Sessions</button>
                 </div>
             </div>
-        </div>
-        <div class="recent_sessions_list card p-3">
-            <p class="header_recent_document signed_in_options">See Recent Sessions</p>
-            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small recent_documents_list"></ul>
         </div>
     </div>
     <button class="btn btn-primary profile_show_modal" style="display:none" type="button" data-bs-toggle="modal"
