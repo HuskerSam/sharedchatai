@@ -9,14 +9,12 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 5rem;
+  padding: 0 3rem;
   border-radius: 6px;
 }
 
 .coming-soon h1 {
   color:rgb(255, 255, 255);
-  font-size: 5rem;
-  line-height: 1.2;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   font-weight: 700;
 }
@@ -30,8 +28,10 @@
 
 .header_recent_document {
   color:#fff;
-  font-size: 1.3rem;
+  font-size: 2.5rem;
   text-align: left;
+  padding-left: 4px;
+  margin-bottom: 1rem;
 }
 
 .cta {
@@ -73,8 +73,13 @@
 }
 
 /** from AI chat **/
+
+.recent_sessions_list {
+  background-color: rgba(211, 211, 211,.1);
+}
+
 ul.recent_documents_list {
-  padding-left: 10px;
+  padding-right: 4px;
 }
 
 ul.recent_documents_list li {
@@ -83,8 +88,8 @@ ul.recent_documents_list li {
   margin-bottom: 1rem;
   text-align: left;
   position: relative;
-  padding-left: 30px;
-  margin-left: 12px;
+  padding-right: 30px;
+  margin-right: 12px;
 }
 
 ul.recent_documents_list li a {
@@ -92,13 +97,14 @@ ul.recent_documents_list li a {
   color: rgb(230, 230, 230);
   padding-top: 4px;
   padding-bottom: 4px;
+  text-decoration: underline;
 }
 
 .recent_documents_list .activity_date {
   background-color: rgba(28, 228, 60, 0.3);
   position: absolute;
-  left: -12px;
-  bottom: 2px;
+  right: -10px;
+  top: 2px;
   border-radius: 5px;
   z-index: 100;
   padding: 2px 8px;
@@ -147,10 +153,36 @@ ul.recent_documents_list li a {
 }
 
 .template_list_wrapper {
-  padding-left: 10px;
+  padding-left: 4px;
   padding-top: 4px;
   margin-top: 8px;
+  list-style: none;
+  display: flex;
 }
+
+.template_list_wrapper li {
+  margin-right: 1rem;
+  position: relative;
+}
+
+.template_list_wrapper li a {
+  color: rgb(255, 255, 0);
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+.template_list_wrapper li a:hover {
+  color: #198754;
+}
+
+.template_list_wrapper li .caption {
+  text-align: center;
+  font-size: 0.9rem;
+  color: rgb(200, 125, 200);
+  font-style: italic;
+  display: inline;
+}
+
 
 .side_block {
   display: flex;
@@ -168,12 +200,6 @@ ul.recent_documents_list li a {
   justify-content: center;
 }
 
-.side_block h4 {
-  color:rgb(255, 255, 255);
-  font-size: 1.2rem;
-  padding-bottom: 1rem;
-}
-
 
 @media (max-width: 767px) {
   .coming-soon {
@@ -189,7 +215,7 @@ ul.recent_documents_list li a {
     font-size: 1rem;
   }
   .header_recent_document {
-    font-size: 1rem;
+    font-size: 2rem;
   }
   .cta {
     font-size: 16px;
@@ -197,5 +223,8 @@ ul.recent_documents_list li a {
   }
   .help-buttons button {
     font-size: 14px;
+  }
+  .template_list_wrapper li .caption {
+   display: block;
   }
 }
