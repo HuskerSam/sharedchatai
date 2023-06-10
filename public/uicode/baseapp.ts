@@ -109,9 +109,10 @@ export default class BaseApp {
   }
   /** setup watch for user profile changes */
   async _authInitProfile() {
+    if (this.profileInited) return;
+
     this.profileSubscription = firebase.firestore().doc(`Users/${this.uid}`)
       .onSnapshot(async (snapshot: any) => {
-        this.profileInited = true;
         this.profile = snapshot.data();
         if (!this.profile) {
           if (this.fireUser.email) {
@@ -122,19 +123,18 @@ export default class BaseApp {
 
           await this._authCreateDefaultProfile();
         }
-
+        this.profileInited = true;
         this.authUpdateStatusUI();
       });
   }
-  /** create default user profile record and overwrite to database without merge (reset) */
+  /** create default user profile record and overwrite to database without merge (reset)
+   * @param { string } displayName passed in name (ie google)
+   * @param { string } displayImage passed in image (ie google)
+  */
   async _authCreateDefaultProfile(displayName = "", displayImage = "") {
-    await this.readJSONFile(`/data/logos.json`, "profileLogos");
-    // const keys = Object.keys(window.profileLogos);
-    // const imageIndex = Math.floor(Math.random() * keys.length);
-    // const logoName = keys[imageIndex];
     this.profile = {
-      displayName, // Utility.generateName(),
-      displayImage, // window.profileLogos[logoName],
+      displayName,
+      displayImage,
       documentLabels: "Personal,Business,Archived",
     };
 
@@ -147,9 +147,14 @@ export default class BaseApp {
     if (this.menu_profile_user_image_span) {
       let img = this.profile.displayImage;
       if (!img) img = "/images/defaultprofile.png";
+      const imgEle = document.createElement("img");
+      imgEle.setAttribute("crossorigin", "anonymous");
+      imgEle.setAttribute("src", img);
+      document.body.appendChild(imgEle);
       this.menu_profile_user_image_span.style.backgroundImage = "url(" + img + ")";
+      imgEle.remove();
     }
-    if (this.menu_profile_user_name_span) { 
+    if (this.menu_profile_user_name_span) {
       let displayName = this.profile.displayName;
       if (!displayName) displayName = "Anonymous";
       this.menu_profile_user_name_span.innerHTML = displayName;
@@ -168,12 +173,15 @@ export default class BaseApp {
     const loginResult = await firebase.auth().signInWithPopup(provider);
     if (loginResult.additionalUserInfo && loginResult.additionalUserInfo.profile && loginResult.user.uid) {
       this.uid = loginResult.user.uid;
-      await this._authCreateDefaultProfile(loginResult.additionalUserInfo.profile.name, loginResult.additionalUserInfo.profile.picture);
+      const profile = await firebase.firestore().doc(`Users/${this.uid}`).get();
+      if (!profile.data() || !profile.data().displayName) {
+        await this._authCreateDefaultProfile(loginResult.additionalUserInfo.profile.name, loginResult.additionalUserInfo.profile.picture);
+      }
     }
     setTimeout(() => {
       if (location.pathname === "/") location.href = location.origin + "/dashboard";
       else location.reload();
-    }, 1);
+    }, 150);
   }
   /** anonymous sign in handler
    * @param { any } e dom event - preventDefault is called if passed
@@ -240,9 +248,9 @@ export default class BaseApp {
     if (Date.now() - dt.getTime() < 24 * 60 * 60 * 1000) {
       if (amFormat) return this.formatAMPM(dt);
 
-      //const tzoffset = (new Date()).getTimezoneOffset() * 60000;
+      // const tzoffset = (new Date()).getTimezoneOffset() * 60000;
       let result = this.formatAMPM(dt);
-      let pieces = result.split(":");
+      const pieces = result.split(":");
       result = pieces[0] + pieces[1].substring(2, 10);
       /*
       const localISOTime = (new Date(dt.getTime() - tzoffset)).toISOString().slice(0, -1);

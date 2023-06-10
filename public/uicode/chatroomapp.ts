@@ -195,7 +195,6 @@ export class ChatRoomApp extends BaseApp {
     this.overthresholdModalDialog.addEventListener("shown.bs.modal", () => {
       this.exclude_tickets_button.focus();
     });
-    
 
     this.scrollTicketListBottom();
     this.autoSizeTextArea();
