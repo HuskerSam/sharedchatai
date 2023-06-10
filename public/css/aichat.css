@@ -770,6 +770,7 @@ pre code {
 .show_create_modal_on_bar {
   position: relative;
   top: -4px;
+  margin-right: 95px;
 }
 
 .document_usage_detail_header {
@@ -813,12 +814,6 @@ pre code {
   display: inline-block;
 }
 
-.mobile_custom_icon_label .fa-plus,
-.show_create_modal_on_bar .fa-plus {
-  color: rgb(28, 228, 60);
-}
-
-
 
 @media (max-width: 375px) {
   .ticket_owner_name {
@@ -831,4 +826,40 @@ pre code {
   .ticket_owner_name {
     display: none;
   }
+}
+
+.navbar-brand {
+  padding-right: 2rem;
+}
+
+.menu_profile_user_image_span {
+  border: solid 1px transparent;
+}
+
+.menu_profile_user_image_span:hover {
+  border-color: yellow;
+  background-color: rgb(230, 230, 230);
+}
+
+.navbar-light .navbar-nav .nav-link.show_profile_modal .mobile_custom_icon_label:focus span {
+  border-color: white;
+}
+
+.show_create_modal_on_bar i {
+  font-size: 30px;
+  color: white;
+  position: relative;
+  top: 5px;
+}
+
+.show_create_modal_on_bar:hover .mobile_custom_icon_label i {
+  color: yellow;
+}
+
+.navbar-toggler:hover {
+  background-color: rgb(127, 127, 127);
+}
+
+.navbar-toggler:focus {
+  color: white;
 }

@@ -367,10 +367,13 @@ button.btn-primary:active {
 }
 
 .navbar-light .navbar-nav .nav-link:focus,
-.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link:hover {
+  color: rgb(255, 255, 0);
+}
+
 .navbar-light .navbar-brand:focus,
 .navbar-light .navbar-brand:hover {
-  color: rgb(255, 255, 0);
+  background-color: rgb(120, 120, 120);
 }
 
 .show_profile_modal i {
@@ -378,7 +381,6 @@ button.btn-primary:active {
 }
 
 .mobile_custom_icon_label {
-  width: 34px;
   display: inline-block;
 }
 
@@ -393,10 +395,9 @@ button.btn-primary:active {
 }
 
 .navbar-brand img {
-  width: 125px;
+  width: 100px;
   position: relative;
   top: -4px;
-  margin-right: -6px;
 }
 
 .menu_profile_user_image_span {
@@ -415,13 +416,14 @@ button.btn-primary:active {
   .menu_profile_user_image_span {
     float: none;
     display: inline-block;
-    top: 0px;
+    top: 2px;
   }
 }
 
 .mobile_custom_icon_label i {
   top: 1px;
   position: relative;
+  font-size: 30px;
 }
 
 .btn-90 {
