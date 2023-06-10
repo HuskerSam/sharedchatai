@@ -36,7 +36,14 @@ export class DashboardApp extends BaseApp {
     this.initRTDBPresence();
 
     this.dashboard_create_game.addEventListener("click", () => this.documentCreate.show());
-    this.document_label_filter.addEventListener("input", () => this.updateGamesFeed(null));
+    this.document_label_filter.addEventListener("input", () => {
+      firebase.firestore().doc(`Users/${this.uid}`).set({
+        defaultDashboardLabel: this.document_label_filter.value,
+      }, {
+        merge: true,
+      });
+      this.updateGamesFeed(null);
+    });
 
     this.show_dashboard_help_button.addEventListener("click", () => this.helpHelper.show("session"));
     this.profile_menu_anchor.addEventListener("click", (event: any) => {
@@ -94,10 +101,25 @@ export class DashboardApp extends BaseApp {
 
     if (this.gameFeedSubscription) this.gameFeedSubscription();
 
+    let firstLoad = true;
     this.gameFeedSubscription = firebase.firestore().collection(`Games`)
       .orderBy(`members.${this.uid}`, "desc")
       .limit(500)
-      .onSnapshot((snapshot: any) => this.updateGamesFeed(snapshot));
+      .onSnapshot((snapshot: any) => {
+        if (firstLoad) {
+          this.refreshDocumentsLookup(snapshot);
+          this.paintLabelSelect(true);
+        }
+        this.updateGamesFeed(snapshot);
+        firstLoad = false;
+      });
+  }
+  /** */
+  refreshDocumentsLookup(snapshot: any) {
+    this.documentsLookup = {};
+    snapshot.forEach((doc: any) => {
+      this.documentsLookup[doc.id] = doc.data();
+    });
   }
   /** paint games feed from firestore snapshot
    * @param { any } snapshot event driven feed data from firestore
@@ -271,7 +293,7 @@ export class DashboardApp extends BaseApp {
     return arr;
   }
   /** paint label select */
-  paintLabelSelect() {
+  paintLabelSelect(firstLoad = false) {
     const labels = this.getLabelsList();
     let html = "<option>All</option>";
     const startingValue = this.document_label_filter.value;
@@ -279,11 +301,13 @@ export class DashboardApp extends BaseApp {
     labels.forEach((label: string) => html += `<option>${label}</option>`);
 
     if (BaseApp.setHTML(this.document_label_filter, html)) {
-      this.document_label_filter.value = startingValue;
+      if (firstLoad) this.document_label_filter.value = this.profile.defaultDashboardLabel;
+      else this.document_label_filter.value = startingValue;
       if (this.document_label_filter.selectedIndex === -1) {
         this.document_label_filter.selectedIndex = 0;
-        this.updateGamesFeed(null);
+        if (!firstLoad) this.updateGamesFeed(null);
       }
     }
+
   }
 }
