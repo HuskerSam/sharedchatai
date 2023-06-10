@@ -111,6 +111,7 @@ export class ChatRoomApp extends BaseApp {
   max_tokens_slider_label: any = document.querySelector(".max_tokens_slider_label");
   recent_documents_list: any = document.querySelector(".recent_documents_list");
   sidebar_document_title: any = document.querySelector(".sidebar_document_title");
+  menu_bar_doc_title: any = document.querySelector(".menu_bar_doc_title");
   show_overthreshold_dialog: any = document.querySelector(".show_overthreshold_dialog");
   show_token_threshold_dialog_help: any = document.querySelector(".show_token_threshold_dialog_help");
   show_create_modal_on_bar: any = document.querySelector(".show_create_modal_on_bar");
@@ -266,7 +267,7 @@ export class ChatRoomApp extends BaseApp {
     if (this.recentDocumentsSubscription) this.recentDocumentsSubscription();
     this.recentDocumentsSubscription = firebase.firestore().collection(`Games`)
       .orderBy(`members.${this.uid}`, "desc")
-      .limit(11)
+      .limit(6)
       .onSnapshot((snapshot: any) => this.updateRecentDocumentFeed(snapshot));
   }
   /** paint recent document feed
@@ -912,7 +913,8 @@ export class ChatRoomApp extends BaseApp {
     BaseApp.setHTML(this.document_menutop_usage_stats_line, `<span class="usage">${this.gameData.totalTokens}</span> Usage`);
     BaseApp.setHTML(this.last_activity_display, this.showGmailStyleDate(new Date(this.gameData.lastActivity), true));
     BaseApp.setHTML(this.sidebar_document_title, BaseApp.escapeHTML(this.gameData.title));
-
+    BaseApp.setHTML(this.menu_bar_doc_title, BaseApp.escapeHTML(this.gameData.title));
+    
     this.paintDocumentOptions();
     this._updateGameMembersList();
     setTimeout(() => {

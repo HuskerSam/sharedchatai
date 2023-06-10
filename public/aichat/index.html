@@ -37,7 +37,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"
     integrity="sha512-LhccdVNGe2QMEfI3x4DVV3ckMRe36TfydKss6mJpdHjNFiV07dFpS2xzeZedptKZrwxfICJpez09iNioiSZ3hA=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
+
   <script src="/highlight.min.js"></script>
 
   <link rel="stylesheet" href="/css/androidstudio.css" />
@@ -62,12 +62,12 @@
     </button>
     <div class="left_panel_view">
       <nav class="navbar navbar-expand-lg navbar-light menu_nav_bar">
-        <a class="navbar-brand" href="/"><img src="/images/fulllogo600x200.png"></a>
-        <a class="nav-link show_create_modal_on_bar" href="create">
+        <a class="nav-link show_create_modal_on_bar" style="display:none" href="create">
           <span class="mobile_custom_icon_label">
             <i class="material-icons-outlined">add_circle_outline</i>
           </span>
         </a>
+        <div class="menu_bar_doc_title">loading...</div>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -75,6 +75,9 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
+            <li class="nav-item signed_in_options">
+              <a class="navbar-brand" href="/"><img src="/images/fulllogo600x200.png"></a>
+            </li>
             <li class="nav-item signed_in_options">
               <a class="nav-link show_profile_modal" href="profile">
                 <span class="mobile_custom_icon_label">
@@ -123,10 +126,7 @@
       </nav>
       <div class="desktop_sidebar_menu_wrapper flex-shrink-0 p-1 flex_shrink_wrapper" style="position:relative">
         <div class="sidebar_tree_menu app_panel">
-
-          <div class="recent_header_current_document">
-            <div class="sidebar_document_title"></div>
-          </div>
+          <div class="sidebar_document_title"></div>
           <div class="header_usage_time_line">
             &nbsp;
             <span class="document_menutop_usage_stats_line"></span>
@@ -155,7 +155,8 @@
                     <option disabled="true">gpt-4-32k-0314</option>
                     <option>gpt-3.5-turbo-0301</option>
                   </select>
-                  <button class="btn btn-secondary show_document_options_help"><i class="material-icons">help</i></button>
+                  <button class="btn btn-secondary show_document_options_help"><i
+                      class="material-icons">help</i></button>
                 </div>
                 <div class="sidebar_tree_options_container">
                   <input type="range" class="form-range docfield_max_tokens" min="20" max="4000" step="20">
@@ -220,7 +221,7 @@
             </div>
           </div>
           <div style="display:flex;flex-direction:row">
-            <textarea class="form-control ticket_content_input" name="ticketcontent" placeholder="Ask Questions"
+            <textarea class="form-control ticket_content_input" name="ticketcontent" placeholder="Enter prompt"
               autocomplete="off"></textarea>
             <div class="send_bar_send_button_wrapper">
               <div style="flex:1"></div>
@@ -265,7 +266,8 @@
           </table>
           <br>
           <div style="text-align:center">
-            <button class="btn btn-secondary show_token_threshold_dialog_help"><i class="material-icons">help</i></button>
+            <button class="btn btn-secondary show_token_threshold_dialog_help"><i
+                class="material-icons">help</i></button>
             <button class="btn btn-secondary exclude_tickets_button">Exclude Prompts</button>
             <br style="clear:both">
           </div>

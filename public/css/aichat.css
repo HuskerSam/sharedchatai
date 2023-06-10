@@ -16,7 +16,6 @@ html {
 
 .tickets_list {
   display: block;
-  padding-top: 12px;
 }
 
 .document_feed_view {
@@ -295,7 +294,19 @@ ul.recent_documents_list li a {
   overflow: hidden;
   max-height: 3em;
   font-style: italic;
+  display: none;
 }
+
+
+@media (min-width: 990px) {
+  .sidebar_document_title {
+    display: block;
+  }
+  .menu_bar_doc_title {
+    display: none;
+  }
+}
+
 
 .members_list {
   max-height: 50vh;
@@ -741,7 +752,7 @@ pre code {
 }
 
 .mobile_layout_mode .right_panel_view {
-  padding-top: 3em;
+  margin-top: 4em;
 }
 
 .pending_message {
@@ -872,4 +883,31 @@ pre code {
 .menu_profile_user_name_span {
   top: 8px;
   position: relative;
+}
+
+.menu_bar_doc_title {
+  padding-left: 12px;
+  white-space: nowrap;
+  color: rgb(130, 150, 220);
+  font-size: 1.1em;
+  max-height: 2em;
+  max-width: calc(100% - 56px);
+  overflow: hidden;
+}
+
+.navbar-brand {
+  padding-bottom: 12px;
+  position: relative;
+  top: 8px;
+  margin-left: 8px;
+}
+
+.navbar-brand img {
+  padding: 0px 12px 0 0;
+}
+
+@media (min-width: 400px) {
+  .navbar-brand {
+    margin-left:0;
+  }
 }
