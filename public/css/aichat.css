@@ -906,15 +906,10 @@ pre code {
 .total_prompt_token_count {
   min-width: 35px;
   text-align: center;
-  color: rgb(220, 220, 220);
 }
 
-.engine_settings_tweaked .total_prompt_token_count {
-  color: rgb(255, 127, 50);
-}
-
-.over_token_sendlimit .total_prompt_token_count {
-  color: rgb(255, 127, 50);
+.engine_settings_not_default .total_prompt_token_count {
+  color: rgb(240, 240, 50);
 }
 
 .send_bar_display_header {
