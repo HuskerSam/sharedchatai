@@ -206,13 +206,13 @@ button.code_link {
   margin-top: 12px;
 }
 
-.userprofile_description {
+.profile_menu_anchor {
   white-space: nowrap;
   display: flex;
   align-items: center;
 }
 
-.user_dashboard_img {
+.menu_profile_user_image_span {
   display: inline-block;
   width: 32px;
   height: 32px;
@@ -225,7 +225,7 @@ button.code_link {
   border-radius: 6px;
 }
 
-.userprofile_description .user_name {
+.profile_menu_anchor .menu_profile_user_name_span {
   white-space: nowrap;
   font-size: 1.25rem;
   align-self: end;
@@ -272,7 +272,7 @@ button.code_link {
 }
 
 
-.userprofile_description .user_name {
+.profile_menu_anchor .menu_profile_user_name_span {
   padding-left: 8px;
   color: rgb(230, 230, 230);
 }

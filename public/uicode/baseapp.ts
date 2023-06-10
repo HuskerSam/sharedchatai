@@ -27,6 +27,7 @@ export default class BaseApp {
   userStatusDatabaseRef: any;
   profileHelper = new ProfileHelper(this);
   menu_profile_user_image_span: any = document.querySelector(".menu_profile_user_image_span");
+  menu_profile_user_name_span: any = document.querySelector(".menu_profile_user_name_span");
 
   /** constructor  */
   constructor() {
@@ -144,6 +145,11 @@ export default class BaseApp {
       let img = this.profile.displayImage;
       if (!img) img = "/images/defaultprofile.png";
       this.menu_profile_user_image_span.style.backgroundImage = "url(" + img + ")";
+    }
+    if (this.menu_profile_user_name_span) { 
+      let displayName = this.profile.displayName;
+      if (!displayName) displayName = "Anonymous";
+      this.menu_profile_user_name_span.innerHTML = displayName;
     }
     return;
   }
