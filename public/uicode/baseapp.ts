@@ -144,7 +144,12 @@ export default class BaseApp {
     if (this.menu_profile_user_image_span) {
       let img = this.profile.displayImage;
       if (!img) img = "/images/defaultprofile.png";
+      const imgEle = document.createElement("img");
+      imgEle.setAttribute("crossorigin", "anonymous");
+      imgEle.setAttribute("src", img);
+      document.body.appendChild(imgEle);
       this.menu_profile_user_image_span.style.backgroundImage = "url(" + img + ")";
+      imgEle.remove();
     }
     if (this.menu_profile_user_name_span) { 
       let displayName = this.profile.displayName;
