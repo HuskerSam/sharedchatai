@@ -287,7 +287,9 @@ export default class DocOptionsHelper {
         <div class="modal-dialog app_panel">
             <div class="modal-content app_panel">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editDocumentModalLabel">Session Details</h5>
+                    <h5 class="modal-title" id="editDocumentModalLabel">
+                    <button class="code_link_copy btn btn-secondary"><i class="material-icons">link</i></button>
+                    Session Details</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -320,7 +322,6 @@ export default class DocOptionsHelper {
                                         Archived
                                     </label>
                                 </div>
-                                <button class="code_link_copy btn btn-secondary"><i class="material-icons">link</i></button>
                                 <hr>
                                 <label class="form-label">Title</label>
                                 <br>

@@ -173,6 +173,11 @@ export class ChatRoomApp extends BaseApp {
     });
 
     this.ticket_content_input.addEventListener("keydown", () => this.autoSizeTextArea());
+    this.ticket_content_input.addEventListener("focus", () => document.body.classList.add("show_send_bar_display_header"));
+    this.ticket_content_input.addEventListener("blur", () => {
+      if (document.activeElement === this.ticket_content_input) return;
+      document.body.classList.remove("show_send_bar_display_header");
+    });
 
     this.show_profile_modal.addEventListener("click", (event: any) => {
       event.stopPropagation();
@@ -206,7 +211,10 @@ export class ChatRoomApp extends BaseApp {
     setTimeout(() => {
       el.style.height = "auto";
       let height = el.scrollHeight;
-      if (height < 60) height = 60;
+      if (height < 80) {
+        el.style.height = "60px";
+        if (el.scrollHeight < 65) height = 60;
+      }
       el.style.height = height + "px";
     }, 0);
   }
@@ -881,6 +889,7 @@ export class ChatRoomApp extends BaseApp {
         this.gameAPIJoin(gameId);
         this.documentId = gameId;
         let reloading = false;
+        let firstLoad = true;
         if (this.gameSubscription) this.gameSubscription();
         this.gameSubscription = firebase.firestore().doc(`Games/${this.documentId}`)
           .onSnapshot((doc: any) => {
@@ -891,6 +900,10 @@ export class ChatRoomApp extends BaseApp {
               return;
             }
             this.paintGameData(doc);
+
+            if (firstLoad) this.ticket_content_input.focus();
+
+            firstLoad = false;
           });
       }
 
@@ -914,7 +927,7 @@ export class ChatRoomApp extends BaseApp {
     BaseApp.setHTML(this.last_activity_display, this.showGmailStyleDate(new Date(this.gameData.lastActivity), true));
     BaseApp.setHTML(this.sidebar_document_title, BaseApp.escapeHTML(this.gameData.title));
     BaseApp.setHTML(this.menu_bar_doc_title, BaseApp.escapeHTML(this.gameData.title));
-    
+
     this.paintDocumentOptions();
     this._updateGameMembersList();
     setTimeout(() => {

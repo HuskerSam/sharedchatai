@@ -117,16 +117,15 @@
 }
 
 .code_link_copy {
-  float: right;
   background: none;
   border-color: transparent;
   position: relative;
-  top: -4px;
+  top: -2px;
 }
 
 .code_link_copy i {
   position: relative;
-  top: 5px;
+  top: 3px;
 }
 
 .help_viewer_iframe {

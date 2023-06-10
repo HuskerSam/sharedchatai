@@ -231,6 +231,7 @@ html {
 .message_list_send_wrapper {
   position: relative;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, .7);
+  padding-top: 6px;
 }
 
 .ticket_item_include_checkbox {
@@ -484,12 +485,9 @@ pre code {
   text-align: center;
 }
 
-.send_ticket_button {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 0px;
-  padding-right: 0px;
-  width: 65px;
+.send_ticket_button i {
+  top: 3px;
+  position: relative;
 }
 
 .exclude_tickets_button {
@@ -511,61 +509,6 @@ pre code {
   background-color: rgb(140, 140, 0);
   color: white;
   border-color: #6c757d;
-}
-
-.total_prompt_token_count {
-  text-align: right;
-  min-width: 35px;
-  text-align: center;
-  color: rgb(220, 220, 220);
-  padding-bottom: 4px;
-}
-
-.over_token_sendlimit .total_prompt_token_count {
-  color: rgb(255, 50, 50);
-}
-
-.auto_run_overthreshold_ticket {
-  background-color: rgb(0, 120, 0);
-  border-color: rgb(70, 220, 70);
-}
-
-.send_bar_display_header {
-  display: flex;
-  flex-direction: row;
-  position: relative;
-}
-
-.prompt_token_count {
-  text-align: center;
-  width: 35px;
-  display: none;
-}
-
-.token_visualizer_preview {
-  margin: 0 8px 0px 8px;
-  flex: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-align-last: right;
-}
-
-.token_visualizer_preview .token_even {
-  color: rgb(240, 240, 50);
-  word-wrap: break-word;
-  background: rgba(127, 127, 127, 0.5);
-}
-
-.token_visualizer_preview .token_odd {
-  color: rgb(240, 200, 150);
-  word-wrap: break-word;
-  background: rgba(127, 127, 127, 0.5);
-}
-
-@media (max-width: 380px) {
-  .token_visualizer_preview {
-    visibility: hidden;
-  }
 }
 
 .rerun_ticket i,
@@ -755,14 +698,6 @@ pre code {
   margin-top: 4em;
 }
 
-.pending_message {
-  color: rgb(240, 240, 50);
-}
-
-.ticket_sent_api_pending .document_menutop_usage_stats_line .usage {
-  color: rgb(50, 255, 50);
-}
-
 .ticket_user_display_header {
   position: relative;
   top: -6px;
@@ -910,4 +845,88 @@ pre code {
   .navbar-brand {
     margin-left:0;
   }
+}
+
+.ticket_sent_api_pending .menu_bar_doc_title {
+  color: rgb(240, 240, 50)
+}
+
+.ticket_sent_api_pending.engine_settings_tweaked .menu_bar_doc_title {
+  color: rgb(255, 127, 50);
+}
+
+.pending_message {
+  color: rgb(240, 240, 50);
+}
+
+.engine_settings_tweaked .pending_message {
+  color: rgb(255, 127, 50);
+}
+
+.ticket_sent_api_pending .sidebar_document_title {
+  color: rgb(240, 240, 50);
+}
+
+.ticket_sent_api_pending.engine_settings_tweaked .sidebar_document_title {
+  color: rgb(255, 127, 50);
+}
+
+.auto_run_overthreshold_ticket {
+  background-color: rgb(0, 120, 0);
+  border-color: rgb(70, 220, 70);
+}
+
+.prompt_token_count {
+  text-align: center;
+  width: 35px;
+  display: none;
+}
+
+.token_visualizer_preview {
+  margin: 0 8px 0px 8px;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align-last: right;
+}
+
+.token_visualizer_preview .token_even {
+  color: rgb(240, 240, 50);
+  word-wrap: break-word;
+  background: rgba(127, 127, 127, 0.5);
+}
+
+.token_visualizer_preview .token_odd {
+  color: rgb(240, 200, 150);
+  word-wrap: break-word;
+  background: rgba(127, 127, 127, 0.5);
+}
+
+@media (max-width: 380px) {
+  .token_visualizer_preview {
+    visibility: hidden;
+  }
+}
+
+.total_prompt_token_count {
+  text-align: right;
+  min-width: 35px;
+  text-align: center;
+  color: rgb(220, 220, 220);
+  padding-bottom: 12px;
+}
+
+.over_token_sendlimit .total_prompt_token_count {
+  color: rgb(255, 50, 50);
+}
+
+.send_bar_display_header {
+  display: none;
+  flex-direction: row;
+  position: relative;
+  margin-top: -4px;
+}
+
+.show_send_bar_display_header .send_bar_display_header {
+  display: flex;
 }
