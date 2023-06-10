@@ -1106,7 +1106,7 @@ export class ChatRoomApp extends BaseApp {
 
     this.prompt_token_count.innerHTML = tokens.length;
     this.lastInputTokenCount = tokens.length;
-    this.total_prompt_token_count.innerHTML = this.includeTotalTokens + tokens.length;
+    this.total_prompt_token_count.innerHTML = this.includeTotalTokens + tokens.length + this.gameData.max_tokens;
     this.chat_history_tokens.innerHTML = this.includeTotalTokens;
     this.chat_completion_tokens.innerHTML = this.gameData.max_tokens;
     this.chat_new_prompt_tokens.innerHTML = this.lastInputTokenCount;

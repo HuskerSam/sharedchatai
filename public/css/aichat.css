@@ -195,7 +195,7 @@ html {
 }
 
 .completion_max_tokens_reached .tokens_completion {
-  color: rgb(255, 100, 100);
+  color: rgb(255, 127, 50);
 }
 
 
@@ -477,9 +477,8 @@ pre code {
 }
 
 .send_ticket_ticketcount_display {
-  width: 84px;
-  text-align: right;
-  padding-right: 16px;
+  width: 80px;
+  text-align: center;
   overflow: visible;
 }
 
@@ -880,7 +879,6 @@ pre code {
 }
 
 .token_visualizer_preview {
-  margin: 0 8px 0px 8px;
   flex: 1;
   white-space: nowrap;
   overflow: hidden;
@@ -906,15 +904,17 @@ pre code {
 }
 
 .total_prompt_token_count {
-  text-align: right;
   min-width: 35px;
   text-align: center;
   color: rgb(220, 220, 220);
-  padding-bottom: 12px;
+}
+
+.engine_settings_tweaked .total_prompt_token_count {
+  color: rgb(255, 127, 50);
 }
 
 .over_token_sendlimit .total_prompt_token_count {
-  color: rgb(255, 50, 50);
+  color: rgb(255, 127, 50);
 }
 
 .send_bar_display_header {
@@ -931,6 +931,7 @@ pre code {
 button.btn-primary.send_ticket_button  {
   background-color: transparent;
   border-color: transparent;
+  margin-bottom: -6px;
 }
 
 .engine_settings_tweaked .send_ticket_button {
