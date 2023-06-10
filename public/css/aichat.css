@@ -164,25 +164,6 @@ html {
   line-break: anywhere;
 }
 
-.gutter {
-  background-color: #eee;
-  background-repeat: no-repeat;
-  background-position: 50%;
-}
-
-.gutter.gutter-horizontal {
-  background-image: url("/images/grip.png");
-  background-size: contain;
-  background-position: center;
-  cursor: col-resize;
-  background-color: rgb(52, 53, 65);
-}
-
-.gutter.gutter-vertical {
-  background-image: url("/images/grip.png");
-  cursor: row-resize;
-}
-
 .tokens_prompt {
   display: none;
 }
@@ -445,12 +426,12 @@ pre code {
 
 .show_document_options_modal i,
 .show_document_options_help i,
-.show_token_threshold_dialog i {
+.show_token_threshold_dialog_help i {
   position: relative;
   top: 4px;
 }
 
-.show_token_threshold_dialog {
+.show_token_threshold_dialog_help {
   float: right;
 }
 
@@ -803,6 +784,11 @@ pre code {
 
 .navbar-light .navbar-nav .nav-link.info_anchor {
   color: rgb(220, 220, 220);
+}
+
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link:focus {
+  color: yellow;
 }
 
 .engine_field_not_default span {

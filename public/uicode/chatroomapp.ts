@@ -2,7 +2,6 @@ import BaseApp from "./baseapp.js";
 import LoginHelper from "./loginhelper.js";
 import DocOptionsHelper from "./docoptionshelper.js";
 import DocCreateHelper from "./doccreatehelper.js";
-import ProfileHelper from "./profilehelper.js";
 import {
   HelpHelper,
 } from "./helphelper.js";
@@ -40,7 +39,6 @@ export class ChatRoomApp extends BaseApp {
   login = new LoginHelper(this);
   documentOptions = new DocOptionsHelper(this);
   documentCreate = new DocCreateHelper(this);
-  profileHelper = new ProfileHelper(this);
   helpHelper = new HelpHelper(this);
   markdownConverter = new window.showdown.Converter();
   documentsLookup: any = {};
@@ -114,10 +112,11 @@ export class ChatRoomApp extends BaseApp {
   recent_documents_list: any = document.querySelector(".recent_documents_list");
   sidebar_document_title: any = document.querySelector(".sidebar_document_title");
   show_overthreshold_dialog: any = document.querySelector(".show_overthreshold_dialog");
-  show_token_threshold_dialog: any = document.querySelector(".show_token_threshold_dialog");
+  show_token_threshold_dialog_help: any = document.querySelector(".show_token_threshold_dialog_help");
   show_create_modal_on_bar: any = document.querySelector(".show_create_modal_on_bar");
 
   auto_run_overthreshold_ticket: any = document.querySelector(".auto_run_overthreshold_ticket");
+  overthresholdModalDialog: any = document.querySelector("#overthresholdModalDialog");
 
   /**  */
   constructor() {
@@ -144,7 +143,7 @@ export class ChatRoomApp extends BaseApp {
       this.documentOptions.show(this.documentId, this.gameData);
     });
     this.show_document_options_help.addEventListener("click", () => this.helpHelper.show("engine"));
-    this.show_token_threshold_dialog.addEventListener("click", () => this.helpHelper.show("engine"));
+    this.show_token_threshold_dialog_help.addEventListener("click", () => this.helpHelper.show("engine"));
 
     this.docfield_temperature.addEventListener("input", () => this.optionSliderChange(true, "temperature",
       this.docfield_temperature, this.temperature_slider_label, "Temperature: "));
@@ -192,6 +191,11 @@ export class ChatRoomApp extends BaseApp {
 
       this.documentCreate.show();
     });
+
+    this.overthresholdModalDialog.addEventListener("shown.bs.modal", () => {
+      this.exclude_tickets_button.focus();
+    });
+    
 
     this.scrollTicketListBottom();
     this.autoSizeTextArea();
@@ -810,6 +814,7 @@ export class ChatRoomApp extends BaseApp {
   }
   /** process exisiting tickets and return list of ids to submit
    * @param { string } ticketId doc id
+   * @param { Array<any> } removedTickets tickets to exclude
    * @return { Array<string> } list of ticket ids
   */
   generateSubmitList(ticketId = "", removedTickets: Array<any> = []): Array<string> {
@@ -882,7 +887,7 @@ export class ChatRoomApp extends BaseApp {
             if (!doc.data() && !reloading) {
               alert("Session not found, returning to home");
               reloading = true;
-              location.href ="/";
+              location.href = "/";
               return;
             }
             this.paintGameData(doc);
@@ -1013,6 +1018,12 @@ export class ChatRoomApp extends BaseApp {
     this.__debounceSliderPaint("presence_penalty", debounce, "Presence Penalty: ");
     this.__debounceSliderPaint("frequency_penalty", debounce, "Frequency Penalty: ");
   }
+  /** debounce painting slider so doesn't interfere with user input
+   *
+   * @param { string } field doc field name
+   * @param { boolean } debounce true to debounce painting (delay and paint oafter slider timeout)
+   * @param { string } label label to paint for value prefix
+   */
   __debounceSliderPaint(field: string, debounce: boolean, label: string) {
     if (debounce && this.sliderChangeDebounceTimeout[field]) {
       clearTimeout(this.sliderPaintDebounceTimeout[field]);
@@ -1023,8 +1034,8 @@ export class ChatRoomApp extends BaseApp {
       return;
     }
 
-    const ele: any = (<any>this)["docfield_" + field];
-    const labelEle: any = (<any>this)[field + "_slider_label"];
+    const ele: any = (this as any)["docfield_" + field];
+    const labelEle: any = (this as any)[field + "_slider_label"];
     ele.value = this.gameData[field];
     this.optionSliderChange(false, field, ele, labelEle, label);
   }
@@ -1105,12 +1116,12 @@ export class ChatRoomApp extends BaseApp {
     this.show_overthreshold_dialog.click();
   }
   /**
-   *
    * @param { any } currentTicketId ticketid to ignore (optional)
+   * @return { any } exlcudedTickets array
    */
-  autoExcludeTicketsToMeetThreshold(currentTicketId: any = null): any {
-    if (!this.isOverSendThreshold()) return;
-    if (this.excludingTicketsRunning) return;
+  autoExcludeTicketsToMeetThreshold(currentTicketId: any = null): Array<any> {
+    if (!this.isOverSendThreshold()) return [];
+    if (this.excludingTicketsRunning) return [];
     this.excludingTicketsRunning = true;
     document.body.classList.add("exclude_tickets_running");
     let tokenReduction = this.includeTotalTokens + this.gameData.max_tokens + this.lastInputTokenCount - 4050;
@@ -1142,6 +1153,8 @@ export class ChatRoomApp extends BaseApp {
       this.excludingTicketsRunning = false;
       document.body.classList.remove("exclude_tickets_running");
     }, 500);
+
+    this.auto_run_overthreshold_ticket.focus();
 
     return ticketsRemoved;
   }

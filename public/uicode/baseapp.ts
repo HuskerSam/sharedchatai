@@ -1,3 +1,5 @@
+import ProfileHelper from "./profilehelper.js";
+
 declare const firebase: any;
 declare const window: any;
 
@@ -23,6 +25,7 @@ export default class BaseApp {
   userPresenceStatus: any = {};
   userPresenceStatusRefs: any = {};
   userStatusDatabaseRef: any;
+  profileHelper = new ProfileHelper(this);
   menu_profile_user_image_span: any = document.querySelector(".menu_profile_user_image_span");
 
   /** constructor  */
@@ -68,8 +71,8 @@ export default class BaseApp {
 
     if (this.profile) {
       this.updateUserStatus();
-      if ((<any>this).profileHelper) {
-        (<any>this).profileHelper.updateUserImageAndName();
+      if (this.profileHelper) {
+        this.profileHelper.updateUserImageAndName();
       }
     }
   }
@@ -225,11 +228,16 @@ export default class BaseApp {
     if (Date.now() - dt.getTime() < 24 * 60 * 60 * 1000) {
       if (amFormat) return this.formatAMPM(dt);
 
-      const tzoffset = (new Date()).getTimezoneOffset() * 60000;
+      //const tzoffset = (new Date()).getTimezoneOffset() * 60000;
+      let result = this.formatAMPM(dt);
+      let pieces = result.split(":");
+      result = pieces[0] + pieces[1].substring(2, 10);
+      /*
       const localISOTime = (new Date(dt.getTime() - tzoffset)).toISOString().slice(0, -1);
       let response = localISOTime.substring(11, 16);
       if (response.substring(0, 1) === "0") response = response.replace("0", " ");
-      return response;
+      */
+      return result;
     }
 
     return dt.toLocaleDateString("en-us", {

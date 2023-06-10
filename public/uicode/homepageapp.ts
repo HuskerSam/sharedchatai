@@ -1,7 +1,6 @@
 import BaseApp from "./baseapp.js";
 import LoginHelper from "./loginhelper.js";
 import DocCreateHelper from "./doccreatehelper.js";
-import ProfileHelper from "./profilehelper.js";
 import {
     HelpHelper,
 } from "./helphelper.js";
@@ -12,7 +11,6 @@ declare const firebase: any;
 export class HomePageApp extends BaseApp {
     login = new LoginHelper(this);
     documentCreate = new DocCreateHelper(this);
-    profileHelper = new ProfileHelper(this);
     show_profile_modal: any = document.querySelector(".show_profile_modal");
     show_create_modal: any = document.querySelector(".show_create_modal");
     checkTemplateURL = false;

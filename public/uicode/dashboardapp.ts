@@ -2,7 +2,6 @@ import BaseApp from "./baseapp.js";
 import LoginHelper from "./loginhelper.js";
 import DocOptionsHelper from "./docoptionshelper.js";
 import DocCreateHelper from "./doccreatehelper.js";
-import ProfileHelper from "./profilehelper.js";
 declare const firebase: any;
 import {
   HelpHelper,
@@ -28,7 +27,6 @@ export class DashboardApp extends BaseApp {
   login = new LoginHelper(this);
   documentCreate = new DocCreateHelper(this);
   documentOptions = new DocOptionsHelper(this, "dashboard_options_view");
-  profileHelper = new ProfileHelper(this);
   helpHelper = new HelpHelper(this);
   help_show_modal: any = document.querySelector(".help_show_modal");
 

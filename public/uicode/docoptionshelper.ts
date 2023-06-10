@@ -666,7 +666,7 @@ export default class DocOptionsHelper {
             }
 
             const recordsToUpload: any = ChatDocument.processImportTicketsToUpload(records);
-            const error = await ChatDocument.sendImportTicketToAPI(this.app.currentGame, recordsToUpload, this.app.basePath);
+            const error = await ChatDocument.sendImportTicketToAPI(this.chatDocumentId, recordsToUpload, this.app.basePath);
             if (error) {
                 alert("Import error");
             }

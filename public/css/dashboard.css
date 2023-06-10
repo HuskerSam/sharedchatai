@@ -129,8 +129,7 @@ button.code_link {
 .details_game {
   align-self: flex-start;
   border-color: rgb(170, 170, 170);
-  border-style: dashed;
-  background: none;
+  background: rgba(0, 0, 0, .2);
   position: relative;
   right: -4px;
   padding: 0;

@@ -6,6 +6,7 @@ export class HelpHelper {
     help_viewer_iframe: any;
     wrapperClass = "";
     help_dialog_header: any = null;
+    help_dialog_close_button: any = null;
     /**
      * @param { any } app BaseApp derived application instance
      * @param { string } wrapperClass class to add to modal wrapper
@@ -21,8 +22,13 @@ export class HelpHelper {
         this.modalContainer = document.createElement("div");
         this.modalContainer.innerHTML = html;
         document.body.appendChild(this.modalContainer);
+        this.help_dialog_close_button = this.modalContainer.querySelector(".help_dialog_close_button");
         if (this.wrapperClass) this.modalContainer.classList.add(this.wrapperClass);
 
+        this.modalContainer.children[0].addEventListener("shown.bs.modal", () => {
+            this.help_dialog_close_button.focus();
+          });
+        
         this.help_show_modal = document.querySelector(".help_show_modal");
         this.help_viewer_iframe = document.querySelector(".help_viewer_iframe");
         this.help_dialog_header = document.querySelector(".help_dialog_header");
@@ -40,11 +46,11 @@ export class HelpHelper {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <iframe class="help_viewer_iframe"></iframe>
+                  <iframe class="help_viewer_iframe" tabindex="1"></iframe>
                 </div>
                 <div class="modal-footer">
                     <div style="flex:1"></div>
-                    <button type="button" class="btn btn-secondary modal_close_button"
+                    <button type="button" class="btn btn-primary modal_close_button help_dialog_close_button"
                         data-bs-dismiss="modal">Close</button>
                 </div>
             </div>

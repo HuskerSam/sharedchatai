@@ -38,6 +38,9 @@ export default class ProfileHelper {
         this.modalContainer = document.createElement("div");
         this.modalContainer.innerHTML = html;
         document.body.appendChild(this.modalContainer);
+        this.modalContainer.children[0].addEventListener("shown.bs.modal", () => {
+            this.profile_text_large_checkbox.focus();
+          });
 
         this.modal_close_button = this.modalContainer.querySelector(".modal_close_button");
 
@@ -53,7 +56,7 @@ export default class ProfileHelper {
         this.profile_text_monospace_checkbox = document.querySelector(".profile_text_monospace_checkbox");
         this.profile_prefixname_checkbox = document.querySelector(".profile_prefixname_checkbox");
         this.profile_autoexclude_checkbox = document.querySelector(".profile_autoexclude_checkbox");
-        
+
         this.profile_text_large_checkbox = document.querySelector(".profile_text_large_checkbox");
         this.profile_display_image_randomize = document.querySelector(".profile_display_image_randomize");
         this.profile_display_image_randomize.addEventListener("click", () => this.randomizeImage());
@@ -87,7 +90,7 @@ export default class ProfileHelper {
         this.profile_text_monospace_checkbox.addEventListener("input", () => this.saveProfileField("monospace"));
         this.profile_prefixname_checkbox.addEventListener("input", () => this.saveProfileField("prefixname"));
         this.profile_autoexclude_checkbox.addEventListener("input", () => this.saveProfileField("autoexclude"));
-        
+
         this.profile_text_large_checkbox.addEventListener("input", () => this.saveProfileField("largetext"));
         this.show_modal_profile_help.addEventListener("click", () => this.app.helpHelper.show("profile"));
 
@@ -390,7 +393,7 @@ export default class ProfileHelper {
             this.app.profile.autoExclude = this.profile_autoexclude_checkbox.checked;
             updatePacket.autoExclude = this.app.profile.autoExclude;
         }
-        
+
         if (this.app.fireToken) {
             await firebase.firestore().doc(`Users/${this.app.uid}`).set(updatePacket, {
                 merge: true,
@@ -485,7 +488,8 @@ export default class ProfileHelper {
                 <span class="total_token">Total</span>
                 <span class="completion_token">Completion</span>
                 <span class="prompt_token">Prompt</span>`;
-        this.chat_token_usage_display.innerHTML = `<div class="token_usage_table">` +
+        this.chat_token_usage_display.innerHTML = `<div class="form-label">Usage by this account</div>` +
+            `<div class="token_usage_table">` +
             `<div class="token_usage_row header">` + headerRow + "</div>" +
             `<div class="token_usage_row">` + todayDisplay + "</div>" +
             `<div class="token_usage_row">` + monthlyDisplay + "</div>" +

@@ -32,6 +32,9 @@ export default class DocCreateHelper {
     this.modalContainer = document.createElement("div");
     this.modalContainer.innerHTML = html;
     document.body.appendChild(this.modalContainer);
+    this.modalContainer.children[0].addEventListener("shown.bs.modal", () => {
+      this.create_modal_title_field.focus();
+    });
 
     this.create_game_afterfeed_button = this.modalContainer.querySelector(".create_game_afterfeed_button");
     this.create_modal_note_field = this.modalContainer.querySelector(".create_modal_note_field");
@@ -216,9 +219,6 @@ export default class DocCreateHelper {
       }
     });
     this.doccreatehelper_show_modal.click();
-    this.createDocumentModal.addEventListener("shown.bs.modal", () => {
-      this.create_modal_title_field.focus()
-    });
   }
   /** parse template data from file input
    * @param {string } documentId new document to add ticket imports
