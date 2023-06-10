@@ -49,7 +49,6 @@ export default class ChatAI {
         /* eslint-disable camelcase */
         const defaults = BaseClass.defaultChatDocumentOptions();
         const max_tokens = BaseClass.getNumberOrDefault(gameData.max_tokens, defaults.max_tokens);
-        const isOwner = uid === gameData.createUser;
         // const chatGptKey = ownerProfile.chatGptKey;
         const chatGptKey = localInstance.privateConfig.chatGPTKey;
 
@@ -69,6 +68,9 @@ export default class ChatAI {
             }
 
             await firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${reRunticket}`).set({
+                uid,
+                memberName,
+                memberImage,
                 submitted,
                 max_tokens,
             }, {
@@ -77,13 +79,13 @@ export default class ChatAI {
             await firebaseAdmin.firestore().doc(`Games/${ticket.gameNumber}/assists/${reRunticket}`).delete();
         } else {
             ticket = {
+                createUser: uid,
                 uid,
                 message,
                 created: new Date().toISOString(),
                 submitted,
                 messageType: "user",
                 gameNumber,
-                isOwner,
                 memberName,
                 memberImage,
                 max_tokens,
@@ -94,23 +96,19 @@ export default class ChatAI {
             ChatAI.increateTicketCount(gameNumber, 1);
         }
 
-        if (gameData.unsetTitle && message) {
-            const titleUpdate = {
-                unsetTitle: false,
-                title: message.substring(0, 100),
-            };
-            await firebaseAdmin.firestore().doc(`Games/${ticket.gameNumber}`).set(titleUpdate, {
-                merge: true,
-            });
-        }
-
-        await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).set({
+        const sessionPacket: any = {
             lastActivity: new Date().toISOString(),
             lastTicketId: ticketId,
             members: {
                 [uid]: new Date().toISOString(),
             },
-        }, {
+        };
+        if (gameData.unsetTitle && message) {
+            sessionPacket.unsetTitle = false;
+            sessionPacket.title = message.substring(0, 100);
+        }
+
+        await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).set(sessionPacket, {
             merge: true,
         });
 
@@ -158,20 +156,18 @@ export default class ChatAI {
                 return BaseClass.respondError(res, "User not found");
             }
 
-            const isOwner = uid === gameData.createUser;
-
             const memberImage = gameData.memberImages[uid] ? gameData.memberImages[uid] : "";
             const memberName = gameData.memberNames[uid] ? gameData.memberNames[uid] : "";
 
             const createDate = new Date().toISOString();
             const ticket = {
                 uid,
+                createUser: uid,
                 message: prompt,
                 created: createDate,
                 submitted: createDate,
                 messageType: "user",
                 gameNumber,
-                isOwner,
                 memberName,
                 memberImage,
                 includeInMessage: importTicket.selected !== "n",

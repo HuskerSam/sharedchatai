@@ -256,14 +256,14 @@ export class ChatRoomApp extends BaseApp {
 
     this.ticketsSubscription = firebase.firestore().collection(`Games/${gameId}/tickets`)
       .orderBy(`submitted`, "desc")
-      .limit(50)
+      .limit(500)
       .onSnapshot((snapshot: any) => this.updateTicketsFeed(snapshot));
 
     if (this.assistsSubscription) this.assistsSubscription();
 
     this.assistsSubscription = firebase.firestore().collection(`Games/${gameId}/assists`)
       .orderBy(`created`, "desc")
-      .limit(50)
+      .limit(500)
       .onSnapshot((snapshot: any) => this.updateAssistsFeed(snapshot));
   }
   /** setup data listener for recent document feed */
@@ -472,7 +472,7 @@ export class ChatRoomApp extends BaseApp {
   /** paint user message feed
    * @param { any } snapshot firestore query data snapshot
    */
-  updateTicketsFeed(snapshot: any) {
+  updateTicketsFeed(snapshot: any = null) {
     if (!this.gameData) {
       setTimeout(() => this.updateTicketsFeed(snapshot), 50);
       return;
@@ -486,6 +486,7 @@ export class ChatRoomApp extends BaseApp {
     this.ticketsLookup = {};
     this.selectedTicketCount = 0;
     this.ticketCount = 0;
+    const rowCount = snapshot.size;
     snapshot.forEach((doc: any) => {
       this.ticketCount++;
       let card: any = this.tickets_list.querySelector(`div[ticketid="${doc.id}"]`);
@@ -500,6 +501,25 @@ export class ChatRoomApp extends BaseApp {
       const chkBox: any = card.querySelector(`input[ticketid="${doc.id}"]`);
       const submittedTime: any = card.querySelector(".last_submit_time");
       submittedTime.setAttribute("data-timesince", doc.data().submitted);
+
+      let name = this.gameData.memberNames[this.ticketsLookup[doc.id].uid];
+      if (!name) name = "Anonymous";
+      const ele1: any = card.querySelector(".ticket_owner_name");
+      if (ele1.innerHTML !== name) {
+        ele1.innerHTML = name;
+        ele1.setAttribute("ticketowneruid", this.ticketsLookup[doc.id].uid);
+      } 
+  
+      let img = this.gameData.memberImages[this.ticketsLookup[doc.id].uid];
+      if (!img) img = "/images/defaultprofile.png";
+      const ele: any = card.querySelector(".ticket_owner_image");
+      if (ele.style.backgroundImage !== `url(${img})`) {
+        ele.style.backgroundImage = ``;
+        ele.style.backgroundImage = `url(${img})`;
+        ele.setAttribute("ticketowneruid", this.ticketsLookup[doc.id].uid);
+      }
+
+      if (this.ticketCount === rowCount) console.log(this.ticketsLookup[doc.id].uid, name, img);
 
       if (this.ticketsLookup[doc.id].includeInMessage === true) {
         chkBox.checked = true;
@@ -548,7 +568,14 @@ export class ChatRoomApp extends BaseApp {
     }
     const includeTickets = this.generateSubmitList(ticketId, removedTickets);
     card.classList.add("running_ticket");
-    this.tickets_list.appendChild(card);
+    card.remove();
+    const ticket = this.ticketsLookup[ticketId];
+    ticket.uid = this.uid;
+    ticket.memberName = this.profile.displayName;
+    ticket.memberImage = this.profile.memberImage;
+    const tempCard = this.getTicketCardDom(new Date().toISOString(), ticket, true);
+    this.tickets_list.appendChild(tempCard);
+
     this.scrollTicketListBottom();
 
     const body = {
@@ -575,6 +602,7 @@ export class ChatRoomApp extends BaseApp {
 
     // refresh the counts
     this.scrollTicketListBottom();
+    this._updateGameMembersList();
   }
   /** api call for delete user message
    * @param { any } btn dom control
@@ -616,7 +644,7 @@ export class ChatRoomApp extends BaseApp {
     const nameCtls = document.querySelectorAll(".ticket_owner_name");
 
     imgCtls.forEach((imgCtl: any) => {
-      const uid: any = imgCtl.dataset.ticketowneruid;
+      const uid: any = imgCtl.getAttribute("ticketowneruid");
       if (uid !== undefined) {
         let imgPath = this.gameData.memberImages[uid];
         if (!imgPath) imgPath = "/images/defaultprofile.png";
@@ -625,9 +653,10 @@ export class ChatRoomApp extends BaseApp {
     });
 
     nameCtls.forEach((nameCtl: any) => {
-      const uid: any = nameCtl.dataset.ticketowneruid;
+      const uid: any = nameCtl.getAttribute("ticketowneruid");
       if (uid !== undefined) {
-        const name = this.gameData.memberNames[uid];
+        let name = this.gameData.memberNames[uid];
+        if (!name) name = "Anonymous";
         BaseApp.setHTML(nameCtl, name);
       }
     });
@@ -642,16 +671,6 @@ export class ChatRoomApp extends BaseApp {
     const gameOwnerClass = data.isGameOwner ? " ticket_game_owner" : "";
     const ownerClass = data.uid === this.uid ? " ticket_owner" : "";
 
-    let name = "Anonymous";
-    const ticketUserName = this.gameData.memberNames[data.uid];
-    if (ticketUserName) name = ticketUserName;
-    else if (data.memberName) name = data.memberName;
-
-    let img = "/images/defaultprofile.png";
-    const ticketUserImage = this.gameData.memberImages[data.uid];
-    if (ticketUserImage) img = ticketUserImage;
-    else if (data.memberImage) img = data.memberImage;
-
     const tempTicketClass = tempTicket ? " temp_ticket_card" : "";
     const cardWrapper = document.createElement("div");
     const cardClass = `mt-1 game_message_list_item${gameOwnerClass}${ownerClass}${tempTicketClass} ticket_running`;
@@ -661,9 +680,8 @@ export class ChatRoomApp extends BaseApp {
       <div class="m-1 user_assist_request_header">
         <div style="flex:1;" class="ticket_user_display_header d-flex flex-column">
             <div class="user_assist_request_header_user" >
-              <span class="ticket_owner_image" data-ticketowneruid="${data.uid}"
-                  style="background-image:url(${img})"></span>
-              <span class="ticket_owner_name" data-ticketowneruid="${data.uid}">${name}</span>
+              <span class="ticket_owner_image" ticketowneruid=""></span>
+              <span class="ticket_owner_name" ticketowneruid=""></span>
             </div>
           </div>
           <button class="rerun_ticket btn btn-secondary" data-ticketid="${ticketId}"><i
@@ -818,6 +836,7 @@ export class ChatRoomApp extends BaseApp {
 
     this.scrollTicketListBottom();
     setTimeout(() => this.scrollTicketListBottom(), 150);
+    this._updateGameMembersList();
   }
   /** process exisiting tickets and return list of ids to submit
    * @param { string } ticketId doc id
@@ -930,15 +949,21 @@ export class ChatRoomApp extends BaseApp {
       this._updateGameMembersList();
     }, 100);
     this.updatePromptTokenStatus();
+    this.updateTicketsFeed();
   }
   /** paint game members list */
   _updateGameMembersList() {
     let html = "";
     if (this.gameData) {
       let members: any = {};
+
       if (this.gameData.members) members = this.gameData.members;
       let membersList = Object.keys(members);
-      membersList = membersList.sort();
+      membersList = membersList.sort((a: string, b: string) => {
+        if (this.gameData.members[a] > this.gameData.members[b]) return -1;
+        if (this.gameData.members[a] < this.gameData.members[b]) return 1;
+        return 0;
+      });
 
       const ticketList = Object.keys(this.ticketsLookup);
       const memberTicketCounts: any = {};
@@ -972,7 +997,7 @@ export class ChatRoomApp extends BaseApp {
               <span class="members_feed_profile_name">${data.name}</span>
             </div>
             <div class="member_activity_wrapper">
-              <div class="member_prompt_count">${selected} / ${ticketCount}</div>
+              <div class="member_prompt_count">${selected} / ${memberTicketCounts[member]}</div>
               <div class="member_list_time_since members_feed_profile_lastactivity">${timeSince}</div>
             </div>
           </div>
