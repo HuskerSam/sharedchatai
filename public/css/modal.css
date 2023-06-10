@@ -314,3 +314,7 @@
 .modal-dialog .app_panel {
   background: rgb(30, 30, 70);
 }
+
+.modal-dialog {
+  border-radius: 0.3em;
+}

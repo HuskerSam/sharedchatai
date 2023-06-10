@@ -812,3 +812,23 @@ pre code {
 .completion_max_tokens_reached .continue_previous_response {
   display: inline-block;
 }
+
+.mobile_custom_icon_label .fa-plus,
+.show_create_modal_on_bar .fa-plus {
+  color: rgb(28, 228, 60);
+}
+
+
+
+@media (max-width: 375px) {
+  .ticket_owner_name {
+    white-space: break-spaces;
+    top: 0px;
+  }
+}
+
+@media (max-width: 300px) {
+  .ticket_owner_name {
+    display: none;
+  }
+}
