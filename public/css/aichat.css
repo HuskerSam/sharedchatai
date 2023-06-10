@@ -460,6 +460,7 @@ pre code {
   margin-left: 8px;
   height: 60px;
   flex: 1;
+  resize: none;
 }
 
 .recent_documents_list li {
@@ -486,11 +487,6 @@ pre code {
   text-align: center;
 }
 
-.send_ticket_button i {
-  top: 3px;
-  position: relative;
-}
-
 .exclude_tickets_button {
   background-color: rgba(68, 70, 84, 0.5);
 }
@@ -507,8 +503,8 @@ pre code {
 
 .over_token_sendlimit .send_ticket_button,
 .over_token_sendlimit .auto_run_overthreshold_ticket {
-  background-color: rgb(140, 140, 0);
-  color: white;
+  background-color: rgb(240, 240, 50);
+  color: rgb(50, 50, 50);
   border-color: #6c757d;
 }
 
@@ -930,4 +926,22 @@ pre code {
 
 .show_send_bar_display_header .send_bar_display_header {
   display: flex;
+}
+
+button.btn-primary.send_ticket_button  {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.engine_settings_tweaked .send_ticket_button {
+  color: rgb(255, 127, 50);
+}
+
+.over_token_sendlimit .send_ticket_button {
+  color: rgb(255, 50, 50);
+}
+
+.send_ticket_button i {
+  top: 3px;
+  position: relative;
 }

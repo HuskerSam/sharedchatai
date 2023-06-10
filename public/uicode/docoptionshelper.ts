@@ -55,6 +55,9 @@ export default class DocOptionsHelper {
         this.modalContainer.innerHTML = html;
         document.body.appendChild(this.modalContainer);
         if (this.wrapperClass) this.modalContainer.classList.add(this.wrapperClass);
+        this.modalContainer.children[0].addEventListener("shown.bs.modal", () => {
+            this.code_link_copy.focus();
+          });
 
         this.owner_note_display_div = this.modalContainer.querySelector(".owner_note_display_div");
         this.modal_close_button = this.modalContainer.querySelector(".modal_close_button");
@@ -322,6 +325,7 @@ export default class DocOptionsHelper {
                                         Archived
                                     </label>
                                 </div>
+                                <button class="btn btn-secondary">Select All</button>
                                 <hr>
                                 <label class="form-label">Title</label>
                                 <br>
