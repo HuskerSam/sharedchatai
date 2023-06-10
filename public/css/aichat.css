@@ -770,7 +770,7 @@ pre code {
 .show_create_modal_on_bar {
   position: relative;
   top: -4px;
-  margin-right: 95px;
+  margin-right: 15%;
 }
 
 .document_usage_detail_header {
@@ -862,4 +862,14 @@ pre code {
 
 .navbar-toggler:focus {
   color: white;
+}
+
+.mobile_custom_title_label {
+  position: relative;
+  top: -8px;
+}
+
+.menu_profile_user_name_span {
+  top: 8px;
+  position: relative;
 }

@@ -120,12 +120,6 @@ button.code_link {
   margin-left: -8px;
 }
 
-.document_usage {
-  text-align: right;
-  padding-right: 4px;
-  overflow: hidden;
-}
-
 .details_game {
   align-self: flex-start;
   border-color: rgb(170, 170, 170);
@@ -144,7 +138,7 @@ button.code_link {
 
 
 .document_info_header {
-  border-bottom: 1px solid rgba(222,226,230,.5);
+  border-bottom: 1px solid rgba(222, 226, 230, .5);
   margin: 0 8px;
 }
 
@@ -166,14 +160,14 @@ button.code_link {
   text-align: right;
   padding-right: 8px;
   padding-left: 4px;
-  color: rgb(200, 200, 200);
+  color: rgb(20, 200, 20);
 }
 
 .document_usage {
-  color: rgb(200, 200, 200);
   font-size: .8em;
-  padding-top: 2px;
-  padding-right: 8px;
+  text-align: center;
+  overflow: hidden;
+  color: yellow;
 }
 
 .document_info_header_right {
@@ -202,7 +196,7 @@ button.code_link {
   display: flex;
   flex-direction: row;
   margin-bottom: 12px;
-  display:flex;
+  display: flex;
   margin-top: 12px;
 }
 
@@ -281,7 +275,7 @@ button.code_link {
   background: none;
   margin-right: 10px;
   border-color: transparent;
-  color: rgb(200,125,200);
+  color: rgb(200, 125, 200);
 }
 
 .dashboard_item_flex_wrapper {
@@ -296,13 +290,15 @@ button.code_link {
     margin-right: 0;
     margin-left: 0;
   }
+
   .show_dashboard_help_button {
     margin-right: 18px;
   }
+
   .document_label_filter {
     margin-right: 20%;
   }
-}  
+}
 
 .menu_profile_name_spacer {
   flex: 6;
