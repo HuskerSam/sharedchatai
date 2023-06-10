@@ -41,6 +41,7 @@ export default class DocOptionsHelper {
     prompt_for_new_title: any;
     prompt_for_new_usage: any;
     clone_current_chatroom_button: any;
+    document_usage_stats_line: any;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -63,6 +64,7 @@ export default class DocOptionsHelper {
         this.modal_close_button = this.modalContainer.querySelector(".modal_close_button");
         this.modal_document_title_display = this.modalContainer.querySelector(".modal_document_title_display");
 
+        this.document_usage_stats_line = document.querySelector(".document_usage_stats_line");
         this.docfield_archived_checkbox = this.modalContainer.querySelector(".docfield_archived_checkbox");
         this.docfield_archived_checkbox.addEventListener("input", () => this.updateArchivedStatus());
         this.shared_archived_status_wrapper = this.modalContainer.querySelector(".shared_archived_status_wrapper");
@@ -331,13 +333,6 @@ export default class DocOptionsHelper {
                                 <br>
                                 <button class="btn btn-secondary prompt_for_new_title" style="float:right;">Change...</button>
                                 <div class="modal_document_title_display"></div>
-                                <br>
-                                
-                                <label class="form-label">Token Usage Cap (0 for none)</label>
-                                <div>
-                                    <div class="shared_usage_limit_div"></div>
-                                    <button class="btn btn-secondary prompt_for_new_usage">Change...</button>
-                                </div>
                                 <hr>
                                 <div class="form-label">Import Session</div>
                                 <div style="line-height:3em;" class="template_import_options_section">
@@ -347,6 +342,16 @@ export default class DocOptionsHelper {
                                     <div class="doc_options_import_rows_preview"></div>
                                     <button class="btn btn-primary modal_send_tickets_to_api_button" 
                                                         style="visibility:hidden">Import</button>
+                                </div>
+                                <hr>
+                                <label class="form-label">Token Usage Cap (0 for none)</label>
+                                <div>
+                                    <div class="shared_usage_limit_div"></div>
+                                    <button class="btn btn-secondary prompt_for_new_usage">Change...</button>
+                                    <div class="engine_sub_panel_usage_stat">
+                                        <div class="document_usage_detail_header">Usage Breakdown</div>
+                                        <div class="document_usage_stats_line"></div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="owner_tab_view" role="tabpanel"
@@ -690,6 +695,15 @@ export default class DocOptionsHelper {
         this.import_upload_file.value = ""; // clear input
         this.updateImportRowsDisplay();
     }
+    /** paint document data */
+    paintDocumentData() {
+        BaseApp.setHTML(this.document_usage_stats_line, `&nbsp;Prompt: 
+        <span>${this.documentData.promptTokens}</span> &nbsp;
+        Completion: <span>${this.documentData.completionTokens}</span>
+      `);
+      this.modal_document_title_display.innerHTML = BaseApp.escapeHTML(this.documentData.title);
+        
+    }
     /** populate modal fields and show
      * @param { string } chatDocumentId firestore doc id
      * @param { any } doc doc data
@@ -706,7 +720,6 @@ export default class DocOptionsHelper {
             this.modalContainer.classList.add("modal_options_shared_user");
         }
 
-        this.modal_document_title_display.innerHTML = BaseApp.escapeHTML(this.documentData.title);
         this.shared_usage_limit_div.innerHTML = this.documentData.tokenUsageLimit;
         this.docfield_archived_checkbox.checked = this.documentData.archived;
         this.shared_archived_status_wrapper.innerHTML = this.documentData.archived ? "Archived" : "Active";
@@ -755,7 +768,7 @@ export default class DocOptionsHelper {
         }
 
         this.code_link_copy.innerHTML = `<i class="material-icons">link</i>`;
-
+        this.paintDocumentData();
         this.refreshReportData();
     }
 }

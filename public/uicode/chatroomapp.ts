@@ -94,7 +94,6 @@ export class ChatRoomApp extends BaseApp {
   docfield_top_p: any = document.querySelector(".docfield_top_p");
   docfield_presence_penalty: any = document.querySelector(".docfield_presence_penalty");
   docfield_frequency_penalty: any = document.querySelector(".docfield_frequency_penalty");
-  document_usage_stats_line: any = document.querySelector(".document_usage_stats_line");
   document_menutop_usage_stats_line: any = document.querySelector(".document_menutop_usage_stats_line");
   last_activity_display: any = document.querySelector(".last_activity_display");
   document_export_button: any = document.querySelector(".document_export_button");
@@ -525,7 +524,7 @@ export class ChatRoomApp extends BaseApp {
 
     this.updateTimeSince(this.tickets_list);
     this.updatePromptTokenStatus();
-    this.refreshOnlinePresence();
+    this._updateGameMembersList();
     this.updateAssistsFeed(null);
 
     this.ticket_count_span.innerHTML = this.ticketCount;
@@ -918,10 +917,6 @@ export class ChatRoomApp extends BaseApp {
     if (!this.gameData) return;
 
     document.body.classList.add("loaded");
-    BaseApp.setHTML(this.document_usage_stats_line, `&nbsp;Prompt: 
-      <span>${this.gameData.promptTokens}</span> &nbsp;
-      Completion: <span>${this.gameData.completionTokens}</span>
-    `);
 
     BaseApp.setHTML(this.document_menutop_usage_stats_line, `<span class="usage">${this.gameData.totalTokens}</span> Usage`);
     BaseApp.setHTML(this.last_activity_display, this.showGmailStyleDate(new Date(this.gameData.lastActivity), true));
@@ -944,17 +939,42 @@ export class ChatRoomApp extends BaseApp {
       if (this.gameData.members) members = this.gameData.members;
       let membersList = Object.keys(members);
       membersList = membersList.sort();
+
+      const ticketList = Object.keys(this.ticketsLookup);
+      const memberTicketCounts: any = {};
+      const memberSelectedCounts: any = {};
+
+      ticketList.forEach((id: any) => {
+        const ticket: any = this.ticketsLookup[id];
+        if (!memberTicketCounts[ticket.uid]) memberTicketCounts[ticket.uid] = 0;
+        if (!memberSelectedCounts[ticket.uid]) memberSelectedCounts[ticket.uid] = 0;
+        
+        memberTicketCounts[ticket.uid]++;
+        if (ticket.includeInMessage) memberSelectedCounts[ticket.uid]++;
+      });
+
       membersList.forEach((member: string) => {
         this.addUserPresenceWatch(member);
         const data = this._gameMemberData(member);
 
         const timeSince = this.timeSince(new Date(members[member]));
+        const isOwner = member === this.gameData.createUser ? " is_document_owner" : "";
+        let selected = memberSelectedCounts[member];
+        if (selected === undefined) selected = 0;
+        let ticketCount = memberTicketCounts[member];
+        if (ticketCount === undefined) ticketCount = 0;
+        
         html += `<li class="member_list_item">
-        <div class="members_feed_line_wrapper">
-            <div class="members_feed_online_status member_online_status" data-uid="${member}"></div>
+        <div class="members_feed_line_wrapper${isOwner}">
             <span class="members_feed_profile_image" style="background-image:url(${data.img})"></span>
-            <span class="members_feed_profile_name">${data.name}</span>
-            <span class="member_list_time_since members_feed_profile_lastactivity">${timeSince}</span>
+            <div class="members_feed_online_status member_online_status" data-uid="${member}"></div>
+            <div class="member_name_wrapper">
+              <span class="members_feed_profile_name">${data.name}</span>
+            </div>
+            <div class="member_activity_wrapper">
+              <div class="member_prompt_count">${selected} / ${ticketCount}</div>
+              <div class="member_list_time_since members_feed_profile_lastactivity">${timeSince}</div>
+            </div>
           </div>
         </li>`;
       });

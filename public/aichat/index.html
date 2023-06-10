@@ -3,7 +3,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>AI Chat</title>
+  <title>Session - Prompt+</title>
 
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="shortcut icon" href="/images/logo_aichat.png">
@@ -161,26 +161,17 @@
                 <div class="sidebar_tree_options_container">
                   <input type="range" class="form-range docfield_max_tokens" min="20" max="4000" step="20">
                   <div class="slider_label max_tokens_slider_label"></div>
-                  <br>
                   <input type="range" class="form-range docfield_temperature" min="0" max="2" step="0.1">
                   <div class="slider_label temperature_slider_label"></div>
-                  <br>
                   <input type="range" class="form-range docfield_top_p" min="0" max="1" step="0.01">
                   <div class="slider_label top_p_slider_label"></div>
-                  <br>
                   <input type="range" class="form-range docfield_presence_penalty" min="-2" max="2" step="0.1">
                   <div class="slider_label presence_penalty_slider_label"></div>
-                  <br>
                   <input type="range" class="form-range docfield_frequency_penalty" min="-2" max="2" step="0.1">
                   <div class="slider_label frequency_penalty_slider_label"></div>
-                  <br>
                 </div>
-                <div style="line-height: 2.5em;text-align:center;">
+                <div style="line-height: 2em;text-align:center;">
                   <button class="btn btn-secondary reset_engine_options_button">Reset Engine</button>
-                </div>
-                <div class="engine_sub_panel_usage_stat">
-                  <div class="document_usage_detail_header">Usage Breakdown</div>
-                  <div class="document_usage_stats_line"></div>
                 </div>
               </div>
             </li>
@@ -220,7 +211,7 @@
             </div>
           </div>
           <div style="display:flex;flex-direction:row">
-            <textarea class="form-control ticket_content_input" name="ticketcontent" placeholder="Enter prompt"
+            <textarea class="form-control ticket_content_input" name="ticketcontent" placeholder="Shift-Enter for new line"
               autocomplete="off"></textarea>
             <div class="send_bar_send_button_wrapper">
               <div style="flex:1"></div>

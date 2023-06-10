@@ -27,8 +27,8 @@ html {
 
 .members_feed_profile_image {
   display: inline-block;
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   background-position: center center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -41,18 +41,25 @@ html {
 
 .members_feed_profile_name {
   white-space: nowrap;
-  flex: 1;
   overflow: hidden;
-  font-size: 16px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
 
+.member_name_wrapper {
+  flex: 1;
+  line-height: 40px;
 }
 
 .members_feed_line_wrapper {
   display: flex;
   flex-direction: row;
-  background: rgba(55, 55, 55, .5);
   margin-bottom: 4px;
-  border-radius: 5%;
+  color: rgb(200, 200, 200);
+}
+
+.members_feed_line_wrapper.is_document_owner .members_feed_profile_name {
+  color: rgb(240, 240, 50);
 }
 
 .members_feed_online_status {
@@ -60,8 +67,15 @@ html {
 }
 
 .members_feed_profile_lastactivity {
-  opacity: .55;
-  padding-right: 5px;
+  text-align: center;
+}
+
+.member_activity_wrapper {
+  margin-right: 12px;
+}
+
+.member_prompt_count {
+  text-align: center;
 }
 
 .member_online_status {
@@ -69,11 +83,12 @@ html {
   width: 14px;
   height: 14px;
   background: rgb(127, 127, 127);
-  border: solid 1px rgba(47, 47, 47, .5);
+  border: solid 1px rgb(230, 230, 230);
   display: inline-block;
-  position: relative;
-  margin: 0 4px;
   align-self: center;
+  position: relative;
+  left: -10px;
+  top: 12px;
 }
 
 .member_online_status.online {
@@ -160,7 +175,6 @@ html {
   margin-left: 0;
   color: rgb(180, 255, 180);
   position: relative;
-  line-break: anywhere;
 }
 
 .tokens_prompt {
@@ -191,7 +205,7 @@ html {
   padding: 4px;
   color: rgb(190, 190, 190);
   z-index: 1;
-  background-color:transparent;
+  background-color: transparent;
 }
 
 .completion_max_tokens_reached .tokens_completion {
@@ -223,7 +237,6 @@ html {
 }
 
 .show_document_options_modal {
-  top: 12px;
   border-color: transparent;
   color: rgb(220, 220, 220);
 }
@@ -245,6 +258,7 @@ html {
 
 .slider_label {
   text-align: center;
+  margin-bottom: 12px;
 }
 
 .document_option_model_select_wrapper {
@@ -296,6 +310,7 @@ ul.recent_documents_list li a {
   max-height: 3em;
   font-style: italic;
   display: none;
+  color: rgb(130, 150, 220);
 }
 
 
@@ -303,6 +318,7 @@ ul.recent_documents_list li a {
   .sidebar_document_title {
     display: block;
   }
+
   .menu_bar_doc_title {
     display: none;
   }
@@ -390,7 +406,7 @@ pre code {
   color: rgb(240, 240, 240);
   left: 8px;
   top: 3px;
-  background-color:transparent;
+  background-color: transparent;
   z-index: 1;
 }
 
@@ -640,7 +656,7 @@ pre code {
 
 .header_usage_time_line {
   padding-top: 0px;
-  line-height: 60px;
+  line-height: 45px;
 }
 
 .engine_settings_not_default .reset_engine_options_button {
@@ -654,11 +670,6 @@ pre code {
 
 .engine_settings_tweaked .app_panel .engine_sidebar_menu_button {
   color: rgb(255, 127, 50);
-}
-
-.reset_engine_options_button {
-  position: relative;
-  top: -12px;
 }
 
 .description_row {
@@ -692,15 +703,6 @@ pre code {
 
 .mobile_layout_mode .right_panel_view {
   margin-top: 4em;
-}
-
-.ticket_user_display_header {
-  position: relative;
-  top: -6px;
-}
-
-.document_usage_stats_line {
-  text-align: center;
 }
 
 @media (min-width: 990px) {
@@ -839,7 +841,7 @@ pre code {
 
 @media (min-width: 400px) {
   .navbar-brand {
-    margin-left:0;
+    margin-left: 0;
   }
 }
 
@@ -923,7 +925,7 @@ pre code {
   display: flex;
 }
 
-button.btn-primary.send_ticket_button  {
+button.btn-primary.send_ticket_button {
   background-color: transparent;
   border-color: transparent;
   margin-bottom: -6px;
