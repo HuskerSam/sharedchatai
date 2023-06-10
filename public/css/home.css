@@ -4,9 +4,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 90vh;
+  height: 50vh;
   margin: 0;
-  padding: 0;
+  padding: 0 5rem;
+  border-radius: 6px;
 }
 
 .coming-soon h1 {
@@ -14,20 +15,20 @@
   font-size: 5rem;
   font-weight: 900;
   line-height: 1.2;
-  margin-bottom: 1.5rem;
+  margin-bottom: 3.5rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   font-weight: 700;
 }
 
 .coming-soon-descr {
   margin-bottom: 30px;
-  color:rgb(255, 255, 255);
+  color:#198754;
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
 }
 
 .header_recent_document {
-  color:rgb(211, 211, 211);
+  color:#fff;
   font-size: 1.3rem;
   text-align: left;
 }
@@ -52,6 +53,7 @@
   color:rgb(255, 255, 255);
   font-size: 1.2rem;
   margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
 }
 
 .help-buttons {
@@ -73,4 +75,60 @@
 
 .help-buttons button:hover {
   color: #0096FF;
+}
+
+/** from AI chat **/
+ul.recent_documents_list {
+  width: 100%;
+}
+
+ul.recent_documents_list li {
+  display: block;
+  position: relative;
+}
+
+ul.recent_documents_list li a {
+  display: block;
+  color: rgb(230, 230, 230);
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.recent_documents_list .activity_date {
+  background-color: rgba(28, 228, 60, 0.3);
+  position: absolute;
+  right: 4px;
+  bottom: 2px;
+  border-radius: 5px;
+  z-index: 100;
+  padding: 2px 8px;
+}
+
+.recent_documents_list li {
+  margin-left: -15px;
+}
+
+@media (max-width: 767px) {
+  .coming-soon {
+    padding: 0 2rem;
+  }
+  .coming-soon h1 {
+    font-size: 3rem;
+  }
+  .coming-soon-descr {
+    font-size: 1.2rem;
+  }
+  .coming-soon h4 {
+    font-size: 1rem;
+  }
+  .header_recent_document {
+    font-size: 1rem;
+  }
+  .cta {
+    font-size: 16px;
+    padding: 10px 30px;
+  }
+  .help-buttons button {
+    font-size: 14px;
+  }
 }
