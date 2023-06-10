@@ -12,7 +12,6 @@ export class DashboardApp extends BaseApp {
   dashboard_documents_view: any = document.querySelector(".dashboard_documents_view");
   new_game_type_wrappers: any = document.querySelectorAll(".new_game_type_wrapper");
   basic_options: any = document.querySelector(".basic_options");
-  userprofile_description: any = document.querySelector(".userprofile_description");
   dashboard_create_game: any = document.querySelector(".dashboard_create_game");
   gameFeedSubscription: any;
   lastGamesFeedSnapshot: any;
@@ -65,15 +64,6 @@ export class DashboardApp extends BaseApp {
     super.authUpdateStatusUI();
     this.initGameFeeds();
     this.initRTDBPresence();
-
-    if (this.profile) {
-      let name = this.profile.displayName;
-      let img = this.profile.displayImage;
-      if (!name) name = "Anonymous";
-      if (!img) img = "/images/defaultprofile.png";
-      BaseApp.setHTML(this.userprofile_description, `<img class="user_dashboard_img" src="${img}">
-      <span class="user_name">${name}</span>`);
-    }
   }
   /** query dom for all chat_user_image and chat_user_name elements and update */
   updateUserNamesImages() {
