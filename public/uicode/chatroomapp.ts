@@ -75,7 +75,7 @@ export class ChatRoomApp extends BaseApp {
   desktop_sidebar_menu_wrapper: any = document.querySelector(".desktop_sidebar_menu_wrapper");
   menu_nav_bar: any = document.querySelector(".menu_nav_bar");
   left_panel_view: any = document.querySelector(".left_panel_view");
-  main_view_splitter: any = document.querySelector(".main_view_splitter");
+  session_sidebar_splitter_div: any = document.querySelector(".session_sidebar_splitter_div");
 
   tickets_list: any = document.querySelector(".tickets_list");
   members_list: any = document.querySelector(".members_list");

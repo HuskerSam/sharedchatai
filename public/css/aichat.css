@@ -4,11 +4,11 @@ html {
   height: 100%;
 }
 
-.main_view_splitter {
+.session_sidebar_splitter_div {
   display: none;
 }
 
-.loaded .main_view_splitter {
+.loaded .session_sidebar_splitter_div {
   display: flex;
   height: 100%;
   flex-direction: row;
