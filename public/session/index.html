@@ -6,7 +6,7 @@
   <title>Session - Prompt+</title>
 
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link rel="shortcut icon" href="/images/logo_aichat.png">
+  <link rel="shortcut icon" href="/images/logo_session.png">
 
   <!-- Firebase links -->
   <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-app.js"></script>
@@ -43,13 +43,13 @@
   <link rel="stylesheet" href="/css/androidstudio.css" />
   <link rel="stylesheet" href="/css/base.css" />
   <link rel="stylesheet" href="/css/modal.css" />
-  <link rel="stylesheet" href="/css/aichat.css" />
+  <link rel="stylesheet" href="/css/session.css" />
   <script>
     window.addEventListener('load', async (event) => {
       window.gpt3tokenizer = await import('/models/gpttokenizer.js');
 
-      let module = await import('/models/chatroomapp.js');
-      window.ChatRoomApp = new module.ChatRoomApp();
+      let module = await import('/models/sessionapp.js');
+      window.SessionApp = new module.SessionApp();
     });
   </script>
 </head>

@@ -118,7 +118,7 @@ export class HomePageApp extends BaseApp {
             title = title.substring(0, 100);
             const activityDate = this.showGmailStyleDate(new Date(data.lastActivity));
             const rowHTML = `<li>
-        <a href="/aichat/?game=${doc.id}">
+        <a href="/session/?id=${doc.id}">
           <div class="sidebar_tree_recent_title title">${title}</div>
           <div class="activity_date">${activityDate}</div>
         </a></li>`;

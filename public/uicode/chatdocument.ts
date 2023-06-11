@@ -15,7 +15,7 @@ export class ChatDocument {
       importedTickets,
     };
     const token = await firebase.auth().currentUser.getIdToken();
-    const fResult = await fetch(basePath + "lobbyApi/aichat/message/import", {
+    const fResult = await fetch(basePath + "lobbyApi/session/message/import", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",

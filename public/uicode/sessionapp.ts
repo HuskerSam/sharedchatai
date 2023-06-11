@@ -13,8 +13,7 @@ declare const firebase: any;
 declare const window: any;
 
 /** Guess app class */
-export class ChatRoomApp extends BaseApp {
-  apiType = "aichat";
+export class SessionApp extends BaseApp {
   maxTokenPreviewChars = 30;
   documentId: any;
   lastTicketsSnapshot: any = [];
@@ -252,19 +251,17 @@ export class ChatRoomApp extends BaseApp {
   async initTicketFeed() {
     if (this.ticketFeedRegistered) return;
     this.ticketFeedRegistered = true;
-    const gameId = this.urlParams.get("game");
-    if (!gameId) return;
 
     if (this.ticketsSubscription) this.ticketsSubscription();
 
-    this.ticketsSubscription = firebase.firestore().collection(`Games/${gameId}/tickets`)
+    this.ticketsSubscription = firebase.firestore().collection(`Games/${this.documentId}/tickets`)
       .orderBy(`submitted`, "desc")
       .limit(500)
       .onSnapshot((snapshot: any) => this.updateTicketsFeed(snapshot));
 
     if (this.assistsSubscription) this.assistsSubscription();
 
-    this.assistsSubscription = firebase.firestore().collection(`Games/${gameId}/assists`)
+    this.assistsSubscription = firebase.firestore().collection(`Games/${this.documentId}/assists`)
       .orderBy(`created`, "desc")
       .limit(500)
       .onSnapshot((snapshot: any) => this.updateAssistsFeed(snapshot));
@@ -298,7 +295,7 @@ export class ChatRoomApp extends BaseApp {
         title = title.substring(0, 100);
         const activityDate = this.showGmailStyleDate(new Date(data.lastActivity));
         const rowHTML = `<li>
-        <a href="/aichat/?game=${doc.id}">
+        <a href="/session/?id=${doc.id}">
           <div class="sidebar_tree_recent_title title">${title}</div>
           <div class="activity_date">${activityDate}</div>
         </a></li>`;
@@ -583,7 +580,7 @@ export class ChatRoomApp extends BaseApp {
       reRunTicket: ticketId.toString(),
     };
     const token = await firebase.auth().currentUser.getIdToken();
-    const fResult = await fetch(this.basePath + "lobbyApi/aichat/message", {
+    const fResult = await fetch(this.basePath + "lobbyApi/session/message", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -620,7 +617,7 @@ export class ChatRoomApp extends BaseApp {
       ticketId,
     };
     const token = await firebase.auth().currentUser.getIdToken();
-    const fResult = await fetch(this.basePath + "lobbyApi/aichat/message/delete", {
+    const fResult = await fetch(this.basePath + "lobbyApi/session/message/delete", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -748,7 +745,7 @@ export class ChatRoomApp extends BaseApp {
       include,
     };
     const token = await firebase.auth().currentUser.getIdToken();
-    const fResult = await fetch(this.basePath + "lobbyApi/aichat/message/include", {
+    const fResult = await fetch(this.basePath + "lobbyApi/session/message/include", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -816,7 +813,7 @@ export class ChatRoomApp extends BaseApp {
       includeTickets,
     };
     const token = await firebase.auth().currentUser.getIdToken();
-    const fResult = await fetch(this.basePath + "lobbyApi/aichat/message", {
+    const fResult = await fetch(this.basePath + "lobbyApi/session/message", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -889,9 +886,6 @@ export class ChatRoomApp extends BaseApp {
 
     if (this.profile) {
       this.initRTDBPresence();
-      this.initTicketFeed();
-      this.initRecentDocumentsFeed();
-
       if (this.profile.textOptionsLarge) document.body.classList.add("profile_text_option_large");
       else document.body.classList.remove("profile_text_option_large");
       if (this.profile.textOptionsMonospace) document.body.classList.add("profile_text_option_monospace");
@@ -899,7 +893,7 @@ export class ChatRoomApp extends BaseApp {
       if (this.profile.lessTokenDetails) document.body.classList.add("profile_text_less_token_details");
       else document.body.classList.remove("profile_text_less_token_details");
 
-      const gameId = this.urlParams.get("game");
+      const gameId = this.urlParams.get("id");
       if (gameId && !this.documentId) {
         this.gameAPIJoin(gameId);
         this.documentId = gameId;
@@ -915,6 +909,10 @@ export class ChatRoomApp extends BaseApp {
             }
             this.paintDocumentData(doc);
           });
+        
+          
+        this.initTicketFeed();
+        this.initRecentDocumentsFeed();
       }
 
       setTimeout(() => this._updateGameMembersList(), 50);

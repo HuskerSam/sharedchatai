@@ -141,7 +141,7 @@ export default class DocCreateHelper {
     this.create_game_afterfeed_button.innerHTML = "Creating";
 
     const body: any = {
-      gameType: "aichat",
+      documentType: "chatSession",
       label: this.scrapeLabels(),
       note: this.create_modal_note_field.value.trim(),
       title: this.create_modal_title_field.value.trim(),
@@ -180,7 +180,7 @@ export default class DocCreateHelper {
     } else {
       if (this.modal_open_new_document.checked) {
         const a = document.createElement("a");
-        a.setAttribute("href", `/${body.gameType}/?game=${json.gameNumber}`);
+        a.setAttribute("href", `/session/?id=${json.gameNumber}`);
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);

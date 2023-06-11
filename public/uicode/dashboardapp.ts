@@ -189,8 +189,8 @@ export class DashboardApp extends BaseApp {
     this.refreshOnlinePresence();
     this.updateUserNamesImages();
   }
-  /** return document shared status for a aichat doc
-   * @param { any } doc aichat document
+  /** return document shared status for a doc
+   * @param { any } doc document
    * @return { number } 0 for owner, not shared, 1 for shared not owner, 2 for owner and shared
    */
   getDocumentSharedStatus(doc: any) {
@@ -223,7 +223,7 @@ export class DashboardApp extends BaseApp {
     hour = hour % 12;
     if (hour === 0) hour = 12;
     timeStr = hour.toString() + timeStr.substring(2) + " " + suffix;
-    const html = `<a href="/${data.gameType}/?game=${data.gameNumber}"
+    const html = `<a href="/session/?id=${data.gameNumber}"
        class="list-group-item list-group-item-action document_list_item card shadow-sm my-1 rounded card_shadow_sm ${ownerClass}"
      data-gamenumber="${doc.id}" gamenumber="${doc.id}">
     <div class="dashboard_item_flex_wrapper">
@@ -256,7 +256,7 @@ export class DashboardApp extends BaseApp {
     linkCopy.addEventListener("click", (e: any) => {
       e.stopPropagation();
       e.preventDefault();
-      navigator.clipboard.writeText(window.location.origin + "/aichat/?game=" + data.gameNumber);
+      navigator.clipboard.writeText(window.location.origin + "/session/?id=" + data.gameNumber);
       const buttonText = `<i class="material-icons">link</i>`;
       linkCopy.innerHTML = "✅ " + buttonText;
       setTimeout(() => linkCopy.innerHTML = buttonText, 1200);

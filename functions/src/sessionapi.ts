@@ -9,7 +9,7 @@ import {
 } from "gpt-3-encoder";
 
 /** Match game specific turn logic wrapped in a transaction */
-export default class ChatAI {
+export default class SessionAPI {
     /** http endpoint for user posting message to table chat
    * @param { any } req http request object
    * @param { any } res http response object

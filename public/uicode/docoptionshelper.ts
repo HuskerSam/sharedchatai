@@ -162,7 +162,7 @@ export default class DocOptionsHelper {
     /** copy game url link to clipboard
      */
     copyGameLink() {
-        navigator.clipboard.writeText(window.location.origin + "/aichat/?game=" + this.chatDocumentId);
+        navigator.clipboard.writeText(window.location.origin + "/session/?id=" + this.chatDocumentId);
         const buttonText = `<i class="material-icons">link</i>`;
         this.code_link_copy.innerHTML = "✅ " + buttonText;
         setTimeout(() => this.code_link_copy.innerHTML = buttonText, 1200);

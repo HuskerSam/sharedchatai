@@ -6,7 +6,7 @@ import path from "path";
 const gameAPIApp = express();
 
 import GameAPI from "./gameapi";
-import ChatAI from "./aichatapi";
+import SessionAPI from "./sessionapi";
 
 gameAPIApp.set("views", path.join(__dirname, "views"));
 gameAPIApp.set("view engine", "ejs");
@@ -34,7 +34,7 @@ gameAPIApp.post("/games/leave", async (req, res) => GameAPI.leave(req, res));
 gameAPIApp.post("/games/options", async (req, res) => GameAPI.options(req, res));
 gameAPIApp.post("/games/owner/options", async (req, res) => GameAPI.ownerOptions(req, res));
 
-gameAPIApp.post("/aichat/message", async (req, res) => ChatAI.submitTicket(req, res));
-gameAPIApp.post("/aichat/message/delete", async (req, res) => ChatAI.deleteTicket(req, res));
-gameAPIApp.post("/aichat/message/include", async (req, res) => ChatAI.updateTicketIncludeStatus(req, res));
-gameAPIApp.post("/aichat/message/import", async (req, res) => ChatAI.importTicket(req, res));
+gameAPIApp.post("/session/message", async (req, res) => SessionAPI.submitTicket(req, res));
+gameAPIApp.post("/session/message/delete", async (req, res) => SessionAPI.deleteTicket(req, res));
+gameAPIApp.post("/session/message/include", async (req, res) => SessionAPI.updateTicketIncludeStatus(req, res));
+gameAPIApp.post("/session/message/import", async (req, res) => SessionAPI.importTicket(req, res));
