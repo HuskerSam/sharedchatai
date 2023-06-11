@@ -344,7 +344,8 @@ export default class DocOptionsHelper {
                                 &nbsp;
                                 <span style="padding-right:16px;">Prompts:</span>
                                 <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                    <input type="radio" class="btn-check" name="tickets_filter" id="all_filter" value="all" checked autocomplete="off">
+                                    <input type="radio" class="btn-check" name="tickets_filter" id="all_filter"
+                                     value="all" checked autocomplete="off">
                                     <label class="btn btn-outline-primary" for="all_filter">All</label>
                                     <input type="radio" class="btn-check" name="tickets_filter" id="selected_filter" value="selected"
                                         autocomplete="off">
@@ -354,14 +355,18 @@ export default class DocOptionsHelper {
                             <div style="line-height: 3em;">
                                 &nbsp;
                                 <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                    <input type="radio" class="btn-check" name="export_format_choice" id="text_format" value="text" autocomplete="off"
+                                    <input type="radio" class="btn-check" name="export_format_choice" id="text_format"
+                                     value="text" autocomplete="off"
                                         checked>
                                     <label class="btn btn-outline-primary" for="text_format">Text</label>
-                                    <input type="radio" class="btn-check" name="export_format_choice" id="html_format" value="html" autocomplete="off">
+                                    <input type="radio" class="btn-check" name="export_format_choice" id="html_format"
+                                     value="html" autocomplete="off">
                                     <label class="btn btn-outline-primary" for="html_format">HTML</label>
-                                    <input type="radio" class="btn-check" name="export_format_choice" id="csv_format" value="csv" autocomplete="off">
+                                    <input type="radio" class="btn-check" name="export_format_choice" id="csv_format"
+                                     value="csv" autocomplete="off">
                                     <label class="btn btn-outline-primary" for="csv_format">CSV</label>
-                                    <input type="radio" class="btn-check" name="export_format_choice" id="json_format" value="json" autocomplete="off">
+                                    <input type="radio" class="btn-check" name="export_format_choice" id="json_format"
+                                     value="json" autocomplete="off">
                                     <label class="btn btn-outline-primary" for="json_format">JSON</label>
                                 </div>
                             </div>
@@ -421,7 +426,8 @@ export default class DocOptionsHelper {
                             <hr>
                             <label class="form-label">Owner Note</label>
                             <br>
-                            <button class="btn btn-secondary prompt_for_new_note" style="float:right;margin-right:8px;margin-bottom:16px;">Change...</button>
+                            <button class="btn btn-secondary prompt_for_new_note" 
+                                style="float:right;margin-right:8px;margin-bottom:16px;">Change...</button>
                             <div class="owner_note_display_div"></div>
                             <br>
                         </div>
@@ -718,7 +724,7 @@ export default class DocOptionsHelper {
     }
     /** paint document data */
     paintDocumentData() {
-        BaseApp.setHTML(this.document_usage_stats_line, 
+        BaseApp.setHTML(this.document_usage_stats_line,
             `Total: <span>${this.documentData.totalTokens}</span><br>Prompt: 
         <span>${this.documentData.promptTokens}</span><br>
         Completion: <span>${this.documentData.completionTokens}</span>

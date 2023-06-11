@@ -1155,7 +1155,7 @@ export class SessionApp extends BaseApp {
     if (notDefault) document.body.classList.add("engine_settings_not_default");
     else document.body.classList.remove("engine_settings_not_default");
 
-    const tweaked = this.testForEngineTweaked()
+    const tweaked = this.testForEngineTweaked();
     if (tweaked) document.body.classList.add("engine_settings_tweaked");
     else document.body.classList.remove("engine_settings_tweaked");
 

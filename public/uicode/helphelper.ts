@@ -17,7 +17,7 @@ export class HelpHelper {
         this.addModalToDOM();
 
         this.modalContainer.addEventListener("hidden.bs.modal", () => {
-            if (document.body.querySelector('.modal.show')) document.body.classList.add('modal-open');
+            if (document.body.querySelector(".modal.show")) document.body.classList.add("modal-open");
         });
     }
     /** instaniate and add modal #loginModal */
