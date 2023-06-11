@@ -6,7 +6,9 @@ declare const firebase: any;
 import {
   HelpHelper,
 } from "./helphelper.js";
-import { ChatDocument } from "./chatdocument.js";
+import {
+  ChatDocument,
+} from "./chatdocument.js";
 
 /** Dashboard Document Management App - for listing, joining and creating games  */
 export class DashboardApp extends BaseApp {
