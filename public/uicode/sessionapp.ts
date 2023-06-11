@@ -121,6 +121,8 @@ export class SessionApp extends BaseApp {
   overthresholdModalDialog: any = document.querySelector("#overthresholdModalDialog");
   navbarSupportedContent: any = document.querySelector("#navbarSupportedContent");
 
+  select_all_tickets_button: any = document.querySelector(".select_all_tickets_button");
+
   /**  */
   constructor() {
     super();
@@ -205,6 +207,8 @@ export class SessionApp extends BaseApp {
 
     this.navbarSupportedContent.addEventListener("shown.bs.collapse",
       () => this.tickets_list.focus());
+
+    this.select_all_tickets_button.addEventListener("click", () => this.selectedAllTickets());
 
     this.scrollTicketListBottom();
     this.autoSizeTextArea();
@@ -548,7 +552,7 @@ export class SessionApp extends BaseApp {
 
     this.ticket_count_span.innerHTML = this.ticketCount;
     this.selected_ticket_count_span.innerHTML = this.selectedTicketCount;
-    this.ticket_stats.innerHTML = this.selectedTicketCount;
+    this.ticket_stats.innerHTML = this.selectedTicketCount + "/" + this.ticketCount;
 
     if (scrollToBottom) this.scrollTicketListBottom();
   }
@@ -1269,5 +1273,15 @@ export class SessionApp extends BaseApp {
     }
     this.sliderChangeDebounceTimeout = {};
     this.paintDocumentOptions();
+  }
+  /** */
+  selectedAllTickets() {
+    const tickets: Array<any> = [];
+    this.lastTicketsSnapshot.forEach((doc: any) => tickets.unshift(doc));
+    tickets.forEach((doc: any) => {
+      let data = doc.data;
+      if (!data) data = {};
+      if (!data.includeInMessage) this.includeTicketSendToAPI(doc.id, true);
+    });
   }
 }

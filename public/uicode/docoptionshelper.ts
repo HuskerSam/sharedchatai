@@ -166,7 +166,7 @@ export default class DocOptionsHelper {
     /** */
     async showPacketsDialog() {
         const packets = await firebase.firestore().collection(`Games/${this.chatDocumentId}/packets`)
-            .orderBy("submitted", "desc").limit(5).get();
+            .orderBy("submitted", "desc").limit(200).get();
         const lookup: any = {};
         packets.forEach((doc: any) => {
             lookup[doc.id] = doc.data();
