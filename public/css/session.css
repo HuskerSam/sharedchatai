@@ -57,6 +57,7 @@ html {
   flex-direction: row;
   margin-bottom: 4px;
   color: rgb(200, 200, 200);
+  margin-left: 16px;
 }
 
 .members_feed_line_wrapper.is_document_owner .members_feed_profile_name {
@@ -222,12 +223,7 @@ html {
 }
 
 .show_document_options_modal {
-  background: none;
-  float: right;
-  right: 8px;
-  margin-top: -4px;
-  position: relative;
-  top: 8px;
+  background-color: transparent;
   border-color: transparent;
 }
 
@@ -262,9 +258,8 @@ html {
 
 .document_option_model_select_wrapper {
   text-align: center;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  height: 75px;
+  padding-top: 5px;
+  padding-bottom: 22px;
 }
 
 .document_option_model_select_wrapper select {
@@ -310,6 +305,7 @@ ul.recent_documents_list li a {
   font-style: italic;
   display: none;
   color: rgb(130, 150, 220);
+  flex: 1;
 }
 
 @media (min-width: 990px) {
@@ -944,4 +940,23 @@ button.btn-primary.send_ticket_button {
 
 .token_submit_summary .form-label {
   text-align: center;
+}
+
+li.mb-1 button.btn.btn-toggle {
+  font-size: 1.75em;
+  color: rgb(200, 200, 200);
+  width: 100%;
+  text-align: left;
+  margin-bottom: 8px;
+} 
+
+li.mb-1 button.btn.btn-toggle {
+  font-size: 1.75em;
+  color: rgb(200, 200, 200);
+  width: 100%;
+  text-align: left;
+  margin-bottom: 8px;
+} 
+.suppress_transition.btn-toggle::before {
+  transition: none!important;
 }

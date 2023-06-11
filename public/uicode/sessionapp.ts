@@ -15,7 +15,7 @@ declare const window: any;
 /** Guess app class */
 export class SessionApp extends BaseApp {
   maxTokenPreviewChars = 30;
-  documentId: any;
+  documentId: any = null;
   lastTicketsSnapshot: any = [];
   gameSubscription: any;
   assistsSubscription: any;
@@ -103,6 +103,12 @@ export class SessionApp extends BaseApp {
   ticket_count_span: any = document.querySelector(".ticket_count_span");
   selected_ticket_count_span: any = document.querySelector(".selected_ticket_count_span");
   reset_engine_options_button: any = document.querySelector(".reset_engine_options_button");
+  engine_sidebar_menu_button: any = document.querySelector(".engine_sidebar_menu_button");
+  users_sidebar_menu_button: any = document.querySelector(".users_sidebar_menu_button");
+  recent_sidebar_menu_button: any = document.querySelector(".recent_sidebar_menu_button");
+  sidebar_engine_panel: any = document.querySelector("#sidebar_engine_panel");
+  sidebar_users_panel: any = document.querySelector("#sidebar_users_panel");
+  sidebar_recent_panel: any = document.querySelector("#sidebar_recent_panel");
 
   show_document_options_popup: any = document.getElementById("show_document_options_popup");
   temperature_slider_label: any = document.querySelector(".temperature_slider_label");
@@ -123,6 +129,7 @@ export class SessionApp extends BaseApp {
 
   select_all_tickets_button: any = document.querySelector(".select_all_tickets_button");
   sessionDeleting = false;
+  firstDocumentLoad = true;
   /**  */
   constructor() {
     super();
@@ -210,8 +217,41 @@ export class SessionApp extends BaseApp {
 
     this.select_all_tickets_button.addEventListener("click", () => this.selectedAllTickets());
 
+    this.engine_sidebar_menu_button.addEventListener("click", () => {
+      if (this.engine_sidebar_menu_button.getAttribute("aria-expanded") === "false") {
+        this.saveSidebarProfileMenu("sidebarEngineExpanded", false);
+      } else {
+        this.saveSidebarProfileMenu("sidebarEngineExpanded", true);
+      }
+    });
+    this.users_sidebar_menu_button.addEventListener("click", () => {
+      if (this.users_sidebar_menu_button.getAttribute("aria-expanded") === "false") {
+        this.saveSidebarProfileMenu("sidebarUsersExpanded", false);
+      } else {
+        this.saveSidebarProfileMenu("sidebarUsersExpanded", true);
+      }
+    });
+    this.recent_sidebar_menu_button.addEventListener("click", () => {
+      if (this.recent_sidebar_menu_button.getAttribute("aria-expanded") === "false") {
+        this.saveSidebarProfileMenu("sidebarRecentExpanded", false);
+      } else {
+        this.saveSidebarProfileMenu("sidebarRecentExpanded", true);
+      }
+    });
+
     this.scrollTicketListBottom();
     this.autoSizeTextArea();
+  }
+  /** when user toggles a menu section save it to profile
+   * @param { string } fieldKey field in session doc
+   * @param { any } value string or boolean usually
+  */
+  saveSidebarProfileMenu(fieldKey: string, value: any) {
+    firebase.firestore().doc(`Users/${this.uid}`).set({
+      [fieldKey]: value,
+    }, {
+      merge: true,
+    });
   }
   /** expand prompt input textarea */
   autoSizeTextArea() {
@@ -553,7 +593,7 @@ export class SessionApp extends BaseApp {
     this.ticket_count_span.innerHTML = this.ticketCount;
     this.selected_ticket_count_span.innerHTML = this.selectedTicketCount;
     this.ticket_stats.innerHTML = `Session Prompts (<span class="selected_tickets">` +
-     this.selectedTicketCount + `</span>/<span class="total_tickets">` + this.ticketCount + "</span>)";
+      this.selectedTicketCount + `</span>/<span class="total_tickets">` + this.ticketCount + "</span>)";
 
     if (scrollToBottom) this.scrollTicketListBottom();
   }
@@ -890,7 +930,6 @@ export class SessionApp extends BaseApp {
   /** BaseApp override to paint profile specific authorization parameters */
   authUpdateStatusUI() {
     super.authUpdateStatusUI();
-    this.documentId = null;
 
     if (this.profile) {
       this.initRTDBPresence();
@@ -901,10 +940,10 @@ export class SessionApp extends BaseApp {
       if (this.profile.lessTokenDetails) document.body.classList.add("profile_text_less_token_details");
       else document.body.classList.remove("profile_text_less_token_details");
 
-      const gameId = this.urlParams.get("id");
-      if (gameId && !this.documentId) {
-        this.gameAPIJoin(gameId);
-        this.documentId = gameId;
+      const urlSessionId = this.urlParams.get("id");
+      if (this.documentId === null && urlSessionId) {
+        this.gameAPIJoin(urlSessionId);
+        this.documentId = urlSessionId;
         let reloading = false;
         if (this.gameSubscription) this.gameSubscription();
         this.gameSubscription = firebase.firestore().doc(`Games/${this.documentId}`)
@@ -916,6 +955,10 @@ export class SessionApp extends BaseApp {
               location.href = "/";
               return;
             }
+
+            if (this.firstDocumentLoad) this.setSidebarTreeState();
+            this.firstDocumentLoad = false;
+
             this.paintDocumentData(doc);
           });
 
@@ -925,6 +968,45 @@ export class SessionApp extends BaseApp {
 
       setTimeout(() => this._updateGameMembersList(), 50);
     }
+  }
+  /** */
+  setSidebarTreeState() {
+    this.engine_sidebar_menu_button.classList.add("suppress_transition");
+    this.users_sidebar_menu_button.classList.add("suppress_transition");
+    this.recent_sidebar_menu_button.classList.add("suppress_transition");
+
+    if (this.profile.sidebarEngineExpanded === false) {
+      this.engine_sidebar_menu_button.classList.add("collapsed");
+      this.engine_sidebar_menu_button.setAttribute("aria-expanded", "false");
+      this.sidebar_engine_panel.classList.remove("show");
+    } else {
+      this.engine_sidebar_menu_button.classList.remove("collapsed");
+      this.engine_sidebar_menu_button.setAttribute("aria-expanded", "true");
+      this.sidebar_engine_panel.classList.add("show");
+    }
+    if (this.profile.sidebarUsersExpanded === false) {
+      this.users_sidebar_menu_button.classList.add("collapsed");
+      this.users_sidebar_menu_button.setAttribute("aria-expanded", "false");
+      this.sidebar_users_panel.classList.remove("show");
+    } else {
+      this.users_sidebar_menu_button.classList.remove("collapsed");
+      this.users_sidebar_menu_button.setAttribute("aria-expanded", "true");
+      this.sidebar_users_panel.classList.add("show");
+    }
+    if (this.profile.sidebarRecentExpanded === false) {
+      this.recent_sidebar_menu_button.classList.add("collapsed");
+      this.recent_sidebar_menu_button.setAttribute("aria-expanded", "false");
+      this.sidebar_recent_panel.classList.remove("show");
+    } else {
+      this.recent_sidebar_menu_button.classList.remove("collapsed");
+      this.recent_sidebar_menu_button.setAttribute("aria-expanded", "true");
+      this.sidebar_recent_panel.classList.add("show");
+    }
+    setTimeout(() => {
+      this.engine_sidebar_menu_button.classList.remove("suppress_transition");
+      this.users_sidebar_menu_button.classList.remove("suppress_transition");
+      this.recent_sidebar_menu_button.classList.remove("suppress_transition");
+    }, 50);
   }
   /** paint game data (game document change handler)
    * @param { any } gameDoc firestore query snapshot
@@ -1079,7 +1161,7 @@ export class SessionApp extends BaseApp {
 
     if (this.sessionDocumentData.max_tokens !== 500) document.body.classList.add("engine_settings_minor_tweaked");
     else document.body.classList.remove("engine_settings_minor_tweaked");
-   
+
     const debounce = (this.lastDocumentOptionChange + 500 > new Date().getTime());
 
     this.docfield_model.value = this.sessionDocumentData.model;

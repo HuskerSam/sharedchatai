@@ -140,24 +140,23 @@
       </nav>
       <div class="desktop_sidebar_menu_wrapper flex-shrink-0 p-1 flex_shrink_wrapper" style="position:relative">
         <div class="sidebar_tree_menu app_panel">
-          <div class="sidebar_document_title"></div>
-          <div class="header_usage_time_line">
-            &nbsp;
-            <span class="document_menutop_usage_stats_line"></span>
-            &nbsp;
-            &nbsp;
-            <span class="last_activity_display"></span>
-            <button class="btn btn-secondary show_document_options_modal"><i
-                class="material-icons">settings</i></button>
+          <div style="display:flex;flex-direction:row">
+            <div class="sidebar_document_title"></div>
+            <button class="btn btn-secondary show_document_options_modal"><i class="material-icons">settings</i>
+            </button>
+          </div>
+          <div style="padding-left:8px;padding-right:8px;line-height: 2em;">
+            <span class="document_menutop_usage_stats_line" style="float:left;"></span>
+            <span class="last_activity_display" style="float:right;"></span>
           </div>
           <ul class="list-unstyled ps-0 sidebar_tree">
             <li class="mb-1">
               <button class="btn btn-toggle align-items-center rounded engine_sidebar_menu_button"
-                data-bs-toggle="collapse" data-bs-target="#options-menu-panel-collapse" aria-expanded="true">
-                Engine
+                data-bs-toggle="collapse" data-bs-target="#sidebar_engine_panel" aria-expanded="false">
+                Engine &nbsp;
               </button>
 
-              <div class="collapse show" id="options-menu-panel-collapse">
+              <div class="collapse" id="sidebar_engine_panel">
                 <button id="show_document_options_popup" style="display:none;" class="btn btn-primary"
                   data-bs-toggle="modal" data-bs-target="#editDocumentModal"></button>
                 <div class="document_option_model_select_wrapper">
@@ -165,10 +164,6 @@
                     style="display:inline-block;width:auto;">
                     <option disabled="true">gpt-4</option>
                     <option selected>gpt-3.5-turbo</option>
-                    <option disabled="true">gpt-4-0314</option>
-                    <option disabled="true">gpt-4-32k</option>
-                    <option disabled="true">gpt-4-32k-0314</option>
-                    <option>gpt-3.5-turbo-0301</option>
                   </select>
                   <button class="btn btn-secondary reset_engine_options_button">Reset</button>
                 </div>
@@ -187,20 +182,20 @@
               </div>
             </li>
             <li class="mb-1">
-              <button class="btn btn-toggle align-items-center rounded" data-bs-toggle="collapse"
-                data-bs-target="#users-menu-panel-collapse" aria-expanded="true">
-                Users
+              <button class="btn btn-toggle align-items-center rounded users_sidebar_menu_button" data-bs-toggle="collapse"
+                data-bs-target="#sidebar_users_panel" aria-expanded="false">
+                Users &nbsp;
               </button>
-              <div class="collapse show" id="users-menu-panel-collapse">
+              <div class="collapse" id="sidebar_users_panel">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small members_list"></ul>
               </div>
             </li>
             <li class="mb-1">
-              <button class="btn btn-toggle align-items-center rounded" data-bs-toggle="collapse"
-                data-bs-target="#recentdocuments-menu-panel-collapse" aria-expanded="true">
-                Recent
+              <button class="btn btn-toggle align-items-center rounded recent_sidebar_menu_button" data-bs-toggle="collapse"
+                data-bs-target="#sidebar_recent_panel" aria-expanded="false">
+                Recent &nbsp;
               </button>
-              <div class="collapse show" id="recentdocuments-menu-panel-collapse" style="position: relative;">
+              <div class="collapse" id="sidebar_recent_panel" style="position: relative;">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small recent_documents_list"></ul>
               </div>
             </li>

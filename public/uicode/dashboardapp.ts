@@ -46,7 +46,7 @@ export class DashboardApp extends BaseApp {
       }, {
         merge: true,
       });
-      this.updateGamesFeed(null);
+      this.updateSessionFeed(null);
     });
 
     this.show_dashboard_help_button.addEventListener("click", () => this.helpHelper.show("session"));
@@ -115,7 +115,7 @@ export class DashboardApp extends BaseApp {
           this.paintLabelSelect(true);
           setTimeout(() => document.body.classList.add("list_loaded"), 100);
         }
-        this.updateGamesFeed(snapshot);
+        this.updateSessionFeed(snapshot);
         firstLoad = false;
       });
   }
@@ -131,7 +131,7 @@ export class DashboardApp extends BaseApp {
   /** paint games feed from firestore snapshot
    * @param { any } snapshot event driven feed data from firestore
   */
-  updateGamesFeed(snapshot: any) {
+  updateSessionFeed(snapshot: any) {
     if (snapshot) this.lastGamesFeedSnapshot = snapshot;
     else if (this.lastGamesFeedSnapshot) snapshot = this.lastGamesFeedSnapshot;
     else return;
@@ -298,7 +298,7 @@ export class DashboardApp extends BaseApp {
       else this.document_label_filter.value = startingValue;
       if (this.document_label_filter.selectedIndex === -1) {
         this.document_label_filter.selectedIndex = 0;
-        if (!firstLoad) this.updateGamesFeed(null);
+        if (!firstLoad) this.updateSessionFeed(null);
       }
     }
   }
