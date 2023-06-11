@@ -314,10 +314,6 @@ ul.recent_documents_list li a {
   color: rgb(130, 150, 220);
 }
 
-.modal_document_title_display {
-  color: rgb(130, 150, 220);
-}
-
 @media (min-width: 990px) {
   .sidebar_document_title {
     display: block;

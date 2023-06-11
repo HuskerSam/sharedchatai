@@ -81,6 +81,8 @@
 
 .prompt_for_new_usage {
   display: none;
+  position: relative;
+  top: -4px;
 }
 
 .prompt_for_new_title {
@@ -240,6 +242,7 @@
 .modal_document_title_display {
   display: block;
   min-height: 2em;
+  color: rgb(130, 150, 220);
 }
 
 .parsed_file_status {
@@ -326,4 +329,17 @@
 
 .document_usage_stats_line {
   text-align: center;
+}
+
+.engine_sub_panel_usage_stat {
+  float: left;
+}
+
+.document_usage_stats_line {
+  text-align: right;
+}
+
+.token_usage_document_limit_header {
+  float: left;
+  margin-right: 16px;
 }

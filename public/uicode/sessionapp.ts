@@ -1192,7 +1192,7 @@ export class SessionApp extends BaseApp {
     if (this.excludingTicketsRunning) return [];
     this.excludingTicketsRunning = true;
     document.body.classList.add("exclude_tickets_running");
-    let tokenReduction = this.includeTotalTokens + this.sessionDocumentData.max_tokens + this.lastInputTokenCount - 4050;
+    let tokenReduction = this.includeTotalTokens + this.sessionDocumentData.max_tokens + this.lastInputTokenCount - 4096;
 
     const tickets: Array<any> = [];
     this.lastTicketsSnapshot.forEach((doc: any) => tickets.unshift(doc));

@@ -367,19 +367,20 @@ export default class DocOptionsHelper {
                                     style="visibility:hidden">Import</button>
                             </div>
                             <hr>
-                            <label class="form-label">Token Usage Cap (0 for none)</label>
-                            <div style="line-height: 3em">
-                                <div class="shared_usage_limit_div"></div>
-                                <button class="btn btn-secondary prompt_for_new_usage">Change...</button>
+                            <div class="token_usage_document_limit_header">
+                                <label class="form-label">Usage Cap (0 for none)</label>
+                                <div style="line-height: 3.5em">
+                                    <div class="shared_usage_limit_div"></div>
+                                    <button class="btn btn-secondary prompt_for_new_usage">Change...</button>
+                                </div>
                             </div>
                             <div class="engine_sub_panel_usage_stat">
-                                <div class="document_usage_detail_header">Usage Breakdown</div>
                                 <div class="document_usage_stats_line"></div>
-                                <hr>
-                                <div style="line-height: 3em;text-align: center;">
-                                    <button class="btn btn-secondary show_threshold_dialog">Sequence Limit</button>
-                                    <button class="btn btn-secondary show_packets_dialog">Packets</button>
-                                </div>
+                            </div>
+                            <hr style="clear:both;">
+                            <div style="line-height: 4em;text-align: center;">
+                                <button class="btn btn-secondary show_threshold_dialog">Request Threshold</button>
+                                <button class="btn btn-secondary show_packets_dialog">Request Packets</button>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="owner_tab_view" role="tabpanel" aria-labelledby="owner_tab_button">
@@ -725,8 +726,9 @@ export default class DocOptionsHelper {
     }
     /** paint document data */
     paintDocumentData() {
-        BaseApp.setHTML(this.document_usage_stats_line, `&nbsp;Prompt: 
-        <span>${this.documentData.promptTokens}</span> &nbsp;
+        BaseApp.setHTML(this.document_usage_stats_line, 
+            `Total: <span>${this.documentData.totalTokens}</span><br>Prompt: 
+        <span>${this.documentData.promptTokens}</span><br>
         Completion: <span>${this.documentData.completionTokens}</span>
       `);
         this.modal_document_title_display.innerHTML = BaseApp.escapeHTML(this.documentData.title);
