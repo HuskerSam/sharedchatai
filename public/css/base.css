@@ -441,3 +441,7 @@ button.btn-primary:active {
 .shared_status_withothers {
   color: rgb(20, 200, 20);
 }
+
+.menu_logo_image {
+  max-width: 90px;
+}

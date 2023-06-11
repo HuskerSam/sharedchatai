@@ -30,7 +30,7 @@ export class HelpHelper {
         if (this.wrapperClass) this.modalContainer.classList.add(this.wrapperClass);
 
         this.modalContainer.children[0].addEventListener("shown.bs.modal", () => {
-            this.help_dialog_close_button.focus();
+            // this.help_dialog_close_button.focus();
         });
         this.help_show_modal = document.querySelector(".help_show_modal");
         this.help_viewer_iframe = document.querySelector(".help_viewer_iframe");

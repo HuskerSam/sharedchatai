@@ -76,7 +76,21 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item signed_in_options">
-              <a class="navbar-brand" href="/"><img src="/images/fulllogo600x200.png"></a>
+              <a class="nav-link" href="/">
+                <span class="mobile_custom_icon_label">
+                  <img src="/images/fulllogo600x200.png" class="menu_logo_image">
+                </span>
+              </a>
+            </li>
+            <li class="nav-item signed_in_options">
+              <a class="nav-link show_document_options_help" href="help">
+                <span class="mobile_custom_icon_label">
+                  <i class="material-icons-outlined">help</i>
+                </span>
+                <span class="mobile_custom_title_label">
+                  Help
+                </span>
+              </a>
             </li>
             <li class="nav-item signed_in_options">
               <a class="nav-link show_profile_modal" href="profile">
@@ -142,6 +156,7 @@
                 data-bs-toggle="collapse" data-bs-target="#options-menu-panel-collapse" aria-expanded="true">
                 Engine
               </button>
+
               <div class="collapse show" id="options-menu-panel-collapse">
                 <button id="show_document_options_popup" style="display:none;" class="btn btn-primary"
                   data-bs-toggle="modal" data-bs-target="#editDocumentModal"></button>
@@ -155,8 +170,7 @@
                     <option disabled="true">gpt-4-32k-0314</option>
                     <option>gpt-3.5-turbo-0301</option>
                   </select>
-                  <button class="btn btn-secondary show_document_options_help"><i
-                      class="material-icons">help</i></button>
+                  <button class="btn btn-secondary reset_engine_options_button">Reset</button>
                 </div>
                 <div class="sidebar_tree_options_container">
                   <input type="range" class="form-range docfield_max_tokens" min="20" max="4000" step="20">
@@ -169,9 +183,6 @@
                   <div class="slider_label presence_penalty_slider_label"></div>
                   <input type="range" class="form-range docfield_frequency_penalty" min="-2" max="2" step="0.1">
                   <div class="slider_label frequency_penalty_slider_label"></div>
-                </div>
-                <div style="line-height: 2em;text-align:center;">
-                  <button class="btn btn-secondary reset_engine_options_button">Reset Engine</button>
                 </div>
               </div>
             </li>

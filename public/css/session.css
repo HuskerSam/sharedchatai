@@ -221,8 +221,7 @@ html {
   color: rgb(217, 217, 227)
 }
 
-.show_document_options_modal,
-.show_document_options_help {
+.show_document_options_modal {
   background: none;
   float: right;
   right: 8px;
@@ -258,7 +257,7 @@ html {
 
 .slider_label {
   text-align: center;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
 .document_option_model_select_wrapper {
@@ -445,12 +444,6 @@ pre code {
   }
 }
 
-.show_document_options_help {
-  right: 8px;
-  top: 0;
-  border-color: transparent;
-}
-
 .show_document_options_modal i,
 .show_document_options_help i,
 .show_token_threshold_dialog_help i {
@@ -462,8 +455,7 @@ pre code {
   float: right;
 }
 
-.show_document_options_modal:hover,
-.show_document_options_help:hover {
+.show_document_options_modal:hover {
   background: rgb(127, 127, 127);
   color: rgb(240, 240, 240);
 }
@@ -652,6 +644,10 @@ pre code {
   line-height: 45px;
 }
 
+.reset_engine_options_button {
+
+}
+
 .engine_settings_not_default .reset_engine_options_button {
   background-color: rgb(0, 120, 0);
   border-color: rgb(70, 220, 70);
@@ -815,23 +811,6 @@ pre code {
   max-height: 2em;
   max-width: calc(100% - 56px);
   overflow: hidden;
-}
-
-.navbar-brand {
-  padding-bottom: 12px;
-  position: relative;
-  top: 8px;
-  margin-left: 8px;
-}
-
-.navbar-brand img {
-  padding: 0px 12px 0 0;
-}
-
-@media (min-width: 400px) {
-  .navbar-brand {
-    margin-left: 0;
-  }
 }
 
 .ticket_sent_api_pending .menu_bar_doc_title {

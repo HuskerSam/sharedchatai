@@ -59,7 +59,7 @@ export default class DocOptionsHelper {
         document.body.appendChild(this.modalContainer);
         if (this.wrapperClass) this.modalContainer.classList.add(this.wrapperClass);
         this.modalContainer.children[0].addEventListener("shown.bs.modal", () => {
-            this.prompt_for_new_title.focus();
+            // this.prompt_for_new_title.focus();
         });
 
         this.owner_note_display_div = this.modalContainer.querySelector(".owner_note_display_div");
@@ -662,7 +662,7 @@ export default class DocOptionsHelper {
         range.selectNodeContents(this.export_data_popup_preview);
         selection.addRange(range);
         */
-        this.export_data_popup_preview.focus();
+        // this.export_data_popup_preview.focus();
 
         if (download) {
             const file = new File([data.resultText], data.fileName, {
