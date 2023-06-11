@@ -119,6 +119,7 @@ export class SessionApp extends BaseApp {
 
   auto_run_overthreshold_ticket: any = document.querySelector(".auto_run_overthreshold_ticket");
   overthresholdModalDialog: any = document.querySelector("#overthresholdModalDialog");
+  navbarSupportedContent: any = document.querySelector("#navbarSupportedContent");
 
   /**  */
   constructor() {
@@ -199,9 +200,11 @@ export class SessionApp extends BaseApp {
       this.documentCreate.show();
     });
 
-    this.overthresholdModalDialog.addEventListener("shown.bs.modal", () => {
-      this.exclude_tickets_button.focus();
-    });
+    this.overthresholdModalDialog.addEventListener("shown.bs.modal",
+      () => this.exclude_tickets_button.focus());
+
+    this.navbarSupportedContent.addEventListener('shown.bs.collapse',
+      () => this.tickets_list.focus());
 
     this.scrollTicketListBottom();
     this.autoSizeTextArea();
