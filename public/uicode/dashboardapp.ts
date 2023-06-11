@@ -28,6 +28,7 @@ export class DashboardApp extends BaseApp {
   documentOptions = new DocOptionsHelper(this, "dashboard_options_view");
   helpHelper = new HelpHelper(this);
   help_show_modal: any = document.querySelector(".help_show_modal");
+  sessionDeleting = false;
 
   /** */
   constructor() {

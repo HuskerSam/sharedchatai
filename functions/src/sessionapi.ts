@@ -376,23 +376,38 @@ export default class SessionAPI {
         let prompt_tokens = 0;
         let completion_tokens = 0;
 
-
-        if (sessionDocumentData.archived) {
-            throw new Error("Submit Blocked: Document is set to archived");
+        let usageLimitError = false;
+        let usageErrorObject: any = null;
+        try {
+            if (sessionDocumentData.archived) {
+                throw new Error("Submit Blocked: Document is set to archived");
+            }
+    
+            const usageLimit = BaseClass.getNumberOrDefault(sessionDocumentData.tokenUsageLimit, 0);
+            const documentUsed = BaseClass.getNumberOrDefault(sessionDocumentData.totalTokens, 0);
+            if (usageLimit > 0 && documentUsed >= usageLimit) {
+                throw new Error("Submit Blocked: Document Usage Limit Reached");
+            }
+        } catch (usageTestError) {
+            usageLimitError = true;
+            usageErrorObject = usageTestError;
         }
 
-        const usageLimit = BaseClass.getNumberOrDefault(sessionDocumentData.tokenUsageLimit, 0);
-        const documentUsed = BaseClass.getNumberOrDefault(sessionDocumentData.totalTokens, 0);
-        if (usageLimit > 0 && documentUsed >= usageLimit) {
-            throw new Error("Submit Blocked: Document Usage Limit Reached");
-        }
-
-        const aiResponse = await SessionAPI.submitOpenAIRequest(packet.aiRequest, submitted, chatGptKey);
-
-        if (aiResponse.assist && aiResponse.assist.usage) {
-            total_tokens = BaseClass.getNumberOrDefault(aiResponse.assist.usage.total_tokens, 0);
-            prompt_tokens = BaseClass.getNumberOrDefault(aiResponse.assist.usage.prompt_tokens, 0);
-            completion_tokens = BaseClass.getNumberOrDefault(aiResponse.assist.usage.completion_tokens, 0);
+        let aiResponse: any = null;
+        if (!usageLimitError) {
+            aiResponse = await SessionAPI.submitOpenAIRequest(packet.aiRequest, submitted, chatGptKey);
+            if (aiResponse.assist && aiResponse.assist.usage) {
+                total_tokens = BaseClass.getNumberOrDefault(aiResponse.assist.usage.total_tokens, 0);
+                prompt_tokens = BaseClass.getNumberOrDefault(aiResponse.assist.usage.prompt_tokens, 0);
+                completion_tokens = BaseClass.getNumberOrDefault(aiResponse.assist.usage.completion_tokens, 0);
+            }
+        } else {
+            aiResponse = {
+                success: false,
+                created: new Date().toISOString(),
+                error: usageErrorObject.message,
+                submitted,
+            }
         }
 
         const today = new Date().toISOString();

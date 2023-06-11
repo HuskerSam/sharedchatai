@@ -122,7 +122,7 @@ export class SessionApp extends BaseApp {
   navbarSupportedContent: any = document.querySelector("#navbarSupportedContent");
 
   select_all_tickets_button: any = document.querySelector(".select_all_tickets_button");
-
+  sessionDeleting = false;
   /**  */
   constructor() {
     super();
@@ -908,6 +908,7 @@ export class SessionApp extends BaseApp {
         if (this.gameSubscription) this.gameSubscription();
         this.gameSubscription = firebase.firestore().doc(`Games/${this.documentId}`)
           .onSnapshot((doc: any) => {
+            if (this.sessionDeleting) return;
             if (!doc.data() && !reloading) {
               alert("Session not found, returning to home");
               reloading = true;

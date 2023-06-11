@@ -476,11 +476,11 @@ export default class DocOptionsHelper {
             alert("Game Number not found - error");
             return;
         }
-
         const body = {
             gameNumber: this.chatDocumentId,
         };
         const token = await firebase.auth().currentUser.getIdToken();
+        this.app.sessionDeleting = true;
         const fResult = await fetch(this.app.basePath + "lobbyApi/games/delete", {
             method: "POST",
             mode: "cors",
@@ -513,6 +513,7 @@ export default class DocOptionsHelper {
             gameNumber: this.chatDocumentId,
         };
         const token = await firebase.auth().currentUser.getIdToken();
+        this.app.sessionDeleting = true;
         const fResult = await fetch(this.app.basePath + "lobbyApi/games/leave", {
             method: "POST",
             mode: "cors",
