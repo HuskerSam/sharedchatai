@@ -954,3 +954,7 @@ button.btn-primary.send_ticket_button {
 .engine_settings_tweaked .ticket_running_in_queue .member_online_status.online {
   background-color: rgb(255, 127, 50);
 }
+
+.show_threshold_dialog {
+  display: inline-block;
+}

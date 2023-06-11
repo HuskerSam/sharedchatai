@@ -268,7 +268,7 @@ export default class SessionAPI {
         const defaults = BaseClass.defaultChatDocumentOptions();
         const model = sessionDocumentData.model;
         const max_tokens = BaseClass.getNumberOrDefault(sessionDocumentData.max_tokens, defaults.max_tokens);
-        const temperature = BaseClass.getNumberOrDefault(sessionDocumentData.model, defaults.temperature);
+        const temperature = BaseClass.getNumberOrDefault(sessionDocumentData.temperature, defaults.temperature);
         const top_p = BaseClass.getNumberOrDefault(sessionDocumentData.top_p, defaults.top_p);
         const presence_penalty = BaseClass.getNumberOrDefault(sessionDocumentData.presence_penalty, defaults.presence_penalty);
         const frequency_penalty = BaseClass.getNumberOrDefault(sessionDocumentData.frequency_penalty, defaults.frequency_penalty);
@@ -302,12 +302,13 @@ export default class SessionAPI {
             messages,
         };
         if (includeBias) aiRequest.logit_bias = logit_bias;
-        if (top_p * 1.0 !== 1.0) aiRequest.top_p = 1;
-        if (temperature * 1.0 !== 1.0) aiRequest.temperature = 1;
+        if (top_p !== 1.0) aiRequest.top_p = top_p;
+        if (temperature !== 1.0) aiRequest.temperature = temperature;
 
         const packet = {
             gameNumber: ticket.gameNumber,
             aiRequest,
+            submitted: ticket.submitted,
         };
         await firebaseAdmin.firestore().doc(`Games/${ticket.gameNumber}/packets/${ticketId}`).set(packet);
 

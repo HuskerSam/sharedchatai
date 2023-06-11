@@ -42,6 +42,8 @@ export default class DocOptionsHelper {
     prompt_for_new_usage: any;
     clone_current_chatroom_button: any;
     document_usage_stats_line: any;
+    show_threshold_dialog: any;
+    show_packets_dialog: any;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -58,7 +60,7 @@ export default class DocOptionsHelper {
         if (this.wrapperClass) this.modalContainer.classList.add(this.wrapperClass);
         this.modalContainer.children[0].addEventListener("shown.bs.modal", () => {
             this.code_link_copy.focus();
-          });
+        });
 
         this.owner_note_display_div = this.modalContainer.querySelector(".owner_note_display_div");
         this.modal_close_button = this.modalContainer.querySelector(".modal_close_button");
@@ -150,7 +152,29 @@ export default class DocOptionsHelper {
         this.import_upload_file.addEventListener("change", () => this.updateImportRowsDisplay());
         this.copy_export_clipboard.addEventListener("click", () => this.copyExportToClipboard());
 
+        this.show_threshold_dialog = this.modalContainer.querySelector(".show_threshold_dialog");
+        this.show_threshold_dialog.addEventListener("click", () => {
+            this.modal_close_button.click();
+            this.app.showOverthresholdToSendModal();
+        });
+
         this.code_link_copy.addEventListener("click", () => this.copyGameLink());
+
+            this.show_packets_dialog = this.modalContainer.querySelector(".show_packets_dialog");
+            this.show_packets_dialog.addEventListener("click", () => this.showPacketsDialog());
+    }
+    /** */
+    async showPacketsDialog() {
+        const packets = await firebase.firestore().collection(`Games/${this.chatDocumentId}/packets`)
+            .orderBy("submitted", "desc").limit(5).get();
+        const lookup: any = {};
+        packets.forEach((doc: any) => {
+            lookup[doc.id] = doc.data();
+        });
+        const displayString = JSON.stringify(lookup, null, "\t");
+        navigator.clipboard.writeText(displayString);
+        this.show_packets_dialog.innerHTML = "✅ Packets";
+        setTimeout(() => this.show_packets_dialog.innerHTML = "Packets", 1200);
     }
     /** */
     async updateImportRowsDisplay() {
@@ -327,13 +351,12 @@ export default class DocOptionsHelper {
                                         Archived
                                     </label>
                                 </div>
-                                <button class="btn btn-secondary">Select All</button>
                                 <hr>
                                 <label class="form-label">Title</label>
                                 <br>
                                 <button class="btn btn-secondary prompt_for_new_title" style="float:right;">Change...</button>
                                 <div class="modal_document_title_display"></div>
-                                <hr>
+                                <hr>                                
                                 <div class="form-label">Import Session</div>
                                 <div style="line-height:3em;" class="template_import_options_section">
                                     <button class="btn btn-secondary modal_upload_tickets_button">Select...</button>
@@ -345,14 +368,16 @@ export default class DocOptionsHelper {
                                 </div>
                                 <hr>
                                 <label class="form-label">Token Usage Cap (0 for none)</label>
-                                <div>
+                                <div style="line-height: 3em">
                                     <div class="shared_usage_limit_div"></div>
                                     <button class="btn btn-secondary prompt_for_new_usage">Change...</button>
-                                    <div class="engine_sub_panel_usage_stat">
-                                        <div class="document_usage_detail_header">Usage Breakdown</div>
-                                        <div class="document_usage_stats_line"></div>
-                                    </div>
+                                    <button class="btn btn-secondary show_threshold_dialog">Threshold Dialog</button>
+                                    <button class="btn btn-secondary show_packets_dialog">Packets</button>
                                 </div>
+                                <div class="engine_sub_panel_usage_stat">
+                                <div class="document_usage_detail_header">Usage Breakdown</div>
+                                <div class="document_usage_stats_line"></div>
+                            </div>
                             </div>
                             <div class="tab-pane fade" id="owner_tab_view" role="tabpanel"
                                 aria-labelledby="owner_tab_button">                        
@@ -701,7 +726,7 @@ export default class DocOptionsHelper {
         <span>${this.documentData.promptTokens}</span> &nbsp;
         Completion: <span>${this.documentData.completionTokens}</span>
       `);
-      this.modal_document_title_display.innerHTML = BaseApp.escapeHTML(this.documentData.title);
+        this.modal_document_title_display.innerHTML = BaseApp.escapeHTML(this.documentData.title);
     }
     /** populate modal fields and show
      * @param { string } chatDocumentId firestore doc id

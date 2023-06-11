@@ -326,3 +326,7 @@
 .document_usage_stats_line {
   text-align: center;
 }
+
+.show_threshold_dialog {
+  display: none;
+}
