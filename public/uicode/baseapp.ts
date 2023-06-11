@@ -19,6 +19,7 @@ export default class BaseApp {
   fireToken: any = null;
   profileSubscription: any = null;
   profileInited = false;
+  profileDefaulted = false;
   mute_button: any = null;
   verboseLog = false;
   rtdbPresenceInited = false;
@@ -132,12 +133,14 @@ export default class BaseApp {
    * @param { string } displayImage passed in image (ie google)
   */
   async _authCreateDefaultProfile(displayName = "", displayImage = "") {
+    if (this.profileDefaulted) return;
     this.profile = {
       displayName,
       displayImage,
       documentLabels: "Personal,Business,Archived",
     };
 
+    this.profileDefaulted = true;
     await firebase.firestore().doc(`Users/${this.uid}`).set(this.profile, {
       merge: true,
     });
@@ -181,7 +184,7 @@ export default class BaseApp {
     setTimeout(() => {
       if (location.pathname === "/") location.href = location.origin + "/dashboard";
       else location.reload();
-    }, 150);
+    }, 20);
   }
   /** anonymous sign in handler
    * @param { any } e dom event - preventDefault is called if passed
