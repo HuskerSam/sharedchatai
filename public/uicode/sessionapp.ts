@@ -909,8 +909,7 @@ export class SessionApp extends BaseApp {
             }
             this.paintDocumentData(doc);
           });
-        
-          
+
         this.initTicketFeed();
         this.initRecentDocumentsFeed();
       }
