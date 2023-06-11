@@ -405,7 +405,7 @@ button.btn-primary:active {
   height: 30px;
   background-size: contain;
   background-position: center center;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.3);
   position: relative;
   float: left;
   top: 8px;
@@ -428,4 +428,16 @@ button.btn-primary:active {
 
 .btn-90 {
   min-width: 90px;
+}
+
+.shared_status_not {
+  color: rgb(180, 180, 180);
+}
+
+.shared_status_withusers {
+  color: rgb(80, 120, 255);
+}
+
+.shared_status_withothers {
+  color: rgb(20, 200, 20);
 }

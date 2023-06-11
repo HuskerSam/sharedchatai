@@ -1004,7 +1004,7 @@ export class SessionApp extends BaseApp {
               <span class="members_feed_profile_name">${data.name}</span>
             </div>
             <div class="member_activity_wrapper">
-              <div class="member_prompt_count">${selected} / ${ticketCount}</div>
+              <div class="member_prompt_count">${ticketCount}</div>
               <div class="member_list_time_since members_feed_profile_lastactivity">${timeSince}</div>
             </div>
           </div>

@@ -59,7 +59,7 @@ export default class DocOptionsHelper {
         document.body.appendChild(this.modalContainer);
         if (this.wrapperClass) this.modalContainer.classList.add(this.wrapperClass);
         this.modalContainer.children[0].addEventListener("shown.bs.modal", () => {
-            this.code_link_copy.focus();
+            this.prompt_for_new_title.focus();
         });
 
         this.owner_note_display_div = this.modalContainer.querySelector(".owner_note_display_div");
@@ -325,11 +325,11 @@ export default class DocOptionsHelper {
                 <div class="modal-body">
                     <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link active" id="export_tab_button" data-bs-toggle="tab" href="#export_tab_view"
+                            <a class="nav-link" id="export_tab_button" data-bs-toggle="tab" href="#export_tab_view"
                                 role="tab" aria-controls="export_tab_view" aria-selected="false">Prompts</a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" id="options_tab_button" data-bs-toggle="tab" href="#options_tab_view"
+                            <a class="nav-link active" id="options_tab_button" data-bs-toggle="tab" href="#options_tab_view"
                                 role="tab" aria-controls="options_tab_view" aria-selected="true">Options</a>
                         </li>
                         <li class="nav-item" role="presentation">
@@ -338,11 +338,11 @@ export default class DocOptionsHelper {
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <div class="tab-pane fade show active" id="export_tab_view" role="tabpanel"
+                        <div class="tab-pane fade" id="export_tab_view" role="tabpanel"
                             aria-labelledby="export_tab_button">
                             ${exportModalTabHTML}
                         </div>
-                        <div class="tab-pane fade" id="options_tab_view" role="tabpanel"
+                        <div class="tab-pane fade show active" id="options_tab_view" role="tabpanel"
                             aria-labelledby="options_tab_button">
                             <div class="shared_archived_status_wrapper"></div>
                             <div class="form-check owner_archived_input_wrapper">
@@ -663,10 +663,12 @@ export default class DocOptionsHelper {
         const selection = window.getSelection();
         selection.removeAllRanges();
 
+            /*
         // Select paragraph
         const range = document.createRange();
         range.selectNodeContents(this.export_data_popup_preview);
         selection.addRange(range);
+        */
         this.export_data_popup_preview.focus();
 
         if (download) {
@@ -728,6 +730,15 @@ export default class DocOptionsHelper {
         Completion: <span>${this.documentData.completionTokens}</span>
       `);
         this.modal_document_title_display.innerHTML = BaseApp.escapeHTML(this.documentData.title);
+
+        const sharedStatus = ChatDocument.getDocumentSharedStatus(this.documentData, this.app.uid);
+        this.code_link_copy.classList.remove("shared_status_not");
+        this.code_link_copy.classList.remove("shared_status_withusers");
+        this.code_link_copy.classList.remove("shared_status_withothers");
+
+        if (sharedStatus === 0) this.code_link_copy.classList.add("shared_status_not");
+        if (sharedStatus === 1) this.code_link_copy.classList.add("shared_status_withusers");
+        if (sharedStatus === 2) this.code_link_copy.classList.add("shared_status_withothers");
     }
     /** populate modal fields and show
      * @param { string } chatDocumentId firestore doc id

@@ -248,18 +248,6 @@ button.code_link {
   top: 4px;
 }
 
-.shared_status_not {
-  color: rgb(180, 180, 180);
-}
-
-.shared_status_withusers {
-  color: rgb(80, 120, 255);
-}
-
-.shared_status_withothers {
-  color: rgb(20, 200, 20);
-}
-
 .show_dashboard_help_button i {
   position: relative;
   float: right;

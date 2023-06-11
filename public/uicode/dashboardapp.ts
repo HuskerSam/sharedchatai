@@ -6,6 +6,7 @@ declare const firebase: any;
 import {
   HelpHelper,
 } from "./helphelper.js";
+import { ChatDocument } from "./chatdocument.js";
 
 /** Dashboard Document Management App - for listing, joining and creating games  */
 export class DashboardApp extends BaseApp {
@@ -166,7 +167,7 @@ export class DashboardApp extends BaseApp {
         if (!usage) usage = "0";
         BaseApp.setHTML(usageDom, usage);
 
-        const sharedStatus = this.getDocumentSharedStatus(doc.data());
+        const sharedStatus = ChatDocument.getDocumentSharedStatus(doc.data(), this.uid);
         const sharedIcon = card.querySelector(".document_shared_status_icon_wrapper");
         sharedIcon.classList.remove("shared_status_not");
         sharedIcon.classList.remove("shared_status_withusers");
@@ -189,22 +190,6 @@ export class DashboardApp extends BaseApp {
     this.paintLabelSelect();
     this.refreshOnlinePresence();
     this.updateUserNamesImages();
-  }
-  /** return document shared status for a doc
-   * @param { any } doc document
-   * @return { number } 0 for owner, not shared, 1 for shared not owner, 2 for owner and shared
-   */
-  getDocumentSharedStatus(doc: any) {
-    let sharedStatus = 0;
-    let memberCount = 0;
-    if (doc.members) memberCount = Object.keys(doc.members).length;
-
-    if (memberCount > 1) {
-      if (doc.createUser === this.uid) sharedStatus = 1;
-      else sharedStatus = 2;
-    }
-
-    return sharedStatus;
   }
   /** paint html list card
    * @param { any } doc Firestore doc for game

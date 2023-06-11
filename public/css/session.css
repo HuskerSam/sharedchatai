@@ -68,7 +68,7 @@ html {
 }
 
 .members_feed_profile_lastactivity {
-  text-align: center;
+  text-align: right;
 }
 
 .member_activity_wrapper {
@@ -76,7 +76,7 @@ html {
 }
 
 .member_prompt_count {
-  text-align: center;
+  text-align: right;
 }
 
 .member_online_status {
