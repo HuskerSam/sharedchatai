@@ -93,7 +93,7 @@ export default class SessionAPI {
             };
             const addResult: any = await firebaseAdmin.firestore().collection(`Games/${gameNumber}/tickets`).add(ticket);
             ticketId = addResult.id;
-            ChatAI.increateTicketCount(gameNumber, 1);
+            SessionAPI.increateTicketCount(gameNumber, 1);
         }
 
         const sessionPacket: any = {
@@ -173,7 +173,7 @@ export default class SessionAPI {
                 includeInMessage: importTicket.selected !== "n",
             };
             const newTicketResult = await firebaseAdmin.firestore().collection(`Games/${gameNumber}/tickets`).add(ticket);
-            ChatAI.increateTicketCount(gameNumber, 1);
+            SessionAPI.increateTicketCount(gameNumber, 1);
 
             const assistRecord: any = {
                 success: true,
@@ -386,7 +386,7 @@ export default class SessionAPI {
             throw new Error("Submit Blocked: Document Usage Limit Reached");
         }
 
-        const aiResponse = await ChatAI.submitOpenAIRequest(packet.aiRequest, submitted, chatGptKey);
+        const aiResponse = await SessionAPI.submitOpenAIRequest(packet.aiRequest, submitted, chatGptKey);
 
         if (aiResponse.assist && aiResponse.assist.usage) {
             total_tokens = BaseClass.getNumberOrDefault(aiResponse.assist.usage.total_tokens, 0);
@@ -466,7 +466,7 @@ export default class SessionAPI {
 
         const isOwner = (message.uid === uid);
         if (!isOwner && !isGameOwner) return BaseClass.respondError(res, "Must own game or message to delete");
-        ChatAI.increateTicketCount(gameNumber, -1);
+        SessionAPI.increateTicketCount(gameNumber, -1);
         await firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${ticketId}`).delete();
         await firebaseAdmin.firestore().doc(`Games/${gameNumber}/assists/${ticketId}`).delete();
         await firebaseAdmin.firestore().doc(`Games/${gameNumber}/packets/${ticketId}`).delete();
