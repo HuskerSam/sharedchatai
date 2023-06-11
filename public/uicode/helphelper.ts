@@ -15,6 +15,10 @@ export class HelpHelper {
         this.app = app;
         this.wrapperClass = wrapperClass;
         this.addModalToDOM();
+
+        this.modalContainer.addEventListener("hidden.bs.modal", () => {
+            if (document.body.querySelector('.modal.show')) document.body.classList.add('modal-open');
+        });
     }
     /** instaniate and add modal #loginModal */
     addModalToDOM() {
@@ -27,7 +31,7 @@ export class HelpHelper {
 
         this.modalContainer.children[0].addEventListener("shown.bs.modal", () => {
             this.help_dialog_close_button.focus();
-          });
+        });
         this.help_show_modal = document.querySelector(".help_show_modal");
         this.help_viewer_iframe = document.querySelector(".help_viewer_iframe");
         this.help_dialog_header = document.querySelector(".help_dialog_header");

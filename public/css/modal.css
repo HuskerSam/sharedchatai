@@ -311,7 +311,7 @@
 }
 
 .modal-dialog .app_panel {
-  background: rgb(30, 30, 70);
+  background: rgb(50,50,100);
 }
 
 .modal-dialog {
@@ -325,8 +325,4 @@
 
 .document_usage_stats_line {
   text-align: center;
-}
-
-.show_threshold_dialog {
-  display: none;
 }

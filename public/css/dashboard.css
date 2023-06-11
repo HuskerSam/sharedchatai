@@ -122,8 +122,8 @@ button.code_link {
 
 .details_game {
   align-self: flex-start;
-  border-color: rgb(170, 170, 170);
-  background: rgba(0, 0, 0, .2);
+  border-color:transparent;
+  background: rgba(255,255,255,0.1);
   position: relative;
   right: -4px;
   padding: 0;
@@ -240,7 +240,7 @@ button.code_link {
   background: none;
   border-color: transparent;
   position: relative;
-  left: -8px;
+  left: -16px;
 }
 
 .document_shared_status_icon_wrapper span {
