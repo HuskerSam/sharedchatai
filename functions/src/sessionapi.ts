@@ -382,7 +382,7 @@ export default class SessionAPI {
             if (sessionDocumentData.archived) {
                 throw new Error("Submit Blocked: Document is set to archived");
             }
-    
+
             const usageLimit = BaseClass.getNumberOrDefault(sessionDocumentData.tokenUsageLimit, 0);
             const documentUsed = BaseClass.getNumberOrDefault(sessionDocumentData.totalTokens, 0);
             if (usageLimit > 0 && documentUsed >= usageLimit) {
@@ -407,7 +407,7 @@ export default class SessionAPI {
                 created: new Date().toISOString(),
                 error: usageErrorObject.message,
                 submitted,
-            }
+            };
         }
 
         const today = new Date().toISOString();
