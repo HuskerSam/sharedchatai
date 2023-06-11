@@ -158,7 +158,7 @@ export default class DocOptionsHelper {
             this.app.showOverthresholdToSendModal();
         });
 
-        this.code_link_copy.addEventListener("click", () => this.copyGameLink());
+        this.code_link_copy.addEventListener("click", () => BaseApp.copyGameLink(this.chatDocumentId, this.code_link_copy));
 
         this.show_packets_dialog = this.modalContainer.querySelector(".show_packets_dialog");
         this.show_packets_dialog.addEventListener("click", () => this.showPacketsDialog());
@@ -182,14 +182,6 @@ export default class DocOptionsHelper {
         this.doc_options_import_rows_preview.innerHTML = records.length + " rows";
         if (records.length > 0) this.modal_send_tickets_to_api_button.style.visibility = "visible";
         else this.modal_send_tickets_to_api_button.style.display = "hidden";
-    }
-    /** copy game url link to clipboard
-     */
-    copyGameLink() {
-        navigator.clipboard.writeText(window.location.origin + "/session/?id=" + this.chatDocumentId);
-        const buttonText = `<span class="material-icons">link</span>`;
-        this.code_link_copy.innerHTML = "✅ " + buttonText;
-        setTimeout(() => this.code_link_copy.innerHTML = buttonText, 1200);
     }
     /** copy export text area to clipboard */
     copyExportToClipboard() {

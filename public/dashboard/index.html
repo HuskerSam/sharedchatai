@@ -52,7 +52,7 @@
 </head>
 
 <body>
-  <div class="main_outer_view basic_page_wrapper app_panel">
+  <div class="main_outer_view basic_page_wrapper app_panel" style="min-height: 100vh;">
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
       <a class="navbar-brand" href="/"><img src="/images/fulllogo600x200.png"></a>
           <button class="my-3 btn btn-success dashboard_create_game">
@@ -65,12 +65,23 @@
       <div class="menu_profile_name_spacer"></div>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="show_dashboard_help_button nav-link" href="/dashboard">
+              <span class="mobile_custom_icon_label">
+                <i class="material-icons">help</i>
+              </span>
+              <span class="mobile_custom_title_label">
+                Help
+              </span>
+            </a>
+          </li>
           <li class="nav-item signed_in_options">
             <a class="nav-link show_profile_modal profile_menu_anchor" href="profile">
                 <span class="menu_profile_user_image_span"></span>
                 <span class="menu_profile_user_name_span"></span>
             </a>
           </li>
+
         </ul>
       </div>
     </nav>
@@ -98,9 +109,8 @@
           <select class="document_label_filter form-select form-select-lg">
             <option>All</option>
           </select>
-          <button class="btn btn-secondary show_dashboard_help_button"><i class="material-icons">help</i></button>
         </div>
-        <div class="d-flex text-start document_info_header align-items-end">
+        <div class="d-flex text-start document_info_header align-items-end" style="display:none!important;">
           <div class="document_info_header_left">Title</div>
           <div class="document_info_header_right">
             <div class="text-start">Options</div>

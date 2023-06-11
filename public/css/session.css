@@ -73,7 +73,7 @@ html {
 }
 
 .member_activity_wrapper {
-  margin-right: 12px;
+  margin-right: 18px;
 }
 
 .member_prompt_count {
@@ -164,6 +164,12 @@ html {
   width: 20px;
   height: 20px;
   margin-left: 5px;
+}
+
+.sidebar_stats_wrapper {
+  padding-left: 16px;
+  padding-right: 16px;
+  line-height: 2.5em;
 }
 
 .assist_section {
@@ -262,11 +268,6 @@ html {
   padding-bottom: 22px;
 }
 
-.document_option_model_select_wrapper select {
-  float: left;
-  margin-left: 16px;
-}
-
 ul.recent_documents_list {
   width: 100%;
 }
@@ -299,10 +300,9 @@ ul.recent_documents_list li a {
 }
 
 .sidebar_document_title {
-  padding: 0 8px 12px 8px;
+  padding: 0 8px 12px 16px;
   overflow: hidden;
   max-height: 3em;
-  font-style: italic;
   display: none;
   color: rgb(130, 150, 220);
   flex: 1;
@@ -342,7 +342,6 @@ ul.recent_documents_list li a {
   flex-direction: column;
   position: relative;
 }
-
 
 pre code {
   display: block;
@@ -581,8 +580,6 @@ pre code {
 
 .profile_text_option_large .sidebar_document_title {
   font-size: 1.25em;
-  line-height: 1.75em;
-  max-height: 3.5em;
 }
 
 .profile_text_option_monospace .game_message_list_item .message,
@@ -638,15 +635,6 @@ pre code {
 .header_usage_time_line {
   padding-top: 0px;
   line-height: 45px;
-}
-
-.reset_engine_options_button {
-
-}
-
-.engine_settings_not_default .reset_engine_options_button {
-  background-color: rgb(0, 120, 0);
-  border-color: rgb(70, 220, 70);
 }
 
 .engine_settings_not_default .app_panel .engine_sidebar_menu_button {
@@ -948,7 +936,7 @@ li.mb-1 button.btn.btn-toggle {
   width: 100%;
   text-align: left;
   margin-bottom: 8px;
-} 
+}
 
 li.mb-1 button.btn.btn-toggle {
   font-size: 1.75em;
@@ -956,7 +944,47 @@ li.mb-1 button.btn.btn-toggle {
   width: 100%;
   text-align: left;
   margin-bottom: 8px;
-} 
+  padding-bottom: 4px;
+}
+
 .suppress_transition.btn-toggle::before {
-  transition: none!important;
+  transition: none !important;
+}
+
+li.mb-1 button.btn.btn-toggle[aria-expanded="true"]:before {
+  margin-bottom: -16px;
+  width: 1.1em;
+}
+
+li.mb-1 button.btn.btn-toggle:before {
+  width: 0.75em;
+  transition: margin-bottom .35s ease, transform .35s ease, width .35s ease;
+}
+
+.sidebarusers_link_copy {
+  background: none;
+  border-color: transparent;
+  position: absolute;
+  top: 2px;
+  right: 4px;
+}
+
+.sidebarusers_link_copy span {
+  position: relative;
+  top: 4px;
+}
+
+.reset_engine_options_button {
+  background: none;
+  border-color: transparent;
+  color: rgb(200, 200, 200);
+  position: absolute;
+  top: 7px;
+  right: 4px;
+}
+
+.engine_settings_not_default .reset_engine_options_button {
+  background-color: rgb(0, 120, 0);
+  border-color: rgb(70, 220, 70);
+  color: rgb(240, 240, 240);
 }

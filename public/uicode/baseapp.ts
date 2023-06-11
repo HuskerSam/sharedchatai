@@ -76,6 +76,12 @@ export default class BaseApp {
       if (this.profileHelper) {
         this.profileHelper.updateUserImageAndName();
       }
+      if (this.profile.textOptionsLarge) document.body.classList.add("profile_text_option_large");
+      else document.body.classList.remove("profile_text_option_large");
+      if (this.profile.textOptionsMonospace) document.body.classList.add("profile_text_option_monospace");
+      else document.body.classList.remove("profile_text_option_monospace");
+      if (this.profile.lessTokenDetails) document.body.classList.add("profile_text_less_token_details");
+      else document.body.classList.remove("profile_text_less_token_details");
     }
   }
   /** firebase authorization event handler
@@ -442,5 +448,12 @@ export default class BaseApp {
       return true;
     }
     return false;
+  }
+  /** copy game url link to clipboard
+ */
+  static copyGameLink(sessionId: string, btn: any, buttonText = "<span class=\"material-icons\">link</span>") {
+    navigator.clipboard.writeText(window.location.origin + "/session/?id=" + sessionId);
+    btn.innerHTML = "✅ " + buttonText;
+    setTimeout(() => btn.innerHTML = buttonText, 1200);
   }
 }

@@ -75,6 +75,7 @@ export class SessionApp extends BaseApp {
   menu_nav_bar: any = document.querySelector(".menu_nav_bar");
   left_panel_view: any = document.querySelector(".left_panel_view");
   session_sidebar_splitter_div: any = document.querySelector(".session_sidebar_splitter_div");
+  sidebarusers_link_copy: any = document.querySelector(".sidebarusers_link_copy");
 
   tickets_list: any = document.querySelector(".tickets_list");
   members_list: any = document.querySelector(".members_list");
@@ -238,6 +239,7 @@ export class SessionApp extends BaseApp {
         this.saveSidebarProfileMenu("sidebarRecentExpanded", true);
       }
     });
+    this.sidebarusers_link_copy.addEventListener("click", () => BaseApp.copyGameLink(this.documentId, this.sidebarusers_link_copy));
 
     this.scrollTicketListBottom();
     this.autoSizeTextArea();
@@ -933,12 +935,6 @@ export class SessionApp extends BaseApp {
 
     if (this.profile) {
       this.initRTDBPresence();
-      if (this.profile.textOptionsLarge) document.body.classList.add("profile_text_option_large");
-      else document.body.classList.remove("profile_text_option_large");
-      if (this.profile.textOptionsMonospace) document.body.classList.add("profile_text_option_monospace");
-      else document.body.classList.remove("profile_text_option_monospace");
-      if (this.profile.lessTokenDetails) document.body.classList.add("profile_text_less_token_details");
-      else document.body.classList.remove("profile_text_less_token_details");
 
       const urlSessionId = this.urlParams.get("id");
       if (this.documentId === null && urlSessionId) {
@@ -1026,6 +1022,15 @@ export class SessionApp extends BaseApp {
     if (!windowTitle) windowTitle = "New Prompt+ Session";
     document.title = windowTitle;
 
+    const sharedStatus = ChatDocument.getDocumentSharedStatus(this.sessionDocumentData, this.uid);
+    this.sidebarusers_link_copy.classList.remove("shared_status_not");
+    this.sidebarusers_link_copy.classList.remove("shared_status_withusers");
+    this.sidebarusers_link_copy.classList.remove("shared_status_withothers");
+
+    if (sharedStatus === 0) this.sidebarusers_link_copy.classList.add("shared_status_not");
+    if (sharedStatus === 1) this.sidebarusers_link_copy.classList.add("shared_status_withusers");
+    if (sharedStatus === 2) this.sidebarusers_link_copy.classList.add("shared_status_withothers");
+    
     this.paintDocumentOptions();
     setTimeout(() => {
       this.paintDocumentOptions();

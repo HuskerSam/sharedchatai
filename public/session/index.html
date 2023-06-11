@@ -145,17 +145,18 @@
             <button class="btn btn-secondary show_document_options_modal"><i class="material-icons">settings</i>
             </button>
           </div>
-          <div style="padding-left:8px;padding-right:8px;line-height: 2em;">
+          <div class="sidebar_stats_wrapper">
             <span class="document_menutop_usage_stats_line" style="float:left;"></span>
             <span class="last_activity_display" style="float:right;"></span>
           </div>
           <ul class="list-unstyled ps-0 sidebar_tree">
-            <li class="mb-1">
+            <li class="mb-1" style="position: relative;">
               <button class="btn btn-toggle align-items-center rounded engine_sidebar_menu_button"
                 data-bs-toggle="collapse" data-bs-target="#sidebar_engine_panel" aria-expanded="false">
                 Engine &nbsp;
               </button>
 
+              <button class="btn btn-secondary reset_engine_options_button">Reset</button>
               <div class="collapse" id="sidebar_engine_panel">
                 <button id="show_document_options_popup" style="display:none;" class="btn btn-primary"
                   data-bs-toggle="modal" data-bs-target="#editDocumentModal"></button>
@@ -165,7 +166,6 @@
                     <option disabled="true">gpt-4</option>
                     <option selected>gpt-3.5-turbo</option>
                   </select>
-                  <button class="btn btn-secondary reset_engine_options_button">Reset</button>
                 </div>
                 <div class="sidebar_tree_options_container">
                   <input type="range" class="form-range docfield_max_tokens" min="20" max="4000" step="20">
@@ -181,18 +181,19 @@
                 </div>
               </div>
             </li>
-            <li class="mb-1">
-              <button class="btn btn-toggle align-items-center rounded users_sidebar_menu_button" data-bs-toggle="collapse"
-                data-bs-target="#sidebar_users_panel" aria-expanded="false">
+            <li class="mb-1" style="position: relative;">
+              <button class="btn btn-toggle align-items-center rounded users_sidebar_menu_button"
+                data-bs-toggle="collapse" data-bs-target="#sidebar_users_panel" aria-expanded="false">
                 Users &nbsp;
               </button>
+              <button class="sidebarusers_link_copy btn btn-secondary"><span class="material-icons">link</span></button>
               <div class="collapse" id="sidebar_users_panel">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small members_list"></ul>
               </div>
             </li>
             <li class="mb-1">
-              <button class="btn btn-toggle align-items-center rounded recent_sidebar_menu_button" data-bs-toggle="collapse"
-                data-bs-target="#sidebar_recent_panel" aria-expanded="false">
+              <button class="btn btn-toggle align-items-center rounded recent_sidebar_menu_button"
+                data-bs-toggle="collapse" data-bs-target="#sidebar_recent_panel" aria-expanded="false">
                 Recent &nbsp;
               </button>
               <div class="collapse" id="sidebar_recent_panel" style="position: relative;">

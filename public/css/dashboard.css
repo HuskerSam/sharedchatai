@@ -118,12 +118,19 @@ button.code_link {
   margin-top: auto;
   margin-bottom: auto;
   margin-left: -8px;
+  color: rgb(130, 150, 220);
+}
+
+.profile_text_option_large .document_name {
+  font-size: 1.25em;
+  line-height: 1.75em;
+  max-height: 3.5em;
 }
 
 .details_game {
   align-self: flex-start;
-  border-color:transparent;
-  background: rgba(255,255,255,0.1);
+  background-color:transparent;
+  border-color: rgb(100, 100, 100);
   position: relative;
   right: -4px;
   padding: 0;
@@ -136,6 +143,18 @@ button.code_link {
   top: 4px;
 }
 
+.profile_text_option_large .details_game {
+  font-size: 1.35em;
+  width: 70px;
+}
+
+.list-group-item-action:focus {
+  background-color: rgb(10, 40, 10);
+}
+
+.list-group-item-action {
+  background-color: rgba(5, 30, 30, .5);
+}
 
 .document_info_header {
   border-bottom: 1px solid rgba(222, 226, 230, .5);
@@ -160,25 +179,19 @@ button.code_link {
   text-align: right;
   padding-right: 8px;
   padding-left: 4px;
-  color: rgb(20, 200, 20);
+  color:rgb(200, 200, 200);
 }
 
 .document_usage {
   font-size: .8em;
   text-align: center;
   overflow: hidden;
-  color: yellow;
+  color:rgb(200, 200, 200);
 }
 
 .document_info_header_right {
   position: relative;
   left: 16px;
-}
-
-@media (min-width: 800px) {
-  .document_info_header_right {
-    left: 6px;
-  }
 }
 
 @media (min-width: 440px) {
@@ -190,14 +203,6 @@ button.code_link {
 .unused_chatroom_title_placeholder {
   font-style: italic;
   opacity: .85;
-}
-
-.games_view_header_wraper {
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 12px;
-  display: flex;
-  margin-top: 12px;
 }
 
 .profile_menu_anchor {
@@ -223,15 +228,6 @@ button.code_link {
   white-space: nowrap;
   font-size: 1.25rem;
   align-self: end;
-}
-
-.document_label_filter.form-select {
-  flex: 1;
-}
-
-.document_label_filter {
-  margin-left: 5%;
-  margin-right: 5%;
 }
 
 .document_shared_status_icon_wrapper {
@@ -269,23 +265,6 @@ button.code_link {
 .dashboard_item_flex_wrapper {
   display: flex;
   flex-direction: row;
-  margin-right: -8px;
-  margin-left: -8px;
-}
-
-@media (min-width: 800px) {
-  .dashboard_item_flex_wrapper {
-    margin-right: 0;
-    margin-left: 0;
-  }
-
-  .show_dashboard_help_button {
-    margin-right: 18px;
-  }
-
-  .document_label_filter {
-    margin-right: 20%;
-  }
 }
 
 .menu_profile_name_spacer {
@@ -313,7 +292,6 @@ button.code_link {
 
 .games_view_wrapper {
   display: none;
-  margin: 0 4px;
 }
 
 .documents_feed_loaded .games_view_wrapper {
@@ -338,4 +316,37 @@ button.code_link {
 
 .list_loaded .main_outer_view {
   visibility: visible;
+}
+
+.game_lobby {
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+@media (min-width: 440px) {
+  .game_lobby {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+.document_label_filter.form-select {
+  width: 90%;
+  display: inline-block;
+  position: static;
+}
+
+@media (min-width: 700px) {
+  .document_label_filter.form-select {
+    width: 500px;
+    position: absolute;
+    left: 0px;
+  }
+}
+
+.games_view_header_wraper {
+  margin-top: 24px;
+  text-align: center;
+  min-height: 4em;
+  position: relative;
 }

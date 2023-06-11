@@ -244,11 +244,9 @@ export class DashboardApp extends BaseApp {
     linkCopy.addEventListener("click", (e: any) => {
       e.stopPropagation();
       e.preventDefault();
-      navigator.clipboard.writeText(window.location.origin + "/session/?id=" + data.gameNumber);
-      const buttonText = `<span class="material-icons">link</span>`;
-      linkCopy.innerHTML = "✅ " + buttonText;
-      setTimeout(() => linkCopy.innerHTML = buttonText, 1200);
+      BaseApp.copyGameLink(data.gameNumber, linkCopy);
     });
+
     return card;
   }
   /** update storage to show online for current user */
