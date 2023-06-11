@@ -160,8 +160,8 @@ export default class DocOptionsHelper {
 
         this.code_link_copy.addEventListener("click", () => this.copyGameLink());
 
-            this.show_packets_dialog = this.modalContainer.querySelector(".show_packets_dialog");
-            this.show_packets_dialog.addEventListener("click", () => this.showPacketsDialog());
+        this.show_packets_dialog = this.modalContainer.querySelector(".show_packets_dialog");
+        this.show_packets_dialog.addEventListener("click", () => this.showPacketsDialog());
     }
     /** */
     async showPacketsDialog() {
@@ -317,87 +317,88 @@ export default class DocOptionsHelper {
             <div class="modal-content app_panel">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editDocumentModalLabel">
-                    <button class="code_link_copy btn btn-secondary"><i class="material-icons">link</i></button>
-                    Session Details</h5>
+                        <button class="code_link_copy btn btn-secondary"><i class="material-icons">link</i></button>
+                        Session Details
+                    </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                        <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
+                    <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
                         <li class="nav-item" role="presentation">
-                                <a class="nav-link active" id="export_tab_button" data-bs-toggle="tab" href="#export_tab_view"
-                                    role="tab" aria-controls="export_tab_view" aria-selected="false">Prompts</a>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="options_tab_button" data-bs-toggle="tab"
-                                    href="#options_tab_view" role="tab" aria-controls="options_tab_view"
-                                    aria-selected="true">Options</a>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="owner_tab_button" data-bs-toggle="tab" href="#owner_tab_view"
-                                    role="tab" aria-controls="owner_tab_view" aria-selected="false">Owner</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content">
+                            <a class="nav-link active" id="export_tab_button" data-bs-toggle="tab" href="#export_tab_view"
+                                role="tab" aria-controls="export_tab_view" aria-selected="false">Prompts</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="options_tab_button" data-bs-toggle="tab" href="#options_tab_view"
+                                role="tab" aria-controls="options_tab_view" aria-selected="true">Options</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="owner_tab_button" data-bs-toggle="tab" href="#owner_tab_view" role="tab"
+                                aria-controls="owner_tab_view" aria-selected="false">Owner</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
                         <div class="tab-pane fade show active" id="export_tab_view" role="tabpanel"
-                        aria-labelledby="export_tab_button">
-                        ${exportModalTabHTML}
-                    </div>
+                            aria-labelledby="export_tab_button">
+                            ${exportModalTabHTML}
+                        </div>
                         <div class="tab-pane fade" id="options_tab_view" role="tabpanel"
-                        aria-labelledby="options_tab_button">
-                                <div class="shared_archived_status_wrapper"></div>
-                                <div class="form-check owner_archived_input_wrapper">
-                                    <label class="form-check-label">
-                                        <input class="form-check-input docfield_archived_checkbox" type="checkbox" value="">
-                                        Archived
-                                    </label>
-                                </div>
-                                <hr>
-                                <label class="form-label">Title</label>
-                                <br>
-                                <button class="btn btn-secondary prompt_for_new_title" style="float:right;">Change...</button>
-                                <div class="modal_document_title_display"></div>
-                                <hr>                                
-                                <div class="form-label">Import Session</div>
-                                <div style="line-height:3em;" class="template_import_options_section">
-                                    <button class="btn btn-secondary modal_upload_tickets_button">Select...</button>
-                                    <input class="import_upload_file" style="display:none;" type="file">
-                                    &nbsp;
-                                    <div class="doc_options_import_rows_preview"></div>
-                                    <button class="btn btn-primary modal_send_tickets_to_api_button" 
-                                                        style="visibility:hidden">Import</button>
-                                </div>
-                                <hr>
-                                <label class="form-label">Token Usage Cap (0 for none)</label>
-                                <div style="line-height: 3em">
-                                    <div class="shared_usage_limit_div"></div>
-                                    <button class="btn btn-secondary prompt_for_new_usage">Change...</button>
-                                    <button class="btn btn-secondary show_threshold_dialog">Threshold Dialog</button>
-                                    <button class="btn btn-secondary show_packets_dialog">Packets</button>
-                                </div>
-                                <div class="engine_sub_panel_usage_stat">
+                            aria-labelledby="options_tab_button">
+                            <div class="shared_archived_status_wrapper"></div>
+                            <div class="form-check owner_archived_input_wrapper">
+                                <label class="form-check-label">
+                                    <input class="form-check-input docfield_archived_checkbox" type="checkbox" value="">
+                                    Archived
+                                </label>
+                            </div>
+                            <hr>
+                            <label class="form-label">Title</label>
+                            <br>
+                            <button class="btn btn-secondary prompt_for_new_title" style="float:right;">Change...</button>
+                            <div class="modal_document_title_display"></div>
+                            <hr>
+                            <div class="form-label">Import Session</div>
+                            <div style="line-height:3em;" class="template_import_options_section">
+                                <button class="btn btn-secondary modal_upload_tickets_button">Select...</button>
+                                <input class="import_upload_file" style="display:none;" type="file">
+                                &nbsp;
+                                <div class="doc_options_import_rows_preview"></div>
+                                <button class="btn btn-primary modal_send_tickets_to_api_button"
+                                    style="visibility:hidden">Import</button>
+                            </div>
+                            <hr>
+                            <label class="form-label">Token Usage Cap (0 for none)</label>
+                            <div style="line-height: 3em">
+                                <div class="shared_usage_limit_div"></div>
+                                <button class="btn btn-secondary prompt_for_new_usage">Change...</button>
+                            </div>
+                            <div class="engine_sub_panel_usage_stat">
                                 <div class="document_usage_detail_header">Usage Breakdown</div>
                                 <div class="document_usage_stats_line"></div>
-                            </div>
-                            </div>
-                            <div class="tab-pane fade" id="owner_tab_view" role="tabpanel"
-                                aria-labelledby="owner_tab_button">                        
-                                <label class="form-label">Labels</label>
-                                    <select class="edit_options_document_labels" multiple="multiple"
-                                        style="width:100%"></select>
                                 <hr>
-                                <label class="form-label">Reference</label>
-                                <br>
-                                <button class="btn btn-secondary prompt_for_new_note" style="float:right;">Change...</button>
-                                <div class="owner_note_display_div"></div>                      
-                                <br>
+                                <div style="line-height: 3em;text-align: center;">
+                                    <button class="btn btn-secondary show_threshold_dialog">Manage Threshold</button>
+                                    <button class="btn btn-secondary show_packets_dialog">Packets</button>
+                                </div>
                             </div>
                         </div>
+                        <div class="tab-pane fade" id="owner_tab_view" role="tabpanel" aria-labelledby="owner_tab_button">
+                            <label class="form-label">Labels</label>
+                            <select class="edit_options_document_labels" multiple="multiple" style="width:100%"></select>
+                            <hr>
+                            <label class="form-label">Reference</label>
+                            <br>
+                            <button class="btn btn-secondary prompt_for_new_note" style="float:right;">Change...</button>
+                            <div class="owner_note_display_div"></div>
+                            <br>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="delete_game btn btn-secondary" data-bs-dismiss="modal">
+                    <button class="delete_game btn btn-secondary">
                         Delete
                     </button>
-                    <button class="leave_game btn btn-secondary" data-bs-dismiss="modal">
+                    <button class="leave_game btn btn-secondary">
                         Leave
                     </button>
                     <div style="flex:1"></div>
@@ -405,8 +406,7 @@ export default class DocOptionsHelper {
                         Clone
                     </button>
                     <div style="flex:1"></div>
-                    <button type="button" class="btn btn-primary modal_close_button"
-                        data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary modal_close_button" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
