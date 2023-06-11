@@ -632,11 +632,6 @@ pre code {
   width: 100%;
 }
 
-.token_submit_summary th {
-  font-size: 0.9em;
-  color: rgb(50, 255, 50);
-}
-
 .archived_chat_document .app_panel .engine_sidebar_menu_button {
   color: rgb(255, 50, 50);
 }
@@ -674,10 +669,6 @@ pre code {
 
 .engine_settings_tweaked .app_panel .engine_sidebar_menu_button {
   color: rgb(255, 127, 50);
-}
-
-.description_row {
-  display: none;
 }
 
 .mobile_sidebar_Menu_Layout_container {
@@ -865,11 +856,11 @@ pre code {
   color: rgb(255, 127, 50);
 }
 
-.ticket_sent_api_pending .sidebar_document_title {
+.ticket_sent_api_pending .document_menutop_usage_stats_line {
   color: rgb(240, 240, 50);
 }
 
-.ticket_sent_api_pending.engine_settings_tweaked .sidebar_document_title {
+.ticket_sent_api_pending.engine_settings_tweaked .document_menutop_usage_stats_line {
   color: rgb(255, 127, 50);
 }
 
@@ -960,4 +951,24 @@ button.btn-primary.send_ticket_button {
 
 .show_threshold_dialog {
   display: inline-block;
+}
+
+.token_submit_summary th {
+  text-align: left;
+}
+
+.selected_tickets {
+  padding-right: 2px;
+}
+
+.total_tickets {
+  padding-left: 2px;
+}
+
+.token_submit_summary td {
+  text-align: right;
+}
+
+.token_submit_summary .form-label {
+  text-align: center;
 }

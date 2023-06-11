@@ -216,7 +216,8 @@
             <div class="send_bar_send_button_wrapper">
               <div style="flex:1"></div>
               <button class="send_ticket_button btn btn-primary"><i class="material-icons">send</i>
-                <div class="total_prompt_token_count">0</div></button>
+                <div class="total_prompt_token_count">0</div>
+              </button>
               <div style="flex:1"></div>
             </div>
           </div>
@@ -231,40 +232,62 @@
     <div class="modal-dialog">
       <div class="modal-content app_panel">
         <div class="modal-header">
-          <h5 class="modal-title" id="overthresholdModalDialogLabel">Sequence Limit</h5>
+          <h5 class="modal-title" id="overthresholdModalDialogLabel">Request Threshold</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <table class="token_submit_summary">
             <tr>
-              <th>Total</th>
-              <th>Prompts</th>
-              <th>Completion</th>
-              <th>New</th>
+              <td colspan="2">
+                <div class="form-label">Request Prediction</div>
+              </td>
             </tr>
-            <tr class="value_row">
-              <td class=""><span class="chat_threshold_total_tokens"></span>/4096</td>
-              <td class="ticket_stats"></td>
+            <tr>
+              <th>Source</th>
+              <td>Tokens</td>
+            </tr>
+            <tr>
+              <th>Completion Tokens</th>
               <td class="chat_completion_tokens"></td>
+            </tr>
+            <tr>
+              <th class="ticket_stats"></th>
+              <td class="chat_history_tokens"></td>
+            </tr>
+            <tr>
+              <th>Prompt</th>
               <td class="chat_new_prompt_tokens"></td>
             </tr>
-            <tr class="description_row">
+            <tr>
+              <td colspan="2">
+                <hr>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <div class="form-label">Threshold Summary</div>
+              </td>
+            </tr>
+            <tr>
+              <th>Request</th>
+              <td class="chat_threshold_total_tokens"></td>
+            </tr>
+            <tr>
+              <th>Sequence Limit</th>
               <td>4096</td>
-              <td class="chat_history_tokens"></td>
-              <td>Setting</td>
-              <td>Message</td>
             </tr>
           </table>
           <br>
           <div style="text-align:center">
             <button class="btn btn-secondary show_token_threshold_dialog_help"><i
                 class="material-icons">help</i></button>
-            <button class="btn btn-secondary select_all_tickets_button">Select All</button>
             <button class="btn btn-secondary exclude_tickets_button">Exclude Prompts</button>
             <br style="clear:both">
           </div>
         </div>
         <div class="modal-footer">
+          <button class="btn btn-secondary select_all_tickets_button">Select All</button>
+          <div style="flex:1"></div>
           <button type="button" class="btn btn-secondary modal_close_button" data-bs-dismiss="modal">Close</button>
           <button type="button" class="btn btn-primary auto_run_overthreshold_ticket"
             data-bs-dismiss="modal">Send</button>

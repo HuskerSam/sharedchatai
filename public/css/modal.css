@@ -18,7 +18,7 @@
   background: inherit;
   color: inherit;
   width: 100%;
-  height: 150px;
+  height: 30vh;
   overflow: auto;
   border: solid rgb(50, 220, 50) 1px;
   padding: 4px;
@@ -150,6 +150,7 @@
 }
 
 .show_create_dialog_help,
+.show_token_threshold_dialog_help,
 .show_modal_profile_help {
   background: none;
   position: absolute;

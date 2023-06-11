@@ -552,7 +552,8 @@ export class SessionApp extends BaseApp {
 
     this.ticket_count_span.innerHTML = this.ticketCount;
     this.selected_ticket_count_span.innerHTML = this.selectedTicketCount;
-    this.ticket_stats.innerHTML = this.selectedTicketCount + "/" + this.ticketCount;
+    this.ticket_stats.innerHTML = `Session Prompts (<span class="selected_tickets">` +
+     this.selectedTicketCount + `</span>/<span class="total_tickets">` + this.ticketCount + "</span>)";
 
     if (scrollToBottom) this.scrollTicketListBottom();
   }

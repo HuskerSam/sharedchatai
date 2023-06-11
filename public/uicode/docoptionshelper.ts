@@ -377,7 +377,7 @@ export default class DocOptionsHelper {
                                 <div class="document_usage_stats_line"></div>
                                 <hr>
                                 <div style="line-height: 3em;text-align: center;">
-                                    <button class="btn btn-secondary show_threshold_dialog">Manage Threshold</button>
+                                    <button class="btn btn-secondary show_threshold_dialog">Sequence Limit</button>
                                     <button class="btn btn-secondary show_packets_dialog">Packets</button>
                                 </div>
                             </div>
