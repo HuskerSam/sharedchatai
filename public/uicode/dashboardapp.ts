@@ -16,6 +16,7 @@ export class DashboardApp extends BaseApp {
   new_game_type_wrappers: any = document.querySelectorAll(".new_game_type_wrapper");
   basic_options: any = document.querySelector(".basic_options");
   dashboard_create_game: any = document.querySelector(".dashboard_create_game");
+  dashboard_create_game_mobile: any = document.querySelector(".dashboard_create_game_mobile");
   gameFeedSubscription: any;
   lastGamesFeedSnapshot: any;
   gameFeedInited = false;
@@ -39,7 +40,17 @@ export class DashboardApp extends BaseApp {
 
     this.initRTDBPresence();
 
-    this.dashboard_create_game.addEventListener("click", () => this.documentCreate.show());
+    this.dashboard_create_game.addEventListener("click", (e: any) => {
+      e.preventDefault();
+      e.stopPropagation();
+      this.documentCreate.show();
+    });
+    this.dashboard_create_game_mobile.addEventListener("click", (e: any) => {
+      e.preventDefault();
+      e.stopPropagation();
+      this.documentCreate.show();
+    });
+
     this.document_label_filter.addEventListener("input", () => {
       firebase.firestore().doc(`Users/${this.uid}`).set({
         defaultDashboardLabel: this.document_label_filter.value,
@@ -149,7 +160,7 @@ export class DashboardApp extends BaseApp {
       let labels = doc.data().label;
       if (!labels) labels = "";
       const labelsArray = labels.split(",");
-      if (labelFilter === "All" || labelsArray.indexOf(labelFilter) !== -1) {
+      if (labelFilter === "All Sessions" || labelsArray.indexOf(labelFilter) !== -1) {
         let card: any = this.dashboard_documents_view.querySelector(`a[gamenumber="${doc.id}"]`);
         if (!card) {
           card = this.getDocumentCardElement(doc);
@@ -286,7 +297,7 @@ export class DashboardApp extends BaseApp {
   */
   paintLabelSelect(firstLoad = false) {
     const labels = this.getLabelsList();
-    let html = "<option>All</option>";
+    let html = "<option>All Sessions</option>";
     const startingValue = this.document_label_filter.value;
 
     labels.forEach((label: string) => html += `<option>${label}</option>`);

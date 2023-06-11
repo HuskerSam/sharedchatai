@@ -143,7 +143,7 @@ export default class BaseApp {
     this.profile = {
       displayName,
       displayImage,
-      documentLabels: "Personal,Business,Archived",
+      documentLabels: "Personal,Business,Revisit",
     };
 
     this.profileDefaulted = true;
