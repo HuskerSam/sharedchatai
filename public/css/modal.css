@@ -361,3 +361,7 @@
   position: relative;
   top: 3px;
 }
+
+#userProfileModal .form-check-label {
+  min-width: 145px;
+}

@@ -110,7 +110,7 @@ export default class DocCreateHelper {
               <label class="form-label">Import Previous Session</label>
               <br>
               <button class="btn btn-secondary modal_create_template_tickets_button">Select...</button>
-              <input class="create_modal_template_file" style="display:none;" type="file">
+              <input class="create_modal_template_file" style="display:none;" type="file" accept=".json,.csv">
             </div>
             &nbsp;
             <div class="parsed_file_status"></div>

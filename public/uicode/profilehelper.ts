@@ -39,7 +39,7 @@ export default class ProfileHelper {
         this.modalContainer.innerHTML = html;
         document.body.appendChild(this.modalContainer);
         this.modalContainer.children[0].addEventListener("shown.bs.modal", () => {
-            this.profile_text_large_checkbox.focus();
+            // this.profile_text_large_checkbox.focus();
           });
 
         this.modal_close_button = this.modalContainer.querySelector(".modal_close_button");
@@ -205,11 +205,12 @@ export default class ProfileHelper {
     
                             <label class="form-label">Default Labels - [Enter] to add</label>
                             <br>
-                            <select class="label_profile_picker" multiple="multiple" style="width:100%;min-height:6em"></select>
+                            <select class="label_profile_picker" multiple="multiple" style="width:95%;min-height:6em"></select>
                             <br>
                         </div>
                         <div class="tab-pane fade" id="profile_user_usage_view" role="tabpanel"
                             aria-labelledby="usage_labels_tab_button">
+                            <div class="form-label">Owner Session Usage</div>
                             <div class="chat_token_usage_display">&nbsp;</div>
                         </div>
                     </div>
@@ -488,7 +489,7 @@ export default class ProfileHelper {
                 <span class="total_token">Total</span>
                 <span class="completion_token">Completion</span>
                 <span class="prompt_token">Prompt</span>`;
-        this.chat_token_usage_display.innerHTML = `<div class="form-label">Usage by this account</div>` +
+        this.chat_token_usage_display.innerHTML = `` +
             `<div class="token_usage_table">` +
             `<div class="token_usage_row header">` + headerRow + "</div>" +
             `<div class="token_usage_row">` + todayDisplay + "</div>" +

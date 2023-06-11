@@ -899,7 +899,7 @@ pre code {
   text-align: center;
 }
 
-.engine_settings_not_default .total_prompt_token_count {
+.engine_settings_minor_tweaked .total_prompt_token_count {
   color: rgb(240, 240, 50);
 }
 
@@ -920,7 +920,7 @@ button.btn-primary.send_ticket_button {
   margin-bottom: -6px;
 }
 
-.engine_settings_tweaked .send_ticket_button {
+.engine_settings_tweaked .send_ticket_button i {
   color: rgb(255, 127, 50);
 }
 

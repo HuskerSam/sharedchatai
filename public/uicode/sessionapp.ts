@@ -1069,12 +1069,17 @@ export class SessionApp extends BaseApp {
     if (this.sessionDocumentData.archived) document.body.classList.add("archived_chat_document");
     else document.body.classList.remove("archived_chat_document");
 
-    if (this.testForEngineNotDefault()) document.body.classList.add("engine_settings_not_default");
+    const notDefault = this.testForEngineNotDefault();
+    if (notDefault) document.body.classList.add("engine_settings_not_default");
     else document.body.classList.remove("engine_settings_not_default");
 
-    if (this.testForEngineTweaked()) document.body.classList.add("engine_settings_tweaked");
+    const tweaked = this.testForEngineTweaked()
+    if (tweaked) document.body.classList.add("engine_settings_tweaked");
     else document.body.classList.remove("engine_settings_tweaked");
 
+    if (this.sessionDocumentData.max_tokens !== 500) document.body.classList.add("engine_settings_minor_tweaked");
+    else document.body.classList.remove("engine_settings_minor_tweaked");
+   
     const debounce = (this.lastDocumentOptionChange + 500 > new Date().getTime());
 
     this.docfield_model.value = this.sessionDocumentData.model;

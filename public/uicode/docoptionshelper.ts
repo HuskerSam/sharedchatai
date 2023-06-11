@@ -392,7 +392,7 @@ export default class DocOptionsHelper {
                             <div class="form-label">Import Session</div>
                             <div style="line-height:3em;" class="template_import_options_section">
                                 <button class="btn btn-secondary modal_upload_tickets_button">Select...</button>
-                                <input class="import_upload_file" style="display:none;" type="file">
+                                <input class="import_upload_file" style="display:none;" type="file" accept=".json,.csv">
                                 &nbsp;
                                 <div class="doc_options_import_rows_preview"></div>
                                 <button class="btn btn-primary modal_send_tickets_to_api_button"
