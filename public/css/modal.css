@@ -18,9 +18,10 @@
   background: inherit;
   color: inherit;
   width: 100%;
-  height: 30vh;
+  min-height: 5em;
+  flex: 1;
   overflow: auto;
-  border: solid rgb(50, 220, 50) 1px;
+  border: solid rgb(180, 255, 180) 1px;
   padding: 4px;
   background-color: rgb(52, 53, 65);
 }
@@ -34,9 +35,9 @@
   white-space: pre;
 }
 
-
 .export_bottom_bar {
-  text-align: right;
+  text-align: left;
+  line-height: 4em;
 }
 
 .modal_options_shared_user #owner_tab_view,
@@ -115,7 +116,12 @@
 }
 
 .copy_export_clipboard {
-  padding-bottom: 0;
+  background-color: transparent;
+}
+
+.copy_export_clipboard span {
+  top: 3px;
+  position: relative;
 }
 
 .code_link_copy {
@@ -125,9 +131,9 @@
   top: -2px;
 }
 
-.code_link_copy i {
+.code_link_copy span {
   position: relative;
-  top: 3px;
+  top: 5px;
 }
 
 .help_viewer_iframe {
@@ -178,6 +184,9 @@
   background: none;
   border-color: transparent;
   color: rgb(200, 125, 200);
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 .show_create_dialog_help i,
@@ -221,13 +230,13 @@
 }
 
 .app_panel.modal-content .btn-check:checked+.btn-outline-primary label {
-  color: rgb(50, 220, 50);
+  color: rgb(180, 255, 180);
 }
 
 .sign_out_button,
 .delete_game {
-  color: rgb(255, 100, 100);
-  background-color: rgb(52, 53, 65);
+  color: rgb(255, 50, 50);
+  background-color: rgba(0, 0, 0, .3);
 }
 
 .modal .modal-dialog .btn-close {
@@ -342,4 +351,13 @@
 .token_usage_document_limit_header {
   float: left;
   margin-right: 16px;
+}
+
+.tab-content>#export_tab_view.active {
+  display: flex;
+} 
+
+.export_size {
+  position: relative;
+  top: 3px;
 }

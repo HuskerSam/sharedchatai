@@ -184,7 +184,6 @@ html {
 
 .tokens_total {
   padding: 4px;
-  color: rgb(200, 240, 190);
 }
 
 .tokens_total_since_wrapper {
@@ -466,8 +465,7 @@ pre code {
 .show_document_options_modal:hover,
 .show_document_options_help:hover {
   background: rgb(127, 127, 127);
-  border: white;
-  color: white;
+  color: rgb(240, 240, 240);
 }
 
 .ticket_content_input {

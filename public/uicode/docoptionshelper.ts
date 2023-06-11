@@ -187,7 +187,7 @@ export default class DocOptionsHelper {
      */
     copyGameLink() {
         navigator.clipboard.writeText(window.location.origin + "/session/?id=" + this.chatDocumentId);
-        const buttonText = `<i class="material-icons">link</i>`;
+        const buttonText = `<span class="material-icons">link</span>`;
         this.code_link_copy.innerHTML = "✅ " + buttonText;
         setTimeout(() => this.code_link_copy.innerHTML = buttonText, 1200);
     }
@@ -205,7 +205,7 @@ export default class DocOptionsHelper {
         } else {
             navigator.clipboard.writeText(this.lastReportData.resultText);
         }
-        const buttonText = `<i class="material-icons">content_copy</i>`;
+        const buttonText = `<span class="material-icons">content_copy</span>`;
         this.copy_export_clipboard.innerHTML = "✅ " + buttonText;
         setTimeout(() => this.copy_export_clipboard.innerHTML = buttonText, 1200);
     }
@@ -237,7 +237,7 @@ export default class DocOptionsHelper {
     }
     /** prompt and send not to api */
     promptForNewNote() {
-        let newNote = prompt("Reference Note", this.docData.note);
+        let newNote = prompt("Owner Note", this.docData.note);
         if (newNote !== null) {
             newNote = newNote.trim();
             this.docData.note = newNote;
@@ -310,19 +310,18 @@ export default class DocOptionsHelper {
      * @return { string } html template as string
      */
     getModalTemplate(): string {
-        const exportModalTabHTML = this.getModalTabExportHTML();
         return `<div class="modal fade scrollable_modal" id="editDocumentModal" tabindex="-1" aria-labelledby="editDocumentModalLabel"
         aria-hidden="true">
         <div class="modal-dialog app_panel">
             <div class="modal-content app_panel">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editDocumentModalLabel">
-                        <button class="code_link_copy btn btn-secondary"><i class="material-icons">link</i></button>
+                        <button class="code_link_copy btn btn-secondary"><span class="material-icons">link</span></button>
                         Session Details
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" style="display:flex;flex-direction:column">
                     <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
                         <li class="nav-item" role="presentation">
                             <a class="nav-link" id="export_tab_button" data-bs-toggle="tab" href="#export_tab_view"
@@ -337,10 +336,43 @@ export default class DocOptionsHelper {
                                 aria-controls="owner_tab_view" aria-selected="false">Owner</a>
                         </li>
                     </ul>
-                    <div class="tab-content">
+                    <div class="tab-content" style="flex:1;overflow:hidden;display:flex;flex-direction:column;">
                         <div class="tab-pane fade" id="export_tab_view" role="tabpanel"
-                            aria-labelledby="export_tab_button">
-                            ${exportModalTabHTML}
+                            style="flex-direction:column;overflow:hidden;" aria-labelledby="export_tab_button">
+                            <button class="btn btn-secondary show_export_tickets_help"><i class="material-icons">help</i></button>
+                            <div style="line-height: 3em;">
+                                &nbsp;
+                                <span style="padding-right:16px;">Prompts:</span>
+                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                    <input type="radio" class="btn-check" name="tickets_filter" id="all_filter" value="all" checked autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="all_filter">All</label>
+                                    <input type="radio" class="btn-check" name="tickets_filter" id="selected_filter" value="selected"
+                                        autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="selected_filter">Selected</label>
+                                </div>
+                            </div>
+                            <div style="line-height: 3em;">
+                                &nbsp;
+                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                    <input type="radio" class="btn-check" name="export_format_choice" id="text_format" value="text" autocomplete="off"
+                                        checked>
+                                    <label class="btn btn-outline-primary" for="text_format">Text</label>
+                                    <input type="radio" class="btn-check" name="export_format_choice" id="html_format" value="html" autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="html_format">HTML</label>
+                                    <input type="radio" class="btn-check" name="export_format_choice" id="csv_format" value="csv" autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="csv_format">CSV</label>
+                                    <input type="radio" class="btn-check" name="export_format_choice" id="json_format" value="json" autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="json_format">JSON</label>
+                                </div>
+                            </div>
+                            <div class="export_bottom_bar">
+                                <button type="button" class="btn btn-primary download_export_button">Download Session</button>
+                                <button type="button" class="btn btn-secondary copy_export_clipboard"><span
+                                        class="material-icons">content_copy</span></button>
+                                &nbsp;
+                                <span class="export_size"></span>
+                            </div>
+                            <div class="export_data_popup_preview"></div>
                         </div>
                         <div class="tab-pane fade show active" id="options_tab_view" role="tabpanel"
                             aria-labelledby="options_tab_button">
@@ -354,7 +386,7 @@ export default class DocOptionsHelper {
                             <hr>
                             <label class="form-label">Title</label>
                             <br>
-                            <button class="btn btn-secondary prompt_for_new_title" style="float:right;">Change...</button>
+                            <button class="btn btn-secondary prompt_for_new_title" style="float:right;margin-right:8px;">Change...</button>
                             <div class="modal_document_title_display"></div>
                             <hr>
                             <div class="form-label">Import Session</div>
@@ -385,11 +417,11 @@ export default class DocOptionsHelper {
                         </div>
                         <div class="tab-pane fade" id="owner_tab_view" role="tabpanel" aria-labelledby="owner_tab_button">
                             <label class="form-label">Labels</label>
-                            <select class="edit_options_document_labels" multiple="multiple" style="width:100%"></select>
+                            <select class="edit_options_document_labels" multiple="multiple" style="width:95%"></select>
                             <hr>
-                            <label class="form-label">Reference</label>
+                            <label class="form-label">Owner Note</label>
                             <br>
-                            <button class="btn btn-secondary prompt_for_new_note" style="float:right;">Change...</button>
+                            <button class="btn btn-secondary prompt_for_new_note" style="float:right;margin-right:8px;margin-bottom:16px;">Change...</button>
                             <div class="owner_note_display_div"></div>
                             <br>
                         </div>
@@ -410,49 +442,6 @@ export default class DocOptionsHelper {
                     <button type="button" class="btn btn-primary modal_close_button" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
-        </div>
-    </div>`;
-    }
-    /** return dialog html for document export
-     * @return { string } html string
-     */
-    getModalTabExportHTML(): string {
-        return `<div style="display:flex;flex-direction:column">
-        <div style="text-align: center">
-            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" class="btn-check" name="tickets_filter" id="all_filter" value="all"
-                    checked autocomplete="off">
-                <label class="btn btn-outline-primary" for="all_filter">All</label>
-                <input type="radio" class="btn-check" name="tickets_filter" id="selected_filter" value="selected"
-                    autocomplete="off">
-                <label class="btn btn-outline-primary" for="selected_filter">Selected</label>
-            </div>
-            &nbsp;
-            <button class="btn btn-secondary show_export_tickets_help"><i class="material-icons">help</i></button>
-            <br><br>
-            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" class="btn-check" name="export_format_choice" id="text_format" value="text"
-                    autocomplete="off" checked>
-                <label class="btn btn-outline-primary" for="text_format">Text</label>
-                <input type="radio" class="btn-check" name="export_format_choice" id="html_format" value="html"
-                    autocomplete="off">
-                <label class="btn btn-outline-primary" for="html_format">HTML</label>
-                <input type="radio" class="btn-check" name="export_format_choice" id="csv_format" value="csv"
-                    autocomplete="off">
-                <label class="btn btn-outline-primary" for="csv_format">CSV</label>
-                <input type="radio" class="btn-check" name="export_format_choice" id="json_format" value="json"
-                    autocomplete="off">
-                <label class="btn btn-outline-primary" for="json_format">JSON</label>
-            </div>
-        </div>
-        <br>
-        <div class="export_data_popup_preview"></div>
-        <br>
-        <div class="export_bottom_bar">
-            <span class="export_size"></span>&nbsp;
-            <button type="button" class="btn btn-secondary copy_export_clipboard"><i class="material-icons">content_copy</i></button>
-            &nbsp;
-            <button type="button" class="btn btn-primary download_export_button">Save Session</button>
         </div>
     </div>`;
     }
@@ -568,6 +557,7 @@ export default class DocOptionsHelper {
         if (formatFilter === "json" || forceJSON) {
             format = "application/json";
             fileName = "export.json";
+            if (this.documentData.title) fileName = this.documentData.title.substring(0, 50) + ".json";
 
             const rows: any = [];
             tickets.forEach((ticket: any) => {
@@ -583,6 +573,8 @@ export default class DocOptionsHelper {
         } else if (formatFilter === "csv") {
             format = "application/csv";
             fileName = "export.csv";
+            if (this.documentData.title) fileName = this.documentData.title.substring(0, 50) + ".csv";
+
             const rows: any = [];
             tickets.forEach((ticket: any) => {
                 rows.push({
@@ -597,7 +589,7 @@ export default class DocOptionsHelper {
         } else if (formatFilter === "text") {
             format = "plain/text";
             fileName = "report.txt";
-            resultText += "Exported: " + new Date().toISOString().substring(0, 10) + "\n";
+            // resultText += "Exported: " + new Date().toISOString().substring(0, 10) + "\n";
             tickets.forEach((ticket: any) => {
                 const completion = this.messageForCompletion(ticket.id);
                 const prompt = ticket.data().message;
@@ -610,7 +602,7 @@ export default class DocOptionsHelper {
         } else if (formatFilter === "html") {
             fileName = "report.html";
             format = "text/html";
-            resultText += `<div class="export_date">Exported: ${new Date().toISOString().substring(0, 10)}</div>\n`;
+            // resultText += `<div class="export_date">Exported: ${new Date().toISOString().substring(0, 10)}</div>\n`;
             tickets.forEach((ticket: any) => {
                 const prompt = BaseApp.escapeHTML(ticket.data().message);
                 const completion = BaseApp.escapeHTML(this.messageForCompletion(ticket.id));
@@ -660,7 +652,7 @@ export default class DocOptionsHelper {
         this.modalContainer.classList.remove("html_preview");
         this.modalContainer.classList.remove("json_preview");
         this.modalContainer.classList.add(data.formatFilter + "_preview");
-        this.export_size.innerHTML = data.resultText.length;
+        this.export_size.innerHTML = data.resultText.trim().length + " characters";
         const selection = window.getSelection();
         selection.removeAllRanges();
 
@@ -805,7 +797,7 @@ export default class DocOptionsHelper {
             }
         }
 
-        this.code_link_copy.innerHTML = `<i class="material-icons">link</i>`;
+        this.code_link_copy.innerHTML = `<span class="material-icons">link</span>`;
         this.paintDocumentData();
         this.refreshReportData();
     }

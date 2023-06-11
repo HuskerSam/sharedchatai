@@ -245,7 +245,7 @@ export class DashboardApp extends BaseApp {
       e.stopPropagation();
       e.preventDefault();
       navigator.clipboard.writeText(window.location.origin + "/session/?id=" + data.gameNumber);
-      const buttonText = `<i class="material-icons">link</i>`;
+      const buttonText = `<span class="material-icons">link</span>`;
       linkCopy.innerHTML = "✅ " + buttonText;
       setTimeout(() => linkCopy.innerHTML = buttonText, 1200);
     });

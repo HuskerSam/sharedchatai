@@ -251,12 +251,22 @@
               <td class="chat_completion_tokens"></td>
             </tr>
             <tr>
+              <th>Prompt</th>
+              <td class="chat_new_prompt_tokens"></td>
+            </tr>
+            <tr>
               <th class="ticket_stats"></th>
               <td class="chat_history_tokens"></td>
             </tr>
             <tr>
-              <th>Prompt</th>
-              <td class="chat_new_prompt_tokens"></td>
+              <td colspan="2">
+                <div style="text-align:center;line-height: 3.5em;">
+                  <button class="btn btn-secondary show_token_threshold_dialog_help"><i
+                      class="material-icons">help</i></button>
+                  <button class="btn btn-secondary exclude_tickets_button">Exclude Prompts</button>
+                  <br style="clear:both">
+                </div>
+              </td>
             </tr>
             <tr>
               <td colspan="2">
@@ -273,17 +283,10 @@
               <td class="chat_threshold_total_tokens"></td>
             </tr>
             <tr>
-              <th>Sequence Limit</th>
+              <th>Sequential Limit</th>
               <td>4096</td>
             </tr>
           </table>
-          <br>
-          <div style="text-align:center">
-            <button class="btn btn-secondary show_token_threshold_dialog_help"><i
-                class="material-icons">help</i></button>
-            <button class="btn btn-secondary exclude_tickets_button">Exclude Prompts</button>
-            <br style="clear:both">
-          </div>
         </div>
         <div class="modal-footer">
           <button class="btn btn-secondary select_all_tickets_button">Select All</button>
