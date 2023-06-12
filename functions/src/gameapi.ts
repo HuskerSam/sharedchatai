@@ -103,7 +103,7 @@ export default class GameAPI {
     let title = "";
     if (req.body.title) title = req.body.title;
 
-    let tokenUsageLimit = 0;
+    let tokenUsageLimit = 500000;
     if (req.body.tokenUsageLimit) tokenUsageLimit = req.body.tokenUsageLimit;
 
     const game: any = {};

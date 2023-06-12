@@ -74,10 +74,9 @@
 
 .shared_usage_limit_div {
   line-height: 2em;
-  font-weight: bold;
-  font-size: 1.5em;
   display: inline-block;
   width: 100px;
+  text-align: center;
 }
 
 .prompt_for_new_usage {
