@@ -471,4 +471,13 @@ export default class BaseApp {
         merge: true,
       });
     }
+    /**
+     *
+     * @param { number } x incoming number
+     * @returns { string } number with commas
+     */
+    static numberWithCommas(x: number): string {
+      if (isNaN(Number(x))) x = 0;
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
 }

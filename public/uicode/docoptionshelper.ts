@@ -180,8 +180,8 @@ export default class DocOptionsHelper {
     async updateImportRowsDisplay() {
         const records: any = await ChatDocument.getImportDataFromDomFile(this.import_upload_file);
         this.doc_options_import_rows_preview.innerHTML = records.length + " rows";
-        if (records.length > 0) this.modal_send_tickets_to_api_button.style.visibility = "visible";
-        else this.modal_send_tickets_to_api_button.style.display = "hidden";
+        if (records.length > 0) this.modal_send_tickets_to_api_button.style.display = "inline-block";
+        else this.modal_send_tickets_to_api_button.style.display = "none";
     }
     /** copy export text area to clipboard */
     copyExportToClipboard() {
@@ -249,7 +249,7 @@ export default class DocOptionsHelper {
             this.docData.tokenUsageLimit = newLimit;
             this.saveDocumentOwnerOption("usage");
 
-            this.shared_usage_limit_div.innerHTML = this.documentData.tokenUsageLimit;
+            this.shared_usage_limit_div.innerHTML = BaseApp.numberWithCommas(this.documentData.tokenUsageLimit);
         }
     }
     /** */
@@ -328,7 +328,7 @@ export default class DocOptionsHelper {
                                 aria-controls="owner_tab_view" aria-selected="false">Owner</a>
                         </li>
                     </ul>
-                    <div class="tab-content" style="flex:1;overflow:hidden;display:flex;flex-direction:column;">
+                    <div class="tab-content" style="overflow:hidden;display:flex;">
                         <div class="tab-pane fade" id="export_tab_view" role="tabpanel"
                             style="flex-direction:column;overflow:hidden;" aria-labelledby="export_tab_button">
                             <button class="btn btn-secondary show_export_tickets_help"><i class="material-icons">help</i></button>
@@ -373,20 +373,24 @@ export default class DocOptionsHelper {
                         </div>
                         <div class="tab-pane fade show active" id="options_tab_view" role="tabpanel"
                             aria-labelledby="options_tab_button">
-                            <label class="form-label">Title</label>
-                            <br>
-                            <button class="btn btn-secondary prompt_for_new_title" style="float:right;margin-right:8px;">Change...</button>
-                            <div class="modal_document_title_display"></div>
-                            <hr>
-                            <div style="line-height:3em;" class="template_import_options_section">
-                                <button class="btn btn-secondary modal_upload_tickets_button">Upload Session</button>
-                                <input class="import_upload_file" style="display:none;" type="file" accept=".json,.csv">
-                                &nbsp;
-                                <div class="doc_options_import_rows_preview"></div>
-                                <button class="btn btn-primary modal_send_tickets_to_api_button"
-                                    style="visibility:hidden">Import</button>
+                            <div style="padding-bottom: 8px;>
+                                <label class="form-label">Title</label>
+                                <br>
+                                <button class="btn btn-secondary prompt_for_new_title" style="float:right;margin-right:8px;">Change...</button>
+                                <div class="modal_document_title_display"></div>
                             </div>
                             <hr>
+                            <div style="line-height:3.5em;padding-right: 8px;" class="template_import_options_section">
+                                <button class="btn btn-secondary modal_upload_tickets_button">Upload Session</button>
+                                <input class="import_upload_file" style="display:none;" type="file" accept=".json,.csv">
+                                &nbsp; &nbsp;
+                                <div class="doc_options_import_rows_preview"></div>
+                                <br>
+                                <button class="btn btn-primary modal_send_tickets_to_api_button"
+                                    style="display: none;float: right;">Import Prompts</button>
+                                <div style="clear:both"></div>
+                                <hr>
+                            </div>
                             <div>
                                 <div class="shared_archived_status_wrapper"></div>
                                 <div class="form-check owner_archived_input_wrapper">
@@ -395,7 +399,7 @@ export default class DocOptionsHelper {
                                         Archived
                                     </label>
                                 </div>
-                                <div style="float:right;line-height: 3em;text-align: right;">
+                                <div style="float:right;line-height: 3em;text-align: right;margin-right: 8px">
                                     <button class="btn btn-secondary show_threshold_dialog">Threshold</button>
                                     <br>
                                     <button class="btn btn-secondary show_packets_dialog">Packets</button>
@@ -403,10 +407,11 @@ export default class DocOptionsHelper {
                                 <div style="clear:both;"></div>
                             </div>
                             <hr>
+                            <label class="form-label">Usage</label>
+                            <br>
                             <div class="token_usage_document_limit_header">
-                                <label class="form-label">Usage Cap</label>
+                                <span>Cap </span><span class="shared_usage_limit_div"></span>
                                 <div style="line-height: 3.5em">
-                                    <div class="shared_usage_limit_div"></div>
                                     <button class="btn btn-secondary prompt_for_new_usage">Change...</button>
                                 </div>
                             </div>
@@ -723,9 +728,9 @@ export default class DocOptionsHelper {
     /** paint document data */
     paintDocumentData() {
         BaseApp.setHTML(this.document_usage_stats_line,
-            `Total: <span>${this.documentData.totalTokens}</span><br>Prompt: 
-        <span>${this.documentData.promptTokens}</span><br>
-        Completion: <span>${this.documentData.completionTokens}</span>
+            `Total: <span>${BaseApp.numberWithCommas(this.documentData.totalTokens)}</span><br>Prompt: 
+        <span>${BaseApp.numberWithCommas(this.documentData.promptTokens)}</span><br>
+        Response: <span>${BaseApp.numberWithCommas(this.documentData.completionTokens)}</span>
       `);
         this.modal_document_title_display.innerHTML = BaseApp.escapeHTML(this.documentData.title);
 

@@ -174,11 +174,10 @@ export class DashboardApp extends BaseApp {
         if (title === "") title = `<span class="unused_chatroom_title_placeholder">unused</span>`;
         BaseApp.setHTML(titleDom, title);
 
-        const usageDom = card.querySelector(".document_usage");
-        // let usage: string = doc.data().completionTokens;
-        let usage: string = doc.data().totalTickets;
-        if (!usage) usage = "0";
-        BaseApp.setHTML(usageDom, usage);
+        const countDom = card.querySelector(".session_ticket_count");
+        let count: string = doc.data().totalTickets;
+        if (!count) count = "0";
+        BaseApp.setHTML(countDom, count);
 
         const sharedStatus = ChatDocument.getDocumentSharedStatus(doc.data(), this.uid);
         const sharedIcon = card.querySelector(".document_shared_status_icon_wrapper");
@@ -233,9 +232,11 @@ export class DashboardApp extends BaseApp {
         </div>
         <div class="document_name" data-docid="${doc.id}"></div>
         <div>
-          <div class="document_usage" data-docid="${doc.id}"></div> 
           <button class="details_game btn btn-secondary hover_yellow" data-gamenumber="${data.gameNumber}">
-            <span class="material-icons">settings</span>
+            <div>
+              <span class="material-icons settings_icon">settings</span>
+              <span class="session_ticket_count" data-docid="${doc.id}"></span> 
+            </div>
             <div class="document_status time_since last_submit_time" data-timesince="${data.lastActivity}"
             data-showseconds="0"></div>
           </button>

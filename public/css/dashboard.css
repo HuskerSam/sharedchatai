@@ -139,15 +139,11 @@ button.code_link {
   padding-bottom: 0;
 }
 
-.details_game span {
-  position: relative;
-  top: 4px;  
-}
-
 .document_status {
   text-align: center;
   display: block;
   margin-top: -.25em;
+  clear: both;
 }
 
 .profile_text_option_large .details_game {
@@ -172,9 +168,17 @@ button.code_link {
   padding-left: 40px;
 }
 
-.document_usage {
-  text-align: center;
-  display: none;
+.details_game .settings_icon {
+  position: relative;
+  top: 4px;  
+  float: left;
+}
+
+.session_ticket_count {
+  float: right;
+  position: relative;
+  top: 0px;
+  color: rgb(130, 150, 220);
 }
 
 @media (min-width: 440px) {

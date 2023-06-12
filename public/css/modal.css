@@ -58,7 +58,8 @@
   font-weight: bold;
   font-size: 1.5em;
   display: inline-block;
-  padding-right: 2em;
+  padding-right: 2em; 
+  color: rgb(180, 255, 180);
 }
 
 .modal_options_owner_user .shared_archived_status_wrapper {
@@ -68,6 +69,7 @@
 .owner_archived_input_wrapper {
   display: inline-block;
   width: auto;
+  margin-top: 1em;
 }
 
 .modal_options_shared_user .owner_archived_input_wrapper {
@@ -77,8 +79,9 @@
 .shared_usage_limit_div {
   line-height: 2em;
   display: inline-block;
-  width: 100px;
-  text-align: center;
+  width: 50px;
+  text-align: right;
+  overflow: visible;
 }
 
 .prompt_for_new_usage {
@@ -338,19 +341,22 @@
 
 .document_usage_stats_line {
   text-align: center;
+  text-align: right;
+}
+
+.document_usage_stats_line span {
+  display: inline-block;
+  width: 4em;
+  text-align: right;
 }
 
 .engine_sub_panel_usage_stat {
-  float: left;
-}
-
-.document_usage_stats_line {
-  text-align: right;
+  float: right;
 }
 
 .token_usage_document_limit_header {
   float: left;
-  margin-right: 16px;
+  padding-right: 4px;
 }
 
 .tab-content>#export_tab_view.active {
@@ -379,4 +385,14 @@
   width: 24px;
   height: 24px;
   border-color: rgb(127, 127, 127);
+}
+
+#editDocumentModal .tab-pane {
+  overflow: auto;
+  flex: 1;
+  flex-direction:column;
+}
+
+.owner_archived_input_wrapper .form-check-label {
+  margin-right: 0px;
 }
