@@ -137,6 +137,13 @@ button.code_link {
   margin-bottom: auto;
   padding-top: 0;
   padding-bottom: 0;
+  padding-left: 2px;
+  width: 4em;
+  width: 65px;
+}
+
+.profile_text_option_large .details_game {
+  width: 75px;
 }
 
 .document_status {
@@ -144,6 +151,8 @@ button.code_link {
   display: block;
   margin-top: -.25em;
   clear: both;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .profile_text_option_large .details_game {
@@ -171,9 +180,10 @@ button.code_link {
 .details_game .settings_icon {
   position: relative;
   top: 0px;  
-  left: -4px;
+  left: -2px;
   float: left;
 }
+
 
 .session_ticket_count {
   float: right;
@@ -181,6 +191,10 @@ button.code_link {
   top: 0px;
   color: rgb(130, 150, 220);
 }
+
+.profile_text_option_large .details_game .session_ticket_count {
+  top: -4px; 
+} 
 
 @media (min-width: 440px) {
   .owner_name {
