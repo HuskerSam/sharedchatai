@@ -373,27 +373,34 @@ export default class DocOptionsHelper {
                         </div>
                         <div class="tab-pane fade show active" id="options_tab_view" role="tabpanel"
                             aria-labelledby="options_tab_button">
-                            <div class="shared_archived_status_wrapper"></div>
-                            <div class="form-check owner_archived_input_wrapper">
-                                <label class="form-check-label">
-                                    <input class="form-check-input docfield_archived_checkbox" type="checkbox" value="">
-                                    Archived
-                                </label>
-                            </div>
-                            <hr>
                             <label class="form-label">Title</label>
                             <br>
                             <button class="btn btn-secondary prompt_for_new_title" style="float:right;margin-right:8px;">Change...</button>
                             <div class="modal_document_title_display"></div>
                             <hr>
-                            <div class="form-label">Import Session</div>
                             <div style="line-height:3em;" class="template_import_options_section">
-                                <button class="btn btn-secondary modal_upload_tickets_button">Select...</button>
+                                <button class="btn btn-secondary modal_upload_tickets_button">Upload Session</button>
                                 <input class="import_upload_file" style="display:none;" type="file" accept=".json,.csv">
                                 &nbsp;
                                 <div class="doc_options_import_rows_preview"></div>
                                 <button class="btn btn-primary modal_send_tickets_to_api_button"
                                     style="visibility:hidden">Import</button>
+                            </div>
+                            <hr>
+                            <div>
+                                <div class="shared_archived_status_wrapper"></div>
+                                <div class="form-check owner_archived_input_wrapper">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input docfield_archived_checkbox" type="checkbox" value="">
+                                        Archived
+                                    </label>
+                                </div>
+                                <div style="float:right;line-height: 3em;text-align: right;">
+                                    <button class="btn btn-secondary show_threshold_dialog">Threshold</button>
+                                    <br>
+                                    <button class="btn btn-secondary show_packets_dialog">Packets</button>
+                                </div>
+                                <div style="clear:both;"></div>
                             </div>
                             <hr>
                             <div class="token_usage_document_limit_header">
@@ -405,11 +412,6 @@ export default class DocOptionsHelper {
                             </div>
                             <div class="engine_sub_panel_usage_stat">
                                 <div class="document_usage_stats_line"></div>
-                            </div>
-                            <hr style="clear:both;">
-                            <div style="line-height: 4em;text-align: center;">
-                                <button class="btn btn-secondary show_threshold_dialog">Request Threshold</button>
-                                <button class="btn btn-secondary show_packets_dialog">Request Packets</button>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="owner_tab_view" role="tabpanel" aria-labelledby="owner_tab_button">
@@ -654,12 +656,12 @@ export default class DocOptionsHelper {
         const selection = window.getSelection();
         selection.removeAllRanges();
 
-            /*
-        // Select paragraph
-        const range = document.createRange();
-        range.selectNodeContents(this.export_data_popup_preview);
-        selection.addRange(range);
-        */
+        /*
+    // Select paragraph
+    const range = document.createRange();
+    range.selectNodeContents(this.export_data_popup_preview);
+    selection.addRange(range);
+    */
         // this.export_data_popup_preview.focus();
 
         if (download) {
@@ -700,16 +702,20 @@ export default class DocOptionsHelper {
                 alert("Import error");
             }
 
-            this.app.tickets_list.scrollTop = this.app.tickets_list.scrollHeight;
-            setTimeout(() => this.app.tickets_list.scrollTop = this.app.tickets_list.scrollHeight, 100);
+            if (this.app.tickets_list) {
+                this.app.tickets_list.scrollTop = this.app.tickets_list.scrollHeight;
+                setTimeout(() => this.app.tickets_list.scrollTop = this.app.tickets_list.scrollHeight, 100);
+            }
         } catch (error: any) {
             alert("Import failed");
             console.log(error);
             return;
         }
 
-        this.app.tickets_list.scrollTop = this.app.tickets_list.scrollHeight;
-        setTimeout(() => this.app.tickets_list.scrollTop = this.app.tickets_list.scrollHeight, 100);
+        if (this.app.tickets_list) {
+            this.app.tickets_list.scrollTop = this.app.tickets_list.scrollHeight;
+            setTimeout(() => this.app.tickets_list.scrollTop = this.app.tickets_list.scrollHeight, 100);
+        }
 
         this.import_upload_file.value = ""; // clear input
         this.updateImportRowsDisplay();

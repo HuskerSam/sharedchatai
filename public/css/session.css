@@ -954,6 +954,8 @@ li.mb-1 button.btn.btn-toggle:before {
   border-color: transparent;
   position: relative;
   left: -8px;
+  white-space: nowrap;
+  overflow:hidden;
 }
 
 .document_menutop_usage_stats_line {
@@ -969,7 +971,7 @@ li.mb-1 button.btn.btn-toggle:before {
 .engine_options_button_label_menu {
   flex: 1;
   text-align: left;
-  padding-right: 100px;
+  padding-right: 50px;
 }
 
 @media (min-width: 992px) {
@@ -1004,6 +1006,7 @@ li.mb-1 button.btn.btn-toggle:before {
 
   .engine_options_button_label_menu {
     display: none;
+    width: 100px;
   }
 
   .menu_dropdown_label_wrapper {

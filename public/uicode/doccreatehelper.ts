@@ -24,6 +24,7 @@ export default class DocCreateHelper {
   modal_open_new_document: any;
   createDocumentModal: any;
   add_date_as_label_button: any;
+  insert_todaylabel_default_checkbox: any;
 
   /**
    * @param { any } app BaseApp derived application instance
@@ -59,6 +60,12 @@ export default class DocCreateHelper {
     this.parsed_file_status = this.modalContainer.querySelector(".parsed_file_status");
     this.parsed_file_name = this.modalContainer.querySelector(".parsed_file_name");
     this.modal_open_new_document = this.modalContainer.querySelector(".modal_open_new_document");
+    this.insert_todaylabel_default_checkbox = this.modalContainer.querySelector(".insert_todaylabel_default_checkbox");
+    this.insert_todaylabel_default_checkbox.addEventListener("input", () => {
+      const b = this.insert_todaylabel_default_checkbox.checked;
+      this.app.saveProfileField("insertTodayAsLabel", b);
+      if (b) this.addTodayAsLabel();
+    });
 
     this.create_modal_template_file = this.modalContainer.querySelector(".create_modal_template_file");
     this.create_modal_template_file.addEventListener("change", () => this.updateParsedFileStatus());
@@ -78,7 +85,7 @@ export default class DocCreateHelper {
   }
   /**
    * @param { string } d isostring of a date, default today
-   * @return { string  8 digit local date
+   * @return { string } 8 digit local date
   */
   getLocal8DigitDate(d: string = new Date().toISOString()): string {
     const localISOString = BaseApp.isoToLocal(d).toISOString();
@@ -110,7 +117,7 @@ export default class DocCreateHelper {
               <div style="display:inline-block;">
                 <label class="form-label">Session Usage Cap</label>
                 <br>
-                <input type="text" class="form-control document_usage_cap_field" placeholder="blank for none">
+                <input type="text" class="form-control document_usage_cap_field" placeholder="500k by default">
               </div>
               <div style="display:inline-block;">
                 <label class="form-label">Owner Note</label>
@@ -120,6 +127,7 @@ export default class DocCreateHelper {
               <hr>
               <div style="position:relative;">
                 <label class="form-label labels_label">Labels</label>
+                <input class="form-check-input insert_todaylabel_default_checkbox" type="checkbox">
                 <button class="btn btn-secondary add_date_as_label_button">Add Today</button>
                 <br>
                 <select class="create_document_label_options" multiple="multiple" style="width:100%"></select>
@@ -238,6 +246,8 @@ export default class DocCreateHelper {
       }
     });
     this.doccreatehelper_show_modal.click();
+    this.insert_todaylabel_default_checkbox.checked = this.app.profile.insertTodayAsLabel === true;
+    if (this.app.profile.insertTodayAsLabel) this.addTodayAsLabel();
   }
   /** parse template data from file input
    * @param {string } documentId new document to add ticket imports
@@ -285,10 +295,10 @@ export default class DocCreateHelper {
     const queryLabelSelect2 = window.$(".create_document_label_options");
 
     if (queryLabelSelect2.find("option[value='" + today + "']").length) {
-      queryLabelSelect2.val(today).trigger('change');
+      queryLabelSelect2.val(today).trigger("change");
     } else {
       const newOption = new Option(today, today, true, true);
-      queryLabelSelect2.append(newOption).trigger('change');
+      queryLabelSelect2.append(newOption).trigger("change");
     }
   }
 }

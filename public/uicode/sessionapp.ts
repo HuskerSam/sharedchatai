@@ -222,40 +222,29 @@ export class SessionApp extends BaseApp {
 
     this.engine_sidebar_menu_button.addEventListener("click", () => {
       if (this.engine_sidebar_menu_button.getAttribute("aria-expanded") === "false") {
-        this.saveSidebarProfileMenu("sidebarEngineExpanded", false);
+        this.saveProfileField("sidebarEngineExpanded", false);
       } else {
-        this.saveSidebarProfileMenu("sidebarEngineExpanded", true);
+        this.saveProfileField("sidebarEngineExpanded", true);
       }
     });
     this.users_sidebar_menu_button.addEventListener("click", () => {
       if (this.users_sidebar_menu_button.getAttribute("aria-expanded") === "false") {
-        this.saveSidebarProfileMenu("sidebarUsersExpanded", false);
+        this.saveProfileField("sidebarUsersExpanded", false);
       } else {
-        this.saveSidebarProfileMenu("sidebarUsersExpanded", true);
+        this.saveProfileField("sidebarUsersExpanded", true);
       }
     });
     this.recent_sidebar_menu_button.addEventListener("click", () => {
       if (this.recent_sidebar_menu_button.getAttribute("aria-expanded") === "false") {
-        this.saveSidebarProfileMenu("sidebarRecentExpanded", false);
+        this.saveProfileField("sidebarRecentExpanded", false);
       } else {
-        this.saveSidebarProfileMenu("sidebarRecentExpanded", true);
+        this.saveProfileField("sidebarRecentExpanded", true);
       }
     });
     this.sidebarusers_link_copy.addEventListener("click", () => BaseApp.copyGameLink(this.documentId, this.sidebarusers_link_copy));
 
     this.scrollTicketListBottom();
     this.autoSizeTextArea();
-  }
-  /** when user toggles a menu section save it to profile
-   * @param { string } fieldKey field in session doc
-   * @param { any } value string or boolean usually
-  */
-  saveSidebarProfileMenu(fieldKey: string, value: any) {
-    firebase.firestore().doc(`Users/${this.uid}`).set({
-      [fieldKey]: value,
-    }, {
-      merge: true,
-    });
   }
   /** expand prompt input textarea */
   autoSizeTextArea() {
