@@ -48,12 +48,15 @@ export class HomePageApp extends BaseApp {
         if (this.user_profile_help) this.user_profile_help.addEventListener("click", () => this.helpHelper.show("profile"));
         if (this.optimizng_prompts_help) this.optimizng_prompts_help.addEventListener("click", () => this.helpHelper.show("prompts"));
         if (this.shared_sessions_help) this.shared_sessions_help.addEventListener("click", () => this.helpHelper.show("session"));
-        this.sign_out_homepage.addEventListener("click", (e: any) => {
-            if (!confirm("Are you sure you want to signout?")) return;
-            this.profileHelper.authSignout(e);
-            e.preventDefault();
-            return false;
-        });
+        
+        if (this.sign_out_homepage) {
+            this.sign_out_homepage.addEventListener("click", (e: any) => {
+                if (!confirm("Are you sure you want to signout?")) return;
+                this.profileHelper.authSignout(e);
+                e.preventDefault();
+                return false;
+            });
+        }
     }
     /** override event that happens after authentication resolution */
     authUpdateStatusUI(): void {
