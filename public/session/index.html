@@ -86,16 +86,15 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item signed_in_options">
+            <li class="nav-item">
               <a class="nav-link" href="/" style="display: block; max-width:120px">
                 <span class="mobile_custom_icon_label">
                   <img src="/images/fulllogo600x200.png" class="menu_logo_image">
                 </span>
               </a>
             </li>
-
             <li class="nav-item">
-              <a class="show_document_options_help nav-link hover_yellow" href="/dashboard">
+              <a class="show_document_options_help nav-link hover_yellow" href="help">
                 <span class="mobile_custom_icon_label">
                   <i class="material-icons">help</i>
                 </span>
@@ -104,13 +103,13 @@
                 </span>
               </a>
             </li>
-            <li class="nav-item signed_in_options">
+            <li class="nav-item">
               <a class="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
                 <span class="menu_profile_user_image_span hover_yellow"></span>
                 <span class="menu_dropdown_label_wrapper menu_profile_user_name_span"></span>
               </a>
             </li>
-            <li class="nav-item signed_in_options">
+            <li class="nav-item">
               <a class="nav-link show_create_modal hover_yellow" href="create">
                 <span class="mobile_custom_icon_label">
                   <i class="material-icons">add_circle_outline</i>
@@ -120,7 +119,7 @@
                 </span>
               </a>
             </li>
-            <li class="nav-item signed_in_options">
+            <li class="nav-item">
               <a class="info_anchor nav-link hover_yellow" href="/dashboard">
                 <span class="mobile_custom_icon_label">
                   <i class="material-icons-outlined">folder</i>
@@ -142,7 +141,7 @@
               data-bs-toggle="modal" data-bs-target="#createDocumentModal">
               Create Modal
             </button>
-            <li class="mobile_sidebar_Menu_Layout_container"></li>
+            <li class="mobile_sidebar_menu_Layout_container"></li>
           </ul>
         </div>
       </nav>
@@ -165,7 +164,7 @@
             <li class="mb-1" style="position: relative;">
               <button class="btn btn-toggle align-items-center rounded engine_sidebar_menu_button"
                 data-bs-toggle="collapse" data-bs-target="#sidebar_engine_panel" aria-expanded="false">
-                Engine &nbsp;
+                <span class="sidebar_section_title">Engine</span>
               </button>
 
               <button class="btn btn-secondary reset_engine_options_button">Reset</button>
@@ -196,7 +195,7 @@
             <li class="mb-1" style="position: relative;">
               <button class="btn btn-toggle align-items-center rounded users_sidebar_menu_button"
                 data-bs-toggle="collapse" data-bs-target="#sidebar_users_panel" aria-expanded="false">
-                Users &nbsp;
+                <span class="sidebar_section_title">Users</span>
               </button>
               <button class="sidebarusers_link_copy btn btn-secondary"><span class="material-icons">link</span></button>
               <div class="collapse" id="sidebar_users_panel">
@@ -206,7 +205,7 @@
             <li class="mb-1">
               <button class="btn btn-toggle align-items-center rounded recent_sidebar_menu_button"
                 data-bs-toggle="collapse" data-bs-target="#sidebar_recent_panel" aria-expanded="false">
-                Recent &nbsp;
+                <span class="sidebar_section_title">Recent</span>
               </button>
               <div class="collapse" id="sidebar_recent_panel" style="position: relative;">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small recent_documents_list"></ul>

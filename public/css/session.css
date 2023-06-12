@@ -5,14 +5,9 @@ html {
 }
 
 .session_sidebar_splitter_div {
-  visibility: hidden;
   display: flex;
   height: 100%;
   flex-direction: row;
-}
-
-.loaded .session_sidebar_splitter_div {
-  visibility: visible;
 }
 
 .tickets_list {
@@ -604,11 +599,11 @@ pre code {
   color: rgb(255, 127, 50);
 }
 
-.mobile_sidebar_Menu_Layout_container {
+.mobile_sidebar_menu_Layout_container {
   display: none;
 }
 
-.mobile_layout_mode .mobile_sidebar_Menu_Layout_container {
+.mobile_layout_mode .mobile_sidebar_menu_Layout_container {
   display: unset;
 }
 
@@ -944,7 +939,7 @@ li.mb-1 button.btn.btn-toggle:before {
   flex: 1;
   display: flex;
   padding-right: 16px;
-  line-height: 2.5em;
+  line-height: 3em;
 }
 
 .show_document_options_modal {
@@ -1009,10 +1004,6 @@ li.mb-1 button.btn.btn-toggle:before {
     display: none;
   }
 
-  .menu_logo_image {
-    max-width: 80px;
-  }
-
   .mobile_bar_button_wrapper {
     display: none;
   }
@@ -1040,4 +1031,17 @@ li.mb-1 button.btn.btn-toggle:before {
   text-align: left;
   width: 50%;
   padding-left: 8px;
+}
+
+.sidebar_section_title {
+  font-size: 0.7em;
+  line-height: 2.25em;
+}
+
+.desktop_sidebar_menu_wrapper {
+  display: none;
+}
+
+.loaded .desktop_sidebar_menu_wrapper {
+  display: flex;
 }

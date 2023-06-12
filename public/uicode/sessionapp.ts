@@ -71,7 +71,7 @@ export class SessionApp extends BaseApp {
   chat_threshold_total_tokens: any = document.querySelector(".chat_threshold_total_tokens");
   exclude_tickets_button: any = document.querySelector(".exclude_tickets_button");
   sidebar_tree_menu: any = document.querySelector(".sidebar_tree_menu");
-  mobile_sidebar_Menu_Layout_container: any = document.querySelector(".mobile_sidebar_Menu_Layout_container");
+  mobile_sidebar_menu_Layout_container: any = document.querySelector(".mobile_sidebar_menu_Layout_container");
   desktop_sidebar_menu_wrapper: any = document.querySelector(".desktop_sidebar_menu_wrapper");
   menu_nav_bar: any = document.querySelector(".menu_nav_bar");
   left_panel_view: any = document.querySelector(".left_panel_view");
@@ -1205,7 +1205,7 @@ export class SessionApp extends BaseApp {
         document.body.classList.remove("mobile_layout_mode");
         this.menu_nav_bar.classList.remove("fixed-top");
       } else {
-        this.mobile_sidebar_Menu_Layout_container.appendChild(this.sidebar_tree_menu);
+        this.mobile_sidebar_menu_Layout_container.appendChild(this.sidebar_tree_menu);
         document.body.insertBefore(this.menu_nav_bar, document.body.firstChild);
         this.menu_nav_bar.classList.add("fixed-top");
         document.body.classList.add("mobile_layout_mode");

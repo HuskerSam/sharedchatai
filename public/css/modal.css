@@ -90,7 +90,7 @@
 .shared_usage_limit_div {
   line-height: 2em;
   display: inline-block;
-  width: 50px;
+  width: 68px;
   text-align: right;
   overflow: visible;
 }
@@ -147,7 +147,6 @@
   position: relative;
   top: -2px;
 }
-
 
 .help_viewer_iframe {
   width: 100%;
