@@ -356,7 +356,9 @@ export default class DocOptionsHelper {
                                 </div>
                             </div>
                             <div class="export_bottom_bar">
-                                <button type="button" class="btn btn-primary download_export_button">Download Session</button>
+                                <button type="button" class="btn btn-primary download_export_button">
+                                    <i class="material-icons">download</i>    
+                                    Download</button>
                                 <button type="button" class="btn btn-secondary copy_export_clipboard"><span
                                         class="material-icons">content_copy</span></button>
                                 &nbsp;
@@ -437,11 +439,11 @@ export default class DocOptionsHelper {
                     <i class="material-icons">logout</i>Leave
                     </button>
                     <div style="flex:1"></div>
-                    <button class="clone_current_chatroom_button btn btn-primary" data-bs-dismiss="modal">
+                    <button class="clone_current_chatroom_button btn btn-secondary" data-bs-dismiss="modal">
                         Clone
                     </button>
                     <div style="flex:1"></div>
-                    <button type="button" class="btn btn-primary modal_close_button" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary modal_close_button" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

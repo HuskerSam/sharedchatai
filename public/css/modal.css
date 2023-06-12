@@ -47,6 +47,7 @@
 
 .delete_game i,
 .leave_game i,
+.download_export_button i,
 .modal_create_template_tickets_button i,
 .modal_upload_tickets_button i,
 .sign_out_button i {
@@ -398,7 +399,8 @@
   border-color: rgb(127, 127, 127);
 }
 
-.app_panel .form-check-input.modal_open_new_document {
+.app_panel .form-check-input.modal_open_new_document,
+.app_panel .form-check-input.docfield_archived_checkbox {
   width: 24px;
   height: 24px;
   border-color: rgb(127, 127, 127);
