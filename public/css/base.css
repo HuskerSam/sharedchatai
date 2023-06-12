@@ -511,3 +511,12 @@ a.hover_yellow.show_dashboard_help_button:hover i,
 a.hover_yellow.show_document_options_help:hover i {
   color: rgb(240, 240, 50);
 }
+
+.hamburger_span {
+  width: 44px;
+  height: 44px;
+  background-size: contain;
+  background-position: center center;
+  background-image: url('/images/logo64.png');
+  display: inline-block;
+}
