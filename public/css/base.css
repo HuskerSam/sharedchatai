@@ -547,7 +547,9 @@ a.hover_yellow.show_document_options_help:hover i {
   top: 2px;
 }
 
-
+.home_logo_mobile_only {
+  display: none;
+}
 
 @media (min-width: 992px) {
   .mobile_bar_button_wrapper {
@@ -556,6 +558,10 @@ a.hover_yellow.show_document_options_help:hover i {
   
   .menu_bar_doc_title_wrapper {
     display: none;
+  }
+
+  .home_logo_mobile_only {
+    display: block;
   }
 
 }

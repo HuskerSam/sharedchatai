@@ -264,3 +264,6 @@ ul.recent_documents_list li a {
   }
 }
 
+.sign_out_homepage i {
+  color: rgb(255, 50, 50);
+}
