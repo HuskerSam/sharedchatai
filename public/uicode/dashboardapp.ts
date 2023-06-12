@@ -227,18 +227,20 @@ export class DashboardApp extends BaseApp {
      data-gamenumber="${doc.id}" gamenumber="${doc.id}">
     <div class="dashboard_item_flex_wrapper">
         <div>
-          <button class="btn btn-secondary document_shared_status_icon_wrapper">
+          <button class="btn btn-secondary document_shared_status_icon_wrapper hover_yellow">
             <span class="material-symbols-outlined">link</span>
           </button>
         </div>
         <div class="document_name" data-docid="${doc.id}"></div>
         <div>
-        <button class="details_game btn btn-secondary" data-gamenumber="${data.gameNumber}">
           <div class="document_usage" data-docid="${doc.id}"></div> 
-          <div class="document_status time_since last_submit_time" data-timesince="${data.lastActivity}"
+          <button class="details_game btn btn-secondary hover_yellow" data-gamenumber="${data.gameNumber}">
+            <span class="material-icons">settings</span>
+            <div class="document_status time_since last_submit_time" data-timesince="${data.lastActivity}"
             data-showseconds="0"></div>
-        </button>
-      </div> 
+          </button>
+        </div>           
+
     </div></a>`;
     const ctl = document.createElement("div");
     ctl.innerHTML = html;

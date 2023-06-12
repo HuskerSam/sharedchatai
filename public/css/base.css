@@ -69,11 +69,6 @@ a {
   }
 }
 
-.navbar-light .navbar-nav .nav-link,
-.navbar-light .navbar-brand {
-  color: white;
-}
-
 .card {
   background-color: rgba(127, 127, 127, .15);
 }
@@ -238,7 +233,6 @@ a {
 
 select.form-select {
   background-color: rgb(52, 53, 65);
-  color: rgb(240, 240, 240);
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgb%28240,240,240%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
 }
 
@@ -255,11 +249,6 @@ select.form-select {
 .app_panel .form-check-input:focus {
   border-color: white;
   background-color: rgb(100, 100, 50);
-}
-
-
-.navbar-light .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgb%28240,240,240%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
 .nav-tabs .nav-item.show .nav-link,
@@ -408,7 +397,7 @@ button.btn-primary:active {
   background-color: rgba(255, 255, 255, 0.3);
   position: relative;
   float: left;
-  top: 8px;
+  top: -2px;
   border-radius: 6px;
 }
 
@@ -421,7 +410,7 @@ button.btn-primary:active {
 }
 
 .mobile_custom_icon_label i {
-  top: 1px;
+  top: 3px;
   position: relative;
   font-size: 30px;
 }
@@ -443,5 +432,45 @@ button.btn-primary:active {
 }
 
 .menu_logo_image {
-  max-width: 90px;
+  max-width: 100px;
+  display: block;
+}
+
+.navbar-light .navbar-toggler {
+  position: fixed;
+  right: 8px;
+  z-index: 1000;
+  top: 8px;
+  color:  rgb(230, 230, 230);
+}
+
+
+.navbar-light .navbar-toggler  span {
+  font-size: 2em;
+}
+
+.navbar-light .navbar-nav .nav-link,
+.navbar-light .navbar-brand {
+  color: rgb(230, 230, 230);
+}
+
+.hover_yellow {
+  color: rgb(230, 230, 230);
+}
+
+.hover_yellow:focus,
+.hover_yellow:hover {
+  color: rgb(240, 240, 50);
+}
+
+.menu_dropdown_label_wrapper {
+  white-space: nowrap;
+  font-size: 1.5em;
+  padding-left: 8px;
+  position: relative;
+  top: -2px;
+}
+
+.collapse.show .navbar-nav {
+  margin-bottom: 0.75em;
 }

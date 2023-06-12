@@ -54,54 +54,54 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item signed_in_options">
-            <a class="nav-link">
+            <a class="nav-link" href="/" style="width: 140px;display: block;">
               <span class="mobile_custom_icon_label">
                 <img src="/images/fulllogo600x200.png" class="menu_logo_image">
               </span>
             </a>
           </li>
-          <li class="nav-item signed_in_options">
-            <a class="nav-link dashboard_create_game" href="create">
-              <span class="mobile_custom_icon_label">
-                <i class="material-icons">add_circle_outline</i>
-              </span>
-              <span class="mobile_custom_title_label">
-                New Session
-              </span>
-            </a>
-          </li>
           <li class="nav-item">
-            <a class="show_dashboard_help_button nav-link" href="/dashboard">
+            <a class="show_dashboard_help_button nav-link hover_yellow" href="/dashboard">
               <span class="mobile_custom_icon_label">
                 <i class="material-icons">help</i>
               </span>
-              <span class="mobile_custom_title_label">
+              <span class="menu_dropdown_label_wrapper">
                 Help
               </span>
             </a>
           </li>
           <li class="nav-item signed_in_options">
-            <a class="nav-link show_profile_modal profile_menu_anchor" href="profile">
+            <a class="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
                 <span class="menu_profile_user_image_span"></span>
-                <span class="menu_profile_user_name_span"></span>
+                <span class="menu_dropdown_label_wrapper menu_profile_user_name_span"></span>
+            </a>
+          </li>
+          <li class="nav-item signed_in_options">
+            <a class="nav-link dashboard_create_game hover_yellow" href="create">
+              <span class="mobile_custom_icon_label">
+                <i class="material-icons">add_circle_outline</i>
+              </span>
+              <span class="menu_dropdown_label_wrapper">
+                New
+              </span>
             </a>
           </li>
         </ul>
       </div>
       <div class="menu_profile_name_spacer"></div>
       <div class="games_view_header_wraper">
-        <select class="document_label_filter form-select form-select-lg">
+        <select class="document_label_filter form-select form-select-lg hover_yellow">
           <option>All Sessions</option>
         </select>
       </div>
-      <a class="nav-link dashboard_create_game_mobile" href="create">
+      <a class="nav-link dashboard_create_game_mobile hover_yellow" href="create">
         <span class="mobile_custom_icon_label">
           <i class="material-icons">add_circle_outline</i>
         </span>
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      <button class="navbar-toggler hover_yellow" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+        <span class="material-icons">menu</span>
       </button>
     </nav>
     <div class="game_lobby">
@@ -124,12 +124,6 @@
         Help
       </button>
       <div class="games_view_wrapper">
-        <div class="d-flex text-start document_info_header align-items-end" style="display:none!important;">
-          <div class="document_info_header_left">Title</div>
-          <div class="document_info_header_right">
-            <div class="text-start">Options</div>
-          </div>
-        </div>
         <div class="dashboard_documents_view"></div>
       </div>
     </div>
