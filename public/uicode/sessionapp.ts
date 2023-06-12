@@ -170,11 +170,11 @@ export class SessionApp extends BaseApp {
       this.docfield_max_tokens, this.max_tokens_slider_label, "Completion Tokens: "));
 
     this.docfield_model.addEventListener("change", () => {
-     // if (this.sessionDocumentData.archived) {
-        this.docfield_model.value = this.sessionDocumentData.model;
-     // } else {
-     //   this.saveDocumentOption("model", this.docfield_model.value);
-    // }
+      // if (this.sessionDocumentData.archived) {
+      this.docfield_model.value = this.sessionDocumentData.model;
+      // } else {
+      //   this.saveDocumentOption("model", this.docfield_model.value);
+      // }
     });
 
     this.reset_engine_options_button.addEventListener("click", () => this.resetEngineDefaults());
@@ -1004,7 +1004,8 @@ export class SessionApp extends BaseApp {
 
     document.body.classList.add("loaded");
 
-    BaseApp.setHTML(this.document_menutop_usage_stats_line, `<span class="usage">${BaseApp.numberWithCommas(this.sessionDocumentData.totalTokens)}</span> Usage`);
+    BaseApp.setHTML(this.document_menutop_usage_stats_line,
+      `<span class="usage">${BaseApp.numberWithCommas(this.sessionDocumentData.totalTokens)}</span> Usage`);
     BaseApp.setHTML(this.last_activity_display, this.showGmailStyleDate(new Date(this.sessionDocumentData.lastActivity), true));
     BaseApp.setHTML(this.sidebar_document_title, BaseApp.escapeHTML(this.sessionDocumentData.title));
     BaseApp.setHTML(this.menu_bar_doc_title, BaseApp.escapeHTML(this.sessionDocumentData.title));

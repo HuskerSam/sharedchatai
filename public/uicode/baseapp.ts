@@ -460,24 +460,24 @@ export default class BaseApp {
     btn.innerHTML = "✅ " + buttonText;
     setTimeout(() => btn.innerHTML = buttonText, 1200);
   }
-    /** when user toggles a menu section save it to profile
-   * @param { string } fieldKey field in session doc
-   * @param { any } value string or boolean usually
-  */
-    saveProfileField(fieldKey: string, value: any) {
-      firebase.firestore().doc(`Users/${this.uid}`).set({
-        [fieldKey]: value,
-      }, {
-        merge: true,
-      });
-    }
-    /**
-     *
-     * @param { number } x incoming number
-     * @returns { string } number with commas
-     */
-    static numberWithCommas(x: number): string {
-      if (isNaN(Number(x))) x = 0;
-      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  /** when user toggles a menu section save it to profile
+ * @param { string } fieldKey field in session doc
+ * @param { any } value string or boolean usually
+*/
+  saveProfileField(fieldKey: string, value: any) {
+    firebase.firestore().doc(`Users/${this.uid}`).set({
+      [fieldKey]: value,
+    }, {
+      merge: true,
+    });
+  }
+  /**
+   *
+   * @param { number } x incoming number
+   * @return { string } number with commas
+   */
+  static numberWithCommas(x: number): string {
+    if (isNaN(Number(x))) x = 0;
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 }

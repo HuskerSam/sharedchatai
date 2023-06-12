@@ -376,7 +376,8 @@ export default class DocOptionsHelper {
                             <div style="padding-bottom: 8px;>
                                 <label class="form-label">Title</label>
                                 <br>
-                                <button class="btn btn-secondary prompt_for_new_title" style="float:right;margin-right:8px;">Change...</button>
+                                <button class="btn btn-secondary prompt_for_new_title" 
+                                    style="float:right;margin-right:8px;">Change...</button>
                                 <div class="modal_document_title_display"></div>
                             </div>
                             <hr>
