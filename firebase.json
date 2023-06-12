@@ -13,7 +13,14 @@
       "**/.*",
       "**/uicode/**",
       "**/node_modules/**"
-    ]
+    ],
+    "headers": [ {
+      "source" : "**/**",
+      "headers" : [ {
+        "key" : "Access-Control-Allow-Origin",
+        "value" : "*"
+      } ]
+    }]
   },
   "storage": {
     "rules": "storage.rules"

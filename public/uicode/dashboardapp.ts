@@ -215,7 +215,7 @@ export class DashboardApp extends BaseApp {
     if (data.createUser === this.uid) ownerClass += " dashboard_feed_owner_user";
     else ownerClass += " dashboard_feed_shared_user";
 
-    let timeStr = this.isoToLocal(data.created).toISOString().substring(11, 16);
+    let timeStr = BaseApp.isoToLocal(data.created).toISOString().substring(11, 16);
     let hour = Number(timeStr.substring(0, 2));
     const suffix = hour < 12 ? "am" : "pm";
 

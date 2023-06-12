@@ -184,8 +184,7 @@ export default class BaseApp {
       this.uid = loginResult.user.uid;
       const profile = await firebase.firestore().doc(`Users/${this.uid}`).get();
       if (!profile.data() || !profile.data().displayName) {
-        let picture = loginResult.additionalUserInfo.profile.picture;
-        if (picture) picture += "?abc=123";
+        const picture = loginResult.additionalUserInfo.profile.picture;
         await this._authCreateDefaultProfile(loginResult.additionalUserInfo.profile.name, picture);
       }
     }
@@ -293,7 +292,7 @@ export default class BaseApp {
    * @param { string } startTimeISOString iso date GMT referenced
    * @return { Date } JS Date object with date in local time zone reference
    */
-  isoToLocal(startTimeISOString: string): Date {
+  static isoToLocal(startTimeISOString: string): Date {
     const startTime = new Date(startTimeISOString);
     const offset = startTime.getTimezoneOffset();
     return new Date(startTime.getTime() - (offset * 60000));

@@ -1,3 +1,4 @@
+import BaseApp from "./baseapp.js";
 import {
   ChatDocument,
 } from "./chatdocument.js";
@@ -22,6 +23,7 @@ export default class DocCreateHelper {
   parsed_file_name: any;
   modal_open_new_document: any;
   createDocumentModal: any;
+  add_date_as_label_button: any;
 
   /**
    * @param { any } app BaseApp derived application instance
@@ -62,12 +64,28 @@ export default class DocCreateHelper {
     this.create_modal_template_file.addEventListener("change", () => this.updateParsedFileStatus());
     this.create_game_afterfeed_button.addEventListener("click", () => this.createNewGame());
 
+    this.add_date_as_label_button = this.modalContainer.querySelector(".add_date_as_label_button");
+
+    this.add_date_as_label_button.innerHTML = this.getLocal8DigitDate();
+    this.add_date_as_label_button.addEventListener("click", () => this.addTodayAsLabel());
+
     this.modal_close_button = this.modalContainer.querySelector(".modal_close_button");
 
     window.$(".create_document_label_options").select2({
       tags: true,
       placeHolder: "Add labels...",
     });
+  }
+  /**
+   * @param { string } d isostring of a date, default today
+   * @return { string  8 digit local date
+  */
+  getLocal8DigitDate(d: string = new Date().toISOString()): string {
+    const localISOString = BaseApp.isoToLocal(d).toISOString();
+    const year = localISOString.substring(2, 4);
+    const mon = localISOString.substring(5, 7);
+    const day = localISOString.substring(8, 10);
+    return mon + "/" + day + "/" + year;
   }
   /** template as string for modal
    * @return { string } html template as string
@@ -95,16 +113,17 @@ export default class DocCreateHelper {
                 <input type="text" class="form-control document_usage_cap_field" placeholder="blank for none">
               </div>
               <div style="display:inline-block;">
-                <label class="form-label">Reference</label>
+                <label class="form-label">Owner Note</label>
                 <br>
                 <input type="text" class="form-control create_modal_note_field" placeholder="optional">
               </div>
-
               <hr>
-
-              <label class="form-label labels_label">Labels</label>
-              <br>
-              <select class="create_document_label_options" multiple="multiple" style="width:100%"></select>
+              <div style="position:relative;">
+                <label class="form-label labels_label">Labels</label>
+                <button class="btn btn-secondary add_date_as_label_button">Add Today</button>
+                <br>
+                <select class="create_document_label_options" multiple="multiple" style="width:100%"></select>
+              </div>
               <hr>
               <div style="display:inline-block">
               <label class="form-label">Import Previous Session</label>
@@ -224,20 +243,20 @@ export default class DocCreateHelper {
    * @param {string } documentId new document to add ticket imports
    * @return { Promise<boolean> } true if import error
    */
-  async parseSelectedTemplateFile(documentId: string):Promise<boolean> {
+  async parseSelectedTemplateFile(documentId: string): Promise<boolean> {
     try {
       const records = await ChatDocument.getImportDataFromDomFile(this.create_modal_template_file);
 
       if (records.length === 0) {
-          alert("no records found");
-          return true;
+        alert("no records found");
+        return true;
       }
 
       const recordsToUpload: any = ChatDocument.processImportTicketsToUpload(records);
       const error = await ChatDocument.sendImportTicketToAPI(documentId, recordsToUpload, this.app.basePath);
       if (error) {
-          alert("Import error");
-          return true;
+        alert("Import error");
+        return true;
       }
     } catch (error: any) {
       console.log(error);
@@ -260,5 +279,16 @@ export default class DocCreateHelper {
     if (this.create_modal_template_file.files[0]) fileName = this.create_modal_template_file.files[0].name;
     this.parsed_file_name.innerHTML = fileName;
     return importData;
+  }/** add todays yy/mm/dd as label */
+  addTodayAsLabel() {
+    const today = this.getLocal8DigitDate();
+    const queryLabelSelect2 = window.$(".create_document_label_options");
+
+    if (queryLabelSelect2.find("option[value='" + today + "']").length) {
+      queryLabelSelect2.val(today).trigger('change');
+    } else {
+      const newOption = new Option(today, today, true, true);
+      queryLabelSelect2.append(newOption).trigger('change');
+    }
   }
 }

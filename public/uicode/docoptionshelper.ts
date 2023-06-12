@@ -397,7 +397,7 @@ export default class DocOptionsHelper {
                             </div>
                             <hr>
                             <div class="token_usage_document_limit_header">
-                                <label class="form-label">Usage Cap (0 for none)</label>
+                                <label class="form-label">Usage Cap</label>
                                 <div style="line-height: 3.5em">
                                     <div class="shared_usage_limit_div"></div>
                                     <button class="btn btn-secondary prompt_for_new_usage">Change...</button>

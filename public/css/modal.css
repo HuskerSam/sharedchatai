@@ -363,3 +363,9 @@
 #userProfileModal .form-check-label {
   min-width: 145px;
 }
+
+.add_date_as_label_button {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
