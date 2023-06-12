@@ -64,6 +64,7 @@ a {
   .navbar {
     padding-left: 10px;
   }
+
   .navbar-nav .nav-link {
     padding-left: 0px;
   }
@@ -373,14 +374,8 @@ button.btn-primary:active {
   display: inline-block;
 }
 
-@media (min-width: 990px) {
-  .mobile_custom_title_label {
-    display: none;
-  }
-}
-
-.text-success { 
-  color: rgb(100, 255, 100)!important;
+.text-success {
+  color: rgb(100, 255, 100) !important;
 }
 
 .navbar-brand img {
@@ -441,11 +436,11 @@ button.btn-primary:active {
   right: 8px;
   z-index: 1000;
   top: 8px;
-  color:  rgb(230, 230, 230);
+  color: rgb(230, 230, 230);
 }
 
 
-.navbar-light .navbar-toggler  span {
+.navbar-light .navbar-toggler span {
   font-size: 2em;
 }
 
@@ -473,4 +468,17 @@ button.btn-primary:active {
 
 .collapse.show .navbar-nav {
   margin-bottom: 0.75em;
+}
+
+.menu_profile_user_image_span {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  background-position: center center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: relative;
+  top: 2px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
 }

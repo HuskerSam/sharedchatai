@@ -450,6 +450,9 @@ export default class BaseApp {
     return false;
   }
   /** copy game url link to clipboard
+   * @param { string } sessionId firestore doc id
+   * @param { any } btn copy button dom
+   * @param { string } buttonText optional button text (defaults link icon)
  */
   static copyGameLink(sessionId: string, btn: any, buttonText = "<span class=\"material-icons\">link</span>") {
     navigator.clipboard.writeText(window.location.origin + "/session/?id=" + sessionId);

@@ -67,57 +67,65 @@
             <i class="material-icons-outlined">add_circle_outline</i>
           </span>
         </a>
-        <div class="menu_bar_doc_title">loading...</div>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+        <div class="menu_bar_doc_title_wrapper">
+          <div class="menu_bar_doc_title">loading...</div>
+          <div class="mobile_bar_button_wrapper">
+            <a class="hover_yellow folder_link_mobile" href="/dashboard">
+              <span class="mobile_custom_icon_label">
+                <i class="material-icons-outlined">folder</i>
+              </span>
+            </a>
+          </div>
+          <div class="menu_bar_mobile_spacer"></div>
+        </div>
+        <button class="navbar-toggler hover_yellow" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="material-icons">menu</span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item signed_in_options">
-              <a class="nav-link" href="/">
+              <a class="nav-link" href="/" style="display: block; max-width:120px">
                 <span class="mobile_custom_icon_label">
                   <img src="/images/fulllogo600x200.png" class="menu_logo_image">
                 </span>
               </a>
             </li>
-            <li class="nav-item signed_in_options">
-              <a class="nav-link show_create_modal" href="create">
+
+            <li class="nav-item">
+              <a class="show_document_options_help nav-link hover_yellow" href="/dashboard">
                 <span class="mobile_custom_icon_label">
-                  <i class="material-icons-outlined">add_circle_outline</i>
+                  <i class="material-icons">help</i>
                 </span>
-                <span class="mobile_custom_title_label">
-                  New Session
-                </span>
-              </a>
-            </li>
-            <li class="nav-item signed_in_options">
-              <a class="nav-link show_document_options_help" href="help">
-                <span class="mobile_custom_icon_label">
-                  <i class="material-icons-outlined">help</i>
-                </span>
-                <span class="mobile_custom_title_label">
+                <span class="menu_dropdown_label_wrapper">
                   Help
                 </span>
               </a>
             </li>
             <li class="nav-item signed_in_options">
-              <a class="nav-link show_profile_modal" href="profile">
-                <span class="mobile_custom_icon_label">
+              <a class="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
                   <span class="menu_profile_user_image_span"></span>
+                  <span class="menu_dropdown_label_wrapper menu_profile_user_name_span"></span>
+              </a>
+            </li>
+            <li class="nav-item signed_in_options">
+              <a class="nav-link show_create_modal hover_yellow" href="create">
+                <span class="mobile_custom_icon_label">
+                  <i class="material-icons">add_circle_outline</i>
                 </span>
-                <span class="mobile_custom_title_label">
-                  <span class="menu_profile_user_name_span"></span>
+                <span class="menu_dropdown_label_wrapper">
+                  New
                 </span>
               </a>
             </li>
             <li class="nav-item signed_in_options">
-              <a class="info_anchor nav-link" href="/dashboard">
+              <a class="info_anchor nav-link hover_yellow" href="/dashboard">
                 <span class="mobile_custom_icon_label">
                   <i class="material-icons-outlined">folder</i>
                 </span>
-                <span class="mobile_custom_title_label">
+                <span class="menu_dropdown_label_wrapper">
                   Sessions
                 </span>
               </a>
@@ -143,9 +151,9 @@
           <div class="doc_title_wrapper_flex">
             <div class="side_bar_title_wrapper">
               <div class="sidebar_document_title"></div>
-              <button class="btn btn-secondary show_document_options_modal">
+              <button class="btn btn-secondary show_document_options_modal hover_yellow">
                 <i class="material-icons">settings</i>
-                <span class="engine_options_button_label_menu">Options</span>
+                <span class="engine_options_button_label_menu menu_dropdown_label_wrapper">Options</span>
               </button>
             </div>
             <div class="sidebar_stats_wrapper">

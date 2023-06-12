@@ -193,19 +193,6 @@ button.code_link {
   display: flex;
 }
 
-.menu_profile_user_image_span {
-  display: inline-block;
-  width: 32px;
-  height: 32px;
-  background-position: center center;
-  background-size: contain;
-  background-repeat: no-repeat;
-  position: relative;
-  top: 2px;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 6px;
-}
-
 .document_shared_status_icon_wrapper {
   margin-top: auto;
   margin-bottom: auto;

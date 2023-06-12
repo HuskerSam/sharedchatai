@@ -1030,7 +1030,7 @@ export class SessionApp extends BaseApp {
     if (sharedStatus === 0) this.sidebarusers_link_copy.classList.add("shared_status_not");
     if (sharedStatus === 1) this.sidebarusers_link_copy.classList.add("shared_status_withusers");
     if (sharedStatus === 2) this.sidebarusers_link_copy.classList.add("shared_status_withothers");
-    
+
     this.paintDocumentOptions();
     setTimeout(() => {
       this.paintDocumentOptions();

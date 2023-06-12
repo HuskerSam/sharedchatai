@@ -542,6 +542,11 @@ pre code {
   margin-top: -6px;
 }
 
+.profile_text_option_large .menu_bar_doc_title {
+  font-size: 1.25em;
+  line-height: 1.5em;
+}
+
 .profile_text_option_large .sidebar_document_title {
   font-size: 1.25em;
 }
@@ -635,7 +640,11 @@ pre code {
 }
 
 .mobile_layout_mode .right_panel_view {
-  margin-top: 4em;
+  margin-top: 4.25em;
+}
+
+.mobile_layout_mode.profile_text_option_large .right_panel_view {
+  margin-top: 5em;
 }
 
 @media (min-width: 990px) {
@@ -733,32 +742,41 @@ pre code {
   color: yellow;
 }
 
-.navbar-toggler:hover {
-  background-color: rgb(127, 127, 127);
+.menu_bar_doc_title_wrapper {
+  display: flex;
+  height: 3em;
+  overflow: hidden;
+  width: 100%;
 }
 
-.navbar-toggler:focus {
-  color: white;
+.menu_bar_mobile_spacer {
+  width: 80px;
 }
 
-.mobile_custom_title_label {
+.folder_link_mobile {
   position: relative;
-  top: -8px;
+  line-height: 1.5em;
+  width: 50px;
+  display: block;
+  text-align: center;
+  top: 4px;
 }
 
-.menu_profile_user_name_span {
-  top: 8px;
-  position: relative;
+.folder_link_mobile i {
+  font-size: 36px;
+  top: 2px;
 }
 
 .menu_bar_doc_title {
+  flex: 1;
   padding-left: 12px;
   white-space: nowrap;
   color: rgb(130, 150, 220);
   font-size: 1.1em;
-  max-height: 2em;
-  max-width: calc(100% - 56px);
+  height: 2em;
   overflow: hidden;
+  margin-top: 0.5em;
+  flex: 1;
 }
 
 .ticket_sent_api_pending .menu_bar_doc_title {
@@ -1009,7 +1027,7 @@ li.mb-1 button.btn.btn-toggle:before {
     position: static;
   }
 
-  .menu_bar_doc_title {
+  .menu_bar_doc_title_wrapper {
     display: none;
   }
 
@@ -1039,6 +1057,18 @@ li.mb-1 button.btn.btn-toggle:before {
   }
 
   .engine_options_button_label_menu {
+    display: none;
+  }
+
+  .menu_dropdown_label_wrapper {
+    display: none;
+  }
+
+  .menu_logo_image {
+    max-width: 80px;
+  }
+
+  .mobile_bar_button_wrapper {
     display: none;
   }
 }
