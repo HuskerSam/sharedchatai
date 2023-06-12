@@ -251,7 +251,10 @@
     <div class="modal-dialog">
       <div class="modal-content app_panel">
         <div class="modal-header">
-          <h5 class="modal-title" id="overthresholdModalDialogLabel">Request Threshold</h5>
+          <h5 class="modal-title" id="overthresholdModalDialogLabel">
+            <span class="dialog_header_icon"><i class="material-icons">data_thresholding</i></span>
+            Threshold
+          </h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -277,8 +280,10 @@
           <div style="text-align:center;line-height: 3.5em;">
             <button class="btn btn-secondary show_token_threshold_dialog_help"><i
                 class="material-icons">help</i></button>
-            <button class="btn btn-secondary exclude_tickets_button">Exclude Prompts</button>
-            <br style="clear:both">
+            <button class="btn btn-secondary exclude_tickets_button">
+              <i class="material-icons">check_box_outline_blank</i>
+              Exclude
+            </button>
           </div>
           <hr>
           <div class="form-label" style="text-align: center;">Sequential Limit Test</div>
@@ -292,13 +297,23 @@
               <td><b>4096</b></td>
             </tr>
           </table>
+          <div style="text-align: center;line-height: 3.5em;">
+            <button type="button" class="btn btn-primary auto_run_overthreshold_ticket">
+              <i class="material-icons">send</i>
+              Send
+            </button>
+          </div>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-secondary select_all_tickets_button">Select All</button>
+          <button class="btn btn-secondary select_all_tickets_button">
+            <i class="material-icons">select_all</i>
+            Prompts
+          </button>
           <div style="flex:1"></div>
-          <button type="button" class="btn btn-secondary modal_close_button" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary auto_run_overthreshold_ticket"
-            data-bs-dismiss="modal">Send</button>
+          <button type="button" class="btn btn-secondary modal_close_button" data-bs-dismiss="modal">
+            <i class="material-icons">cancel</i>
+            Close
+          </button>
         </div>
       </div>
     </div>

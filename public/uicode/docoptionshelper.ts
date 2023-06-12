@@ -17,7 +17,7 @@ export default class DocOptionsHelper {
     shared_archived_status_wrapper: any = null;
     shared_usage_limit_div: any = null;
     copy_export_clipboard: any = null;
-    code_link_copy: any;
+    session_header_link_button: any;
     wrapperClass = "";
     chatDocumentId = "";
     prompt_for_new_note: any;
@@ -139,7 +139,7 @@ export default class DocOptionsHelper {
         });
         window.$(".edit_options_document_labels").on("change", () => this.saveDocumentLabels());
 
-        this.code_link_copy = document.querySelector(".code_link_copy");
+        this.session_header_link_button = document.querySelector(".session_header_link_button");
 
         this.selected_filter.addEventListener("click", () => this.refreshReportData());
         this.all_filter.addEventListener("click", () => this.refreshReportData());
@@ -158,7 +158,9 @@ export default class DocOptionsHelper {
             this.app.showOverthresholdToSendModal();
         });
 
-        this.code_link_copy.addEventListener("click", () => BaseApp.copyGameLink(this.chatDocumentId, this.code_link_copy));
+        this.session_header_link_button.addEventListener("click", () =>
+            BaseApp.copyGameLink(this.chatDocumentId, this.session_header_link_button,
+                `<i class=\"material-icons\">settings</i>`));
 
         this.show_packets_dialog = this.modalContainer.querySelector(".show_packets_dialog");
         this.show_packets_dialog.addEventListener("click", () => this.showPacketsDialog());
@@ -173,8 +175,8 @@ export default class DocOptionsHelper {
         });
         const displayString = JSON.stringify(lookup, null, "\t");
         navigator.clipboard.writeText(displayString);
-        this.show_packets_dialog.innerHTML = "✅ Packets";
-        setTimeout(() => this.show_packets_dialog.innerHTML = "Packets", 1200);
+        this.show_packets_dialog.innerHTML = `✅Packets`;
+        setTimeout(() => this.show_packets_dialog.innerHTML = `<i class="material-icons">content_copy</i>Packets`, 1200);
     }
     /** */
     async updateImportRowsDisplay() {
@@ -301,8 +303,8 @@ export default class DocOptionsHelper {
             <div class="modal-content app_panel">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editDocumentModalLabel">
-                        <button class="code_link_copy btn btn-secondary"><span class="material-icons">link</span></button>
-                        Session Details
+                        <button class="session_header_link_button btn btn-secondary"><i class="material-icons">settings</i></button>
+                        Session
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -368,11 +370,12 @@ export default class DocOptionsHelper {
                         </div>
                         <div class="tab-pane fade show active" id="options_tab_view" role="tabpanel"
                             aria-labelledby="options_tab_button">
-                            <div style="padding-bottom: 8px;>
+                            <div style="padding-bottom: 8px;">
                                 <label class="form-label">Title</label>
                                 <br>
                                 <button class="btn btn-secondary prompt_for_new_title" 
-                                    style="float:right;margin-right:8px;">Change...</button>
+                                    style="float:right;">
+                                    <i class="material-icons" style="margin-right:-8px;">edit</i></button>
                                 <div class="modal_document_title_display"></div>
                             </div>
                             <hr>
@@ -391,28 +394,42 @@ export default class DocOptionsHelper {
                                 <hr>
                             </div>
                             <div>
-                                <div class="shared_archived_status_wrapper"></div>
-                                <div class="form-check owner_archived_input_wrapper">
-                                    <label class="form-check-label">
-                                        <input class="form-check-input docfield_archived_checkbox" type="checkbox" value="">
-                                        Archived
-                                    </label>
+                                <div style="float:left">
+                                    <div class="shared_archived_status_wrapper"></div>
+                                    <div class="form-check owner_archived_input_wrapper">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input docfield_archived_checkbox" type="checkbox" value="">
+                                            Archived
+                                        </label>
+                                        <br>
+                                    </div>
+                                    <br>
+                                    <button class="clone_current_chatroom_button btn btn-secondary" data-bs-dismiss="modal">
+                                    <i class="material-icons">import_export</i>
+                                        Clone
+                                </button>
                                 </div>
                                 <div style="float:right;line-height: 3em;text-align: right;margin-right: 8px">
-                                    <button class="btn btn-secondary show_threshold_dialog">Threshold</button>
+                                    <button class="btn btn-secondary show_threshold_dialog">
+                                        <i class="material-icons">data_thresholding</i>
+                                        Threshold
+                                    </button>
                                     <br>
-                                    <button class="btn btn-secondary show_packets_dialog">Packets</button>
+                                    <button class="btn btn-secondary show_packets_dialog">
+                                        <i class="material-icons">content_copy</i>
+                                    Packets
+                                    </button>
                                 </div>
                                 <div style="clear:both;"></div>
                             </div>
                             <hr>
-                            <label class="form-label">Usage</label>
+                            <label class="form-label">Usage Cap</label>
                             <br>
                             <div class="token_usage_document_limit_header">
-                                <span>Cap </span><span class="shared_usage_limit_div"></span>
-                                <div style="line-height: 3.5em">
-                                    <button class="btn btn-secondary prompt_for_new_usage">Change...</button>
-                                </div>
+                                <span class="shared_usage_limit_div"></span>
+                                <button class="btn btn-secondary prompt_for_new_usage">
+                                    <i class="material-icons" style="margin-right:-8px;">edit</i>
+                                </button>
                             </div>
                             <div class="engine_sub_panel_usage_stat">
                                 <div class="document_usage_stats_line"></div>
@@ -425,7 +442,9 @@ export default class DocOptionsHelper {
                             <label class="form-label">Owner Note</label>
                             <br>
                             <button class="btn btn-secondary prompt_for_new_note" 
-                                style="float:right;margin-right:8px;margin-bottom:16px;">Change...</button>
+                                style="float:right;margin-right:8px;margin-bottom:16px;">
+                                <i class="material-icons" style="margin-right:-8px;">edit</i>
+                            </button>
                             <div class="owner_note_display_div"></div>
                             <br>
                         </div>
@@ -439,11 +458,10 @@ export default class DocOptionsHelper {
                     <i class="material-icons">logout</i>Leave
                     </button>
                     <div style="flex:1"></div>
-                    <button class="clone_current_chatroom_button btn btn-secondary" data-bs-dismiss="modal">
-                        Clone
+                    <button type="button" class="btn btn-secondary modal_close_button" data-bs-dismiss="modal">
+                        <i class="material-icons">cancel</i>
+                        Close
                     </button>
-                    <div style="flex:1"></div>
-                    <button type="button" class="btn btn-secondary modal_close_button" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -734,13 +752,13 @@ export default class DocOptionsHelper {
         this.modal_document_title_display.innerHTML = BaseApp.escapeHTML(this.documentData.title);
 
         const sharedStatus = ChatDocument.getDocumentSharedStatus(this.documentData, this.app.uid);
-        this.code_link_copy.classList.remove("shared_status_not");
-        this.code_link_copy.classList.remove("shared_status_withusers");
-        this.code_link_copy.classList.remove("shared_status_withothers");
+        this.session_header_link_button.classList.remove("shared_status_not");
+        this.session_header_link_button.classList.remove("shared_status_withusers");
+        this.session_header_link_button.classList.remove("shared_status_withothers");
 
-        if (sharedStatus === 0) this.code_link_copy.classList.add("shared_status_not");
-        if (sharedStatus === 1) this.code_link_copy.classList.add("shared_status_withusers");
-        if (sharedStatus === 2) this.code_link_copy.classList.add("shared_status_withothers");
+        if (sharedStatus === 0) this.session_header_link_button.classList.add("shared_status_not");
+        if (sharedStatus === 1) this.session_header_link_button.classList.add("shared_status_withusers");
+        if (sharedStatus === 2) this.session_header_link_button.classList.add("shared_status_withothers");
     }
     /** populate modal fields and show
      * @param { string } chatDocumentId firestore doc id
@@ -805,7 +823,6 @@ export default class DocOptionsHelper {
             }
         }
 
-        this.code_link_copy.innerHTML = `<span class="material-icons">link</span>`;
         this.paintDocumentData();
         this.refreshReportData();
     }

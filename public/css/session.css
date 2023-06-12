@@ -401,7 +401,8 @@ pre code {
 .show_document_options_modal i,
 .show_token_threshold_dialog_help i {
   position: relative;
-  top: 4px;
+  top: 2px;
+  font-size: 26px;
 }
 
 .show_token_threshold_dialog_help {
@@ -1018,6 +1019,7 @@ li.mb-1 button.btn.btn-toggle:before {
 
   .show_document_options_modal i {
     top: 4px;
+    left: 0px;
   }
 }
 

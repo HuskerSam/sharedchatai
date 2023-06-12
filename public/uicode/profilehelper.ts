@@ -114,8 +114,7 @@ export default class ProfileHelper {
      * @return { string } html template as string
      */
     getModalTemplate(): string {
-        return `<div class="modal fade" id="userProfileModal" tabindex="-1" aria-labelledby="userProfileModalLabel"
-             aria-hidden="true">
+        return `<div class="modal fade" id="userProfileModal" tabindex="-1" aria-labelledby="userProfileModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content app_panel">
                 <div class="modal-header">
@@ -145,7 +144,40 @@ export default class ProfileHelper {
                             aria-labelledby="profile_user_tab_button">
                             <button class="btn btn-secondary show_modal_profile_help"><i
                                     class="material-icons">help</i></button>
-                            <div style="font-size: 1.25em">
+                            <div>
+                                <label class="form-label">Name and Image</label>
+                                <br>
+                                <div style="display:flex;flex-direction:row;width:100%;">
+                                    <div class="profile_display_name"></div>
+                                    <div>
+                                        <button class="btn btn-secondary prompt_for_new_user_name">
+                                            <i class="material-icons" style="margin-right:-8px;">edit</i>
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <button class="randomize_name btn btn-secondary">
+                                            <i class="material-icons">casino</i>
+                                            Generate
+                                        </button>
+                                    </div>
+                                </div>
+                                <div style="line-height: 4em;margin-top:-18px">
+                                    <div class="profile_display_image"
+                                        style="background-image:url(/images/defaultprofile.png);"></div>
+                                    <input type="file" class="file_upload_input" style="display:none;">
+                                    <button class="profile_display_image_clear btn btn-secondary">
+                                        <i class="material-icons">delete</i>
+                                    </button>
+                                    <button class="profile_display_image_randomize btn btn-secondary">
+                                        <i class="material-icons">casino</i>
+                                    </button>
+                                    <button class="profile_display_image_upload btn btn-secondary">
+                                        <i class="material-icons">upload_file</i>
+                                        Upload</button>
+                                </div>
+                            </div>
+                            <hr>
+                            <div style="font-size: 1.25em;text-align:center">
                                 <label class="form-check-label">
                                     <input class="form-check-input profile_text_large_checkbox" type="checkbox" value="">
                                     Large Text
@@ -156,56 +188,22 @@ export default class ProfileHelper {
                                     Monospace
                                 </label>
                                 <label class="form-check-label">
-                                    <input class="form-check-input profile_prefixname_checkbox" type="checkbox"
-                                        value="">
+                                    <input class="form-check-input profile_prefixname_checkbox" type="checkbox" value="">
                                     Prefix Name
                                 </label>
                                 <label class="form-check-label">
-                                    <input class="form-check-input profile_autoexclude_checkbox" type="checkbox"
-                                        value="">
+                                    <input class="form-check-input profile_autoexclude_checkbox" type="checkbox" value="">
                                     Auto Exclude
                                 </label>
                             </div>
-                            <hr>
-                            <div>
-                                <div>
-                                    <div style="float:left;">
-                                        <label class="form-label">Name</label>
-                                        <br>
-                                        <div class="profile_display_name"></div>
-                                    </div>
-                                    <div class="display_name_button_wrapper">
-                                        <button class="btn bnt-90 btn-primary prompt_for_new_user_name">Change...</button>
-                                        <br>
-                                        <button class="randomize_name btn btn-90 btn-secondary">Random</button>
-                                    </div>
-                                </div>
-                                <br style="clear:both;">
-                            </div>
-                            <hr>
-                            <div>
-                                <div style="float: left;">
-                                    <label class="form-label">Image</label><br>
-                                    <div class="profile_display_image"
-                                        style="background-image:url(/images/defaultprofile.png);"></div>
-                                </div>
-                                <div style="float:left;line-height:3em">
-                                    <input type="file" class="file_upload_input" style="display:none;">
-                                    <button class="profile_display_image_clear btn btn-90 btn-secondary">Clear</button>
-                                    <br>
-                                    <button class="profile_display_image_randomize btn btn-90 btn-secondary">Random</button>
-                                    <br>
-                                    <button class="profile_display_image_upload btn btn-90 btn-primary">Upload</button>
-                                </div>
-                            </div>
-                            <div style="clear:both"></div>
                         </div>
-                        <div class="tab-pane fade" id="profile_user_labels_view" style="min-height:10em; role="tabpanel"
+                        <div class="tab-pane fade" id="profile_user_labels_view" style="min-height:10em; role=" tabpanel"
                             aria-labelledby="profile_labels_tab_button">
     
                             <label class="form-label">Default Labels - [Enter] to add</label>
                             <br>
-                            <select class="label_profile_picker" multiple="multiple" style="width:95%;min-height:6em"></select>
+                            <select class="label_profile_picker" multiple="multiple"
+                                style="width:95%;min-height:6em"></select>
                             <br>
                         </div>
                         <div class="tab-pane fade" id="profile_user_usage_view" role="tabpanel"
@@ -216,14 +214,16 @@ export default class ProfileHelper {
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="sign_out_button btn btn-90 btn-secondary">
+                    <button class="sign_out_button btn btn-secondary">
                         <i class="material-icons">logout</i>
                         Sign Out
                     </button>
                     <div style="flex:1"></div>
                     <button class="reset_profile btn btn-secondary" style="display:none">Reset</button>
-                    <button type="button" class="btn btn-90 btn-secondary modal_close_button"
-                        data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary modal_close_button" data-bs-dismiss="modal">
+                        <i class="material-icons">cancel</i>
+                        Close
+                    </button>
                 </div>
             </div>
         </div>

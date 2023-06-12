@@ -45,12 +45,7 @@
   display: none;
 }
 
-.delete_game i,
-.leave_game i,
-.download_export_button i,
-.modal_create_template_tickets_button i,
-.modal_upload_tickets_button i,
-.sign_out_button i {
+.btn i {
   position: relative;
   top: 4px;
   font-size: 20px;
@@ -70,8 +65,10 @@
   font-weight: bold;
   font-size: 1.5em;
   display: inline-block;
-  padding-right: 2em; 
+  padding-right: 2em;
   color: rgb(180, 255, 180);
+  margin-bottom: 8px;
+  margin-top: 8px;
 }
 
 .modal_options_owner_user .shared_archived_status_wrapper {
@@ -81,7 +78,9 @@
 .owner_archived_input_wrapper {
   display: inline-block;
   width: auto;
-  margin-top: 1em;
+  margin-bottom: 8px;
+  padding-right: 0;
+  margin-top: 8px;
 }
 
 .modal_options_shared_user .owner_archived_input_wrapper {
@@ -104,6 +103,8 @@
 
 .prompt_for_new_title {
   display: none;
+  position: relative;
+  left: -12px;
 }
 
 .modal_options_owner_user .prompt_for_new_title {
@@ -140,17 +141,13 @@
   position: relative;
 }
 
-.code_link_copy {
+.session_header_link_button {
   background: none;
   border-color: transparent;
   position: relative;
   top: -2px;
 }
 
-.code_link_copy span {
-  position: relative;
-  top: 5px;
-}
 
 .help_viewer_iframe {
   width: 100%;
@@ -267,6 +264,7 @@
   display: block;
   min-height: 2em;
   color: rgb(130, 150, 220);
+  padding-right: 54px;
 }
 
 .parsed_file_status {
@@ -307,31 +305,39 @@
   padding-right: 4px;
 }
 
-.display_name_button_wrapper {
-  float: left;
+.randomize_name {
+  white-space: nowrap;
   margin-left: 12px;
-  text-align: left;
-  line-height: 3em;
 }
 
 .profile_display_name {
-  width: 160px;
-  overflow: visible;
-  white-space: nowrap;
+  flex: 1;
+  overflow: hidden;
   height: 3em;
-  line-height: calc(3em - 16px);
-  padding: 8px;
+  max-width: 175px;
 }
 
 .profile_display_image {
-  width: 100px;
-  height: 100px;
+  width: 64px;
+  height: 64px;
   display: inline-block;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: contain;
   margin-right: 12px;
   border-radius: 6px;
+  position: relative;
+  top: 26px;
+}
+
+.profile_display_image_clear.btn.btn-secondary i,
+.profile_display_image_randomize.btn.btn-secondary i {
+  margin-right: -8px;
+}
+
+.profile_display_image_clear.btn.btn-secondary,
+.profile_display_image_randomize.btn.btn-secondary {
+  margin-right: 6px;
 }
 
 .form-check-label {
@@ -339,7 +345,7 @@
 }
 
 .modal-dialog .app_panel {
-  background: rgb(50,50,100);
+  background: rgb(50, 50, 100);
 }
 
 .modal-dialog {
@@ -360,6 +366,8 @@
   display: inline-block;
   width: 4em;
   text-align: right;
+  position: relative;
+  left: -12px;
 }
 
 .engine_sub_panel_usage_stat {
@@ -373,7 +381,7 @@
 
 .tab-content>#export_tab_view.active {
   display: flex;
-} 
+}
 
 .export_size {
   position: relative;
@@ -382,6 +390,7 @@
 
 #userProfileModal .form-check-label {
   min-width: 145px;
+  text-align: left;
 }
 
 .add_date_as_label_button {
@@ -409,9 +418,19 @@
 #editDocumentModal .tab-pane {
   overflow: auto;
   flex: 1;
-  flex-direction:column;
+  flex-direction: column;
 }
 
 .owner_archived_input_wrapper .form-check-label {
   margin-right: 0px;
+}
+
+.dialog_header_icon {
+  padding: 10px;
+  color: rgb(255, 50, 50);
+}
+
+.dialog_header_icon i {
+  position: relative;
+  top: 4px;
 }
