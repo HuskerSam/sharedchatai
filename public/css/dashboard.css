@@ -170,7 +170,8 @@ button.code_link {
 
 .details_game .settings_icon {
   position: relative;
-  top: 4px;  
+  top: 0px;  
+  left: -4px;
   float: left;
 }
 
