@@ -401,11 +401,17 @@ pre code {
 .show_document_options_modal i,
 .show_token_threshold_dialog_help i {
   position: relative;
-  top: 0px;
+  top: 4px;
 }
 
 .show_token_threshold_dialog_help {
   float: right;
+  background: none;
+  position: absolute;
+  right: 5px;
+  top: 4px;
+  border-color: transparent;
+  color: rgb(200, 125, 200);
 }
 
 .ticket_content_input {
@@ -563,11 +569,6 @@ pre code {
   color: rgb(255, 50, 50);
 }
 
-.token_submit_summary {
-  text-align: center;
-  width: 100%;
-}
-
 .archived_chat_document .app_panel .engine_sidebar_menu_button {
   color: rgb(255, 50, 50);
 }
@@ -720,6 +721,7 @@ pre code {
 .show_create_modal_on_bar:hover .mobile_custom_icon_label i {
   color: yellow;
 }
+
 .menu_bar_doc_title {
   flex: 1;
   padding-left: 12px;
@@ -845,10 +847,6 @@ button.btn-primary.send_ticket_button {
   display: inline-block;
 }
 
-.token_submit_summary th {
-  text-align: left;
-}
-
 .selected_tickets {
   padding-right: 2px;
 }
@@ -955,7 +953,7 @@ li.mb-1 button.btn.btn-toggle:before {
   position: relative;
   left: -8px;
   white-space: nowrap;
-  overflow:hidden;
+  overflow: hidden;
 }
 
 .document_menutop_usage_stats_line {
@@ -981,9 +979,6 @@ li.mb-1 button.btn.btn-toggle:before {
 
   .sidebar_document_title {
     display: block;
-  }
-
-  .side_bar_title_wrapper {
   }
 
   .doc_title_wrapper_flex {
@@ -1024,4 +1019,23 @@ li.mb-1 button.btn.btn-toggle:before {
   .show_document_options_modal i {
     top: 4px;
   }
+}
+
+.token_submit_summary {
+  width: 100%;
+}
+
+.token_submit_summary tr td:nth-child(1),
+.token_submit_summary tr th:nth-child(1) {
+  text-align: right;
+  width: 50%;
+  padding-right: 8px;
+  border-right: solid 1px rgb(130, 150, 220);
+}
+
+.token_submit_summary tr td:nth-child(2),
+.token_submit_summary tr th:nth-child(2) {
+  text-align: left;
+  width: 50%;
+  padding-left: 8px;
 }

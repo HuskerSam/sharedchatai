@@ -335,3 +335,7 @@ button.code_link {
 .shared_status_not {
   color: rgb(150, 150, 150);
 }
+
+.promptplus_dashboard_page .show_threshold_dialog {
+  display: none;
+}

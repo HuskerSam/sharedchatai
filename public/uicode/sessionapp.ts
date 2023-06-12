@@ -14,6 +14,7 @@ declare const window: any;
 
 /** Guess app class */
 export class SessionApp extends BaseApp {
+  isSessionApp = true;
   maxTokenPreviewChars = 30;
   documentId: any = null;
   lastTicketsSnapshot: any = [];
@@ -585,8 +586,8 @@ export class SessionApp extends BaseApp {
 
     this.ticket_count_span.innerHTML = this.ticketCount;
     this.selected_ticket_count_span.innerHTML = this.selectedTicketCount;
-    this.ticket_stats.innerHTML = `Session Prompts (<span class="selected_tickets">` +
-      this.selectedTicketCount + `</span>/<span class="total_tickets">` + this.ticketCount + "</span>)";
+    this.ticket_stats.innerHTML = `<span class="selected_tickets">` +
+      this.selectedTicketCount + `</span>/<span class="total_tickets">` + this.ticketCount + "</span> Responses";
 
     if (scrollToBottom) this.scrollTicketListBottom();
   }

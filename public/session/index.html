@@ -255,55 +255,41 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+          <div class="form-label" style="text-align: center;">Request Prediction</div>
           <table class="token_submit_summary">
             <tr>
-              <td colspan="2">
-                <div class="form-label">Request Prediction</div>
-              </td>
-            </tr>
-            <tr>
               <th>Source</th>
-              <td>Tokens</td>
+              <th>Tokens</th>
             </tr>
             <tr>
-              <th>Completion Tokens</th>
+              <td>Completion</td>
               <td class="chat_completion_tokens"></td>
             </tr>
             <tr>
-              <th>Prompt</th>
+              <td>Prompt</td>
               <td class="chat_new_prompt_tokens"></td>
             </tr>
             <tr>
-              <th class="ticket_stats"></th>
+              <td class="ticket_stats"></td>
               <td class="chat_history_tokens"></td>
             </tr>
+          </table>
+          <div style="text-align:center;line-height: 3.5em;">
+            <button class="btn btn-secondary show_token_threshold_dialog_help"><i
+                class="material-icons">help</i></button>
+            <button class="btn btn-secondary exclude_tickets_button">Exclude Prompts</button>
+            <br style="clear:both">
+          </div>
+          <hr>
+          <div class="form-label" style="text-align: center;">Sequential Limit Test</div>
+          <table class="token_submit_summary">
             <tr>
-              <td colspan="2">
-                <div style="text-align:center;line-height: 3.5em;">
-                  <button class="btn btn-secondary show_token_threshold_dialog_help"><i
-                      class="material-icons">help</i></button>
-                  <button class="btn btn-secondary exclude_tickets_button">Exclude Prompts</button>
-                  <br style="clear:both">
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2">
-                <hr>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2">
-                <div class="form-label">Threshold Summary</div>
-              </td>
-            </tr>
-            <tr>
-              <th>Request</th>
+              <td>Request</td>
               <td class="chat_threshold_total_tokens"></td>
             </tr>
             <tr>
-              <th>Sequential Limit</th>
-              <td>4096</td>
+              <td>API Limit</td>
+              <td><b>4096</b></td>
             </tr>
           </table>
         </div>

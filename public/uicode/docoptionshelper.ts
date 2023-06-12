@@ -4,6 +4,7 @@ import {
     ChatDocument,
 } from "./chatdocument.js";
 import BaseApp from "./baseapp.js"; // only for escapeHTML
+import { SessionApp } from "./sessionapp.js";
 
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
 export default class DocOptionsHelper {
@@ -200,13 +201,6 @@ export default class DocOptionsHelper {
         const buttonText = `<span class="material-icons">content_copy</span>`;
         this.copy_export_clipboard.innerHTML = "✅ " + buttonText;
         setTimeout(() => this.copy_export_clipboard.innerHTML = buttonText, 1200);
-    }
-    /** detect if chatroom view
-     * @return { boolean } for navigation after delete
-     */
-    get chatRoomView(): boolean {
-        if (this.app.sessionDocumentData) return true;
-        return false;
     }
     /** docData to support dashboard and chatroom */
     get docData(): any {
@@ -495,7 +489,7 @@ export default class DocOptionsHelper {
             return;
         }
 
-        if (this.chatRoomView) window.location = "/dashboard";
+        if (this.app.isSessionApp) window.location = "/dashboard";
         this.modal_close_button.click();
     }
     /** logout api call */
@@ -527,7 +521,7 @@ export default class DocOptionsHelper {
             return;
         }
 
-        if (this.chatRoomView) window.location = "/dashboard";
+        if (this.app.isSessionApp) window.location = "/dashboard";
         this.modal_close_button.click();
     }
     /** generate export data
