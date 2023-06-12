@@ -42,6 +42,7 @@ export default class BaseApp {
     firebase.auth().onAuthStateChanged((u: any) => this.authHandleEvent(u));
     this.signInWithURL();
 
+    document.body.classList.add("body_loaded");
     this.load();
   }
   /** asynchronous loads - data setup  */

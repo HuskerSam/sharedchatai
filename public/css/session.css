@@ -452,8 +452,7 @@ pre code {
 }
 
 .exclude_tickets_running .exclude_tickets_button {
-  background-color: rgba(0, 0, 0, 1);
-  border-color: rgba(0, 0, 0, 1);
+  visibility: hidden;
 }
 
 .over_token_sendlimit .send_ticket_button,

@@ -254,3 +254,14 @@ ul.recent_documents_list li a {
 .sign_out_homepage i {
   color: rgb(255, 50, 50);
 }
+
+.menu_profile_name_spacer {
+  flex: 1;
+  display: none;
+}
+
+@media (min-width: 992px) {
+  .menu_profile_name_spacer {
+    display: block;
+  }
+}
