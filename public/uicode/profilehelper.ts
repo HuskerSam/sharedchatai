@@ -216,7 +216,10 @@ export default class ProfileHelper {
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="sign_out_button btn btn-90 btn-secondary">Sign Out</button>
+                    <button class="sign_out_button btn btn-90 btn-secondary">
+                        <i class="material-icons">logout</i>
+                        Sign Out
+                    </button>
                     <div style="flex:1"></div>
                     <button class="reset_profile btn btn-secondary" style="display:none">Reset</button>
                     <button type="button" class="btn btn-90 btn-secondary modal_close_button"

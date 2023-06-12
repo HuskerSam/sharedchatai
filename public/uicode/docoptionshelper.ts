@@ -4,7 +4,6 @@ import {
     ChatDocument,
 } from "./chatdocument.js";
 import BaseApp from "./baseapp.js"; // only for escapeHTML
-import { SessionApp } from "./sessionapp.js";
 
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
 export default class DocOptionsHelper {
@@ -376,7 +375,10 @@ export default class DocOptionsHelper {
                             </div>
                             <hr>
                             <div style="line-height:3.5em;padding-right: 8px;" class="template_import_options_section">
-                                <button class="btn btn-secondary modal_upload_tickets_button">Upload Session</button>
+                                <button class="btn btn-secondary modal_upload_tickets_button">
+                                <i class="material-icons">upload_file</i>
+                                Upload
+                                </button>
                                 <input class="import_upload_file" style="display:none;" type="file" accept=".json,.csv">
                                 &nbsp; &nbsp;
                                 <div class="doc_options_import_rows_preview"></div>

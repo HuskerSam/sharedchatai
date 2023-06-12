@@ -46,7 +46,10 @@
 }
 
 .delete_game i,
-.leave_game i {
+.leave_game i,
+.modal_create_template_tickets_button i,
+.modal_upload_tickets_button i,
+.sign_out_button i {
   position: relative;
   top: 4px;
   font-size: 20px;
@@ -115,7 +118,7 @@
 }
 
 .create_modal_title_field {
-  width: calc(100% - 60px);
+  width: calc(100%);
 }
 
 .prompt-text {
@@ -217,7 +220,7 @@
 
 .document_usage_cap_field,
 .create_modal_note_field {
-  width: 150px;
+  width: 125px;
   display: inline-block;
 }
 
@@ -271,6 +274,7 @@
 
 .parsed_file_name {
   display: inline-block;
+  padding-top: 18px;
 }
 
 .doc_options_import_rows_preview {
@@ -382,13 +386,19 @@
 .add_date_as_label_button {
   position: absolute;
   right: 0;
-  top: 0;
+  top: -8px;
 }
 
-.insert_todaylabel_default_checkbox {
+.app_panel .form-check-input.insert_todaylabel_default_checkbox {
   position: absolute;
-  top: 4px;
+  top: -4px;
   right: 100px;
+  width: 24px;
+  height: 24px;
+  border-color: rgb(127, 127, 127);
+}
+
+.app_panel .form-check-input.modal_open_new_document {
   width: 24px;
   height: 24px;
   border-color: rgb(127, 127, 127);

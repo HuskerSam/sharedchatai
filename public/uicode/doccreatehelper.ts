@@ -107,23 +107,15 @@ export default class DocCreateHelper {
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <button class="btn btn-secondary show_create_dialog_help"><i 
-                  class="material-icons">help</i></button>
-              <label class="form-label" style="width:100%">
-                Title<br>
-                <input type="text" class="form-control create_modal_title_field" placeholder="autofills if blank">
+              <div style="text-align:center;height:0.5em;">
+                <button class="btn btn-secondary show_create_dialog_help"><i 
+                    class="material-icons">help</i></button>
+              </div>
+              <label class="form-label">
+                Title
               </label>
               <br>
-              <div style="display:inline-block;">
-                <label class="form-label">Session Usage Cap</label>
-                <br>
-                <input type="text" class="form-control document_usage_cap_field" placeholder="500k by default">
-              </div>
-              <div style="display:inline-block;">
-                <label class="form-label">Owner Note</label>
-                <br>
-                <input type="text" class="form-control create_modal_note_field" placeholder="optional">
-              </div>
+              <input type="text" class="form-control create_modal_title_field" placeholder="autofills if blank">
               <hr>
               <div style="position:relative;">
                 <label class="form-label labels_label">Labels</label>
@@ -134,16 +126,33 @@ export default class DocCreateHelper {
               </div>
               <hr>
               <div style="display:inline-block">
-              <label class="form-label">Import Previous Session</label>
-              <br>
-              <button class="btn btn-secondary modal_create_template_tickets_button">Select...</button>
-              <input class="create_modal_template_file" style="display:none;" type="file" accept=".json,.csv">
-            </div>
-            &nbsp;
-            <div class="parsed_file_status"></div>
-            &nbsp;
-            <div class="parsed_file_name"></div>
-         <br>
+                <div>
+                  <label class="form-label">Import</label>
+                  <br>
+                  <button class="btn btn-secondary modal_create_template_tickets_button">
+                  <i class="material-icons">upload_file</i>
+                    Upload            
+                  </button>
+                  <input class="create_modal_template_file" style="display:none;" type="file" accept=".json,.csv">
+                </div>
+              </div>
+              &nbsp;
+              <div class="parsed_file_status"></div>
+              &nbsp;
+              <div class="parsed_file_name"></div>
+              <hr>
+              <div style="display:flex;flex-direction:row;">
+                <div>
+                  <label class="form-label">Usage Cap</label>
+                  <br>
+                  <input type="text" class="form-control document_usage_cap_field" placeholder="500k default">
+                </div>
+                <div style="flex:1;overflow:hidden;padding-left: 12px;">
+                  <label class="form-label">Owner Note</label>
+                  <br>
+                  <input type="text" style="width:100%;" class="form-control create_modal_note_field" placeholder="optional">
+                </div>
+              </div>
             </div>
             <div class="modal-footer">
               <div class="form-check open_button_wrapper" style="float:left">
