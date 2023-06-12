@@ -429,10 +429,10 @@ export default class DocOptionsHelper {
                 </div>
                 <div class="modal-footer">
                     <button class="delete_game btn btn-secondary">
-                        Delete
+                        <i class="material-icons">delete</i>Delete
                     </button>
                     <button class="leave_game btn btn-secondary">
-                        Leave
+                    <i class="material-icons">logout</i>Leave
                     </button>
                     <div style="flex:1"></div>
                     <button class="clone_current_chatroom_button btn btn-primary" data-bs-dismiss="modal">

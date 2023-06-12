@@ -45,6 +45,14 @@
   display: none;
 }
 
+.delete_game i,
+.leave_game i {
+  position: relative;
+  top: 4px;
+  font-size: 20px;
+  left: -4px;
+}
+
 .modal_options_owner_user .leave_game {
   display: none;
 }
