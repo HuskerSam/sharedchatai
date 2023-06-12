@@ -118,8 +118,11 @@ export default class ProfileHelper {
         <div class="modal-dialog">
             <div class="modal-content app_panel">
                 <div class="modal-header">
-                    <h5 class="modal-title logged_in_status" id="userProfileModalLabel">User Profile</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="userProfileModalLabel" style="display:flex;flex-direction:row;width:100%;overflow:hidden;">
+                        <span class="dialog_header_icon"><i class="material-icons">account_circle</i></span>
+                        <span class="logged_in_status" style="flex:1"></span>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </h5>
                 </div>
                 <div class="modal-body">
                     <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
@@ -490,7 +493,7 @@ export default class ProfileHelper {
 
         const headerRow = `<span class="usage_prefix_label"></span>
                 <span class="total_token">Total</span>
-                <span class="completion_token">Completion</span>
+                <span class="completion_token">Response</span>
                 <span class="prompt_token">Prompt</span>`;
         this.chat_token_usage_display.innerHTML = `` +
             `<div class="token_usage_table">` +

@@ -157,11 +157,12 @@ a {
 }
 
 .logged_in_status {
-  text-align: center;
+  text-align: left;
   white-space: nowrap;
-  padding: 10px;
+  height: 2em;
   font-size: 20px;
   text-align: left;
+  overflow: hidden;
 }
 
 .form-check {
@@ -345,13 +346,11 @@ button.btn-primary:active {
 .header.token_usage_row {
   text-align: center;
   color: rgb(50, 200, 20);
-  font-size: 0.85em;
 }
 
 .usage_prefix_label {
   width: 32px;
   text-align: left;
-  font-size: 0.85em;
 }
 
 .total_token,

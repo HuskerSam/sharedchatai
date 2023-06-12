@@ -206,6 +206,7 @@
 .show_modal_profile_help i {
   position: relative;
   top: 4px;
+  left: 0;
 }
 
 .tab-content {
@@ -302,7 +303,7 @@
 }
 
 .open_button_wrapper {
-  padding-right: 4px;
+  padding-right: 12px;
 }
 
 .randomize_name {
@@ -391,6 +392,7 @@
 #userProfileModal .form-check-label {
   min-width: 145px;
   text-align: left;
+  margin-bottom: 24px;
 }
 
 .add_date_as_label_button {
@@ -426,11 +428,29 @@
 }
 
 .dialog_header_icon {
-  padding: 10px;
+  padding-right: 5px;
   color: rgb(255, 50, 50);
 }
 
 .dialog_header_icon i {
   position: relative;
   top: 4px;
+}
+
+#userProfileModal .dialog_header_icon {
+  color: rgb(130, 150, 220);
+}
+
+#userProfileModal .dialog_header_icon i {
+  top: 6px;
+}
+
+#createDocumentModal .dialog_header_icon {
+  color: rgb(50, 255, 50);
+}
+
+#userProfileModal .app_panel .form-check-input {
+  width: 24px;
+  height: 24px;
+  border-color: rgb(127, 127, 127);
 }

@@ -103,7 +103,10 @@ export default class DocCreateHelper {
         <div class="modal-dialog">
           <div class="modal-content app_panel">
             <div class="modal-header">
-              <h5 class="modal-title" id="createDocumentModalLabel">New Session</h5>
+              <h5 class="modal-title" id="createDocumentModalLabel">
+                <span class="dialog_header_icon"><i class="material-icons">add</i></span>
+                New Session
+              </h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -153,16 +156,26 @@ export default class DocCreateHelper {
                   <input type="text" style="width:100%;" class="form-control create_modal_note_field" placeholder="optional">
                 </div>
               </div>
+              <hr>
+              <div style="text-align:center;">
+                <div class="form-check open_button_wrapper">
+                  <label class="form-check-label">
+                      <input class="form-check-input modal_open_new_document" checked type="checkbox" value="">
+                      Open
+                  </label>
+                </div>
+              </div>
             </div>
             <div class="modal-footer">
-              <div class="form-check open_button_wrapper" style="float:left">
-                <label class="form-check-label">
-                    <input class="form-check-input modal_open_new_document" checked type="checkbox" value="">
-                    Open
-                </label>
-              </div>
-              <button type="button" class="btn btn-secondary modal_close_button" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary create_game_afterfeed_button">Create</button>
+              <button type="button" class="btn btn-secondary modal_close_button" data-bs-dismiss="modal">
+                <i class="material-icons">cancel</i>
+                Close
+              </button>
+              <div style="flex:1"></div>
+              <button type="button" class="btn btn-primary create_game_afterfeed_button">
+                <i class="material-icons">add</i>
+              Session
+              </button>
             </div>
           </div>
         </div>

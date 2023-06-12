@@ -160,7 +160,7 @@ export default class DocOptionsHelper {
 
         this.session_header_link_button.addEventListener("click", () =>
             BaseApp.copyGameLink(this.chatDocumentId, this.session_header_link_button,
-                `<i class=\"material-icons\">settings</i>`));
+                `<i class="material-icons">settings</i>`));
 
         this.show_packets_dialog = this.modalContainer.querySelector(".show_packets_dialog");
         this.show_packets_dialog.addEventListener("click", () => this.showPacketsDialog());
