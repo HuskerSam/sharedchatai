@@ -637,7 +637,7 @@ pre code {
   margin-top: 5em;
 }
 
-@media (min-width: 990px) {
+@media (min-width: 992px) {
   .show_create_modal_on_bar {
     display: none;
   }
@@ -722,32 +722,6 @@ pre code {
 .show_create_modal_on_bar:hover .mobile_custom_icon_label i {
   color: yellow;
 }
-
-.menu_bar_doc_title_wrapper {
-  display: flex;
-  height: 3em;
-  overflow: hidden;
-  width: 100%;
-}
-
-.menu_bar_mobile_spacer {
-  width: 80px;
-}
-
-.folder_link_mobile {
-  position: relative;
-  line-height: 1.5em;
-  width: 50px;
-  display: block;
-  text-align: center;
-  top: 4px;
-}
-
-.folder_link_mobile i {
-  font-size: 36px;
-  top: 2px;
-}
-
 .menu_bar_doc_title {
   flex: 1;
   padding-left: 12px;
@@ -1000,13 +974,9 @@ li.mb-1 button.btn.btn-toggle:before {
   padding-right: 100px;
 }
 
-@media (min-width: 990px) {
+@media (min-width: 992px) {
   .show_document_options_modal {
     position: static;
-  }
-
-  .menu_bar_doc_title_wrapper {
-    display: none;
   }
 
   .sidebar_document_title {

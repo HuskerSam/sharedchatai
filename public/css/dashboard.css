@@ -288,7 +288,7 @@ button.code_link {
   margin-left: 8px;
 }
 
-@media (min-width: 990px) {
+@media (min-width: 992px) {
   .document_label_filter.form-select {
     max-width: 500px;
     margin-right: 24px;

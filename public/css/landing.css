@@ -209,7 +209,7 @@
     margin-bottom: 20px;
 }
 
-@media (min-width: 990px) {
+@media (min-width: 992px) {
     .row {
         display: flex;
         flex-direction: row;

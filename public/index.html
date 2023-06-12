@@ -21,14 +21,11 @@
         crossorigin="anonymous"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
@@ -48,34 +45,86 @@
 
 <body class="basic_page_body">
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
-        <a class="navbar-brand ms-md-3" href="/"><img src="/images/fulllogo600x200.png"></a>
-        <div class="signed_in_options">
-            <button class="my-3 btn btn-success ms-md-5 show_create_modal">
-                New Prompt
-            </button>
+        <div class="menu_bar_doc_title_wrapper">
+            <a class="nav-link style=" display: block; max-width:120px">
+                <span class="mobile_custom_icon_label">
+                    <img src="/images/fulllogo600x200.png" class="menu_logo_image">
+                </span>
+            </a>
+            <div style="flex:1"></div>
+            <div class="mobile_bar_button_wrapper">
+                <a class="hover_yellow folder_link_mobile" href="/dashboard">
+                    <span class="mobile_custom_icon_label">
+                        <i class="material-icons-outlined">folder</i>
+                    </span>
+                </a>
+            </div>
+            <div class="menu_bar_mobile_spacer"></div>
         </div>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+
+        <button class="navbar-toggler hover_yellow" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="hamburger_span"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item signed_in_options me-md-5">
-                    <a class="nav-link show_profile_modal profile_menu_anchor" href="profile">
-                        <span class="menu_profile_user_image_span"></span>
-                        <span class="menu_profile_user_name_span"></span>
+                <li class="nav-item">
+                    <a class="nav-link style=" display: block; max-width:120px">
+                        <span class="mobile_custom_icon_label">
+                            <img src="/images/fulllogo600x200.png" class="menu_logo_image">
+                        </span>
+                    </a>        
+                </li>
+                <li class="nav-item">
+                    <a class="show_document_options_help nav-link hover_yellow" href="/dashboard">
+                        <span class="mobile_custom_icon_label">
+                            <i class="material-icons">help</i>
+                        </span>
+                        <span class="menu_dropdown_label_wrapper">
+                            Help
+                        </span>
                     </a>
                 </li>
                 <li class="nav-item signed_in_options">
-                    <a class="info_anchor nav-link me-md-5" href="/dashboard">
+                    <a class="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
+                        <span class="menu_profile_user_image_span hover_yellow"></span>
+                        <span class="menu_dropdown_label_wrapper menu_profile_user_name_span"></span>
+                    </a>
+                </li>
+                <li class="nav-item signed_in_options">
+                    <a class="nav-link show_create_modal hover_yellow" href="create">
                         <span class="mobile_custom_icon_label">
-                            <i class="fa-regular fa-folder fa-xl"></i>
+                            <i class="material-icons">add_circle_outline</i>
                         </span>
-                        <span class="mobile_custom_title_label">
-                            Dashboard
+                        <span class="menu_dropdown_label_wrapper">
+                            New
                         </span>
                     </a>
                 </li>
+                <li class="nav-item signed_in_options">
+                    <a class="info_anchor nav-link hover_yellow" href="/dashboard">
+                        <span class="mobile_custom_icon_label">
+                            <i class="material-icons-outlined">folder</i>
+                        </span>
+                        <span class="menu_dropdown_label_wrapper">
+                            Sessions
+                        </span>
+                    </a>
+                </li>
+                <button class="btn btn-primary profile_show_modal" style="display:none" type="button"
+                    data-bs-toggle="modal" data-bs-target="#userProfileModal">
+                    Profile
+                </button>
+                <button class="btn btn-primary help_show_modal" style="display:none" type="button"
+                    data-bs-toggle="modal" data-bs-target="#helpIframeModal">
+                    Help
+                </button>
+                <button class="btn btn-primary doccreatehelper_show_modal" style="display:none" type="button"
+                    data-bs-toggle="modal" data-bs-target="#createDocumentModal">
+                    Create Modal
+                </button>
+                <li class="mobile_sidebar_Menu_Layout_container"></li>
             </ul>
         </div>
     </nav>
@@ -112,29 +161,33 @@
                             <a class="p-3 text-center"
                                 href="/?templatepath=/templates/createhelpchat.json&title=Create Dialog Help">Prompt+
                                 user help
-                            <span class="caption">How to create user end documentation</span></a>
+                                <span class="caption">How to create user end documentation</span></a>
                         </li>
                         <li>
                             <a class="p-3 text-center"
-                                href="/?templatepath=/templates/multipleusers.json&title=Multiple Users">Multiple users
+                                href="/?templatepath=/templates/multipleusers.json&title=Multiple Users">Multiple
+                                users
                                 talking
-                            <span class="caption">Configure system message to register pre-text id</span></a>
+                                <span class="caption">Configure system message to register pre-text id</span></a>
                         </li>
                         <li>
                             <a class="p-3 text-center"
-                                href="/?templatepath=/templates/ogmetatag.json&title=SEO Social Metatag Help">SEO Social Tags - Metatag Help
-                            <span class="caption">Get social media metatag syntax</span></a>
+                                href="/?templatepath=/templates/ogmetatag.json&title=SEO Social Metatag Help">SEO
+                                Social Tags - Metatag Help
+                                <span class="caption">Get social media metatag syntax</span></a>
                         </li>
                         <li>
                             <a class="p-3 text-center"
-                                href="/?templatepath=/templates/homepage3.json&title=Creating Homepage Copy">Writing copy
+                                href="/?templatepath=/templates/homepage3.json&title=Creating Homepage Copy">Writing
+                                copy
                                 for the homepage
-                            <span class="caption">Have a conversation about brand copy</span></a>
+                                <span class="caption">Have a conversation about brand copy</span></a>
                         </li>
                         <li>
                             <a class="p-3 text-center"
-                                href="/?templatepath=/templates/session.json&title=Help for Chat Sessions">Writing help for chat sessions
-                            <span class="caption">Using back and forth to create help</span></a>
+                                href="/?templatepath=/templates/session.json&title=Help for Chat Sessions">Writing
+                                help for chat sessions
+                                <span class="caption">Using back and forth to create help</span></a>
                         </li>
                     </ul>
                 </div>

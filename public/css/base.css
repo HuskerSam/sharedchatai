@@ -400,7 +400,7 @@ button.btn-primary:active {
   border-radius: 6px;
 }
 
-@media (min-width: 990px) {
+@media (min-width: 992px) {
   .menu_profile_user_image_span {
     float: none;
     display: inline-block;
@@ -519,4 +519,43 @@ a.hover_yellow.show_document_options_help:hover i {
   background-position: center center;
   background-image: url('/images/logo64.png');
   display: inline-block;
+}
+
+.menu_bar_doc_title_wrapper {
+  display: flex;
+  height: 3em;
+  overflow: hidden;
+  width: 100%;
+}
+
+.menu_bar_mobile_spacer {
+  width: 80px;
+}
+
+
+.folder_link_mobile {
+  position: relative;
+  line-height: 1.5em;
+  width: 50px;
+  display: block;
+  text-align: center;
+  top: 4px;
+}
+
+.folder_link_mobile i {
+  font-size: 36px;
+  top: 2px;
+}
+
+
+
+@media (min-width: 992px) {
+  .mobile_bar_button_wrapper {
+    display: none;
+  }
+  
+  .menu_bar_doc_title_wrapper {
+    display: none;
+  }
+
 }
