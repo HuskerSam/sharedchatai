@@ -393,7 +393,6 @@ button.btn-primary:active {
   height: 30px;
   background-size: contain;
   background-position: center center;
-  background-color: rgba(255, 255, 255, 0.3);
   position: relative;
   float: left;
   top: -2px;
@@ -437,9 +436,9 @@ button.btn-primary:active {
 
 .navbar-light .navbar-toggler {
   position: fixed;
-  right: 8px;
+  right: 4px;
   z-index: 1000;
-  top: 8px;
+  top: 4px;
   color: rgb(230, 230, 230);
 }
 
@@ -485,14 +484,13 @@ button.btn-primary:active {
   background-size: contain;
   background-repeat: no-repeat;
   position: relative;
-  top: 2px;
-  background-color: rgba(255, 255, 255, 0.2);
+  top: -1px;
   border-radius: 6px;
 }
 
 a.show_dashboard_help_button i,
 .show_document_options_help i {
-  top: 5px;
+  top: 2px;
   color: rgb(200, 125, 200);
 }
 
@@ -519,6 +517,7 @@ a.hover_yellow.show_document_options_help:hover i {
   background-position: center center;
   background-image: url('/images/logo64.png');
   display: inline-block;
+  position: relative;
 }
 
 .menu_bar_doc_title_wrapper {

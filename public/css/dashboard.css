@@ -194,12 +194,11 @@ button.code_link {
 }
 
 .document_shared_status_icon_wrapper {
-  margin-top: auto;
-  margin-bottom: auto;
   background: none;
   border-color: transparent;
   position: relative;
   left: -16px;
+  top: 10px;
 }
 
 .document_shared_status_icon_wrapper span {
