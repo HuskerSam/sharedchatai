@@ -562,10 +562,10 @@ a.hover_yellow.show_document_options_help:hover i {
 
 }
 
-.basic_page_wrapper {
+body {
   visibility: hidden;
 }
 
-.body_loaded .basic_page_wrapper {
+body.body_loaded {
   visibility: visible;
 }
