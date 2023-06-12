@@ -26,7 +26,7 @@ a {
 }
 
 .app_panel button.btn-toggle {
-  color: rgb(240, 240, 240);
+  color: rgb(230, 230, 230);
 }
 
 .app_panel input:focus,
@@ -237,6 +237,10 @@ select.form-select {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgb%28240,240,240%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
 }
 
+select.form-select option {
+  background-color: rgb(52, 53, 65);
+  color: rgb(230, 230, 230);
+}
 .app_panel .form-check-input {
   border-color: rgb(25, 220, 75);
 }
@@ -452,10 +456,13 @@ button.btn-primary:active {
 .hover_yellow {
   color: rgb(230, 230, 230);
 }
-
+.btn.btn-secondary.hover_yellow:focus,
+.btn.btn-secondary.hover_yellow:hover,
 .hover_yellow:focus,
 .hover_yellow:hover {
   color: rgb(240, 240, 50);
+  background-color: transparent;
+  border-color: transparent;
 }
 
 .menu_dropdown_label_wrapper {
@@ -481,4 +488,26 @@ button.btn-primary:active {
   top: 2px;
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 6px;
+}
+
+a.show_dashboard_help_button i,
+.show_document_options_help i {
+  top: 5px;
+  color: rgb(200, 125, 200);
+}
+
+.nav-link.dashboard_create_game_mobile.hover_yellow i,
+.nav-link.dashboard_create_game.hover_yellow i,
+.nav-link.show_create_modal.hover_yellow i {
+  color: rgb(50, 255, 50);
+}
+.nav-link.dashboard_create_game_mobile.hover_yellow:hover i,
+.nav-link.dashboard_create_game.hover_yellow:hover i,
+.nav-link.show_create_modal.hover_yellow:hover i {
+  color: rgb(240, 240, 50);
+}
+
+a.hover_yellow.show_dashboard_help_button:hover i,
+a.hover_yellow.show_document_options_help:hover i {
+  color: rgb(240, 240, 50);
 }

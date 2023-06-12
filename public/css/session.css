@@ -222,10 +222,6 @@ html {
   color: rgb(217, 217, 227)
 }
 
-.show_document_options_help {
-  color: rgb(200, 125, 200);
-}
-
 .message_list_send_wrapper {
   position: relative;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, .7);
@@ -404,19 +400,13 @@ pre code {
 }
 
 .show_document_options_modal i,
-.show_document_options_help i,
 .show_token_threshold_dialog_help i {
   position: relative;
-  top: 4px;
+  top: 0px;
 }
 
 .show_token_threshold_dialog_help {
   float: right;
-}
-
-.show_document_options_modal:hover {
-  background: rgb(127, 127, 127);
-  color: rgb(240, 240, 240);
 }
 
 .ticket_content_input {
@@ -718,15 +708,6 @@ pre code {
   padding-right: 2rem;
 }
 
-.menu_profile_user_image_span {
-  border: solid 1px transparent;
-}
-
-.menu_profile_user_image_span:hover {
-  border-color: yellow;
-  background-color: rgb(230, 230, 230);
-}
-
 .navbar-light .navbar-nav .nav-link.show_profile_modal .mobile_custom_icon_label:focus span {
   border-color: white;
 }
@@ -914,7 +895,6 @@ button.btn-primary.send_ticket_button {
 
 li.mb-1 button.btn.btn-toggle {
   font-size: 1.75em;
-  color: rgb(200, 200, 200);
   width: 100%;
   text-align: left;
   margin-bottom: 8px;
@@ -922,7 +902,6 @@ li.mb-1 button.btn.btn-toggle {
 
 li.mb-1 button.btn.btn-toggle {
   font-size: 1.75em;
-  color: rgb(200, 200, 200);
   width: 100%;
   text-align: left;
   margin-bottom: 8px;
@@ -959,7 +938,6 @@ li.mb-1 button.btn.btn-toggle:before {
 .reset_engine_options_button {
   background: none;
   border-color: transparent;
-  color: rgb(200, 200, 200);
   position: absolute;
   top: 7px;
   right: 4px;
@@ -1000,7 +978,6 @@ li.mb-1 button.btn.btn-toggle:before {
 
 .show_document_options_modal {
   border-color: transparent;
-  color: rgb(220, 220, 220);
   background-color: transparent;
   border-color: transparent;
   position: relative;
@@ -1020,6 +997,7 @@ li.mb-1 button.btn.btn-toggle:before {
 .engine_options_button_label_menu {
   flex: 1;
   text-align: left;
+  padding-right: 100px;
 }
 
 @media (min-width: 990px) {
@@ -1070,5 +1048,9 @@ li.mb-1 button.btn.btn-toggle:before {
 
   .mobile_bar_button_wrapper {
     display: none;
+  }
+
+  .show_document_options_modal i {
+    top: 4px;
   }
 }

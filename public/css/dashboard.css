@@ -225,8 +225,8 @@ button.code_link {
   flex-direction: row;
 }
 
-#navbarSupportedContent {
-  margin-left: 16px;
+#navbarSupportedContent li {
+  padding-left: 16px;
 }
 
 .no_games_in_dashboard {
