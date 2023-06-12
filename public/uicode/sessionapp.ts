@@ -168,7 +168,7 @@ export class SessionApp extends BaseApp {
       this.docfield_frequency_penalty, this.frequency_penalty_slider_label, "Frequency Penalty: "));
     this.docfield_max_tokens.addEventListener("input", () => this.optionSliderChange(true, "max_tokens",
       this.docfield_max_tokens, this.max_tokens_slider_label, "Completion Tokens: "));
-    
+
     this.docfield_model.addEventListener("change", () => {
      // if (this.sessionDocumentData.archived) {
         this.docfield_model.value = this.sessionDocumentData.model;
@@ -176,7 +176,7 @@ export class SessionApp extends BaseApp {
      //   this.saveDocumentOption("model", this.docfield_model.value);
     // }
     });
-    
+
     this.reset_engine_options_button.addEventListener("click", () => this.resetEngineDefaults());
 
     this.updateMobileLayout();
