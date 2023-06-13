@@ -99,6 +99,13 @@ export default class ProfileHelper {
             placeHolder: "Configure default labels",
         });
         window.$(".label_profile_picker").on("change", () => this.saveProfileLabels());
+        const field: any = document.body.querySelector("#profile_user_labels_view .select2-search__field");
+        field.addEventListener("keydown", (event: any) => {
+            if (event.key === ",") {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        });
     }
     /** pick a random college logo for the profile image and save to firebase */
     async randomizeImage() {

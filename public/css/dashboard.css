@@ -183,8 +183,8 @@
 .session_labels_column {
   width: 30vh;
   display: none;
-  max-height: 2.5em;
-  overflow: visible;
+  max-height: 4.5em;
+  overflow: hidden;
   margin-top: -3px;
   text-align: left;
 }

@@ -237,7 +237,7 @@ export class DashboardApp extends BaseApp {
     <div class="dashboard_item_flex_wrapper">
         <div>
           <button class="btn btn-secondary document_shared_status_icon_wrapper hover_yellow">
-            <span class="material-symbols-outlined">link</span>
+            <span class="material-icons">link</span>
           </button>
         </div>
         <div class="document_name" data-docid="${doc.id}"></div>

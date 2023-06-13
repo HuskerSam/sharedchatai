@@ -138,6 +138,13 @@ export default class DocOptionsHelper {
             placeHolder: "Add labels...",
         });
         window.$(".edit_options_document_labels").on("change", () => this.saveDocumentLabels());
+        const field: any = document.body.querySelector("#owner_tab_view .select2-search__field");
+            field.addEventListener("keydown", (event: any) => {
+                if (event.key === ",") {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            });
 
         this.session_header_link_button = document.querySelector(".session_header_link_button");
 
