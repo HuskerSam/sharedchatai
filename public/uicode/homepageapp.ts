@@ -44,6 +44,11 @@ export class HomePageApp extends BaseApp {
             event.stopPropagation();
             event.preventDefault();
 
+            if (!this.uid) {
+                alert("Must login to start a session");
+                return;
+            }
+
             this.documentCreate.show();
         });
 
