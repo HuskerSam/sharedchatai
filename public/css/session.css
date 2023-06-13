@@ -590,10 +590,12 @@ pre code {
   line-height: 45px;
 }
 
+.engine_settings_not_default .app_panel .reset_engine_options_button,
 .engine_settings_not_default .app_panel .engine_sidebar_menu_button {
   color: rgb(240, 240, 50);
 }
 
+.engine_settings_tweaked .app_panel .reset_engine_options_button,
 .engine_settings_tweaked .app_panel .engine_sidebar_menu_button {
   color: rgb(255, 127, 50);
 }
@@ -919,7 +921,6 @@ li.mb-1 button.btn.btn-toggle:before {
 }
 
 .engine_settings_not_default .reset_engine_options_button {
-  color: rgb(240, 240, 240);
   visibility: visible;
 }
 
