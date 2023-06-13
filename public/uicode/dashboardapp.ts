@@ -119,7 +119,7 @@ export class DashboardApp extends BaseApp {
     let firstLoad = true;
     this.gameFeedSubscription = firebase.firestore().collection(`Games`)
       .orderBy(`members.${this.uid}`, "desc")
-      .limit(500)
+      .limit(100)
       .onSnapshot((snapshot: any) => {
         if (firstLoad) {
           this.refreshDocumentsLookup(snapshot);

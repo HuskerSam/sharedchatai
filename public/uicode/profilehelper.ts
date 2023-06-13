@@ -1,4 +1,5 @@
 import Utility from "./utility.js";
+import BaseApp from "./baseapp.js";
 declare const firebase: any;
 declare const window: any;
 
@@ -40,7 +41,7 @@ export default class ProfileHelper {
         document.body.appendChild(this.modalContainer);
         this.modalContainer.children[0].addEventListener("shown.bs.modal", () => {
             // this.profile_text_large_checkbox.focus();
-          });
+        });
 
         this.modal_close_button = this.modalContainer.querySelector(".modal_close_button");
 
@@ -219,8 +220,51 @@ export default class ProfileHelper {
                         </div>
                         <div class="tab-pane fade" id="profile_user_usage_view" role="tabpanel"
                             aria-labelledby="usage_labels_tab_button">
-                            <div class="form-label">Owner Session Usage</div>
+                            <div class="form-label">Token Usage Meter</div>
                             <div class="chat_token_usage_display">&nbsp;</div>
+                            <hr>
+                            Subscription Level: <span class="account_subscription_status">Free</span><br>
+                            <div class="subscription_panel">
+                                <div class="free_subscription selected">
+                                    Try out<br>
+                                    50 thousand tokens<br>
+                                    Monthly<br>
+                                    Free<br>
+                                    <button class="btn btn-secondary">
+                                    <i class="material-icons">upgrade</i>
+                                    Downgrade</button>
+                                </div>
+                                <div class="prompter_subscription">
+                                    Prompter<br>
+                                    20 million tokens<br>
+                                    Monthly<br>
+                                    $20<br>
+                                    <button class="btn btn-primary">
+                                    <i class="material-icons">upgrade</i>
+                                    Upgrade</button>
+                                </div>
+                            </div>
+                            <div class="subscription_panel">
+                                <div class="teacher_subscription">
+                                    Teacher<br>
+                                    100 million tokens<br>
+                                    Monthly<br>
+                                    $50<br>
+                                    <button class="btn btn-primary">
+                                    <i class="material-icons">upgrade</i>
+                                    Upgrade</button>
+                                </div>
+                                <div class="one_time_token_purchase">
+                                    Additional Tokens<br>
+                                    20 million tokens<br>
+                                    One time<br>
+                                    $20<br>
+                                    <button class="btn btn-primary">
+                                        <i class="material-icons">attach_money</i>
+                                        Purchase
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -458,51 +502,42 @@ export default class ProfileHelper {
         let runningTokens: any = {};
         if (usageData.runningTokens) runningTokens = usageData.runningTokens;
 
-        let allTimeTotalTokens = 0;
-        if (usageData.totalTokens) allTimeTotalTokens = usageData.totalTokens;
-        let allTimePromptTokens = 0;
-        if (usageData.promptTokens) allTimePromptTokens = usageData.promptTokens;
-        let allTimeCompletionTokens = 0;
-        if (usageData.completionTokens) allTimeCompletionTokens = usageData.completionTokens;
+        const allTimeTotalTokens = BaseApp.numberWithCommas(usageData.totalTokens);
+        const allTimePromptTokens = BaseApp.numberWithCommas(usageData.promptTokens);
+        const allTimeCompletionTokens = BaseApp.numberWithCommas(usageData.completionTokens);
+        const yearlyTotalTokens = BaseApp.numberWithCommas(runningTokens["total_" + yearFrag]);
+        const yearlyPromptTokens = BaseApp.numberWithCommas(runningTokens["prompt_" + yearFrag]);
+        const yearlyCompletionTokens = BaseApp.numberWithCommas(runningTokens["completion_" + yearFrag]);
 
-        let yearlyTotalTokens = 0;
-        if (runningTokens["total_" + yearFrag]) yearlyTotalTokens = runningTokens["total_" + yearFrag];
-        let yearlyPromptTokens = 0;
-        if (runningTokens["prompt_" + yearFrag]) yearlyPromptTokens = runningTokens["prompt_" + yearFrag];
-        let yearlyCompletionTokens = 0;
-        if (runningTokens["completion_" + yearFrag]) yearlyCompletionTokens = runningTokens["completion_" + yearFrag];
+        const monthlyTotalTokens = BaseApp.numberWithCommas(runningTokens["total_" + yearMonthFrag]);
+        const monthlyPromptTokens = BaseApp.numberWithCommas(runningTokens["prompt_" + yearMonthFrag]);
+        const monthlyCompletionTokens = BaseApp.numberWithCommas(runningTokens["completion_" + yearMonthFrag]);
 
-        let monthlyTotalTokens = 0;
-        if (runningTokens["total_" + yearMonthFrag]) monthlyTotalTokens = runningTokens["total_" + yearMonthFrag];
-        let monthlyPromptTokens = 0;
-        if (runningTokens["prompt_" + yearMonthFrag]) monthlyPromptTokens = runningTokens["prompt_" + yearMonthFrag];
-        let monthlyCompletionTokens = 0;
-        if (runningTokens["completion_" + yearMonthFrag]) monthlyCompletionTokens = runningTokens["completion_" + yearMonthFrag];
+        const dailyTotalTokens = BaseApp.numberWithCommas(runningTokens["total_" + ymdFrag]);
+        const dailyPromptTokens = BaseApp.numberWithCommas(runningTokens["prompt_" + ymdFrag]);
+        const dailyCompletionTokens = BaseApp.numberWithCommas(runningTokens["completion_" + ymdFrag]);
 
-        let dailyTotalTokens = 0;
-        if (runningTokens["total_" + ymdFrag]) dailyTotalTokens = runningTokens["total_" + ymdFrag];
-        let dailyPromptTokens = 0;
-        if (runningTokens["prompt_" + ymdFrag]) dailyPromptTokens = runningTokens["prompt_" + ymdFrag];
-        let dailyCompletionTokens = 0;
-        if (runningTokens["completion_" + ymdFrag]) dailyCompletionTokens = runningTokens["completion_" + ymdFrag];
-
-        allTimeDisplay = `<span class="usage_prefix_label">All</span><span class="total_token">${allTimeTotalTokens}</span> 
+        allTimeDisplay = `<span class="usage_prefix_label">All</span>
+        <span class="total_token">${allTimeTotalTokens}</span> 
         <span class="completion_token">${allTimeCompletionTokens}</span> 
         <span class="prompt_token">${allTimePromptTokens}</span>`;
-        yearlyDisplay = `<span class="usage_prefix_label">Year</span><span class="total_token">${yearlyTotalTokens}</span> 
+        yearlyDisplay = `<span class="usage_prefix_label">Year</span>
+        <span class="total_token">${yearlyTotalTokens}</span> 
         <span class="completion_token">${yearlyCompletionTokens}</span> 
         <span class="prompt_token">${yearlyPromptTokens}</span>`;
-        monthlyDisplay = `<span class="usage_prefix_label">Month</span><span class="total_token">${monthlyTotalTokens}</span>
+        monthlyDisplay = `<span class="usage_prefix_label">Mon</span>
+        <span class="total_token">${monthlyTotalTokens}</span>
         <span class="completion_token">${monthlyCompletionTokens}</span> 
         <span class="prompt_token">${monthlyPromptTokens}</span>`;
-        todayDisplay = `<span class="usage_prefix_label">Today</span><span class="total_token">${dailyTotalTokens}</span>
+        todayDisplay = `<span class="usage_prefix_label">Day</span>
+        <span class="total_token">${dailyTotalTokens}</span>
                 <span class="completion_token">${dailyCompletionTokens}</span>
                 <span class="prompt_token">${dailyPromptTokens}</span>`;
 
         const headerRow = `<span class="usage_prefix_label"></span>
                 <span class="total_token">Total</span>
-                <span class="completion_token">Response</span>
-                <span class="prompt_token">Prompt</span>`;
+                <span class="completion_token">Replies</span>
+                <span class="prompt_token">Prompts</span>`;
         this.chat_token_usage_display.innerHTML = `` +
             `<div class="token_usage_table">` +
             `<div class="token_usage_row header">` + headerRow + "</div>" +

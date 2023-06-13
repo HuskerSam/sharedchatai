@@ -445,3 +445,82 @@
   height: 24px;
   border-color: rgb(127, 127, 127);
 }
+
+#profile_user_usage_view {
+  text-align: left;
+}
+
+.token_usage_row {
+  display: flex;
+  flex-direction: row;
+  text-align: right;
+}
+
+.token_usage_row > span {
+  flex: 1;
+}
+
+.token_usage_row > span.usage_prefix_label {
+  flex: none;
+}
+
+.account_subscription_status {
+  color: rgb(50, 200, 20);
+}
+
+.header.token_usage_row {
+  color: rgb(50, 200, 20);
+}
+
+.usage_prefix_label {
+  width: 24px;
+  text-align: left;
+}
+
+.total_token,
+.completion_token,
+.prompt_token {
+  width: 80px;
+}
+
+.subscription_panel {
+  display: flex;
+  flex-direction: row;
+}
+
+.subscription_panel > div {
+  flex: 1;
+  text-align:center;
+  border: solid 1px rgb(200, 200, 200);
+  border-radius: 8px;
+  margin: 4px;
+  padding: 8px;
+}
+
+.subscription_panel button {
+  margin-top: 12px;
+}
+
+.subscription_panel .selected {
+  border-color: rgb(100, 255, 100);
+}
+
+.free_subscription {
+  background-color: rgb(80, 20, 20);
+}
+
+.prompter_subscription {
+  background-color: rgb(10, 80, 10);
+}
+
+.teacher_subscription {
+  background-color: rgb(10, 10, 80);
+}
+
+.one_time_token_purchase {
+  background-color: rgb(20, 20, 50);
+}
+
+.free_subscription button {
+  visibility: hidden;
+}
