@@ -1,4 +1,7 @@
 import ProfileHelper from "./profilehelper.js";
+import LoginHelper from "./loginhelper.js";
+import DocCreateHelper from "./doccreatehelper.js";
+import HelpHelper from "./helphelper.js";
 
 declare const firebase: any;
 declare const window: any;
@@ -26,7 +29,10 @@ export default class BaseApp {
   userPresenceStatus: any = {};
   userPresenceStatusRefs: any = {};
   userStatusDatabaseRef: any;
-  profileHelper = new ProfileHelper(this);
+  profileHelper = new ProfileHelper(this);  
+  login = new LoginHelper(this);
+  documentCreate = new DocCreateHelper(this);
+  helpHelper = new HelpHelper(this);
   menu_profile_user_image_span: any = document.querySelector(".menu_profile_user_image_span");
   menu_profile_user_name_span: any = document.querySelector(".menu_profile_user_name_span");
 
@@ -51,20 +57,16 @@ export default class BaseApp {
   }
   /** reads a json file async and sets window.varName to it's value
    * @param { string } path url to json data
-   * @param { string } varName window.variable to hold data
    * @return { any } file contents or {}
    */
-  async readJSONFile(path: string, varName: string): Promise<any> {
-    if (window[varName]) return window[varName];
-
+  static async readJSONFile(path: string): Promise<any> {
     try {
       const response = await fetch(path);
-      window[varName] = await response.json();
+      return await response.json();
     } catch (e) {
-      console.log("ERROR with download of " + varName, e);
-      window[varName] = {};
+      console.log("ERROR with download of " + path, e);
+      return {};
     }
-    return window[varName];
   }
   /** Paints UI display/status for user profile based changes */
   authUpdateStatusUI() {

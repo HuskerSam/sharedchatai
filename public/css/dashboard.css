@@ -157,7 +157,7 @@
 }
 
 .session_labels_column {
-  width: 30vh;
+  width: 20vw;
   display: none;
   max-height: 3.3em;
   overflow: hidden;

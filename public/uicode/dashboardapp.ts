@@ -1,14 +1,8 @@
 import BaseApp from "./baseapp.js";
-import LoginHelper from "./loginhelper.js";
 import DocOptionsHelper from "./docoptionshelper.js";
-import DocCreateHelper from "./doccreatehelper.js";
+import ChatDocument from "./chatdocument.js";
+
 declare const firebase: any;
-import {
-  HelpHelper,
-} from "./helphelper.js";
-import {
-  ChatDocument,
-} from "./chatdocument.js";
 
 /** Dashboard Document Management App - for listing, joining and creating games  */
 export class DashboardApp extends BaseApp {
@@ -27,10 +21,7 @@ export class DashboardApp extends BaseApp {
   document_label_filter: any = document.querySelector(".document_label_filter");
   profile_menu_anchor: any = document.querySelector(".profile_menu_anchor");
   show_dashboard_help_button: any = document.querySelector(".show_dashboard_help_button");
-  login = new LoginHelper(this);
-  documentCreate = new DocCreateHelper(this);
   documentOptions = new DocOptionsHelper(this, "dashboard_options_view");
-  helpHelper = new HelpHelper(this);
   help_show_modal: any = document.querySelector(".help_show_modal");
   sessionDeleting = false;
 

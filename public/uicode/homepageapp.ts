@@ -1,9 +1,7 @@
 import BaseApp from "./baseapp.js";
 import LoginHelper from "./loginhelper.js";
 import DocCreateHelper from "./doccreatehelper.js";
-import {
-    HelpHelper,
-} from "./helphelper.js";
+import HelpHelper from "./helphelper.js";
 
 declare const firebase: any;
 
@@ -93,7 +91,7 @@ export class HomePageApp extends BaseApp {
      * @param { string } templatePath url to json tickets import
     */
     async showCreateDialog(templatePath: string) {
-        const templateData = await this.readJSONFile(templatePath, "importTemplateFilePath");
+        const templateData = await BaseApp.readJSONFile(templatePath);
         const pathParts = templatePath.split("/");
         const fileName = pathParts[pathParts.length - 1];
         const file = new File([JSON.stringify(templateData)], fileName, {

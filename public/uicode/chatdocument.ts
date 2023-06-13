@@ -2,7 +2,7 @@ declare const firebase: any;
 declare const window: any;
 
 /** static functions for UI and api calls  */
-export class ChatDocument {
+export default class ChatDocument {
   /** import ticket to api
    * @param { string } documentId chat doc id
    * @param { Array<any> } importedTickets imported ticket array

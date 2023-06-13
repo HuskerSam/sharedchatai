@@ -1,8 +1,6 @@
 declare const firebase: any;
 declare const window: any;
-import {
-    ChatDocument,
-} from "./chatdocument.js";
+import ChatDocument from "./chatdocument.js";
 import BaseApp from "./baseapp.js"; // only for escapeHTML
 
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
@@ -139,12 +137,12 @@ export default class DocOptionsHelper {
         });
         window.$(".edit_options_document_labels").on("change", () => this.saveDocumentLabels());
         const field: any = document.body.querySelector("#owner_tab_view .select2-search__field");
-            field.addEventListener("keydown", (event: any) => {
-                if (event.key === ",") {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-            });
+        field.addEventListener("keydown", (event: any) => {
+            if (event.key === ",") {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        });
 
         this.session_header_link_button = document.querySelector(".session_header_link_button");
 

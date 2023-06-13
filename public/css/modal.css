@@ -436,6 +436,10 @@
   top: 6px;
 }
 
+#helpIframeModal .dialog_header_icon i {
+  color: rgb(200, 125, 200);
+}
+
 #createDocumentModal .dialog_header_icon {
   color: rgb(50, 255, 50);
 }
@@ -545,4 +549,9 @@
 
 .chat_token_usage_display tr td:first-child {
   text-align: left;
+}
+
+.help_navigation_bar a {
+  padding: 4px;
+  color: white;
 }
