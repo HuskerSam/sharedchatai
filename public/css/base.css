@@ -419,12 +419,12 @@ button.btn-primary:active {
 
 .shared_status_withusers,
 .shared_status_withusers.hover_yellow {
-  color: rgb(80, 120, 255);
+  color: rgb(200, 30, 200);
 }
 
 .shared_status_withothers,
 .shared_status_withothers.hover_yellow {
-  color: rgb(20, 200, 20);
+  color: rgb(30, 200, 200);
 }
 
 .menu_logo_image {

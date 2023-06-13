@@ -161,7 +161,7 @@ export default class ProfileHelper {
                                     <div class="profile_display_name"></div>
                                     <div>
                                         <button class="btn btn-secondary prompt_for_new_user_name">
-                                            <i class="material-icons" style="margin-right:-8px;">edit</i>
+                                            <i class="material-icons">edit</i>
                                         </button>
                                     </div>
                                     <div>

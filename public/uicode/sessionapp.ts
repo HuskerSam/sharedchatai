@@ -1146,8 +1146,8 @@ export class SessionApp extends BaseApp {
     if (this.sessionDocumentData.createUser === this.uid) document.body.classList.add("game_owner");
     else document.body.classList.remove("game_owner");
 
-    if (this.sessionDocumentData.archived) document.body.classList.add("archived_chat_document");
-    else document.body.classList.remove("archived_chat_document");
+    if (this.sessionDocumentData.archived) document.body.classList.add("archived_session");
+    else document.body.classList.remove("archived_session");
 
     const notDefault = this.testForEngineNotDefault();
     if (notDefault) document.body.classList.add("engine_settings_not_default");

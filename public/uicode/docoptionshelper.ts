@@ -342,7 +342,7 @@ export default class DocOptionsHelper {
                                 <br>
                                 <button class="btn btn-secondary prompt_for_new_title" 
                                     style="float:right;">
-                                    <i class="material-icons" style="margin-right:-8px;">edit</i></button>
+                                    <i class="material-icons">edit</i></button>
                                 <div class="modal_document_title_display"></div>
                             </div>
                             <hr>
@@ -395,7 +395,7 @@ export default class DocOptionsHelper {
                             <div class="token_usage_document_limit_header">
                                 <span class="shared_usage_limit_div"></span>
                                 <button class="btn btn-secondary prompt_for_new_usage">
-                                    <i class="material-icons" style="margin-right:-8px;">edit</i>
+                                    <i class="material-icons">edit</i>
                                 </button>
                             </div>
                             <div class="engine_sub_panel_usage_stat">
@@ -410,7 +410,7 @@ export default class DocOptionsHelper {
                             <br>
                             <button class="btn btn-secondary prompt_for_new_note" 
                                 style="float:right;margin-right:8px;margin-bottom:16px;">
-                                <i class="material-icons" style="margin-right:-8px;">edit</i>
+                                <i class="material-icons">edit</i>
                             </button>
                             <div class="owner_note_display_div"></div>
                             <br>

@@ -45,11 +45,10 @@
   display: none;
 }
 
-.btn i {
+.modal .btn i {
   position: relative;
   top: 4px;
   font-size: 20px;
-  left: -4px;
 }
 
 .modal_options_owner_user .leave_game {
@@ -249,10 +248,9 @@
   color: rgb(180, 255, 180);
 }
 
-.sign_out_button,
-.delete_game {
+.sign_out_button i,
+.delete_game i {
   color: rgb(255, 50, 50);
-  background-color: rgba(0, 0, 0, .3);
 }
 
 .modal .modal-dialog .btn-close {
@@ -267,7 +265,7 @@
 .modal_document_title_display {
   display: block;
   min-height: 2em;
-  color: rgb(130, 150, 220);
+  color: rgb(130, 150, 255);
   padding-right: 54px;
 }
 
@@ -332,11 +330,6 @@
   border-radius: 6px;
   position: relative;
   top: 26px;
-}
-
-.profile_display_image_clear.btn.btn-secondary i,
-.profile_display_image_randomize.btn.btn-secondary i {
-  margin-right: -8px;
 }
 
 .profile_display_image_clear.btn.btn-secondary,
@@ -436,7 +429,7 @@
 }
 
 #userProfileModal .dialog_header_icon {
-  color: rgb(130, 150, 220);
+  color: rgb(130, 150, 255);
 }
 
 #userProfileModal .dialog_header_icon i {
