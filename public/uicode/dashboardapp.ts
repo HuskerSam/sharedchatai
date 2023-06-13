@@ -235,24 +235,17 @@ export class DashboardApp extends BaseApp {
        class="list-group-item list-group-item-action document_list_item card shadow-sm my-1 rounded card_shadow_sm ${ownerClass}"
      data-gamenumber="${doc.id}" gamenumber="${doc.id}">
     <div class="dashboard_item_flex_wrapper">
-        <div>
-          <button class="btn btn-secondary document_shared_status_icon_wrapper hover_yellow">
-            <span class="material-icons">link</span>
-          </button>
-        </div>
+        <button class="btn btn-secondary document_shared_status_icon_wrapper hover_yellow">
+          <span class="material-icons">link</span>
+        </button>
         <div class="document_name" data-docid="${doc.id}"></div>
+        <div class="document_status time_since last_submit_time" data-timesince="${data.lastActivity}"
+          data-showseconds="0"></div>
+        <div class="session_ticket_count" data-docid="${doc.id}"></div> 
         <div class="session_labels_column" data-docid="${doc.id}"></div>
-        <div>
-          <button class="details_game btn btn-secondary hover_yellow" data-gamenumber="${data.gameNumber}">
-            <div>
-              <span class="material-icons settings_icon">settings</span>
-              <span class="session_ticket_count" data-docid="${doc.id}"></span> 
-            </div>
-            <div class="document_status time_since last_submit_time" data-timesince="${data.lastActivity}"
-            data-showseconds="0"></div>
-          </button>
-        </div>           
-
+        <button class="details_game btn btn-secondary hover_yellow" data-gamenumber="${data.gameNumber}">
+            <span class="material-icons settings_icon">settings</span>
+        </button>         
     </div></a>`;
     const ctl = document.createElement("div");
     ctl.innerHTML = html;
