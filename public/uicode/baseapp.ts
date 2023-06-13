@@ -29,7 +29,7 @@ export default class BaseApp {
   userPresenceStatus: any = {};
   userPresenceStatusRefs: any = {};
   userStatusDatabaseRef: any;
-  profileHelper = new ProfileHelper(this);  
+  profileHelper = new ProfileHelper(this);
   login = new LoginHelper(this);
   documentCreate = new DocCreateHelper(this);
   helpHelper = new HelpHelper(this);
