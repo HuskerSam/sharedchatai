@@ -1,19 +1,15 @@
 import BaseApp from "./baseapp.js";
 import LoginHelper from "./loginhelper.js";
-import DocCreateHelper from "./doccreatehelper.js";
-import HelpHelper from "./helphelper.js";
 
 declare const firebase: any;
 
 /** Guess app class */
 export class HomePageApp extends BaseApp {
     login = new LoginHelper(this);
-    documentCreate = new DocCreateHelper(this);
     show_profile_modal: any = document.querySelector(".show_profile_modal");
     show_create_modal: any = document.querySelector(".show_create_modal");
     checkTemplateURL = false;
     homepage_signin_show_modal: any = document.querySelector(".homepage_signin_show_modal");
-    helpHelper = new HelpHelper(this);
 
     help_show_modal: any = document.querySelector(".help_show_modal");
     engine_settings_help: any = document.querySelector(".engine_settings_help");

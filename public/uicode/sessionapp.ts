@@ -1,13 +1,6 @@
 import BaseApp from "./baseapp.js";
-import LoginHelper from "./loginhelper.js";
 import DocOptionsHelper from "./docoptionshelper.js";
-import DocCreateHelper from "./doccreatehelper.js";
-import {
-  HelpHelper,
-} from "./helphelper.js";
-import {
-  ChatDocument,
-} from "./chatdocument.js";
+import   ChatDocument from "./chatdocument.js";
 
 declare const firebase: any;
 declare const window: any;
@@ -39,10 +32,7 @@ export class SessionApp extends BaseApp {
   ticketCount = 0;
   ticketIsPending = false;
   selectedTicketCount = 0;
-  login = new LoginHelper(this);
   documentOptions = new DocOptionsHelper(this);
-  documentCreate = new DocCreateHelper(this);
-  helpHelper = new HelpHelper(this);
   markdownConverter = new window.showdown.Converter();
   documentsLookup: any = {};
   lastDocumentOptionChange = 0;
