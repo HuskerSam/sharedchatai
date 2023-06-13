@@ -506,19 +506,19 @@
 }
 
 .free_subscription {
-  background-color: rgb(80, 20, 20);
+  background-color: rgba(0, 0, 0, .1);
 }
 
 .prompter_subscription {
-  background-color: rgb(10, 80, 10);
+  background-color: rgba(0, 0, 0, .1);
 }
 
 .teacher_subscription {
-  background-color: rgb(10, 10, 80);
+  background-color: rgba(0, 0, 0, .1);
 }
 
 .one_time_token_purchase {
-  background-color: rgb(20, 20, 50);
+  background-color: rgba(0, 0, 0, .1);
 }
 
 .free_subscription button {
