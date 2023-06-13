@@ -30,7 +30,8 @@ export default class ProfileHelper {
     noLabelSave = true;
     replies_row: any;
     prompts_row: any;
-    total_row: any
+    total_row: any;
+    monthly_tokens_usage: any;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -62,6 +63,7 @@ export default class ProfileHelper {
         this.replies_row = document.querySelector(".replies_row");
         this.prompts_row = document.querySelector(".prompts_row");
         this.total_row = document.querySelector(".total_row");
+        this.monthly_tokens_usage = document.querySelector(".monthly_tokens_usage");
 
         this.profile_text_large_checkbox = document.querySelector(".profile_text_large_checkbox");
         this.profile_display_image_randomize = document.querySelector(".profile_display_image_randomize");
@@ -224,31 +226,35 @@ export default class ProfileHelper {
                         </div>
                         <div class="tab-pane fade" id="profile_user_usage_view" role="tabpanel"
                             aria-labelledby="usage_labels_tab_button">
-                            <div class="form-label">Token Usage for Billing</div>
+                            <div class="form-label">Monthly OpenAI Token Usage</div>
+                            <div class="summary_panel">
+                                Tokens Used: <span class="summary_column monthly_tokens_usage">0</span>
+                                <br>
+                                Monthly Limit: <span class="summary_column">20,000,000</span>
+                                <br>
+                                Reserve used: <span class="summary_column">0</span>
+                                <br>
+                                Token reserve: <span class="summary_column">0</span>
+                            </div>
+                            <hr>
+                            <div class="form-label">Token Usage History</div>
                             <table class="chat_token_usage_display">
                                 <tr>
                                     <th></th>
-                                    <th>All</th>
-                                    <th>Year</th>
                                     <th>Day</th>
                                     <th>Month</th>
+                                    <th>Year</th>
+                                    <th>All Time</th>
                                 </tr>
                                 <tr class="replies_row"></tr>
                                 <tr class="prompts_row"></tr>
                                 <tr class="total_row"></tr>
                             </table>
-                            <div class="summary_panel">
-                                One Time Usage: <span class="summary_column">0</span>
-                                <br>
-                                One Time Bank: <span class="summary_column">5,655,323</span>
-                                <br>
-                                Monthly Limit: <span class="summary_column">100,000,000</span>
-                            </div>
                             <hr>
                             <table>
                                 <tr>
-                                    <td>Level: &nbsp;</td>
-                                    <td class="account_subscription_status">Free</td>
+                                    <td>Subscription Level: &nbsp;</td>
+                                    <td class="account_subscription_status">Try out</td>
                                 </tr>
                             </table>
                             <br>
@@ -286,9 +292,9 @@ export default class ProfileHelper {
                                     Upgrade</button>
                                 </div>
                                 <div class="one_time_token_purchase">
-                                    Additional Tokens<br>
-                                    No time limit<br>
-                                    20 million tokens<br>
+                                    Reserve Tokens<br>
+                                    No expiration<br>
+                                    10 million tokens<br>
                                     One time<br>
                                     $20<br>
                                     <button class="btn btn-primary">
@@ -545,18 +551,19 @@ export default class ProfileHelper {
         const dailyPromptTokens = BaseApp.numberWithCommas(runningTokens["prompt_" + ymdFrag]);
         const dailyCompletionTokens = BaseApp.numberWithCommas(runningTokens["completion_" + ymdFrag]);
 
-        this.replies_row.innerHTML = `<td>Reply</td><td class="all_time_td">${allTimeCompletionTokens}</td>` +
+        this.replies_row.innerHTML = `<td>Reply</td><td class="day_td">${dailyCompletionTokens}</td>` +
+            `<td class="monthly_td">${monthlyCompletionTokens}</td>` +
             `<td class="yearly_td">${yearlyCompletionTokens}</td>` +
-            `<td class="day_td">${dailyCompletionTokens}</td>` +
-            `<td class="monthly_td">${monthlyCompletionTokens}</td>`;
-        this.prompts_row.innerHTML = `<td>Sent</td><td class="all_time_td">${allTimePromptTokens}</td>` +
+            `<td class="all_time_td">${allTimeCompletionTokens}</td>`;
+        this.prompts_row.innerHTML = `<td>Sent</td><td class="day_td">${dailyPromptTokens}</td>` +
+            `<td class="monthly_td">${monthlyPromptTokens}</td>` +
         `<td class="yearly_td">${yearlyPromptTokens}</td>` +
-        `<td class="day_td">${dailyPromptTokens}</td>` +
-        `<td class="monthly_td">${monthlyPromptTokens}</td>`;
-        this.total_row.innerHTML = `<td></td><td class="all_time_td">${allTimeTotalTokens}</td>` +
-        `<td class="yearly_td">${yearlyTotalTokens}</td>` +
-        `<td class="day_td">${dailyTotalTokens}</td>` +
-        `<td class="monthly_td">${monthlyTotalTokens}</td>`;
+            `<td class="all_time_td">${allTimePromptTokens}</td>`;
+        this.total_row.innerHTML = `<td>Total</td><td class="day_td">${dailyTotalTokens}</td>` +
+            `<td class="monthly_td">${monthlyTotalTokens}</td>` +
+            `<td class="yearly_td">${yearlyTotalTokens}</td>` +
+            `<td class="all_time_td">${allTimeTotalTokens}</td>`;
+        this.monthly_tokens_usage.innerHTML = monthlyTotalTokens;
     }
     /** populate modal fields and show */
     async show() {
