@@ -20,6 +20,9 @@ export class HomePageApp extends BaseApp {
     help_show_modal: any = document.querySelector(".help_show_modal");
     engine_settings_help: any = document.querySelector(".engine_settings_help");
     user_profile_help: any = document.querySelector(".user_profile_help");
+    
+    showhomepage_help: any = document.querySelector(".showhomepage_help");
+
     optimizng_prompts_help: any = document.querySelector(".optimizng_prompts_help");
     shared_sessions_help: any = document.querySelector(".shared_sessions_help");
     sign_out_homepage: any = document.querySelector(".sign_out_homepage");
@@ -48,7 +51,8 @@ export class HomePageApp extends BaseApp {
         if (this.user_profile_help) this.user_profile_help.addEventListener("click", () => this.helpHelper.show("profile"));
         if (this.optimizng_prompts_help) this.optimizng_prompts_help.addEventListener("click", () => this.helpHelper.show("prompts"));
         if (this.shared_sessions_help) this.shared_sessions_help.addEventListener("click", () => this.helpHelper.show("session"));
-
+        if (this.showhomepage_help) this.showhomepage_help.addEventListener("click", (event: any) => this.helpHelper.show("session", event));
+        
         if (this.sign_out_homepage) {
             this.sign_out_homepage.addEventListener("click", (e: any) => {
                 if (!confirm("Are you sure you want to signout?")) return;

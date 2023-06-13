@@ -60,7 +60,7 @@ export class DashboardApp extends BaseApp {
       this.updateSessionFeed(null);
     });
 
-    this.show_dashboard_help_button.addEventListener("click", () => this.helpHelper.show("session"));
+    this.show_dashboard_help_button.addEventListener("click", (event: any) => this.helpHelper.show("session", event));
     this.profile_menu_anchor.addEventListener("click", (event: any) => {
       event.stopPropagation();
       event.preventDefault();

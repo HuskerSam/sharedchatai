@@ -62,8 +62,13 @@ export class HelpHelper {
     }
     /** populate modal fields and show for help viewer
      *  @param { string } topic /helphtml/[topic].html is loaded into help viewer
+     * @param { any } event dom event to prevent default
     */
-    show(topic: string) {
+    show(topic: string, event: any = null) {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
         this.help_viewer_iframe.src = "/helphtml/" + topic + ".html";
         this.help_dialog_header.innerHTML = topic.charAt(0).toUpperCase() + topic.slice(1);
         this.help_show_modal.click();

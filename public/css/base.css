@@ -486,6 +486,7 @@ button.btn-primary:active {
   border-radius: 6px;
 }
 
+.showhomepage_help i,
 a.show_dashboard_help_button i,
 .show_document_options_help i {
   top: 2px;

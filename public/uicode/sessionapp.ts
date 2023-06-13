@@ -156,7 +156,7 @@ export class SessionApp extends BaseApp {
       this.show_document_options_popup.click();
       this.documentOptions.show(this.documentId, this.sessionDocumentData);
     });
-    this.show_document_options_help.addEventListener("click", () => this.helpHelper.show("engine"));
+    this.show_document_options_help.addEventListener("click", (event: any) => this.helpHelper.show("engine", event));
     this.show_token_threshold_dialog_help.addEventListener("click", () => this.helpHelper.show("engine"));
 
     this.docfield_temperature.addEventListener("input", () => this.optionSliderChange(true, "temperature",
