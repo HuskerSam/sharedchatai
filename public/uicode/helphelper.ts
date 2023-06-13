@@ -95,7 +95,7 @@ export default class HelpHelper {
                 </div>
                 <div class="modal-footer">
                     <div style="flex:1"></div>
-                    <button type="button" class="btn btn-primary modal_close_button help_dialog_close_button"
+                    <button type="button" class="btn btn-secondary modal_close_button help_dialog_close_button"
                         data-bs-dismiss="modal">
                         <i class="material-icons">cancel</i>
                         Close</button>
