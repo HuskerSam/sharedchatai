@@ -707,10 +707,12 @@ export class SessionApp extends BaseApp {
   getTicketCardDom(ticketId: string, data: any, tempTicket = false): any {
     const gameOwnerClass = data.isGameOwner ? " ticket_game_owner" : "";
     const ownerClass = data.uid === this.uid ? " ticket_owner" : "";
-
+    const oldSubmitted = new Date(data.submitted).getTime() < Date.now() + 5 * 3600 * 1000;
+    const oldTicketClass = oldSubmitted ? " old_ticket" : "";
     const tempTicketClass = tempTicket ? " temp_ticket_card" : "";
     const cardWrapper = document.createElement("div");
-    const cardClass = `mt-1 game_message_list_item${gameOwnerClass}${ownerClass}${tempTicketClass} ticket_running`;
+    const classes = gameOwnerClass + ownerClass + tempTicketClass + oldTicketClass;
+    const cardClass = `mt-1 game_message_list_item${classes} ticket_running`;
     const cardHTML =
       `<div class="${cardClass}" ticketid="${ticketId}" chatroomid="${ticketId}">
       <span class="tokens_prompt"></span>
