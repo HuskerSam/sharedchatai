@@ -55,7 +55,7 @@
 }
 
 .session_ticket_count {
-  color: rgb(180, 255, 180);
+  color: rgb(130, 150, 255);
   margin: auto;
   width: 3em;
 }
@@ -219,7 +219,8 @@
   overflow: hidden;
   min-height: 3.75em;
   display: flex;
-  flex-direction: row;
+  flex-direction: row;  
+  color: rgb(230, 230, 230);
 }
 
 .profile_text_option_large .document_name {

@@ -72,6 +72,7 @@ html {
 
 .member_prompt_count {
   text-align: right;
+  color: rgb(130, 150, 255);
 }
 
 .member_online_status {
@@ -868,6 +869,12 @@ li.mb-1 button.btn.btn-toggle {
   padding-bottom: 4px;
 }
 
+@media (min-width: 992px) {
+  li.mb-1 {
+    padding-left: 2px;
+  }
+}
+
 .suppress_transition.btn-toggle::before {
   transition: none !important;
 }
@@ -946,10 +953,11 @@ li.mb-1 button.btn.btn-toggle:before {
 }
 
 .sidebar_stats_wrapper {
-  flex: 1;
   display: flex;
   padding-right: 16px;
   line-height: 3em;
+  flex-direction: row;
+  margin-bottom: -8px;
 }
 
 .show_document_options_modal {
@@ -962,13 +970,7 @@ li.mb-1 button.btn.btn-toggle:before {
   overflow: hidden;
 }
 
-.document_menutop_usage_stats_line {
-  text-align: right;
-  flex: 1;
-}
-
 .last_activity_display {
-  padding-left: 24px;
   text-align: right;
 }
 
@@ -993,16 +995,10 @@ li.mb-1 button.btn.btn-toggle:before {
 
   .sidebar_stats_wrapper {
     padding-left: 16px;
-    display: block;
   }
 
   .document_menutop_usage_stats_line {
     margin-left: 0;
-    float: left;
-  }
-
-  .last_activity_display {
-    float: right;
   }
 
   .engine_options_button_label_menu {
