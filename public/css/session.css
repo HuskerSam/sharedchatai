@@ -612,6 +612,7 @@ pre code {
 
 .sidebar_tree_menu {
   background-color: unset;
+  width: 100%;
 }
 
 .mobile_layout_mode .menu_nav_bar {
