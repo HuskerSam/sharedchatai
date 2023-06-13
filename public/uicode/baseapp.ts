@@ -481,4 +481,44 @@ export default class BaseApp {
     if (isNaN(Number(x))) x = 0;
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
+  /** send owner setting for document to api
+   * @param { string } fieldKey title for title, usage for tokenUsageLimit, note for note
+  */
+  async saveDocumentOwnerOption(id: string, data: any, fieldKey: string) {
+    const updatePacket: any = {
+      gameNumber: id,
+    };
+
+    if (fieldKey === "title") {
+      updatePacket.title = data.title;
+    }
+    if (fieldKey === "usage") {
+      updatePacket.tokenUsageLimit = data.tokenUsageLimit;
+    }
+    if (fieldKey === "note") {
+      updatePacket.note = data.note;
+    }
+    if (fieldKey === "label") {
+      updatePacket.label = data.label;
+    }
+    if (fieldKey === "archived") {
+      updatePacket.archived = data.archived;
+    }
+
+    const token = await firebase.auth().currentUser.getIdToken();
+    const fResult = await fetch(this.basePath + "lobbyApi/games/owner/options", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      headers: {
+        "Content-Type": "application/json",
+        token,
+      },
+      body: JSON.stringify(updatePacket),
+    });
+    const json = await fResult.json();
+    if (!json.success) {
+      alert("Unable to save options " + json.errorMessage);
+    }
+  }
 }

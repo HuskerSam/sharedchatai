@@ -218,7 +218,7 @@ export default class DocOptionsHelper {
                 return;
             }
             this.docData.title = newTitle;
-            this.saveDocumentOwnerOption("title");
+            this.app.saveDocumentOwnerOption(this.chatDocumentId, this.docData, "title");
             this.modal_document_title_display.innerHTML = BaseApp.escapeHTML(newTitle);
         }
     }
@@ -228,7 +228,7 @@ export default class DocOptionsHelper {
         if (newNote !== null) {
             newNote = newNote.trim();
             this.docData.note = newNote;
-            this.saveDocumentOwnerOption("note");
+            this.app.saveDocumentOwnerOption(this.chatDocumentId, this.docData, "note");
             this.owner_note_display_div.innerHTML = BaseApp.escapeHTML(newNote);
         }
     }
@@ -242,7 +242,7 @@ export default class DocOptionsHelper {
                 return;
             }
             this.docData.tokenUsageLimit = newLimit;
-            this.saveDocumentOwnerOption("usage");
+            this.app.saveDocumentOwnerOption(this.chatDocumentId, this.docData, "usage");
 
             this.shared_usage_limit_div.innerHTML = BaseApp.numberWithCommas(this.documentData.tokenUsageLimit);
         }
@@ -250,48 +250,8 @@ export default class DocOptionsHelper {
     /** */
     updateArchivedStatus() {
         this.docData.archived = this.docfield_archived_checkbox.checked;
-        this.saveDocumentOwnerOption("archived");
-    }
-    /** send owner setting for document to api
-     * @param { string } fieldKey title for title, usage for tokenUsageLimit, note for note
-    */
-    async saveDocumentOwnerOption(fieldKey: string) {
-        const docId = this.chatDocumentId;
-        const updatePacket: any = {
-            gameNumber: docId,
-        };
+        this.app.saveDocumentOwnerOption(this.chatDocumentId, this.docData, "archived");
 
-        if (fieldKey === "title") {
-            updatePacket.title = this.docData.title;
-        }
-        if (fieldKey === "usage") {
-            updatePacket.tokenUsageLimit = this.docData.tokenUsageLimit;
-        }
-        if (fieldKey === "note") {
-            updatePacket.note = this.docData.note;
-        }
-        if (fieldKey === "label") {
-            updatePacket.label = this.docData.label;
-        }
-        if (fieldKey === "archived") {
-            updatePacket.archived = this.docData.archived;
-        }
-
-        const token = await firebase.auth().currentUser.getIdToken();
-        const fResult = await fetch(this.app.basePath + "lobbyApi/games/owner/options", {
-            method: "POST",
-            mode: "cors",
-            cache: "no-cache",
-            headers: {
-                "Content-Type": "application/json",
-                token,
-            },
-            body: JSON.stringify(updatePacket),
-        });
-        const json = await fResult.json();
-        if (!json.success) {
-            alert("Unable to save options " + json.errorMessage);
-        }
     }
     /** template as string for modal
      * @return { string } html template as string
@@ -473,12 +433,12 @@ export default class DocOptionsHelper {
         const data = window.$(".edit_options_document_labels").select2("data");
         const labels: Array<string> = [];
         data.forEach((item: any) => {
-            const text = item.text.trim().substring(0, 30);
+            const text = item.text.trim().replaceAll(",", "").substring(0, 30);
             if (text) labels.push(text);
         });
 
         this.docData.label = labels.join(",");
-        this.saveDocumentOwnerOption("label");
+        this.app.saveDocumentOwnerOption(this.chatDocumentId, this.docData, "label");
     }
     /** delete game api call */
     async deleteGame() {

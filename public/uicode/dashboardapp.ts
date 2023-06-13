@@ -174,6 +174,16 @@ export class DashboardApp extends BaseApp {
         if (title === "") title = `<span class="unused_chatroom_title_placeholder">unused</span>`;
         BaseApp.setHTML(titleDom, title);
 
+        const labelsDom = card.querySelector(".session_labels_column");
+        let label = BaseApp.escapeHTML(doc.data().label);
+        if (!label) label = "";
+        let html = "";
+        const labels = label.split(",");
+        labels.forEach((l: string) => {
+          if (l) html += `<span class="dashboard_session_chip">${l}</span>`;
+        });
+        labelsDom.innerHTML = html;
+
         const countDom = card.querySelector(".session_ticket_count");
         let count: string = doc.data().totalTickets;
         if (!count) count = "0";
@@ -231,6 +241,7 @@ export class DashboardApp extends BaseApp {
           </button>
         </div>
         <div class="document_name" data-docid="${doc.id}"></div>
+        <div class="session_labels_column" data-docid="${doc.id}"></div>
         <div>
           <button class="details_game btn btn-secondary hover_yellow" data-gamenumber="${data.gameNumber}">
             <div>

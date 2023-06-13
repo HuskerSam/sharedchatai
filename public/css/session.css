@@ -899,6 +899,12 @@ li.mb-1 button.btn.btn-toggle:before {
   right: 4px;
 }
 
+.ticket_user_display_header {
+  position: relative;
+  top: -6px;
+  text-align: left;
+}
+
 .sidebarusers_link_copy span {
   position: relative;
   top: 4px;
