@@ -69,6 +69,7 @@ export default class ProfileHelper {
         this.profile_text_large_checkbox = document.querySelector(".profile_text_large_checkbox");
 
         this.sign_out_button.addEventListener("click", (e: any) => {
+            if (!confirm("Are you sure you want to signout?")) return;
             this.authSignout(e);
             e.preventDefault();
             return false;

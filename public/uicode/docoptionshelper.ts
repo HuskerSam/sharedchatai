@@ -258,7 +258,6 @@ export default class DocOptionsHelper {
     updateArchivedStatus() {
         this.docData.archived = this.docfield_archived_checkbox.checked;
         this.app.saveDocumentOwnerOption(this.chatDocumentId, this.docData, "archived");
-
     }
     /** template as string for modal
      * @return { string } html template as string

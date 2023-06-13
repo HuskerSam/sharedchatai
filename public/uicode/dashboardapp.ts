@@ -234,7 +234,6 @@ export class DashboardApp extends BaseApp {
     const html = `<a href="/session/?id=${data.gameNumber}"
        class="list-group-item list-group-item-action document_list_item card shadow-sm my-1 rounded card_shadow_sm ${ownerClass}"
      data-gamenumber="${doc.id}" gamenumber="${doc.id}">
-    <div class="dashboard_item_flex_wrapper">
         <button class="btn btn-secondary document_shared_status_icon_wrapper hover_yellow">
           <span class="material-icons">link</span>
         </button>
@@ -246,7 +245,7 @@ export class DashboardApp extends BaseApp {
         <button class="details_game btn btn-secondary hover_yellow" data-gamenumber="${data.gameNumber}">
             <span class="material-icons settings_icon">settings</span>
         </button>         
-    </div></a>`;
+    </a>`;
     const ctl = document.createElement("div");
     ctl.innerHTML = html;
     const card = ctl.children[0];

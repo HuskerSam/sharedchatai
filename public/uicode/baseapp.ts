@@ -482,6 +482,8 @@ export default class BaseApp {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
   /** send owner setting for document to api
+   * @param { string } id session id
+   * @param { any } data session document data (with new field value)
    * @param { string } fieldKey title for title, usage for tokenUsageLimit, note for note
   */
   async saveDocumentOwnerOption(id: string, data: any, fieldKey: string) {

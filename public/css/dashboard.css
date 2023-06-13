@@ -15,12 +15,14 @@
 }
 
 .document_status {
-  text-align: center;
+  text-align: left;
   display: block;
   clear: both;
   white-space: nowrap;
   overflow: visible;
   margin: auto;
+  min-width: 3.25em;
+  padding-left: 0.25em;
 }
 
 .profile_text_option_large .details_game {
@@ -96,11 +98,6 @@
   margin-right: 10px;
   border-color: transparent;
   color: rgb(200, 125, 200);
-}
-
-.dashboard_item_flex_wrapper {
-  display: flex;
-  flex-direction: row;
 }
 
 .no_games_in_dashboard {
@@ -221,6 +218,8 @@
   display: block;
   overflow: hidden;
   min-height: 3.75em;
+  display: flex;
+  flex-direction: row;
 }
 
 .profile_text_option_large .document_name {

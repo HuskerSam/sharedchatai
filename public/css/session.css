@@ -860,17 +860,9 @@ button.btn-primary.send_ticket_button {
 }
 
 li.mb-1 button.btn.btn-toggle {
-  font-size: 1.75em;
   width: 100%;
-  text-align: left;
-  margin-bottom: 8px;
-}
-
-li.mb-1 button.btn.btn-toggle {
   font-size: 1.75em;
-  width: 100%;
   text-align: left;
-  margin-bottom: 8px;
   padding-bottom: 4px;
 }
 
@@ -917,12 +909,18 @@ li.mb-1 button.btn.btn-toggle:before {
   position: absolute;
   top: 7px;
   right: 4px;
+  visibility: hidden;
+}
+
+.reset_engine_options_button.btn i {
+  position: relative;
+  top: 4px;
+  font-size: 20px;
 }
 
 .engine_settings_not_default .reset_engine_options_button {
-  background-color: rgb(0, 120, 0);
-  border-color: rgb(70, 220, 70);
   color: rgb(240, 240, 240);
+  visibility: visible;
 }
 
 .side_bar_title_wrapper {
