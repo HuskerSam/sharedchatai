@@ -22,13 +22,15 @@ export default class ProfileHelper {
     preset_logos_inited = false;
     prompt_for_new_user_name: any;
     show_modal_profile_help: any;
-    chat_token_usage_display: any;
     profile_text_large_checkbox: any;
     profile_text_monospace_checkbox: any;
     profile_prefixname_checkbox: any;
     profile_autoexclude_checkbox: any;
     lastLabelsSave = 0;
     noLabelSave = true;
+    replies_row: any;
+    prompts_row: any;
+    total_row: any
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -57,6 +59,9 @@ export default class ProfileHelper {
         this.profile_text_monospace_checkbox = document.querySelector(".profile_text_monospace_checkbox");
         this.profile_prefixname_checkbox = document.querySelector(".profile_prefixname_checkbox");
         this.profile_autoexclude_checkbox = document.querySelector(".profile_autoexclude_checkbox");
+        this.replies_row = document.querySelector(".replies_row");
+        this.prompts_row = document.querySelector(".prompts_row");
+        this.total_row = document.querySelector(".total_row");
 
         this.profile_text_large_checkbox = document.querySelector(".profile_text_large_checkbox");
         this.profile_display_image_randomize = document.querySelector(".profile_display_image_randomize");
@@ -66,7 +71,6 @@ export default class ProfileHelper {
         this.prompt_for_new_user_name.addEventListener("click", () => this.promptForNewUserName());
         this.profile_show_modal = document.querySelector(".profile_show_modal");
         this.show_modal_profile_help = document.querySelector(".show_modal_profile_help");
-        this.chat_token_usage_display = document.querySelector(".chat_token_usage_display");
         this.profile_text_large_checkbox = document.querySelector(".profile_text_large_checkbox");
 
         this.sign_out_button.addEventListener("click", (e: any) => {
@@ -220,13 +224,38 @@ export default class ProfileHelper {
                         </div>
                         <div class="tab-pane fade" id="profile_user_usage_view" role="tabpanel"
                             aria-labelledby="usage_labels_tab_button">
-                            <div class="form-label">Token Usage Meter</div>
-                            <div class="chat_token_usage_display">&nbsp;</div>
+                            <div class="form-label">Token Usage for Billing</div>
+                            <table class="chat_token_usage_display">
+                                <tr>
+                                    <th></th>
+                                    <th>All</th>
+                                    <th>Year</th>
+                                    <th>Day</th>
+                                    <th>Month</th>
+                                </tr>
+                                <tr class="replies_row"></tr>
+                                <tr class="prompts_row"></tr>
+                                <tr class="total_row"></tr>
+                            </table>
+                            <div class="summary_panel">
+                                One Time Usage: <span class="summary_column">0</span>
+                                <br>
+                                One Time Bank: <span class="summary_column">5,655,323</span>
+                                <br>
+                                Monthly Limit: <span class="summary_column">100,000,000</span>
+                            </div>
                             <hr>
-                            Subscription Level: <span class="account_subscription_status">Free</span><br>
+                            <table>
+                                <tr>
+                                    <td>Level: &nbsp;</td>
+                                    <td class="account_subscription_status">Free</td>
+                                </tr>
+                            </table>
+                            <br>
                             <div class="subscription_panel">
                                 <div class="free_subscription selected">
                                     Try out<br>
+                                    Unlimited Sharing<br>
                                     50 thousand tokens<br>
                                     Monthly<br>
                                     Free<br>
@@ -236,6 +265,7 @@ export default class ProfileHelper {
                                 </div>
                                 <div class="prompter_subscription">
                                     Prompter<br>
+                                    Unlimited Sharing<br>
                                     20 million tokens<br>
                                     Monthly<br>
                                     $20<br>
@@ -246,7 +276,8 @@ export default class ProfileHelper {
                             </div>
                             <div class="subscription_panel">
                                 <div class="teacher_subscription">
-                                    Teacher<br>
+                                    Collaborator<br>
+                                    Unlimited Sharing<br>
                                     100 million tokens<br>
                                     Monthly<br>
                                     $50<br>
@@ -256,6 +287,7 @@ export default class ProfileHelper {
                                 </div>
                                 <div class="one_time_token_purchase">
                                     Additional Tokens<br>
+                                    No time limit<br>
                                     20 million tokens<br>
                                     One time<br>
                                     $20<br>
@@ -491,10 +523,6 @@ export default class ProfileHelper {
         let usageData = usageDoc.data();
         if (!usageData) usageData = {};
 
-        let allTimeDisplay = "";
-        let todayDisplay = "";
-        let monthlyDisplay = "";
-        let yearlyDisplay = "";
         const today = new Date().toISOString();
         const yearFrag = today.substring(0, 4);
         const yearMonthFrag = today.substring(0, 7);
@@ -517,35 +545,18 @@ export default class ProfileHelper {
         const dailyPromptTokens = BaseApp.numberWithCommas(runningTokens["prompt_" + ymdFrag]);
         const dailyCompletionTokens = BaseApp.numberWithCommas(runningTokens["completion_" + ymdFrag]);
 
-        allTimeDisplay = `<span class="usage_prefix_label">All</span>
-        <span class="total_token">${allTimeTotalTokens}</span> 
-        <span class="completion_token">${allTimeCompletionTokens}</span> 
-        <span class="prompt_token">${allTimePromptTokens}</span>`;
-        yearlyDisplay = `<span class="usage_prefix_label">Year</span>
-        <span class="total_token">${yearlyTotalTokens}</span> 
-        <span class="completion_token">${yearlyCompletionTokens}</span> 
-        <span class="prompt_token">${yearlyPromptTokens}</span>`;
-        monthlyDisplay = `<span class="usage_prefix_label">Mon</span>
-        <span class="total_token">${monthlyTotalTokens}</span>
-        <span class="completion_token">${monthlyCompletionTokens}</span> 
-        <span class="prompt_token">${monthlyPromptTokens}</span>`;
-        todayDisplay = `<span class="usage_prefix_label">Day</span>
-        <span class="total_token">${dailyTotalTokens}</span>
-                <span class="completion_token">${dailyCompletionTokens}</span>
-                <span class="prompt_token">${dailyPromptTokens}</span>`;
-
-        const headerRow = `<span class="usage_prefix_label"></span>
-                <span class="total_token">Total</span>
-                <span class="completion_token">Replies</span>
-                <span class="prompt_token">Prompts</span>`;
-        this.chat_token_usage_display.innerHTML = `` +
-            `<div class="token_usage_table">` +
-            `<div class="token_usage_row header">` + headerRow + "</div>" +
-            `<div class="token_usage_row">` + todayDisplay + "</div>" +
-            `<div class="token_usage_row">` + monthlyDisplay + "</div>" +
-            `<div class="token_usage_row">` + yearlyDisplay + "</div>" +
-            `<div class="token_usage_row">` + allTimeDisplay + "</div>" +
-            `</div>`;
+        this.replies_row.innerHTML = `<td>Reply</td><td class="all_time_td">${allTimeCompletionTokens}</td>` +
+            `<td class="yearly_td">${yearlyCompletionTokens}</td>` +
+            `<td class="day_td">${dailyCompletionTokens}</td>` +
+            `<td class="monthly_td">${monthlyCompletionTokens}</td>`;
+        this.prompts_row.innerHTML = `<td>Sent</td><td class="all_time_td">${allTimePromptTokens}</td>` +
+        `<td class="yearly_td">${yearlyPromptTokens}</td>` +
+        `<td class="day_td">${dailyPromptTokens}</td>` +
+        `<td class="monthly_td">${monthlyPromptTokens}</td>`;
+        this.total_row.innerHTML = `<td></td><td class="all_time_td">${allTimeTotalTokens}</td>` +
+        `<td class="yearly_td">${yearlyTotalTokens}</td>` +
+        `<td class="day_td">${dailyTotalTokens}</td>` +
+        `<td class="monthly_td">${monthlyTotalTokens}</td>`;
     }
     /** populate modal fields and show */
     async show() {

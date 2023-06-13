@@ -524,3 +524,25 @@
 .free_subscription button {
   visibility: hidden;
 }
+
+.chat_token_usage_display {
+  width: 100%;
+  text-align: right;
+}
+
+.summary_panel {
+  text-align: right;
+}
+
+.summary_panel .summary_column {
+  width: 7.5em;
+  display: inline-block;
+}
+
+.total_row .monthly_td {
+  color: rgb(100, 255, 100);
+}
+
+.chat_token_usage_display tr td:first-child {
+  text-align: left;
+}
