@@ -163,11 +163,11 @@ export class SessionApp extends BaseApp {
       this.docfield_max_tokens, this.max_tokens_slider_label, "Max Response Tokens: "));
 
     this.docfield_model.addEventListener("change", () => {
-       if (this.sessionDocumentData.archived || this.docfield_model.value.indexOf("gpt-3.5") === -1) {
+      if (this.sessionDocumentData.archived || this.docfield_model.value.indexOf("gpt-3.5") === -1) {
         this.docfield_model.value = this.sessionDocumentData.model;
         return;
-       }
-       this.saveDocumentOption("model", this.docfield_model.value);
+      }
+      this.saveDocumentOption("model", this.docfield_model.value);
     });
 
     this.reset_engine_options_button.addEventListener("click", () => this.resetEngineDefaults());
@@ -1164,7 +1164,7 @@ export class SessionApp extends BaseApp {
     if (tweaked) document.body.classList.add("engine_settings_tweaked");
     else document.body.classList.remove("engine_settings_tweaked");
 
-    if (this.sessionDocumentData.max_tokens !== 500) document.body.classList.add("engine_settings_minor_tweaked");
+    if (notDefault && !tweaked) document.body.classList.add("engine_settings_minor_tweaked");
     else document.body.classList.remove("engine_settings_minor_tweaked");
 
     const debounce = (this.lastDocumentOptionChange + 500 > new Date().getTime());
