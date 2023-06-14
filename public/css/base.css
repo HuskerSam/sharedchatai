@@ -554,3 +554,7 @@ table.number {
   font-family: monospace;
   text-align: right;
 }
+
+table.number td {
+  padding-left: 8px;
+}

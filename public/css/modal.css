@@ -89,9 +89,10 @@
 .shared_usage_limit_div {
   line-height: 2em;
   display: inline-block;
-  width: 68px;
+  width: 100px;
   text-align: right;
   overflow: visible;
+  font-family: monospace;
 }
 
 .prompt_for_new_usage {
@@ -362,7 +363,7 @@
   left: -12px;
 }
 
-.engine_sub_panel_usage_stat {
+.document_usage_stats_line {
   float: right;
 }
 
@@ -554,4 +555,23 @@
 .help_navigation_bar a {
   padding: 4px;
   color: white;
+}
+
+.dialog_header_member_image {
+  margin-left: 8px;
+  margin-right: 2px;
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  border-radius: 6px;
+  flex: none;
+}
+
+.dialog_header_member_name {
+  white-space: nowrap;
+  overflow: hidden;
 }

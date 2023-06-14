@@ -42,6 +42,11 @@ export default class DocOptionsHelper {
     document_usage_stats_line: any;
     show_threshold_dialog: any;
     show_packets_dialog: any;
+    doc_prompt_usage: any;
+    doc_response_usage: any;
+    doc_total_usage: any;
+    dialog_header_member_image: any;
+    dialog_header_member_name: any;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -64,7 +69,10 @@ export default class DocOptionsHelper {
         this.modal_close_button = this.modalContainer.querySelector(".modal_close_button");
         this.modal_document_title_display = this.modalContainer.querySelector(".modal_document_title_display");
 
-        this.document_usage_stats_line = document.querySelector(".document_usage_stats_line");
+        this.doc_prompt_usage = document.querySelector(".doc_prompt_usage");
+        this.doc_response_usage = document.querySelector(".doc_response_usage");
+        this.doc_total_usage = document.querySelector(".doc_total_usage");
+
         this.docfield_archived_checkbox = this.modalContainer.querySelector(".docfield_archived_checkbox");
         this.docfield_archived_checkbox.addEventListener("input", () => this.updateArchivedStatus());
         this.shared_archived_status_wrapper = this.modalContainer.querySelector(".shared_archived_status_wrapper");
@@ -169,6 +177,9 @@ export default class DocOptionsHelper {
 
         this.show_packets_dialog = this.modalContainer.querySelector(".show_packets_dialog");
         this.show_packets_dialog.addEventListener("click", () => this.showPacketsDialog());
+
+        this.dialog_header_member_image = this.modalContainer.querySelector(".dialog_header_member_image");
+        this.dialog_header_member_name = this.modalContainer.querySelector(".dialog_header_member_name");
     }
     /** */
     async showPacketsDialog() {
@@ -266,9 +277,11 @@ export default class DocOptionsHelper {
         <div class="modal-dialog app_panel">
             <div class="modal-content app_panel">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editDocumentModalLabel">
+                    <h5 class="modal-title" id="editDocumentModalLabel" style="display: flex;flex-direction: row;overflow: hidden;">
                         <button class="session_header_link_button btn btn-secondary"><i class="material-icons">settings</i></button>
-                        Session
+                        Owner:
+                        <span class="member_profile_image dialog_header_member_image"></span>
+                        <span class="member_profile_name dialog_header_member_name"></span>
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -395,9 +408,20 @@ export default class DocOptionsHelper {
                                     <i class="material-icons">edit</i>
                                 </button>
                             </div>
-                            <div class="engine_sub_panel_usage_stat">
-                                <div class="document_usage_stats_line"></div>
-                            </div>
+                            <table class="document_usage_stats_line number">
+                                <tr>
+                                    <td>Prompt</td>
+                                    <td class="doc_prompt_usage"></td>
+                                </tr>
+                                <tr>
+                                    <td>Response</td>
+                                    <td class="doc_response_usage"></td>
+                                </tr>
+                                <tr>
+                                    <td>Total</td>
+                                    <td class="doc_total_usage"></td>
+                                </tr>
+                            </table>
                         </div>
                         <div class="tab-pane fade" id="owner_tab_view" role="tabpanel" aria-labelledby="owner_tab_button">
                             <label class="form-label">Labels</label>
@@ -708,11 +732,10 @@ export default class DocOptionsHelper {
     }
     /** paint document data */
     paintDocumentData() {
-        BaseApp.setHTML(this.document_usage_stats_line,
-            `Total: <span>${BaseApp.numberWithCommas(this.documentData.totalTokens)}</span><br>Prompt: 
-        <span>${BaseApp.numberWithCommas(this.documentData.promptTokens)}</span><br>
-        Response: <span>${BaseApp.numberWithCommas(this.documentData.completionTokens)}</span>
-      `);
+        this.doc_prompt_usage.innerHTML = BaseApp.numberWithCommas(this.documentData.promptTokens);
+        this.doc_response_usage.innerHTML = BaseApp.numberWithCommas(this.documentData.completionTokens);
+        this.doc_total_usage.innerHTML = BaseApp.numberWithCommas(this.documentData.totalTokens);
+
         this.modal_document_title_display.innerHTML = BaseApp.escapeHTML(this.documentData.title);
 
         const sharedStatus = ChatDocument.getDocumentSharedStatus(this.documentData, this.app.uid);
@@ -740,7 +763,9 @@ export default class DocOptionsHelper {
             this.modalContainer.classList.add("modal_options_shared_user");
         }
 
-        this.shared_usage_limit_div.innerHTML = this.documentData.tokenUsageLimit;
+        let sharedLimit = "none";
+        if (this.documentData.tokenUsageLimit) sharedLimit = BaseApp.numberWithCommas(this.documentData.tokenUsageLimit); 
+        this.shared_usage_limit_div.innerHTML = sharedLimit;
         this.docfield_archived_checkbox.checked = this.documentData.archived;
         this.shared_archived_status_wrapper.innerHTML = this.documentData.archived ? "Archived" : "Active";
 
@@ -787,6 +812,9 @@ export default class DocOptionsHelper {
             }
         }
 
+        this.dialog_header_member_image.setAttribute("uid", this.docData.createUser);
+        this.dialog_header_member_name.setAttribute("uid", this.docData.createUser);
+        this.app.updateUserNamesImages();
         this.paintDocumentData();
         this.refreshReportData();
     }

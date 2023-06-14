@@ -962,6 +962,13 @@ li.mb-1 button.btn.btn-toggle:before {
   left: -8px;
   white-space: nowrap;
   overflow: hidden;
+  padding-left: 20px;
+}
+
+@media (min-width: 440px) {
+  .show_document_options_modal {
+    padding-left: 12px;
+  }
 }
 
 .last_activity_display {
