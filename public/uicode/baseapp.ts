@@ -29,6 +29,7 @@ export default class BaseApp {
   userPresenceStatus: any = {};
   userPresenceStatusRefs: any = {};
   userStatusDatabaseRef: any;
+  sessionDocumentData: any = null;
   profileHelper = new ProfileHelper(this);
   login = new LoginHelper(this);
   documentCreate = new DocCreateHelper(this);
@@ -76,9 +77,8 @@ export default class BaseApp {
 
     if (this.profile) {
       this.updateUserStatus();
-      if (this.profileHelper) {
-        this.profileHelper.updateUserImageAndName();
-      }
+      this.updateUserNamesImages();
+      
       if (this.profile.textOptionsLarge) document.body.classList.add("profile_text_option_large");
       else document.body.classList.remove("profile_text_option_large");
       if (this.profile.textOptionsMonospace) document.body.classList.add("profile_text_option_monospace");
@@ -156,22 +156,8 @@ export default class BaseApp {
   }
   /** update user auth status, username/email etc */
   updateUserStatus() {
-    if (this.menu_profile_user_image_span) {
-      let img = this.profile.displayImage;
-      if (!img) img = "/images/defaultprofile.png";
-      const imgEle = document.createElement("img");
-      imgEle.setAttribute("crossorigin", "anonymous");
-      imgEle.setAttribute("src", img);
-      document.body.appendChild(imgEle);
-      this.menu_profile_user_image_span.style.backgroundImage = "url(" + img + ")";
-      imgEle.remove();
-    }
-    if (this.menu_profile_user_name_span) {
-      let displayName = this.profile.displayName;
-      if (!displayName) displayName = "Anonymous";
-      this.menu_profile_user_name_span.innerHTML = displayName;
-    }
-    return;
+    if (this.menu_profile_user_image_span) this.menu_profile_user_image_span.setAttribute("uid", this.uid);
+    if (this.menu_profile_user_name_span) this.menu_profile_user_name_span.setAttribute("uid", this.uid);
   }
   /** google sign in handler
    * @param { any } e dom event - preventDefault is called if passed
@@ -525,5 +511,28 @@ export default class BaseApp {
     if (!json.success) {
       alert("Unable to save options " + json.errorMessage);
     }
+  }
+  /** query dom for all member images names and update */
+  updateUserNamesImages() {
+    const imgCtls = document.querySelectorAll(".member_profile_image");
+    const nameCtls = document.querySelectorAll(".member_profile_name");
+
+    imgCtls.forEach((imgCtl: any) => {
+      const uid: any = imgCtl.getAttribute("uid");
+      let imgPath = "";
+      if (this.sessionDocumentData) imgPath = this.sessionDocumentData.memberImages[uid];
+      if (this.uid === uid) imgPath = this.profile.displayImage;
+      if (!imgPath) imgPath = "/images/defaultprofile.png";
+      imgCtl.style.backgroundImage = "url(" + imgPath + ")";
+    });
+
+    nameCtls.forEach((nameCtl: any) => {
+      const uid: any = nameCtl.getAttribute("uid");
+      let name = "";
+      if (this.sessionDocumentData) name = this.sessionDocumentData.memberNames[uid];
+      if (this.uid === uid) name = this.profile.displayName;
+      if (!name) name = "Anonymous";
+      BaseApp.setHTML(nameCtl, name);
+    });
   }
 }

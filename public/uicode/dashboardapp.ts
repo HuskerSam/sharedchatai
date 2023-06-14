@@ -78,28 +78,6 @@ export class DashboardApp extends BaseApp {
     this.initGameFeeds();
     this.initRTDBPresence();
   }
-  /** query dom for all chat_user_image and chat_user_name elements and update */
-  updateUserNamesImages() {
-    const imgCtls = document.querySelectorAll(".chat_user_image");
-    const nameCtls = document.querySelectorAll(".chat_user_name");
-    imgCtls.forEach((imgCtl: any) => {
-      const uid: any = imgCtl.dataset.chatuserid;
-      const docid: any = imgCtl.dataset.docid;
-      if (uid !== undefined && docid != undefined) {
-        const imgPath = this.documentsLookup[docid].memberImages[uid];
-        imgCtl.setAttribute("src", imgPath);
-      }
-    });
-
-    nameCtls.forEach((nameCtl: any) => {
-      const uid: any = nameCtl.dataset.chatuserid;
-      const docid: any = nameCtl.dataset.docid;
-      if (uid !== undefined && docid != undefined) {
-        const name = this.documentsLookup[docid].memberNames[uid];
-        BaseApp.setHTML(nameCtl, name);
-      }
-    });
-  }
   /** init listening events on games store to populate feeds in realtime */
   async initGameFeeds() {
     if (this.gameFeedInited || !this.profile) return;

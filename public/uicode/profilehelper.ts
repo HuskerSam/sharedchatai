@@ -122,7 +122,7 @@ export default class ProfileHelper {
         const imageIndex = Math.floor(Math.random() * keys.length);
         const logoName = keys[imageIndex];
         this.app.profile.displayImage = profileLogos[logoName];
-        this.updateUserImageAndName();
+        this.app.updateUserNamesImages();
         this.saveProfileField("image");
     }
     /** template as string for modal
@@ -166,7 +166,7 @@ export default class ProfileHelper {
                                 <label class="form-label">Name and Image</label>
                                 <br>
                                 <div style="display:flex;flex-direction:row;width:100%;">
-                                    <div class="profile_display_name"></div>
+                                    <div class="profile_display_name member_profile_name"></div>
                                     <div>
                                         <button class="btn btn-secondary prompt_for_new_user_name">
                                             <i class="material-icons">edit</i>
@@ -180,8 +180,8 @@ export default class ProfileHelper {
                                     </div>
                                 </div>
                                 <div style="line-height: 4em;margin-top:-18px">
-                                    <div class="profile_display_image"
-                                        style="background-image:url(/images/defaultprofile.png);"></div>
+                                    <div class="profile_display_image member_profile_image"
+                                        style=""></div>
                                     <input type="file" class="file_upload_input" style="display:none;">
                                     <button class="profile_display_image_clear btn btn-secondary">
                                         <i class="material-icons">delete</i>
@@ -408,7 +408,7 @@ export default class ProfileHelper {
                 merge: true,
             });
         }
-        this.updateUserImageAndName();
+        this.app.updateUserNamesImages();
     }
     /** reset profile image (and store result in user profile) */
     async clearProfileImage() {
@@ -421,7 +421,7 @@ export default class ProfileHelper {
             });
         }
         this.app.profile.displayImage = "";
-        this.updateUserImageAndName();
+        this.app.updateUserNamesImages();
     }
     /** generate a random "safe" name */
     async randomizeProfileName(): Promise<void> {
@@ -496,16 +496,6 @@ export default class ProfileHelper {
                 merge: true,
             });
         }
-    }
-    /** paint user image preview */
-    updateUserImageAndName() {
-        let bkg = `url(/images/defaultprofile.png)`;
-        if (this.app.profile.displayImage) bkg = `url(${this.app.profile.displayImage})`;
-        this.profile_display_image.style.backgroundImage = bkg;
-
-        let displayName = this.app.profile.displayName;
-        if (!displayName) displayName = "Anonymous";
-        this.profile_display_name.innerHTML = displayName;
     }
     /** signout of firebase authorization
      * @param { any } e dom event
@@ -602,7 +592,9 @@ export default class ProfileHelper {
         this.profile_text_monospace_checkbox.checked = (this.app.profile.textOptionsMonospace === true);
         this.profile_prefixname_checkbox.checked = (this.app.profile.prefixName === true);
         this.profile_autoexclude_checkbox.checked = (this.app.profile.autoExclude === true);
-        this.updateUserImageAndName();
+        this.profile_display_image.setAttribute("uid", this.app.uid);
+        this.profile_display_name.setAttribute("uid", this.app.uid);
+        this.app.updateUserNamesImages();
         this.updateTokenUsage();
         this.profile_show_modal.click();
     }

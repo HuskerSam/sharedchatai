@@ -467,7 +467,7 @@ export default class GameAPI {
     const freshUser = <any>await firebaseAdmin.firestore().doc(`Users/${uid}`).get();
 
     let image: string | null | undefined = freshUser.data().displayImage;
-    if (!image) image = "/images/defaultprofile.png";
+    if (!image) image = "";
 
     const gamesQuery = await firebaseAdmin.firestore().collection(`Games`)
       .where("members." + uid, ">", "").get();

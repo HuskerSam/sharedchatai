@@ -20,7 +20,6 @@ export class SessionApp extends BaseApp {
   recentDocumentsSubscription: any = null;
   lastInputTokenCount = 0;
   lastDocumentsSnapshot: any = null;
-  sessionDocumentData: any;
   alertErrors = false;
   mobileLayoutCache: any = null;
   ticketsLookup: any = {};
@@ -545,22 +544,11 @@ export class SessionApp extends BaseApp {
       const submittedTime: any = card.querySelector(".last_submit_time");
       submittedTime.setAttribute("data-timesince", doc.data().submitted);
 
-      let name = this.sessionDocumentData.memberNames[this.ticketsLookup[doc.id].uid];
-      if (!name) name = "Anonymous";
-      const ele1: any = card.querySelector(".ticket_owner_name");
-      if (ele1.innerHTML !== name) {
-        ele1.innerHTML = name;
-        ele1.setAttribute("ticketowneruid", this.ticketsLookup[doc.id].uid);
-      }
 
-      let img = this.sessionDocumentData.memberImages[this.ticketsLookup[doc.id].uid];
-      if (!img) img = "/images/defaultprofile.png";
-      const ele: any = card.querySelector(".ticket_owner_image");
-      if (ele.style.backgroundImage !== `url(${img})`) {
-        ele.style.backgroundImage = ``;
-        ele.style.backgroundImage = `url(${img})`;
-        ele.setAttribute("ticketowneruid", this.ticketsLookup[doc.id].uid);
-      }
+      const ele1: any = card.querySelector(".ticket_owner_name");
+      ele1.setAttribute("uid", this.ticketsLookup[doc.id].uid);
+      const ele2: any = card.querySelector(".ticket_owner_image");
+      ele2.setAttribute("uid", this.ticketsLookup[doc.id].uid);
 
       if (this.ticketsLookup[doc.id].includeInMessage === true) {
         chkBox.checked = true;
@@ -693,29 +681,6 @@ export class SessionApp extends BaseApp {
       alert("Delete ticket failed");
     }
   }
-  /** query dom for all ticket_owner_image and ticket_owner_name elements and update */
-  updateUserNamesImages() {
-    const imgCtls = document.querySelectorAll(".ticket_owner_image");
-    const nameCtls = document.querySelectorAll(".ticket_owner_name");
-
-    imgCtls.forEach((imgCtl: any) => {
-      const uid: any = imgCtl.getAttribute("ticketowneruid");
-      if (uid !== undefined) {
-        let imgPath = this.sessionDocumentData.memberImages[uid];
-        if (!imgPath) imgPath = "/images/defaultprofile.png";
-        imgCtl.style.backgroundImage = "url(" + imgPath + ")";
-      }
-    });
-
-    nameCtls.forEach((nameCtl: any) => {
-      const uid: any = nameCtl.getAttribute("ticketowneruid");
-      if (uid !== undefined) {
-        let name = this.sessionDocumentData.memberNames[uid];
-        if (!name) name = "Anonymous";
-        BaseApp.setHTML(nameCtl, name);
-      }
-    });
-  }
   /** generate html for message card
    * @param { string } ticketId doc id
    * @param { any } data firestore message document
@@ -737,8 +702,8 @@ export class SessionApp extends BaseApp {
       <div class="m-1 user_assist_request_header">
         <div style="flex:1;" class="ticket_user_display_header d-flex flex-column">
             <div class="user_assist_request_header_user" >
-              <span class="ticket_owner_image" ticketowneruid=""></span>
-              <span class="ticket_owner_name" ticketowneruid=""></span>
+              <span class="ticket_owner_image member_profile_image" uid=""></span>
+              <span class="ticket_owner_name member_profile_name" uid=""></span>
             </div>
           </div>
           <button class="rerun_ticket btn btn-secondary" data-ticketid="${ticketId}"><i
@@ -863,22 +828,11 @@ export class SessionApp extends BaseApp {
     };
 
     const tempCard = this.getTicketCardDom(new Date().toISOString(), tempTicket, true);
-    let name = this.sessionDocumentData.memberNames[this.uid];
-    if (!name) name = "Anonymous";
     const ele1: any = tempCard.querySelector(".ticket_owner_name");
-    if (ele1.innerHTML !== name) {
-      ele1.innerHTML = name;
-      ele1.setAttribute("ticketowneruid", this.uid);
-    }
-
-    let img = this.sessionDocumentData.memberImages[this.uid];
-    if (!img) img = "/images/defaultprofile.png";
-    const ele: any = tempCard.querySelector(".ticket_owner_image");
-    if (ele.style.backgroundImage !== `url(${img})`) {
-      ele.style.backgroundImage = ``;
-      ele.style.backgroundImage = `url(${img})`;
-      ele.setAttribute("ticketowneruid", this.uid);
-    }
+    ele1.setAttribute("uid", this.uid);
+    const ele2: any = tempCard.querySelector(".ticket_owner_image");
+    ele2.setAttribute("uid", this.uid);
+  
 
     this.tickets_list.appendChild(tempCard);
     this.scrollTicketListBottom();
@@ -907,6 +861,8 @@ export class SessionApp extends BaseApp {
       console.log("message post", json);
       alert(json.errorMessage);
     }
+
+    this.updateUserNamesImages();
 
     this.scrollTicketListBottom();
     setTimeout(() => this.scrollTicketListBottom(), 150);
@@ -1114,7 +1070,6 @@ export class SessionApp extends BaseApp {
 
       membersList.forEach((member: string) => {
         this.addUserPresenceWatch(member);
-        const data = this._gameMemberData(member);
 
         const timeSince = this.timeSince(new Date(members[member]));
         const isOwner = member === this.sessionDocumentData.createUser ? " is_document_owner" : "";
@@ -1126,10 +1081,10 @@ export class SessionApp extends BaseApp {
 
         html += `<li class="member_list_item ${ticketRunningClass}">
         <div class="members_feed_line_wrapper${isOwner}">
-            <span class="members_feed_profile_image" style="background-image:url(${data.img})"></span>
+            <span class="members_feed_profile_image member_profile_image" uid="${member}"></span>
             <div class="members_feed_online_status member_online_status" data-uid="${member}"></div>
             <div class="member_name_wrapper">
-              <span class="members_feed_profile_name">${data.name}</span>
+              <span class="members_feed_profile_name member_profile_name" uid="${member}"></span>
             </div>
             <div class="member_activity_wrapper">
               <div class="member_prompt_count">${ticketCount}</div>
@@ -1171,21 +1126,6 @@ export class SessionApp extends BaseApp {
       const json = await fResult.json();
       console.log("change game options result", json);
     }
-  }
-  /** member data for a user
-   * @param { string } uid user id
-   * @return { any } name, img
-   */
-  _gameMemberData(uid: string) {
-    let name = this.sessionDocumentData.memberNames[uid];
-    let img = this.sessionDocumentData.memberImages[uid];
-    if (!name) name = "Anonymous";
-    if (!img) img = "/images/defaultprofile.png";
-
-    return {
-      name,
-      img,
-    };
   }
   /** paint user editable game options
   */
