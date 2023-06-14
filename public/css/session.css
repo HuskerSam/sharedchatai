@@ -769,11 +769,25 @@ pre code {
   display: none;
 }
 
+.empty_prompt_input_message {
+  display: none;
+  flex: 1;
+  text-align: right;
+}
+
+.empty_prompt_input .empty_prompt_input_message {
+  display: block;
+}
+
 .token_visualizer_preview {
   flex: 1;
   white-space: nowrap;
   overflow: hidden;
   text-align-last: right;
+}
+
+.empty_prompt_input .token_visualizer_preview {
+  display: none;
 }
 
 .token_visualizer_preview .token_even {
@@ -804,14 +818,10 @@ pre code {
 }
 
 .send_bar_display_header {
-  display: none;
+  display: flex;
   flex-direction: row;
   position: relative;
   margin-top: -4px;
-}
-
-.show_send_bar_display_header .send_bar_display_header {
-  display: flex;
 }
 
 button.btn-primary.send_ticket_button {
@@ -1052,4 +1062,14 @@ li.mb-1 button.btn.btn-toggle:before {
 
 .threshold_auto_exclude_checkbox {
   margin-top: 20px;
+}
+
+.temp_ticket_card {
+  max-height: 0px;
+  overflow: hidden;
+}
+
+.temp_ticket_card_animate {
+  transition: min-height .2s;
+  max-height: 100px;
 }

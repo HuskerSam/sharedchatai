@@ -1206,7 +1206,12 @@ export class SessionApp extends BaseApp {
     // generate fresh buffer numbers
     this.generateSubmitList();
 
-    const tokens = this.getEncodedToken(this.ticket_content_input.value);
+    const inputValue = this.ticket_content_input.value.trim();
+
+    if (inputValue === "") document.body.classList.add("empty_prompt_input");
+    else document.body.classList.remove("empty_prompt_input");
+
+    const tokens = this.getEncodedToken(inputValue);
 
     let html = "";
     let totalChars = 0;
