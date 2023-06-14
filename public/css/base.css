@@ -397,7 +397,7 @@ button.btn-primary:active {
 
 .shared_status_withusers,
 .shared_status_withusers.hover_yellow {
-  color: rgb(200, 30, 200);
+  color:rgb(150, 100, 230);
 }
 
 .shared_status_withothers,
