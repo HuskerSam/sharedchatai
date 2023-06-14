@@ -47,6 +47,7 @@ export class SessionApp extends BaseApp {
   paintOptionsDebounceTimer: any = null;
   lastMembersHTMLCache = "";
   modelLimit = 0;
+  excludeErrorMargin = 100;
   defaultUIEngineSettings: any = {
     model: "gpt-3.5-turbo",
     max_tokens: 500,
@@ -336,7 +337,7 @@ export class SessionApp extends BaseApp {
         title = title.substring(0, 100);
         const activityDate = this.showGmailStyleDate(new Date(data.lastActivity));
         const rowHTML = `<li>
-        <a href="/session/?id=${doc.id}">
+        <a href="/session/${doc.id}">
           <div class="sidebar_tree_recent_title title">${title}</div>
           <div class="activity_date">${activityDate}</div>
         </a></li>`;
@@ -972,7 +973,7 @@ export class SessionApp extends BaseApp {
     if (this.profile) {
       this.initRTDBPresence();
 
-      const urlSessionId = this.urlParams.get("id");
+      const urlSessionId = window.location.pathname.replace("/session/", "");
       if (this.documentId === null && urlSessionId) {
         this.gameAPIJoin(urlSessionId);
         this.documentId = urlSessionId;
@@ -1324,7 +1325,7 @@ export class SessionApp extends BaseApp {
     if (this.excludingTicketsRunning) return [];
     this.excludingTicketsRunning = true;
     document.body.classList.add("exclude_tickets_running");
-    let tokenReduction = this.includeTotalTokens + this.sessionDocumentData.max_tokens + this.lastInputTokenCount - this.modelLimit;
+    let tokenReduction = this.includeTotalTokens + this.sessionDocumentData.max_tokens + this.lastInputTokenCount - this.modelLimit + this.excludeErrorMargin;
 
     const tickets: Array<any> = [];
     this.lastTicketsSnapshot.forEach((doc: any) => tickets.unshift(doc));

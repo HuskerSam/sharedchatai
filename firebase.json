@@ -14,13 +14,32 @@
       "**/uicode/**",
       "**/node_modules/**"
     ],
-    "headers": [ {
-      "source" : "**/**",
-      "headers" : [ {
-        "key" : "Access-Control-Allow-Origin",
-        "value" : "*"
-      } ]
-    }]
+    "rewrites": [
+      {
+        "source": "/session/**",
+        "destination": "/session/index.html"
+      }
+    ],
+    "headers": [
+      {
+        "source": "**/**",
+        "headers": [
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+          }
+        ]
+      },
+      {
+        "source": "/models/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-store, max-age=30"
+          }
+        ]
+      }
+    ]
   },
   "storage": {
     "rules": "storage.rules"

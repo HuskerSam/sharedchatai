@@ -460,7 +460,7 @@ export default class BaseApp {
    * @param { string } buttonText optional button text (defaults link icon)
  */
   static copyGameLink(sessionId: string, btn: any, buttonText = "<span class=\"material-icons\">link</span>") {
-    navigator.clipboard.writeText(window.location.origin + "/session/?id=" + sessionId);
+    navigator.clipboard.writeText(window.location.origin + "/session/" + sessionId);
     btn.innerHTML = "✅ " + buttonText;
     setTimeout(() => btn.innerHTML = buttonText, 1200);
   }

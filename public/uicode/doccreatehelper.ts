@@ -227,7 +227,7 @@ export default class DocCreateHelper {
     } else {
       if (this.modal_open_new_document.checked) {
         const a = document.createElement("a");
-        a.setAttribute("href", `/session/?id=${json.gameNumber}`);
+        a.setAttribute("href", `/session/${json.gameNumber}`);
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
