@@ -47,7 +47,7 @@ export class SessionApp extends BaseApp {
   paintOptionsDebounceTimer: any = null;
   lastMembersHTMLCache = "";
   modelLimit = 0;
-  excludeErrorMargin = 100;
+  excludeErrorMargin = 0.97;
   defaultUIEngineSettings: any = {
     model: "gpt-3.5-turbo",
     max_tokens: 500,
@@ -1325,7 +1325,7 @@ export class SessionApp extends BaseApp {
     if (this.excludingTicketsRunning) return [];
     this.excludingTicketsRunning = true;
     document.body.classList.add("exclude_tickets_running");
-    let tokenReduction = this.includeTotalTokens + this.sessionDocumentData.max_tokens + this.lastInputTokenCount - this.modelLimit + this.excludeErrorMargin;
+    let tokenReduction = this.includeTotalTokens + this.sessionDocumentData.max_tokens + this.lastInputTokenCount - (this.modelLimit * this.excludeErrorMargin);
 
     const tickets: Array<any> = [];
     this.lastTicketsSnapshot.forEach((doc: any) => tickets.unshift(doc));
