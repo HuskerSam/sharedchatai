@@ -259,8 +259,9 @@ export default class DocOptionsHelper {
             }
             this.docData.tokenUsageLimit = newLimit;
             this.app.saveDocumentOwnerOption(this.chatDocumentId, this.docData, "usage");
-
-            this.shared_usage_limit_div.innerHTML = BaseApp.numberWithCommas(this.documentData.tokenUsageLimit);
+            let sharedLimit = "none";
+            if (this.documentData.tokenUsageLimit !== 0) sharedLimit = BaseApp.numberWithCommas(this.documentData.tokenUsageLimit); 
+            this.shared_usage_limit_div.innerHTML = sharedLimit;
         }
     }
     /** */
@@ -764,7 +765,7 @@ export default class DocOptionsHelper {
         }
 
         let sharedLimit = "none";
-        if (this.documentData.tokenUsageLimit) sharedLimit = BaseApp.numberWithCommas(this.documentData.tokenUsageLimit); 
+        if (this.documentData.tokenUsageLimit !== 0) sharedLimit = BaseApp.numberWithCommas(this.documentData.tokenUsageLimit); 
         this.shared_usage_limit_div.innerHTML = sharedLimit;
         this.docfield_archived_checkbox.checked = this.documentData.archived;
         this.shared_archived_status_wrapper.innerHTML = this.documentData.archived ? "Archived" : "Active";

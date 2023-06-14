@@ -220,7 +220,7 @@ export default class GameAPI {
       sessionDocumentData.archived = updatePacket.archived;
     }
 
-    if (req.body.tokenUsageLimit) {
+    if (req.body.tokenUsageLimit !== undefined) {
       const tokenUsageLimit = BaseClass.getNumberOrDefault(req.body.tokenUsageLimit, 0);
       updatePacket.tokenUsageLimit = tokenUsageLimit;
     }
