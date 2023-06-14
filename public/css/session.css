@@ -963,6 +963,7 @@ li.mb-1 button.btn.btn-toggle:before {
   line-height: 3em;
   flex-direction: row;
   margin-bottom: -8px;
+  flex: 1;
 }
 
 .show_document_options_modal {

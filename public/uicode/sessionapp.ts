@@ -46,6 +46,7 @@ export class SessionApp extends BaseApp {
   excludingTicketsRunning = false;
   paintOptionsDebounceTimer: any = null;
   lastMembersHTMLCache = "";
+  modelLimit = 0;
   defaultUIEngineSettings: any = {
     model: "gpt-3.5-turbo",
     max_tokens: 500,
@@ -158,7 +159,7 @@ export class SessionApp extends BaseApp {
     this.docfield_frequency_penalty.addEventListener("input", () => this.optionSliderChange(true, "frequency_penalty",
       this.docfield_frequency_penalty, this.frequency_penalty_slider_label, "Frequency Penalty: "));
     this.docfield_max_tokens.addEventListener("input", () => this.optionSliderChange(true, "max_tokens",
-      this.docfield_max_tokens, this.max_tokens_slider_label, "Completion Tokens: "));
+      this.docfield_max_tokens, this.max_tokens_slider_label, "Max Response Tokens: "));
 
     this.docfield_model.addEventListener("change", () => {
       // if (this.sessionDocumentData.archived) {
@@ -321,7 +322,7 @@ export class SessionApp extends BaseApp {
       if (doc.id !== this.documentId) {
         const data = doc.data();
         let title = BaseApp.escapeHTML(data.title);
-        if (!title) title = "unused";
+        if (!title) title = "untitled";
         // const activityDate = data.created.substring(5, 16).replace("T", " ").replace("-", "/");
         title = title.substring(0, 100);
         const activityDate = this.showGmailStyleDate(new Date(data.lastActivity));
@@ -1156,7 +1157,7 @@ export class SessionApp extends BaseApp {
 
     this.docfield_model.value = this.sessionDocumentData.model;
 
-    this.__debounceSliderPaint("max_tokens", debounce, "Completion Tokens: ");
+    this.__debounceSliderPaint("max_tokens", debounce, "Max Response Tokens: ");
     this.__debounceSliderPaint("temperature", debounce, "Temperature: ");
     this.__debounceSliderPaint("top_p", debounce, "Top P: ");
     this.__debounceSliderPaint("presence_penalty", debounce, "Presence Penalty: ");

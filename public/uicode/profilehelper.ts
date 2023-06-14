@@ -117,11 +117,11 @@ export default class ProfileHelper {
     }
     /** pick a random college logo for the profile image and save to firebase */
     async randomizeImage() {
-        await BaseApp.readJSONFile(`/data/logos.json`);
-        const keys = Object.keys(window.profileLogos);
+        const profileLogos = await BaseApp.readJSONFile(`/data/logos.json`);
+        const keys = Object.keys(profileLogos);
         const imageIndex = Math.floor(Math.random() * keys.length);
         const logoName = keys[imageIndex];
-        this.app.profile.displayImage = window.profileLogos[logoName];
+        this.app.profile.displayImage = profileLogos[logoName];
         this.updateUserImageAndName();
         this.saveProfileField("image");
     }

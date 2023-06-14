@@ -128,7 +128,7 @@ export class HomePageApp extends BaseApp {
         this.lastDocumentsSnapshot.forEach((doc: any) => {
             const data = doc.data();
             let title = BaseApp.escapeHTML(data.title);
-            if (!title) title = "unused";
+            if (!title) title = "untitled";
             // const activityDate = data.created.substring(5, 16).replace("T", " ").replace("-", "/");
             title = title.substring(0, 100);
             const activityDate = this.showGmailStyleDate(new Date(data.lastActivity));
