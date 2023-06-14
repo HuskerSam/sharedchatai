@@ -14,7 +14,6 @@ export class DashboardApp extends BaseApp {
   gameFeedSubscription: any;
   lastGamesFeedSnapshot: any;
   gameFeedInited = false;
-  documentsLookup: any = {};
   lastTicketsSnapshot: any = null;
   lastAssistsSnapshot: any = null;
   assistsLookup: any = {};
@@ -164,9 +163,20 @@ export class DashboardApp extends BaseApp {
         sharedIcon.classList.remove("shared_status_withusers");
         sharedIcon.classList.remove("shared_status_withothers");
 
-        if (sharedStatus === 0) sharedIcon.classList.add("shared_status_not");
-        if (sharedStatus === 1) sharedIcon.classList.add("shared_status_withusers");
-        if (sharedStatus === 2) sharedIcon.classList.add("shared_status_withothers");
+        const sharedStatusDom = card.querySelector(".session_shared_column");
+        sharedStatusDom.innerHTML = ChatDocument.getSharedUser(doc.id, doc.data(), this.uid);
+        if (sharedStatus === 0) {
+          sharedIcon.classList.add("shared_status_not");
+          sharedStatusDom.classList.add("shared_status_not"); 
+        }
+        if (sharedStatus === 1) {
+          sharedIcon.classList.add("shared_status_withusers");
+          sharedStatusDom.classList.add("shared_status_withusers");
+        }
+        if (sharedStatus === 2) {
+          sharedIcon.classList.add("shared_status_withothers");
+          sharedStatusDom.classList.add("shared_status_withothers");
+        }
       }
       this.documentsLookup[doc.id] = doc.data();
     });
@@ -211,6 +221,7 @@ export class DashboardApp extends BaseApp {
           data-showseconds="0"></div>
         <div class="session_ticket_count" data-docid="${doc.id}"></div> 
         <div class="session_labels_column" data-docid="${doc.id}"></div>
+        <div class="session_shared_column" data-docid="${doc.id}"></div>
         <button class="details_game btn btn-secondary hover_yellow" data-gamenumber="${data.gameNumber}">
             <span class="material-icons settings_icon">settings</span>
         </button>         

@@ -33,7 +33,6 @@ export class SessionApp extends BaseApp {
   selectedTicketCount = 0;
   documentOptions = new DocOptionsHelper(this);
   markdownConverter = new window.showdown.Converter();
-  documentsLookup: any = {};
   lastDocumentOptionChange = 0;
   sliderChangeDebounceTimeout: any = {};
   sliderPaintDebounceTimeout: any = {};

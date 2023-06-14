@@ -156,6 +156,18 @@
   margin-left: 8px;
 }
 
+.session_shared_column {
+  width: 100px;
+  display: none;
+  max-height: 3.3em;
+  overflow: hidden;
+  margin-top: -3px;
+  text-align: left;
+  margin-bottom: -8px;
+  text-align: center;
+  white-space: nowrap;
+}
+
 .session_labels_column {
   width: 20vw;
   display: none;
@@ -169,6 +181,12 @@
 
 @media (min-width: 850px) {
   .session_labels_column {
+    display: block;
+  }
+}
+
+@media (min-width: 1050px) {
+  .session_shared_column {
     display: block;
   }
 }
@@ -239,4 +257,23 @@
 
 .navbar-nav .nav-item {
   white-space: nowrap;
+}
+
+.dashboard_user_image {
+  margin-left: 8px;
+  margin-right: 2px;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  border-radius: 6px;
+  flex: none;
+}
+
+.dashboard_user_name {
+  white-space: nowrap;
+  overflow: hidden;
 }

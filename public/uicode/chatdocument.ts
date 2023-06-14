@@ -104,4 +104,39 @@ export default class ChatDocument {
 
     return sharedStatus;
   }
+  /** */
+  static getSharedUser(id: string, doc: any, uid: string): string {
+    const status = ChatDocument.getDocumentSharedStatus(doc, uid);
+    if (status === 0) return "";
+
+    if (status === 2) return `
+      <span class="dashboard_user_image member_profile_image" docid="${id}" uid="${doc.createUser}"></span>
+      <br>
+      <span class="dasboard_user_name member_profile_name" docid="${id}" uid="${doc.createUser}"></span>`;
+    
+    let members: any = {};
+    if (doc.members) members = doc.members;
+    let membersList = Object.keys(members);
+    membersList = membersList.sort((a: string, b: string) => {
+      if (doc.members[a] > doc.members[b]) return -1;
+      if (doc.members[a] < doc.members[b]) return 1;
+      return 0;
+    });
+    let member = "";
+    for (let c = 0, l = membersList.length; c < l; c++) {
+      if (membersList[c] !== uid) {
+        member = membersList[c];
+        break;
+      }
+    }
+    if (member) {
+      return `
+      <span class="dashboard_user_image member_profile_image" docid="${id}" uid="${member}"></span>
+      <br>
+      <span class="dasboard_user_name member_profile_name" docid="${id}" uid="${member}"></span>`;
+    
+    }
+
+    return "";
+  }
 }

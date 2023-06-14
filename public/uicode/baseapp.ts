@@ -27,6 +27,7 @@ export default class BaseApp {
   verboseLog = false;
   rtdbPresenceInited = false;
   userPresenceStatus: any = {};
+  documentsLookup: any = {};
   userPresenceStatusRefs: any = {};
   userStatusDatabaseRef: any;
   sessionDocumentData: any = null;
@@ -519,8 +520,13 @@ export default class BaseApp {
 
     imgCtls.forEach((imgCtl: any) => {
       const uid: any = imgCtl.getAttribute("uid");
+      const docid: any = imgCtl.getAttribute("docid");
+      let doc: any = null;
+      if (docid) doc = this.documentsLookup[docid];
+      else if (this.sessionDocumentData) doc = this.sessionDocumentData;
+      
       let imgPath = "";
-      if (this.sessionDocumentData) imgPath = this.sessionDocumentData.memberImages[uid];
+      if (doc) imgPath = doc.memberImages[uid];
       if (this.uid === uid) imgPath = this.profile.displayImage;
       if (!imgPath) imgPath = "/images/defaultprofile.png";
       imgCtl.style.backgroundImage = "url(" + imgPath + ")";
@@ -528,8 +534,13 @@ export default class BaseApp {
 
     nameCtls.forEach((nameCtl: any) => {
       const uid: any = nameCtl.getAttribute("uid");
+      const docid: any = nameCtl.getAttribute("docid");
+      let doc: any = null;
+      if (docid) doc = this.documentsLookup[docid];
+      else if (this.sessionDocumentData) doc = this.sessionDocumentData;
+      
       let name = "";
-      if (this.sessionDocumentData) name = this.sessionDocumentData.memberNames[uid];
+      if (doc) name = doc.memberNames[uid];
       if (this.uid === uid) name = this.profile.displayName;
       if (!name) name = "Anonymous";
       BaseApp.setHTML(nameCtl, name);
