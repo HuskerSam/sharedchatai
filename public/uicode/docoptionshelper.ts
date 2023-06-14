@@ -250,7 +250,7 @@ export default class DocOptionsHelper {
     }
     /** prompt and send token limit usage to api */
     promptForNewUsageLimit() {
-        let newLimit: any = prompt("Token Usage Limit", this.documentData.tokenUsageLimit);
+        let newLimit: any = prompt("Token Usage Limit", this.docData.tokenUsageLimit);
         if (newLimit !== null) {
             newLimit = Number(newLimit);
             if (isNaN(newLimit)) {
@@ -259,9 +259,8 @@ export default class DocOptionsHelper {
             }
             this.docData.tokenUsageLimit = newLimit;
             this.app.saveDocumentOwnerOption(this.chatDocumentId, this.docData, "usage");
-            let sharedLimit = "none";
-            if (this.documentData.tokenUsageLimit !== 0) sharedLimit = BaseApp.numberWithCommas(this.documentData.tokenUsageLimit); 
-            this.shared_usage_limit_div.innerHTML = sharedLimit;
+
+            this.paintDocumentData();
         }
     }
     /** */
@@ -747,6 +746,12 @@ export default class DocOptionsHelper {
         if (sharedStatus === 0) this.session_header_link_button.classList.add("shared_status_not");
         if (sharedStatus === 1) this.session_header_link_button.classList.add("shared_status_withusers");
         if (sharedStatus === 2) this.session_header_link_button.classList.add("shared_status_withothers");
+
+        let sharedLimit = "none";
+        if (this.docData.tokenUsageLimit !== 0) sharedLimit = BaseApp.numberWithCommas(this.docData.tokenUsageLimit); 
+        this.shared_usage_limit_div.innerHTML = sharedLimit;
+        this.docfield_archived_checkbox.checked = this.documentData.archived;
+        this.shared_archived_status_wrapper.innerHTML = this.documentData.archived ? "Archived" : "Active";
     }
     /** populate modal fields and show
      * @param { string } chatDocumentId firestore doc id
@@ -764,12 +769,7 @@ export default class DocOptionsHelper {
             this.modalContainer.classList.add("modal_options_shared_user");
         }
 
-        let sharedLimit = "none";
-        if (this.documentData.tokenUsageLimit !== 0) sharedLimit = BaseApp.numberWithCommas(this.documentData.tokenUsageLimit); 
-        this.shared_usage_limit_div.innerHTML = sharedLimit;
-        this.docfield_archived_checkbox.checked = this.documentData.archived;
-        this.shared_archived_status_wrapper.innerHTML = this.documentData.archived ? "Archived" : "Active";
-
+        
         if (doc.createUser === this.app.uid) {
             const queryLabelSelect2 = window.$(".edit_options_document_labels");
             this.noLabelSave = true;
