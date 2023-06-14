@@ -231,7 +231,8 @@ export default class BaseApp {
    * @return { string } formatted string value for time since
    */
   timeSince(date: Date, showSeconds = false): string {
-    const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
+    let seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
+    seconds = Math.max(seconds, 0);
 
     let interval = seconds / 31536000;
     if (interval > 1) return Math.floor(interval) + ` yr`;
