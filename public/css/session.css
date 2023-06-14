@@ -407,11 +407,7 @@ pre code {
 }
 
 .show_token_threshold_dialog_help {
-  float: right;
   background: none;
-  position: absolute;
-  right: 5px;
-  top: 4px;
   border-color: transparent;
   color: rgb(200, 125, 200);
 }
@@ -859,14 +855,6 @@ button.btn-primary.send_ticket_button {
   padding-left: 2px;
 }
 
-.token_submit_summary td {
-  text-align: right;
-}
-
-.token_submit_summary .form-label {
-  text-align: center;
-}
-
 li.mb-1 button.btn.btn-toggle {
   width: 100%;
   font-size: 1.75em;
@@ -1032,15 +1020,12 @@ li.mb-1 button.btn.btn-toggle:before {
 
 .token_submit_summary tr td:nth-child(1),
 .token_submit_summary tr th:nth-child(1) {
-  text-align: right;
   width: 50%;
   padding-right: 8px;
-  border-right: solid 1px rgb(130, 150, 255);
 }
 
 .token_submit_summary tr td:nth-child(2),
 .token_submit_summary tr th:nth-child(2) {
-  text-align: left;
   width: 50%;
   padding-left: 8px;
 }
@@ -1056,4 +1041,8 @@ li.mb-1 button.btn.btn-toggle:before {
 
 .loaded .desktop_sidebar_menu_wrapper {
   display: flex;
+}
+
+.threshold_auto_exclude_checkbox {
+  margin-top: 20px;
 }

@@ -256,18 +256,13 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <div class="form-label" style="text-align: center;">Request Prediction</div>
-          <table class="token_submit_summary">
-            <tr>
-              <th>Source</th>
-              <th>Tokens</th>
-            </tr>
+          <table class="token_submit_summary number">
             <tr>
               <td>Max Response</td>
               <td class="chat_completion_tokens"></td>
             </tr>
             <tr>
-              <td>Prompt</td>
+              <td>New Prompt</td>
               <td class="chat_new_prompt_tokens"></td>
             </tr>
             <tr>
@@ -276,23 +271,26 @@
             </tr>
           </table>
           <div style="text-align:center;line-height: 3.5em;">
-            <button class="btn btn-secondary show_token_threshold_dialog_help"><i
-                class="material-icons">help</i></button>
+            <label class="form-check-label" style="font-size:1.25em;display:inline-block;">
+              Auto
+              <input class="form-check-input threshold_auto_exclude_checkbox" type="checkbox" value="">
+            </label>
             <button class="btn btn-secondary exclude_tickets_button">
-              <i class="material-icons">check_box_outline_blank</i>
+              <i class="material-icons">filter_list</i>
               Exclude
             </button>
+            <button class="btn btn-secondary show_token_threshold_dialog_help"><i
+              class="material-icons">help</i></button>
           </div>
           <hr>
-          <div class="form-label" style="text-align: center;">Sequential Limit Test</div>
-          <table class="token_submit_summary">
+          <table class="token_submit_summary number">
             <tr>
-              <td>Request</td>
+              <td>Request Size</td>
               <td class="chat_threshold_total_tokens"></td>
             </tr>
             <tr>
-              <td>API Limit</td>
-              <td class="threshold_dialog_context_limit"><b></b></td>
+              <td>Model Limit</td>
+              <td class="threshold_dialog_context_limit"></td>
             </tr>
           </table>
           <div style="text-align: center;line-height: 3.5em;">
@@ -304,7 +302,7 @@
         </div>
         <div class="modal-footer">
           <button class="btn btn-secondary select_all_tickets_button">
-            <i class="material-icons">select_all</i>
+            <i class="material-icons">list</i>
             Select All
           </button>
           <div style="flex:1"></div>

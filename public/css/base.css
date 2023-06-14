@@ -549,3 +549,8 @@ body {
 body.body_loaded {
   visibility: visible;
 }
+
+table.number {
+  font-family: monospace;
+  text-align: right;
+}

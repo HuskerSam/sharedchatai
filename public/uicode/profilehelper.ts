@@ -97,7 +97,7 @@ export default class ProfileHelper {
         this.prompt_for_new_user_name.addEventListener("click", () => this.saveProfileField("name"));
         this.profile_text_monospace_checkbox.addEventListener("input", () => this.saveProfileField("monospace"));
         this.profile_prefixname_checkbox.addEventListener("input", () => this.saveProfileField("prefixname"));
-        this.profile_autoexclude_checkbox.addEventListener("input", () => this.saveProfileField("autoexclude"));
+        this.profile_autoexclude_checkbox.addEventListener("input", () => this.saveProfileField("autoExclude"));
 
         this.profile_text_large_checkbox.addEventListener("input", () => this.saveProfileField("largetext"));
         this.show_modal_profile_help.addEventListener("click", () => this.app.helpHelper.show("profile"));
@@ -238,7 +238,7 @@ export default class ProfileHelper {
                             </div>
                             <hr>
                             <div class="form-label">Token Usage History</div>
-                            <table class="chat_token_usage_display">
+                            <table class="chat_token_usage_display number">
                                 <tr>
                                     <th></th>
                                     <th>Day</th>
@@ -486,7 +486,7 @@ export default class ProfileHelper {
             this.app.profile.prefixName = this.profile_prefixname_checkbox.checked;
             updatePacket.prefixName = this.app.profile.prefixName;
         }
-        if (fieldType === "autoexclude") {
+        if (fieldType === "autoExclude") {
             this.app.profile.autoExclude = this.profile_autoexclude_checkbox.checked;
             updatePacket.autoExclude = this.app.profile.autoExclude;
         }

@@ -69,6 +69,7 @@ export class SessionApp extends BaseApp {
   left_panel_view: any = document.querySelector(".left_panel_view");
   session_sidebar_splitter_div: any = document.querySelector(".session_sidebar_splitter_div");
   sidebarusers_link_copy: any = document.querySelector(".sidebarusers_link_copy");
+  threshold_auto_exclude_checkbox: any = document.querySelector(".threshold_auto_exclude_checkbox");
 
   tickets_list: any = document.querySelector(".tickets_list");
   members_list: any = document.querySelector(".members_list");
@@ -124,6 +125,9 @@ export class SessionApp extends BaseApp {
   select_all_tickets_button: any = document.querySelector(".select_all_tickets_button");
   sessionDeleting = false;
   firstDocumentLoad = true;
+
+  tokenizedStringCache: any = {};
+
   /**  */
   constructor() {
     super();
@@ -211,7 +215,7 @@ export class SessionApp extends BaseApp {
     this.navbarSupportedContent.addEventListener("shown.bs.collapse",
       () => this.tickets_list.focus());
 
-    this.select_all_tickets_button.addEventListener("click", () => this.selectedAllTickets());
+    this.select_all_tickets_button.addEventListener("click", () => this.selectAllTickets());
 
     this.engine_sidebar_menu_button.addEventListener("click", () => {
       if (this.engine_sidebar_menu_button.getAttribute("aria-expanded") === "false") {
@@ -235,6 +239,10 @@ export class SessionApp extends BaseApp {
       }
     });
     this.sidebarusers_link_copy.addEventListener("click", () => BaseApp.copyGameLink(this.documentId, this.sidebarusers_link_copy));
+
+    this.threshold_auto_exclude_checkbox.addEventListener("input", () => {
+      this.saveProfileField("autoExclude", this.threshold_auto_exclude_checkbox.checked);
+    });
 
     this.scrollTicketListBottom();
     this.autoSizeTextArea();
@@ -271,9 +279,9 @@ export class SessionApp extends BaseApp {
     else sliderLabel.classList.remove("engine_field_not_default");
 
     // only update every 50ms
+    this.lastDocumentOptionChange = new Date().getTime();
     if (saveToAPI) {
       if (this.sliderChangeDebounceTimeout[sliderField]) clearTimeout(this.sliderChangeDebounceTimeout[sliderField]);
-      this.lastDocumentOptionChange = new Date().getTime();
       this.sliderChangeDebounceTimeout[sliderField] = setTimeout(() => {
         this.saveDocumentOption(sliderField, Number(sliderCtl.value));
         this.sliderChangeDebounceTimeout[sliderField] = null;
@@ -519,10 +527,12 @@ export class SessionApp extends BaseApp {
     this.ticketsLookup = {};
     this.selectedTicketCount = 0;
     this.ticketCount = 0;
+    let ticketAdded = false;
     snapshot.forEach((doc: any) => {
       this.ticketCount++;
       let card: any = this.tickets_list.querySelector(`div[ticketid="${doc.id}"]`);
       if (!card) {
+        ticketAdded = true;
         card = this.getTicketCardDom(doc.id, doc.data());
       }
       this.tickets_list.insertBefore(card, this.tickets_list.firstChild);
@@ -569,8 +579,10 @@ export class SessionApp extends BaseApp {
       }
     });
 
-    const tempCards = this.tickets_list.querySelectorAll(`.temp_ticket_card`);
-    tempCards.forEach((card: any) => card.remove());
+    if (ticketAdded) {
+      const tempCards = this.tickets_list.querySelectorAll(`.temp_ticket_card`);
+      tempCards.forEach((card: any) => card.remove());
+    }
 
     this.updateTimeSince(this.tickets_list);
     this.updatePromptTokenStatus();
@@ -589,7 +601,7 @@ export class SessionApp extends BaseApp {
    * @param { any } card card dom
    */
   async reRunTicket(reRunBtn: any, ticketId: string, card: any): Promise<void> {
-    let removedTickets: Array<any> = [];
+    let removedTickets: Array<string> = [];
     if (this.isOverSendThreshold()) {
       if (this.profile.autoExclude) {
         this.excludingTicketsRunning = false;
@@ -640,7 +652,7 @@ export class SessionApp extends BaseApp {
     this.docfield_max_tokens.setAttribute("max", this.modelLimit);
 
     const responseLimit = Math.floor(this.modelLimit / 20) * 20;
-    this.threshold_dialog_context_limit.innerHMTL = responseLimit;
+    this.threshold_dialog_context_limit.innerHTML = this.modelLimit;
 
     if (this.sessionDocumentData.max_tokens > responseLimit) {
       this.saveDocumentOption("max_tokens", 500);
@@ -814,7 +826,13 @@ export class SessionApp extends BaseApp {
    * @param { string } message optional - read from ticket_content_input if not provided
   */
   async sendTicketToAPI(ignoreThreshold = false, message = "") {
-    let removedTickets: Array<any> = [];
+    if (!message) message = this.ticket_content_input.value.trim();
+    if (message === "") {
+      alert("Please supply a message");
+      return;
+    }
+
+    let removedTickets: Array<string> = [];
     if (this.isOverSendThreshold() && !ignoreThreshold) {
       if (this.profile.autoExclude) {
         this.excludingTicketsRunning = false;
@@ -825,12 +843,6 @@ export class SessionApp extends BaseApp {
           return;
         }
       }
-    }
-
-    if (!message) message = this.ticket_content_input.value.trim();
-    if (message === "") {
-      alert("Please supply a message");
-      return;
     }
     if (this.profile.prefixName) {
       let displayName = this.profile.displayName;
@@ -850,6 +862,23 @@ export class SessionApp extends BaseApp {
     };
 
     const tempCard = this.getTicketCardDom(new Date().toISOString(), tempTicket, true);
+    let name = this.sessionDocumentData.memberNames[this.uid];
+    if (!name) name = "Anonymous";
+    const ele1: any = tempCard.querySelector(".ticket_owner_name");
+    if (ele1.innerHTML !== name) {
+      ele1.innerHTML = name;
+      ele1.setAttribute("ticketowneruid", this.uid);
+    }
+
+    let img = this.sessionDocumentData.memberImages[this.uid];
+    if (!img) img = "/images/defaultprofile.png";
+    const ele: any = tempCard.querySelector(".ticket_owner_image");
+    if (ele.style.backgroundImage !== `url(${img})`) {
+      ele.style.backgroundImage = ``;
+      ele.style.backgroundImage = `url(${img})`;
+      ele.setAttribute("ticketowneruid", this.uid);
+    }
+
     this.tickets_list.appendChild(tempCard);
     this.scrollTicketListBottom();
 
@@ -883,10 +912,10 @@ export class SessionApp extends BaseApp {
   }
   /** process exisiting tickets and return list of ids to submit
    * @param { string } ticketId doc id
-   * @param { Array<any> } removedTickets tickets to exclude
+   * @param { Array<string> } removedTickets ticket ids to exclude
    * @return { Array<string> } list of ticket ids
   */
-  generateSubmitList(ticketId = "", removedTickets: Array<any> = []): Array<string> {
+  generateSubmitList(ticketId = "", removedTickets: Array<string> = []): Array<string> {
     const tickets: Array<string> = [];
     this.includeTotalTokens = 0;
     this.includeMessageTokens = 0;
@@ -899,17 +928,25 @@ export class SessionApp extends BaseApp {
         if (ticket && ticket.includeInMessage) include = true;
         if (ticketId !== doc.id && include) {
           const tokenCountCompletion = this.tokenCountForCompletion(doc.id);
-          const promptTokens = window.gpt3tokenizer.encode(ticket.message);
+          const promptTokenCount = this.getEncodedToken(ticket.message).length;
           if (tokenCountCompletion > 0) {
-            this.includeMessageTokens += promptTokens.length;
+            this.includeMessageTokens += promptTokenCount;
             this.includeAssistTokens += tokenCountCompletion;
-            this.includeTotalTokens += tokenCountCompletion + promptTokens.length;
+            this.includeTotalTokens += tokenCountCompletion + promptTokenCount;
             tickets.push(doc.id);
           }
         }
       }
     });
     return tickets.reverse();
+  }
+  /** */
+  getEncodedToken(value: string): any {
+    if (!this.tokenizedStringCache[value]) {
+      this.tokenizedStringCache[value] = window.gpt3tokenizer.encode(value);
+    }
+
+    return this.tokenizedStringCache[value];
   }
   /** lookup token usage
    * @param { string } assistId ticket id to check for assist
@@ -922,7 +959,7 @@ export class SessionApp extends BaseApp {
         !assistData.assist.choices["0"] || !assistData.assist.choices["0"].message ||
         !assistData.assist.choices["0"].message.content) return 0;
 
-      return window.gpt3tokenizer.encode(assistData.assist.choices["0"].message.content).length;
+      return this.getEncodedToken(assistData.assist.choices["0"].message.content).length;
     } catch (assistError: any) {
       console.log(assistError);
       return 0;
@@ -960,6 +997,8 @@ export class SessionApp extends BaseApp {
         this.initTicketFeed();
         this.initRecentDocumentsFeed();
       }
+
+      this.threshold_auto_exclude_checkbox.checked = this.profile.autoExclude;
 
       setTimeout(() => this._updateGameMembersList(), 50);
     }
@@ -1167,7 +1206,7 @@ export class SessionApp extends BaseApp {
     if (notDefault && !tweaked) document.body.classList.add("engine_settings_minor_tweaked");
     else document.body.classList.remove("engine_settings_minor_tweaked");
 
-    const debounce = (this.lastDocumentOptionChange + 500 > new Date().getTime());
+    const debounce = (this.lastDocumentOptionChange + 600 > new Date().getTime());
 
     this.docfield_model.value = this.sessionDocumentData.model;
     this.updateContextualLimit();
@@ -1227,7 +1266,7 @@ export class SessionApp extends BaseApp {
     // generate fresh buffer numbers
     this.generateSubmitList();
 
-    const tokens = window.gpt3tokenizer.encode(this.ticket_content_input.value);
+    const tokens = this.getEncodedToken(this.ticket_content_input.value);
 
     let html = "";
     let totalChars = 0;
@@ -1278,9 +1317,9 @@ export class SessionApp extends BaseApp {
   }
   /**
    * @param { any } currentTicketId ticketid to ignore (optional)
-   * @return { any } exlcudedTickets array
+   * @return { Array<string> } exlcudedTickets id list
    */
-  autoExcludeTicketsToMeetThreshold(currentTicketId: any = null): Array<any> {
+  autoExcludeTicketsToMeetThreshold(currentTicketId: any = null): Array<string> {
     if (!this.isOverSendThreshold()) return [];
     if (this.excludingTicketsRunning) return [];
     this.excludingTicketsRunning = true;
@@ -1289,7 +1328,7 @@ export class SessionApp extends BaseApp {
 
     const tickets: Array<any> = [];
     this.lastTicketsSnapshot.forEach((doc: any) => tickets.unshift(doc));
-    const ticketsRemoved: Array<any> = [];
+    const ticketsRemoved: Array<string> = [];
     tickets.forEach((doc: any) => {
       if (tokenReduction > 0) {
         const ticket = doc.data();
@@ -1302,10 +1341,10 @@ export class SessionApp extends BaseApp {
           this.includeTicketSendToAPI(ticketId, false);
 
           const tokenCountCompletion = this.tokenCountForCompletion(doc.id);
-          const promptTokens = window.gpt3tokenizer.encode(ticket.message);
+          const promptTokens = this.getEncodedToken(ticket.message);
           tokenReduction -= tokenCountCompletion + promptTokens.length;
 
-          ticketsRemoved.push(ticket);
+          ticketsRemoved.push(doc.id);
         }
       }
     });
@@ -1315,7 +1354,7 @@ export class SessionApp extends BaseApp {
       document.body.classList.remove("exclude_tickets_running");
     }, 500);
 
-    this.auto_run_overthreshold_ticket.focus();
+    // this.auto_run_overthreshold_ticket.focus();
 
     return ticketsRemoved;
   }
@@ -1370,7 +1409,7 @@ export class SessionApp extends BaseApp {
     this.paintDocumentOptions();
   }
   /** */
-  selectedAllTickets() {
+  selectAllTickets() {
     const tickets: Array<any> = [];
     this.lastTicketsSnapshot.forEach((doc: any) => tickets.unshift(doc));
     tickets.forEach((doc: any) => {
