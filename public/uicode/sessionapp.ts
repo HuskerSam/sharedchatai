@@ -56,6 +56,7 @@ export class SessionApp extends BaseApp {
     frequency_penalty: 0,
   };
 
+  threshold_dialog_context_limit: any = document.querySelector(".threshold_dialog_context_limit");
   chat_history_tokens: any = document.querySelector(".chat_history_tokens");
   chat_completion_tokens: any = document.querySelector(".chat_completion_tokens");
   chat_new_prompt_tokens: any = document.querySelector(".chat_new_prompt_tokens");
@@ -162,11 +163,11 @@ export class SessionApp extends BaseApp {
       this.docfield_max_tokens, this.max_tokens_slider_label, "Max Response Tokens: "));
 
     this.docfield_model.addEventListener("change", () => {
-      // if (this.sessionDocumentData.archived) {
-      this.docfield_model.value = this.sessionDocumentData.model;
-      // } else {
-      //   this.saveDocumentOption("model", this.docfield_model.value);
-      // }
+       if (this.sessionDocumentData.archived || this.docfield_model.value.indexOf("gpt-3.5") === -1) {
+        this.docfield_model.value = this.sessionDocumentData.model;
+        return;
+       }
+       this.saveDocumentOption("model", this.docfield_model.value);
     });
 
     this.reset_engine_options_button.addEventListener("click", () => this.resetEngineDefaults());
@@ -631,6 +632,19 @@ export class SessionApp extends BaseApp {
 
     // refresh the counts
     this.scrollTicketListBottom();
+  }
+  updateContextualLimit() {
+    if (this.sessionDocumentData.model === "gpt-3.5-turbo-16k") this.modelLimit = 16394
+    else this.modelLimit = 4096;
+
+    this.docfield_max_tokens.setAttribute("max", this.modelLimit);
+
+    const responseLimit = Math.floor(this.modelLimit / 20) * 20;
+    this.threshold_dialog_context_limit.innerHMTL = responseLimit;
+
+    if (this.sessionDocumentData.max_tokens > responseLimit) {
+      this.saveDocumentOption("max_tokens", 500);
+    }
   }
   /** api call for delete user message
    * @param { any } btn dom control
@@ -1156,6 +1170,7 @@ export class SessionApp extends BaseApp {
     const debounce = (this.lastDocumentOptionChange + 500 > new Date().getTime());
 
     this.docfield_model.value = this.sessionDocumentData.model;
+    this.updateContextualLimit();
 
     this.__debounceSliderPaint("max_tokens", debounce, "Max Response Tokens: ");
     this.__debounceSliderPaint("temperature", debounce, "Temperature: ");
@@ -1252,10 +1267,10 @@ export class SessionApp extends BaseApp {
   }
   /**
    *
-   * @return { boolean } true if over 4096 for submit token count
+   * @return { boolean } true if over this.modelLimit for submit token count
    */
   isOverSendThreshold(): boolean {
-    return this.includeTotalTokens + this.sessionDocumentData.max_tokens + this.lastInputTokenCount > 4096;
+    return this.includeTotalTokens + this.sessionDocumentData.max_tokens + this.lastInputTokenCount > this.modelLimit;
   }
   /** shows over threshold modal */
   showOverthresholdToSendModal() {
@@ -1270,7 +1285,7 @@ export class SessionApp extends BaseApp {
     if (this.excludingTicketsRunning) return [];
     this.excludingTicketsRunning = true;
     document.body.classList.add("exclude_tickets_running");
-    let tokenReduction = this.includeTotalTokens + this.sessionDocumentData.max_tokens + this.lastInputTokenCount - 4096;
+    let tokenReduction = this.includeTotalTokens + this.sessionDocumentData.max_tokens + this.lastInputTokenCount - this.modelLimit;
 
     const tickets: Array<any> = [];
     this.lastTicketsSnapshot.forEach((doc: any) => tickets.unshift(doc));
