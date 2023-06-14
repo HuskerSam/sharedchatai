@@ -527,12 +527,12 @@ export class SessionApp extends BaseApp {
     this.ticketsLookup = {};
     this.selectedTicketCount = 0;
     this.ticketCount = 0;
-    let ticketAdded = false;
+    let newUserTicketInFeed = false;
     snapshot.forEach((doc: any) => {
       this.ticketCount++;
       let card: any = this.tickets_list.querySelector(`div[ticketid="${doc.id}"]`);
       if (!card) {
-        ticketAdded = true;
+        if (doc.data().uid === this.uid) newUserTicketInFeed = true;
         card = this.getTicketCardDom(doc.id, doc.data());
       }
       this.tickets_list.insertBefore(card, this.tickets_list.firstChild);
@@ -579,7 +579,7 @@ export class SessionApp extends BaseApp {
       }
     });
 
-    if (ticketAdded) {
+    if (newUserTicketInFeed) {
       const tempCards = this.tickets_list.querySelectorAll(`.temp_ticket_card`);
       tempCards.forEach((card: any) => card.remove());
     }
