@@ -158,11 +158,15 @@ export class DashboardApp extends BaseApp {
 
         const sharedStatus = ChatDocument.getDocumentSharedStatus(doc.data(), this.uid);
         const sharedIcon = card.querySelector(".document_shared_status_icon_wrapper");
+        const sharedStatusDom = card.querySelector(".session_shared_column");
+        
         sharedIcon.classList.remove("shared_status_not");
         sharedIcon.classList.remove("shared_status_withusers");
         sharedIcon.classList.remove("shared_status_withothers");
+        sharedStatusDom.classList.remove("shared_status_not");
+        sharedStatusDom.classList.remove("shared_status_withusers");
+        sharedStatusDom.classList.remove("shared_status_withothers");
 
-        const sharedStatusDom = card.querySelector(".session_shared_column");
         sharedStatusDom.innerHTML = ChatDocument.getSharedUser(doc.id, doc.data(), this.uid);
         if (sharedStatus === 0) {
           sharedIcon.classList.add("shared_status_not");
