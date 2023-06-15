@@ -474,12 +474,38 @@ export default class BaseApp {
     if (isNaN(Number(x))) x = 0;
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
+  /** save a single field to document
+   * @param {string } id doc id
+  * @param { string } field document field name
+  * @param { any } value written to field
+  */
+  async saveDocumentOption(id: string, field: string, value: any) {
+    const body: any = {
+      gameNumber: id,
+      [field]: value,
+    };
+    const token = await firebase.auth().currentUser.getIdToken();
+    const fResult = await fetch(this.basePath + "lobbyApi/games/options", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      headers: {
+        "Content-Type": "application/json",
+        token,
+      },
+      body: JSON.stringify(body),
+    });
+    if (this.verboseLog) {
+      const json = await fResult.json();
+      console.log("change game options result", json);
+    }
+  }
   /** send owner setting for document to api
    * @param { string } id session id
    * @param { any } data session document data (with new field value)
    * @param { string } fieldKey title for title, usage for tokenUsageLimit, note for note
   */
-  async saveDocumentOwnerOption(id: string, data: any, fieldKey: string) {
+  async saveDocumentOwnerOption(id: string, fieldKey: string,  data: any) {
     if (this.sessionDeleting) return;
 
     const updatePacket: any = {

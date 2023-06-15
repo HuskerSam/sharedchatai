@@ -108,8 +108,11 @@
   left: -12px;
 }
 
-.modal_options_owner_user .prompt_for_new_title,
-.modal_options_owner_user .prompt_for_new_system_message {
+.prompt_for_new_system_message {
+  display: inline-block;
+}
+
+.modal_options_owner_user .prompt_for_new_title {
   display: inline-block;
 }
 

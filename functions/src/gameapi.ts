@@ -238,9 +238,6 @@ export default class GameAPI {
     if (req.body.title !== undefined) {
       updatePacket.title = req.body.title;
     }
-    if (req.body.systemMessage !== undefined) {
-      updatePacket.systemMessage = req.body.systemMessage;
-    }
 
     updatePacket.publicStatus = GameAPI._publicStatus(sessionDocumentData);
 
@@ -289,6 +286,7 @@ export default class GameAPI {
       "logit_bias",
       "stop",
       "title",
+      "systemMessage",
     ];
     const updatePacket: any = {};
     fieldsFilter.forEach((field: string) => {

@@ -172,7 +172,7 @@ export class SessionApp extends BaseApp {
         this.docfield_model.value = this.sessionDocumentData.model;
         return;
       }
-      this.saveDocumentOption("model", this.docfield_model.value);
+      this.saveDocumentOption(this.documentId, "model", this.docfield_model.value);
     });
 
     this.reset_engine_options_button.addEventListener("click", () => this.resetEngineDefaults());
@@ -284,7 +284,7 @@ export class SessionApp extends BaseApp {
     if (saveToAPI) {
       if (this.sliderChangeDebounceTimeout[sliderField]) clearTimeout(this.sliderChangeDebounceTimeout[sliderField]);
       this.sliderChangeDebounceTimeout[sliderField] = setTimeout(() => {
-        this.saveDocumentOption(sliderField, Number(sliderCtl.value));
+        this.saveDocumentOption(this.documentId, sliderField, Number(sliderCtl.value));
         this.sliderChangeDebounceTimeout[sliderField] = null;
       }, 75);
     }
@@ -664,7 +664,7 @@ export class SessionApp extends BaseApp {
     this.threshold_dialog_context_limit.innerHTML = this.modelLimit;
 
     if (this.sessionDocumentData.max_tokens > responseLimit) {
-      this.saveDocumentOption("max_tokens", 500);
+      this.saveDocumentOption(this.documentId, "max_tokens", 500);
     }
   }
   /** api call for delete user message
@@ -1138,31 +1138,6 @@ export class SessionApp extends BaseApp {
     }
     this.updateUserNamesImages();
     this.updateUserPresence();
-  }
-  /** save a single field to document
-   * @param { string } field document field name
-   * @param { any } value written to field
-  */
-  async saveDocumentOption(field: string, value: any) {
-    const body: any = {
-      gameNumber: this.documentId,
-      [field]: value,
-    };
-    const token = await firebase.auth().currentUser.getIdToken();
-    const fResult = await fetch(this.basePath + "lobbyApi/games/options", {
-      method: "POST",
-      mode: "cors",
-      cache: "no-cache",
-      headers: {
-        "Content-Type": "application/json",
-        token,
-      },
-      body: JSON.stringify(body),
-    });
-    if (this.verboseLog) {
-      const json = await fResult.json();
-      console.log("change game options result", json);
-    }
   }
   /** paint user editable game options
   */

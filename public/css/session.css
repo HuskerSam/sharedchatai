@@ -1103,6 +1103,7 @@ li.mb-1 button.btn.btn-toggle:before {
 .system_message_block {
   border-bottom: solid 1px rgb(120, 255, 120);
   padding: 12px;
+  background: rgb(0,0,0, 0.5);
 }
 
 .system_message_label {

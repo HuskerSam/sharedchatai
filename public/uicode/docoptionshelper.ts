@@ -238,7 +238,7 @@ export default class DocOptionsHelper {
         if (newMessage !== null) {
             newMessage = newMessage.trim();
             this.docData.systemMessage = newMessage;
-            this.app.saveDocumentOwnerOption(this.chatDocumentId, this.docData, "systemMessage");
+            this.app.saveDocumentOption(this.chatDocumentId, "systemMessage", newMessage);
             this.modal_document_system_message_display.innerHTML = BaseApp.escapeHTML(newMessage);
         }
     }
@@ -252,7 +252,7 @@ export default class DocOptionsHelper {
                 return;
             }
             this.docData.title = newTitle;
-            this.app.saveDocumentOwnerOption(this.chatDocumentId, this.docData, "title");
+            this.app.saveDocumentOwnerOption(this.chatDocumentId, "title", this.docData);
             this.modal_document_title_display.innerHTML = BaseApp.escapeHTML(newTitle);
         }
     }
@@ -262,7 +262,7 @@ export default class DocOptionsHelper {
         if (newNote !== null) {
             newNote = newNote.trim();
             this.docData.note = newNote;
-            this.app.saveDocumentOwnerOption(this.chatDocumentId, this.docData, "note");
+            this.app.saveDocumentOwnerOption(this.chatDocumentId, "note", this.docData);
             this.owner_note_display_div.innerHTML = BaseApp.escapeHTML(newNote);
         }
     }
@@ -276,7 +276,7 @@ export default class DocOptionsHelper {
                 return;
             }
             this.docData.tokenUsageLimit = newLimit;
-            this.app.saveDocumentOwnerOption(this.chatDocumentId, this.docData, "usage");
+            this.app.saveDocumentOwnerOption(this.chatDocumentId, "usage", this.docData);
 
             this.paintDocumentData();
         }
@@ -284,7 +284,7 @@ export default class DocOptionsHelper {
     /** */
     updateArchivedStatus() {
         this.docData.archived = this.docfield_archived_checkbox.checked;
-        this.app.saveDocumentOwnerOption(this.chatDocumentId, this.docData, "archived");
+        this.app.saveDocumentOwnerOption(this.chatDocumentId,"archived", this.docData);
     }
     /** template as string for modal
      * @return { string } html template as string
@@ -493,7 +493,7 @@ export default class DocOptionsHelper {
         });
 
         this.docData.label = labels.join(",");
-        this.app.saveDocumentOwnerOption(this.chatDocumentId, this.docData, "label");
+        this.app.saveDocumentOwnerOption(this.chatDocumentId, "label", this.docData);
     }
     /** delete game api call */
     async deleteGame() {
