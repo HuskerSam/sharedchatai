@@ -616,7 +616,7 @@ export default class DocOptionsHelper {
             tickets.forEach((ticket: any) => {
                 const prompt = BaseApp.escapeHTML(ticket.data().message);
                 const completion = BaseApp.escapeHTML(this.messageForCompletion(ticket.id));
-                const selected = ticket.data().includeInMessage ? "✅ " : "&nbsp;";
+                const selected = ticket.data().includeInMessage ? "✅ " : "🔲 ";
 
                 resultText += `<div class="ticket-item">\n`;
                 resultText += `    <div class="prompt-text">${selected} ${prompt}</div>\n`;
