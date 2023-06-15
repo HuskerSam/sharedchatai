@@ -183,8 +183,7 @@ export default class BaseApp {
       }
     }
     setTimeout(() => {
-      if (location.pathname === "/") location.href = location.origin + "/dashboard";
-      else location.reload();
+      location.reload();
     }, 20);
   }
   /** anonymous sign in handler
@@ -194,8 +193,7 @@ export default class BaseApp {
     e.preventDefault();
     await firebase.auth().signInAnonymously();
     setTimeout(() => {
-      if (location.pathname === "/") location.href = location.origin + "/dashboard";
-      else location.reload();
+      location.reload();
     }, 1);
     return true;
   }
@@ -211,8 +209,7 @@ export default class BaseApp {
     firebase.auth().signInWithEmailLink(email, location.href)
       .then(() => {
         window.localStorage.removeItem("emailForSignIn");
-        if (location.pathname === "/") location.href = location.origin + "/dashboard";
-        else location.reload();
+        location.reload();
       })
       .catch((e: any) => console.log(e));
   }
