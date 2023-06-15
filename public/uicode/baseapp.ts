@@ -117,7 +117,9 @@ export default class BaseApp {
       document.body.classList.add("app_signed_out");
       this.authUpdateStatusUI();
 
-      if (this.signin_show_modal) this.signin_show_modal.click();
+      if (location.pathname !== "/" || location.search !== "") {
+        if (this.signin_show_modal) this.signin_show_modal.click();
+      }
     }
 
     return;
