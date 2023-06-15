@@ -122,7 +122,6 @@ export class SessionApp extends BaseApp {
   navbarSupportedContent: any = document.querySelector("#navbarSupportedContent");
 
   select_all_tickets_button: any = document.querySelector(".select_all_tickets_button");
-  sessionDeleting = false;
   firstDocumentLoad = true;
 
   tokenizedStringCache: any = {};

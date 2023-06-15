@@ -812,7 +812,8 @@ export default class DocOptionsHelper {
                 console.log(error);
             }
         }
-
+        this.app.sessionDeleting = false;
+        
         this.dialog_header_member_image.setAttribute("uid", this.docData.createUser);
         this.dialog_header_member_name.setAttribute("uid", this.docData.createUser);
         this.app.updateUserNamesImages();

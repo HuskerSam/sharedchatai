@@ -34,7 +34,8 @@ export default class BaseApp {
   profileHelper = new ProfileHelper(this);
   login = new LoginHelper(this);
   documentCreate = new DocCreateHelper(this);
-  helpHelper: any = null;
+  helpHelper: any = null;  
+  sessionDeleting = false;
   menu_profile_user_image_span: any = document.querySelector(".menu_profile_user_image_span");
   menu_profile_user_name_span: any = document.querySelector(".menu_profile_user_name_span");
 
@@ -480,6 +481,8 @@ export default class BaseApp {
    * @param { string } fieldKey title for title, usage for tokenUsageLimit, note for note
   */
   async saveDocumentOwnerOption(id: string, data: any, fieldKey: string) {
+    if (this.sessionDeleting) return;
+    
     const updatePacket: any = {
       gameNumber: id,
     };
