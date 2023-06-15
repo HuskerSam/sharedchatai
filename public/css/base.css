@@ -188,6 +188,10 @@ a {
   max-width: 90%;
 }
 
+.app_signed_in .hide_if_signedin {
+  display: none;
+}
+
 .signed_in_options {
   display: none;
 }

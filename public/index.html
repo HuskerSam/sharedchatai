@@ -115,6 +115,17 @@
                         </span>
                     </a>
                 </li>
+                <li class="nav-item hide_if_signedin">
+                    <a class="signin_show_modal nav-link hover_yellow" href="login" type="button" data-bs-toggle="modal"
+                    data-bs-target="#loginModal">
+                        <span class="mobile_custom_icon_label">
+                            <i class="material-icons-outlined">login</i>
+                        </span>
+                        <span class="menu_dropdown_label_wrapper">
+                            Login
+                        </span>
+                    </a>
+                </li>
                 <li class="nav-item signed_in_options">
                     <a class="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
                         <span class="menu_profile_user_image_span member_profile_image hover_yellow"></span>
@@ -138,12 +149,6 @@
         </div>
     </nav>
     <div class="container">
-        <div class="container signed_out_options">
-            <button class="btn btn-primary signin_show_modal" type="button" data-bs-toggle="modal"
-                data-bs-target="#loginModal">
-                Login
-            </button>
-        </div>
         <div class="flex-lg-row p-3 flex_change_responsive">
             <div class="side_block p-3 mx-lg-3">
                 <p class="header_recent_document">Tips for Prompts</p>

@@ -205,22 +205,6 @@ ul.recent_documents_list li a {
   justify-content: center;
 }
 
-.signed_out_options .homepage_signin_show_modal {
-  font-size: 24px;
-  padding: 10px 50px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 15px;
-  margin-bottom: 15px;
-}
-
-.signed_out_options .homepage_signin_show_modal:hover {
-  color: #000031;
-  background-color: rgb(28, 228, 60);
-}
-
 .flex_change_responsive {
   display: flex;
   flex-direction: row;
