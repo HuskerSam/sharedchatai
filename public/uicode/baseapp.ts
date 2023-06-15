@@ -448,7 +448,7 @@ export default class BaseApp {
  */
   static copyGameLink(sessionId: string, btn: any, buttonText = "<span class=\"material-icons\">link</span>") {
     navigator.clipboard.writeText(window.location.origin + "/session/" + sessionId);
-    btn.innerHTML = "✅ " + buttonText;
+    btn.innerHTML = `<i class="material-icons copy_green">done</i>` + buttonText;
     setTimeout(() => btn.innerHTML = buttonText, 1200);
   }
   /** when user toggles a menu section save it to profile

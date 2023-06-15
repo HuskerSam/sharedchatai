@@ -576,3 +576,11 @@
   white-space: nowrap;
   overflow: hidden;
 }
+
+.doc_total_usage {
+  min-width: 75px;
+}
+
+i.copy_green {
+  color: rgb(50, 255, 50);
+}

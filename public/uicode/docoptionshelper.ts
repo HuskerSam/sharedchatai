@@ -191,7 +191,7 @@ export default class DocOptionsHelper {
         });
         const displayString = JSON.stringify(lookup, null, "\t");
         navigator.clipboard.writeText(displayString);
-        this.show_packets_dialog.innerHTML = `✅Packets`;
+        this.show_packets_dialog.innerHTML = `<i class="material-icons copy_green">done</i><i class="material-icons">content_copy</i>Packets`;
         setTimeout(() => this.show_packets_dialog.innerHTML = `<i class="material-icons">content_copy</i>Packets`, 1200);
     }
     /** */
@@ -216,7 +216,7 @@ export default class DocOptionsHelper {
             navigator.clipboard.writeText(this.lastReportData.resultText);
         }
         const buttonText = `<span class="material-icons">content_copy</span>`;
-        this.copy_export_clipboard.innerHTML = "✅ " + buttonText;
+        this.copy_export_clipboard.innerHTML = `<i class="material-icons copy_green">done</i>` + buttonText;
         setTimeout(() => this.copy_export_clipboard.innerHTML = buttonText, 1200);
     }
     /** docData to support dashboard and chatroom */
