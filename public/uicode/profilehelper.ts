@@ -541,15 +541,15 @@ export default class ProfileHelper {
         const dailyPromptTokens = BaseApp.numberWithCommas(runningTokens["prompt_" + ymdFrag]);
         const dailyCompletionTokens = BaseApp.numberWithCommas(runningTokens["completion_" + ymdFrag]);
 
-        this.replies_row.innerHTML = `<td>Reply</td><td class="day_td">${dailyCompletionTokens}</td>` +
+        this.replies_row.innerHTML = `<th>Reply</th><td class="day_td">${dailyCompletionTokens}</td>` +
             `<td class="monthly_td">${monthlyCompletionTokens}</td>` +
             `<td class="yearly_td">${yearlyCompletionTokens}</td>` +
             `<td class="all_time_td">${allTimeCompletionTokens}</td>`;
-        this.prompts_row.innerHTML = `<td>Sent</td><td class="day_td">${dailyPromptTokens}</td>` +
+        this.prompts_row.innerHTML = `<th>Sent</th><td class="day_td">${dailyPromptTokens}</td>` +
             `<td class="monthly_td">${monthlyPromptTokens}</td>` +
         `<td class="yearly_td">${yearlyPromptTokens}</td>` +
             `<td class="all_time_td">${allTimePromptTokens}</td>`;
-        this.total_row.innerHTML = `<td>Total</td><td class="day_td">${dailyTotalTokens}</td>` +
+        this.total_row.innerHTML = `<th>Total</th><td class="day_td">${dailyTotalTokens}</td>` +
             `<td class="monthly_td">${monthlyTotalTokens}</td>` +
             `<td class="yearly_td">${yearlyTotalTokens}</td>` +
             `<td class="all_time_td">${allTimeTotalTokens}</td>`;

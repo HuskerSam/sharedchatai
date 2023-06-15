@@ -547,10 +547,14 @@ body.body_loaded {
 }
 
 table.number {
-  font-family: monospace;
   text-align: right;
 }
 
 table.number td {
+  font-family: monospace;
   padding-left: 8px;
+}
+
+table.number th {
+  font-weight: normal;
 }
