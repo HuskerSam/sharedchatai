@@ -448,10 +448,6 @@ button.btn-primary:active {
   top: -2px;
 }
 
-.collapse.show .navbar-nav {
-  margin-bottom: 0.75em;
-}
-
 .menu_profile_user_image_span {
   display: inline-block;
   width: 32px;

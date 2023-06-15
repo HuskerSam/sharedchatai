@@ -157,7 +157,7 @@
 }
 
 .session_shared_column {
-  width: 100px;
+  width: 15vw;
   display: none;
   max-height: 3.3em;
   overflow: hidden;

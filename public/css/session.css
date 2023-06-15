@@ -457,11 +457,19 @@ pre code {
   visibility: hidden;
 }
 
-.over_token_sendlimit .send_ticket_button,
+.auto_run_overthreshold_ticket {
+  background-color: rgb(50, 150, 50);
+  border-color: rgb(120, 255, 120);
+}
+
 .over_token_sendlimit .auto_run_overthreshold_ticket {
-  background-color: rgb(240, 240, 50);
-  color: rgb(50, 50, 50);
+  color: #fff;
+  background-color: #6c757d;
   border-color: #6c757d;
+}
+
+.over_token_sendlimit .auto_run_overthreshold_ticket i {
+  color: red;
 }
 
 .rerun_ticket i,
@@ -817,11 +825,20 @@ pre code {
   color: rgb(240, 240, 50);
 }
 
+.engine_settings_tweaked .total_prompt_token_count {
+  color: rgb(255, 127, 50);
+}
+
 .send_bar_display_header {
   display: flex;
   flex-direction: row;
   position: relative;
   margin-top: -4px;
+}
+
+.profile_text_option_large .send_bar_display_header {
+  height: 2em;
+  margin-top: -8px;
 }
 
 button.btn-primary.send_ticket_button {
@@ -1012,6 +1029,10 @@ li.mb-1 button.btn.btn-toggle:before {
     margin-left: 0;
   }
 
+  .document_menutop_usage_stats_line span {
+    font-family: monospace;
+  }
+
   .engine_options_button_label_menu {
     display: none;
     width: 100px;
@@ -1072,4 +1093,9 @@ li.mb-1 button.btn.btn-toggle:before {
 .temp_ticket_card_animate {
   transition: min-height .2s;
   max-height: 100px;
+}
+
+#navbarSupportedContent {
+  overflow: auto;
+  max-height: calc(100vh - 80px);
 }
