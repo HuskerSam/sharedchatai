@@ -26,6 +26,7 @@ export class SessionApp extends BaseApp {
   ticketsTokenCounts: any = {};
   assistsLookup: any = {};
   includeTotalTokens = 0;
+  lastSystemMessageTokenCount = 0;
   includeMessageTokens = 0;
   includeAssistTokens = 0;
   ticketCount = 0;
@@ -54,11 +55,13 @@ export class SessionApp extends BaseApp {
     presence_penalty: 0,
     frequency_penalty: 0,
   };
+  systemMessageListElement: any = null;
 
   threshold_dialog_context_limit: any = document.querySelector(".threshold_dialog_context_limit");
   chat_history_tokens: any = document.querySelector(".chat_history_tokens");
   chat_completion_tokens: any = document.querySelector(".chat_completion_tokens");
   chat_new_prompt_tokens: any = document.querySelector(".chat_new_prompt_tokens");
+  chat_system_message_tokens: any = document.querySelector(".chat_system_message_tokens");
   chat_threshold_total_tokens: any = document.querySelector(".chat_threshold_total_tokens");
   exclude_tickets_button: any = document.querySelector(".exclude_tickets_button");
   sidebar_tree_menu: any = document.querySelector(".sidebar_tree_menu");
@@ -571,6 +574,8 @@ export class SessionApp extends BaseApp {
       tempCards.forEach((card: any) => card.remove());
     }
 
+
+    this.refreshSystemMessageElement();
     this.updateTimeSince(this.tickets_list);
     this.updatePromptTokenStatus();
     this.updateAssistsFeed(null);
@@ -581,6 +586,22 @@ export class SessionApp extends BaseApp {
       this.selectedTicketCount + `</span>/<span class="total_tickets">` + this.ticketCount + "</span> Responses";
 
     if (scrollToBottom) this.scrollTicketListBottom();
+  }
+  /** */
+  refreshSystemMessageElement() {
+    let systemMessage = this.sessionDocumentData.systemMessage;
+    if (systemMessage === undefined) systemMessage = "";
+
+    if (this.systemMessageListElement) this.systemMessageListElement.remove();
+    this.systemMessageListElement = null;
+    if (systemMessage !== "") {
+      this.systemMessageListElement = document.createElement("div");
+      this.systemMessageListElement.setAttribute("class", "game_message_list_item system_message_block");
+      this.systemMessageListElement.innerHTML = `<div class="system_message_label">System Message</div>
+        <div class="system_message_content">${systemMessage}</div>`;
+
+      this.tickets_list.insertBefore(this.systemMessageListElement, this.tickets_list.firstChild);
+    }
   }
   /** send rerun request to api
    * @param { any } reRunBtn dom button
@@ -899,9 +920,11 @@ export class SessionApp extends BaseApp {
    * @param { string } value text fragment
    * @return { any } length and token array
   */
-  getEncodedToken(value: string): any {
-    if (!this.tokenizedStringCache[value]) {
-      this.tokenizedStringCache[value] = window.gpt3tokenizer.encode(value);
+  getEncodedToken(value: any): any {
+    let str = "";
+    if (value !== undefined) str = value;
+    if (!this.tokenizedStringCache[str]) {
+      this.tokenizedStringCache[str] = window.gpt3tokenizer.encode(str);
     }
 
     return this.tokenizedStringCache[value];
@@ -1227,6 +1250,8 @@ export class SessionApp extends BaseApp {
     else document.body.classList.remove("empty_prompt_input");
 
     const tokens = this.getEncodedToken(inputValue);
+    const systemMessageTokens = this.getEncodedToken(this.sessionDocumentData.systemMessage);
+    this.lastSystemMessageTokenCount = systemMessageTokens.length;
 
     let html = "";
     let totalChars = 0;
@@ -1251,12 +1276,15 @@ export class SessionApp extends BaseApp {
 
     this.prompt_token_count.innerHTML = tokens.length;
     this.lastInputTokenCount = tokens.length;
-    this.total_prompt_token_count.innerHTML = this.includeTotalTokens + tokens.length + this.sessionDocumentData.max_tokens;
+    this.total_prompt_token_count.innerHTML = this.includeTotalTokens + tokens.length +
+      this.sessionDocumentData.max_tokens + this.lastSystemMessageTokenCount;
     this.chat_history_tokens.innerHTML = this.includeTotalTokens;
     this.chat_completion_tokens.innerHTML = this.sessionDocumentData.max_tokens;
+    this.chat_system_message_tokens.innerHTML = this.lastSystemMessageTokenCount;
     this.chat_new_prompt_tokens.innerHTML = this.lastInputTokenCount;
     this.chat_threshold_total_tokens.innerHTML =
-      (this.includeTotalTokens + this.sessionDocumentData.max_tokens + this.lastInputTokenCount).toString();
+      (this.includeTotalTokens + this.sessionDocumentData.max_tokens +
+        this.lastInputTokenCount + this.lastSystemMessageTokenCount).toString();
 
     if (this.isOverSendThreshold()) {
       document.body.classList.add("over_token_sendlimit");
@@ -1269,7 +1297,8 @@ export class SessionApp extends BaseApp {
    * @return { boolean } true if over this.modelLimit for submit token count
    */
   isOverSendThreshold(): boolean {
-    return this.includeTotalTokens + this.sessionDocumentData.max_tokens + this.lastInputTokenCount > this.modelLimit;
+    return this.includeTotalTokens + this.sessionDocumentData.max_tokens +
+      this.lastInputTokenCount + this.lastSystemMessageTokenCount > this.modelLimit;
   }
   /** shows over threshold modal */
   showOverthresholdToSendModal() {
@@ -1285,7 +1314,7 @@ export class SessionApp extends BaseApp {
     this.excludingTicketsRunning = true;
     document.body.classList.add("exclude_tickets_running");
     let tokenReduction = this.includeTotalTokens + this.sessionDocumentData.max_tokens +
-      this.lastInputTokenCount - (this.modelLimit * this.excludeErrorMargin);
+      this.lastInputTokenCount + this.lastSystemMessageTokenCount - (this.modelLimit * this.excludeErrorMargin);
 
     const tickets: Array<any> = [];
     this.lastTicketsSnapshot.forEach((doc: any) => tickets.unshift(doc));

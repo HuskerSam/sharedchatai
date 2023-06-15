@@ -1099,3 +1099,18 @@ li.mb-1 button.btn.btn-toggle:before {
   overflow: auto;
   max-height: calc(100vh - 80px);
 }
+
+.system_message_block {
+  border-bottom: solid 1px rgb(120, 255, 120);
+  padding: 12px;
+}
+
+.system_message_label {
+  text-align: left;
+  color: rgb(240, 240, 50)
+}
+
+.system_message_content {
+  text-align: left;
+  white-space: pre-wrap;
+}

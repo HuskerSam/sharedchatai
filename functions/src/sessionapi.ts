@@ -229,7 +229,12 @@ export default class SessionAPI {
     static async _generatePacket(ticket: any, sessionDocumentData: any, gameNumber: string, ticketId: string,
         includeTickets: Array<string>): Promise<any> {
         const messages: Array<any> = [];
-        // const gameQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).get();
+        if (sessionDocumentData.systemMessage) {
+            messages.push({
+                role: "system",
+                content: sessionDocumentData.systemMessage
+            });
+        }
         const promises: Array<any> = [];
         includeTickets.forEach((includeTicketId) => {
             promises.push(firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${includeTicketId}`).get());
