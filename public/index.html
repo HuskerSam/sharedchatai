@@ -69,11 +69,11 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent" style="width:100%">
             <ul class="navbar-nav mr-auto" style="width:100%">
                 <li class="nav-item home_logo_mobile_only">
-                    <a class="nav-link style="display: block; max-width:120px">
+                    <a class="nav-link style=" display: block; max-width:120px">
                         <span class="mobile_custom_icon_label">
                             <img src="/images/fulllogo600x200.png" class="menu_logo_image">
                         </span>
-                    </a>        
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a class="showhomepage_help nav-link hover_yellow" href="help">
@@ -118,7 +118,8 @@
                 <li class="nav-item signed_in_options">
                     <a class="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
                         <span class="menu_profile_user_image_span member_profile_image hover_yellow"></span>
-                        <span class="menu_dropdown_label_wrapper member_profile_name menu_profile_user_name_span"></span>
+                        <span
+                            class="menu_dropdown_label_wrapper member_profile_name menu_profile_user_name_span"></span>
                     </a>
                 </li>
                 <button class="btn btn-primary profile_show_modal" style="display:none" type="button"
@@ -137,19 +138,67 @@
         </div>
     </nav>
     <div class="container">
-        <h1 class="homepage_display_header display-9">Early Adoptor Launchpad</h1>
         <div class="container signed_out_options">
             <button class="btn btn-primary homepage_signin_show_modal" type="button" data-bs-toggle="modal"
                 data-bs-target="#loginModal">
                 Login
             </button>
         </div>
-        <div class="d-flex flex-column flex-lg-row p-3 justify-content-center">
+        <div class="flex-lg-row p-3 flex_change_responsive">
             <div class="side_block p-3 mx-lg-3">
-                <p class="header_recent_document">Updates</p>
+                <p class="header_recent_document">Hello Prompters!</p>
                 <div class="coming-soon card">
-                    <p class="coming-soon-header display-5">Homepage Coming Soon</p>
-                    <p class="coming-soon-descr">A page for attracting new users</p>
+                    <p>Crafting effective prompts is the key to unlocking the true potential of AI. Remember, AI is just
+                        a tool—it will only do what you tell it.</p>
+
+                    <h2>10 Tips for Prompts</h2>
+
+                    <ol>
+                        <li><strong>Understand the Basics:</strong> At the heart of every interaction with an AI model
+                            is a prompt. This is the means by which we communicate our requests to the AI, telling it
+                            what we want it to do.</li>
+
+                        <li><strong>Be Clear and Specific:</strong> AI models are literal interpreters. The more
+                            specific and detailed your prompt, the more likely you are to get an equally specific and
+                            detailed output.</li>
+
+                        <li><strong>Work with Iterations:</strong> Getting the perfect response from an AI model on the
+                            first try can be challenging. Experimenting with different phrasings or adding more
+                            specifics to the same prompt can yield better results.</li>
+
+                        <li><strong>Leverage Thought Progression:</strong> Thought progression is a technique where you
+                            start with a broad prompt and progressively refine it based on the AI's output. This method
+                            is particularly useful for complex tasks or problems.</li>
+
+                        <li><strong>Master the Art of Prompt Engineering:</strong> Prompt engineering goes beyond
+                            crafting individual prompts. It involves designing a series of prompts to train AI models to
+                            perform specific tasks.</li>
+
+                        <li><strong>Consider the Use of Keywords:</strong> If your goal is to generate content that's
+                            optimized for search engines, including specific keywords in your prompts can be very
+                            beneficial.</li>
+
+                        <li><strong>Understand the Role of Context:</strong> When crafting your prompts, consider
+                            providing additional context to guide the AI's output. This context can help the AI generate
+                            content that's more aligned with your needs.</li>
+
+                        <li><strong>Manage Expectations with max_tokens:</strong> The max_tokens parameter is a powerful
+                            tool for controlling the length of the AI's output. By setting a specific value, you can
+                            dictate how verbose or concise the AI's response should be.</li>
+
+                        <li><strong>Try a Piecemeal Strategy for Complex Responses:</strong> For especially complex
+                            tasks, you might find it beneficial to have the AI generate the response in parts. This
+                            allows you to review and refine each part separately, providing more granular control over
+                            the final output.</li>
+
+                        <li><strong>Balance Specificity and Generality:</strong> Striking a balance between specificity
+                            and generality when creating prompts is important. The key is to find a balance that
+                            encourages the AI to generate creative, yet relevant and useful responses.</li>
+                    </ol>
+
+                    <p><b>
+                            Generated with AI using this application!
+                        </b></p>
                 </div>
                 <p class="header_recent_document">FAQ</p>
                 <div class="faq card p-3">

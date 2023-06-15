@@ -3,6 +3,7 @@
   border-radius: 6px;
   padding: 1rem;
   margin-bottom: 1rem;
+  flex: 1;
 }
 
 .homepage_display_header {
@@ -22,6 +23,7 @@
   padding: 1rem 3rem;
   border-radius: 6px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  color: white;
 }
 
 .coming-soon .coming-soon-header {
@@ -34,6 +36,11 @@
   margin-bottom: 30px;
   color: #198754;
   font-size: 1.5rem;
+}
+
+.coming-soon p,
+.coming-soon li {
+  text-align: left;
 }
 
 .header_recent_document {
@@ -183,6 +190,7 @@ ul.recent_documents_list li a {
   border-radius: 6px;
   padding: 1rem;
   margin-bottom: 1rem;
+  flex: 2;
 }
 
 .faq {
@@ -208,16 +216,23 @@ ul.recent_documents_list li a {
   background-color: rgb(28, 228, 60);
 }
 
+.flex_change_responsive {
+  display: flex;
+  flex-direction: row;
+}
+
 @media (max-width: 991px) {
-  .side_block {
-    order: 2;
-  }
   .faq {
     flex-direction: column;
   }
   .profile_menu_anchor .menu_profile_user_image_span {
     top: 0px;
   }
+
+  .flex_change_responsive {
+    display: flex;
+    flex-direction: column;
+  }  
 }
 
 @media (max-width: 767px) {
