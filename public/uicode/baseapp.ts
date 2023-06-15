@@ -34,7 +34,7 @@ export default class BaseApp {
   profileHelper = new ProfileHelper(this);
   login = new LoginHelper(this);
   documentCreate = new DocCreateHelper(this);
-  helpHelper = new HelpHelper(this);
+  helpHelper: any = null;
   menu_profile_user_image_span: any = document.querySelector(".menu_profile_user_image_span");
   menu_profile_user_name_span: any = document.querySelector(".menu_profile_user_name_span");
 
@@ -52,6 +52,9 @@ export default class BaseApp {
 
     document.body.classList.add("body_loaded");
     this.load();
+
+    // load help last
+    setTimeout(() => this.helpHelper = new HelpHelper(this), 50);
   }
   /** asynchronous loads - data setup  */
   async load() {
