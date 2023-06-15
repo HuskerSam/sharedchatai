@@ -103,6 +103,9 @@ export default class GameAPI {
     let title = "";
     if (req.body.title) title = req.body.title;
 
+    let systemMessage = "";
+    if (req.body.systemMessage) systemMessage = req.body.systemMessage;
+
     let tokenUsageLimit = 500000;
     if (req.body.tokenUsageLimit) tokenUsageLimit = req.body.tokenUsageLimit;
 
@@ -122,6 +125,7 @@ export default class GameAPI {
         label,
         note,
         title,
+        systemMessage,
       });
     if (req.body.visibility) game.visibility = req.body.visibility;
     game.publicStatus = GameAPI._publicStatus(game);
@@ -234,6 +238,10 @@ export default class GameAPI {
     if (req.body.title !== undefined) {
       updatePacket.title = req.body.title;
     }
+    if (req.body.systemMessage !== undefined) {
+      updatePacket.systemMessage = req.body.systemMessage;
+    }
+
     updatePacket.publicStatus = GameAPI._publicStatus(sessionDocumentData);
 
     await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).set(updatePacket, {

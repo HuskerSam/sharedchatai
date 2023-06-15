@@ -104,16 +104,23 @@ export default class ChatDocument {
 
     return sharedStatus;
   }
-  /** */
+  /**
+   * @param { string } id doc id
+   * @param { any } doc data from doc.data()
+   * @param { string } uid user to test for owner
+   * @return { string } html for image and name
+  */
   static getSharedUser(id: string, doc: any, uid: string): string {
     const status = ChatDocument.getDocumentSharedStatus(doc, uid);
     if (status === 0) return "";
 
-    if (status === 2) return `
-      <span class="dashboard_user_image member_profile_image" docid="${id}" uid="${doc.createUser}"></span>
-      <br>
-      <span class="dasboard_user_name member_profile_name" docid="${id}" uid="${doc.createUser}"></span>`;
-    
+    if (status === 2) {
+      return `
+        <span class="dashboard_user_image member_profile_image" docid="${id}" uid="${doc.createUser}"></span>
+        <br>
+        <span class="dasboard_user_name member_profile_name" docid="${id}" uid="${doc.createUser}"></span>`;
+    }
+
     let members: any = {};
     if (doc.members) members = doc.members;
     let membersList = Object.keys(members);
@@ -134,7 +141,6 @@ export default class ChatDocument {
       <span class="dashboard_user_image member_profile_image" docid="${id}" uid="${member}"></span>
       <br>
       <span class="dasboard_user_name member_profile_name" docid="${id}" uid="${member}"></span>`;
-    
     }
 
     return "";

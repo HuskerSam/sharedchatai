@@ -101,13 +101,15 @@
   top: -4px;
 }
 
-.prompt_for_new_title {
+.prompt_for_new_title,
+.prompt_for_new_system_message {
   display: none;
   position: relative;
   left: -12px;
 }
 
-.modal_options_owner_user .prompt_for_new_title {
+.modal_options_owner_user .prompt_for_new_title,
+.modal_options_owner_user .prompt_for_new_system_message {
   display: inline-block;
 }
 
@@ -263,7 +265,8 @@
   border-color: rgb(50, 120, 50);
 }
 
-.modal_document_title_display {
+.modal_document_title_display,
+.modal_document_system_message_display {
   display: block;
   min-height: 2em;
   color: rgb(130, 150, 255);
@@ -351,8 +354,8 @@
 }
 
 .document_usage_stats_line {
-  text-align: center;
   text-align: right;
+  margin-right: 12px;
 }
 
 .document_usage_stats_line span {

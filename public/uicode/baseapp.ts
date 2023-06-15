@@ -34,7 +34,7 @@ export default class BaseApp {
   profileHelper = new ProfileHelper(this);
   login = new LoginHelper(this);
   documentCreate = new DocCreateHelper(this);
-  helpHelper: any = null;  
+  helpHelper: any = null;
   sessionDeleting = false;
   menu_profile_user_image_span: any = document.querySelector(".menu_profile_user_image_span");
   menu_profile_user_name_span: any = document.querySelector(".menu_profile_user_name_span");
@@ -83,7 +83,7 @@ export default class BaseApp {
     if (this.profile) {
       this.updateUserStatus();
       this.updateUserNamesImages();
-      
+
       if (this.profile.textOptionsLarge) document.body.classList.add("profile_text_option_large");
       else document.body.classList.remove("profile_text_option_large");
       if (this.profile.textOptionsMonospace) document.body.classList.add("profile_text_option_monospace");
@@ -481,13 +481,16 @@ export default class BaseApp {
   */
   async saveDocumentOwnerOption(id: string, data: any, fieldKey: string) {
     if (this.sessionDeleting) return;
-    
+
     const updatePacket: any = {
       gameNumber: id,
     };
 
     if (fieldKey === "title") {
       updatePacket.title = data.title;
+    }
+    if (fieldKey === "systemMessage") {
+      updatePacket.systemMessage = data.systemMessage;
     }
     if (fieldKey === "usage") {
       updatePacket.tokenUsageLimit = data.tokenUsageLimit;
@@ -529,7 +532,7 @@ export default class BaseApp {
       let doc: any = null;
       if (docid) doc = this.documentsLookup[docid];
       else if (this.sessionDocumentData) doc = this.sessionDocumentData;
-      
+
       let imgPath = "";
       if (doc) imgPath = doc.memberImages[uid];
       if (this.uid === uid) imgPath = this.profile.displayImage;
@@ -543,7 +546,7 @@ export default class BaseApp {
       let doc: any = null;
       if (docid) doc = this.documentsLookup[docid];
       else if (this.sessionDocumentData) doc = this.sessionDocumentData;
-      
+
       let name = "";
       if (doc) name = doc.memberNames[uid];
       if (this.uid === uid) name = this.profile.displayName;

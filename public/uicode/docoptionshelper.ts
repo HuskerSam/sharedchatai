@@ -10,6 +10,7 @@ export default class DocOptionsHelper {
     modal_close_button: any = null;
     modalContainer: any = null;
     modal_document_title_display: any;
+    modal_document_system_message_display: any;
     documentData: any = null;
     docfield_archived_checkbox: any = null;
     shared_archived_status_wrapper: any = null;
@@ -37,6 +38,7 @@ export default class DocOptionsHelper {
     doc_options_import_rows_preview: any;
     modal_send_tickets_to_api_button: any;
     prompt_for_new_title: any;
+    prompt_for_new_system_message: any;
     prompt_for_new_usage: any;
     clone_current_chatroom_button: any;
     document_usage_stats_line: any;
@@ -68,6 +70,7 @@ export default class DocOptionsHelper {
         this.owner_note_display_div = this.modalContainer.querySelector(".owner_note_display_div");
         this.modal_close_button = this.modalContainer.querySelector(".modal_close_button");
         this.modal_document_title_display = this.modalContainer.querySelector(".modal_document_title_display");
+        this.modal_document_system_message_display = this.modalContainer.querySelector(".modal_document_system_message_display");
 
         this.doc_prompt_usage = document.querySelector(".doc_prompt_usage");
         this.doc_response_usage = document.querySelector(".doc_response_usage");
@@ -79,6 +82,9 @@ export default class DocOptionsHelper {
         this.shared_usage_limit_div = this.modalContainer.querySelector(".shared_usage_limit_div");
         this.prompt_for_new_title = this.modalContainer.querySelector(".prompt_for_new_title");
         this.prompt_for_new_title.addEventListener("click", () => this.promptForNewTitle());
+        this.prompt_for_new_system_message = this.modalContainer.querySelector(".prompt_for_new_system_message");
+        this.prompt_for_new_system_message.addEventListener("click", () => this.promptForNewSystemMessage());
+        
         this.prompt_for_new_usage = this.modalContainer.querySelector(".prompt_for_new_usage");
         this.prompt_for_new_usage.addEventListener("click", () => this.promptForNewUsageLimit());
         this.prompt_for_new_note = this.modalContainer.querySelector(".prompt_for_new_note");
@@ -191,7 +197,8 @@ export default class DocOptionsHelper {
         });
         const displayString = JSON.stringify(lookup, null, "\t");
         navigator.clipboard.writeText(displayString);
-        this.show_packets_dialog.innerHTML = `<i class="material-icons copy_green">done</i><i class="material-icons">content_copy</i>Packets`;
+        this.show_packets_dialog.innerHTML = `<i class="material-icons copy_green">done</i>
+            <i class="material-icons">content_copy</i>Packets`;
         setTimeout(() => this.show_packets_dialog.innerHTML = `<i class="material-icons">content_copy</i>Packets`, 1200);
     }
     /** */
@@ -223,6 +230,16 @@ export default class DocOptionsHelper {
     get docData(): any {
         if (this.app.sessionDocumentData) return this.app.sessionDocumentData;
         else return this.documentData;
+    }
+    promptForNewSystemMessage() {
+        if (!this.docData.systemMessage === undefined) this.docData.systemMessage = "";
+        let newMessage = prompt("System Message", this.docData.systemMessage);
+        if (newMessage !== null) {
+            newMessage = newMessage.trim();
+            this.docData.systemMessage = newMessage;
+            this.app.saveDocumentOwnerOption(this.chatDocumentId, this.docData, "systemMessage");
+            this.modal_document_system_message_display.innerHTML = BaseApp.escapeHTML(newMessage);
+        }
     }
     /** prompt and send title to api */
     promptForNewTitle() {
@@ -354,6 +371,15 @@ export default class DocOptionsHelper {
                                     style="float:right;">
                                     <i class="material-icons">edit</i></button>
                                 <div class="modal_document_title_display"></div>
+                            </div>
+                            <hr>
+                            <div style="padding-bottom: 8px;">
+                                <label class="form-label">System Message</label>
+                                <br>
+                                <button class="btn btn-secondary prompt_for_new_system_message" 
+                                    style="float:right;">
+                                    <i class="material-icons">edit</i></button>
+                                <div class="modal_document_system_message_display"></div>
                             </div>
                             <hr>
                             <div style="line-height:3.5em;padding-right: 8px;" class="template_import_options_section">
@@ -738,6 +764,9 @@ export default class DocOptionsHelper {
 
         this.modal_document_title_display.innerHTML = BaseApp.escapeHTML(this.documentData.title);
 
+        if (this.documentData.systemMessage === undefined) this.documentData.systemMessage = "";
+        this.modal_document_system_message_display.innerHTML = BaseApp.escapeHTML(this.documentData.systemMessage);
+
         const sharedStatus = ChatDocument.getDocumentSharedStatus(this.documentData, this.app.uid);
         this.session_header_link_button.classList.remove("shared_status_not");
         this.session_header_link_button.classList.remove("shared_status_withusers");
@@ -748,7 +777,7 @@ export default class DocOptionsHelper {
         if (sharedStatus === 2) this.session_header_link_button.classList.add("shared_status_withothers");
 
         let sharedLimit = "none";
-        if (this.docData.tokenUsageLimit !== 0) sharedLimit = BaseApp.numberWithCommas(this.docData.tokenUsageLimit); 
+        if (this.docData.tokenUsageLimit !== 0) sharedLimit = BaseApp.numberWithCommas(this.docData.tokenUsageLimit);
         this.shared_usage_limit_div.innerHTML = sharedLimit;
         this.docfield_archived_checkbox.checked = this.documentData.archived;
         this.shared_archived_status_wrapper.innerHTML = this.documentData.archived ? "Archived" : "Active";
@@ -769,7 +798,6 @@ export default class DocOptionsHelper {
             this.modalContainer.classList.add("modal_options_shared_user");
         }
 
-        
         if (doc.createUser === this.app.uid) {
             const queryLabelSelect2 = window.$(".edit_options_document_labels");
             this.noLabelSave = true;
@@ -813,7 +841,7 @@ export default class DocOptionsHelper {
             }
         }
         this.app.sessionDeleting = false;
-        
+
         this.dialog_header_member_image.setAttribute("uid", this.docData.createUser);
         this.dialog_header_member_name.setAttribute("uid", this.docData.createUser);
         this.app.updateUserNamesImages();

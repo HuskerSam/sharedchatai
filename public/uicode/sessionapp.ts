@@ -632,8 +632,9 @@ export class SessionApp extends BaseApp {
     // refresh the counts
     this.scrollTicketListBottom();
   }
+  /** */
   updateContextualLimit() {
-    if (this.sessionDocumentData.model === "gpt-3.5-turbo-16k") this.modelLimit = 16394
+    if (this.sessionDocumentData.model === "gpt-3.5-turbo-16k") this.modelLimit = 16394;
     else this.modelLimit = 4096;
 
     this.docfield_max_tokens.setAttribute("max", this.modelLimit);
@@ -830,7 +831,6 @@ export class SessionApp extends BaseApp {
     ele1.setAttribute("uid", this.uid);
     const ele2: any = tempCard.querySelector(".ticket_owner_image");
     ele2.setAttribute("uid", this.uid);
-  
 
     this.tickets_list.appendChild(tempCard);
     this.scrollTicketListBottom();
@@ -895,7 +895,10 @@ export class SessionApp extends BaseApp {
     });
     return tickets.reverse();
   }
-  /** */
+  /**
+   * @param { string } value text fragment
+   * @return { any } length and token array
+  */
   getEncodedToken(value: string): any {
     if (!this.tokenizedStringCache[value]) {
       this.tokenizedStringCache[value] = window.gpt3tokenizer.encode(value);
@@ -1281,7 +1284,8 @@ export class SessionApp extends BaseApp {
     if (this.excludingTicketsRunning) return [];
     this.excludingTicketsRunning = true;
     document.body.classList.add("exclude_tickets_running");
-    let tokenReduction = this.includeTotalTokens + this.sessionDocumentData.max_tokens + this.lastInputTokenCount - (this.modelLimit * this.excludeErrorMargin);
+    let tokenReduction = this.includeTotalTokens + this.sessionDocumentData.max_tokens +
+      this.lastInputTokenCount - (this.modelLimit * this.excludeErrorMargin);
 
     const tickets: Array<any> = [];
     this.lastTicketsSnapshot.forEach((doc: any) => tickets.unshift(doc));
