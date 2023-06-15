@@ -84,7 +84,7 @@ export default class DocOptionsHelper {
         this.prompt_for_new_title.addEventListener("click", () => this.promptForNewTitle());
         this.prompt_for_new_system_message = this.modalContainer.querySelector(".prompt_for_new_system_message");
         this.prompt_for_new_system_message.addEventListener("click", () => this.promptForNewSystemMessage());
-        
+
         this.prompt_for_new_usage = this.modalContainer.querySelector(".prompt_for_new_usage");
         this.prompt_for_new_usage.addEventListener("click", () => this.promptForNewUsageLimit());
         this.prompt_for_new_note = this.modalContainer.querySelector(".prompt_for_new_note");
@@ -231,6 +231,7 @@ export default class DocOptionsHelper {
         if (this.app.sessionDocumentData) return this.app.sessionDocumentData;
         else return this.documentData;
     }
+    /** */
     promptForNewSystemMessage() {
         if (!this.docData.systemMessage === undefined) this.docData.systemMessage = "";
         let newMessage = prompt("System Message", this.docData.systemMessage);

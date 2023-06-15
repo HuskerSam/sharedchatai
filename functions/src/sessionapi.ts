@@ -232,7 +232,7 @@ export default class SessionAPI {
         if (sessionDocumentData.systemMessage) {
             messages.push({
                 role: "system",
-                content: sessionDocumentData.systemMessage
+                content: sessionDocumentData.systemMessage,
             });
         }
         const promises: Array<any> = [];
