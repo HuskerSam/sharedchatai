@@ -1,11 +1,9 @@
 import BaseApp from "./baseapp.js";
-import LoginHelper from "./loginhelper.js";
 
 declare const firebase: any;
 
 /** Guess app class */
 export class HomePageApp extends BaseApp {
-    login = new LoginHelper(this);
     show_profile_modal: any = document.querySelector(".show_profile_modal");
     show_create_modal: any = document.querySelector(".show_create_modal");
     checkTemplateURL = false;

@@ -2,36 +2,43 @@ declare const firebase: any;
 
 /** login dialog helper - displays automatically if #signin_show_modal button exists */
 export default class LoginHelper {
-    login_google: any = null;
-    login_email_anchor: any = null;
-    anon_login_anchor: any = null;
-    login_email: any = null;
-    app: any = null;
+  login_google: any = null;
+  login_email_anchor: any = null;
+  anon_login_anchor: any = null;
+  login_email: any = null;
+  app: any = null;
 
-    /**
-     * @param { any } app baseapp derived instance
-     */
-    constructor(app: any) {
-        this.app = app;
-        const html = this.getModalTemplate();
-        const modalContainer = document.createElement("div");
-        modalContainer.innerHTML = html;
-        document.body.appendChild(modalContainer);
+  /**
+   * @param { any } app baseapp derived instance
+   */
+  constructor(app: any) {
+    this.app = app;
+    const html = this.getModalTemplate();
+    const modalContainer = document.createElement("div");
+    modalContainer.innerHTML = html;
+    document.body.appendChild(modalContainer);
 
-        this.login_google = document.getElementById("login_google");
-        this.login_email_anchor = document.getElementById("login_email_anchor");
-        this.anon_login_anchor = document.querySelector(".anon_login_anchor");
-        this.login_email = document.querySelector(".login_email");
+    this.login_google = document.getElementById("login_google");
+    this.login_email_anchor = document.getElementById("login_email_anchor");
+    this.anon_login_anchor = document.querySelector(".anon_login_anchor");
+    this.login_email = document.querySelector(".login_email");
+    this.login_email.addEventListener("keydown", (e: any) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        e.stopPropagation();
+        this.login_email_anchor.click();
+      }
+    });
 
-        this.login_google.addEventListener("click", (e: any) => this.app.authGoogleSignIn(e));
-        this.login_email_anchor.addEventListener("click", (e: any) => this.signInByEmail(e));
-        this.anon_login_anchor.addEventListener("click", (e: any) => this.app.signInAnon(e));
-    }
-    /** get modal template
-     * @return { string } template
-     */
-    getModalTemplate(): string {
-        return `<div class="modal fade " id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    this.login_google.addEventListener("click", (e: any) => this.app.authGoogleSignIn(e));
+    this.login_email_anchor.addEventListener("click", (e: any) => this.signInByEmail(e));
+    this.anon_login_anchor.addEventListener("click", (e: any) => this.app.signInAnon(e));
+  }
+  /** get modal template
+   * @return { string } template
+   */
+  getModalTemplate(): string {
+    return `<div class="modal fade " id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content login_modal_container">
         <div class="modal-header">
@@ -65,37 +72,37 @@ export default class LoginHelper {
       </div>
     </div>
   </div>`;
+  }
+  /** email sign in handler from UI (sends email to user for logging in)
+  * @param { any } e dom event - preventDefault is called if passed
+  */
+  async signInByEmail(e: any) {
+    e.preventDefault();
+
+    let email = "";
+    if (this.login_email) email = this.login_email.value;
+
+    /*
+    if (!email) {
+      email = window.prompt("Please provide your email to send link");
+    }*/
+
+    if (!email) {
+      alert("A valid email is required for sending a link");
+      return;
     }
-    /** email sign in handler from UI (sends email to user for logging in)
-    * @param { any } e dom event - preventDefault is called if passed
-    */
-    async signInByEmail(e: any) {
-        e.preventDefault();
 
-        let email = "";
-        if (this.login_email) email = this.login_email.value;
+    let url = location.origin + "/dashboard";
+    if (location.href !== "/") url = location.href;
 
-        /*
-        if (!email) {
-          email = window.prompt("Please provide your email to send link");
-        }*/
+    const actionCodeSettings = {
+      url,
+      handleCodeInApp: true,
+    };
+    await firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings);
 
-        if (!email) {
-            alert("A valid email is required for sending a link");
-            return;
-        }
-
-        let url = location.origin + "/dashboard";
-        if (location.href !== "/") url = location.href;
-
-        const actionCodeSettings = {
-            url,
-            handleCodeInApp: true,
-        };
-        await firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings);
-
-        window.localStorage.setItem("emailForSignIn", email);
-        alert("Email Sent");
-    }
+    window.localStorage.setItem("emailForSignIn", email);
+    alert("Email Sent");
+  }
 }
 
