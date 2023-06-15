@@ -7,7 +7,6 @@ export class HomePageApp extends BaseApp {
     show_profile_modal: any = document.querySelector(".show_profile_modal");
     show_create_modal: any = document.querySelector(".show_create_modal");
     checkTemplateURL = false;
-    homepage_signin_show_modal: any = document.querySelector(".homepage_signin_show_modal");
 
     help_show_modal: any = document.querySelector(".help_show_modal");
     engine_settings_help: any = document.querySelector(".engine_settings_help");
@@ -37,7 +36,7 @@ export class HomePageApp extends BaseApp {
             event.preventDefault();
 
             if (!this.uid) {
-                this.homepage_signin_show_modal.click();
+                this.signin_show_modal.click();
                 return;
             }
 
@@ -74,11 +73,6 @@ export class HomePageApp extends BaseApp {
                 if (templatePath) this.showCreateDialog(templatePath);
             }
             this.initRecentDocumentsFeed();
-        } else if (!this.checkTemplateURL && this.urlParams.get("templatepath")) {
-            if (!this.fireUser) {
-                this.checkTemplateURL = true;
-                this.homepage_signin_show_modal.click();
-            }
         }
     }
     /** show create dialog if a url "templatepath" is passed in
