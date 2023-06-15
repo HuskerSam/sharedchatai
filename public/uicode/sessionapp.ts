@@ -1022,9 +1022,22 @@ export class SessionApp extends BaseApp {
     this.sidebarusers_link_copy.classList.remove("shared_status_withusers");
     this.sidebarusers_link_copy.classList.remove("shared_status_withothers");
 
-    if (sharedStatus === 0) this.sidebarusers_link_copy.classList.add("shared_status_not");
-    if (sharedStatus === 1) this.sidebarusers_link_copy.classList.add("shared_status_withusers");
-    if (sharedStatus === 2) this.sidebarusers_link_copy.classList.add("shared_status_withothers");
+    this.users_sidebar_menu_button.classList.remove("shared_status_not");
+    this.users_sidebar_menu_button.classList.remove("shared_status_withusers");
+    this.users_sidebar_menu_button.classList.remove("shared_status_withothers");
+
+    if (sharedStatus === 0) {
+      this.sidebarusers_link_copy.classList.add("shared_status_not");
+      this.users_sidebar_menu_button.classList.add("shared_status_not");
+    }
+    if (sharedStatus === 1) {
+      this.users_sidebar_menu_button.classList.add("shared_status_withusers");
+      this.sidebarusers_link_copy.classList.add("shared_status_withusers");
+    }
+    if (sharedStatus === 2) {
+      this.users_sidebar_menu_button.classList.add("shared_status_withothers");
+      this.sidebarusers_link_copy.classList.add("shared_status_withothers");
+    }
 
     this.paintDocumentOptions();
     setTimeout(() => {

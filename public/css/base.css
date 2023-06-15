@@ -395,11 +395,13 @@ button.btn-primary:active {
   color: rgb(230, 230, 230);
 }
 
+.app_panel .btn.shared_status_withusers,
 .shared_status_withusers,
 .shared_status_withusers.hover_yellow {
   color:rgb(150, 100, 230);
 }
 
+.app_panel .btn.shared_status_withothers,
 .shared_status_withothers,
 .shared_status_withothers.hover_yellow {
   color: rgb(30, 200, 200);
