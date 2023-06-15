@@ -505,11 +505,13 @@ export class SessionApp extends BaseApp {
     return false;
   }
   /** */
-  scrollTicketListBottom() {
+  scrollTicketListBottom(setTimeouts = true) {
     this.tickets_list.offsetHeight;
     this.tickets_list.scrollTop = this.tickets_list.scrollHeight + 10000;
-    setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight + 10000, 20);
-    setTimeout(() => this.tickets_list.scrollTop = this.tickets_list.scrollHeight + 10000, 50);
+    if (setTimeouts) {
+      setTimeout(() => this.scrollTicketListBottom(false), 20);
+      setTimeout(() => this.scrollTicketListBottom(false), 50);
+    }
   }
   /** paint user message feed
    * @param { any } snapshot firestore query data snapshot
