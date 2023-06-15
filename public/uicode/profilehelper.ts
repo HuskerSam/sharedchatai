@@ -254,7 +254,7 @@ export default class ProfileHelper {
                             <table>
                                 <tr>
                                     <td>Subscription Level: &nbsp;</td>
-                                    <td class="account_subscription_status">Try out</td>
+                                    <td class="account_subscription_status">Pre Release</td>
                                 </tr>
                             </table>
                             <br>

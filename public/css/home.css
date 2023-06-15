@@ -43,6 +43,10 @@
   text-align: left;
 }
 
+.coming-soon strong {
+  color: rgb(255, 255, 0);
+}
+
 .header_recent_document {
   color: #fff;
   font-size: 2.5rem;
@@ -155,6 +159,7 @@ ul.recent_documents_list li a {
   list-style: none;
   display: flex;
   flex-wrap: wrap;
+  text-align: left;
 }
 
 .template_list_wrapper li {

@@ -39,7 +39,7 @@ export class HomePageApp extends BaseApp {
             event.preventDefault();
 
             if (!this.uid) {
-                alert("Must login to start a session");
+                this.homepage_signin_show_modal.click();
                 return;
             }
 

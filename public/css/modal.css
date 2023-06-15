@@ -489,7 +489,7 @@
 }
 
 .subscription_panel {
-  display: flex;
+  display: none;
   flex-direction: row;
 }
 

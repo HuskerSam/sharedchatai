@@ -50,6 +50,15 @@ export default class LoginHelper {
                 Log in with Google &nbsp;<img class="google_logo" style="margin-right:-8px;" src="/images/google_signin.png"></button>
               <button class="anon_login_anchor btn btn-primary" style="display:none;">Log in Anonymously</button>
               </div>
+              <hr>
+              <div style="text-align: left;">
+                This application is not released, it's free at this time to use but in the 
+                future will not be free to use - at least unlimited.
+                <br>
+                <br>
+                We hope you enjoy the application!
+                <br><br>
+              </div>
         </div>
         <div class="modal-footer">
         </div>
