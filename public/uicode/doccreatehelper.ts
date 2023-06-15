@@ -52,7 +52,7 @@ export default class DocCreateHelper {
     });
     this.document_usage_cap_field = this.modalContainer.querySelector(".document_usage_cap_field");
     this.show_create_dialog_help = this.modalContainer.querySelector(".show_create_dialog_help");
-    this.show_create_dialog_help.addEventListener("click", () => this.app.helpHelper.show("prompts"));
+    this.show_create_dialog_help.addEventListener("click", () => this.app.helpHelper.show("session"));
     this.modal_create_template_tickets_button = this.modalContainer.querySelector(".modal_create_template_tickets_button");
     this.modal_create_template_tickets_button.addEventListener("click", () => this.create_modal_template_file.click());
     this.parsed_file_status = this.modalContainer.querySelector(".parsed_file_status");

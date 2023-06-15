@@ -113,7 +113,7 @@ export class HomePageApp extends BaseApp {
         if (this.recentDocumentsSubscription) this.recentDocumentsSubscription();
         this.recentDocumentsSubscription = firebase.firestore().collection(`Games`)
             .orderBy(`members.${this.uid}`, "desc")
-            .limit(5)
+            .limit(10)
             .onSnapshot((snapshot: any) => this.updateRecentDocumentFeed(snapshot));
     }
     /** paint recent document feed
