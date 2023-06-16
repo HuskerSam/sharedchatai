@@ -41,11 +41,6 @@ export class HomePageApp extends BaseApp {
             this.documentCreate.show();
         });
 
-        if (this.engine_settings_help) this.engine_settings_help.addEventListener("click", () => this.helpHelper.show("engine"));
-        if (this.user_profile_help) this.user_profile_help.addEventListener("click", () => this.helpHelper.show("profile"));
-        if (this.optimizng_prompts_help) this.optimizng_prompts_help.addEventListener("click", () => this.helpHelper.show("prompts"));
-        if (this.shared_sessions_help) this.shared_sessions_help.addEventListener("click", () => this.helpHelper.show("session"));
-
         if (this.sign_out_homepage) {
             this.sign_out_homepage.addEventListener("click", (e: any) => {
                 e.preventDefault();

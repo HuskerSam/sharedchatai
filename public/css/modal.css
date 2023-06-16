@@ -443,10 +443,6 @@
   top: 6px;
 }
 
-#helpIframeModal .dialog_header_icon i {
-  color: rgb(200, 125, 200);
-}
-
 #createDocumentModal .dialog_header_icon {
   color: rgb(50, 255, 50);
 }

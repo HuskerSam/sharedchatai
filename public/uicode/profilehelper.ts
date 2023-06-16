@@ -21,7 +21,6 @@ export default class ProfileHelper {
     profile_show_modal: any;
     preset_logos_inited = false;
     prompt_for_new_user_name: any;
-    show_modal_profile_help: any;
     profile_text_large_checkbox: any;
     profile_text_monospace_checkbox: any;
     profile_prefixname_checkbox: any;
@@ -72,7 +71,6 @@ export default class ProfileHelper {
         this.prompt_for_new_user_name = document.querySelector(".prompt_for_new_user_name");
         this.prompt_for_new_user_name.addEventListener("click", () => this.promptForNewUserName());
         this.profile_show_modal = document.querySelector(".profile_show_modal");
-        this.show_modal_profile_help = document.querySelector(".show_modal_profile_help");
         this.profile_text_large_checkbox = document.querySelector(".profile_text_large_checkbox");
 
         this.sign_out_button.addEventListener("click", (e: any) => {
@@ -100,7 +98,6 @@ export default class ProfileHelper {
         this.profile_autoexclude_checkbox.addEventListener("input", () => this.saveProfileField("autoExclude"));
 
         this.profile_text_large_checkbox.addEventListener("input", () => this.saveProfileField("largetext"));
-        this.show_modal_profile_help.addEventListener("click", () => this.app.helpHelper.show("profile"));
 
         window.$(".label_profile_picker").select2({
             tags: true,
@@ -160,8 +157,8 @@ export default class ProfileHelper {
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="profile_user_tab_view" role="tabpanel"
                             aria-labelledby="profile_user_tab_button">
-                            <button class="btn btn-secondary show_modal_profile_help"><i
-                                    class="material-icons">help</i></button>
+                            <a class="btn btn-secondary show_modal_profile_help" href="/help/#profile" target="_blank"><i
+                                    class="material-icons">help</i></a>
                             <div>
                                 <label class="form-label">Name and Image</label>
                                 <br>
