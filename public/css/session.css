@@ -44,6 +44,7 @@ html {
 .member_name_wrapper {
   flex: 1;
   line-height: 40px;
+  overflow: hidden;
 }
 
 .members_feed_line_wrapper {
@@ -58,10 +59,6 @@ html {
   color: rgb(240, 240, 50);
 }
 
-.members_feed_online_status {
-  background: white;
-}
-
 .members_feed_profile_lastactivity {
   text-align: right;
 }
@@ -73,6 +70,10 @@ html {
 .member_prompt_count {
   text-align: right;
   color: rgb(130, 150, 255);
+}
+
+.members_feed_online_status {
+  background: white;
 }
 
 .member_online_status {
@@ -119,6 +120,7 @@ html {
 
 .game_message_list_item.ticket_owner.old_ticket .delete_ticket {
   color: rgb(240, 240, 240);
+  visibility: visible;
 }
 
 .game_message_list_item .user_assist_request_header {
@@ -184,6 +186,7 @@ html {
 
 .tokens_total {
   padding: 4px;
+  font-family: monospace;
 }
 
 .tokens_total_since_wrapper {
@@ -207,6 +210,7 @@ html {
   color: rgb(190, 190, 190);
   z-index: 1;
   background-color: transparent;
+  font-family: monospace;
 }
 
 .completion_max_tokens_reached .tokens_completion {
@@ -250,6 +254,7 @@ html {
 
 ul.recent_documents_list {
   width: 100%;
+  margin-top: 6px;
 }
 
 ul.recent_documents_list li {
@@ -273,6 +278,7 @@ ul.recent_documents_list li a {
   z-index: 100;
   padding: 2px 8px;
   text-decoration: underline;
+  background-color: rgb(15, 92, 30);
 }
 
 .sidebar_tree_recent_title {
@@ -438,6 +444,7 @@ pre code {
   width: 80px;
   text-align: center;
   overflow: visible;
+  font-family: monospace;
 }
 
 .ticket_count_span {
@@ -819,6 +826,7 @@ pre code {
 .total_prompt_token_count {
   min-width: 35px;
   text-align: center;
+  font-family: monospace;
 }
 
 .engine_settings_minor_tweaked .total_prompt_token_count {
@@ -1101,9 +1109,10 @@ li.mb-1 button.btn.btn-toggle:before {
 }
 
 .system_message_block {
-  border-bottom: solid 1px rgb(120, 255, 120);
+  border: solid 1px rgb(200, 200, 200);
   padding: 12px;
-  background: rgb(0,0,0, 0.5);
+  margin: 4px;
+  border-radius: 10px;
 }
 
 .system_message_label {
@@ -1114,4 +1123,8 @@ li.mb-1 button.btn.btn-toggle:before {
 .system_message_content {
   text-align: left;
   white-space: pre-wrap;
+}
+
+#sidebar_users_panel {
+  padding-top: 4px;
 }

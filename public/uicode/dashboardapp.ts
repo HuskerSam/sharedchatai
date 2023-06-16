@@ -165,7 +165,9 @@ export class DashboardApp extends BaseApp {
         sharedStatusDom.classList.remove("shared_status_withusers");
         sharedStatusDom.classList.remove("shared_status_withothers");
 
-        sharedStatusDom.innerHTML = ChatDocument.getSharedUser(doc.id, doc.data(), this.uid);
+        const sharedBlockData = ChatDocument.getSharedUser(doc.id, doc.data(), this.uid);
+        if (sharedBlockData.uid) this.addUserPresenceWatch(sharedBlockData.uid);
+        sharedStatusDom.innerHTML = sharedBlockData.html;
         if (sharedStatus === 0) {
           sharedIcon.classList.add("shared_status_not");
           sharedStatusDom.classList.add("shared_status_not");
@@ -190,8 +192,8 @@ export class DashboardApp extends BaseApp {
     });
     this.updateTimeSince(this.dashboard_documents_view, true);
     this.paintLabelSelect();
-    this.refreshOnlinePresence();
     this.updateUserNamesImages();
+    this.updateUserPresence();
   }
   /** paint html list card
    * @param { any } doc Firestore doc for game
@@ -218,9 +220,9 @@ export class DashboardApp extends BaseApp {
           <span class="material-icons">link</span>
         </button>
         <div class="document_name" data-docid="${doc.id}"></div>
+        <div class="session_ticket_count" data-docid="${doc.id}"></div> 
         <div class="document_status time_since last_submit_time" data-timesince="${data.lastActivity}"
           data-showseconds="0"></div>
-        <div class="session_ticket_count" data-docid="${doc.id}"></div> 
         <div class="session_labels_column" data-docid="${doc.id}"></div>
         <div class="session_shared_column" data-docid="${doc.id}"></div>
         <button class="details_game btn btn-secondary hover_yellow" data-gamenumber="${data.gameNumber}">
@@ -246,15 +248,6 @@ export class DashboardApp extends BaseApp {
     });
 
     return card;
-  }
-  /** update storage to show online for current user */
-  refreshOnlinePresence() {
-    if (this.userStatusDatabaseRef) {
-      this.userStatusDatabaseRef.set({
-        state: "online",
-        last_changed: firebase.database.ServerValue.TIMESTAMP,
-      });
-    }
   }
   /** get labels across app
    * @return { Array<any> } array of label strings

@@ -115,7 +115,7 @@ export default class BaseApp {
       let showLoginModal = true;
       if (location.pathname === "/" && location.search === "") showLoginModal = false;
       if (location.pathname === "/help/") showLoginModal = false;
-      
+
       if (showLoginModal && this.signin_show_modal) this.signin_show_modal.click();
     }
 
@@ -477,6 +477,8 @@ export default class BaseApp {
   * @param { any } value written to field
   */
   async saveDocumentOption(id: string, field: string, value: any) {
+    if (this.sessionDeleting) return;
+
     const body: any = {
       gameNumber: id,
       [field]: value,
@@ -502,7 +504,7 @@ export default class BaseApp {
    * @param { any } data session document data (with new field value)
    * @param { string } fieldKey title for title, usage for tokenUsageLimit, note for note
   */
-  async saveDocumentOwnerOption(id: string, fieldKey: string,  data: any) {
+  async saveDocumentOwnerOption(id: string, fieldKey: string, data: any) {
     if (this.sessionDeleting) return;
 
     const updatePacket: any = {

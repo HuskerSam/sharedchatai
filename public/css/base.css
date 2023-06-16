@@ -414,6 +414,8 @@ button.btn-primary:active {
 .menu_logo_image {
   max-width: 85px;
   display: block;
+  position: relative;
+  top: 2px;
 }
 
 .navbar-light .navbar-toggler {
@@ -563,4 +565,9 @@ table.number td {
 
 table.number th {
   font-weight: normal;
+}
+
+.menu_profile_user_name_span {
+  max-width: 300px;
+  overflow: hidden;
 }

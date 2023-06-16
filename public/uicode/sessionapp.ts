@@ -209,9 +209,6 @@ export class SessionApp extends BaseApp {
     this.overthresholdModalDialog.addEventListener("shown.bs.modal",
       () => this.exclude_tickets_button.focus());
 
-    this.navbarSupportedContent.addEventListener("shown.bs.collapse",
-      () => this.tickets_list.focus());
-
     this.select_all_tickets_button.addEventListener("click", () => this.selectAllTickets());
 
     this.engine_sidebar_menu_button.addEventListener("click", () => {
@@ -497,7 +494,7 @@ export class SessionApp extends BaseApp {
    * @return { boolean } true is scrolled to bottom
    */
   atBottom(ele: any): boolean {
-    if (ele.scrollTop + ele.offsetHeight >= ele.scrollHeight) return true;
+    if (ele.scrollTop + ele.offsetHeight >= ele.scrollHeight - 10) return true;
     return false;
   }
   /** */
@@ -624,6 +621,7 @@ export class SessionApp extends BaseApp {
     const tempCard = this.getTicketCardDom(new Date().toISOString(), ticket, true);
     this.tickets_list.appendChild(tempCard);
 
+    tempCard.scrollIntoView(false);
     this.scrollTicketListBottom();
 
     const body = {
@@ -852,6 +850,7 @@ export class SessionApp extends BaseApp {
     ele2.setAttribute("uid", this.uid);
 
     this.tickets_list.appendChild(tempCard);
+    tempCard.scrollIntoView(false);
     this.scrollTicketListBottom();
 
     this.updatePromptTokenStatus();
@@ -967,10 +966,16 @@ export class SessionApp extends BaseApp {
               return;
             }
 
-            if (this.firstDocumentLoad) this.setSidebarTreeState();
+            this.paintDocumentData(doc);
+
+            if (this.firstDocumentLoad) {
+              setTimeout(() => {
+                this.ticket_content_input.focus();
+              }, 50);
+              this.setSidebarTreeState();
+            } 
             this.firstDocumentLoad = false;
 
-            this.paintDocumentData(doc);
           });
 
         this.initTicketFeed();

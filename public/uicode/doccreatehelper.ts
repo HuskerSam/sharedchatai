@@ -97,18 +97,18 @@ export default class DocCreateHelper {
         aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content app_panel">
-            <div class="modal-header">
-              <h5 class="modal-title" id="createDocumentModalLabel">
+            <div class="modal-header" style="display:flex;">
+              <h5 class="modal-title" id="createDocumentModalLabel" style="flex:1;display:flex;">
                 <span class="dialog_header_icon"><i class="material-icons">add</i></span>
-                New Session
+                <span style="flex:1">
+                  New Session
+                </span>
+                <a class="btn btn-secondary show_create_dialog_help" href="/help/#create" target="_blank"><i 
+                class="material-icons">help</i></a>
               </h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <div style="text-align:center;height:0.5em;">
-                <a class="btn btn-secondary show_create_dialog_help" href="/help/#create" target="_blank"><i 
-                    class="material-icons">help</i></a>
-              </div>
               <label class="form-label">
                 Title
               </label>

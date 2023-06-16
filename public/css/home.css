@@ -124,7 +124,7 @@ ul.recent_documents_list li a {
 }
 
 .recent_documents_list .activity_date {
-  background-color: rgba(28, 228, 60, 0.3);
+  background-color: rgb(15, 92, 30);
   position: absolute;
   right: -10px;
   top: 2px;
