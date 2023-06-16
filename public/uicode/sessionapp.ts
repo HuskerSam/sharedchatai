@@ -209,9 +209,6 @@ export class SessionApp extends BaseApp {
     this.overthresholdModalDialog.addEventListener("shown.bs.modal",
       () => this.exclude_tickets_button.focus());
 
-    this.navbarSupportedContent.addEventListener("shown.bs.collapse",
-      () => this.tickets_list.focus());
-
     this.select_all_tickets_button.addEventListener("click", () => this.selectAllTickets());
 
     this.engine_sidebar_menu_button.addEventListener("click", () => {
