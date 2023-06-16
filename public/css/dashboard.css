@@ -277,3 +277,25 @@
   white-space: nowrap;
   overflow: hidden;
 }
+
+
+.members_feed_online_status {
+  background: white;
+}
+
+.member_online_status {
+  border-radius: 100%;
+  width: 14px;
+  height: 14px;
+  background: rgb(127, 127, 127);
+  border: solid 1px rgb(230, 230, 230);
+  display: inline-block;
+  align-self: center;
+  position: relative;
+  left: -10px;
+  top: 8px;
+}
+
+.member_online_status.online {
+  background: rgb(50, 255, 50);
+}

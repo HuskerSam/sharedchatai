@@ -58,10 +58,6 @@ html {
   color: rgb(240, 240, 50);
 }
 
-.members_feed_online_status {
-  background: white;
-}
-
 .members_feed_profile_lastactivity {
   text-align: right;
 }
@@ -73,6 +69,10 @@ html {
 .member_prompt_count {
   text-align: right;
   color: rgb(130, 150, 255);
+}
+
+.members_feed_online_status {
+  background: white;
 }
 
 .member_online_status {

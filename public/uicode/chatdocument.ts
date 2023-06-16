@@ -107,42 +107,53 @@ export default class ChatDocument {
   /**
    * @param { string } id doc id
    * @param { any } doc data from doc.data()
-   * @param { string } uid user to test for owner
-   * @return { string } html for image and name
+   * @param { string } ownerUid user to test for owner
+   * @return { any } html and uid for user
   */
-  static getSharedUser(id: string, doc: any, uid: string): string {
-    const status = ChatDocument.getDocumentSharedStatus(doc, uid);
-    if (status === 0) return "";
+  static getSharedUser(id: string, doc: any, ownerUid: string): any  {
+    const status = ChatDocument.getDocumentSharedStatus(doc, ownerUid);
+    let html = "";
+    let uid = "";
 
     if (status === 2) {
-      return `
-        <span class="dashboard_user_image member_profile_image" docid="${id}" uid="${doc.createUser}"></span>
+      uid = doc.createUser;
+      html = `
+        <span class="dashboard_user_image member_profile_image" docid="${id}" uid="${uid}"></span>
+        <div class="members_feed_online_status member_online_status" data-uid="${uid}"></div>
         <br>
-        <span class="dasboard_user_name member_profile_name" docid="${id}" uid="${doc.createUser}"></span>`;
+        <span class="dasboard_user_name member_profile_name" docid="${id}" uid="${uid}"></span>`;
+
     }
 
-    let members: any = {};
-    if (doc.members) members = doc.members;
-    let membersList = Object.keys(members);
-    membersList = membersList.sort((a: string, b: string) => {
-      if (doc.members[a] > doc.members[b]) return -1;
-      if (doc.members[a] < doc.members[b]) return 1;
-      return 0;
-    });
-    let member = "";
-    for (let c = 0, l = membersList.length; c < l; c++) {
-      if (membersList[c] !== uid) {
-        member = membersList[c];
-        break;
+    if (status === 1) {
+      let members: any = {};
+      if (doc.members) members = doc.members;
+      let membersList = Object.keys(members);
+      membersList = membersList.sort((a: string, b: string) => {
+        if (doc.members[a] > doc.members[b]) return -1;
+        if (doc.members[a] < doc.members[b]) return 1;
+        return 0;
+      });
+      let member = "";
+      for (let c = 0, l = membersList.length; c < l; c++) {
+        if (membersList[c] !== ownerUid) {
+          member = membersList[c];
+          break;
+        }
+      }
+      if (member) {
+        uid = member;
+        html = `
+        <span class="dashboard_user_image member_profile_image" docid="${id}" uid="${uid}"></span>
+        <div class="members_feed_online_status member_online_status" data-uid="${uid}"></div>
+        <br>
+        <span class="dasboard_user_name member_profile_name" docid="${id}" uid="${uid}"></span>`;
       }
     }
-    if (member) {
-      return `
-      <span class="dashboard_user_image member_profile_image" docid="${id}" uid="${member}"></span>
-      <br>
-      <span class="dasboard_user_name member_profile_name" docid="${id}" uid="${member}"></span>`;
-    }
 
-    return "";
+    return {
+      html,
+      uid
+    };
   }
 }
