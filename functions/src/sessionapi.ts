@@ -336,7 +336,6 @@ export default class SessionAPI {
                         submitted,
                     });
                 }, 4.9 * 60 * 1000);
-
                 fetch(`https://api.openai.com/v1/chat/completions`, {
                     method: "POST",
                     headers: {
@@ -353,6 +352,14 @@ export default class SessionAPI {
                         submitted,
                     };
                     clearTimeout(timeoutTest);
+                    res(aiResponse);
+                }).catch((error: any) => {
+                    const aiResponse = {
+                        success: false,
+                        created: new Date().toISOString(),
+                        error: error.message,
+                        submitted,
+                    };
                     res(aiResponse);
                 });
             } catch (aiRequestError: any) {
