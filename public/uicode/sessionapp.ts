@@ -802,6 +802,11 @@ export class SessionApp extends BaseApp {
     if (!json.success) {
       console.log("ticket include fail post", json);
     }
+
+    if (this.ticketsLookup[ticketId]) {
+      this.ticketsLookup[ticketId].includeInMessage = include;
+      this.updatePromptTokenStatus();
+    }
   }
   /** api user send message
    * @param { boolean } ignoreThreshold true to send regardless of size
@@ -974,7 +979,7 @@ export class SessionApp extends BaseApp {
                 this.ticket_content_input.focus();
               }, 50);
               this.setSidebarTreeState();
-            } 
+            }
             this.firstDocumentLoad = false;
 
           });
