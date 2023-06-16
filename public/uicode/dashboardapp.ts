@@ -220,9 +220,9 @@ export class DashboardApp extends BaseApp {
           <span class="material-icons">link</span>
         </button>
         <div class="document_name" data-docid="${doc.id}"></div>
+        <div class="session_ticket_count" data-docid="${doc.id}"></div> 
         <div class="document_status time_since last_submit_time" data-timesince="${data.lastActivity}"
           data-showseconds="0"></div>
-        <div class="session_ticket_count" data-docid="${doc.id}"></div> 
         <div class="session_labels_column" data-docid="${doc.id}"></div>
         <div class="session_shared_column" data-docid="${doc.id}"></div>
         <button class="details_game btn btn-secondary hover_yellow" data-gamenumber="${data.gameNumber}">

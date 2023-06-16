@@ -20,7 +20,7 @@
   clear: both;
   white-space: nowrap;
   overflow: visible;
-  margin: auto;
+  align-self: center;
   min-width: 3.25em;
   padding-left: 0.25em;
 }
@@ -58,6 +58,7 @@
   color: rgb(130, 150, 255);
   margin: auto;
   width: 3em;
+  font-family: monospace;
 }
 
 .profile_text_option_large .details_game .session_ticket_count {
@@ -79,7 +80,7 @@
   border-color: transparent;
   position: relative;
   left: -8px;
-  margin: auto;
+  align-self: center;
 }
 
 .document_shared_status_icon_wrapper span {
@@ -166,6 +167,7 @@
   margin-bottom: -8px;
   text-align: center;
   white-space: nowrap;
+  align-self: center;
 }
 
 .session_labels_column {
@@ -173,10 +175,11 @@
   display: none;
   max-height: 3.3em;
   overflow: hidden;
-  margin-top: -3px;
+  margin-top: -10px;
   text-align: left;
   margin-bottom: -8px;
   text-align: center;
+  align-self: center;
 }
 
 @media (min-width: 850px) {
