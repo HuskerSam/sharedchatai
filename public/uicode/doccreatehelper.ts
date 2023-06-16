@@ -12,7 +12,6 @@ export default class DocCreateHelper {
   create_modal_note_field: any = null;
   doccreatehelper_show_modal: any = null;
   creatingNewRecord = false;
-  show_create_dialog_help: any;
   create_modal_title_field: any;
   document_usage_cap_field: any;
   create_modal_template_file: any;
@@ -51,8 +50,6 @@ export default class DocCreateHelper {
       }
     });
     this.document_usage_cap_field = this.modalContainer.querySelector(".document_usage_cap_field");
-    this.show_create_dialog_help = this.modalContainer.querySelector(".show_create_dialog_help");
-    this.show_create_dialog_help.addEventListener("click", () => this.app.helpHelper.show("session"));
     this.modal_create_template_tickets_button = this.modalContainer.querySelector(".modal_create_template_tickets_button");
     this.modal_create_template_tickets_button.addEventListener("click", () => this.create_modal_template_file.click());
     this.parsed_file_status = this.modalContainer.querySelector(".parsed_file_status");
@@ -109,8 +106,8 @@ export default class DocCreateHelper {
             </div>
             <div class="modal-body">
               <div style="text-align:center;height:0.5em;">
-                <button class="btn btn-secondary show_create_dialog_help"><i 
-                    class="material-icons">help</i></button>
+                <a class="btn btn-secondary show_create_dialog_help" href="/help/#create" target="_blank"><i 
+                    class="material-icons">help</i></a>
               </div>
               <label class="form-label">
                 Title

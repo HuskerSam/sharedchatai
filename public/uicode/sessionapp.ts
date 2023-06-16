@@ -116,7 +116,6 @@ export class SessionApp extends BaseApp {
   sidebar_document_title: any = document.querySelector(".sidebar_document_title");
   menu_bar_doc_title: any = document.querySelector(".menu_bar_doc_title");
   show_overthreshold_dialog: any = document.querySelector(".show_overthreshold_dialog");
-  show_token_threshold_dialog_help: any = document.querySelector(".show_token_threshold_dialog_help");
   show_create_modal_on_bar: any = document.querySelector(".show_create_modal_on_bar");
 
   auto_run_overthreshold_ticket: any = document.querySelector(".auto_run_overthreshold_ticket");

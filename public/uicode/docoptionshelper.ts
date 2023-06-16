@@ -34,7 +34,6 @@ export default class DocOptionsHelper {
     download_export_button: any;
     modal_upload_tickets_button: any;
     import_upload_file: any;
-    show_export_tickets_help: any;
     doc_options_import_rows_preview: any;
     modal_send_tickets_to_api_button: any;
     prompt_for_new_title: any;
@@ -106,9 +105,6 @@ export default class DocOptionsHelper {
 
         this.modal_send_tickets_to_api_button = this.modalContainer.querySelector(".modal_send_tickets_to_api_button");
         this.modal_send_tickets_to_api_button.addEventListener("click", () => this.uploadReportData());
-
-        this.show_export_tickets_help = document.querySelector(".show_export_tickets_help");
-        this.show_export_tickets_help.addEventListener("click", () => this.app.helpHelper.show("prompts"));
 
         this.clone_current_chatroom_button = this.modalContainer.querySelector(".clone_current_chatroom_button");
         this.clone_current_chatroom_button.addEventListener("click", async (event: any) => {
@@ -321,7 +317,9 @@ export default class DocOptionsHelper {
                     <div class="tab-content" style="overflow:hidden;display:flex;">
                         <div class="tab-pane fade" id="export_tab_view" role="tabpanel"
                             style="flex-direction:column;overflow:hidden;" aria-labelledby="export_tab_button">
-                            <button class="btn btn-secondary show_export_tickets_help"><i class="material-icons">help</i></button>
+                            <a class="btn btn-secondary show_export_tickets_help" href="/help/#options" target="_blank">
+                                <i class="material-icons">help</i>
+                            </a>
                             <div style="line-height: 3em;">
                                 &nbsp;
                                 <span style="padding-right:16px;">Prompts:</span>
