@@ -29,17 +29,19 @@ export class HomePageApp extends BaseApp {
 
             this.profileHelper.show();
         });
-        this.show_create_modal.addEventListener("click", (event: any) => {
-            event.stopPropagation();
-            event.preventDefault();
-
-            if (!this.uid) {
-                this.signin_show_modal.click();
-                return;
-            }
-
-            this.documentCreate.show();
-        });
+        if (this.show_create_modal) {
+            this.show_create_modal.addEventListener("click", (event: any) => {
+                event.stopPropagation();
+                event.preventDefault();
+    
+                if (!this.uid) {
+                    this.signin_show_modal.click();
+                    return;
+                }
+    
+                this.documentCreate.show();
+            });
+        }
 
         if (this.sign_out_homepage) {
             this.sign_out_homepage.addEventListener("click", (e: any) => {

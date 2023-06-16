@@ -28,10 +28,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-    <!-- Easing -->
-    <script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script>
-    <!-- Magnific Popup -->
-    <script src="assets/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
 
     <!-- Stylesheet
 ============================== -->
@@ -46,7 +42,7 @@
     <!-- Custom Stylesheet -->
     <link rel="stylesheet" type="text/css" href="assets/css/stylesheet.css" />
 
-    
+
     <link rel="stylesheet" href="/css/base.css" />
     <link rel="stylesheet" href="/css/modal.css" />
     <link rel="stylesheet" href="/css/home.css" />
@@ -60,31 +56,23 @@
     </script>
 </head>
 
-<body class="basic_page_wrapper">
-    <nav class="app_panel navbar navbar-expand-lg navbar-light sticky-top" style="min-height: 70px;position:fixed;width:100%;">
+<body class="basic_page_wrapper" data-bs-spy="scroll" data-bs-target=".idocs-navigation" data-bs-offset="125">
+    <nav class="app_panel navbar navbar-expand-lg navbar-light sticky-top"
+        style="min-height: 70px;position:fixed;width:100%;">
         <div class="menu_bar_doc_title_wrapper">
-            <a href="/" class="nav-link"  style="display: block; max-width:120px;">
+            <a href="/" class="nav-link" style="display: block; max-width:120px;">
                 <span class="mobile_custom_icon_label" style="display: block; max-width:120px">
                     <img src="/images/fulllogo600x200.png" class="menu_logo_image">
                 </span>
             </a>
-            <button id="sidebarCollapse" class="navbar-toggler d-block d-md-none show" type="button" style="position:relative;">
-                <span >
-                    <i class="material-icons-outlined">menu</i>
-                </span>
-            </button>
             <div style="flex:1"></div>
             <div class="mobile_bar_button_wrapper">
-                <a class="hover_yellow folder_link_mobile" href="/dashboard">
-                    <span class="mobile_custom_icon_label">
-                        <i class="material-icons-outlined">folder</i>
-                    </span>
-                </a>
+
             </div>
             <div class="menu_bar_mobile_spacer"></div>
         </div>
 
-        <button class="navbar-toggler hover_yellow" type="button" data-bs-toggle="collapse"
+        <button id="sidebarCollapse" class="navbar-toggler hover_yellow" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
             aria-label="Toggle navigation">
             <span class="hamburger_span"></span>
@@ -98,37 +86,7 @@
                         </span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link show_create_modal hover_yellow" href="create">
-                        <span class="mobile_custom_icon_label">
-                            <i class="material-icons">add_circle_outline</i>
-                        </span>
-                        <span class="menu_dropdown_label_wrapper">
-                            New
-                        </span>
-                    </a>
-                </li>
-                <li class="nav-item signed_in_options">
-                    <a class="info_anchor nav-link hover_yellow" href="/dashboard">
-                        <span class="mobile_custom_icon_label">
-                            <i class="material-icons-outlined">folder</i>
-                        </span>
-                        <span class="menu_dropdown_label_wrapper">
-                            Sessions
-                        </span>
-                    </a>
-                </li>
-                <li class="nav-item signed_in_options">
-                    <a class="sign_out_homepage nav-link hover_yellow" href="signout">
-                        <span class="mobile_custom_icon_label">
-                            <i class="material-icons-outlined">logout</i>
-                        </span>
-                        <span class="menu_dropdown_label_wrapper">
-                            Sign out
-                        </span>
-                    </a>
-                </li>
-                <li class="nav-item hide_if_signedin">
+                <li style="display:none;" class="nav-item hide_if_signedin">
                     <a class="signin_show_modal nav-link hover_yellow" href="login" type="button" data-bs-toggle="modal"
                         data-bs-target="#loginModal">
                         <span class="mobile_custom_icon_label">
@@ -139,7 +97,7 @@
                         </span>
                     </a>
                 </li>
-                <li class="nav-item signed_in_options">
+                <li class="nav-item signed_in_options" style="display:none;">
                     <a class="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
                         <span class="menu_profile_user_image_span member_profile_image hover_yellow"></span>
                         <span
@@ -149,14 +107,6 @@
                 <button class="btn btn-primary profile_show_modal" style="display:none" type="button"
                     data-bs-toggle="modal" data-bs-target="#userProfileModal">
                     Profile
-                </button>
-                <button class="btn btn-primary help_show_modal" style="display:none" type="button"
-                    data-bs-toggle="modal" data-bs-target="#helpIframeModal">
-                    Help
-                </button>
-                <button class="btn btn-primary doccreatehelper_show_modal" style="display:none" type="button"
-                    data-bs-toggle="modal" data-bs-target="#createDocumentModal">
-                    Create Modal
                 </button>
             </ul>
         </div>
@@ -390,7 +340,8 @@
                     </ul>
                     <p>Simply add Color CSS file link it in the Document <code>&lt;head&gt;</code>.<br>
                         Make sure you add the <code>css/color-blue.css</code> stylesheet in your head after the
-                        <code>css/stylesheet.css</code> file linking from above mentioned 10 color css file.</p>
+                        <code>css/stylesheet.css</code> file linking from above mentioned 10 color css file.
+                    </p>
                     <p><strong>For Example:</strong></p>
                     <pre><code class="html">&lt;head&gt;
     &lt;!-- Stylesheet
@@ -501,7 +452,8 @@
                     <p><a class="popup-img" href="assets/images/header-dark.jpg"><img class="img-fluid border"
                                 src="assets/images/header-dark.jpg" alt=""></a></p>
                     <p>Add the <code>.bg-dark</code> and <code>.navbar-text-light</code> Class to the
-                        <code>&lt;nav&gt;</code> Tag to display a Dark Header.</p>
+                        <code>&lt;nav&gt;</code> Tag to display a Dark Header.
+                    </p>
                     <pre><code class="html">&lt;!-- Header
     ============================ --&gt;
     &lt;header id=&quot;header&quot; class=&quot;sticky-top&quot;&gt; 
@@ -724,7 +676,8 @@
                     <h4>Dark Footer</h4>
                     <p>Footer with dark background color & Light text. See below code for more information.</p>
                     <p>Add the <code>.bg-dark</code> and <code>.footer-text-light</code> Class to the
-                        <code>footer</code> Tag to display a Dark footer.</p>
+                        <code>footer</code> Tag to display a Dark footer.
+                    </p>
                     <pre><code class="html">&lt;!-- Footer
     ============================================= --&gt;
     &lt;footer id=&quot;footer&quot; class=&quot;section bg-dark footer-text-light&quot;&gt;
@@ -743,7 +696,8 @@
                     <h2>Box Layout Style</h2>
                     <div>
                         <p>Default Layout Style is wide. Please add the <code>.box</code> class to the
-                            <code>&lt;body&gt;</code> Tag for box layout.</p>
+                            <code>&lt;body&gt;</code> Tag for box layout.
+                        </p>
                         <pre><code class="html">&lt;body class="box" data-spy="scroll" data-target=".idocs-navigation" data-offset="125"&gt;</code></pre>
                     </div>
                 </section>
@@ -1000,7 +954,8 @@
                     <h3 class="mt-5">Responsive Images</h3>
                     <p>Images in Bootstrap are made responsive with <code>.img-fluid.</code>
                         <code>max-width: 100%;</code> and <code>height: auto;</code> are applied to the image so that it
-                        scales with the parent element.</p>
+                        scales with the parent element.
+                    </p>
                     <p><img src="assets/images/screenshot.jpg" class="img-fluid" alt="Responsive image"></p>
                     <pre><code class="html">&lt;img src=&quot;assets/images/screenshot.jpg&quot; class=&quot;img-fluid&quot; alt=&quot;Responsive image&quot;&gt;</code></pre>
 
@@ -1036,7 +991,8 @@
                     <h3 class="mt-5">Embedded Video</h3>
                     <p>Wrap any embed like an <code>&lt;iframe&gt;</code> in a parent element with
                         <code>.embed-responsive</code> and an aspect ratio. The <code>.embed-responsive-item</code>
-                        isn’t strictly required, but we encourage it.</p>
+                        isn’t strictly required, but we encourage it.
+                    </p>
                     <div class="embed-responsive embed-responsive-16by9">
                         <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/7e90gBu4pas"
                             allowfullscreen></iframe>
@@ -1068,7 +1024,8 @@
                     <p class="mb-5">Setting up components is very easy. Here is the Some of shortcodes describe. also,
                         <strong>iDocs</strong> is based on Bootstrap 4, so you can easily use Bootstrap's components: <a
                             class="ml-1" target="_blank" href="https://getbootstrap.com/docs/4.4/components/"><i
-                                class="fas fa-external-link-alt"></i> Bootstrap Documentation</a></p>
+                                class="fas fa-external-link-alt"></i> Bootstrap Documentation</a>
+                    </p>
                 </section>
 
                 <!-- Accordion
@@ -1691,6 +1648,10 @@
     </button>
     <!-- Highlight JS -->
     <script src="assets/vendor/highlight.js/highlight.min.js"></script>
+    <!-- Easing -->
+    <script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script>
+    <!-- Magnific Popup -->
+    <script src="assets/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
     <!-- Custom Script -->
     <script src="assets/js/theme.js"></script>
 </body>
