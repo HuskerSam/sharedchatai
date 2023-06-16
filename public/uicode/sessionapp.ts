@@ -1203,7 +1203,7 @@ export class SessionApp extends BaseApp {
   /** update the splitter if needed */
   updateMobileLayout() {
     let desktopView = true;
-    if (window.document.body.scrollWidth <= 990) {
+    if (window.document.body.scrollWidth < 992) {
       desktopView = false;
     }
 

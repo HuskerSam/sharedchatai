@@ -68,7 +68,7 @@ export default class DocCreateHelper {
 
     this.add_date_as_label_button = this.modalContainer.querySelector(".add_date_as_label_button");
 
-    this.add_date_as_label_button.innerHTML = this.getLocal8DigitDate();
+    // this.add_date_as_label_button.innerHTML = this.getLocal8DigitDate();
     this.add_date_as_label_button.addEventListener("click", () => this.addTodayAsLabel());
 
     this.modal_close_button = this.modalContainer.querySelector(".modal_close_button");

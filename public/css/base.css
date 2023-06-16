@@ -370,22 +370,39 @@ button.btn-primary:active {
   top: -4px;
 }
 
-.menu_profile_user_image_span {
-  width: 30px;
-  height: 30px;
-  background-size: contain;
-  background-position: center center;
+.member_profile_name {
   position: relative;
-  float: left;
-  top: -2px;
+  left: 5px;
+}
+
+.menu_profile_user_image_span {
   border-radius: 6px;
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  background-position: center center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: relative;
+  top: 1px;
+  border-radius: 6px;
+}
+
+.menu_profile_user_name_span {
+  max-width: 300px;
+  overflow: hidden;
+  top: 4px;
 }
 
 @media (min-width: 992px) {
   .menu_profile_user_image_span {
     float: none;
     display: inline-block;
-    top: 2px;
+    top: -2px;
+  }
+  .menu_profile_user_name_span {
+    position: relative;
+    top: 4px;
   }
 }
 
@@ -453,19 +470,7 @@ button.btn-primary:active {
   font-size: 1.5em;
   padding-left: 8px;
   position: relative;
-  top: -2px;
-}
-
-.menu_profile_user_image_span {
-  display: inline-block;
-  width: 32px;
-  height: 32px;
-  background-position: center center;
-  background-size: contain;
-  background-repeat: no-repeat;
-  position: relative;
-  top: 2px;
-  border-radius: 6px;
+  top: -4px;
 }
 
 .showhomepage_help i,
@@ -567,7 +572,8 @@ table.number th {
   font-weight: normal;
 }
 
-.menu_profile_user_name_span {
-  max-width: 300px;
-  overflow: hidden;
+@media (max-width: 991px) {
+  .navbar-nav.mr-auto {
+    margin-bottom: 12px;
+  }
 }

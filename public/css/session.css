@@ -1128,3 +1128,17 @@ li.mb-1 button.btn.btn-toggle:before {
 #sidebar_users_panel {
   padding-top: 4px;
 }
+
+.menu_profile_user_image_span {
+  top: 2px;
+}
+
+.mobile_layout_mode .menu_profile_user_image_span {
+  top: 1px;
+}
+
+.mobile_layout_mode .menu_profile_user_name_span {
+  position: relative;
+  left: 0px;
+  top: -6px;
+}
