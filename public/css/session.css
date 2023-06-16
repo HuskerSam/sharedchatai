@@ -548,7 +548,7 @@ pre code {
   margin-top: -6px;
 }
 
-.profile_text_option_large .menu_bar_doc_title {
+.profile_text_option_large .menu_bar_doc_title_wrapper {
   font-size: 1.25em;
   line-height: 1.5em;
 }
@@ -740,13 +740,11 @@ pre code {
 .menu_bar_doc_title {
   flex: 1;
   padding-left: 12px;
-  white-space: nowrap;
   color: rgb(130, 150, 255);
-  font-size: 1.1em;
-  height: 2em;
+  height: 3em;
   overflow: hidden;
-  margin-top: 0.5em;
   flex: 1;
+  align-self: center;
 }
 
 .ticket_sent_api_pending .menu_bar_doc_title {
