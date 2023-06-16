@@ -19,7 +19,6 @@ export class DashboardApp extends BaseApp {
   assistsLookup: any = {};
   document_label_filter: any = document.querySelector(".document_label_filter");
   profile_menu_anchor: any = document.querySelector(".profile_menu_anchor");
-  show_dashboard_help_button: any = document.querySelector(".show_dashboard_help_button");
   documentOptions = new DocOptionsHelper(this, "dashboard_options_view");
   help_show_modal: any = document.querySelector(".help_show_modal");
 
@@ -49,7 +48,6 @@ export class DashboardApp extends BaseApp {
       this.updateSessionFeed(null);
     });
 
-    this.show_dashboard_help_button.addEventListener("click", (event: any) => this.helpHelper.show("session", event));
     this.profile_menu_anchor.addEventListener("click", (event: any) => {
       event.stopPropagation();
       event.preventDefault();
