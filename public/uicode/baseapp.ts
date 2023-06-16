@@ -477,6 +477,8 @@ export default class BaseApp {
   * @param { any } value written to field
   */
   async saveDocumentOption(id: string, field: string, value: any) {
+    if (this.sessionDeleting) return;
+
     const body: any = {
       gameNumber: id,
       [field]: value,

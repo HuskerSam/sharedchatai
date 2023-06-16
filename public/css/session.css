@@ -186,6 +186,7 @@ html {
 
 .tokens_total {
   padding: 4px;
+  font-family: monospace;
 }
 
 .tokens_total_since_wrapper {
@@ -209,6 +210,7 @@ html {
   color: rgb(190, 190, 190);
   z-index: 1;
   background-color: transparent;
+  font-family: monospace;
 }
 
 .completion_max_tokens_reached .tokens_completion {
@@ -252,6 +254,7 @@ html {
 
 ul.recent_documents_list {
   width: 100%;
+  margin-top: 6px;
 }
 
 ul.recent_documents_list li {
@@ -1104,7 +1107,7 @@ li.mb-1 button.btn.btn-toggle:before {
 }
 
 .system_message_block {
-  border: solid 1px rgb(120, 255, 120);
+  border: solid 1px rgb(200, 200, 200);
   padding: 12px;
   margin: 4px;
   border-radius: 10px;
@@ -1118,4 +1121,8 @@ li.mb-1 button.btn.btn-toggle:before {
 .system_message_content {
   text-align: left;
   white-space: pre-wrap;
+}
+
+#sidebar_users_panel {
+  padding-top: 4px;
 }

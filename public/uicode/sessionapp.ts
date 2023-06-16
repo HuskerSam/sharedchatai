@@ -966,10 +966,16 @@ export class SessionApp extends BaseApp {
               return;
             }
 
-            if (this.firstDocumentLoad) this.setSidebarTreeState();
+            this.paintDocumentData(doc);
+
+            if (this.firstDocumentLoad) {
+              setTimeout(() => {
+                this.ticket_content_input.focus();
+              }, 50);
+              this.setSidebarTreeState();
+            } 
             this.firstDocumentLoad = false;
 
-            this.paintDocumentData(doc);
           });
 
         this.initTicketFeed();
