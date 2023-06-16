@@ -415,7 +415,7 @@ button.btn-primary:active {
   max-width: 85px;
   display: block;
   position: relative;
-  top: 4px;
+  top: 2px;
 }
 
 .navbar-light .navbar-toggler {
@@ -565,4 +565,9 @@ table.number td {
 
 table.number th {
   font-weight: normal;
+}
+
+.menu_profile_user_name_span {
+  max-width: 300px;
+  overflow: hidden;
 }
