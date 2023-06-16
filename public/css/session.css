@@ -444,6 +444,7 @@ pre code {
   width: 80px;
   text-align: center;
   overflow: visible;
+  font-family: monospace;
 }
 
 .ticket_count_span {
@@ -825,6 +826,7 @@ pre code {
 .total_prompt_token_count {
   min-width: 35px;
   text-align: center;
+  font-family: monospace;
 }
 
 .engine_settings_minor_tweaked .total_prompt_token_count {

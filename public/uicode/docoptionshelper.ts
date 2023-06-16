@@ -506,6 +506,10 @@ export default class DocOptionsHelper {
         };
         const token = await firebase.auth().currentUser.getIdToken();
         this.app.sessionDeleting = true;
+
+        if (this.app.isSessionApp) window.location = "/dashboard";
+        this.modal_close_button.click();
+
         const fResult = await fetch(this.app.basePath + "lobbyApi/games/delete", {
             method: "POST",
             mode: "cors",
@@ -523,9 +527,6 @@ export default class DocOptionsHelper {
             alert("Delete failed");
             return;
         }
-
-        if (this.app.isSessionApp) window.location = "/dashboard";
-        this.modal_close_button.click();
     }
     /** logout api call */
     async logoutGame() {
