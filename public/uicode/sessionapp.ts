@@ -922,9 +922,10 @@ export class SessionApp extends BaseApp {
     if (value !== undefined) str = value;
     if (!this.tokenizedStringCache[str]) {
       this.tokenizedStringCache[str] = window.gpt3tokenizer.encode(str);
+      if (!this.tokenizedStringCache[str]) this.tokenizedStringCache[str] = [];
     }
 
-    return this.tokenizedStringCache[value];
+    return this.tokenizedStringCache[str];
   }
   /** lookup token usage
    * @param { string } assistId ticket id to check for assist
