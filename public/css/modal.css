@@ -175,27 +175,7 @@
 }
 
 .show_create_dialog_help,
-.show_modal_profile_help {
-  background: none;
-  position: absolute;
-  right: 5px;
-  top: 0px;
-  border-color: transparent;
-  color: rgb(200, 125, 200);
-}
-
-.show_modal_profile_help {
-  float: right;
-  position: relative;
-  top: -8px;
-}
-
-.show_create_dialog_help {
-  top: 8px;
-  right: 8px;
-  position: absolute;
-}
-
+.show_modal_profile_help,
 .show_export_tickets_help {
   background: none;
   border-color: transparent;

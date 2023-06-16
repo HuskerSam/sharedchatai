@@ -133,8 +133,10 @@ export default class ProfileHelper {
                     <h5 class="modal-title" id="userProfileModalLabel" style="display:flex;flex-direction:row;width:100%;overflow:hidden;">
                         <span class="dialog_header_icon"><i class="material-icons">account_circle</i></span>
                         <span class="logged_in_status" style="flex:1"></span>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <a class="btn btn-secondary show_modal_profile_help" href="/help/#profile" target="_blank"><i
+                        class="material-icons">help</i></a>
                     </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
@@ -157,8 +159,6 @@ export default class ProfileHelper {
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="profile_user_tab_view" role="tabpanel"
                             aria-labelledby="profile_user_tab_button">
-                            <a class="btn btn-secondary show_modal_profile_help" href="/help/#profile" target="_blank"><i
-                                    class="material-icons">help</i></a>
                             <div>
                                 <label class="form-label">Name and Image</label>
                                 <br>
