@@ -44,6 +44,7 @@ html {
 .member_name_wrapper {
   flex: 1;
   line-height: 40px;
+  overflow: hidden;
 }
 
 .members_feed_line_wrapper {
@@ -119,6 +120,7 @@ html {
 
 .game_message_list_item.ticket_owner.old_ticket .delete_ticket {
   color: rgb(240, 240, 240);
+  visibility: visible;
 }
 
 .game_message_list_item .user_assist_request_header {

@@ -497,7 +497,7 @@ export class SessionApp extends BaseApp {
    * @return { boolean } true is scrolled to bottom
    */
   atBottom(ele: any): boolean {
-    if (ele.scrollTop + ele.offsetHeight >= ele.scrollHeight) return true;
+    if (ele.scrollTop + ele.offsetHeight >= ele.scrollHeight - 10) return true;
     return false;
   }
   /** */
@@ -624,6 +624,7 @@ export class SessionApp extends BaseApp {
     const tempCard = this.getTicketCardDom(new Date().toISOString(), ticket, true);
     this.tickets_list.appendChild(tempCard);
 
+    tempCard.scrollIntoView(false);
     this.scrollTicketListBottom();
 
     const body = {
@@ -852,6 +853,7 @@ export class SessionApp extends BaseApp {
     ele2.setAttribute("uid", this.uid);
 
     this.tickets_list.appendChild(tempCard);
+    tempCard.scrollIntoView(false);
     this.scrollTicketListBottom();
 
     this.updatePromptTokenStatus();
