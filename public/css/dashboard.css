@@ -157,7 +157,7 @@
 }
 
 .session_shared_column {
-  width: 15vw;
+  width: 100px;
   display: none;
   max-height: 3.3em;
   overflow: hidden;
@@ -277,7 +277,6 @@
   white-space: nowrap;
   overflow: hidden;
 }
-
 
 .members_feed_online_status {
   background: white;

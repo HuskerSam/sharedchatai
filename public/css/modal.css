@@ -200,9 +200,6 @@
   background: none;
   border-color: transparent;
   color: rgb(200, 125, 200);
-  position: absolute;
-  top: 0;
-  right: 0;
 }
 
 .show_create_dialog_help i,
@@ -463,11 +460,11 @@
   text-align: right;
 }
 
-.token_usage_row > span {
+.token_usage_row>span {
   flex: 1;
 }
 
-.token_usage_row > span.usage_prefix_label {
+.token_usage_row>span.usage_prefix_label {
   flex: none;
 }
 
@@ -495,9 +492,9 @@
   flex-direction: row;
 }
 
-.subscription_panel > div {
+.subscription_panel>div {
   flex: 1;
-  text-align:center;
+  text-align: center;
   border: solid 1px rgb(200, 200, 200);
   border-radius: 8px;
   margin: 4px;
@@ -572,6 +569,7 @@
   position: relative;
   border-radius: 6px;
   flex: none;
+  top: 6px;
 }
 
 .dialog_header_member_name {
@@ -585,4 +583,11 @@
 
 i.copy_green {
   color: rgb(50, 255, 50);
+}
+
+#editDocumentModalLabel {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  line-height: 2em;
 }

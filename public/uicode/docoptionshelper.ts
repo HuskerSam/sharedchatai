@@ -291,12 +291,15 @@ export default class DocOptionsHelper {
         <div class="modal-dialog app_panel">
             <div class="modal-content app_panel">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editDocumentModalLabel" style="display: flex;flex-direction: row;overflow: hidden;">
+                    <h5 class="modal-title" id="editDocumentModalLabel">
                         <button class="session_header_link_button btn btn-secondary"><i class="material-icons">settings</i></button>
                         Owner:
                         <span class="member_profile_image dialog_header_member_image"></span>
                         <span class="member_profile_name dialog_header_member_name"></span>
                     </h5>
+                    <a class="btn btn-secondary show_export_tickets_help" href="/help/#options" target="_blank">
+                        <i class="material-icons">help</i>
+                    </a>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" style="display:flex;flex-direction:column">
@@ -317,9 +320,6 @@ export default class DocOptionsHelper {
                     <div class="tab-content" style="overflow:hidden;display:flex;">
                         <div class="tab-pane fade" id="export_tab_view" role="tabpanel"
                             style="flex-direction:column;overflow:hidden;" aria-labelledby="export_tab_button">
-                            <a class="btn btn-secondary show_export_tickets_help" href="/help/#options" target="_blank">
-                                <i class="material-icons">help</i>
-                            </a>
                             <div style="line-height: 3em;">
                                 &nbsp;
                                 <span style="padding-right:16px;">Prompts:</span>
