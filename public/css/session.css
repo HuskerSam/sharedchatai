@@ -275,6 +275,7 @@ ul.recent_documents_list li a {
   z-index: 100;
   padding: 2px 8px;
   text-decoration: underline;
+  background-color: rgb(15, 92, 30);
 }
 
 .sidebar_tree_recent_title {
@@ -1103,9 +1104,10 @@ li.mb-1 button.btn.btn-toggle:before {
 }
 
 .system_message_block {
-  border-bottom: solid 1px rgb(120, 255, 120);
+  border: solid 1px rgb(120, 255, 120);
   padding: 12px;
-  background: rgb(0,0,0, 0.5);
+  margin: 4px;
+  border-radius: 10px;
 }
 
 .system_message_label {
