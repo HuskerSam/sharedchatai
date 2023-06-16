@@ -247,7 +247,7 @@ export default class DocOptionsHelper {
                 alert("no title entered");
                 return;
             }
-            this.docData.title = newTitle;
+            this.docData.title = newTitle.substring(0, 200);
             this.app.saveDocumentOwnerOption(this.chatDocumentId, "title", this.docData);
             this.modal_document_title_display.innerHTML = BaseApp.escapeHTML(newTitle);
         }

@@ -105,7 +105,7 @@ export default class SessionAPI {
         };
         if (sessionDocumentData.unsetTitle && message) {
             sessionPacket.unsetTitle = false;
-            sessionPacket.title = message.substring(0, 100);
+            sessionPacket.title = message.substring(0, 200);
         }
 
         await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).set(sessionPacket, {
