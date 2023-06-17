@@ -372,7 +372,13 @@ export class SessionApp extends BaseApp {
         promptSpan.innerHTML = "";
         completionSpan.innerHTML = "";
 
-        if (!ticketRunning) {
+        const lastSubmit: any = card.querySelector(`.last_submit_time`);
+        if (ticketRunning) {
+          BaseApp.setHTML(assistSection, `<div class="pending_message">Prompt sent to OpenAI for processing...</div>`);
+          card.classList.add("ticket_running");
+          lastSubmit.dataset.showseconds = "1";
+          this.ticketIsPending = true;
+        } else {
           if (assistData.success) {
             if (assistData.assist.error) {
               let result = "";
@@ -448,7 +454,10 @@ export class SessionApp extends BaseApp {
 
               totalSpan.innerHTML = assistData.assist.usage.total_tokens;
               promptSpan.innerHTML = assistData.assist.usage.prompt_tokens;
-              completionSpan.innerHTML = assistData.assist.usage.completion_tokens;
+              let responseTime = assistData.runTime;
+              if (!responseTime) responseTime = 0;
+              completionSpan.innerHTML = assistData.assist.usage.completion_tokens +
+                "<br>" + Math.round(responseTime / 1000) + "s";
 
               let responseCap = this.sessionDocumentData.max_tokens;
               if (ticketData.max_tokens !== undefined) responseCap = ticketData.max_tokens;
@@ -463,15 +472,9 @@ export class SessionApp extends BaseApp {
             if (assistData.error) msg = assistData.error;
             assistSection.innerHTML = msg;
           }
-        }
 
-        const lastSubmit: any = card.querySelector(`.last_submit_time`);
-        if (ticketRunning) {
-          BaseApp.setHTML(assistSection, `<div class="pending_message">Prompt sent to OpenAI for processing...</div>`);
-          card.classList.add("ticket_running");
-          lastSubmit.dataset.showseconds = "1";
-          this.ticketIsPending = true;
-        } else {
+
+
           card.classList.remove("ticket_running");
           lastSubmit.dataset.showseconds = "0";
         }
@@ -482,12 +485,8 @@ export class SessionApp extends BaseApp {
     else document.body.classList.remove("ticket_sent_api_pending");
 
     this.updatePromptTokenStatus();
-    if (scrollToBottom) {
-      this.scrollTicketListBottom();
-      setTimeout(() => this.scrollTicketListBottom(), 100);
-      setTimeout(() => this.scrollTicketListBottom(), 150);
-    }
     this._updateGameMembersList();
+    if (scrollToBottom) this.scrollTicketListBottom();
   }
   /** tests if dom scroll is at bottom
    * @param { any } ele element to test
@@ -1172,7 +1171,7 @@ export class SessionApp extends BaseApp {
     if (notDefault && !tweaked) document.body.classList.add("engine_settings_minor_tweaked");
     else document.body.classList.remove("engine_settings_minor_tweaked");
 
-    const debounce = (this.lastDocumentOptionChange + 600 > new Date().getTime());
+    const debounce = (this.lastDocumentOptionChange + 750 < new Date().getTime());
 
     this.docfield_model.value = this.sessionDocumentData.model;
     this.updateContextualLimit();
@@ -1195,7 +1194,7 @@ export class SessionApp extends BaseApp {
       this.sliderPaintDebounceTimeout[field] = setTimeout(() => {
         this.__debounceSliderPaint(field, debounce, label);
         this.sliderPaintDebounceTimeout[field] = null;
-      }, 50);
+      }, 500);
       return;
     }
 

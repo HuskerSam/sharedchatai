@@ -329,6 +329,7 @@ export default class SessionAPI {
     */
     static async submitOpenAIRequest(aiRequest: any, submitted: string, chatGptKey: string): Promise<any> {
         return new Promise((res: any) => {
+            const startTime = new Date().getTime();
             try {
                 const timeoutTest = setTimeout(() => {
                     res({
@@ -352,6 +353,7 @@ export default class SessionAPI {
                         created: new Date().toISOString(),
                         assist,
                         submitted,
+                        runTime: new Date().getTime() - startTime,
                     };
                     clearTimeout(timeoutTest);
                     res(aiResponse);
@@ -361,6 +363,7 @@ export default class SessionAPI {
                         created: new Date().toISOString(),
                         error: error.message,
                         submitted,
+                        runTime: new Date().getTime() - startTime,
                     };
                     res(aiResponse);
                 });
@@ -370,6 +373,7 @@ export default class SessionAPI {
                     created: new Date().toISOString(),
                     error: aiRequestError.message,
                     submitted,
+                    runTime: new Date().getTime() - startTime,
                 };
                 res(aiResponse);
             }
