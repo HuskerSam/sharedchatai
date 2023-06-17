@@ -6,6 +6,7 @@ export default class LoginHelper {
   login_email_anchor: any = null;
   anon_login_anchor: any = null;
   login_email: any = null;
+  modal_close_button: any = null;
   app: any = null;
 
   /**
@@ -20,8 +21,9 @@ export default class LoginHelper {
 
     this.login_google = document.getElementById("login_google");
     this.login_email_anchor = document.getElementById("login_email_anchor");
-    this.anon_login_anchor = document.querySelector(".anon_login_anchor");
-    this.login_email = document.querySelector(".login_email");
+    this.anon_login_anchor = modalContainer.querySelector(".anon_login_anchor");
+    this.login_email = modalContainer.querySelector(".login_email");
+    this.modal_close_button = modalContainer.querySelector(".modal_close_button");
     this.login_email.addEventListener("keydown", (e: any) => {
       if (e.key === "Enter") {
         e.preventDefault();
@@ -75,6 +77,10 @@ export default class LoginHelper {
               </div>
         </div>
         <div class="modal-footer">
+          <button type="button" class="btn btn-secondary modal_close_button" data-bs-dismiss="modal">
+            <i class="material-icons">cancel</i>
+            Close
+        </button>
         </div>
       </div>
     </div>
@@ -110,6 +116,8 @@ export default class LoginHelper {
 
     window.localStorage.setItem("emailForSignIn", email);
     alert("Email Sent");
+
+    this.modal_close_button.click();
   }
 }
 
