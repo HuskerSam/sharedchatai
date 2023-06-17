@@ -91,13 +91,6 @@
 .show_dashboard_help_button i {
   position: relative;
   float: right;
-}
-
-
-.show_dashboard_help_button {
-  background: none;
-  margin-right: 10px;
-  border-color: transparent;
   color: rgb(200, 125, 200);
 }
 
