@@ -115,50 +115,27 @@
     <div style="margin-top:24px;" id="content" role="main">
         <!-- Sidebar Navigation
         ============================ -->
-        <div class="idocs-navigation bg-dark docs-navigation-dark">
+        <div class="idocs-navigation docs-navigation-dark">
             <ul class="nav flex-column ">
-                <li class="nav-item"><a class="nav-link active" href="#introduction_start">Introduction</a>
+                <li class="nav-item"><a class="nav-link active" href="#introduction_start">Introduction</a></li>
+                <li class="nav-item"><a class="nav-link" href="#chat_interface">Chat Interface</a>
                     <ul class="nav flex-column">
-                        <li class="nav-item"><a class="nav-link" href="#quickstart">Quick Start</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#chat_features">Features</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#sidebar_options">Document Info</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#engine_parameters">Engine Parameters</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#users_info">Users</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#recent_sessions">Recent Sessions</a></li>
                     </ul>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="#idocs_layout">Layout</a>
+                <li class="nav-item"><a class="nav-link" href="#sessions_dashboard">Sessions Dashboard</a>
                     <ul class="nav flex-column">
-                        <li class="nav-item"><a class="nav-link" href="#idocs_header">Header</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#idocs_navbar">Navbar</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#idocs_sidebar">Sidebar</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#idocs_footer">Footer</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#idocs_box_layout">Box Layout</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#session_info">Info</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#session_options">Options</a></li>
                     </ul>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="#idocs_content">Content</a>
-                    <ul class="nav flex-column">
-                        <li class="nav-item"><a class="nav-link" href="#idocs_typography">Typography</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#idocs_code">Code</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#idocs_table">Table</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#idocs_icons">Icons</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#idocs_image">Image</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#idocs_video">Video</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item"><a class="nav-link" href="#idocs_components">Components</a>
-                    <ul class="nav flex-column">
-                        <li class="nav-item"><a class="nav-link" href="#idocs_accordion">Accordion</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#idocs_tabs">Tabs</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#idocs_social_icon">Social Icon</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#idocs_helper_classes">Helper Classes</a></li>
-                    </ul>
-                </li>
+                <li class="nav-item"><a class="nav-link" href="#profile_settings">Profile Settings</a></li>
+                <li class="nav-item"><a class="nav-link" href="#idocs_templates">Templates</a></li>
                 <li class="nav-item"><a class="nav-link" href="#idocs_faq">FAQ</a></li>
-                <li class="nav-item"><a class="nav-link" href="#idocs_source_credits">Source & Credits</a></li>
-                <li class="nav-item"><a class="nav-link" href="#idocs_support">Support</a></li>
-                <li class="nav-item"><a class="nav-link" href="#idocs_templates">More Templates</a></li>
-                <li class="nav-item"><a class="nav-link" href="#idocs_changelog">Changelog</a>
-                    <ul class="nav flex-column">
-                        <li class="nav-item"><a class="nav-link" href="#v1-1">v1.1</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#v1-0">v1.0</a></li>
-                    </ul>
-                </li>
             </ul>
         </div>
 
@@ -170,7 +147,9 @@
                 <!-- introduction
             ============================ -->
                 <section id="introduction_start">
-                    <h2>Intro to Promptplus AI</h2>
+                    <h2 class="display-4"><img style="max-width: 18px;margin-bottom:12px;" class="img-fluid rounded"
+                            src="/images/logo64.png" alt=""> Introduction</h2>
+
                     <h4>Overview</h4>
                     <p> PromptPlus Ai is a collaborative interface designed to offer superior control over your
                         interaction with AI models like GPT-3.5
@@ -183,29 +162,50 @@
                 <hr class="divider">
                 <!-- getting started
             ============================ -->
-                <section id="quickstart">
-                    <h4>Quick Start</h4>
-                    <p class="lead">Starting a Chat/Prompting Session</p>
-                    <p>To begin a chat session with the AI, you simply need to create a document or join an existing
-                        document through a shared link. Once you're on the chat interface page, you can start entering
+                <section>
+                    <h4>Starting a Chat Session</h4>
+                    <p class="lead">To begin a chat session with the AI</p>
+                    <ol>
+                        <li>create a document</li>
+                        <li>join an existing through a shared link</li>
+                    </ol>
+                    <p>Once you're on the chat interface page, you can start entering
                         your prompts for the AI to respond.</p>
+                </section>
+                <hr class="divider">
+                <section>
+                    <h4>Key Concepts</h4>
+                    <p class="lead">Understanding Large Language Models (LLMs) Work</p>
+                    <p>Large Language Models (LLMs) like GPT-3 are trained on a large corpus of text data. They learn to
+                        predict the next word or token in a sentence based on the context provided by the preceding
+                        words or tokens.</p>
+                    <figure class="figure">
+                        <img class="figure-img img-fluid rounded" src="https://placehold.co/400x300" alt="">
+                        <figcaption class="figure-caption text-center">A caption for the above image.</figcaption>
+                    </figure>
+                    <p> For instance, given the input "The sky is...", the model might predict "blue"
+                        as the next word. However, as the models employ a probabilistic approach, the same input can
+                        yield different outputs, making these models non-deterministic. Understanding the foundational
+                        mechanics of LLMs is crucial to optimizing their use and potential.</p>
                 </section>
                 <hr class="divider">
 
                 <!-- chat session layout
             ============================ -->
-                <section id="idocs_layout">
-                    <h2>Chat Session User Interface</h2>
+                <section id="chat_interface">
+                    <h2>Chat Session Interface</h2>
                     <p class="lead">Overview</p>
                     <p class="mb-5">The chat session interface forms the heart of the PromptPlus AI experience.
                         It's where you interact directly with the AI, entering prompts, and receiving responses. This
                         interface provides the primary controls for your interaction with the AI.</p>
-                    <p><a class="popup-img" href="assets/images/layout.jpg"><img class="img-fluid border"
-                                src="https://placehold.co/600x300" alt=""></a></p>
+                    <figure class="figure">
+                        <img class="figure-img img-fluid rounded" src="https://placehold.co/600x300" alt="">
+                        <figcaption class="figure-caption text-center">A caption for the above image.</figcaption>
+                    </figure>
                 </section>
                 <!-- chat features
             ============================ -->
-                <section id="idocs_header">
+                <section id="chat_features">
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
@@ -259,7 +259,7 @@
 
                 <!-- sidebar
             ============================ -->
-                <section id="idocs_navbar">
+                <section id="sidebar_options">
                     <h2>Document Details and Engine</h2>
                     <p class="lead">The chat session sidebar, or menu on mobile, houses important document options,
                         engine parameters, and user details.</p>
@@ -267,13 +267,17 @@
                     <p>This section provides an document options as well as an overview of the document: title, token
                         count,
                         and time of last activity.</p>
-                    <p><a class="popup-img" href="assets/images/navbar-left.jpg"><img class="img-fluid border"
-                                src="https://placehold.co/400x200" alt=""></a></p>
+                    <figure class="figure">
+                        <img class="figure-img img-fluid rounded" src="https://placehold.co/400x200" alt="">
+                        <figcaption class="figure-caption text-center">A caption for the above image.</figcaption>
+                    </figure>
                     <p>Inside the document options, there are export options, options to
                         edit title/system messages/or upload previous prompts. It display more indepth token usage stats
                         as well as an owner tab for token management and organization purposes</p>
-                    <p><a class="popup-img" href="assets/images/navbar-left.jpg"><img class="img-fluid border"
-                                src="https://placehold.co/400x200" alt=""></a></p>
+                    <figure class="figure">
+                        <img class="figure-img img-fluid rounded" src="https://placehold.co/400x200" alt="">
+                        <figcaption class="figure-caption text-center">A caption for the above image.</figcaption>
+                    </figure>
 
                     <h3 class="mt-5">Engine</h3>
                     <p>Here you can choose the chat model and adjust parameters like <code>max response tokens</code>,
@@ -311,8 +315,8 @@
                         </table>
                     </div>
 
-                    <h4>Chatgpt Parameters</h4>
-                    <p class="leaad">Changes from default values are indicated with color cues.<br> <span
+                    <h4 id="engine_parameters">Chatgpt Parameters</h4>
+                    <p class="lead">Changes from default values are indicated with color cues.<br> <span
                             class="badge badge-info text-dark" style="background-color:rgb(240, 240, 50);">Yellow</span>
                         denotes changes
                         in max tokens, while <span class="badge badge-info"
@@ -369,7 +373,7 @@
                                         this or top_p but not both.</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row"><code>top_p</code></th>
+                                    <th scope="row"><code class="bg-dark-3 text-white">top_p</code></th>
                                     <td>Controls the word range for the AI's response. Lower values make it stick to
                                         more common words, whereas higher values allow it to consider a broader
                                         vocabulary.
@@ -387,7 +391,7 @@
                                         AI's initial responses in a new conversation</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row"><code>Presence Penalty</code></th>
+                                    <th scope="row"><code class="bg-dark-3 text-white">Presence Penalty</code></th>
                                     <td>High values encourage the AI to bring up new topics in the conversation, while
                                         lower values make the AI stick to the existing topics.</td>
                                     <td>-2.0 to 2.0</td>
@@ -408,14 +412,21 @@
 
                 <!-- users
             ============================ -->
-                <section id="idocs_sidebar">
+                <section id="users_info">
                     <h2>Users</h2>
                     <p class="lead"> This shows who has access to the document, with a presence dot indicating their
                         status. </p>
-                    <img src="https://placehold.co/200x100" alt="">
+                    <figure class="figure">
+                        <img class="figure-img img-fluid rounded" src="https://placehold.co/200x100" alt="">
+                        <figcaption class="figure-caption text-center">A caption for the above image.</figcaption>
+                    </figure>
+
                     <p> Green means currently active, gray for inactive, and yellow or orange for users awaiting an AI
                         response. </p>
-                    <img src="https://placehold.co/200x100" alt="">
+                    <figure class="figure">
+                        <img class="figure-img img-fluid rounded" src="https://placehold.co/200x100" alt="">
+                        <figcaption class="figure-caption text-center">A caption for the above image.</figcaption>
+                    </figure>
                     <p>The "copy link" button allows you to share your session.</p>
 
 
@@ -425,7 +436,7 @@
 
                 <!-- recent
             ============================ -->
-                <section id="idocs_footer">
+                <section id="recent_sessions">
                     <h2>Recent</h2>
                     <p class="lead">This tab provides a quick way to access your last six sessions</p>
                     <img src="https://placehold.co/200x100" alt="">
@@ -434,10 +445,10 @@
 
                 <hr class="divider">
 
-                <!-- Content
+                <!-- session dashboard
             ============================ -->
-                <section id="idocs_content">
-                    <h2>Dashboard/Sessions Application Screen
+                <section id="sessions_dashboard">
+                    <h2>Sessions Dashboard
                     </h2>
                     <p class="lead mb-3">Overview</p>
                     <p mb-3>The Sessions page is your hub to manage and access all documents/sessions created or shared
@@ -450,7 +461,7 @@
                 <hr>
                 <!-- share icon
             ============================ -->
-                <section id="idocs_typography">
+                <section id="session_info">
                     <h4>Share Icon</h4>
                     <p class="lead">Click on this icon to get a shareable link for the session.</p>
                     <p>Icon color indicates whether the session is shared or not. <br>The color coding is as follows:
@@ -475,9 +486,7 @@
                         </li>
                     </ul>
                 </section>
-                <!-- Code
-            ============================ -->
-                <section id="idocs_code">
+                <section>
                     <h4 class="mt-5">Document Title</h4>
                     <img src="https://placehold.co/400x50" alt="">
                     <p>The title of the document, which you can set during creation or edit later. <br>If you don't
@@ -506,9 +515,9 @@
 
                 <hr class="divider">
 
-                <!-- Table
+                <!-- Doc options
             ============================ -->
-                <section id="idocs_table">
+                <section>
                     <h3>Document Options <svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 -960 960 960"
                             width="30">
                             <path fill="currentColor" d="m388-80-20-126q-19-7-40-19t-37-25l-118 54-93-164 108-79q-2-9-2.5-20.5T185-480q0-9
@@ -533,7 +542,7 @@
                         download.
                     </p>
 
-                    <p class="lead">Options Tab</p>
+                    <p class="lead" id="session_options">Options Tab</p>
                     <p><img src="https://placehold.co/150x175" class="img-fluid" alt="Responsive image"></p>
 
                     <ul class="mb-3">
@@ -557,108 +566,96 @@
                     <p class="lead">Owner Tab</p>
                     <p>Add more labels. Labels are used to filter by</p>
                     <p>Add Owners note. Owner notes are only visibile to the owner and for referential purposes only</p>
-                   
+
 
                 </section>
 
                 <hr class="divider">
+                <section id="profile_settings">
+                    <h2>Profile Setting
+                    </h2>
+                    <p class="lead mb-3">Overview</p>
+                    <p mb-3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit vero illum nemo provident
+                        officia quibusdam fuga, excepturi ab adipisci consectetur id! Illo velit expedita, in ea
+                        officiis quia obcaecati rerum?</p>
+                    <p>Here are the key components of each line item, from left to right:</p>
+                    <img src="https://placehold.co/600x50" alt="">
+                    <p mb-3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit vero illum nemo provident
+                        officia quibusdam fuga, excepturi ab adipisci consectetur id! Illo velit expedita, in ea
+                        officiis quia obcaecati rerum?</p>
+                    <p>Here are the key components of each line item, from left to right:</p>
+                    <img src="https://placehold.co/600x50" alt="">
+                    <p mb-3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit vero illum nemo provident
+                        officia quibusdam fuga, excepturi ab adipisci consectetur id! Illo velit expedita, in ea
+                        officiis quia obcaecati rerum?</p>
+                    <p>Here are the key components of each line item, from left to right:</p>
+                    <img src="https://placehold.co/600x50" alt="">
+                </section>
 
-          
-                <!-- Helper Classes
-              ============================ -->
-                <section id="idocs_helper_classes">
-                    <h3>Helper Classes</h3>
-                    <p>We have created some really useful helper classes for you. Here are a few of them. also, You can
-                        refer other default bootstrap helper classes here: <a class="ml-1" target="_blank"
-                            href="https://getbootstrap.com/docs/4.4/utilities/"><i class="fas fa-external-link-alt"></i>
-                            Bootstrap Documentation</a> </p>
+                <hr class="divider">
 
-                    <h5>Text Size:</h5>
-                    <ul>
-                        <li><code>.text-0</code> - Changes the Font size to 11px.</li>
-                        <li><code>.text-1</code> - Changes the Font size to 12px.</li>
-                        <li><code>.text-2</code> - Changes the Font size to 14px.</li>
-                        <li><code>.text-3</code> - Changes the Font size to 16px.</li>
-                        <li><code>.text-4</code> - Changes the Font size to 18px.</li>
-                        <li><code>.text-5</code> - Changes the Font size to 21px.</li>
-                        <li><code>.text-6</code> - Changes the Font size to 24px.</li>
-                        <li><code>.text-7</code> - Changes the Font size to 28px.</li>
-                        <li><code>.text-8</code> - Changes the Font size to 32px.</li>
-                        <li><code>.text-9</code> - Changes the Font size to 36px.</li>
-                        <li><code>.text-10</code> - Changes the Font size to 40px.</li>
-                        <li><code>.text-11</code> - Changes the Font size to 44px.</li>
-                        <li><code>.text-12</code> - Changes the Font size to 48px.</li>
-                        <li><code>.text-13</code> - Changes the Font size to 52px.</li>
-                        <li><code>.text-14</code> - Changes the Font size to 56px.</li>
-                        <li><code>.text-15</code> - Changes the Font size to 60px.</li>
-                        <li><code>.text-16</code> - Changes the Font size to 64px.</li>
-                        <li><code>.text-17</code> - Changes the Font size to 72px.</li>
-                        <li><code>.text-18</code> - Changes the Font size to 80px.</li>
-                        <li><code>.text-19</code> - Changes the Font size to 84px.</li>
-                        <li><code>.text-20</code> - Changes the Font size to 92px.</li>
-                    </ul>
-                    <h5>Font Weight:</h5>
-                    <ul>
-                        <li><code>.font-weight-100</code> - For font weight of 100.</li>
-                        <li><code>.font-weight-200</code> - For font weight of 200.</li>
-                        <li><code>.font-weight-300</code> - For font weight of 300.</li>
-                        <li><code>.font-weight-400</code> - For font weight of 400.</li>
-                        <li><code>.font-weight-500</code> - For font weight of 500.</li>
-                        <li><code>.font-weight-600</code> - For font weight of 600.</li>
-                        <li><code>.font-weight-700</code> - For font weight of 700.</li>
-                        <li><code>.font-weight-800</code> - For font weight of 800.</li>
-                        <li><code>.font-weight-900</code> - For font weight of 900.</li>
-                    </ul>
-                    <h5>Background Color:</h5>
-                    <ul>
-                        <li><code>.bg-transparent</code> - For background color of transparent</li>
-                        <li><code>.bg-light</code> - For background color of light gray</li>
-                        <li><code>.bg-light-1</code> - For background color of more light gray</li>
-                        <li><code>.bg-light-2</code> - For background color of more light gray</li>
-                        <li><code>.bg-light-3</code> - For background color of more light gray</li>
-                        <li><code>.bg-light-4</code> - For background color of more light gray</li>
-                        <li><code>.bg-dark</code> - For background color of dark</li>
-                        <li><code>.bg-dark-1</code> - For background color of dark gray</li>
-                        <li><code>.bg-dark-2</code> - For background color of more dark gray</li>
-                        <li><code>.bg-dark-3</code> - For background color of more dark gray</li>
-                        <li><code>.bg-dark-4</code> - For background color of more dark gray</li>
-                    </ul>
-                    <h5>Box Shadow</h5>
-                    <ul>
-                        <li><code>.shadow-none</code> - For No shadow to elements with box-shadow utilities.</li>
-                        <li><code>.shadow-sm</code> - For Small shadow to elements with box-shadow utilities.</li>
-                        <li><code>.shadow</code> - For Regular shadow to elements with box-shadow utilities.</li>
-                        <li><code>.shadow-md</code> - For medium light shadows to elements with box-shadow utilities.
-                        </li>
-                        <li><code>.shadow-lg</code> - For Larger shadows to elements with box-shadow utilities.</li>
-                    </ul>
-                    <h5>Opacity</h5>
-                    <ul>
-                        <li><code>.opacity-1</code> - For 10% opacity.</li>
-                        <li><code>.opacity-2</code> - For 20% opacity.</li>
-                        <li><code>.opacity-3</code> - For 30% opacity.</li>
-                        <li><code>.opacity-4</code> - For 40% opacity.</li>
-                        <li><code>.opacity-5</code> - For 50% opacity.</li>
-                        <li><code>.opacity-6</code> - For 60% opacity.</li>
-                        <li><code>.opacity-7</code> - For 70% opacity.</li>
-                        <li><code>.opacity-8</code> - For 80% opacity.</li>
-                        <li><code>.opacity-9</code> - For 90% opacity.</li>
-                    </ul>
-                    <h5>Border Radius</h5>
-                    <ul>
-                        <li><code>.rounded-top-0</code> - No Border Radius for top.</li>
-                        <li><code>.rounded-bottom-0</code> - No Border Radius for bottom.</li>
-                        <li><code>.rounded-left-0</code> - No Border Radius for left.</li>
-                        <li><code>.rounded-right-0</code> - No Border Radius for right.</li>
-                    </ul>
-                    <h5>Borders, Sizing, Spacing (margin & padding) and also much more....</h5>
-                    <div class="alert alert-info">You can refer for use other default bootstrap helper classes here - <a
-                            href="https://getbootstrap.com/docs/4.4/utilities/">https://getbootstrap.com/docs/4.4/utilities/</a>
+                <!-- Templates
+            ============================ -->
+                <section id="idocs_templates">
+                    <h2>More Templates</h2>
+                    <p class="lead">Checkout Our Below Premium Templates</p>
+
+                    <div class="row">
+                        <div class="col-4 my-3 text-center">
+                            <a target="_blank" href="https://themeforest.net/item/x/28476751?ref=HarnishDesign"><img
+                                    class="img-fluid border" src="assets/images/templates/simone.jpg" alt="">
+                                <h6 class="pt-2">Simone - Personal Portfolio Template</h6>
+                            </a>
+                        </div>
+                        <div class="col-4 my-3 text-center">
+                            <a target="_blank" href="https://themeforest.net/item/x/26454458?ref=HarnishDesign"><img
+                                    class="img-fluid border" src="assets/images/templates/kenil.jpg" alt="">
+                                <h6 class="pt-2">Kenil - Responsive Bootstrap 4 One Page Portfolio Template</h6>
+                            </a>
+                        </div>
+                        <div class="col-4 my-3 text-center">
+                            <a target="_blank" href="https://themeforest.net/item/x/26313677?ref=HarnishDesign"><img
+                                    class="img-fluid border" src="assets/images/templates/doon.jpg" alt="">
+                                <h6 class="pt-2">Doon - One Page Parallax HTML Template</h6>
+                            </a>
+                        </div>
+
+                        <div class="col-4 my-3 text-center">
+                            <a target="_blank" href="https://themeforest.net/item/x/27172933?ref=HarnishDesign"><img
+                                    class="img-fluid border" src="assets/images/templates/domainx.jpg" alt="">
+                                <h6 class="pt-2">DomainX- Domain for Sale HTML Template</h6>
+                            </a>
+                        </div>
+                        <div class="col-4 my-3 text-center">
+                            <a target="_blank" href="https://themeforest.net/item/x/28848609?ref=HarnishDesign"><img
+                                    class="img-fluid border" src="assets/images/templates/oxyy.jpg" alt="">
+                                <h6 class="pt-2">Oxyy - Login and Register Form HTML Templates</h6>
+                            </a>
+                        </div>
+                        <div class="col-4 my-3 text-center">
+                            <a target="_blank" href="https://themeforest.net/item/x/27034971?ref=HarnishDesign"><img
+                                    class="img-fluid border" src="assets/images/templates/koice.jpg" alt="">
+                                <h6 class="pt-2">Koice - Invoice HTML Template</h6>
+                            </a>
+                        </div>
+
+                        <div class="col-4 my-3 text-center">
+                            <a target="_blank" href="https://themeforest.net/item/x/24017808?ref=HarnishDesign"><img
+                                    class="img-fluid border" src="assets/images/templates/payyed.jpg" alt="">
+                                <h6 class="pt-2">Payyed - Money Transfer and Online Payments HTML Template</h6>
+                            </a>
+                        </div>
+                        <div class="col-4 my-3 text-center">
+                            <a target="_blank" href="https://themeforest.net/item/x/22375065?ref=HarnishDesign"><img
+                                    class="img-fluid border" src="assets/images/templates/quickai.jpg" alt="">
+                                <h6 class="pt-2">Quickai - Recharge & Bill Payment, Booking HTML5 Template</h6>
+                            </a>
+                        </div>
                     </div>
                 </section>
 
-
                 <hr class="divider">
+
 
                 <!-- FAQ
             ============================ -->
@@ -768,168 +765,8 @@
                             </div>
                         </div>
                     </div>
-
                 </section>
-
                 <hr class="divider">
-
-                <!-- Source & Credits
-            ============================ -->
-                <section id="idocs_source_credits">
-                    <h2>Source & Credits</h2>
-                    <h4>Images:</h4>
-                    <ul>
-                        <li>Unsplash - <a target="_blank" href="https://unsplash.com/">https://unsplash.com/</a></li>
-                    </ul>
-                    <h4>Fonts:</h4>
-                    <ul>
-                        <li>Icons Font Face - <a target="_blank"
-                                href="https://fontawesome.com/">https://fontawesome.com/</a></li>
-                    </ul>
-                    <h4>Scripts:</h4>
-                    <ul>
-                        <li>jQuery - <a target="_blank" href="http://www.jquery.com/">http://www.jquery.com/</a></li>
-                        <li>Bootstrap 4 - <a target="_blank"
-                                href="http://getbootstrap.com/">http://getbootstrap.com/</a></li>
-                        <li>Highlight Js - <a target="_blank"
-                                href="https://highlightjs.org/">https://highlightjs.org/</a></li>
-                        <li>jQuery easing - <a target="_blank"
-                                href="http://gsgd.co.uk/sandbox/jquery/easing/">http://gsgd.co.uk/sandbox/jquery/easing/</a>
-                        </li>
-                        <li>Magnific Popup - <a target="_blank"
-                                href="http://dimsemenov.com/plugins/magnific-popup/">http://dimsemenov.com/plugins/magnific-popup/</a>
-                        </li>
-                    </ul>
-                </section>
-
-                <hr class="divider">
-
-                <!-- Support
-            ============================ -->
-                <section id="idocs_support">
-                    <h2>Support</h2>
-                    <p>If this documentation doesn't answer your questions, So, Please send us Email via <a
-                            class="btn btn-primary" target="_blank"
-                            href="https://themeforest.net/user/harnishdesign#contact">Item Support Page</a></p>
-                    <p> We are located in GMT +5:30 time zone and we answer all questions within 12-24 hours in
-                        weekdays. In some rare cases the waiting time can be to 48 hours. (except holiday seasons which
-                        might take longer).</p>
-                    <div class="alert alert-warning mb-4"><span class="badge badge-danger text-uppercase">Note:</span>
-                        While we aim to provide the best support possible, please keep in mind that it only extends to
-                        verified buyers and only to issues related to our template like bugs and errors. Custom
-                        modifications or third party module implementations are not included.</div>
-                    <h4>Don’t forget to Rate this template
-                        <i class="fas fa-star text-warning"></i> <i class="fas fa-star text-warning"></i> <i
-                            class="fas fa-star text-warning"></i> <i class="fas fa-star text-warning"></i> <i
-                            class="fas fa-star text-warning"></i>
-                    </h4>
-                    <div class="alert alert-success">
-                        Please Add your Review (Opinion) for Our template. It would be a great support for us.<br>
-                        Go to your <strong>Themeforest Profile</strong> > <strong>Downloads Tab</strong> > & then You
-                        can Rate & Review for our template.<br>
-                        Thank You.
-                    </div>
-                </section>
-
-                <hr class="divider">
-
-                <!-- More Templates
-            ============================ -->
-                <section id="idocs_templates">
-                    <h2>More Templates</h2>
-                    <p class="lead">Checkout Our Below Premium Templates</p>
-
-                    <div class="row">
-                        <div class="col-4 my-3 text-center">
-                            <a target="_blank" href="https://themeforest.net/item/x/28476751?ref=HarnishDesign"><img
-                                    class="img-fluid border" src="assets/images/templates/simone.jpg" alt="">
-                                <h6 class="pt-2">Simone - Personal Portfolio Template</h6>
-                            </a>
-                        </div>
-                        <div class="col-4 my-3 text-center">
-                            <a target="_blank" href="https://themeforest.net/item/x/26454458?ref=HarnishDesign"><img
-                                    class="img-fluid border" src="assets/images/templates/kenil.jpg" alt="">
-                                <h6 class="pt-2">Kenil - Responsive Bootstrap 4 One Page Portfolio Template</h6>
-                            </a>
-                        </div>
-                        <div class="col-4 my-3 text-center">
-                            <a target="_blank" href="https://themeforest.net/item/x/26313677?ref=HarnishDesign"><img
-                                    class="img-fluid border" src="assets/images/templates/doon.jpg" alt="">
-                                <h6 class="pt-2">Doon - One Page Parallax HTML Template</h6>
-                            </a>
-                        </div>
-
-                        <div class="col-4 my-3 text-center">
-                            <a target="_blank" href="https://themeforest.net/item/x/27172933?ref=HarnishDesign"><img
-                                    class="img-fluid border" src="assets/images/templates/domainx.jpg" alt="">
-                                <h6 class="pt-2">DomainX- Domain for Sale HTML Template</h6>
-                            </a>
-                        </div>
-                        <div class="col-4 my-3 text-center">
-                            <a target="_blank" href="https://themeforest.net/item/x/28848609?ref=HarnishDesign"><img
-                                    class="img-fluid border" src="assets/images/templates/oxyy.jpg" alt="">
-                                <h6 class="pt-2">Oxyy - Login and Register Form HTML Templates</h6>
-                            </a>
-                        </div>
-                        <div class="col-4 my-3 text-center">
-                            <a target="_blank" href="https://themeforest.net/item/x/27034971?ref=HarnishDesign"><img
-                                    class="img-fluid border" src="assets/images/templates/koice.jpg" alt="">
-                                <h6 class="pt-2">Koice - Invoice HTML Template</h6>
-                            </a>
-                        </div>
-
-                        <div class="col-4 my-3 text-center">
-                            <a target="_blank" href="https://themeforest.net/item/x/24017808?ref=HarnishDesign"><img
-                                    class="img-fluid border" src="assets/images/templates/payyed.jpg" alt="">
-                                <h6 class="pt-2">Payyed - Money Transfer and Online Payments HTML Template</h6>
-                            </a>
-                        </div>
-                        <div class="col-4 my-3 text-center">
-                            <a target="_blank" href="https://themeforest.net/item/x/22375065?ref=HarnishDesign"><img
-                                    class="img-fluid border" src="assets/images/templates/quickai.jpg" alt="">
-                                <h6 class="pt-2">Quickai - Recharge & Bill Payment, Booking HTML5 Template</h6>
-                            </a>
-                        </div>
-                    </div>
-
-                    <p class="text-center"><a class="btn btn-lg btn-primary my-4" target="_blank"
-                            href="https://themeforest.net/user/harnishdesign/portfolio?ref=HarnishDesign">Our
-                            Portfolio</a></p>
-
-                </section>
-
-                <hr class="divider">
-
-                <!-- Changelog
-            ============================ -->
-
-                <section id="idocs_changelog">
-                    <h2>Changelog</h2>
-                    <p class="text-4">See what's new added, changed, fixed, improved or updated in the latest versions.
-                    </p>
-                    <p class="alert alert-info mb-5"> For Future Updates Follow Us <a target="_blank"
-                            href="http://themeforest.net/user/harnishdesign?ref=HarnishDesign">@themeforest</a> / <a
-                            target="_blank" href="http://facebook.com/harnishdesign">@facebook</a> / <a target="_blank"
-                            href="http://twitter.com/harnishdesign">@twitter</a> / <a target="_blank"
-                            href="https://dribbble.com/harnishdesign">@Dribbble</a></p>
-
-                    <h3 id="v1-1">Version 1.1 <small class="text-muted">(12 Oct, 2020)</small></h3>
-                    <ul class="changelog">
-                        <li><span class="badge badge-success">Added</span> Your information here for added new feature
-                        </li>
-                        <li><span class="badge badge-danger">Fixed</span> Some minor bugs for browser compatibility</li>
-                        <li><span class="badge badge-danger">Fixed</span> Some minor bugs for responsive</li>
-                        <li><span class="badge badge-info">Updated</span> FontAwesome to Latest Version</li>
-                        <li><span class="badge badge-info">Updated</span> Bootstrap to Latest Version</li>
-                        <li><span class="badge badge-info">Updated</span> Improvements in CSS and JS</li>
-                    </ul>
-
-                    <hr class="divider">
-
-                    <h3 id="v1-0">Version 1.0 <small class="text-muted">(8 April, 2020)</small></h3>
-                    <p>Initial Release</p>
-                </section>
-
             </div>
         </div>
 

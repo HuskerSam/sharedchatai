@@ -639,6 +639,7 @@ hr {
 }
 /*=== 3.1 Side Navigation ===*/
 .idocs-navigation {
+  border-top: 1px solid rgba(222, 226, 230, .05);
   position: fixed;
   top: 70px;
   left: 0;
@@ -649,6 +650,7 @@ hr {
   z-index: 1;
   border-right: 1px solid rgba(0, 0, 0, 0.05);
   transition: all 0.3s;
+  background-color: rgb(32, 33, 35);
 }
 .idocs-navigation > .nav {
   padding: 30px 0;
