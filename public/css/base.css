@@ -247,6 +247,7 @@ select.form-select option {
   background-color: rgb(52, 53, 65);
   color: rgb(230, 230, 230);
 }
+
 .app_panel .form-check-input {
   border-color: rgb(25, 220, 75);
 }
@@ -400,6 +401,7 @@ button.btn-primary:active {
     display: inline-block;
     top: -1px;
   }
+
   .menu_profile_user_name_span {
     position: relative;
     top: 4px;
@@ -419,7 +421,7 @@ button.btn-primary:active {
 .app_panel .btn.shared_status_withusers,
 .shared_status_withusers,
 .shared_status_withusers.hover_yellow {
-  color:rgb(150, 100, 230);
+  color: rgb(150, 100, 230);
 }
 
 .app_panel .btn.shared_status_withothers,
@@ -456,6 +458,7 @@ button.btn-primary:active {
 .hover_yellow {
   color: rgb(230, 230, 230);
 }
+
 .btn.btn-secondary.hover_yellow:focus,
 .btn.btn-secondary.hover_yellow:hover,
 .hover_yellow:focus,
@@ -480,14 +483,26 @@ a.show_dashboard_help_button i,
   color: rgb(200, 125, 200);
 }
 
-.nav-link.dashboard_create_game_mobile.hover_yellow i,
-.nav-link.dashboard_create_game.hover_yellow i,
-.nav-link.show_create_modal.hover_yellow i {
-  color: rgb(50, 255, 50);
+.nav-link.dashboard_create_game .menu_dropdown_label_wrapper {
+  position: relative;
+  top: -2px;
 }
-.nav-link.dashboard_create_game_mobile.hover_yellow:hover i,
-.nav-link.dashboard_create_game.hover_yellow:hover i,
-.nav-link.show_create_modal.hover_yellow:hover i {
+
+.nav-link.dashboard_create_game_mobile.hover_yellow svg,
+.nav-link.dashboard_create_game.hover_yellow svg,
+.nav-link.show_create_modal.hover_yellow svg {
+  color: rgb(50, 255, 50);
+  position: relative;
+  top: -8px;
+}
+
+.nav-link.show_create_modal.hover_yellow svg {
+  top: 3px;
+}
+
+.nav-link.dashboard_create_game_mobile.hover_yellow:hover svg,
+.nav-link.dashboard_create_game.hover_yellow:hover svg,
+.nav-link.show_create_modal.hover_yellow:hover svg {
   color: rgb(240, 240, 50);
 }
 
@@ -539,7 +554,7 @@ a.hover_yellow.show_document_options_help:hover i {
   .mobile_bar_button_wrapper {
     display: none;
   }
-  
+
   .menu_bar_doc_title_wrapper {
     display: none;
   }
