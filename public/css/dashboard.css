@@ -301,3 +301,7 @@
 .member_online_status.online {
   background: rgb(50, 255, 50);
 }
+
+.nav-link.dashboard_create_game_mobile.hover_yellow svg {
+  top: -2px;
+}
