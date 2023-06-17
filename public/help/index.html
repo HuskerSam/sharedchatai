@@ -113,20 +113,13 @@
     </nav>
 
     <div style="margin-top:24px;" id="content" role="main">
-
         <!-- Sidebar Navigation
         ============================ -->
         <div class="idocs-navigation bg-dark docs-navigation-dark">
             <ul class="nav flex-column ">
-                <li class="nav-item"><a class="nav-link active" href="#idocs_start">Getting Started</a>
+                <li class="nav-item"><a class="nav-link active" href="#introduction_start">Introduction</a>
                     <ul class="nav flex-column">
-                        <li class="nav-item"><a class="nav-link" href="#idocs_installation">Installation</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#idocs_html_structure">HTML Structure</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#idocs_sass">Sass</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#idocs_color_schemes">Color Schemes</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#idocs_theme_customization">Customization</a>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="#idocs_logo_settings">Logo Settings</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#quickstart">Quick Start</a></li>
                     </ul>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="#idocs_layout">Layout</a>
@@ -172,301 +165,101 @@
         <!-- Docs Content
         ============================ -->
         <div class="idocs-content">
-            <div class="container">
+            <div class="container text-start">
 
                 <!-- Getting Started
             ============================ -->
-                <section id="idocs_start">
-                    <h1>Documentation</h1>
-                    <h2>Your ThemeForest Item Name Here</h2>
-                    <p class="lead">Thank you so much for purchasing our item from themeforest.</p>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-6 col-lg-4">
-                            <ul class="list-unstyled">
-                                <li><strong>Version:</strong> 1.0</li>
-                                <li><strong>Author:</strong> <a href="http://www.harnishdesign.net"
-                                        target="_blank">Harnish Design</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-sm-6 col-lg-4">
-                            <ul class="list-unstyled">
-                                <li><strong class="font-weight-700">Created:</strong> 8 April, 2020</li>
-                                <li><strong>Update:</strong> 12 May, 2020</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <p class="alert alert-info">If you have any questions that are beyond the scope of this help file,
-                        Please feel free to email via <a target="_blank"
-                            href="https://themeforest.net/user/harnishdesign/#contact?ref=HarnishDesign">Item Support
-                            Page</a>.</p>
+                <section id="introduction_start">
+                    <h2>Intro to Promptplus AI</h2>
+                    <h4>Overview</h4>
+                    <p> PromptPlus Ai is a collaborative interface designed to offer superior control over your
+                        interaction with AI models like GPT-3.5
+                        Turbo and beyond. Our app not only allows multiple users or devices to work on a document in
+                        real time, but also provides unique control over your prompt history, backend parameters, and
+                        offers a series of tools designed to facilitate collaboration and streamline workflow.
+
+                    </p>
                 </section>
-
                 <hr class="divider">
-
                 <!-- Installation
             ============================ -->
-                <section id="idocs_installation">
-                    <h2>Installation</h2>
-                    <p class="lead">Follow the steps below to setup your site template:</p>
-                    <ol>
-                        <li>Unzip the downloaded package and open the <strong>/HTML</strong> folder to find all the
-                            template files. You will need to upload these files to your hosting web server using FTP or
-                            localhost in order to use it on your website.</li>
-                        <li>Below is the folder structure and needs to be uploaded to your website or localhost root
-                            directory:
-                            <ul>
-                                <li><code>HTML/assets</code> - Contains all of the assets referenced
-                                    <ul>
-                                        <li><code>HTML/css</code> - Stylesheet files</li>
-                                        <li><code>HTML/images</code> - Images files</li>
-                                        <li><code>HTML/js</code> - Javacript files</li>
-                                        <li><code>HTML/sass</code> - Sass files</li>
-                                        <li><code>HTML/vendor</code> – All external libs.</li>
-                                    </ul>
-                                </li>
-                                <li><code>HTML/index.html</code> - Homepage
-                            </ul>
-                        </li>
-                        <li>You should upload all or specific HTML files as per your need.</li>
-                        <li>You are good to go for adding your content now!</li>
-                    </ol>
+                <section id="quickstart">
+                    <h4>Quick Start</h4>
+                    <p class="lead">Starting a Chat/Prompting Session</p>
+                    <p>To begin a chat session with the AI, you simply need to create a document or join an existing
+                        document through a shared link. Once you're on the chat interface page, you can start entering
+                        your prompts for the AI to respond.</p>
                 </section>
-
-                <hr class="divider">
-
-                <!-- HTML Structure
-            ============================ -->
-                <section id="idocs_html_structure">
-                    <h2>HTML Structure</h2>
-                    <p>iDocs follows a simple and easy to customize coding structure. Here is the sample for your
-                        reference:<br>
-                        The template is based on <a class="ml-1" target="_blank" href="https://getbootstrap.com/"><i
-                                class="fas fa-external-link-alt"></i> Bootstrap Framework</a></p>
-                    <pre><code class="html">&lt;!DOCTYPE html&gt;
-    &lt;html lang=&quot;en&quot;&gt;
-    &lt;head&gt;
-    
-    &lt;!-- Your Title, Description, Stylesheets
-    ============================================= --&gt;
-    
-    &lt;/head&gt;
-    
-    &lt;body data-spy=&quot;scroll&quot; data-target=&quot;.idocs-navigation&quot; data-offset=&quot;125&quot;&gt;
-    
-    &lt;!-- Document Wrapper   
-    =============================== --&gt;
-    &lt;div id=&quot;main-wrapper&quot;&gt; 
-      
-      &lt;!-- Header
-      ============================ --&gt;
-      &lt;header id=&quot;header&quot; class=&quot;sticky-top&quot;&gt;
-       ......
-      &lt;/header&gt;
-      &lt;!-- Header End --&gt; 
-      
-      &lt;!-- Content
-      ============================ --&gt;
-      &lt;div id=&quot;content&quot; role=&quot;main&quot;&gt; 
-        
-        &lt;!-- Sidebar Navigation
-        ============================ --&gt;
-        &lt;div class=&quot;idocs-navigation bg-light&quot;&gt;
-         .....
-        &lt;/div&gt;
-        
-        &lt;!-- Docs Content
-        ============================ --&gt;
-        &lt;div class=&quot;idocs-content&quot;&gt;
-          &lt;div class=&quot;container&quot;&gt;
-            .......
-          &lt;/div&gt;
-        &lt;/div&gt;
-      &lt;/div&gt;
-      &lt;!-- Content end --&gt; 
-      
-      &lt;!-- Footer --&gt;
-      &lt;footer id=&quot;footer&quot; class=&quot;section bg-dark footer-text-light&quot;&gt;
-        &lt;div class=&quot;container&quot;&gt; ...... &lt;/div&gt;
-      &lt;/footer&gt;
-      &lt;!-- Footer end --&gt; 
-      
-    &lt;/div&gt;
-    &lt;!-- Document Wrapper end --&gt; 
-    
-    &lt;!-- JavaScript --&gt;
-    &lt;/body&gt;
-    &lt;/html&gt;</code></pre>
-                    <p class="alert alert-info">If you need more information, please visit bootstrap site: <a
-                            target="_blank"
-                            href="https://getbootstrap.com/docs/4.4/layout/grid/">https://getbootstrap.com</a></p>
-                </section>
-
-                <hr class="divider">
-
-                <!-- Sass
-            ============================ -->
-                <section id="idocs_sass">
-                    <h2>Sass</h2>
-                    <p>We have added SASS <code>.scss</code> files in template. If you know how to use SASS you can
-                        change sass files and compile the css as well.
-                        You can find sass file here - <code>HTML/assets/sass</code></p>
-                    <p>Open the <code>sass/_variables.scss</code> and Edit the values according to your needs. If you
-                        need more Advanced Setup then you can Edit the Respective Files yourself which have been
-                        branched inside the same Folder. It is completely at your discretion only to include the
-                        Required <code>.scss</code> Files you need to minimize the amount of CSS & including only the
-                        Styles of the Blocks you need. This can be setup in your <code>stylesheet.scss</code> File.</p>
-                </section>
-
-                <hr class="divider">
-
-                <!-- Color Schemes
-            ============================ -->
-                <section id="idocs_color_schemes">
-                    <h2>Color Schemes</h2>
-                    <p>You can change your Website's Color Scheme in an instant. We have build <strong>10 Color</strong>
-                        css file for change template primary color.</p>
-                    <ul>
-                        <li><code>color-blue.css</code> - Blue Color</li>
-                        <li><code>color-brown.css</code> - Brown Color</li>
-                        <li><code>color-cyan.css</code> - Cyan Color</li>
-                        <li><code>color-green.css</code> - Green Color</li>
-                        <li><code>color-orange.css</code> - Orange Color</li>
-                        <li><code>color-indigo.css</code> - Indigo Color</li>
-                        <li><code>color-purple.css</code> - Purple Color</li>
-                        <li><code>color-red.css</code> - Red Color</li>
-                        <li><code>color-teal.css</code> - Teal Color</li>
-                        <li><code>color-yellow.css</code> - Yellow Color</li>
-                    </ul>
-                    <p>Simply add Color CSS file link it in the Document <code>&lt;head&gt;</code>.<br>
-                        Make sure you add the <code>css/color-blue.css</code> stylesheet in your head after the
-                        <code>css/stylesheet.css</code> file linking from above mentioned 10 color css file.
-                    </p>
-                    <p><strong>For Example:</strong></p>
-                    <pre><code class="html">&lt;head&gt;
-    &lt;!-- Stylesheet
-    ============================== --&gt;
-    &lt;!-- Bootstrap --&gt;
-    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;assets/vendor/bootstrap/css/bootstrap.min.css&quot; /&gt;
-    &lt;!-- Font Awesome Icon --&gt;
-    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;assets/vendor/font-awesome/css/all.min.css&quot; /&gt;
-    &lt;!-- Magnific Popup --&gt;
-    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;assets/vendor/magnific-popup/magnific-popup.min.css&quot; /&gt;
-    &lt;!-- Highlight Syntax --&gt;
-    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;assets/vendor/highlight.js/styles/github.css&quot; /&gt;
-    &lt;!-- Custom Stylesheet --&gt;
-    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;assets/css/stylesheet.css&quot; /&gt;
-    
-    &lt;!-- Here goes your Colors Css --&gt;
-    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;assets/css/color-orange.css&quot; /&gt;
-    &lt;/head&gt;</code></pre>
-                </section>
-
-                <hr class="divider">
-
-                <!-- Customization
-            ============================ -->
-                <section id="idocs_theme_customization">
-                    <h2>Theme Customization</h2>
-                    <p>We have include a Custom CSS File in the <code>css</code> Folder so that you can better handle
-                        your Customizations for New Styles or
-                        Overwriting Default Theme Styles. Simply add all your Custom CSS Codes in the
-                        <code>css/custom.css</code> File and link it in the Document <code>&lt;head&gt;</code> after the
-                        <code>css/stylesheet.css</code> Linking. Also make sure that this is the Last Linked CSS File in
-                        the Document <code>&lt;head&gt;</code> so that your Custom CSS Styles are Overwritten properly.
-                    </p>
-                    <pre><code class="html">&lt;head&gt;
-    &lt;!-- Stylesheet
-    ============================== --&gt;
-    &lt;!-- Bootstrap --&gt;
-    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;assets/vendor/bootstrap/css/bootstrap.min.css&quot; /&gt;
-    &lt;!-- Font Awesome Icon --&gt;
-    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;assets/vendor/font-awesome/css/all.min.css&quot; /&gt;
-    &lt;!-- Magnific Popup --&gt;
-    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;assets/vendor/magnific-popup/magnific-popup.min.css&quot; /&gt;
-    &lt;!-- Highlight Syntax --&gt;
-    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;assets/vendor/highlight.js/styles/github.css&quot; /&gt;
-    &lt;!-- Custom Stylesheet --&gt;
-    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;assets/css/stylesheet.css&quot; /&gt;
-    
-    &lt;!-- Here goes your custom.css
-    ============================================= --&gt;
-    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;assets/css/custom.css&quot; /&gt;
-    &lt;/head&gt;</code></pre>
-                </section>
-
-                <hr class="divider">
-
-                <!-- Logo Settings
-            ============================ -->
-                <section id="idocs_logo_settings">
-                    <h2>Logo Settings</h2>
-                    <p>The Logo Container can be found in the Header Container - <code>&lt;header&gt;</code></p>
-                    <pre><code class="html">&lt;!-- Logo --&gt; 
-    &lt;a class=&quot;logo ml-3 ml-md-0&quot; href=&quot;index.html&quot; title=&quot;iDocs&quot;&gt;
-       &lt;img src=&quot;images/logo-light.png&quot; alt=&quot;iDocs&quot;/&gt;
-    &lt;/a&gt;
-    &lt;!-- Logo End --&gt;
-    </code></pre>
-                </section>
-
-
                 <hr class="divider">
 
                 <!-- Layout
             ============================ -->
                 <section id="idocs_layout">
-                    <h2>Layout</h2>
-                    <p class="lead mb-5">Documentation and examples for header, navbar, sidebar, footer</p>
+                    <h2>Chat Session User Interface</h2>
+                    <p class="lead">Overview</p>
+                    <p class="mb-5">The chat session interface forms the heart of the PromptPlus AI experience.
+                        It's where you interact directly with the AI, entering prompts, and receiving responses. This
+                        interface provides the primary controls for your interaction with the AI.</p>
                 </section>
-
-
                 <!-- Header
             ============================ -->
                 <section id="idocs_header">
-                    <h2>Header</h2>
-                    <p>The list of various header types & its descriptions are provided below for your reference:</p>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Component</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Send Request</td>
+                                    <td>This is where you type in your prompts for the AI to respond to.</td>
+                                </tr>
+                                <tr>
+                                    <td>Prompts</td>
+                                    <td>Each message displays the owner, time since it was sent, and a delete button for
+                                        the message owner.</td>
+                                </tr>
+                                <tr>
+                                    <td>Delete</td>
+                                    <td>This option allows you to delete any previous response.</td>
+                                </tr>
+                                <tr>
+                                    <td>Selection</td>
+                                    <td>Use these input boxs to selectively exclude messages sent to the AI. Selecting
+                                        the most useful responses in a session is a great way to optimize for best
+                                        results. Likewise, ChatGPT models have a context limit that you want to be aware
+                                        of. This limit is not readily apparent on the ChatGPT interface so many users
+                                        are not aware however it may lead to the AI not responding predictably.
+                                        Deselecting prompts allows you to remove or bring back context to a session
+                                        quickly</td>
+                                </tr>
+                                <tr>
+                                    <td>Rerun</td>
+                                    <td>Rerun a prompt with the same or different parameters. Rerun works by moving
+                                        selected message to the front of the request queue and rerunning it based on
+                                        your current engine parameters. For best results, select on the message you want
+                                        in the context history</td>
+                                </tr>
+                                <tr>
+                                    <td>Copy</td>
+                                    <td>This option lets you copy any prompt or response to your clipboard.</td>
+                                </tr>
+                                <tr>
+                                    <td>Token visualizer</td>
+                                    <td>A visualizer at the top of the text area helps understand the model's
+                                        tokenization process, providing insight into how text is broken down. Chatgpt
+                                        uses tokens in its model and uses tokens to track cost. Cost per token are on a
+                                        per model basis</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p>The chat interface features are designed to give you as much control over your session as
+                            possible.</p>
+                    </div>
 
-                    <h4>Light</h4>
-                    <p>Header with white background Color & Dark text. <span class="text-info">See below image and code
-                            for more information.</span></p>
-                    <p><a class="popup-img" href="assets/images/header-light.jpg"><img class="img-fluid border"
-                                src="assets/images/header-light.jpg" alt=""></a></p>
-                    <pre><code class="html">&lt;!-- Header
-    ============================ --&gt;
-    &lt;header id=&quot;header&quot; class=&quot;sticky-top&quot;&gt; 
-      &lt;!-- Navbar --&gt;
-      &lt;nav class=&quot;primary-menu navbar navbar-expand-lg&quot;&gt;
-        &lt;div class=&quot;container-fluid&quot;&gt; 
-          .....
-        &lt;/div&gt;
-      &lt;/nav&gt;
-      &lt;!-- Navbar End --&gt; 
-    &lt;/header&gt;
-    &lt;!-- Header End --&gt;
-    </code></pre>
-
-                    <h4>Dark</h4>
-                    <p>Header with dark background & Light text. <span class="text-info">See below image and code for
-                            more information.</span></p>
-                    <p><a class="popup-img" href="assets/images/header-dark.jpg"><img class="img-fluid border"
-                                src="assets/images/header-dark.jpg" alt=""></a></p>
-                    <p>Add the <code>.bg-dark</code> and <code>.navbar-text-light</code> Class to the
-                        <code>&lt;nav&gt;</code> Tag to display a Dark Header.
-                    </p>
-                    <pre><code class="html">&lt;!-- Header
-    ============================ --&gt;
-    &lt;header id=&quot;header&quot; class=&quot;sticky-top&quot;&gt; 
-      &lt;!-- Navbar --&gt;
-      &lt;nav class=&quot;primary-menu navbar navbar-expand-lg bg-dark navbar-text-light&quot;&gt;
-        &lt;div class=&quot;container-fluid&quot;&gt; 
-          .....
-        &lt;/div&gt;
-      &lt;/nav&gt;
-      &lt;!-- Navbar End --&gt; 
-    &lt;/header&gt;
-    &lt;!-- Header End --&gt;
-    </code></pre>
                 </section>
 
                 <hr class="divider">
@@ -474,13 +267,17 @@
                 <!-- Navbar
             ============================ -->
                 <section id="idocs_navbar">
-                    <h2>Navbar</h2>
-                    <p class="lead">Documentation and examples for powerful responsive navigation header</p>
-                    <h4 class="mt-5">Left align</h4>
-                    <p>Header with Navigation alligned Left. <span class="text-info">See below image and code for more
-                            information.</span></p>
+                    <h2>Document Details and Engine</h2>
+                    <p class="lead">The chat session sidebar, or menu on mobile, houses important document options,
+                        engine parameters, and user details.</p>
+                    <h4 class="mt-5">Document stats</h4>
+                    <p>This section provides an document options as well as an overview of the document: title, token
+                        count,
+                        and time of last activity. Inside the document options, there are export options, options to
+                        edit title/system messages/or upload previous prompts. It display more indepth token usage stats
+                        as well as an owner tab for token management and organization purposes</span></p>
                     <p><a class="popup-img" href="assets/images/navbar-left.jpg"><img class="img-fluid border"
-                                src="assets/images/navbar-left.jpg" alt=""></a></p>
+                                src="https://placehold.co/400x200" alt=""></a></p>
                     <p>Add the <code>.justify-content-left</code> class to the element of collapse to display a align
                         left navbar.</p>
                     <pre><code class="html">&lt;div id=&quot;header-nav&quot; class=&quot;collapse navbar-collapse justify-content-start&quot;&gt;
@@ -854,30 +651,22 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
+                                <th scope="col">command</th>
+                                <th scope="col">function</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <th scope="row">1</th>
                                 <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
                             </tr>
                             <tr>
                                 <th scope="row">2</th>
                                 <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
                             </tr>
                             <tr>
                                 <th scope="row">3</th>
                                 <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>@twitter</td>
                             </tr>
                         </tbody>
                     </table>
