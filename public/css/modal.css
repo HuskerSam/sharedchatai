@@ -582,3 +582,9 @@ i.copy_green {
 .subscription_panel {
   display: none;
 }
+
+@media (max-width: 380px) {
+  .modal-footer {
+    padding: .1em;
+  }
+}

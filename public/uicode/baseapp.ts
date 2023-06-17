@@ -546,6 +546,27 @@ export default class BaseApp {
       alert("Unable to save options " + json.errorMessage);
     }
   }
+  /** */
+  userMetaFromDocument(uid: string, docid = ""): any {
+    let doc: any;
+    if (docid) doc = this.documentsLookup[docid];
+    else if (this.sessionDocumentData) doc = this.sessionDocumentData;
+
+    let imagePath = "";
+    if (doc) imagePath = doc.memberImages[uid];
+    if (this.uid === uid) imagePath = this.profile.displayImage;
+    if (!imagePath) imagePath = "/images/defaultprofile.png";
+
+    let name = "";
+    if (doc) name = doc.memberNames[uid];
+    if (this.uid === uid) name = this.profile.displayName;
+    if (!name) name = "Anonymous";
+
+    return {
+      imagePath,
+      name
+    }
+  }
   /** query dom for all member images names and update */
   updateUserNamesImages() {
     const imgCtls = document.querySelectorAll(".member_profile_image");
@@ -554,29 +575,32 @@ export default class BaseApp {
     imgCtls.forEach((imgCtl: any) => {
       const uid: any = imgCtl.getAttribute("uid");
       const docid: any = imgCtl.getAttribute("docid");
-      let doc: any = null;
-      if (docid) doc = this.documentsLookup[docid];
-      else if (this.sessionDocumentData) doc = this.sessionDocumentData;
-
-      let imgPath = "";
-      if (doc) imgPath = doc.memberImages[uid];
-      if (this.uid === uid) imgPath = this.profile.displayImage;
-      if (!imgPath) imgPath = "/images/defaultprofile.png";
-      imgCtl.style.backgroundImage = "url(" + imgPath + ")";
+      const userMeta = this.userMetaFromDocument(uid, docid);
+      if ("url(" + userMeta.imagePath + ")" !== imgCtl.style.backgroundImage)
+        imgCtl.style.backgroundImage = "url(" + userMeta.imagePath + ")";
     });
 
     nameCtls.forEach((nameCtl: any) => {
       const uid: any = nameCtl.getAttribute("uid");
       const docid: any = nameCtl.getAttribute("docid");
-      let doc: any = null;
-      if (docid) doc = this.documentsLookup[docid];
-      else if (this.sessionDocumentData) doc = this.sessionDocumentData;
-
-      let name = "";
-      if (doc) name = doc.memberNames[uid];
-      if (this.uid === uid) name = this.profile.displayName;
-      if (!name) name = "Anonymous";
-      BaseApp.setHTML(nameCtl, name);
+      BaseApp.setHTML(nameCtl, this.userMetaFromDocument(uid, docid).name);
     });
+  }
+  /**
+   * @param email email to test
+   * @return { boolean } true if valid email 
+   */
+  static validateEmail(email: string): boolean {
+    const result = String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+    if (result) return true;
+    return false;
+  }
+  static stripHtml(html: string) {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    return doc.body.textContent || "";
   }
 }

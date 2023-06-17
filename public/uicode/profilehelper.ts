@@ -451,7 +451,7 @@ export default class ProfileHelper {
     async promptForNewUserName() {
         const newName = prompt("New User Name", this.app.profile.displayName);
         if (newName !== null) {
-            this.app.profile.displayName = newName.trim().substring(0, 30);
+            this.app.profile.displayName = BaseApp.stripHtml(newName.trim().substring(0, 30));
             this.profile_display_name.innerHTML = this.app.profile.displayName;
             this.saveProfileField("name");
         }

@@ -22,6 +22,7 @@ export default class DocOptionsHelper {
     prompt_for_new_note: any;
     noLabelSave = false;
     lastReportData: any;
+    modal_send_email_button: any;
 
     export_data_popup_preview: any;
     export_size: any;
@@ -182,6 +183,8 @@ export default class DocOptionsHelper {
 
         this.dialog_header_member_image = this.modalContainer.querySelector(".dialog_header_member_image");
         this.dialog_header_member_name = this.modalContainer.querySelector(".dialog_header_member_name");
+
+        this.modal_send_email_button = this.modalContainer.querySelector(".modal_send_email_button");
     }
     /** */
     async showPacketsDialog() {
@@ -280,7 +283,7 @@ export default class DocOptionsHelper {
     /** */
     updateArchivedStatus() {
         this.docData.archived = this.docfield_archived_checkbox.checked;
-        this.app.saveDocumentOwnerOption(this.chatDocumentId,"archived", this.docData);
+        this.app.saveDocumentOwnerOption(this.chatDocumentId, "archived", this.docData);
     }
     /** template as string for modal
      * @return { string } html template as string
@@ -293,7 +296,6 @@ export default class DocOptionsHelper {
                 <div class="modal-header">
                     <h5 class="modal-title" id="editDocumentModalLabel">
                         <button class="session_header_link_button btn btn-secondary"><i class="material-icons">settings</i></button>
-                        Owner:
                         <span class="member_profile_image dialog_header_member_image"></span>
                         <span class="member_profile_name dialog_header_member_name"></span>
                     </h5>
@@ -475,6 +477,10 @@ export default class DocOptionsHelper {
                     <i class="material-icons">logout</i>Leave
                     </button>
                     <div style="flex:1"></div>
+                    <a type="button" class="btn btn-secondary modal_send_email_button" target="_blank">
+                        <i class="material-icons">email</i>
+                        Send
+                    </a>                  
                     <button type="button" class="btn btn-secondary modal_close_button" data-bs-dismiss="modal">
                         <i class="material-icons">cancel</i>
                         Close
@@ -785,6 +791,23 @@ export default class DocOptionsHelper {
         this.shared_usage_limit_div.innerHTML = sharedLimit;
         this.docfield_archived_checkbox.checked = this.documentData.archived;
         this.shared_archived_status_wrapper.innerHTML = this.documentData.archived ? "Archived" : "Active";
+
+        const ownerNote = (this.docData.createUser === this.app.uid) ? this.docData.note : "";
+        this.owner_note_display_div.innerHTML = BaseApp.escapeHTML(ownerNote);
+        const ownerMeta = this.app.userMetaFromDocument(this.docData.createUser, this.chatDocumentId);
+        const ownerDescription = BaseApp.escapeHTML(ownerMeta.name);
+        const displayName = BaseApp.escapeHTML(this.app.userMetaFromDocument(this.app.uid).name);
+
+        const subject = encodeURIComponent(this.documentData.title);
+        const body = encodeURIComponent(`${displayName} has invited you to join a Prompt Plus AI Session
+
+Use this link to join - https://promptplusai.com/session/${this.chatDocumentId}
+
+Session hosted by: ${ownerDescription}
+
+support@promptplusai.com`);
+        const emailTarget = (BaseApp.validateEmail(ownerNote) ? ownerNote : "");
+        this.modal_send_email_button.setAttribute("href", `mailto:${emailTarget}?subject=${subject}&body=${body}`);
     }
     /** populate modal fields and show
      * @param { string } chatDocumentId firestore doc id
@@ -794,7 +817,6 @@ export default class DocOptionsHelper {
         this.chatDocumentId = chatDocumentId;
         this.documentData = doc;
         if (doc.createUser === this.app.uid) {
-            this.owner_note_display_div.innerHTML = BaseApp.escapeHTML(doc.note);
             this.modalContainer.classList.add("modal_options_owner_user");
             this.modalContainer.classList.remove("modal_options_shared_user");
         } else {
