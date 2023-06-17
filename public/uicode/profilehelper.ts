@@ -25,6 +25,8 @@ export default class ProfileHelper {
     profile_text_monospace_checkbox: any;
     profile_prefixname_checkbox: any;
     profile_autoexclude_checkbox: any;
+    profile_new_email: any;
+    change_email_button: any;
     lastLabelsSave = 0;
     noLabelSave = true;
     replies_row: any;
@@ -67,6 +69,10 @@ export default class ProfileHelper {
         this.profile_text_large_checkbox = document.querySelector(".profile_text_large_checkbox");
         this.profile_display_image_randomize = document.querySelector(".profile_display_image_randomize");
         this.profile_display_image_randomize.addEventListener("click", () => this.randomizeImage());
+
+        this.profile_new_email = document.querySelector(".profile_new_email");
+        this.change_email_button = document.querySelector('.change_email_button');
+        this.change_email_button.addEventListener('click', () => this.changeEmail());
 
         this.prompt_for_new_user_name = document.querySelector(".prompt_for_new_user_name");
         this.prompt_for_new_user_name.addEventListener("click", () => this.promptForNewUserName());
@@ -302,6 +308,17 @@ export default class ProfileHelper {
                                         Purchase
                                     </button>
                                 </div>
+                            </div>
+                            <hr>
+                            <div class="change_email_panel">
+                                <div style="text-align:center;font-weight: bold;line-height:2.5em;font-size:.75em;">
+                                    <span class="user_email"></span>
+                                </div>
+                                <div class="form-label">New Email</div>
+                                <input type="text" class="form-control profile_new_email" placeholder="New Email">
+                                <div style="text-align:right;line-height:3em;">
+                                    <button class="change_email_button btn btn-secondary">Change Email</button>
+                                </div>         
                             </div>
                         </div>
                     </div>
@@ -547,7 +564,7 @@ export default class ProfileHelper {
             `<td class="all_time_td">${allTimeCompletionTokens}</td>`;
         this.prompts_row.innerHTML = `<th>Sent</th><td class="day_td">${dailyPromptTokens}</td>` +
             `<td class="monthly_td">${monthlyPromptTokens}</td>` +
-        `<td class="yearly_td">${yearlyPromptTokens}</td>` +
+            `<td class="yearly_td">${yearlyPromptTokens}</td>` +
             `<td class="all_time_td">${allTimePromptTokens}</td>`;
         this.total_row.innerHTML = `<th>Total</th><td class="day_td">${dailyTotalTokens}</td>` +
             `<td class="monthly_td">${monthlyTotalTokens}</td>` +
@@ -597,5 +614,36 @@ export default class ProfileHelper {
         this.app.updateUserNamesImages();
         this.updateTokenUsage();
         this.profile_show_modal.click();
+    }
+    async changeEmail() {
+        let newEmail = this.profile_new_email.value.trim();
+
+        let oldEmail = this.app.fireUser.email;
+        if (newEmail === oldEmail) {
+            alert('Email is already ' + oldEmail);
+            return;
+        }
+
+        if (!confirm(`Are you sure you want to change your email to ${newEmail} from ${oldEmail}?`)) {
+            return;
+        }
+
+        let success = true;
+        try {
+            await this.app.fireUser.updateEmail(newEmail)
+        } catch (error: any) {
+            success = false;
+            alert('email change FAILED: \n' + error.message);
+        }
+
+        if (success) {
+            if (this.app.fireToken) await firebase.auth().signOut();
+
+            this.app.fireToken = null;
+            this.app.fireUser = null;
+            this.app.uid = null;
+            window.location = '/';
+            window.location.reload();
+        }
     }
 }

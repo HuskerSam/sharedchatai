@@ -57,8 +57,13 @@ export default class LoginHelper {
                 Log in with Google &nbsp;<img class="google_logo" style="margin-right:-8px;" src="/images/google_signin.png"></button>
               </div>
               <hr>
-              With anonymous when you logout you lose your data!<br>
-              <button class="anon_login_anchor btn btn-primary">Log in Anonymously</button>
+              <div style="text-align:center">
+                When you logout you lose your data!<br>
+                Optionally add an email address later<br>
+              </div>
+              <div style="text-align:center;line-height: 3em;">
+                <button class="anon_login_anchor btn btn-primary">Log in Anonymously</button>
+              </div>
               <hr>
               <div style="text-align: left;">
                 This application is not released, it's free at this time to use but in the 
