@@ -259,9 +259,7 @@
                         <p>The chat interface features are designed to give you as much control over your session as
                             possible.</p>
                     </div>
-
                 </section>
-
                 <hr class="divider">
 
                 <!-- Navbar
@@ -270,49 +268,139 @@
                     <h2>Document Details and Engine</h2>
                     <p class="lead">The chat session sidebar, or menu on mobile, houses important document options,
                         engine parameters, and user details.</p>
-                    <h4 class="mt-5">Document stats</h4>
+                    <h3 class="mt-5">Document stats</h3>
                     <p>This section provides an document options as well as an overview of the document: title, token
                         count,
-                        and time of last activity. Inside the document options, there are export options, options to
-                        edit title/system messages/or upload previous prompts. It display more indepth token usage stats
-                        as well as an owner tab for token management and organization purposes</span></p>
+                        and time of last activity.</p>
                     <p><a class="popup-img" href="assets/images/navbar-left.jpg"><img class="img-fluid border"
                                 src="https://placehold.co/400x200" alt=""></a></p>
-                    <p>Add the <code>.justify-content-left</code> class to the element of collapse to display a align
-                        left navbar.</p>
-                    <pre><code class="html">&lt;div id=&quot;header-nav&quot; class=&quot;collapse navbar-collapse justify-content-start&quot;&gt;
-      &lt;ul class=&quot;navbar-nav&quot;&gt;
-        .......
-      &lt;/ul&gt;
-    &lt;/div&gt;
-    </code></pre>
+                    <p>Inside the document options, there are export options, options to
+                        edit title/system messages/or upload previous prompts. It display more indepth token usage stats
+                        as well as an owner tab for token management and organization purposes</p>
+                    <p><a class="popup-img" href="assets/images/navbar-left.jpg"><img class="img-fluid border"
+                                src="https://placehold.co/400x200" alt=""></a></p>
 
-                    <h4 class="mt-5">Right align</h4>
-                    <p>Header with Navigation alligned Right. <span class="text-info">See below image and code for more
-                            information.</span></p>
-                    <p><a class="popup-img" href="assets/images/navbar-right.jpg"><img class="img-fluid border"
-                                src="assets/images/navbar-left.jpg" alt=""></a></p>
-                    <p>Add the <code>.justify-content-end</code> class to the element of collapse to display a align
-                        right navbar.</p>
-                    <pre><code class="html">&lt;div id=&quot;header-nav&quot; class=&quot;collapse navbar-collapse justify-content-end&quot;&gt;
-      &lt;ul class=&quot;navbar-nav&quot;&gt;
-        .......
-      &lt;/ul&gt;
-    &lt;/div&gt;
-    </code></pre>
+                    <h3 class="mt-5">Engine</h3>
+                    <p>Here you can choose the chat model and adjust parameters like <code>max response tokens</code>,
+                        <code>temperature</code>,
+                        <code>top_P</code>, <code>presence penalty</code>, and <code>frequency penalty</code>.
+                    </p>
+                    <p class="lead">Currently offering the following Chat Models:</p>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr style="font-size:0.75rem">
+                                    <th>MODEL</th>
+                                    <th>MAX TOKENS</th>
+                                    <th>DESCRIPTION</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>gpt-3.5-turbo</code></td>
+                                    <td>4,096 tokens</td>
+                                    <td>
+                                        <p>Can do any language task with better quality, longer output, and consistent
+                                            instruction-following than the curie, babbage, or ada models.</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><code>gpt-3.5-turbo-16k</code></td>
+                                    <td>16,384 tokens</td>
+                                    <td>
+                                        <p>Same capabilities as the standard gpt-3.5-turbo model but with 4 times the
+                                            context.</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-                    <h4 class="mt-5">Center Align</h4>
-                    <p>Header with Navigation alligned Center. <span class="text-info">See below image and code for more
-                            information.</span></p>
-                    <p><img class="img-fluid border" src="assets/images/navbar-center.jpg" alt=""></p>
-                    <p>Add the <code>.justify-content-center</code> class to the element of collapse to display a align
-                        center navbar.</p>
-                    <pre><code class="html">&lt;div id=&quot;header-nav&quot; class=&quot;collapse navbar-collapse justify-content-center&quot;&gt;
-      &lt;ul class=&quot;navbar-nav&quot;&gt;
-        .......
-      &lt;/ul&gt;
-    &lt;/div&gt;
-    </code></pre>
+                    <h4>Chatgpt Parameters</h4>
+                    <p class="leaad">Changes from default values are indicated with color cues.<br> <span class="badge badge-info text-dark" style="background-color:rgb(240, 240, 50);">Yellow</span> denotes changes
+                        in max tokens, while <span class="badge badge-info" style="background-color:rgb(255, 127, 50);">orange</span> represents modifications in other parameters.</p>
+                    <div class="table-responsive mb-3">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">PARAMETER</th>
+                                    <th scope="col">DESCRIPTION</th>
+                                    <th scope="col">VALUE</th>
+                                    <th scope="col">NOTES</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row"><code>max_token</code></th>
+                                    <td>The maximum number of tokens that the AI model is allowed to generate in
+                                        response to a particular prompt</td>
+                                    <td>model dependent</td>
+                                    <td>affects
+                                        the cost per API call and the time it takes to get a response</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p>Very long conversations may receive incomplete replies because each model version (like
+                            GPT-3.5 Turbo) has a maximum token limit it can handle per conversation. For
+                            example, GPT-3.5 Turbo has a limit of 4096 tokens per conversation, while other
+                            models may have different limits. Understanding and adjusting the Max Tokens parameter is
+                            essential for managing the
+                            trade-off between the depth of the AI's responses and the resources (time and cost)
+                            required for each interaction.</p>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">PARAMETER</th>
+                                    <th scope="col">DESCRIPTION</th>
+                                    <th scope="col">VALUE</th>
+                                    <th scope="col">NOTES</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row"><code>temperature</code></th>
+                                    <td> Governs the randomness of responses. Higher values create diverse but
+                                        potentially less focused replies, while lower values yield more focused and
+                                        predictable answers.</td>
+                                    <td>0 to 2</td>
+                                    <td>Can be thought of as creativity dial. Generally recommended altering
+                                        this or top_p but not both.</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><code>top_p</code></th>
+                                    <td>Controls the word range for the AI's response. Lower values make it stick to
+                                        more common words, whereas higher values allow it to consider a broader
+                                        vocabulary.
+                                    </td>
+                                    <td>0 to 1</td>
+                                    <td>Generally recommended altering
+                                        this or top_p but not both.</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><code>Frequency Penalty</code></th>
+                                    <td>High values discourage the AI from repeating itself, whereas low values make the
+                                        AI more likely to reiterate previous phrases or sentences</td>
+                                    <td>-2.0 to 2.0</td>
+                                    <td>only apply when there is existing conversation history. They don't affect the
+                                        AI's initial responses in a new conversation</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><code>Presence Penalty</code></th>
+                                    <td>High values encourage the AI to bring up new topics in the conversation, while
+                                        lower values make the AI stick to the existing topics.</td>
+                                    <td>-2.0 to 2.0</td>
+                                    <td>only apply when there is existing conversation history. They don't affect the
+                                        AI's initial responses in a new conversation</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p>For more information on these parameters, visit OpenAI's documentation.</p>
+                    </div>
+
+
                 </section>
 
                 <hr class="divider">
