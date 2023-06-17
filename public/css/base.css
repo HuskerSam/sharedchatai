@@ -493,7 +493,7 @@ a.show_dashboard_help_button i,
 .nav-link.show_create_modal.hover_yellow svg {
   color: rgb(50, 255, 50);
   position: relative;
-  top: -8px;
+  top: -6px;
 }
 
 .nav-link.show_create_modal.hover_yellow svg {
