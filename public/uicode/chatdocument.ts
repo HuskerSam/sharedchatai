@@ -110,7 +110,7 @@ export default class ChatDocument {
    * @param { string } ownerUid user to test for owner
    * @return { any } html and uid for user
   */
-  static getSharedUser(id: string, doc: any, ownerUid: string): any  {
+  static getSharedUser(id: string, doc: any, ownerUid: string): any {
     const status = ChatDocument.getDocumentSharedStatus(doc, ownerUid);
     let html = "";
     let uid = "";
@@ -122,7 +122,6 @@ export default class ChatDocument {
         <div class="members_feed_online_status member_online_status" data-uid="${uid}"></div>
         <br>
         <span class="dasboard_user_name member_profile_name" docid="${id}" uid="${uid}"></span>`;
-
     }
 
     if (status === 1) {
@@ -153,7 +152,7 @@ export default class ChatDocument {
 
     return {
       html,
-      uid
+      uid,
     };
   }
 }

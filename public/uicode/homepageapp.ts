@@ -33,12 +33,12 @@ export class HomePageApp extends BaseApp {
             this.show_create_modal.addEventListener("click", (event: any) => {
                 event.stopPropagation();
                 event.preventDefault();
-    
+
                 if (!this.uid) {
                     this.signin_show_modal.click();
                     return;
                 }
-    
+
                 this.documentCreate.show();
             });
         }

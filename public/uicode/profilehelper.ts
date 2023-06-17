@@ -71,8 +71,8 @@ export default class ProfileHelper {
         this.profile_display_image_randomize.addEventListener("click", () => this.randomizeImage());
 
         this.profile_new_email = document.querySelector(".profile_new_email");
-        this.change_email_button = document.querySelector('.change_email_button');
-        this.change_email_button.addEventListener('click', () => this.changeEmail());
+        this.change_email_button = document.querySelector(".change_email_button");
+        this.change_email_button.addEventListener("click", () => this.changeEmail());
 
         this.prompt_for_new_user_name = document.querySelector(".prompt_for_new_user_name");
         this.prompt_for_new_user_name.addEventListener("click", () => this.promptForNewUserName());
@@ -188,8 +188,10 @@ export default class ProfileHelper {
                                     <input type="file" class="file_upload_input" style="display:none;">
                                     <button class="profile_display_image_clear btn btn-secondary">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
-                                        <path fill="currentColor" d="M261-120q-24.75 0-42.375-17.625T201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 
-                                        24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 0h60v-399h-60v399ZM261-750v570-570Z"/>
+                                        <path fill="currentColor" d="M261-120q-24.75 
+                                        0-42.375-17.625T201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 
+                                        24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 
+                                        0h60v-399h-60v399ZM261-750v570-570Z"/>
                                     </svg>
                                     </button>
                                     <button class="profile_display_image_randomize btn btn-secondary">
@@ -615,12 +617,13 @@ export default class ProfileHelper {
         this.updateTokenUsage();
         this.profile_show_modal.click();
     }
+    /** */
     async changeEmail() {
-        let newEmail = this.profile_new_email.value.trim();
+        const newEmail = this.profile_new_email.value.trim();
 
-        let oldEmail = this.app.fireUser.email;
+        const oldEmail = this.app.fireUser.email;
         if (newEmail === oldEmail) {
-            alert('Email is already ' + oldEmail);
+            alert("Email is already " + oldEmail);
             return;
         }
 
@@ -630,10 +633,10 @@ export default class ProfileHelper {
 
         let success = true;
         try {
-            await this.app.fireUser.updateEmail(newEmail)
+            await this.app.fireUser.updateEmail(newEmail);
         } catch (error: any) {
             success = false;
-            alert('email change FAILED: \n' + error.message);
+            alert("email change FAILED: \n" + error.message);
         }
 
         if (success) {
@@ -642,7 +645,7 @@ export default class ProfileHelper {
             this.app.fireToken = null;
             this.app.fireUser = null;
             this.app.uid = null;
-            window.location = '/';
+            window.location = "/";
             window.location.reload();
         }
     }

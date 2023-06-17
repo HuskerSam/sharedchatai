@@ -501,8 +501,8 @@ export default class BaseApp {
   }
   /** send owner setting for document to api
    * @param { string } id session id
-   * @param { any } data session document data (with new field value)
    * @param { string } fieldKey title for title, usage for tokenUsageLimit, note for note
+   * @param { any } data session document data (with new field value)
   */
   async saveDocumentOwnerOption(id: string, fieldKey: string, data: any) {
     if (this.sessionDeleting) return;
@@ -546,7 +546,11 @@ export default class BaseApp {
       alert("Unable to save options " + json.errorMessage);
     }
   }
-  /** */
+  /** display name and image
+   * @param { string } uid user id
+   * @param { string } docid session id
+   * @return { any } name, imagePath in a map
+  */
   userMetaFromDocument(uid: string, docid = ""): any {
     let doc: any;
     if (docid) doc = this.documentsLookup[docid];
@@ -564,8 +568,8 @@ export default class BaseApp {
 
     return {
       imagePath,
-      name
-    }
+      name,
+    };
   }
   /** query dom for all member images names and update */
   updateUserNamesImages() {
@@ -576,8 +580,9 @@ export default class BaseApp {
       const uid: any = imgCtl.getAttribute("uid");
       const docid: any = imgCtl.getAttribute("docid");
       const userMeta = this.userMetaFromDocument(uid, docid);
-      if ("url(" + userMeta.imagePath + ")" !== imgCtl.style.backgroundImage)
+      if ("url(" + userMeta.imagePath + ")" !== imgCtl.style.backgroundImage) {
         imgCtl.style.backgroundImage = "url(" + userMeta.imagePath + ")";
+      }
     });
 
     nameCtls.forEach((nameCtl: any) => {
@@ -587,20 +592,26 @@ export default class BaseApp {
     });
   }
   /**
-   * @param email email to test
-   * @return { boolean } true if valid email 
+   * @param {string } email email to test
+   * @return { boolean } true if valid email
    */
   static validateEmail(email: string): boolean {
     const result = String(email)
       .toLowerCase()
       .match(
+        /* eslint-disable-next-line max-len */
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
     if (result) return true;
     return false;
   }
+  /**
+   *
+   * @param { string } html string to strip tags from
+   * @return { string } text without tags
+   */
   static stripHtml(html: string) {
-    const doc = new DOMParser().parseFromString(html, 'text/html');
+    const doc = new DOMParser().parseFromString(html, "text/html");
     return doc.body.textContent || "";
   }
 }

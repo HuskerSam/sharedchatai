@@ -497,7 +497,9 @@ export class SessionApp extends BaseApp {
     if (ele.scrollTop + ele.offsetHeight >= ele.scrollHeight - 10) return true;
     return false;
   }
-  /** */
+  /**
+   * @param { boolean } setTimeouts set true if calling, false when this routine calls itself
+  */
   scrollTicketListBottom(setTimeouts = true) {
     this.tickets_list.offsetHeight;
     this.tickets_list.scrollTop = this.tickets_list.scrollHeight + 10000;
@@ -984,7 +986,6 @@ export class SessionApp extends BaseApp {
               this.setSidebarTreeState();
             }
             this.firstDocumentLoad = false;
-
           });
 
         this.initTicketFeed();

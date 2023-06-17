@@ -118,6 +118,7 @@ export default class SessionAPI {
         return res.status(200).send({
             success: true,
         });
+        /* eslint-enable camelcase */
     }
     /** http endpoint for user posting message to table chat
     * @param { any } req http request object
@@ -318,6 +319,7 @@ export default class SessionAPI {
         await firebaseAdmin.firestore().doc(`Games/${ticket.gameNumber}/packets/${ticketId}`).set(packet);
 
         return packet;
+        /* eslint-enable camelcase */
     }
     /** promise wrapper submit with timeout detection
      * @param { any } aiRequest request packet
