@@ -1160,4 +1160,8 @@ li.mb-1 button.btn.btn-toggle:before {
     position: relative;
     top: -8px;
   }
+
+  .nav-link.show_create_modal.hover_yellow svg {
+    top: -8px;
+  }
 }
