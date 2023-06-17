@@ -45,6 +45,11 @@
   display: none;
 }
 
+.modal .btn svg {
+  position: relative;
+  top: -2px;
+}
+
 .modal .btn i {
   position: relative;
   top: 4px;
