@@ -386,6 +386,7 @@ export default class SessionAPI {
      */
     static async _processTicket(packet: any, sessionDocumentData: any, ticketData: any,
         id: string, chatGptKey: string, submitted: string): Promise<void> {
+        /* eslint-disable camelcase */
         let total_tokens = 0;
         let prompt_tokens = 0;
         let completion_tokens = 0;
@@ -466,6 +467,7 @@ export default class SessionAPI {
             }),
         ];
         await Promise.all(promises);
+        /* eslint-enable camelcase */
     }
     /** http endpoint for user deleting message from user chat
      * @param { any } req http request object
