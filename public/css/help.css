@@ -1,6 +1,15 @@
 html,
 body {
-  background: rgb(230, 230, 230);
+  background: rgb(40, 50, 84);
+  color:rgb(217, 217, 227);
+  
 }
 
 
+.help_content table {
+  color: rgb(217, 217, 227);
+}
+
+.help_content table td {
+  color: rgb(217, 217, 227);
+}
