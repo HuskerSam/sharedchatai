@@ -1153,3 +1153,11 @@ li.mb-1 button.btn.btn-toggle:before {
   margin-left: -6px;
   margin-right: -6px;
 }
+
+
+@media (max-width: 991px) {
+  .gear_icon {
+    position: relative;
+    top: -8px;
+  }
+}

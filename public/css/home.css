@@ -215,7 +215,7 @@ ul.recent_documents_list li a {
     flex-direction: column;
   }
   .profile_menu_anchor .menu_profile_user_image_span {
-    top: 0px;
+    top: -2px;
   }
 
   .flex_change_responsive {
