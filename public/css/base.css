@@ -477,9 +477,9 @@ button.btn-primary:active {
   top: -4px;
 }
 
-.showhomepage_help svg,
-.show_dashboard_help_button svg,
-.show_document_options_help svg {
+.showhomepage_help i,
+.show_dashboard_help_button i,
+.show_document_options_help i {
   position: relative;
   top: 2px;
   color: rgb(200, 125, 200);
@@ -509,7 +509,7 @@ button.btn-primary:active {
   color: rgb(240, 240, 50);
 }
 
-a.hover_yellow.show_dashboard_help_button:hover svg,
+a.hover_yellow.show_dashboard_help_button:hover i,
 a.hover_yellow.show_document_options_help:hover i {
   color: rgb(240, 240, 50);
 }

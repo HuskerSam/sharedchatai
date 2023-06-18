@@ -107,7 +107,7 @@ export default class DocCreateHelper {
                     </span>
                 </h5>
                 <a class="btn btn-secondary show_create_dialog_help" href="/help/#create" target="_blank"><i
-                        class="material-icons">help</i></a>
+                        class="material-icons">help_outline</i></a>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
