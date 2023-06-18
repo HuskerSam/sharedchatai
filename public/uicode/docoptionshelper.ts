@@ -6,6 +6,8 @@ import BaseApp from "./baseapp.js"; // only for escapeHTML
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
 export default class DocOptionsHelper {
     app: any = null;
+
+    exportFormat = "Text";
     owner_note_display_div: any = null;
     modal_close_button: any = null;
     modalContainer: any = null;
@@ -26,10 +28,6 @@ export default class DocOptionsHelper {
 
     export_data_popup_preview: any;
     export_size: any;
-    text_format: any;
-    html_format: any;
-    csv_format: any;
-    json_format: any;
     download_export_button: any;
     modal_upload_tickets_button: any;
     import_upload_file: any;
@@ -48,6 +46,7 @@ export default class DocOptionsHelper {
     dialog_header_member_image: any;
     dialog_header_member_name: any;
     export_only_selected_prompts: any;
+    export_format_select: any;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -91,10 +90,13 @@ export default class DocOptionsHelper {
 
         this.export_data_popup_preview = this.modalContainer.querySelector(".export_data_popup_preview");
         this.export_size = this.modalContainer.querySelector(".export_size");
-        this.text_format = this.modalContainer.querySelector("#text_format");
-        this.html_format = this.modalContainer.querySelector("#html_format");
-        this.csv_format = this.modalContainer.querySelector("#csv_format");
-        this.json_format = this.modalContainer.querySelector("#json_format");
+
+        this.export_format_select = this.modalContainer.querySelector(".export_format_select");
+        this.export_format_select.addEventListener("input", () => {
+            this.exportFormat = this.export_format_select.value;
+            this.refreshReportData();
+        });
+
         this.download_export_button = this.modalContainer.querySelector(".download_export_button");
         this.modal_upload_tickets_button = this.modalContainer.querySelector(".modal_upload_tickets_button");
         this.import_upload_file = this.modalContainer.querySelector(".import_upload_file");
@@ -109,7 +111,7 @@ export default class DocOptionsHelper {
             event.stopPropagation();
             event.preventDefault();
             const exportData = ChatDocument.generateExportData(this.docData, this.app.lastTicketsSnapshot,
-                this.app.assistsLookup, true, true);
+                this.app.assistsLookup, true, "JSON");
             const templateData = JSON.parse(exportData.resultText);
             let fileName = this.docData.title;
             if (!fileName) fileName = "Cloned";
@@ -157,10 +159,7 @@ export default class DocOptionsHelper {
 
         this.export_only_selected_prompts = this.modalContainer.querySelector(".export_only_selected_prompts");
         this.export_only_selected_prompts.addEventListener("input", () => this.refreshReportData());
-        this.text_format.addEventListener("click", () => this.refreshReportData());
-        this.html_format.addEventListener("click", () => this.refreshReportData());
-        this.csv_format.addEventListener("click", () => this.refreshReportData());
-        this.json_format.addEventListener("click", () => this.refreshReportData());
+
         this.download_export_button.addEventListener("click", () => this.downloadReportData());
         this.modal_upload_tickets_button.addEventListener("click", () => this.import_upload_file.click());
         this.import_upload_file.addEventListener("change", () => this.updateImportRowsDisplay());
@@ -207,7 +206,7 @@ export default class DocOptionsHelper {
     }
     /** copy export text area to clipboard */
     copyExportToClipboard() {
-        if (this.lastReportData.formatFilter === "html") {
+        if (this.lastReportData.fileFormat === "HTML") {
             navigator.clipboard.write([new ClipboardItem({
                 "text/plain": new Blob([this.export_data_popup_preview.innerText], {
                     type: "text/plain",
@@ -289,7 +288,7 @@ export default class DocOptionsHelper {
     getModalTemplate(): string {
         return `<div class="modal fade scrollable_modal" id="editDocumentModal" tabindex="-1" aria-labelledby="editDocumentModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog app_panel">
+        <div class="modal-dialog app_panel modal-lg">
             <div class="modal-content app_panel">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editDocumentModalLabel">
@@ -320,31 +319,19 @@ export default class DocOptionsHelper {
                     <div class="tab-content" style="overflow:hidden;display:flex;">
                         <div class="tab-pane fade" id="export_tab_view" role="tabpanel"
                             style="flex-direction:column;overflow:hidden;" aria-labelledby="export_tab_button">
-                            <div style="text-align:center;">
+                            <div style="text-align:left;line-height: 3em">
+                                <select class="export_format_select form-select form-select-lg hover_yellow">
+                                    <option>Text</option>
+                                    <option>HTML</option>
+                                    <option>CSV</option>
+                                    <option>JSON</option>
+                                </select>
+                                &nbsp;
                                 <div class="form-check" style="margin-bottom: 8px;">
                                     <label class="form-check-label">
                                         <input class="form-check-input export_only_selected_prompts" type="checkbox">
-                                        Only Selected
+                                        Selected Only
                                     </label>
-                                    <br>
-                                </div> 
-                                <div style="line-height: 3em;">
-                                    &nbsp;
-                                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                        <input type="radio" class="btn-check" name="export_format_choice" id="text_format"
-                                        value="text" autocomplete="off"
-                                            checked>
-                                        <label class="btn btn-outline-primary" for="text_format">Text</label>
-                                        <input type="radio" class="btn-check" name="export_format_choice" id="html_format"
-                                        value="html" autocomplete="off">
-                                        <label class="btn btn-outline-primary" for="html_format">HTML</label>
-                                        <input type="radio" class="btn-check" name="export_format_choice" id="csv_format"
-                                        value="csv" autocomplete="off">
-                                        <label class="btn btn-outline-primary" for="csv_format">CSV</label>
-                                        <input type="radio" class="btn-check" name="export_format_choice" id="json_format"
-                                        value="json" autocomplete="off">
-                                        <label class="btn btn-outline-primary" for="json_format">JSON</label>
-                                    </div>
                                 </div>
                             </div>
                             <div class="export_data_popup_preview"></div>
@@ -568,14 +555,17 @@ export default class DocOptionsHelper {
     */
     refreshReportData(download = false) {
         const data = ChatDocument.generateExportData(this.docData, this.app.lastTicketsSnapshot,
-            this.app.assistsLookup, !this.export_only_selected_prompts.checked);
+            this.app.assistsLookup, !this.export_only_selected_prompts.checked, this.exportFormat);
         this.lastReportData = data;
         this.export_data_popup_preview.innerHTML = data.displayText;
         this.modalContainer.classList.remove("text_preview");
         this.modalContainer.classList.remove("csv_preview");
         this.modalContainer.classList.remove("html_preview");
         this.modalContainer.classList.remove("json_preview");
-        this.modalContainer.classList.add(data.formatFilter + "_preview");
+
+        const parts = data.format.split("/");
+        const format = parts[1];
+        this.modalContainer.classList.add(format + "_preview");
         this.export_size.innerHTML = data.resultText.trim().length + " characters";
 
         if (download) {

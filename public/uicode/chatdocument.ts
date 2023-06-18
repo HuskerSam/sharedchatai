@@ -169,13 +169,10 @@ export default class ChatDocument {
    * @param { any } lastTicketsSnapshot from the session app
    * @param { any } assistsLookup map of assist docs
    * @param { boolean } allTickets true to force all tickets included
-   * @param { boolean } forceJSON true to force json format
+   * @param { string } fileFormat output format (Text, HTML, CSV and JSON)
    * @return { string } text for selected format and tickets
   */
-  static generateExportData(docData: any, lastTicketsSnapshot: any, assistsLookup: any, allTickets: boolean, forceJSON = false): any {
-    const formatFilterSelected: any = document.querySelector(`input[name="export_format_choice"]:checked`);
-    const formatFilter: any = formatFilterSelected.value;
-
+  static generateExportData(docData: any, lastTicketsSnapshot: any, assistsLookup: any, allTickets: boolean, fileFormat: string): any {
     if (!lastTicketsSnapshot) {
       return {
         resultText: "",
@@ -196,7 +193,7 @@ export default class ChatDocument {
     let systemMessage = "";
     if (docData.systemMessage) systemMessage = docData.systemMessage;
 
-    if (formatFilter === "json" || forceJSON) {
+    if (fileFormat === "JSON") {
       format = "application/json";
       fileName = "export.json";
       if (docData.title) fileName = docData.title.substring(0, 50) + ".json";
@@ -221,7 +218,7 @@ export default class ChatDocument {
       const jsonText = JSON.stringify(rows, null, "  ");
       resultText = jsonText;
       displayText = BaseApp.escapeHTML(resultText);
-    } else if (formatFilter === "csv") {
+    } else if (fileFormat === "CSV") {
       format = "application/csv";
       fileName = "export.csv";
       if (docData.title) fileName = docData.title.substring(0, 50) + ".csv";
@@ -246,7 +243,7 @@ export default class ChatDocument {
       const csvText = window.Papa.unparse(rows);
       resultText = csvText;
       displayText = BaseApp.escapeHTML(resultText);
-    } else if (formatFilter === "text") {
+    } else if (fileFormat === "Text") {
       format = "plain/text";
       fileName = "report.txt";
       // resultText += "Exported: " + new Date().toISOString().substring(0, 10) + "\n";
@@ -259,10 +256,9 @@ export default class ChatDocument {
         resultText += "\n";
         displayText = BaseApp.escapeHTML(resultText);
       });
-    } else if (formatFilter === "html") {
+    } else if (fileFormat === "HTML") {
       fileName = "report.html";
       format = "text/html";
-      // resultText += `<div class="export_date">Exported: ${new Date().toISOString().substring(0, 10)}</div>\n`;
       tickets.forEach((ticket: any) => {
         const prompt = BaseApp.escapeHTML(ticket.data().message);
         const completion = BaseApp.escapeHTML(ChatDocument.messageForCompletion(assistsLookup, ticket.id));
@@ -280,7 +276,7 @@ export default class ChatDocument {
       displayText,
       resultText,
       format,
-      formatFilter,
+      fileFormat,
       fileName,
     };
   }
