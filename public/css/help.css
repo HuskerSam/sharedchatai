@@ -13,3 +13,10 @@ body {
 .help_content table td {
   color: rgb(217, 217, 227);
 }
+.alert {
+  display: inline-block;
+}
+
+.alert-info {
+  background-color: rgb(32, 33, 35);
+}
