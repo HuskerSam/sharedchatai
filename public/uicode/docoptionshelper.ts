@@ -111,7 +111,8 @@ export default class DocOptionsHelper {
         this.clone_current_chatroom_button.addEventListener("click", async (event: any) => {
             event.stopPropagation();
             event.preventDefault();
-            const exportData = this.generateExportData(true, true);
+            const exportData = ChatDocument.generateExportData(this.docData, this.app.lastTicketsSnapshot,
+                this.app.assistsLookup, true, true);
             const templateData = JSON.parse(exportData.resultText);
             let fileName = this.docData.title;
             if (!fileName) fileName = "Cloned";
@@ -308,7 +309,7 @@ export default class DocOptionsHelper {
                     <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
                         <li class="nav-item" role="presentation">
                             <a class="nav-link" id="export_tab_button" data-bs-toggle="tab" href="#export_tab_view"
-                                role="tab" aria-controls="export_tab_view" aria-selected="false">Prompts</a>
+                                role="tab" aria-controls="export_tab_view" aria-selected="false">Export</a>
                         </li>
                         <li class="nav-item" role="presentation">
                             <a class="nav-link active" id="options_tab_button" data-bs-toggle="tab" href="#options_tab_view"
@@ -393,7 +394,7 @@ export default class DocOptionsHelper {
                                 <div class="doc_options_import_rows_preview"></div>
                                 <br>
                                 <button class="btn btn-primary modal_send_tickets_to_api_button"
-                                    style="display: none;float: right;">Import Prompts</button>
+                                    style="display: none;float: right;">Append Session</button>
                                 <div style="clear:both"></div>
                                 <hr>
                             </div>
@@ -570,127 +571,11 @@ export default class DocOptionsHelper {
         if (this.app.isSessionApp) window.location = "/dashboard";
         this.modal_close_button.click();
     }
-    /** generate export data
-     * @param { boolean } forceJSON true to force json format
-     * @param { boolean } forceAllTickets true to force all tickets included
-     * @return { string } text for selected format and tickets
-    */
-    generateExportData(forceJSON = false, forceAllTickets = false): any {
-        const ticketsFilterSelected: any = document.querySelector(`input[name="tickets_filter"]:checked`);
-        const ticketsFilter: any = ticketsFilterSelected.value;
-        const formatFilterSelected: any = document.querySelector(`input[name="export_format_choice"]:checked`);
-        const formatFilter: any = formatFilterSelected.value;
-
-        if (!this.app.lastTicketsSnapshot) {
-            return {
-                resultText: "",
-                format: "",
-                fileName: "",
-            };
-        }
-
-        let resultText = "";
-        const tickets: Array<any> = [];
-        this.app.lastTicketsSnapshot.forEach((ticket: any) => {
-            if (ticketsFilter === "all" || ticket.data().includeInMessage ||
-                forceAllTickets) tickets.unshift(ticket);
-        });
-
-        let format = "";
-        let fileName = "";
-        let displayText = "";
-
-        if (formatFilter === "json" || forceJSON) {
-            format = "application/json";
-            fileName = "export.json";
-            if (this.documentData.title) fileName = this.documentData.title.substring(0, 50) + ".json";
-
-            const rows: any = [];
-            tickets.forEach((ticket: any) => {
-                rows.push({
-                    prompt: ticket.data().message,
-                    completion: this.messageForCompletion(ticket.id),
-                    selected: ticket.data().includeInMessage ? "y" : "n",
-                });
-            });
-            const jsonText = JSON.stringify(rows, null, "  ");
-            resultText = jsonText;
-            displayText = BaseApp.escapeHTML(resultText);
-        } else if (formatFilter === "csv") {
-            format = "application/csv";
-            fileName = "export.csv";
-            if (this.documentData.title) fileName = this.documentData.title.substring(0, 50) + ".csv";
-
-            const rows: any = [];
-            tickets.forEach((ticket: any) => {
-                rows.push({
-                    prompt: ticket.data().message,
-                    completion: this.messageForCompletion(ticket.id),
-                    selected: ticket.data().includeInMessage ? "y" : "n",
-                });
-            });
-            const csvText = window.Papa.unparse(rows);
-            resultText = csvText;
-            displayText = BaseApp.escapeHTML(resultText);
-        } else if (formatFilter === "text") {
-            format = "plain/text";
-            fileName = "report.txt";
-            // resultText += "Exported: " + new Date().toISOString().substring(0, 10) + "\n";
-            tickets.forEach((ticket: any) => {
-                const completion = this.messageForCompletion(ticket.id);
-                const prompt = ticket.data().message;
-
-                resultText += "Prompt: " + prompt + "\n";
-                if (completion) resultText += "Assist: " + completion + "\n";
-                resultText += "\n";
-                displayText = BaseApp.escapeHTML(resultText);
-            });
-        } else if (formatFilter === "html") {
-            fileName = "report.html";
-            format = "text/html";
-            // resultText += `<div class="export_date">Exported: ${new Date().toISOString().substring(0, 10)}</div>\n`;
-            tickets.forEach((ticket: any) => {
-                const prompt = BaseApp.escapeHTML(ticket.data().message);
-                const completion = BaseApp.escapeHTML(this.messageForCompletion(ticket.id));
-                const selected = ticket.data().includeInMessage ? "✅ " : "🔲 ";
-
-                resultText += `<div class="ticket-item">\n`;
-                resultText += `    <div class="prompt-text">${selected} ${prompt}</div>\n`;
-                resultText += `    <div class="completion-text">${completion}</div>\n`;
-                resultText += `</div>`;
-                displayText = resultText;
-            });
-        }
-
-        return {
-            displayText,
-            resultText,
-            format,
-            formatFilter,
-            fileName,
-        };
-    }
-    /** check for assist message
-* @param { string } assistId ticket id to check for assist
-* @return { any } message
-*/
-    messageForCompletion(assistId: string): string {
-        try {
-            const assistData: any = this.app.assistsLookup[assistId];
-            if (!assistData || !assistData.assist || !assistData.assist.choices ||
-                !assistData.assist.choices["0"] || !assistData.assist.choices["0"].message ||
-                !assistData.assist.choices["0"].message.content) return "";
-            return assistData.assist.choices["0"].message.content;
-        } catch (assistError: any) {
-            console.log(assistError);
-            return "";
-        }
-    }
     /** refresh report data
      * @param { boolean } download
     */
     refreshReportData(download = false) {
-        const data = this.generateExportData();
+        const data = ChatDocument.generateExportData(this.docData, this.app.lastTicketsSnapshot, this.app.assistsLookup);
         this.lastReportData = data;
         this.export_data_popup_preview.innerHTML = data.displayText;
         this.modalContainer.classList.remove("text_preview");
@@ -699,16 +584,6 @@ export default class DocOptionsHelper {
         this.modalContainer.classList.remove("json_preview");
         this.modalContainer.classList.add(data.formatFilter + "_preview");
         this.export_size.innerHTML = data.resultText.trim().length + " characters";
-        const selection = window.getSelection();
-        selection.removeAllRanges();
-
-        /*
-    // Select paragraph
-    const range = document.createRange();
-    range.selectNodeContents(this.export_data_popup_preview);
-    selection.addRange(range);
-    */
-        // this.export_data_popup_preview.focus();
 
         if (download) {
             const file = new File([data.resultText], data.fileName, {
@@ -742,8 +617,9 @@ export default class DocOptionsHelper {
                 return;
             }
 
-            const recordsToUpload: any = ChatDocument.processImportTicketsToUpload(records);
-            const error = await ChatDocument.sendImportTicketToAPI(this.chatDocumentId, recordsToUpload, this.app.basePath);
+            const uploadResults = ChatDocument.processImportTicketsToUpload(records);
+            this.app.saveDocumentOption(this.chatDocumentId, "systemMessage", uploadResults.systemMessage.trim());
+            const error = await ChatDocument.sendImportTicketToAPI(this.chatDocumentId, uploadResults.recordsToUpload, this.app.basePath);
             if (error) {
                 alert("Import error");
             }

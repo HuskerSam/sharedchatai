@@ -279,8 +279,9 @@ export default class DocCreateHelper {
         return true;
       }
 
-      const recordsToUpload: any = ChatDocument.processImportTicketsToUpload(records);
-      const error = await ChatDocument.sendImportTicketToAPI(documentId, recordsToUpload, this.app.basePath);
+      const importResult = ChatDocument.processImportTicketsToUpload(records);
+      this.app.saveDocumentOption(documentId, "systemMessage", importResult.systemMessage.trim());
+      const error = await ChatDocument.sendImportTicketToAPI(documentId, importResult.recordsToUpload, this.app.basePath);
       if (error) {
         alert("Import error");
         return true;

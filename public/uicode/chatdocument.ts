@@ -1,3 +1,4 @@
+import BaseApp from "./baseapp.js";
 declare const firebase: any;
 declare const window: any;
 
@@ -34,20 +35,28 @@ export default class ChatDocument {
   }
   /**
    * @param { Array<any> } tickets raw import tickets
-   * @return { Array<any> } array prompt/completion data
+   * @return { any } array prompt/completion data and system message
   */
-  static processImportTicketsToUpload(tickets: Array<any>): Array<any> {
+  static processImportTicketsToUpload(tickets: Array<any>): any {
     const recordsToUpload: any = [];
+    let systemMessage = "";
     for (let c = 0, l = tickets.length; c < l; c++) {
       const ticket: any = tickets[c];
 
-      recordsToUpload.push({
-        prompt: ticket.prompt,
-        completion: ticket.completion,
-        selected: ticket.selected,
-      });
+      if (ticket.system) {
+        systemMessage = ticket.system;
+      } else {
+        recordsToUpload.push({
+          prompt: ticket.prompt,
+          completion: ticket.completion,
+          selected: ticket.selected,
+        });
+      }
     }
-    return recordsToUpload;
+    return {
+      recordsToUpload,
+      systemMessage,
+    };
   }
   /**
    * @param { any } fileInput DOM file input element
@@ -154,5 +163,145 @@ export default class ChatDocument {
       html,
       uid,
     };
+  }
+  /** generate export data
+   * @param { any } docData document data
+   * @param { any } lastTicketsSnapshot from the session app
+   * @param { any } assistsLookup map of assist docs
+   * @param { boolean } forceJSON true to force json format
+   * @param { boolean } forceAllTickets true to force all tickets included
+   * @return { string } text for selected format and tickets
+  */
+  static generateExportData(docData: any, lastTicketsSnapshot: any, assistsLookup: any, forceJSON = false, forceAllTickets = false): any {
+    const ticketsFilterSelected: any = document.querySelector(`input[name="tickets_filter"]:checked`);
+    const ticketsFilter: any = ticketsFilterSelected.value;
+    const formatFilterSelected: any = document.querySelector(`input[name="export_format_choice"]:checked`);
+    const formatFilter: any = formatFilterSelected.value;
+
+    if (!lastTicketsSnapshot) {
+      return {
+        resultText: "",
+        format: "",
+        fileName: "",
+      };
+    }
+
+    let resultText = "";
+    const tickets: Array<any> = [];
+    lastTicketsSnapshot.forEach((ticket: any) => {
+      if (ticketsFilter === "all" || ticket.data().includeInMessage ||
+        forceAllTickets) tickets.unshift(ticket);
+    });
+
+    let format = "";
+    let fileName = "";
+    let displayText = "";
+    let systemMessage = "";
+    if (docData.systemMessage) systemMessage = docData.systemMessage;
+
+    if (formatFilter === "json" || forceJSON) {
+      format = "application/json";
+      fileName = "export.json";
+      if (docData.title) fileName = docData.title.substring(0, 50) + ".json";
+
+      const rows: any = [];
+      if (systemMessage) {
+        rows.push({
+          prompt: "",
+          completion: "",
+          selected: "",
+          system: systemMessage,
+        });
+      }
+      tickets.forEach((ticket: any) => {
+        rows.push({
+          prompt: ticket.data().message,
+          completion: ChatDocument.messageForCompletion(assistsLookup, ticket.id),
+          selected: ticket.data().includeInMessage ? "y" : "n",
+          system: "",
+        });
+      });
+      const jsonText = JSON.stringify(rows, null, "  ");
+      resultText = jsonText;
+      displayText = BaseApp.escapeHTML(resultText);
+    } else if (formatFilter === "csv") {
+      format = "application/csv";
+      fileName = "export.csv";
+      if (docData.title) fileName = docData.title.substring(0, 50) + ".csv";
+
+      const rows: any = [];
+      if (systemMessage) {
+        rows.push({
+          prompt: "",
+          completion: "",
+          selected: "",
+          system: systemMessage,
+        });
+      }
+      tickets.forEach((ticket: any) => {
+        rows.push({
+          prompt: ticket.data().message,
+          completion: ChatDocument.messageForCompletion(assistsLookup, ticket.id),
+          selected: ticket.data().includeInMessage ? "y" : "n",
+          system: "",
+        });
+      });
+      const csvText = window.Papa.unparse(rows);
+      resultText = csvText;
+      displayText = BaseApp.escapeHTML(resultText);
+    } else if (formatFilter === "text") {
+      format = "plain/text";
+      fileName = "report.txt";
+      // resultText += "Exported: " + new Date().toISOString().substring(0, 10) + "\n";
+      tickets.forEach((ticket: any) => {
+        const completion = ChatDocument.messageForCompletion(assistsLookup, ticket.id);
+        const prompt = ticket.data().message;
+
+        resultText += "Prompt: " + prompt + "\n";
+        if (completion) resultText += "Assist: " + completion + "\n";
+        resultText += "\n";
+        displayText = BaseApp.escapeHTML(resultText);
+      });
+    } else if (formatFilter === "html") {
+      fileName = "report.html";
+      format = "text/html";
+      // resultText += `<div class="export_date">Exported: ${new Date().toISOString().substring(0, 10)}</div>\n`;
+      tickets.forEach((ticket: any) => {
+        const prompt = BaseApp.escapeHTML(ticket.data().message);
+        const completion = BaseApp.escapeHTML(ChatDocument.messageForCompletion(assistsLookup, ticket.id));
+        const selected = ticket.data().includeInMessage ? "✅ " : "🔲 ";
+
+        resultText += `<div class="ticket-item">\n`;
+        resultText += `    <div class="prompt-text">${selected} ${prompt}</div>\n`;
+        resultText += `    <div class="completion-text">${completion}</div>\n`;
+        resultText += `</div>`;
+        displayText = resultText;
+      });
+    }
+
+    return {
+      displayText,
+      resultText,
+      format,
+      formatFilter,
+      fileName,
+    };
+  }
+  /** check for assist message
+   * @param { any } assistsLookup map of assist docs
+  * @param { string } assistId ticket id to check for assist
+  * @return { any } message
+  */
+  static messageForCompletion(assistsLookup: any, assistId: string): string {
+    try {
+      const assistData: any = assistsLookup[assistId];
+      if (!assistData || !assistData.assist || !assistData.assist.choices ||
+        !assistData.assist.choices["0"] || !assistData.assist.choices["0"].message ||
+        !assistData.assist.choices["0"].message.content) return "";
+      return assistData.assist.choices["0"].message.content;
+    } catch (assistError: any) {
+      console.log(assistError);
+      return "";
+    }
   }
 }
