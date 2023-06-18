@@ -265,7 +265,6 @@
 
 .parsed_file_name {
   display: inline-block;
-  padding-top: 18px;
 }
 
 .doc_options_import_rows_preview {
@@ -294,7 +293,7 @@
 }
 
 .open_button_wrapper {
-  padding-right: 12px;
+  float: right;
 }
 
 .randomize_name {
@@ -375,6 +374,7 @@
 
 .add_date_as_label_button {
   align-self: center;
+  float: right;
 }
 
 .app_panel .form-check-input.insert_todaylabel_default_checkbox {
@@ -383,6 +383,9 @@
   border-color: rgb(127, 127, 127); 
   margin-right: 12px;
   align-self: center;
+  float: right;
+  position: relative;
+  top: 2px;
 }
 
 .app_panel .form-check-input.modal_open_new_document,

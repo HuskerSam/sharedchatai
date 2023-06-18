@@ -138,50 +138,38 @@ export default class DocCreateHelper {
                         <label class="form-label">
                             Title <span class="title_note"> - [Enter] to add</span>
                         </label>
+                        <div class="form-check open_button_wrapper">
+                            <label class="form-check-label">
+                                <input class="form-check-input modal_open_new_document" checked type="checkbox"
+                                    value="">
+                                Open
+                            </label>
+                        </div>
                         <br>
                         <input type="text" class="form-control create_modal_title_field"
                             placeholder="autofills if blank">
                         <hr>
                         <div style="position:relative;margin-top: -6px;">
+                            <button class="btn btn-secondary add_date_as_label_button">Add Today</button>
+                            <input class="form-check-input insert_todaylabel_default_checkbox" type="checkbox">
                             <label class="form-label labels_label">Labels</label>
                             <div style="text-align:center;margin-left: -3px;padding-right: 3px;">
                               <select class="create_document_label_options" multiple="multiple"
                                   style="width:100%"></select>
                             </div>
-                            <div style="height: 3.5em;display:flex;flex-direction: row-reverse">
-                              <button class="btn btn-secondary add_date_as_label_button">Add Today</button>
-                              <input class="form-check-input insert_todaylabel_default_checkbox" type="checkbox">
-                            </div>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="advanced_create_options_view" role="tabpanel"
                         style="flex-direction:column;overflow:hidden;" aria-labelledby="advanced_create_options">
-                        <hr>
+                          <hr>
                           <label class="form-label">
                             System Message
                           </label>
                           <br>
                           <input type="text" class="form-control system_message_field"
                               placeholder="optional">
-                        <hr>
-                        <div style="display:inline-block">
-                            <div>
-                                <label class="form-label">Import</label>
-                                <br>
-                                <button class="btn btn-secondary modal_create_template_tickets_button">
-                                    <i class="material-icons">upload_file</i>
-                                    Upload
-                                </button>
-                                <input class="create_modal_template_file" style="display:none;" type="file"
-                                    accept=".json,.csv">
-                            </div>
-                        </div>
-                        &nbsp;
-                        <div class="parsed_file_status"></div>
-                        &nbsp;
-                        <div class="parsed_file_name"></div>
-                        <hr>
-                        <div style="display:flex;flex-direction:row;">
+                          <br>
+                          <div style="display:flex;flex-direction:row;">
                             <div>
                                 <label class="form-label">Usage Cap</label>
                                 <br>
@@ -196,14 +184,17 @@ export default class DocCreateHelper {
                             </div>
                         </div>
                         <hr>
-                        <div style="text-align:center;">
-                            <div class="form-check open_button_wrapper">
-                                <label class="form-check-label">
-                                    <input class="form-check-input modal_open_new_document" checked type="checkbox"
-                                        value="">
-                                    Open New Session
-                                </label>
-                            </div>
+                        <div style="display:inline-block; line-height: 3em;">
+                          <button class="btn btn-secondary modal_create_template_tickets_button">
+                              <i class="material-icons">upload_file</i>
+                              Import...
+                          </button>
+                          <input class="create_modal_template_file" style="display:none;" type="file"
+                              accept=".json,.csv">
+                          &nbsp;
+                          <div class="parsed_file_status"></div>
+                          &nbsp;
+                          <div class="parsed_file_name"></div>
                         </div>
                     </div>
                 </div>
