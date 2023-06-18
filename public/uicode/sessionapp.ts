@@ -239,7 +239,6 @@ export class SessionApp extends BaseApp {
     });
 
     this.scrollTicketListBottom();
-    this.autoSizeTextArea();
   }
   /** expand prompt input textarea */
   autoSizeTextArea() {
@@ -247,9 +246,16 @@ export class SessionApp extends BaseApp {
     setTimeout(() => {
       el.style.height = "auto";
       let height = el.scrollHeight;
-      if (height < 80) {
-        el.style.height = "60px";
-        if (el.scrollHeight < 65) height = 60;
+      if (this.profile.textOptionsLarge) {
+        if (height < 105) {
+          el.style.height = "91px";
+          if (el.scrollHeight < 96) height = 91;
+        }
+      } else {
+        if (height < 80) {
+          el.style.height = "60px";
+          if (el.scrollHeight < 65) height = 60;
+        }
       }
       el.style.height = height + "px";
     }, 0);
@@ -993,6 +999,7 @@ export class SessionApp extends BaseApp {
 
       this.threshold_auto_exclude_checkbox.checked = this.profile.autoExclude;
 
+      this.autoSizeTextArea();
       setTimeout(() => this._updateGameMembersList(), 50);
     }
   }

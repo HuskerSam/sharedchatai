@@ -8,14 +8,13 @@
   color: rgb(130, 150, 255);
 }
 
-.details_game {
+.session_details_button {
   background-color: transparent;
   border-color: transparent;
   margin: auto;
 }
 
 .document_status {
-  text-align: left;
   display: block;
   clear: both;
   white-space: nowrap;
@@ -25,8 +24,8 @@
   padding-left: 0.25em;
 }
 
-.profile_text_option_large .details_game {
-  font-size: 1.35em;
+.profile_text_option_large .session_details_button {
+  font-size: 1.3em;
 }
 
 .list-group-item-action:focus {
@@ -47,7 +46,7 @@
   padding-left: 40px;
 }
 
-.details_game .settings_icon {
+.session_details_button .settings_icon {
   position: relative;
   top: 0px;
   left: -2px;
@@ -61,7 +60,7 @@
   font-family: monospace;
 }
 
-.profile_text_option_large .details_game .session_ticket_count {
+.profile_text_option_large .session_details_button .session_ticket_count {
   top: -4px;
 }
 
@@ -238,17 +237,17 @@
 }
 
 .profile_text_option_large .document_name {
-  font-size: 1.25em;
+  font-size: 1.3em;
   line-height: 1.75em;
   max-height: 3.5em;
 }
 
 .profile_text_option_large .document_list_item {
-  min-height: 5.3em;
+  min-height: 5.6em;
 }
 
 .profile_text_option_large .session_labels_column {
-  font-size: 1.5em;
+  font-size: 1.3em;
 }
 
 .navbar-nav .nav-item {
@@ -297,4 +296,8 @@
 
 .nav-link.dashboard_create_game_mobile.hover_yellow svg {
   top: -2px;
+}
+
+.count_status_wrapper {
+  align-self: center;
 }

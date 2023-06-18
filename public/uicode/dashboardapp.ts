@@ -220,12 +220,14 @@ export class DashboardApp extends BaseApp {
           <span class="material-icons">link</span>
         </button>
         <div class="document_name" data-docid="${doc.id}"></div>
-        <div class="session_ticket_count" data-docid="${doc.id}"></div> 
-        <div class="document_status time_since last_submit_time" data-timesince="${data.lastActivity}"
-          data-showseconds="0"></div>
+        <div class="count_status_wrapper">
+          <div class="session_ticket_count" data-docid="${doc.id}"></div> 
+          <div class="document_status time_since last_submit_time" data-timesince="${data.lastActivity}"
+            data-showseconds="0"></div>
+        </div>
         <div class="session_labels_column" data-docid="${doc.id}"></div>
         <div class="session_shared_column" data-docid="${doc.id}"></div>
-        <button class="details_game btn btn-secondary hover_yellow" data-gamenumber="${data.gameNumber}">
+        <button class="session_details_button btn btn-secondary hover_yellow" data-gamenumber="${data.gameNumber}">
           <svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 -960 960 960" width="30">
           <path fill="currentColor" d="m388-80-20-126q-19-7-40-19t-37-25l-118 54-93-164 108-79q-2-9-2.5-20.5T185-480q0-9
           .5-20.5T188-521L80-600l93-164 118 54q16-13 37-25t40-18l20-127h184l20 126q19 7
@@ -242,7 +244,7 @@ export class DashboardApp extends BaseApp {
     ctl.innerHTML = html;
     const card = ctl.children[0];
 
-    const details: any = card.querySelector("button.details_game");
+    const details: any = card.querySelector("button.session_details_button");
     details.addEventListener("click", (e: any) => {
       e.stopPropagation();
       e.preventDefault();
