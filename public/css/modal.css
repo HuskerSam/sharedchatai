@@ -65,14 +65,14 @@
 }
 
 .shared_archived_status_wrapper {
-  line-height: 2em;
+  line-height: 1.75em;
   font-weight: bold;
   font-size: 1.5em;
   display: inline-block;
   padding-right: 2em;
   color: rgb(180, 255, 180);
-  margin-bottom: 8px;
-  margin-top: 8px;
+  margin-bottom: 13px;
+  margin-top: 0px;
 }
 
 .modal_options_owner_user .shared_archived_status_wrapper {
@@ -82,9 +82,9 @@
 .owner_archived_input_wrapper {
   display: inline-block;
   width: auto;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
   padding-right: 0;
-  margin-top: 8px;
+  margin-top: 4px;
 }
 
 .modal_options_shared_user .owner_archived_input_wrapper {
@@ -237,7 +237,7 @@
 }
 
 .sign_out_button i,
-.delete_game i {
+.delete_game svg {
   color: rgb(255, 50, 50);
 }
 
@@ -587,4 +587,12 @@ i.copy_green {
   .modal-footer {
     padding: .1em;
   }
+}
+
+.owner_note_display_div {
+  min-height: 1.5em;
+}
+
+.btn-125 {
+  min-width: 125px;
 }

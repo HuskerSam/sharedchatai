@@ -409,24 +409,37 @@ export default class DocOptionsHelper {
                                         <br>
                                     </div>
                                     <br>
-                                    <button class="clone_current_chatroom_button btn btn-secondary" data-bs-dismiss="modal">
+                                    <button class="clone_current_chatroom_button btn-125 btn btn-secondary" data-bs-dismiss="modal">
                                     <i class="material-icons">import_export</i>
                                         Clone
                                 </button>
                                 </div>
                                 <div style="float:right;line-height: 3em;text-align: right;margin-right: 8px">
-                                    <button class="btn btn-secondary show_threshold_dialog">
+                                    <button class="btn btn-secondary btn-125 show_threshold_dialog">
                                         <i class="material-icons">data_thresholding</i>
                                         Threshold
                                     </button>
                                     <br>
-                                    <button class="btn btn-secondary show_packets_dialog">
+                                    <button class="btn btn-125 btn-secondary show_packets_dialog">
                                         <i class="material-icons">content_copy</i>
                                     Packets
                                     </button>
                                 </div>
                                 <div style="clear:both;"></div>
                             </div>
+                        </div>
+                        <div class="tab-pane fade" id="owner_tab_view" role="tabpanel" aria-labelledby="owner_tab_button">
+                            <label class="form-label">Labels</label>
+                            <select class="edit_options_document_labels" multiple="multiple" style="width:95%"></select>
+                            <hr>
+                            <label class="form-label">Owner Note</label>
+                            <br>
+                            <button class="btn btn-secondary prompt_for_new_note" 
+                                style="float:right;margin-right:8px;margin-bottom:16px;">
+                                <i class="material-icons">edit</i>
+                            </button>
+                            <div class="owner_note_display_div"></div>
+                            <br>
                             <hr>
                             <label class="form-label">Usage Cap</label>
                             <br>
@@ -450,19 +463,6 @@ export default class DocOptionsHelper {
                                     <td class="doc_total_usage"></td>
                                 </tr>
                             </table>
-                        </div>
-                        <div class="tab-pane fade" id="owner_tab_view" role="tabpanel" aria-labelledby="owner_tab_button">
-                            <label class="form-label">Labels</label>
-                            <select class="edit_options_document_labels" multiple="multiple" style="width:95%"></select>
-                            <hr>
-                            <label class="form-label">Owner Note</label>
-                            <br>
-                            <button class="btn btn-secondary prompt_for_new_note" 
-                                style="float:right;margin-right:8px;margin-bottom:16px;">
-                                <i class="material-icons">edit</i>
-                            </button>
-                            <div class="owner_note_display_div"></div>
-                            <br>
                         </div>
                     </div>
                 </div>
