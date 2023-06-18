@@ -496,7 +496,7 @@ button.btn-primary:active {
 .nav-link.dashboard_create_game_mobile.hover_yellow svg,
 .nav-link.dashboard_create_game.hover_yellow svg,
 .nav-link.show_create_modal.hover_yellow svg {
-  color: rgb(20, 220, 20);
+  color: rgb(20, 170, 20);
   position: relative;
   top: -6px;
 }
