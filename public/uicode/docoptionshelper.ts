@@ -363,8 +363,7 @@ export default class DocOptionsHelper {
                             <div style="padding-bottom: 8px;">
                                 <label class="form-label">Title</label>
                                 <br>
-                                <button class="btn btn-secondary prompt_for_new_title" 
-                                    style="float:right;">
+                                <button class="btn btn-secondary prompt_for_new_title">
                                     <i class="material-icons">edit</i></button>
                                 <div class="modal_document_title_display"></div>
                             </div>
@@ -372,13 +371,12 @@ export default class DocOptionsHelper {
                             <div style="padding-bottom: 8px;">
                                 <label class="form-label">System Message</label>
                                 <br>
-                                <button class="btn btn-secondary prompt_for_new_system_message" 
-                                    style="float:right;">
+                                <button class="btn btn-secondary prompt_for_new_system_message">
                                     <i class="material-icons">edit</i></button>
                                 <div class="modal_document_system_message_display"></div>
                             </div>
                             <hr>
-                            <div style="line-height:3.5em;padding-right: 8px;" class="template_import_options_section">
+                            <div style="line-height:3.5em;" class="template_import_options_section">
                                 <button class="btn btn-secondary modal_upload_tickets_button">
                                 <i class="material-icons">upload_file</i>
                                 Upload
@@ -408,7 +406,7 @@ export default class DocOptionsHelper {
                                         Clone
                                 </button>
                                 </div>
-                                <div style="float:right;line-height: 3em;text-align: right;margin-right: 8px">
+                                <div style="float:right;line-height: 3em;text-align: right;">
                                     <button class="btn btn-secondary btn-125 show_threshold_dialog">
                                         <i class="material-icons">data_thresholding</i>
                                         Threshold
@@ -429,7 +427,7 @@ export default class DocOptionsHelper {
                             <label class="form-label">Owner Note</label>
                             <br>
                             <button class="btn btn-secondary prompt_for_new_note" 
-                                style="float:right;margin-right:8px;margin-bottom:16px;">
+                                style="float:right;margin-bottom:16px;">
                                 <i class="material-icons">edit</i>
                             </button>
                             <div class="owner_note_display_div"></div>
