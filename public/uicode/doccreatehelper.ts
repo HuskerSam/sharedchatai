@@ -13,6 +13,7 @@ export default class DocCreateHelper {
   doccreatehelper_show_modal: any = null;
   creatingNewRecord = false;
   create_modal_title_field: any;
+  system_message_field: any;
   document_usage_cap_field: any;
   create_modal_template_file: any;
   modal_create_template_tickets_button: any;
@@ -49,6 +50,7 @@ export default class DocCreateHelper {
         this.createNewGame();
       }
     });
+    this.system_message_field = this.modalContainer.querySelector(".system_message_field");
     this.document_usage_cap_field = this.modalContainer.querySelector(".document_usage_cap_field");
     this.modal_create_template_tickets_button = this.modalContainer.querySelector(".modal_create_template_tickets_button");
     this.modal_create_template_tickets_button.addEventListener("click", () => this.create_modal_template_file.click());
@@ -148,6 +150,13 @@ export default class DocCreateHelper {
                     <div class="tab-pane fade" id="advanced_create_options_view" role="tabpanel"
                         style="flex-direction:column;overflow:hidden;" aria-labelledby="advanced_create_options">
                         <hr>
+                          <label class="form-label">
+                            System Message
+                          </label>
+                          <br>
+                          <input type="text" class="form-control system_message_field"
+                              placeholder="optional">
+                        <hr>
                         <div style="display:inline-block">
                             <div>
                                 <label class="form-label">Import</label>
@@ -185,7 +194,7 @@ export default class DocCreateHelper {
                                 <label class="form-check-label">
                                     <input class="form-check-input modal_open_new_document" checked type="checkbox"
                                         value="">
-                                    Open
+                                    Open New Session
                                 </label>
                             </div>
                         </div>
@@ -222,6 +231,9 @@ export default class DocCreateHelper {
       title: this.create_modal_title_field.value.trim(),
     };
 
+    const systemMessage = this.system_message_field.value.trim();
+    if (systemMessage) body.systemMessage = systemMessage;
+
     if (this.document_usage_cap_field.value.trim() !== "") {
       body.tokenUsageLimit = this.document_usage_cap_field.value.trim();
     }
@@ -246,7 +258,7 @@ export default class DocCreateHelper {
 
     let importError = false;
     if (this.create_modal_template_file.files[0]) {
-      importError = await this.parseSelectedTemplateFile(json.gameNumber);
+      importError = await this.parseSelectedTemplateFile(json.gameNumber, !systemMessage);
     }
     this.create_game_afterfeed_button.innerHTML = "Create";
     document.body.classList.remove("creating_new_session");
@@ -300,9 +312,10 @@ export default class DocCreateHelper {
   }
   /** parse template data from file input
    * @param {string } documentId new document to add ticket imports
+   * @param { boolean } importSystemMessage import the system message if exists
    * @return { Promise<boolean> } true if import error
    */
-  async parseSelectedTemplateFile(documentId: string): Promise<boolean> {
+  async parseSelectedTemplateFile(documentId: string, importSystemMessage = false): Promise<boolean> {
     try {
       const records = await ChatDocument.getImportDataFromDomFile(this.create_modal_template_file);
 
@@ -312,7 +325,7 @@ export default class DocCreateHelper {
       }
 
       const importResult = ChatDocument.processImportTicketsToUpload(records);
-      if (importResult.systemMessage.trim()) {
+      if (importResult.systemMessage.trim() !== "" && importSystemMessage == true) {
         this.app.saveDocumentOption(documentId, "systemMessage", importResult.systemMessage.trim());
       }
       const error = await ChatDocument.sendImportTicketToAPI(documentId, importResult.recordsToUpload, this.app.basePath);
