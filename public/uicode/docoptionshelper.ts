@@ -253,7 +253,7 @@ export default class DocOptionsHelper {
             }
             this.docData.title = newTitle.substring(0, 300);
             this.app.saveDocumentOwnerOption(this.chatDocumentId, "title", this.docData);
-            this.modal_document_title_display.innerHTML = BaseApp.escapeHTML(newTitle);
+            this.paintDocumentData();
         }
     }
     /** prompt and send not to api */
@@ -263,7 +263,7 @@ export default class DocOptionsHelper {
             newNote = newNote.trim();
             this.docData.note = newNote;
             this.app.saveDocumentOwnerOption(this.chatDocumentId, "note", this.docData);
-            this.owner_note_display_div.innerHTML = BaseApp.escapeHTML(newNote);
+            this.paintDocumentData();
         }
     }
     /** prompt and send token limit usage to api */
@@ -646,16 +646,16 @@ export default class DocOptionsHelper {
     }
     /** paint document data */
     paintDocumentData() {
-        this.doc_prompt_usage.innerHTML = BaseApp.numberWithCommas(this.documentData.promptTokens);
-        this.doc_response_usage.innerHTML = BaseApp.numberWithCommas(this.documentData.completionTokens);
-        this.doc_total_usage.innerHTML = BaseApp.numberWithCommas(this.documentData.totalTokens);
+        this.doc_prompt_usage.innerHTML = BaseApp.numberWithCommas(this.docData.promptTokens);
+        this.doc_response_usage.innerHTML = BaseApp.numberWithCommas(this.docData.completionTokens);
+        this.doc_total_usage.innerHTML = BaseApp.numberWithCommas(this.docData.totalTokens);
 
-        this.modal_document_title_display.innerHTML = BaseApp.escapeHTML(this.documentData.title);
+        this.modal_document_title_display.innerHTML = BaseApp.escapeHTML(this.docData.title);
 
-        if (this.documentData.systemMessage === undefined) this.documentData.systemMessage = "";
-        this.modal_document_system_message_display.innerHTML = BaseApp.escapeHTML(this.documentData.systemMessage);
+        if (this.docData.systemMessage === undefined) this.docData.systemMessage = "";
+        this.modal_document_system_message_display.innerHTML = BaseApp.escapeHTML(this.docData.systemMessage);
 
-        const sharedStatus = ChatDocument.getDocumentSharedStatus(this.documentData, this.app.uid);
+        const sharedStatus = ChatDocument.getDocumentSharedStatus(this.docData, this.app.uid);
         this.session_header_link_button.classList.remove("shared_status_not");
         this.session_header_link_button.classList.remove("shared_status_withusers");
         this.session_header_link_button.classList.remove("shared_status_withothers");
@@ -667,8 +667,8 @@ export default class DocOptionsHelper {
         let sharedLimit = "none";
         if (this.docData.tokenUsageLimit !== 0) sharedLimit = BaseApp.numberWithCommas(this.docData.tokenUsageLimit);
         this.shared_usage_limit_div.innerHTML = sharedLimit;
-        this.docfield_archived_checkbox.checked = this.documentData.archived;
-        this.shared_archived_status_wrapper.innerHTML = this.documentData.archived ? "Archived" : "Active";
+        this.docfield_archived_checkbox.checked = this.docData.archived;
+        this.shared_archived_status_wrapper.innerHTML = this.docData.archived ? "Archived" : "Active";
 
         const ownerNote = (this.docData.createUser === this.app.uid) ? this.docData.note : "";
         this.owner_note_display_div.innerHTML = BaseApp.escapeHTML(ownerNote);
@@ -676,14 +676,14 @@ export default class DocOptionsHelper {
         const ownerDescription = BaseApp.escapeHTML(ownerMeta.name);
         const displayName = BaseApp.escapeHTML(this.app.userMetaFromDocument(this.app.uid).name);
 
-        const subject = encodeURIComponent(this.documentData.title);
-        const body = encodeURIComponent(`${displayName} has invited you to join a Prompt Plus AI Session
+        const subject = encodeURIComponent(`${displayName} invited you to a Prompt+ Session`);
+        const body = encodeURIComponent(`${this.docData.title}
 
 Use this link to join - https://promptplusai.com/session/${this.chatDocumentId}
 
 Session hosted by: ${ownerDescription}
 
-support@promptplusai.com`);
+feedback: promptplusai@gmail.com`);
         const emailTarget = (BaseApp.validateEmail(ownerNote) ? ownerNote : "");
         this.modal_send_email_button.setAttribute("href", `mailto:${emailTarget}?subject=${subject}&body=${body}`);
     }
