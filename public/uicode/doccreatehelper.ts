@@ -93,88 +93,118 @@ export default class DocCreateHelper {
    * @return { string } html template as string
    */
   getModalTemplate(): string {
-    return `  <div class="modal fade" id="createDocumentModal" tabindex="-1" aria-labelledby="createDocumentModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content app_panel">
+    return `<div class="modal fade" id="createDocumentModal" tabindex="-1" aria-labelledby="createDocumentModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content app_panel">
             <div class="modal-header" style="display:flex;">
-              <h5 class="modal-title" id="createDocumentModalLabel" style="flex:1;display:flex;">
-                <span class="dialog_header_icon"><i class="material-icons">add</i></span>
-                <span style="flex:1">
-                  New Session
-                </span>
-                <a class="btn btn-secondary show_create_dialog_help" href="/help/#create" target="_blank"><i 
-                class="material-icons">help</i></a>
-              </h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="createDocumentModalLabel" style="flex:1;display:flex;">
+                    <span class="dialog_header_icon"><i class="material-icons">add</i></span>
+                    <span style="flex:1">
+                        New Session
+                    </span>
+                    <a class="btn btn-secondary show_create_dialog_help" href="/help/#create" target="_blank"><i
+                            class="material-icons">help</i></a>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <label class="form-label">
-                Title
-              </label>
-              <br>
-              <input type="text" class="form-control create_modal_title_field" placeholder="autofills if blank">
-              <hr>
-              <div style="position:relative;">
-                <label class="form-label labels_label">Labels</label>
-                <input class="form-check-input insert_todaylabel_default_checkbox" type="checkbox">
-                <button class="btn btn-secondary add_date_as_label_button">Add Today</button>
-                <br>
-                <select class="create_document_label_options" multiple="multiple" style="width:100%"></select>
-              </div>
-              <hr>
-              <div style="display:inline-block">
-                <div>
-                  <label class="form-label">Import</label>
-                  <br>
-                  <button class="btn btn-secondary modal_create_template_tickets_button">
-                  <i class="material-icons">upload_file</i>
-                    Upload            
-                  </button>
-                  <input class="create_modal_template_file" style="display:none;" type="file" accept=".json,.csv">
+                <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="basic_create_options" data-bs-toggle="tab"
+                            href="#basic_create_options_view" role="tab" aria-controls="basic_create_options_view"
+                            aria-selected="false">Basic</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="advanced_create_options" data-bs-toggle="tab"
+                            href="#advanced_create_options_view" role="tab" aria-controls="advanced_create_options_view"
+                            aria-selected="true">Advanced</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade" id="basic_create_options_view" role="tabpanel"
+                        style="flex-direction:column;overflow:hidden;" aria-labelledby="basic_create_options">
+                    </div>
+                    <div>
+                        <label class="form-label">
+                            Title <span class="title_note"> - [Enter] to add</span>
+                        </label>
+                        <br>
+                        <input type="text" class="form-control create_modal_title_field"
+                            placeholder="autofills if blank">
+                        <hr>
+                        <div style="position:relative;">
+                            <label class="form-label labels_label">Labels</label>
+                            <br>
+                            <select class="create_document_label_options" multiple="multiple"
+                                style="width:98%"></select>
+                            <div style="line-height: 3em;text-align: right;">
+                              <input class="form-check-input insert_todaylabel_default_checkbox" type="checkbox">
+                              <button class="btn btn-secondary add_date_as_label_button">Add Today</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="advanced_create_options_view" role="tabpanel"
+                        style="flex-direction:column;overflow:hidden;" aria-labelledby="advanced_create_options">
+                        <hr>
+                        <div style="display:inline-block">
+                            <div>
+                                <label class="form-label">Import</label>
+                                <br>
+                                <button class="btn btn-secondary modal_create_template_tickets_button">
+                                    <i class="material-icons">upload_file</i>
+                                    Upload
+                                </button>
+                                <input class="create_modal_template_file" style="display:none;" type="file"
+                                    accept=".json,.csv">
+                            </div>
+                        </div>
+                        &nbsp;
+                        <div class="parsed_file_status"></div>
+                        &nbsp;
+                        <div class="parsed_file_name"></div>
+                        <hr>
+                        <div style="display:flex;flex-direction:row;">
+                            <div>
+                                <label class="form-label">Usage Cap</label>
+                                <br>
+                                <input type="text" class="form-control document_usage_cap_field"
+                                    placeholder="500k default">
+                            </div>
+                            <div style="flex:1;overflow:hidden;padding-left: 12px;">
+                                <label class="form-label">Owner Note</label>
+                                <br>
+                                <input type="text" style="width:100%;" class="form-control create_modal_note_field"
+                                    placeholder="optional">
+                            </div>
+                        </div>
+                        <hr>
+                        <div style="text-align:center;">
+                            <div class="form-check open_button_wrapper">
+                                <label class="form-check-label">
+                                    <input class="form-check-input modal_open_new_document" checked type="checkbox"
+                                        value="">
+                                    Open
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-              &nbsp;
-              <div class="parsed_file_status"></div>
-              &nbsp;
-              <div class="parsed_file_name"></div>
-              <hr>
-              <div style="display:flex;flex-direction:row;">
-                <div>
-                  <label class="form-label">Usage Cap</label>
-                  <br>
-                  <input type="text" class="form-control document_usage_cap_field" placeholder="500k default">
-                </div>
-                <div style="flex:1;overflow:hidden;padding-left: 12px;">
-                  <label class="form-label">Owner Note</label>
-                  <br>
-                  <input type="text" style="width:100%;" class="form-control create_modal_note_field" placeholder="optional">
-                </div>
-              </div>
-              <hr>
-              <div style="text-align:center;">
-                <div class="form-check open_button_wrapper">
-                  <label class="form-check-label">
-                      <input class="form-check-input modal_open_new_document" checked type="checkbox" value="">
-                      Open
-                  </label>
-                </div>
-              </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary modal_close_button" data-bs-dismiss="modal">
-                <i class="material-icons">cancel</i>
-                Close
-              </button>
-              <div style="flex:1"></div>
-              <button type="button" class="btn btn-primary create_game_afterfeed_button">
-                <i class="material-icons">add</i>
-              Session
-              </button>
+                <button type="button" class="btn btn-secondary modal_close_button" data-bs-dismiss="modal">
+                    <i class="material-icons">cancel</i>
+                    Close
+                </button>
+                <div style="flex:1"></div>
+                <button type="button" class="btn btn-primary create_game_afterfeed_button">
+                    <i class="material-icons">add</i>
+                    Session
+                </button>
             </div>
-          </div>
         </div>
-      </div>`;
+    </div>
+</div>`;
   }
   /** create new game api call */
   async createNewGame() {

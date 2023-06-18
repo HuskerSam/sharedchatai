@@ -373,19 +373,13 @@
   margin-bottom: 24px;
 }
 
-.add_date_as_label_button {
-  position: absolute;
-  right: 0;
-  top: -8px;
-}
-
 .app_panel .form-check-input.insert_todaylabel_default_checkbox {
-  position: absolute;
-  top: -4px;
-  right: 116px;
   width: 24px;
   height: 24px;
-  border-color: rgb(127, 127, 127);
+  border-color: rgb(127, 127, 127); 
+  position: relative;
+  top: 11px;
+  margin-right: 12px;
 }
 
 .app_panel .form-check-input.modal_open_new_document,
@@ -596,4 +590,8 @@ i.copy_green {
 
 label.btn {
   font-size: 1.15em;
+}
+
+.title_note {
+  color: rgb(200, 200, 200);
 }
