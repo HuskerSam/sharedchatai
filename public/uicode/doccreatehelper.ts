@@ -105,9 +105,9 @@ export default class DocCreateHelper {
                     <span style="flex:1">
                         New Session
                     </span>
-                    <a class="btn btn-secondary show_create_dialog_help" href="/help/#create" target="_blank"><i
-                            class="material-icons">help</i></a>
                 </h5>
+                <a class="btn btn-secondary show_create_dialog_help" href="/help/#create" target="_blank"><i
+                        class="material-icons">help</i></a>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
