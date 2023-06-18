@@ -23,6 +23,8 @@ export default class DocCreateHelper {
   createDocumentModal: any;
   add_date_as_label_button: any;
   insert_todaylabel_default_checkbox: any;
+  advanced_create_options: any;
+  basic_create_options: any;
 
   /**
    * @param { any } app BaseApp derived application instance
@@ -75,6 +77,11 @@ export default class DocCreateHelper {
 
     this.modal_close_button = this.modalContainer.querySelector(".modal_close_button");
 
+    this.advanced_create_options = this.modalContainer.querySelector("#advanced_create_options");
+    this.advanced_create_options.addEventListener("click", () => this.app.saveProfileField("createDialogTabIndex", 1));
+    this.basic_create_options = this.modalContainer.querySelector("#basic_create_options");
+    this.basic_create_options.addEventListener("click", () => this.app.saveProfileField("createDialogTabIndex", 0));
+
     window.$(".create_document_label_options").select2({
       tags: true,
       placeHolder: "Add labels...",
@@ -107,7 +114,7 @@ export default class DocCreateHelper {
                     </span>
                 </h5>
                 <a class="btn btn-secondary show_create_dialog_help" href="/help/#create" target="_blank"><i
-                        class="material-icons">help</i></a>
+                        class="material-icons">help_outline</i></a>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -306,9 +313,17 @@ export default class DocCreateHelper {
         queryLabelSelect2.append(newOption).trigger("change");
       }
     });
-    this.doccreatehelper_show_modal.click();
     this.insert_todaylabel_default_checkbox.checked = this.app.profile.insertTodayAsLabel === true;
     if (this.app.profile.insertTodayAsLabel) this.addTodayAsLabel();
+
+
+    if (this.app.profile.createDialogTabIndex === 0) {
+      this.basic_create_options.click();
+    } else if (this.app.profile.createDialogTabIndex === 1) {
+      this.advanced_create_options.click();
+    }
+
+    this.doccreatehelper_show_modal.click();
   }
   /** parse template data from file input
    * @param {string } documentId new document to add ticket imports

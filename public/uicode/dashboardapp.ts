@@ -58,8 +58,6 @@ export class DashboardApp extends BaseApp {
    * @param { any } documentId firestore record id
   */
   async loadAndShowOptionsDialog(documentId: any) {
-    const btn: any = document.getElementById("show_document_options_popup");
-    btn.click();
     this.lastTicketsSnapshot = {};
 
     this.lastTicketsSnapshot = await firebase.firestore().collection(`Games/${documentId}/tickets`).get();
@@ -67,6 +65,9 @@ export class DashboardApp extends BaseApp {
     this.assistsLookup = {};
     this.lastAssistsSnapshot.forEach((assistDoc: any) => this.assistsLookup[assistDoc.id] = assistDoc.data());
     this.documentOptions.show(documentId, this.documentsLookup[documentId]);
+
+    const btn: any = document.getElementById("show_document_options_popup");
+    btn.click();
   }
   /** BaseApp override to update additional use profile status */
   authUpdateStatusUI() {

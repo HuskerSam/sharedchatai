@@ -344,6 +344,8 @@ button.btn-primary:active {
 
 .navbar-light .navbar-nav .nav-link:focus,
 .navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link:focus i,
+.navbar-light .navbar-nav .nav-link:hover i,
 .navbar-light .navbar-nav .nav-link:focus svg,
 .navbar-light .navbar-nav .nav-link:hover svg {
   color: rgb(255, 255, 0);
@@ -477,9 +479,9 @@ button.btn-primary:active {
   top: -4px;
 }
 
-.showhomepage_help svg,
-.show_dashboard_help_button svg,
-.show_document_options_help svg {
+.showhomepage_help i,
+.show_dashboard_help_button i,
+.show_document_options_help i {
   position: relative;
   top: 2px;
   color: rgb(200, 125, 200);
@@ -494,7 +496,7 @@ button.btn-primary:active {
 .nav-link.dashboard_create_game_mobile.hover_yellow svg,
 .nav-link.dashboard_create_game.hover_yellow svg,
 .nav-link.show_create_modal.hover_yellow svg {
-  color: rgb(20, 220, 20);
+  color: rgb(20, 170, 20);
   position: relative;
   top: -6px;
 }
@@ -509,7 +511,7 @@ button.btn-primary:active {
   color: rgb(240, 240, 50);
 }
 
-a.hover_yellow.show_dashboard_help_button:hover svg,
+a.hover_yellow.show_dashboard_help_button:hover i,
 a.hover_yellow.show_document_options_help:hover i {
   color: rgb(240, 240, 50);
 }

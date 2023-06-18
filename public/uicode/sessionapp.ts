@@ -148,8 +148,8 @@ export class SessionApp extends BaseApp {
 
     this.ticket_content_input.addEventListener("input", () => this.updatePromptTokenStatus());
     this.show_document_options_modal.addEventListener("click", () => {
-      this.show_document_options_popup.click();
       this.documentOptions.show(this.documentId, this.sessionDocumentData);
+      this.show_document_options_popup.click();
     });
 
     this.docfield_temperature.addEventListener("input", () => this.optionSliderChange(true, "temperature",

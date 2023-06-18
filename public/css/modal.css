@@ -598,3 +598,15 @@ label.btn {
 .title_note {
   color: rgb(200, 200, 200);
 }
+
+.export_format_select {
+  display: inline-block;
+  width: auto;
+  margin-left: 4px;
+  margin-right: 12px;
+}
+
+.export_only_selected_prompts {
+  position: relative;
+  top: 7px;
+}
