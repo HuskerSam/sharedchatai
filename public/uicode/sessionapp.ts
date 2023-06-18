@@ -417,7 +417,7 @@ export class SessionApp extends BaseApp {
                   const btn = document.createElement("button");
                   btn.setAttribute("fragmentid", fragmentId);
                   btn.setAttribute("class", "copy_code_block_button btn btn-secondary");
-                  btn.innerHTML = `<i class="material-icons">content_copy</i>`;
+                  btn.innerHTML = `<i class="material-icons">content_paste</i>`;
                   sectionDiv.children[0].appendChild(btn);
 
                   if (sectionDiv.children.length > 0) assistSection.appendChild(sectionDiv.children[0]);
@@ -432,7 +432,7 @@ export class SessionApp extends BaseApp {
                 btn.addEventListener("click", () => {
                   const data = this.fragmentCache[btn.getAttribute("fragmentid")];
                   navigator.clipboard.writeText(data);
-                  const buttonText = `<i class="material-icons">content_copy</i>`;
+                  const buttonText = `<i class="material-icons">content_paste</i>`;
                   btn.innerHTML = `<i class="material-icons copy_green">done</i>` + buttonText;
                   setTimeout(() => btn.innerHTML = buttonText, 1200);
                 });
@@ -442,12 +442,12 @@ export class SessionApp extends BaseApp {
               const btn = document.createElement("button");
               btn.setAttribute("ticketid", ticketId);
               btn.setAttribute("class", "copy_response_block_button btn btn-secondary");
-              btn.innerHTML = `<i class="material-icons">content_copy</i>`;
+              btn.innerHTML = `<i class="material-icons">content_paste</i>`;
               assistSection.appendChild(btn);
               btn.addEventListener("click", () => {
                 const data = this.copyResponseCache[<any>btn.getAttribute("ticketid")];
                 navigator.clipboard.writeText(data);
-                const buttonText = `<i class="material-icons">content_copy</i>`;
+                const buttonText = `<i class="material-icons">content_paste</i>`;
                 btn.innerHTML = `<i class="material-icons copy_green">done</i>` + buttonText;
                 setTimeout(() => btn.innerHTML = buttonText, 1200);
               });
@@ -746,7 +746,7 @@ export class SessionApp extends BaseApp {
           </div>
       </div>
       <div class="ticket_header_section">
-          <button class="copy_ticket_to_clipboard btn btn-secondary"><i class="material-icons">content_copy</i></button>
+          <button class="copy_ticket_to_clipboard btn btn-secondary"><i class="material-icons">content_paste</i></button>
           <div class="message">${BaseApp.escapeHTML(data.message)}</div>
       </div>
       <div class="assist_section_wrapper">
@@ -761,7 +761,7 @@ export class SessionApp extends BaseApp {
     const copyClipboardBtn: any = cardDom.querySelector(".copy_ticket_to_clipboard");
     copyClipboardBtn.addEventListener("click", () => {
       navigator.clipboard.writeText(data.message);
-      const buttonText = `<i class="material-icons">content_copy</i>`;
+      const buttonText = `<i class="material-icons">content_paste</i>`;
       copyClipboardBtn.innerHTML = `<i class="material-icons copy_green">done</i>` + buttonText;
       setTimeout(() => copyClipboardBtn.innerHTML = buttonText, 1200);
     });

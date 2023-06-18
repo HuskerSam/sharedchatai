@@ -195,8 +195,8 @@ export default class DocOptionsHelper {
         const displayString = JSON.stringify(lookup, null, "\t");
         navigator.clipboard.writeText(displayString);
         this.show_packets_dialog.innerHTML = `<i class="material-icons copy_green">done</i>
-            <i class="material-icons">content_copy</i>Packets`;
-        setTimeout(() => this.show_packets_dialog.innerHTML = `<i class="material-icons">content_copy</i>Packets`, 1200);
+            <i class="material-icons">content_paste</i>Packets`;
+        setTimeout(() => this.show_packets_dialog.innerHTML = `<i class="material-icons">content_paste</i>Packets`, 1200);
     }
     /** */
     async updateImportRowsDisplay() {
@@ -219,7 +219,7 @@ export default class DocOptionsHelper {
         } else {
             navigator.clipboard.writeText(this.lastReportData.resultText);
         }
-        const buttonText = `<span class="material-icons">content_copy</span>`;
+        const buttonText = `<span class="material-icons">content_paste</span>`;
         this.copy_export_clipboard.innerHTML = `<i class="material-icons copy_green">done</i>` + buttonText;
         setTimeout(() => this.copy_export_clipboard.innerHTML = buttonText, 1200);
     }
@@ -355,7 +355,7 @@ export default class DocOptionsHelper {
                                     <i class="material-icons">download</i>    
                                     Download</button>
                                 <button type="button" class="btn btn-secondary copy_export_clipboard"><span
-                                        class="material-icons">content_copy</span></button>
+                                        class="material-icons">content_paste</span></button>
                             </div>
                         </div>
                         <div class="tab-pane fade show active" id="options_tab_view" role="tabpanel"
@@ -413,7 +413,7 @@ export default class DocOptionsHelper {
                                     </button>
                                     <br>
                                     <button class="btn btn-125 btn-secondary show_packets_dialog">
-                                        <i class="material-icons">content_copy</i>
+                                        <i class="material-icons">content_paste</i>
                                     Packets
                                     </button>
                                 </div>
