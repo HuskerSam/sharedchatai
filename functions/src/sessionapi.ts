@@ -255,6 +255,7 @@ export default class SessionAPI {
                 messages.push({
                     role: "user",
                     content: includeTicket.data().message,
+                    name: includeTicket.data().uid,
                 });
 
                 if (assistLookup[includeTicket.id] && assistLookup[includeTicket.id].success &&
@@ -269,6 +270,7 @@ export default class SessionAPI {
         messages.push({
             role: "user",
             content: ticket.message,
+            name: ticket.uid,
         });
         /* eslint-disable camelcase */
         const defaults = BaseClass.defaultChatDocumentOptions();
@@ -306,6 +308,7 @@ export default class SessionAPI {
             presence_penalty,
             frequency_penalty,
             messages,
+            user: ticket.uid,
         };
         if (includeBias) aiRequest.logit_bias = logit_bias;
         if (top_p !== 1.0) aiRequest.top_p = top_p;

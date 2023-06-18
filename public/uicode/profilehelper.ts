@@ -23,7 +23,6 @@ export default class ProfileHelper {
     prompt_for_new_user_name: any;
     profile_text_large_checkbox: any;
     profile_text_monospace_checkbox: any;
-    profile_prefixname_checkbox: any;
     profile_autoexclude_checkbox: any;
     profile_new_email: any;
     change_email_button: any;
@@ -59,7 +58,6 @@ export default class ProfileHelper {
         this.profile_display_image_clear = document.querySelector(".profile_display_image_clear");
         this.randomize_name = document.querySelector(".randomize_name");
         this.profile_text_monospace_checkbox = document.querySelector(".profile_text_monospace_checkbox");
-        this.profile_prefixname_checkbox = document.querySelector(".profile_prefixname_checkbox");
         this.profile_autoexclude_checkbox = document.querySelector(".profile_autoexclude_checkbox");
         this.replies_row = document.querySelector(".replies_row");
         this.prompts_row = document.querySelector(".prompts_row");
@@ -100,7 +98,6 @@ export default class ProfileHelper {
         this.randomize_name.addEventListener("click", () => this.randomizeProfileName());
         this.prompt_for_new_user_name.addEventListener("click", () => this.saveProfileField("name"));
         this.profile_text_monospace_checkbox.addEventListener("input", () => this.saveProfileField("monospace"));
-        this.profile_prefixname_checkbox.addEventListener("input", () => this.saveProfileField("prefixname"));
         this.profile_autoexclude_checkbox.addEventListener("input", () => this.saveProfileField("autoExclude"));
 
         this.profile_text_large_checkbox.addEventListener("input", () => this.saveProfileField("largetext"));
@@ -212,10 +209,6 @@ export default class ProfileHelper {
                                     <input class="form-check-input profile_text_monospace_checkbox" type="checkbox"
                                         value="">
                                     Monospace
-                                </label>
-                                <label class="form-check-label">
-                                    <input class="form-check-input profile_prefixname_checkbox" type="checkbox" value="">
-                                    Prefix Name
                                 </label>
                                 <label class="form-check-label">
                                     <input class="form-check-input profile_autoexclude_checkbox" type="checkbox" value="">
@@ -502,10 +495,6 @@ export default class ProfileHelper {
         if (fieldType === "image") {
             updatePacket.displayImage = this.app.profile.displayImage;
         }
-        if (fieldType === "prefixname") {
-            this.app.profile.prefixName = this.profile_prefixname_checkbox.checked;
-            updatePacket.prefixName = this.app.profile.prefixName;
-        }
         if (fieldType === "autoExclude") {
             this.app.profile.autoExclude = this.profile_autoexclude_checkbox.checked;
             updatePacket.autoExclude = this.app.profile.autoExclude;
@@ -610,7 +599,6 @@ export default class ProfileHelper {
 
         this.profile_text_large_checkbox.checked = (this.app.profile.textOptionsLarge === true);
         this.profile_text_monospace_checkbox.checked = (this.app.profile.textOptionsMonospace === true);
-        this.profile_prefixname_checkbox.checked = (this.app.profile.prefixName === true);
         this.profile_autoexclude_checkbox.checked = (this.app.profile.autoExclude === true);
         this.profile_display_image.setAttribute("uid", this.app.uid);
         this.profile_display_name.setAttribute("uid", this.app.uid);
