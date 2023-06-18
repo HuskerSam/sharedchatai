@@ -451,9 +451,10 @@ export default class ProfileHelper {
     }
     /** show window.prompt to get a new user name, cancel is no sve, empty string is valid */
     async promptForNewUserName() {
-        const newName = prompt("New User Name", this.app.profile.displayName);
+        let newName = prompt("New User Name", this.app.profile.displayName);
         if (newName !== null) {
-            this.app.profile.displayName = BaseApp.stripHtml(newName.trim().substring(0, 30));
+            newName = newName.trim().replace(/[\W]+/g, " ");
+            this.app.profile.displayName = newName.trim().substring(0, 30);
             this.profile_display_name.innerHTML = this.app.profile.displayName;
             this.saveProfileField("name");
         }
