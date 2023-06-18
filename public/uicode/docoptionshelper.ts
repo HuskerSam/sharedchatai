@@ -47,6 +47,9 @@ export default class DocOptionsHelper {
     dialog_header_member_name: any;
     export_only_selected_prompts: any;
     export_format_select: any;
+    export_tab_button: any;
+    options_tab_button: any;
+    owner_tab_button: any;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -95,6 +98,7 @@ export default class DocOptionsHelper {
         this.export_format_select.addEventListener("input", () => {
             this.exportFormat = this.export_format_select.value;
             this.refreshReportData();
+            this.app.saveProfileField("optionsDialogExportFormat",  this.exportFormat);
         });
 
         this.download_export_button = this.modalContainer.querySelector(".download_export_button");
@@ -182,6 +186,13 @@ export default class DocOptionsHelper {
         this.dialog_header_member_name = this.modalContainer.querySelector(".dialog_header_member_name");
 
         this.modal_send_email_button = this.modalContainer.querySelector(".modal_send_email_button");
+
+        this.export_tab_button = this.modalContainer.querySelector("#export_tab_button");
+        this.export_tab_button.addEventListener("click", () => this.app.saveProfileField("optionsDialogTabIndex", 0));
+        this.options_tab_button = this.modalContainer.querySelector("#options_tab_button");
+        this.options_tab_button.addEventListener("click", () => this.app.saveProfileField("optionsDialogTabIndex", 1));
+        this.owner_tab_button = this.modalContainer.querySelector("#owner_tab_button");
+        this.owner_tab_button.addEventListener("click", () => this.app.saveProfileField("optionsDialogTabIndex", 2));
     }
     /** */
     async showPacketsDialog() {
@@ -728,11 +739,22 @@ feedback: promptplusai@gmail.com`);
             }
         }
         this.app.sessionDeleting = false;
+        if (this.app.profile.optionsDialogExportFormat) {
+            this.export_format_select.value = this.app.profile.optionsDialogExportFormat;
+        }
 
         this.dialog_header_member_image.setAttribute("uid", this.docData.createUser);
         this.dialog_header_member_name.setAttribute("uid", this.docData.createUser);
         this.app.updateUserNamesImages();
         this.paintDocumentData();
         this.refreshReportData();
+
+        if (this.app.profile.optionsDialogTabIndex === 0) {
+            this.export_tab_button.click();
+        } else if (this.app.profile.optionsDialogTabIndex === 1) {
+            this.options_tab_button.click();
+        } else if (this.app.profile.optionsDialogTabIndex === 2) {
+            this.owner_tab_button.click();
+        }
     }
 }
