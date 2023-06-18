@@ -168,13 +168,11 @@ export default class ChatDocument {
    * @param { any } docData document data
    * @param { any } lastTicketsSnapshot from the session app
    * @param { any } assistsLookup map of assist docs
+   * @param { boolean } allTickets true to force all tickets included
    * @param { boolean } forceJSON true to force json format
-   * @param { boolean } forceAllTickets true to force all tickets included
    * @return { string } text for selected format and tickets
   */
-  static generateExportData(docData: any, lastTicketsSnapshot: any, assistsLookup: any, forceJSON = false, forceAllTickets = false): any {
-    const ticketsFilterSelected: any = document.querySelector(`input[name="tickets_filter"]:checked`);
-    const ticketsFilter: any = ticketsFilterSelected.value;
+  static generateExportData(docData: any, lastTicketsSnapshot: any, assistsLookup: any, allTickets: boolean, forceJSON = false): any {
     const formatFilterSelected: any = document.querySelector(`input[name="export_format_choice"]:checked`);
     const formatFilter: any = formatFilterSelected.value;
 
@@ -189,8 +187,7 @@ export default class ChatDocument {
     let resultText = "";
     const tickets: Array<any> = [];
     lastTicketsSnapshot.forEach((ticket: any) => {
-      if (ticketsFilter === "all" || ticket.data().includeInMessage ||
-        forceAllTickets) tickets.unshift(ticket);
+      if (ticket.data().includeInMessage || allTickets) tickets.unshift(ticket);
     });
 
     let format = "";

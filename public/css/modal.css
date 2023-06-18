@@ -21,8 +21,7 @@
   min-height: 5em;
   flex: 1;
   overflow: auto;
-  border: solid rgb(180, 255, 180) 1px;
-  padding: 4px;
+  padding: 8px;
   background-color: rgb(52, 53, 65);
 }
 
@@ -36,8 +35,9 @@
 }
 
 .export_bottom_bar {
-  text-align: left;
-  line-height: 4em;
+  text-align: right;
+  margin-top: 8px;
+  line-height: 3em;
 }
 
 .modal_options_shared_user #owner_tab_view,
@@ -326,10 +326,6 @@
   margin-right: 6px;
 }
 
-.form-check-label {
-  margin-right: 12px;
-}
-
 .modal-dialog .app_panel {
   background: rgb(50, 50, 100);
 }
@@ -595,4 +591,8 @@ i.copy_green {
 
 .btn-125 {
   min-width: 125px;
+}
+
+label.btn {
+  font-size: 1.15em;
 }

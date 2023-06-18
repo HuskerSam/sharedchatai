@@ -26,8 +26,6 @@ export default class DocOptionsHelper {
 
     export_data_popup_preview: any;
     export_size: any;
-    selected_filter: any;
-    all_filter: any;
     text_format: any;
     html_format: any;
     csv_format: any;
@@ -49,6 +47,7 @@ export default class DocOptionsHelper {
     doc_total_usage: any;
     dialog_header_member_image: any;
     dialog_header_member_name: any;
+    export_only_selected_prompts: any;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -92,8 +91,6 @@ export default class DocOptionsHelper {
 
         this.export_data_popup_preview = this.modalContainer.querySelector(".export_data_popup_preview");
         this.export_size = this.modalContainer.querySelector(".export_size");
-        this.selected_filter = this.modalContainer.querySelector("#selected_filter");
-        this.all_filter = this.modalContainer.querySelector("#all_filter");
         this.text_format = this.modalContainer.querySelector("#text_format");
         this.html_format = this.modalContainer.querySelector("#html_format");
         this.csv_format = this.modalContainer.querySelector("#csv_format");
@@ -158,8 +155,8 @@ export default class DocOptionsHelper {
 
         this.session_header_link_button = document.querySelector(".session_header_link_button");
 
-        this.selected_filter.addEventListener("click", () => this.refreshReportData());
-        this.all_filter.addEventListener("click", () => this.refreshReportData());
+        this.export_only_selected_prompts = this.modalContainer.querySelector(".export_only_selected_prompts");
+        this.export_only_selected_prompts.addEventListener("input", () => this.refreshReportData());
         this.text_format.addEventListener("click", () => this.refreshReportData());
         this.html_format.addEventListener("click", () => this.refreshReportData());
         this.csv_format.addEventListener("click", () => this.refreshReportData());
@@ -323,46 +320,43 @@ export default class DocOptionsHelper {
                     <div class="tab-content" style="overflow:hidden;display:flex;">
                         <div class="tab-pane fade" id="export_tab_view" role="tabpanel"
                             style="flex-direction:column;overflow:hidden;" aria-labelledby="export_tab_button">
-                            <div style="line-height: 3em;">
-                                &nbsp;
-                                <span style="padding-right:16px;">Prompts:</span>
-                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                    <input type="radio" class="btn-check" name="tickets_filter" id="all_filter"
-                                     value="all" checked autocomplete="off">
-                                    <label class="btn btn-outline-primary" for="all_filter">All</label>
-                                    <input type="radio" class="btn-check" name="tickets_filter" id="selected_filter" value="selected"
-                                        autocomplete="off">
-                                    <label class="btn btn-outline-primary" for="selected_filter">Selected</label>
+                            <div style="text-align:center;">
+                                <div class="form-check" style="margin-bottom: 8px;">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input export_only_selected_prompts" type="checkbox">
+                                        Only Selected
+                                    </label>
+                                    <br>
+                                </div> 
+                                <div style="line-height: 3em;">
+                                    &nbsp;
+                                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                        <input type="radio" class="btn-check" name="export_format_choice" id="text_format"
+                                        value="text" autocomplete="off"
+                                            checked>
+                                        <label class="btn btn-outline-primary" for="text_format">Text</label>
+                                        <input type="radio" class="btn-check" name="export_format_choice" id="html_format"
+                                        value="html" autocomplete="off">
+                                        <label class="btn btn-outline-primary" for="html_format">HTML</label>
+                                        <input type="radio" class="btn-check" name="export_format_choice" id="csv_format"
+                                        value="csv" autocomplete="off">
+                                        <label class="btn btn-outline-primary" for="csv_format">CSV</label>
+                                        <input type="radio" class="btn-check" name="export_format_choice" id="json_format"
+                                        value="json" autocomplete="off">
+                                        <label class="btn btn-outline-primary" for="json_format">JSON</label>
+                                    </div>
                                 </div>
                             </div>
-                            <div style="line-height: 3em;">
-                                &nbsp;
-                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                    <input type="radio" class="btn-check" name="export_format_choice" id="text_format"
-                                     value="text" autocomplete="off"
-                                        checked>
-                                    <label class="btn btn-outline-primary" for="text_format">Text</label>
-                                    <input type="radio" class="btn-check" name="export_format_choice" id="html_format"
-                                     value="html" autocomplete="off">
-                                    <label class="btn btn-outline-primary" for="html_format">HTML</label>
-                                    <input type="radio" class="btn-check" name="export_format_choice" id="csv_format"
-                                     value="csv" autocomplete="off">
-                                    <label class="btn btn-outline-primary" for="csv_format">CSV</label>
-                                    <input type="radio" class="btn-check" name="export_format_choice" id="json_format"
-                                     value="json" autocomplete="off">
-                                    <label class="btn btn-outline-primary" for="json_format">JSON</label>
-                                </div>
-                            </div>
+                            <div class="export_data_popup_preview"></div>
                             <div class="export_bottom_bar">
+                                <span class="export_size"></span>
+                                &nbsp;
                                 <button type="button" class="btn btn-primary download_export_button">
                                     <i class="material-icons">download</i>    
                                     Download</button>
                                 <button type="button" class="btn btn-secondary copy_export_clipboard"><span
                                         class="material-icons">content_copy</span></button>
-                                &nbsp;
-                                <span class="export_size"></span>
                             </div>
-                            <div class="export_data_popup_preview"></div>
                         </div>
                         <div class="tab-pane fade show active" id="options_tab_view" role="tabpanel"
                             aria-labelledby="options_tab_button">
@@ -575,7 +569,8 @@ export default class DocOptionsHelper {
      * @param { boolean } download
     */
     refreshReportData(download = false) {
-        const data = ChatDocument.generateExportData(this.docData, this.app.lastTicketsSnapshot, this.app.assistsLookup);
+        const data = ChatDocument.generateExportData(this.docData, this.app.lastTicketsSnapshot,
+            this.app.assistsLookup, !this.export_only_selected_prompts.checked);
         this.lastReportData = data;
         this.export_data_popup_preview.innerHTML = data.displayText;
         this.modalContainer.classList.remove("text_preview");
