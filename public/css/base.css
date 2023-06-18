@@ -343,7 +343,9 @@ button.btn-primary:active {
 }
 
 .navbar-light .navbar-nav .nav-link:focus,
-.navbar-light .navbar-nav .nav-link:hover {
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link:focus svg,
+.navbar-light .navbar-nav .nav-link:hover svg {
   color: rgb(255, 255, 0);
 }
 
@@ -476,15 +478,11 @@ button.btn-primary:active {
 }
 
 .showhomepage_help svg,
-a.show_dashboard_help_button svg,
+.show_dashboard_help_button svg,
 .show_document_options_help svg {
   position: relative;
   top: 2px;
   color: rgb(200, 125, 200);
-}
-
-.showhomepage_help svg,
-a.show_dashboard_help_button svg {
   float: left;
 }
 
@@ -511,7 +509,7 @@ a.show_dashboard_help_button svg {
   color: rgb(240, 240, 50);
 }
 
-a.hover_yellow.show_dashboard_help_button:hover i,
+a.hover_yellow.show_dashboard_help_button:hover svg,
 a.hover_yellow.show_document_options_help:hover i {
   color: rgb(240, 240, 50);
 }
@@ -599,4 +597,8 @@ table.number th {
 
 .creating_new_session .btn.btn-primary.create_game_afterfeed_button {
   background-color: transparent;
+}
+
+.navbar-nav .nav-link {
+  height: 100%;
 }
