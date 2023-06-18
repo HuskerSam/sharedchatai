@@ -87,12 +87,6 @@
   top: 4px;
 }
 
-.show_dashboard_help_button i {
-  position: relative;
-  float: right;
-  color: rgb(200, 125, 200);
-}
-
 .no_games_in_dashboard {
   display: none;
 }
@@ -232,7 +226,7 @@
   overflow: hidden;
   min-height: 3.75em;
   display: flex;
-  flex-direction: row;  
+  flex-direction: row;
   color: rgb(230, 230, 230);
 }
 
@@ -300,4 +294,17 @@
 
 .count_status_wrapper {
   align-self: center;
+}
+
+@media (min-width: 992px) {
+  .menu_profile_user_image_span {
+    float: none;
+    display: inline-block;
+    top: 3px;
+  }
+}
+
+.dashboard_create_game  {
+  position: relative;
+  left: 3px;
 }

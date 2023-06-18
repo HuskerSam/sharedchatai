@@ -378,14 +378,14 @@ button.btn-primary:active {
 .menu_profile_user_image_span {
   border-radius: 6px;
   display: inline-block;
-  width: 32px;
-  height: 32px;
+  width: 29px;
+  height: 29px;
   background-position: center center;
   background-size: contain;
   background-repeat: no-repeat;
   position: relative;
-  top: 0px;
-  border-radius: 6px;
+  top: 1px;
+  border-radius: 12px;
 }
 
 .menu_profile_user_name_span {
@@ -475,11 +475,17 @@ button.btn-primary:active {
   top: -4px;
 }
 
-.showhomepage_help i,
-a.show_dashboard_help_button i,
-.show_document_options_help i {
+.showhomepage_help svg,
+a.show_dashboard_help_button svg,
+.show_document_options_help svg {
+  position: relative;
   top: 2px;
   color: rgb(200, 125, 200);
+}
+
+.showhomepage_help svg,
+a.show_dashboard_help_button svg {
+  float: left;
 }
 
 .nav-link.dashboard_create_game .menu_dropdown_label_wrapper {
@@ -490,7 +496,7 @@ a.show_dashboard_help_button i,
 .nav-link.dashboard_create_game_mobile.hover_yellow svg,
 .nav-link.dashboard_create_game.hover_yellow svg,
 .nav-link.show_create_modal.hover_yellow svg {
-  color: rgb(50, 255, 50);
+  color: rgb(20, 220, 20);
   position: relative;
   top: -6px;
 }

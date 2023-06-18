@@ -553,11 +553,15 @@ pre code {
 
 .profile_text_option_large .game_message_list_item .message,
 .profile_text_option_large .game_message_list_item .assist_section,
-.profile_text_option_large .ticket_content_input,
-.profile_text_option_large ul.recent_documents_list {
+.profile_text_option_large .ticket_content_input {
   font-size: 1.5em;
   line-height: 1.65em;
   margin-top: -6px;
+}
+
+.profile_text_option_large ul.recent_documents_list {
+  font-size: 1.5em;
+  line-height: 1.65em;
 }
 
 .profile_text_option_large .menu_bar_doc_title_wrapper {
@@ -736,17 +740,6 @@ pre code {
 
 .navbar-light .navbar-nav .nav-link.show_profile_modal .mobile_custom_icon_label:focus span {
   border-color: white;
-}
-
-.show_create_modal_on_bar i {
-  font-size: 30px;
-  color: white;
-  position: relative;
-  top: 5px;
-}
-
-.show_create_modal_on_bar:hover .mobile_custom_icon_label i {
-  color: yellow;
 }
 
 .menu_bar_doc_title {
@@ -1141,7 +1134,7 @@ li.mb-1 button.btn.btn-toggle:before {
 }
 
 .menu_profile_user_image_span {
-  top: 2px;
+  top: 3px;
 }
 
 .mobile_layout_mode .menu_profile_user_image_span {
