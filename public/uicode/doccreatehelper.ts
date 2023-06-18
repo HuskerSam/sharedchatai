@@ -182,8 +182,8 @@ export default class DocCreateHelper {
     if (!this.app.profile) return;
     this.creatingNewRecord = true;
 
-    this.create_game_afterfeed_button.innerHTML = "Creating";
-
+    this.create_game_afterfeed_button.innerHTML = "Creating...";
+    document.body.classList.add("creating_new_session");
     const body: any = {
       documentType: "chatSession",
       label: this.scrapeLabels(),
@@ -218,6 +218,7 @@ export default class DocCreateHelper {
       importError = await this.parseSelectedTemplateFile(json.gameNumber);
     }
     this.create_game_afterfeed_button.innerHTML = "Create";
+    document.body.classList.remove("creating_new_session");
     this.creatingNewRecord = false;
     if (importError) {
       alert("data import error");
@@ -280,7 +281,9 @@ export default class DocCreateHelper {
       }
 
       const importResult = ChatDocument.processImportTicketsToUpload(records);
-      this.app.saveDocumentOption(documentId, "systemMessage", importResult.systemMessage.trim());
+      if (importResult.systemMessage.trim()) {
+        this.app.saveDocumentOption(documentId, "systemMessage", importResult.systemMessage.trim());
+      }
       const error = await ChatDocument.sendImportTicketToAPI(documentId, importResult.recordsToUpload, this.app.basePath);
       if (error) {
         alert("Import error");

@@ -591,3 +591,7 @@ table.number th {
     margin-bottom: 12px;
   }
 }
+
+.creating_new_session .btn.btn-primary.create_game_afterfeed_button {
+  background-color: transparent;
+}

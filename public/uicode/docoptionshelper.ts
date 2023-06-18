@@ -618,7 +618,9 @@ export default class DocOptionsHelper {
             }
 
             const uploadResults = ChatDocument.processImportTicketsToUpload(records);
-            this.app.saveDocumentOption(this.chatDocumentId, "systemMessage", uploadResults.systemMessage.trim());
+            if (uploadResults.systemMessage.trim()) {
+                this.app.saveDocumentOption(this.chatDocumentId, "systemMessage", uploadResults.systemMessage.trim());
+            }
             const error = await ChatDocument.sendImportTicketToAPI(this.chatDocumentId, uploadResults.recordsToUpload, this.app.basePath);
             if (error) {
                 alert("Import error");
