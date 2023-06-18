@@ -493,21 +493,16 @@ button.btn-primary:active {
   top: -2px;
 }
 
-.nav-link.dashboard_create_game_mobile.hover_yellow svg,
-.nav-link.dashboard_create_game.hover_yellow svg,
-.nav-link.show_create_modal.hover_yellow svg {
-  color: rgb(20, 170, 20);
+.nav-link.dashboard_create_game_mobile.hover_yellow i,
+.nav-link.dashboard_create_game.hover_yellow i,
+.nav-link.show_create_modal.hover_yellow i {
+  color: rgb(40, 220, 40);
   position: relative;
-  top: -6px;
 }
 
-.nav-link.show_create_modal.hover_yellow svg {
-  top: 3px;
-}
-
-.nav-link.dashboard_create_game_mobile.hover_yellow:hover svg,
-.nav-link.dashboard_create_game.hover_yellow:hover svg,
-.nav-link.show_create_modal.hover_yellow:hover svg {
+.nav-link.dashboard_create_game_mobile.hover_yellow:hover i,
+.nav-link.dashboard_create_game.hover_yellow:hover i,
+.nav-link.show_create_modal.hover_yellow:hover i {
   color: rgb(240, 240, 50);
 }
 
