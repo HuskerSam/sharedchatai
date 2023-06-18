@@ -373,13 +373,16 @@
   margin-bottom: 24px;
 }
 
+.add_date_as_label_button {
+  align-self: center;
+}
+
 .app_panel .form-check-input.insert_todaylabel_default_checkbox {
   width: 24px;
   height: 24px;
   border-color: rgb(127, 127, 127); 
-  position: relative;
-  top: 11px;
   margin-right: 12px;
+  align-self: center;
 }
 
 .app_panel .form-check-input.modal_open_new_document,

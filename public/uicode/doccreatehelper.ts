@@ -133,14 +133,15 @@ export default class DocCreateHelper {
                         <input type="text" class="form-control create_modal_title_field"
                             placeholder="autofills if blank">
                         <hr>
-                        <div style="position:relative;">
+                        <div style="position:relative;margin-top: -6px;">
                             <label class="form-label labels_label">Labels</label>
-                            <br>
-                            <select class="create_document_label_options" multiple="multiple"
-                                style="width:98%"></select>
-                            <div style="line-height: 3em;text-align: right;">
-                              <input class="form-check-input insert_todaylabel_default_checkbox" type="checkbox">
+                            <div style="text-align:center;margin-left: -3px;padding-right: 3px;">
+                              <select class="create_document_label_options" multiple="multiple"
+                                  style="width:100%"></select>
+                            </div>
+                            <div style="height: 3.5em;display:flex;flex-direction: row-reverse">
                               <button class="btn btn-secondary add_date_as_label_button">Add Today</button>
+                              <input class="form-check-input insert_todaylabel_default_checkbox" type="checkbox">
                             </div>
                         </div>
                     </div>
