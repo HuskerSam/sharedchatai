@@ -479,8 +479,6 @@ export class SessionApp extends BaseApp {
             assistSection.innerHTML = msg;
           }
 
-
-
           card.classList.remove("ticket_running");
           lastSubmit.dataset.showseconds = "0";
         }
