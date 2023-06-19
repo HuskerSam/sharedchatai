@@ -1,10 +1,16 @@
 html,
 body {
-  background: rgb(40, 50, 84);
-  color:rgb(217, 217, 227);
-  
+  background: rgb(32, 33, 35);
+  color:rgb(220, 220, 220);
+  font-size: 18px;
 }
 
+h2 {
+  color: rgb(255, 255, 255);
+}
+h4 {
+  color: rgb(200, 125, 200);
+}
 
 .help_content table {
   color: rgb(217, 217, 227);
@@ -15,6 +21,11 @@ body {
 }
 .alert {
   display: inline-block;
+  color:rgb(220, 220, 220);
+}
+
+.alert a {
+
 }
 
 .alert-info {
@@ -36,6 +47,20 @@ body {
   background-color: rgba(40, 50, 84, 0.25);
 }
 
+.response_green {
+  color: rgb(180, 255, 180);
+}
+
+.menu_logo_image {
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.idocs-navigation {
+  box-shadow: 0 0.2rem 0.3rem rgba(0, 0, 0, 0.15), 0 0.6rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+
 section {
   padding-top: 20px;
 }
@@ -47,4 +72,9 @@ section {
   #sidebarCollapse {
     display: none;
   }
+  .idocs-navigation {
+    box-shadow: 0 0.2rem 0.3rem rgba(0, 0, 0, 0.15), 0 0.6rem 1rem rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 1rem rgba(220, 220, 220, 0.05);
+  }
+  
 }
