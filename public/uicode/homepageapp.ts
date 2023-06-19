@@ -52,6 +52,7 @@ export class HomePageApp extends BaseApp {
                 return false;
             });
         }
+        this.populateAnchorLinks();
     }
     /** override event that happens after authentication resolution */
     authUpdateStatusUI(): void {
@@ -124,5 +125,29 @@ export class HomePageApp extends BaseApp {
             html += rowHTML;
         });
         this.recent_documents_list.innerHTML = html;
+    }
+    /**populate anchor navigation links  */
+    populateAnchorLinks() {
+        const anchorLinks = document.querySelectorAll(".anchor_copy_link");
+        anchorLinks.forEach((anchorLink: any) => {
+            const section = anchorLink.closest("section");
+            if (section) {
+                const id = section.id;
+                if (id) {
+                    anchorLink.href = `#${id}`;
+                }
+            }
+            anchorLink.addEventListener("click", (e: any) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const href = anchorLink.href;
+                navigator.clipboard.writeText(href);
+                anchorLink.innerHTML = `<i class="material-icons copy_green">done</i>
+                <i class="material-icons">link</i>`;
+                setTimeout(() => anchorLink.innerHTML = `<i class="material-icons">link</i>`, 1200);
+                return false;
+
+            });
+        });
     }
 }
