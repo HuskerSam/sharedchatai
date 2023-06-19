@@ -148,7 +148,12 @@ export class HomePageApp extends BaseApp {
                 anchorLink.innerHTML = `<i class="material-icons copy_green">done</i>
                 <i class="material-icons">link</i>`;
                 setTimeout(() => anchorLink.innerHTML = `<i class="material-icons">link</i>`, 1200);
+                /**console log if href id does not exist  */
+                const id = href.split("#")[1];
+                const element = document.getElementById(id);
+                if (!element) console.log(`element id ${id} does not exist`);
                 return false;
+
 
             });
         });
