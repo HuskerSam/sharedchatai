@@ -254,9 +254,12 @@
 .modal_document_title_display,
 .modal_document_system_message_display {
   display: block;
-  min-height: 2em;
+  min-height: 3em;
   color: rgb(130, 150, 255);
-  padding-right: 54px;
+  background: rgba(0,0,0,.3);
+  padding: 5px;
+  margin-right: 54px;
+  border-radius: 6px;
 }
 
 .parsed_file_status {
