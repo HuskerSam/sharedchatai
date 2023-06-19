@@ -9,7 +9,7 @@ h2 {
   color: rgb(255, 255, 255);
 }
 h4 {
-  color: rgb(200, 125, 200);
+  color: rgb(180, 255, 180);
 }
 
 .help_content table {
@@ -24,8 +24,10 @@ h4 {
   color:rgb(220, 220, 220);
 }
 
-.alert a {
-
+.alert-link a,
+.alert a,
+a {
+  color:  rgb(200, 125, 200);
 }
 
 .alert-info {
@@ -47,8 +49,13 @@ h4 {
   background-color: rgba(40, 50, 84, 0.25);
 }
 
-.response_green {
-  color: rgb(180, 255, 180);
+p.lead {
+  color:  rgb(130, 150, 255);
+  margin-bottom: 6px;
+}
+
+.badge-info {
+  background-color: rgb(200, 125, 200);
 }
 
 .menu_logo_image {

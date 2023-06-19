@@ -722,7 +722,7 @@ hr {
   transition: all 0.2s ease;
 }
 .idocs-navigation.docs-navigation-dark .nav .nav-link {
-  color: rgba(250, 250, 250, 0.85);
+  color: rgba(255, 255, 255, 1);
 }
 .idocs-navigation.docs-navigation-dark .nav .nav .nav-link {
   color: rgba(250, 250, 250, 0.7);
@@ -1774,7 +1774,7 @@ hr {
 }
 
 .nav:not(.nav-pills) .nav-item .nav-link.active, .nav:not(.nav-pills) .nav-item .nav-link:hover {
-  color: #0366d6;
+  color: rgba(215, 215, 0);
 }
 
 .nav-pills .nav-link:not(.active):hover {
