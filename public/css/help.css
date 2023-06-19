@@ -46,7 +46,14 @@ a {
   padding: 8px;
   z-index: 999;
   border-radius: 8px;
-  background-color: rgba(40, 50, 84, 0.25);
+  background-color: rgba(32, 33, 35, 0.15);
+  transition: all 0.2s linear;
+}
+
+#sidebarCollapse.shake {
+  transform: translateX(-1px);
+  transition: all ease-in-out;
+  transform: translateY(2px); 
 }
 
 p.lead {

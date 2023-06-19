@@ -56,6 +56,7 @@ export class HomePageApp extends BaseApp {
             });
         }
         this.populateAnchorLinks();
+        this.shakeSidebarCollapse();
     }
     /** override event that happens after authentication resolution */
     authUpdateStatusUI(): void {
@@ -157,5 +158,18 @@ export class HomePageApp extends BaseApp {
 
             });
         });
+    }
+    /**shake sidebarcollaspe button on page scroll, select by id */
+    shakeSidebarCollapse() {
+        const sidebarCollapse = document.getElementById("sidebarCollapse");
+        if (sidebarCollapse) {
+            sidebarCollapse.classList.add("shake");
+            window.addEventListener("scroll", () => {
+                sidebarCollapse.classList.remove("shake");
+                sidebarCollapse.classList.add("shake");
+                setTimeout(() => sidebarCollapse.classList.remove("shake"), 1200);
+            }
+            );
+        }
     }
 }
