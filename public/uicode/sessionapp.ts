@@ -463,7 +463,7 @@ export class SessionApp extends BaseApp {
               let responseTime = assistData.runTime;
               if (!responseTime) responseTime = 0;
               completionSpan.innerHTML = assistData.assist.usage.completion_tokens +
-                "<br>" + Math.round(responseTime / 1000) + "s";
+                "&nbsp; " + Math.round(responseTime / 1000) + "s";
 
               let responseCap = this.sessionDocumentData.max_tokens;
               if (ticketData.max_tokens !== undefined) responseCap = ticketData.max_tokens;
@@ -750,7 +750,7 @@ export class SessionApp extends BaseApp {
           <div class="message">${BaseApp.escapeHTML(data.message)}</div>
       </div>
       <div class="assist_section_wrapper">
-          <div class="tokens_completion"></span></div>
+          <div class="tokens_completion"></div>
           <div class="assist_section"><div class="pending_message">Prompt sent to OpenAI for processing...</div></div>
       </div>
       <hr>
