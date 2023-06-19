@@ -56,7 +56,7 @@ export class HomePageApp extends BaseApp {
             });
         }
         this.populateAnchorLinks();
-        this.shakeSidebarCollapse();
+        this.bounceSidebarCollapse();
     }
     /** override event that happens after authentication resolution */
     authUpdateStatusUI(): void {
@@ -159,17 +159,16 @@ export class HomePageApp extends BaseApp {
             });
         });
     }
-    /**shake sidebarcollaspe button on page scroll, select by id */
-    shakeSidebarCollapse() {
+    /**bounce sidebarcollaspe button on page scroll, select by id */
+    bounceSidebarCollapse() {
         const sidebarCollapse = document.getElementById("sidebarCollapse");
         if (sidebarCollapse) {
-            sidebarCollapse.classList.add("shake");
+            sidebarCollapse.classList.add("bounce");
             window.addEventListener("scroll", () => {
-                sidebarCollapse.classList.remove("shake");
-                sidebarCollapse.classList.add("shake");
-                setTimeout(() => sidebarCollapse.classList.remove("shake"), 1200);
-            }
-            );
+                sidebarCollapse.classList.remove("bounce");
+                setTimeout(() => sidebarCollapse.classList.add("bounce"), 50);
+            });
         }
     }
+    
 }
