@@ -641,12 +641,12 @@ hr {
 .idocs-navigation {
   border-top: 1px solid rgba(222, 226, 230, .05);
   position: fixed;
-  top: 70px;
   left: 0;
+  top: 0;
   overflow: hidden;
   overflow-y: auto;
   width: 260px;
-  height: calc(100% - 70px);
+  height: 100%;
   z-index: 1;
   border-right: 1px solid rgba(0, 0, 0, 0.05);
   transition: all 0.3s;
@@ -741,9 +741,6 @@ hr {
   padding: 0px 50px 50px;
   min-height: 750px;
   transition: all 0.3s;
-}
-.idocs-content section:first-child {
-  padding-top: 3rem;
 }
 .idocs-content ol li, .idocs-content ul li {
   margin-top: 10px;

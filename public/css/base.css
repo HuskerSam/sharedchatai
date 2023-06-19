@@ -512,7 +512,8 @@ a.hover_yellow.show_document_options_help:hover i {
   color: rgb(240, 240, 50);
 }
 
-.navbar .navbar-toggler span.hamburger_span {
+.navbar .navbar-toggler span.hamburger_span,
+.navbar-toggler span.hamburger_span {
   width: 44px;
   height: 44px;
   background-size: contain;

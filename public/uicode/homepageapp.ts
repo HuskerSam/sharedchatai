@@ -23,12 +23,15 @@ export class HomePageApp extends BaseApp {
     /** */
     constructor() {
         super();
-        this.show_profile_modal.addEventListener("click", (event: any) => {
-            event.stopPropagation();
-            event.preventDefault();
+        if (this.show_profile_modal) {
+            this.show_profile_modal.addEventListener("click", (event: any) => {
+                event.stopPropagation();
+                event.preventDefault();
 
-            this.profileHelper.show();
-        });
+                this.profileHelper.show();
+            });
+        }
+
         if (this.show_create_modal) {
             this.show_create_modal.addEventListener("click", (event: any) => {
                 event.stopPropagation();

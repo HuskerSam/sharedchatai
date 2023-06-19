@@ -57,65 +57,20 @@
 </head>
 
 <body class="basic_page_wrapper" data-bs-spy="scroll" data-bs-target=".idocs-navigation" data-bs-offset="125">
-    <nav class="app_panel navbar navbar-expand-lg navbar-light sticky-top"
-        style="min-height: 70px;position:fixed;width:100%;">
-        <div class="menu_bar_doc_title_wrapper">
-            <a href="/" class="nav-link" style="display: block; max-width:120px;">
-                <span class="mobile_custom_icon_label" style="display: block; max-width:120px">
-                    <img src="/images/fulllogo600x200.png" class="menu_logo_image">
-                </span>
-            </a>
-            <div style="flex:1"></div>
-            <div class="mobile_bar_button_wrapper">
+    <button id="sidebarCollapse" class="navbar-toggler hover_yellow" type="button"
+        aria-controls="navbarSupportedContent" aria-expanded="false">
+        <span class="hamburger_span"></span>
+    </button>
 
-            </div>
-            <div class="menu_bar_mobile_spacer"></div>
-        </div>
-
-        <button id="sidebarCollapse" class="navbar-toggler hover_yellow" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-            aria-label="Toggle navigation">
-            <span class="hamburger_span"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent" style="width:100%">
-            <ul class="navbar-nav mr-auto" style="width:100%">
-                <li class="nav-item home_logo_mobile_only">
-                    <a href="/" class="nav-link" style=" display: block; max-width:120px">
-                        <span class="mobile_custom_icon_label">
-                            <img src="/images/fulllogo600x200.png" class="menu_logo_image">
-                        </span>
-                    </a>
-                </li>
-                <li style="display:none;" class="nav-item hide_if_signedin">
-                    <a class="signin_show_modal nav-link hover_yellow" href="login" type="button" data-bs-toggle="modal"
-                        data-bs-target="#loginModal">
-                        <span class="mobile_custom_icon_label">
-                            <i class="material-icons-outlined">login</i>
-                        </span>
-                        <span class="menu_dropdown_label_wrapper">
-                            Login
-                        </span>
-                    </a>
-                </li>
-                <li class="nav-item signed_in_options" style="display:none;">
-                    <a class="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
-                        <span class="menu_profile_user_image_span member_profile_image hover_yellow"></span>
-                        <span
-                            class="menu_dropdown_label_wrapper member_profile_name menu_profile_user_name_span"></span>
-                    </a>
-                </li>
-                <button class="btn btn-primary profile_show_modal" style="display:none" type="button"
-                    data-bs-toggle="modal" data-bs-target="#userProfileModal">
-                    Profile
-                </button>
-            </ul>
-        </div>
-    </nav>
-
-    <div style="margin-top:24px;" id="content" role="main">
+    <div id="content" role="main">
         <!-- Sidebar Navigation
         ============================ -->
         <div class="idocs-navigation docs-navigation-dark">
+            <a href="/" class="nav-link" style="display: block; width:100%;">
+                <span class="mobile_custom_icon_label" style="display: block; width:100%">
+                    <img src="/images/fulllogo600x200.png" class="menu_logo_image">
+                </span>
+            </a>
             <ul class="nav flex-column ">
                 <li class="nav-item"><a class="nav-link active" href="#introduction_start">Introduction</a></li>
                 <li class="nav-item"><a class="nav-link" href="#session">Chat Interface</a>
@@ -148,8 +103,8 @@
             ============================ -->
                 <section id="introduction_start">
                     <h2 class="display-4 mt-3">Introduction <a class="btn hover_yellow anchor_copy_link">
-                        <span class="material-icons">link</span>
-                    </a></h2>
+                            <span class="material-icons">link</span>
+                        </a></h2>
 
                     <h4>Overview <img style="max-width: 18px;margin-top:4px;" class="img-fluid rounded"
                             src="/images/logo64.png" alt=""></h4>
@@ -205,8 +160,8 @@
                 <hr class="divider">
                 <section id="key_concepts">
                     <h2>Key Concepts <a class="btn hover_yellow anchor_copy_link">
-                        <span class="material-icons">link</span>
-                    </a></h2>
+                            <span class="material-icons">link</span>
+                        </a></h2>
 
                     <h4>Understanding Large Language Models (LLMs) Work</h4>
                     <p class="lead">Large Language Models (LLMs) like GPT-3 are trained to
@@ -251,8 +206,8 @@
             ============================ -->
                 <section id="session" name="session">
                     <h2>Chat Session Interface <a class="btn hover_yellow anchor_copy_link">
-                        <span class="material-icons">link</span>
-                    </a></h2>
+                            <span class="material-icons">link</span>
+                        </a></h2>
                     <p class="lead">Overview</p>
                     <p class="mb-5">TThe chat session interface forms the heart of the PromptPlus AI experience. This is
                         where you interact directly with the AI, entering prompts, receiving responses, and leveraging
@@ -270,9 +225,13 @@
                     <ol>
                         <li>
                             Sending Prompts: Every user in a PromptPlus AI session can send prompts to the AI, enabling
-                            a dynamic conversation. PromptPlus AI uses color indicators for tracking changes in engine parameters. If the 'max
-                            tokens' parameter changes, the token predicted amount above the send icon turns <span class="badge text-dark" style="background-color:rgb(240, 240, 50)"> yellow </span>. For alterations to
-                            temperature, top_p, frequency penalty, or presence penalty, the icon turns <span class="badge text-dark" style="background-color:rgb(255, 127, 50)"> orange </span>. This
+                            a dynamic conversation. PromptPlus AI uses color indicators for tracking changes in engine
+                            parameters. If the 'max
+                            tokens' parameter changes, the token predicted amount above the send icon turns <span
+                                class="badge text-dark" style="background-color:rgb(240, 240, 50)"> yellow </span>. For
+                            alterations to
+                            temperature, top_p, frequency penalty, or presence penalty, the icon turns <span
+                                class="badge text-dark" style="background-color:rgb(255, 127, 50)"> orange </span>. This
                             visual cue allows users to promptly recognize parameter modifications, ensuring effective
                             and well-informed interactions with the AI.
                         </li>
@@ -302,7 +261,8 @@
                         <li>
                             Change Parameters: All users have the ability to adjust the AI's response parameters, like
                             temperature and top_p. This can shape the nature of the AI's responses, whether you want
-                            them to be more creative, more factual, or anything in between. <a class="alert-link" href="#engine_parameters">See parameters below.</a>  
+                            them to be more creative, more factual, or anything in between. <a class="alert-link"
+                                href="#engine_parameters">See parameters below.</a>
                         </li>
                     </ol>
                     <p>Understanding and managing token limits can significantly enhance your AI interaction. </p>
@@ -370,19 +330,21 @@
                             69 40 72 106-46q24 24 53.5 41t62.5 25l14 112Z"></path>
                             </svg> for details on options</a></p>
                     <h2 id="chat_models" class="mt-5">Chat Engine <a class="btn hover_yellow anchor_copy_link">
-                        <span class="material-icons">link</span>
-                    </a></h2>
+                            <span class="material-icons">link</span>
+                        </a></h2>
                     <p class="lead">Use Reset
-                        <i class="material-icons">restart_alt</i> to restore system defaults</p>
+                        <i class="material-icons">restart_alt</i> to restore system defaults
+                    </p>
                     <p>
                         Like the chat interface, changes in the engine parameters are reflected in the UI. <span
                             class="badge badge-info text-dark" style="background-color:rgb(240, 240, 50);">Engine</span>
                         denotes changes
                         in max tokens or model change, while <span class="badge badge-info text-dark"
-                            style="background-color:rgb(255, 127, 50);">Engine</span> represents modifications to either temperature, top_p, presence penalty, or frequency penalty.  
+                            style="background-color:rgb(255, 127, 50);">Engine</span> represents modifications to either
+                        temperature, top_p, presence penalty, or frequency penalty.
                         parameters from default.
                     </p>
-            
+
                     <p class="lead">Currently offering the following Chat Models:</p>
                     <div class="table-responsive">
                         <table class="table table-bordered">
@@ -513,8 +475,8 @@
             ============================ -->
                 <section id="users_info">
                     <h2>Users <a class="btn hover_yellow anchor_copy_link">
-                        <span class="material-icons">link</span>
-                    </a></h2>
+                            <span class="material-icons">link</span>
+                        </a></h2>
                     <p class="lead"> This shows who has access to the document, with a presence dot indicating their
                         status. </p>
                     <figure class="figure">
@@ -550,8 +512,8 @@
             ============================ -->
                 <section id="dashboard" name="dashboard">
                     <h2>Sessions Dashboard <a class="btn hover_yellow anchor_copy_link">
-                        <span class="material-icons">link</span>
-                    </a>
+                            <span class="material-icons">link</span>
+                        </a>
                     </h2>
                     <p class="lead mb-3">Overview</p>
                     <p mb-3>The Sessions page is your hub to manage and access all documents/sessions created or shared
@@ -625,8 +587,8 @@
                             <span class="material-icons">link</span>
                         </a></h2>
                     <p>The Document Options <svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 -960 960 960"
-                        width="30">
-                        <path fill="currentColor" d="m388-80-20-126q-19-7-40-19t-37-25l-118 54-93-164 108-79q-2-9-2.5-20.5T185-480q0-9
+                            width="30">
+                            <path fill="currentColor" d="m388-80-20-126q-19-7-40-19t-37-25l-118 54-93-164 108-79q-2-9-2.5-20.5T185-480q0-9
                     .5-20.5T188-521L80-600l93-164 118 54q16-13 37-25t40-18l20-127h184l20 126q19 7
                       40.5 18.5T669-710l118-54 93 164-108 77q2 10 2.5 21.5t.5 21.5q0 10-.5 21t-2.5 21l108 78-93 164-118-54q-16 13-36.5
                       25.5T592-206L572-80H388Zm92-270q54 0 92-38t38-92q0-54-38-92t-92-38q-54 0-92 38t-38 92q0
@@ -635,7 +597,7 @@
                           6.5-33.5T715-480q0-17-2-33.5t-7-33.5l94-69-40-72-106 46q-23-26-52-43.5T538-708l-14-112h-88l-14
                           112q-34 7-63.5 24T306-642l-106-46-40 72 94 69q-4 17-6.5 33.5T245-480q0 17 2.5 33.5T254-413l-94
                             69 40 72 106-46q24 24 53.5 41t62.5 25l14 112Z"></path>
-                    </svg>  can be accessed from two locations: in the chat interface, it's located near
+                        </svg> can be accessed from two locations: in the chat interface, it's located near
                         the session title, and within the dashboard, it's available for each individual session. The
                         Document Options enables users to exercise a high degree of control over their sessions. This
                         panel is divided into three tabs:
@@ -705,8 +667,8 @@
                 <hr class="divider">
                 <section id="profile">
                     <h2>Profile Setting <a class="btn hover_yellow anchor_copy_link">
-                        <span class="material-icons">link</span>
-                    </a>
+                            <span class="material-icons">link</span>
+                        </a>
                     </h2>
                     <p class="lead mb-3">Overview</p>
                     <p mb-3>The Profile Options, accessible from both the chat interface and session dashboard, is an
@@ -768,8 +730,8 @@
             ============================ -->
                 <section id="idocs_templates">
                     <h2>Templates <a class="btn hover_yellow anchor_copy_link">
-                        <span class="material-icons">link</span>
-                    </a></h2>
+                            <span class="material-icons">link</span>
+                        </a></h2>
                     <p class="lead">Checkout Our Templates and see different prompting techniques in action</p>
 
                     <div class="row">
