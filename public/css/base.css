@@ -479,13 +479,16 @@ button.btn-primary:active {
   top: -4px;
 }
 
-.showhomepage_help i,
 .show_dashboard_help_button i,
 .show_document_options_help i {
   position: relative;
   top: 2px;
   color: rgb(200, 125, 200);
   float: left;
+}
+
+.showhomepage_help i {
+  color: rgb(200, 125, 200);
 }
 
 .nav-link.dashboard_create_game .menu_dropdown_label_wrapper {

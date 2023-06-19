@@ -1157,9 +1157,23 @@ li.mb-1 button.btn.btn-toggle:before {
   .gear_icon {
     position: relative;
     top: -8px;
+    left: -3px;
+    margin-right: -4px;
   }
 
   .nav-link.show_create_modal.hover_yellow svg {
     top: -8px;
   }
+}
+
+
+.menu_dropdown_label_wrapper.menu_profile_user_name_span {
+  margin-left: 2px;
+}
+
+@media (min-width: 992px) {
+  .menu_dropdown_label_wrapper.menu_profile_user_name_span {
+    margin-left: 0px;
+  }
+
 }
