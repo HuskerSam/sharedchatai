@@ -255,10 +255,6 @@ ul.recent_documents_list li a {
   }
 }
 
-.sign_out_homepage i {
-  color: rgb(255, 50, 50);
-}
-
 .nav-link.show_create_modal.hover_yellow svg {
   top: -6px;
   left: 3px;

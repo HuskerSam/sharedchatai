@@ -376,7 +376,7 @@ button.btn-primary:active {
 
 .member_profile_name {
   position: relative;
-  left: 5px;
+  left: 6px;
 }
 
 .menu_profile_user_image_span {
@@ -389,7 +389,7 @@ button.btn-primary:active {
   background-repeat: no-repeat;
   position: relative;
   top: 1px;
-  border-radius: 12px;
+  border-radius: 6px;
 }
 
 .menu_profile_user_name_span {
@@ -474,7 +474,6 @@ button.btn-primary:active {
 .menu_dropdown_label_wrapper {
   white-space: nowrap;
   font-size: 1.5em;
-  padding-left: 8px;
   position: relative;
   top: -4px;
 }
@@ -490,7 +489,6 @@ button.btn-primary:active {
 
 .nav-link.dashboard_create_game .menu_dropdown_label_wrapper {
   position: relative;
-  top: -2px;
 }
 
 .nav-link.dashboard_create_game_mobile.hover_yellow i,
