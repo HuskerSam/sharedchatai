@@ -36,7 +36,14 @@ export default class BaseApp {
   sessionDeleting = false;
   menu_profile_user_image_span: any = document.querySelector(".menu_profile_user_image_span");
   menu_profile_user_name_span: any = document.querySelector(".menu_profile_user_name_span");
-
+  isOfflineForDatabase = {
+    state: "offline",
+    last_changed: firebase.database.ServerValue.TIMESTAMP,
+  };
+  isOnlineForDatabase = {
+    state: "online",
+    last_changed: firebase.database.ServerValue.TIMESTAMP,
+  };
   /** constructor  */
   constructor() {
     window.addEventListener("beforeinstallprompt", (e: any) => {
@@ -301,15 +308,6 @@ export default class BaseApp {
     const da = str.substr(8, 2);
     return `${mo}/${da}/${ye}`;
   }
-  /** update storage to show online for current user */
-  refreshOnlinePresence() {
-    if (this.userStatusDatabaseRef) {
-      this.userStatusDatabaseRef.set({
-        state: "online",
-        last_changed: firebase.database.ServerValue.TIMESTAMP,
-      });
-    }
-  }
   /** init rtdb for online persistence status */
   initRTDBPresence() {
     if (!this.uid) return;
@@ -318,23 +316,19 @@ export default class BaseApp {
     this.rtdbPresenceInited = true;
     this.userStatusDatabaseRef = firebase.database().ref("/OnlinePresence/" + this.uid);
 
-    const isOfflineForDatabase = {
-      state: "offline",
-      last_changed: firebase.database.ServerValue.TIMESTAMP,
-    };
-
-    const isOnlineForDatabase = {
-      state: "online",
-      last_changed: firebase.database.ServerValue.TIMESTAMP,
-    };
-
+    firebase.database().ref(".info/connected").off();
     firebase.database().ref(".info/connected").on("value", (snapshot: any) => {
       if (snapshot.val() == false) return;
 
-      this.userStatusDatabaseRef.onDisconnect().set(isOfflineForDatabase).then(() => {
-        this.userStatusDatabaseRef.set(isOnlineForDatabase);
+      this.userStatusDatabaseRef.onDisconnect().set(this.isOfflineForDatabase).then(() => {
+        this.userStatusDatabaseRef.set(this.isOnlineForDatabase);
       });
     });
+  }
+  /** disconnect online presence watch query from RTDB */
+  removeUserPresenceWatch() {
+    firebase.database().ref(".info/connected").off();
+    firebase.database().ref("/OnlinePresence/" + this.uid).set(this.isOfflineForDatabase);
   }
   /** register a uid to watch for online state
    * @param { string } uid user id
@@ -360,7 +354,7 @@ export default class BaseApp {
         } else {
           div.classList.remove("online");
           if (div.dataset.uid === this.uid) {
-            this.refreshOnlinePresence();
+            this.initRTDBPresence();
           }
         }
       });

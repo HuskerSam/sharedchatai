@@ -512,6 +512,7 @@ export default class ProfileHelper {
     async authSignout(e: any) {
         e.preventDefault();
         if (this.app.fireToken) {
+            this.app.removeUserPresenceWatch();
             await firebase.auth().signOut();
 
             this.app.fireToken = null;
@@ -629,6 +630,7 @@ export default class ProfileHelper {
         }
 
         if (success) {
+            this.app.removeUserPresenceWatch();
             if (this.app.fireToken) await firebase.auth().signOut();
 
             this.app.fireToken = null;
