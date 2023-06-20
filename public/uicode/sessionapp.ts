@@ -337,7 +337,7 @@ export class SessionApp extends BaseApp {
         const activityDate = this.showGmailStyleDate(new Date(data.lastActivity));
         const rowHTML = `<li>
         <a href="/session/${doc.id}">
-          <div class="sidebar_tree_recent_title title">${title}</div>
+          <div class="sidebar_tree_recent_title title hover_yellow">${title}</div>
           <div class="activity_date">${activityDate}</div>
         </a></li>`;
         html += rowHTML;
