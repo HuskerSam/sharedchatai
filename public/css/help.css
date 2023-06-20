@@ -32,7 +32,11 @@ a {
 }
 
 .alert-info {
-  background-color: rgb(32, 33, 35);
+  background-color: rgb(46, 43, 48);
+}
+
+p span.material-icons {
+  font-size: 18px;
 }
 
 .navbar.navbar-expand-lg {
