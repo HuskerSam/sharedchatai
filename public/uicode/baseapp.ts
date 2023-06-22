@@ -311,9 +311,7 @@ export default class BaseApp {
   /** init rtdb for online persistence status */
   initRTDBPresence() {
     if (!this.uid) return;
-    if (this.rtdbPresenceInited) return;
 
-    this.rtdbPresenceInited = true;
     this.userStatusDatabaseRef = firebase.database().ref("/OnlinePresence/" + this.uid);
 
     firebase.database().ref(".info/connected").off();
