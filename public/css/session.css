@@ -1177,3 +1177,8 @@ li.mb-1 button.btn.btn-toggle:before {
   }
 
 }
+
+.app_panel button.btn-toggle:hover,
+.app_panel button.btn-toggle:focus {
+  color: rgb(240, 240, 50);
+}

@@ -4,7 +4,9 @@
     ".write": false,
     "OnlinePresence": {
       ".read": "auth !== null",
-      ".write": "auth !== null"
+      "$uid": {
+        ".write": "auth.uid === $uid"  
+      }
     }
   }
 }
