@@ -309,9 +309,11 @@ export default class BaseApp {
     return `${mo}/${da}/${ye}`;
   }
   /** init rtdb for online persistence status */
-  initRTDBPresence() {
+  initRTDBPresence(reset = false) {
     if (!this.uid) return;
+    if (this.rtdbPresenceInited && !reset) return;
 
+    this.rtdbPresenceInited = true;
     this.userStatusDatabaseRef = firebase.database().ref("/OnlinePresence/" + this.uid);
 
     firebase.database().ref(".info/connected").off();
@@ -349,11 +351,11 @@ export default class BaseApp {
       .forEach((div: any) => {
         if (this.userPresenceStatus[div.dataset.uid]) {
           div.classList.add("online");
+          if (div.dataset.uid === this.uid) {
+            this.initRTDBPresence(true);
+          }
         } else {
           div.classList.remove("online");
-          if (div.dataset.uid === this.uid) {
-            this.initRTDBPresence();
-          }
         }
       });
   }
