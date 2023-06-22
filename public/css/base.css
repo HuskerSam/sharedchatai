@@ -382,8 +382,8 @@ button.btn-primary:active {
 .menu_profile_user_image_span {
   border-radius: 6px;
   display: inline-block;
-  width: 29px;
-  height: 29px;
+  width: 34px;
+  height: 34px;
   background-position: center center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -411,10 +411,15 @@ button.btn-primary:active {
   }
 }
 
+
 .mobile_custom_icon_label i {
   top: 3px;
   position: relative;
   font-size: 30px;
+}
+
+.mobile_custom_icon_label .add_icon {
+  font-size: 31px;
 }
 
 .shared_status_not {
