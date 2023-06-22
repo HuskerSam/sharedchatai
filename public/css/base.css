@@ -199,10 +199,11 @@ a {
   display: block;
 }
 
+
 .google_logo {
-  width: 20px;
-  height: 20px;
-  margin-right: 8px;
+  width: 16px;
+  height: 16px;
+  vertical-align: unset;
 }
 
 @media (min-width: 768px) {
@@ -298,15 +299,15 @@ select.form-select option {
 }
 
 button.btn-primary {
-  background-color: rgb(0, 120, 0);
-  border-color: rgb(70, 220, 70);
+  background-color: #198754;
+  border-color:#198754; 
 }
 
 button.btn-primary:hover,
 button.btn-primary:focus,
 button.btn-primary:active {
-  background-color: rgb(50, 150, 50);
-  border-color: rgb(120, 255, 120);
+  background-color: #146c43;
+  border-color: #13653f;
 }
 
 .app_panel input[type="range"] {

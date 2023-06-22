@@ -44,11 +44,19 @@ export default class LoginHelper {
     <div class="modal-dialog">
       <div class="modal-content login_modal_container">
         <div class="modal-header">
-          <h5 class="modal-title" id="loginModalLabel">Passwordless Authentication</h5>
+          <h4 class="modal-title" id="loginModalLabel">Passwordless Authentication</h4>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <h6 class="mt-1">Passwordless Email Login</h6>
+        <div style="text-align: left;">
+        You are currently accessing our pre-release version which is free to use. 
+       Please note that this is subject to change in the future.
+        <br>
+        <br>
+        We truly appreciate your support and hope you find great value in using our application.
+        <hr>
+      </div>
+            <h5 class="mt-1">Email Login</h5>
               <div class="input-group mb-3">
                 <input type="text" name="email" class="form-control login_email mx-1" placeholder="Email">
               </div>
@@ -56,24 +64,18 @@ export default class LoginHelper {
                 <button class="btn btn-success" id="login_email_anchor">Log in with Email Link</button>
               <hr>
               <button class="btn btn-primary" id="login_google">
-                Log in with Google &nbsp;<img class="google_logo" style="margin-right:-8px;" src="/images/google_signin.png"></button>
+                Log in with Google &nbsp;<img class="google_logo" src="/images/google_signin.png"></button>
               </div>
               <hr>
               <div style="text-align:center">
-                When you logout you lose your data!<br>
-                Optionally add an email address later<br>
+               Recommended for viewing only. <br>
+               Data lost upon sign out. <br>
               </div>
               <div style="text-align:center;line-height: 3em;">
                 <button class="anon_login_anchor btn btn-primary">Log in Anonymously</button>
               </div>
-              <hr>
-              <div style="text-align: left;">
-                This application is not released, it's free at this time to use but in the 
-                future will not be free to use - at least unlimited.
-                <br>
-                <br>
-                We hope you enjoy the application!
-                <br><br>
+              <div style="text-align:center">
+               Upgrade by entering Email in Profile Settings<br>
               </div>
         </div>
         <div class="modal-footer">

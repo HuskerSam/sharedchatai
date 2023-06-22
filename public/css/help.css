@@ -9,8 +9,12 @@ h1,
 h2, h3 {
   color: rgb(255, 255, 255);
 }
+
+h3{ 
+ color: rgb(130, 150, 255);
+}
 h4 {
-  color: rgb(180, 255, 180);
+  color: rgb(130, 150, 255);
 }
 
 .help_content table {
@@ -73,7 +77,7 @@ p span.material-icons {
 }
 
 p.lead {
-  color:  rgb(130, 150, 255);
+  color: rgb(180, 255, 180);
   margin-bottom: 6px;
 }
 
