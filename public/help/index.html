@@ -121,7 +121,7 @@
                 <!-- getting started
             ============================ -->
                 <section id="key_concepts">
-                    <h2 class="mb-2">Foundational Concepts <a class="btn hover_yellow anchor_copy_link">
+                    <h2 class="mb-2">Foundations <a class="btn hover_yellow anchor_copy_link">
                             <span class="material-icons">link</span>
                         </a></h2>
 
@@ -213,7 +213,7 @@
                 <!-- chat session layout
             ============================ -->
                 <section id="session" name="session">
-                    <h2 class="mb-2">Chat Session Interface <a class="btn hover_yellow anchor_copy_link">
+                    <h2 class="mb-2">Using the Chat Interface <a class="btn hover_yellow anchor_copy_link">
                             <span class="material-icons">link</span>
                         </a></h2>
                     <p class="mb-4">The chat session interface forms the heart of the PromptPlus AI experience. This is
@@ -287,7 +287,7 @@
                         and
                         <a href="#chat_models">model details</a>
                     </p>
-<hr>
+                    <hr>
                     <h3 class="mt-5 mb-4">Feedback on Token Usage</h3>
                     <p class="mb-4">In addition to providing a platform for interaction with AI, the chat interface is
                         equipped with
@@ -333,13 +333,13 @@
                         handy tool provides crucial data about your session, particularly concerning maximum token
                         usage. It's designed to offer you a clear and comprehensive view of your token count, so you
                         have better control over your interaction with the AI.</p>
-                        <figure class="figure">
-                            <img class="img-fluid text-center p-1 bg-light-4 rounded"
-                                src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fthreshold_dialog.png?alt=media&token=d1162c02-115a-4321-97ab-99c6c3616230"
-                                alt="sidebar_title">
-                            <figcaption class="figure-caption text-center">Feedback for token usage on your sessions
-                            </figcaption>
-                        </figure>
+                    <figure class="figure">
+                        <img class="img-fluid text-center p-1 bg-light-4 rounded"
+                            src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fthreshold_dialog.png?alt=media&token=d1162c02-115a-4321-97ab-99c6c3616230"
+                            alt="sidebar_title">
+                        <figcaption class="figure-caption text-center">Feedback for token usage on your sessions
+                        </figcaption>
+                    </figure>
                     <ol class="list-group list-group-numbered mb-4">
                         <li
                             class="list-group-item d-flex justify-content-between align-items-start text-white bg-dark-3">
@@ -432,8 +432,16 @@
                     <h2 id="chat_models" class="mb-2">Chat Engine <a class="btn hover_yellow anchor_copy_link">
                             <span class="material-icons">link</span>
                         </a></h2>
-                    <p class="lead">Use Reset to restore system defaults
+                    <p class="lead">Use Reset to restore system defaults <i
+                            class="material-icons text-white">restart_alts</i>
                     </p>
+                    <figure class="figure">
+                        <img class="img-fluid text-center p-1 bg-light-4 rounded"
+                            src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Forange_engine.png?alt=media&token=1f9a8e1f-8124-4d3d-b47a-18ab2f5eba6f"
+                            alt="sidebar_title">
+                        <figcaption class="figure-caption text-center">Feedback for token usage on your sessions
+                        </figcaption>
+                    </figure>
                     <p>
                         Like the chat interface, changes in the engine parameters are reflected in the UI. <span
                             class="badge badge-info text-dark" style="background-color:rgb(240, 240, 50);">yellow</span>
@@ -474,37 +482,6 @@
                             </tbody>
                         </table>
                     </div>
-
-                    <h3 class="mb-2" id="concept_token_limits">Understanding and Managing Token Limits</h3>
-
-                    <p>Each Large Language Models (LLMs) has a token limit. GPT-3.5 Turbo's limit is 4096 tokens per
-                        conversation. This limit dictates the AI's context, meaning once reached, the earliest parts of
-                        the conversation are omitted from the AI's consideration.</p>
-
-                    <p class="lead mb-4">Promptplus will alert you to exlude previous
-                        messages when we detect you may go over the model's token API limit</p>
-
-                    <p class="mb-4">
-                        In many AI interfaces, this isn't made explicit, potentially leading to confusion if the AI
-                        responses lack context from earlier messages. PromptPlus AI addresses this by keeping users
-                        informed about their token usage in a session, ensuring they are aware of the AI's current
-                        context. </p>
-                    <p class="mb-4">
-                        Our interface allows users to manually select which prompts are included or excluded from the
-                        AI's context. This gives you control over the information the AI considers, optimizing your
-                        interaction within the token limit, and improving response quality.
-
-                        In short, understanding and managing token limits can significantly enhance your AI interaction.
-                    </p>
-
-                    <p class="alert alert-info">
-                        Read
-                        more on<a
-                            href="https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them">
-                            Tokens in this OpenAI Article</a>
-                    </p>
-                    <p class="lead">Check back for future model availablity update</p>
-                    <br>
                 </section>
 
                 <section>
@@ -532,6 +509,34 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <h4 class="mb-2" id="concept_token_limits">Understanding and Managing Token Limits</h4>
+
+                    <p>Each Large Language Models (LLMs) has a token limit. GPT-3.5 Turbo's limit is 4096 tokens per
+                        conversation. This limit dictates the AI's context, meaning once reached, the earliest parts of
+                        the conversation are omitted from the AI's consideration.</p>
+
+                    <p class="lead mb-4">Promptplus will alert you to exlude previous
+                        messages when we detect you may go over the model's token API limit</p>
+
+                    <p class="mb-4">
+                        In many AI interfaces, this isn't made explicit, potentially leading to confusion if the AI
+                        responses lack context from earlier messages. PromptPlus AI addresses this by keeping users
+                        informed about their token usage in a session, ensuring they are aware of the AI's current
+                        context. </p>
+                    <p class="mb-4">
+                        Our interface allows users to manually select which prompts are included or excluded from the
+                        AI's context. This gives you control over the information the AI considers, optimizing your
+                        interaction within the token limit, and improving response quality.
+
+                        In short, understanding and managing token limits can significantly enhance your AI interaction.
+                    </p>
+
+                    <p class="mb-5 alert alert-info">
+                        Tokens management is a important concept to grasp for advance users, learn more by reading more
+                        on <a href="https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them">
+                            Tokens in this OpenAI Article</a>
+                    </p>
                 </section>
                 <section>
                     <div class="table-responsive">
@@ -582,9 +587,11 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <p><span class="badge badge-info">Note</span> Promptplus AI simplies values into a slider bar.
-                            Values are for informative purposes only. For more information on these parameters, visit
-                            OpenAI's documentation.</p>
+                        <p class="mb-5 alert alert-info"><span class="badge badge-info">Note</span> Don't worry about
+                            remembering the values on Promptplus AI, we have simply these values with a slider bar.
+                            For more information on these parameters, <a
+                                href="https://platform.openai.com/docs/api-reference">visit
+                                OpenAI's documentation.</a></p>
                     </div>
 
                 </section>
@@ -602,20 +609,63 @@
                     <h2>Users <a class="btn hover_yellow anchor_copy_link">
                             <span class="material-icons">link</span>
                         </a></h2>
-                    <p class="lead"> This shows who has access to the document, with a presence dot indicating their
-                        status. </p>
+                    <p class="lead"> The user section shows everyone who has access to the document.</p>
                     <figure class="figure">
-                        <img class="figure-img img-fluid rounded" src="https://placehold.co/200x100" alt="">
+                        <img class="figure-img img-fluid rounded bg-dark-3 p-2"
+                            src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fusers.png?alt=media&token=cac85a74-2922-4ecb-b7c2-ff1875077d39"
+                            alt="">
                         <figcaption class="figure-caption text-center">A caption for the above image.</figcaption>
+                    </figure>
+                    <p class="mb-4">The presence indicator displays the user's current
+                        status. A green dot means they currently have a browser open with the session. A gray dot means
+                        the user is no longer viewing session (that their brower is no longer connected).</p>
+
+                    <p class="mb-4">The yellow and
+                        orange dot indicate that the user has submitted a prompt and is awaiting an AI
+                        response. Yellow is for any prompt submission, while organge indicates a parameter other than
+                        Max_tokens or model was changed from default.</p>
+                    <figure class="figure">
+                        <img class="figure-img img-fluid rounded shadow bg-dark-3" style="max-width: 350px;"
+                            src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fuser_yellow.png?alt=media&token=322fe5af-8c68-4790-8232-670064af04cb"
+                            alt="">
+                        <figcaption class="figure-caption text-center">Purple indicates you are the session owner
+                        </figcaption>
+                    </figure>
+                    <br>
+                    <figure class="figure">
+                        <img class="figure-img img-fluid rounded shadow bg-dark-3" style="max-width: 350px;"
+                            src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fuser_orange.png?alt=media&token=a3293bbf-4c50-4692-933c-434e8e103f7f"
+                            alt="">
+                        <figcaption class="figure-caption text-center">Purple indicates you are the session owner
+                        </figcaption>
+                    </figure>
+                    <h4>Give access or share a session by simply giving someone a link</h4>
+                    <p>Use the "link" icon to copy the session URL to your clipboard.</p>
+                    <figure class="figure">
+                        <img class="figure-img img-fluid rounded shadow bg-dark-3" style="max-width: 350px;"
+                            src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fcopy_link.png?alt=media&token=abd4facb-7175-47b8-9c2d-1af261bc687b"
+                            alt="">
+                        <figcaption class="figure-caption text-center">Links to give someone access</figcaption>
                     </figure>
 
-                    <p> Green means currently active, gray for inactive, and yellow or orange for users awaiting an AI
-                        response. </p>
+                    <p>If you notice the user section lighting up with a color anything other than white, this should
+                        cue you that this is a shared session.</p>
+
                     <figure class="figure">
-                        <img class="figure-img img-fluid rounded" src="https://placehold.co/200x100" alt="">
-                        <figcaption class="figure-caption text-center">A caption for the above image.</figcaption>
+                        <img class="figure-img img-fluid rounded shadow bg-dark-3" style="max-width: 350px;"
+                            src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fgameowner_user_status.png?alt=media&token=734054c0-a7ff-45b0-ba5f-1f83d4026869"
+                            alt="">
+                        <figcaption class="figure-caption text-center">Purple indicates you are the session owner
+                        </figcaption>
                     </figure>
-                    <p>The "copy link" button allows you to share your session.</p>
+                    <br>
+                    <figure class="figure">
+                        <img class="figure-img img-fluid rounded shadow bg-dark-3" style="max-width: 350px;"
+                            src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fnotgameowner_user_status.png?alt=media&token=c640bec7-23c7-4fd5-99ec-f5335c4d9be8"
+                            alt="">
+                        <figcaption class="figure-caption text-center">Teal indicates a session was shared with you
+                        </figcaption>
+                    </figure>
 
 
                 </section>
@@ -626,9 +676,16 @@
             ============================ -->
                 <section id="recent_sessions">
                     <h2>Recent</h2>
-                    <p class="lead">This tab provides a quick way to access your last six sessions</p>
-                    <img class="img-fluid" src="https://placehold.co/200x100" alt="">
-                    <p>Each are listed with its last activity date.</p>
+                    <p class="lead">Get quick access to previous sessions</p>
+                    <p class="">The recent section provides access your last six sessions. Navigate to your dashboard to
+                        view or manage previous sessions</p>
+                    <figure class="figure">
+                        <img class="figure-img img-fluid rounded shadow bg-dark-3" style="max-width: 350px;"
+                            src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Frecent.png?alt=media&token=b8622ced-c03e-469c-bf61-f41dabd93963"
+                            alt="">
+                        <figcaption class="figure-caption text-center">Each are listed with its last activity date.
+                        </figcaption>
+                    </figure>
                 </section>
 
                 <hr class="divider">
@@ -646,7 +703,13 @@
                         you. This section provides a comprehensive overview of all the sessions in a user-friendly file
                         system.</p>
                     <p>Here are the key components of each line item, from left to right:</p>
-                    <img class="img-fluid" src="https://placehold.co/600x50" alt="">
+                    <figure class="figure">
+                        <img class="figure-img img-fluid rounded shadow bg-dark-3"
+                            src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fdasboard_list.png?alt=media&token=4cc9ae12-cc2f-423e-980d-78b94ffbcbc9"
+                            alt="">
+                        <figcaption class="figure-caption text-center">Each are listed with its last activity date.
+                        </figcaption>
+                    </figure>
                 </section>
                 <hr>
                 <!-- share icon
@@ -656,23 +719,32 @@
                     <p class="lead">Click on this icon to get a shareable link for the session.</p>
                     <p>Icon color indicates whether the session is shared or not. <br>The color coding is as follows:
                     </p>
-                    <ul>
-                        <li>
-                            <span class="badge"
-                                style="color:rgb(150, 150, 150);background-color: rgb(40, 50, 84);"><span
-                                    class="material-icons">link</span></span>
-                            indicates you are the owner.
+                    <ul class="list-group">
+                        <li
+                            class="list-group-item pb-0 text-white bg-dark-3 d-flex justify-content-between align-items-start">
+                            <span class="badge" style="color:rgb(150, 150, 150);background-color: rgb(40, 50, 84);"><i
+                                    class="material-icons">link</i></span>
+                            <div class="ms-2 me-auto ">
+                                <p> indicates you are the owner.</p>
+                            </div>
+
                         </li>
-                        <li>
-                            <span class="badge"
-                                style="color:rgb(150, 100, 230);background-color: rgb(40, 50, 84);"><span
-                                    class="material-icons">link</span></span>
-                            indicates that you are the owner and you have shared the document.
+                        <li
+                            class="list-group-item pb-0 text-white bg-dark-3 d-flex justify-content-between align-items-start">
+                            <span class="badge" style="color:rgb(150, 100, 230);background-color: rgb(40, 50, 84);"><i
+                                    class="material-icons">link</i></span>
+                            <div class="ms-2 me-auto ">
+                                <p> indicates that you are the owner and you have shared the document.</p>
+                            </div>
+
                         </li>
-                        <li>
-                            <span class="badge" style="color:rgb(30, 200, 200);background-color: rgb(40, 50, 84);"><span
-                                    class="material-icons">link</span></span>
-                            indicates that the session is shared with you (you are not the owner).
+                        <li
+                            class="list-group-item pb-0 text-white bg-dark-3 d-flex justify-content-between align-items-start">
+                            <span class="badge" style="color:rgb(30, 200, 200);background-color: rgb(40, 50, 84);"><i
+                                    class="material-icons">link</i></span>
+                            <div class="ms-2 me-auto ">
+                                <p>indicates that the session is shared with you.</p>
+                            </div>
                         </li>
                     </ul>
                 </section>
