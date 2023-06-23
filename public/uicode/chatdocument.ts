@@ -324,6 +324,6 @@ export default class ChatDocument {
       completionMin,
       defaultCompletion,
       defaults,
-    }
+    };
   }
 }

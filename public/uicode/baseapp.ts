@@ -308,7 +308,9 @@ export default class BaseApp {
     const da = str.substr(8, 2);
     return `${mo}/${da}/${ye}`;
   }
-  /** init rtdb for online persistence status */
+  /** init rtdb for online persistence status
+   * @param { boolean } reset true to reset/refresh connection
+  */
   initRTDBPresence(reset = false) {
     if (!this.uid) return;
     if (this.rtdbPresenceInited && !reset) return;

@@ -107,7 +107,7 @@ export class SessionApp extends BaseApp {
   sidebar_document_title: any = document.querySelector(".sidebar_document_title");
   menu_bar_doc_title: any = document.querySelector(".menu_bar_doc_title");
   show_overthreshold_dialog: any = document.querySelector(".show_overthreshold_dialog");
-  
+
   auto_run_overthreshold_ticket: any = document.querySelector(".auto_run_overthreshold_ticket");
   overthresholdModalDialog: any = document.querySelector("#overthresholdModalDialog");
   navbarSupportedContent: any = document.querySelector("#navbarSupportedContent");
@@ -246,7 +246,7 @@ export class SessionApp extends BaseApp {
     }, 0);
   }
   /** get model meta using session document.model
-   * @return { any } meta for model */  
+   * @return { any } meta for model */
   get modelMeta(): any {
     return ChatDocument.getModelMeta(this.sessionDocumentData.model);
   }
@@ -649,7 +649,7 @@ export class SessionApp extends BaseApp {
     this.docfield_max_tokens.setAttribute("max", this.modelMeta.completionMax);
     this.docfield_max_tokens.setAttribute("min", this.modelMeta.completionMin);
     this.threshold_dialog_context_limit.innerHTML = this.modelMeta.contextualLimit;
-    this.selected_model_context_limit.innerHTML =  this.modelMeta.contextualLimit;
+    this.selected_model_context_limit.innerHTML = this.modelMeta.contextualLimit;
 
     if (this.sessionDocumentData.max_tokens > this.modelMeta.completionMax) {
       this.saveDocumentOption(this.documentId, "max_tokens", this.modelMeta.defaultCompletion);
@@ -1287,7 +1287,7 @@ export class SessionApp extends BaseApp {
     if (this.excludingTicketsRunning) return [];
     this.excludingTicketsRunning = true;
     document.body.classList.add("exclude_tickets_running");
-    
+
     let tokenReduction = this.includeTotalTokens + this.sessionDocumentData.max_tokens +
       this.lastInputTokenCount + this.lastSystemMessageTokenCount - (this.modelMeta.contextualLimit * this.excludeErrorMargin);
 

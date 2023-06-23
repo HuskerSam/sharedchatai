@@ -98,7 +98,7 @@ export default class DocOptionsHelper {
         this.export_format_select.addEventListener("input", () => {
             this.exportFormat = this.export_format_select.value;
             this.refreshReportData();
-            this.app.saveProfileField("optionsDialogExportFormat",  this.exportFormat);
+            this.app.saveProfileField("optionsDialogExportFormat", this.exportFormat);
         });
 
         this.download_export_button = this.modalContainer.querySelector(".download_export_button");
