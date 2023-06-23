@@ -295,12 +295,27 @@
                         comprehension of the model's processing.</p>
 
                     <p class="lead">Token Visualizer</p>
+                    <figure class="figure">
+                        <img class="img-fluid text-center bg-dark-2 rounded"
+                            src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Ftoken_visualizer.png?alt=media&token=4086ea86-5162-4961-978d-284e84e72a42"
+                            alt="sidebar_title">
+                        <figcaption class="figure-caption text-center">count of tokens in piece of text
+                        </figcaption>
+                    </figure>
                     <p class="mb-4">Positioned at the top of the text area, the token visualizer offers a
                         graphical representation of the model's tokenization process, providing insights into how
                         text is dissected into tokens. Tokens are integral to how GPT models operate and calculate
                         cost - the cost per token varies on a per-model basis.</p>
-
+ 
                     <p class="lead">Completion Tokens</p>
+                    <figure class="figure">
+                        <img class="img-fluid text-center rounded"
+                            src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fcompletion_token.png?alt=media&token=42da5add-0e46-4b3b-a216-8134b6fbe0bc"
+                            alt="sidebar_title">
+                        <figcaption class="figure-caption text-center">count of tokens in piece of text
+                        </figcaption>
+                    </figure>
+
                     <p class="mb-4">For each prompt or message, the number of completion tokens utilized is
                         displayed at the top right of each message. Completion tokens are the number of tokens used
                         in the AI's response to a particular prompt. This helps you understand how much of the
@@ -677,8 +692,9 @@
                 <section id="recent_sessions">
                     <h2>Recent</h2>
                     <p class="lead">Get quick access to previous sessions</p>
-                    <p class="">The recent section provides access your last six sessions. Navigate to your dashboard to
-                        view or manage previous sessions</p>
+                    <p class="">The recent section provides access your last six sessions. Navigate to your dashboard if
+                        you would like to
+                        view or manage other previous sessions</p>
                     <figure class="figure">
                         <img class="figure-img img-fluid rounded shadow bg-dark-3" style="max-width: 350px;"
                             src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Frecent.png?alt=media&token=b8622ced-c03e-469c-bf61-f41dabd93963"
@@ -750,29 +766,62 @@
                 </section>
                 <section>
                     <h4 class="mt-5">Document Title</h4>
-                    <img class="img-fluid" src="https://placehold.co/400x50" alt="">
-                    <p>The title of the document, which you can set during creation or edit later. <br>If you don't
-                        provide a title during creation, the first prompt is used as the document name.</p>
+                    <p>The title of a session can be set during creation or edited later. <br>If you don't
+                        provide a title during creation, the first prompt will be used as the document name.</p>
+                    <figure class="figure">
+                        <img class="figure-img img-fluid rounded shadow bg-dark-3" style="max-width: 500px;"
+                            src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fedit_title.png?alt=media&token=315cbe0a-e0a8-4f44-8e89-c8dffbadf4ab"
+                            alt="">
+                        <figcaption class="figure-caption text-center">Using Document Options to edit the title
+                        </figcaption>
+                    </figure>
+                    <h4 class="mt-5">Document Stats</h4>
+                    <p class="lead">Prompt Counter & Last Activity Date</p>
+                    <p class="mb-2">Document stats are there to help you quickly identify
+                        the desired session you want to return to quickly.</p>
+                    <figure class="figure mb-0">
+                        <img class="figure-img mb-0 img-fluid rounded p-1 shadow bg-dark-3" style="max-width: 500px;"
+                            src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fdashboard_stats.png?alt=media&token=657b5f76-59ba-4966-8b95-db86810788e7"
+                            alt="">
+                    </figure>
+                    <p class="mb-4">Prompt Count totals the number of prompts
+                        executed in a session. <br> Last acitivity date refers to time of most recent prompt request in
+                        the session.</p>
 
-                    <h4 class="mt-5">Prompt Counter</h4>
-                    <img src="https://placehold.co/50x50" alt="">
-                    <p>Shows the total number of prompts executed in the session. <br>This feature helps you identify
-                        the desired session quickly.</p>
 
-                    <h4 class="mt-5">Last Activity Date</h4>
-                    <img src="https://placehold.co/50x50" alt="">
-                    <p> Shows the date and time of the most recent prompt request in the session</p>
-
-                    <h4 class="mt-5">Labels</h4>
-                    <img src="https://placehold.co/50x50" alt="">
+                    <h4>Labels</h4>
                     <p> Labels can be assigned during creation or added later to help you filter and categorize your
-                        sessions. The default labels provided are "business", "personal", and "archived".
-                        <br><br>Default labels can be changed in your profile settings.
+                        sessions. <br> The default labels provided are "business", "personal", and "archived".
                     </p>
+                    <figure class="figure">
+                        <img class="figure-img img-fluid rounded shadow bg-dark-3" style="max-width: 500px;"
+                            src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Flabels.png?alt=media&token=2e3c37c3-03d5-48a5-9ea1-ed58b853a8cd"
+                            alt="">
+                        <figcaption class="figure-caption text-center">labels are visible on larger screens
+                        </figcaption>
+                    </figure>
+                    <p>Use the Filter select at the top of Dashboard to filter by labels. <br> Default labels can be
+                        changed in your profile settings.</p>
+                    <figure class="figure">
+                        <img class="figure-img img-fluid rounded shadow bg-dark-3" style="max-width: 500px;"
+                            src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Flabel_filter.png?alt=media&token=5bd91ebf-449b-4dd5-8107-45dc7c2c4f1f"
+                            alt="">
+                        <figcaption class="figure-caption text-center">Filter by labels
+                        </figcaption>
+                    </figure>
 
                     <h4 class="mt-5">Users</h4>
-                    <img src="https://placehold.co/50x50" alt="">
-                    <p> Displays the users in your session and their current online status.</p>
+                    <figure class="figure">
+                        <img class="figure-img img-fluid rounded shadow bg-dark-3" style="max-width: 500px;"
+                            src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fdashboard_users.png?alt=media&token=0dfca7af-5f35-4dc5-bc7b-23479da9bebc"
+                            alt="">
+                        <figcaption class="figure-caption text-center">User(s) in a session
+                        </figcaption>
+                    </figure>
+                    <p>Displays the users in your session and their current online status.
+                        <br> A green dot indicates a user currently has a broswer open with a session.
+                        <br>Similar to the share icon, usernames are colored to indicate owner status.
+                    </p>
                 </section>
 
                 <hr class="divider">
@@ -783,27 +832,32 @@
                     <h2> Document Options <a class="btn hover_yellow anchor_copy_link">
                             <span class="material-icons">link</span>
                         </a></h2>
-                    <p>The Document Options <svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 -960 960 960"
-                            width="30">
-                            <path fill="currentColor" d="m388-80-20-126q-19-7-40-19t-37-25l-118 54-93-164 108-79q-2-9-2.5-20.5T185-480q0-9
-                    .5-20.5T188-521L80-600l93-164 118 54q16-13 37-25t40-18l20-127h184l20 126q19 7
-                      40.5 18.5T669-710l118-54 93 164-108 77q2 10 2.5 21.5t.5 21.5q0 10-.5 21t-2.5 21l108 78-93 164-118-54q-16 13-36.5
-                      25.5T592-206L572-80H388Zm92-270q54 0 92-38t38-92q0-54-38-92t-92-38q-54 0-92 38t-38 92q0
-                        54 38 92t92 38Zm0-60q-29 0-49.5-20.5T410-480q0-29 20.5-49.5T480-550q29 0 49.5 20.5T550-480q0
-                        29-20.5 49.5T480-410Zm0-70Zm-44 340h88l14-112q33-8 62.5-25t53.5-41l106 46 40-72-94-69q4-17
-                          6.5-33.5T715-480q0-17-2-33.5t-7-33.5l94-69-40-72-106 46q-23-26-52-43.5T538-708l-14-112h-88l-14
-                          112q-34 7-63.5 24T306-642l-106-46-40 72 94 69q-4 17-6.5 33.5T245-480q0 17 2.5 33.5T254-413l-94
-                            69 40 72 106-46q24 24 53.5 41t62.5 25l14 112Z"></path>
-                        </svg> can be accessed from two locations: in the chat interface, it's located near
-                        the session title, and within the dashboard, it's available for each individual session. The
-                        Document Options enables users to exercise a high degree of control over their sessions. This
-                        panel is divided into three tabs:
-                        Prompts, Options, and Owner.<br><br>
-
+                    <p>You can access document options  <svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 -960 960 960"
+                        width="30">
+                        <path fill="currentColor" d="m388-80-20-126q-19-7-40-19t-37-25l-118 54-93-164 108-79q-2-9-2.5-20.5T185-480q0-9
+                .5-20.5T188-521L80-600l93-164 118 54q16-13 37-25t40-18l20-127h184l20 126q19 7
+                  40.5 18.5T669-710l118-54 93 164-108 77q2 10 2.5 21.5t.5 21.5q0 10-.5 21t-2.5 21l108 78-93 164-118-54q-16 13-36.5
+                  25.5T592-206L572-80H388Zm92-270q54 0 92-38t38-92q0-54-38-92t-92-38q-54 0-92 38t-38 92q0
+                    54 38 92t92 38Zm0-60q-29 0-49.5-20.5T410-480q0-29 20.5-49.5T480-550q29 0 49.5 20.5T550-480q0
+                    29-20.5 49.5T480-410Zm0-70Zm-44 340h88l14-112q33-8 62.5-25t53.5-41l106 46 40-72-94-69q4-17
+                      6.5-33.5T715-480q0-17-2-33.5t-7-33.5l94-69-40-72-106 46q-23-26-52-43.5T538-708l-14-112h-88l-14
+                      112q-34 7-63.5 24T306-642l-106-46-40 72 94 69q-4 17-6.5 33.5T245-480q0 17 2.5 33.5T254-413l-94
+                        69 40 72 106-46q24 24 53.5 41t62.5 25l14 112Z"></path>
+                    </svg>  multiple ways: document creation, session, and within the dashboard for each individual session.
+                    </p>
+                    <p>
+                        Document Options enables users to exercise a high degree of control over their sessions and has three tabs</p>
+                        <figure class="figure">
+                            <img class="figure-img img-fluid rounded shadow bg-dark-3" style="max-width: 500px;"
+                                src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Foptions_tabs.png?alt=media&token=1b00c48a-3f8e-4602-8c95-1dafa2e5ccd3"
+                                alt="">
+                            <figcaption class="figure-caption text-center">Document options tabs
+                            </figcaption>
+                        </figure>
+                        <p>
                         Aside from
-                        the prompt tab, most of document options are availble to users initally when they create the
+                        the export tab, most of document options are availble to users initally when they create the
                         session.
-                        The Document Options includes several features:</p>
                     <br>
                     <h3>Export Tab</h3>
 
@@ -812,20 +866,14 @@
                         your session data. <br><br> You can export your chat history in the following formats <code
                             class="text-info">Text</code>,
                         <code class="text-info">HTML</code>, <code class="text-info">JSON</code>, <code
-                            class="text-info">CSV</code>.<br><br>
-                        Whether it's sharing insights, backing up work, or reusing a session, the export feature has got
-                        you covered. Export the entire chat history or choose specific parts to
-                        download.
+                            class="text-info">CSV</code>.<br>
                         <br>
-                    <p><span class="badge badge-success">Note</span>Use Text and HTML for sharing. CVS and JSON are best
-                        for sharing session data.</p>
+                    <p><span class="badge badge-success">Note</span> CVS and JSON can be uploaded to clone a session</p>
                     </p>
                     <br>
 
                     <h3 id="options">Options Tab</h3>
                     <p>This is where the majority of the session control tools reside</p>
-                    <p><img src="https://placehold.co/150x175" class="img-fluid" alt="Responsive image"></p>
-
                     <ul class="mb-3">
                         <li>
                             <span class="text-info">Edit title</span>: Allows you to modify the title of your session.
@@ -851,8 +899,6 @@
                     <br>
                     <h3>Owner Tab</h3>
                     <p>As an owner, you have additional tools at your disposal:</p>
-                    <img src="https://placehold.co/150x150" class="img-fluid" alt="Responsive image">
-
                     <ul>
                         <li>Add Labels: This feature allows you to classify your sessions using custom labels, which
                             aids in the organization and filtering of your documents.</li>

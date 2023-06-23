@@ -803,7 +803,7 @@ pre code {
 }
 
 .token_visualizer_preview .token_odd {
-  color: rgb(240, 200, 150);
+  color: rgb(200, 125, 200);
   word-wrap: break-word;
   background: rgba(127, 127, 127, 0.5);
 }

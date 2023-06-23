@@ -61,16 +61,6 @@ a {
   padding-left: 8px;
 }
 
-@media (min-width: 440px) {
-  .navbar {
-    padding-left: 10px;
-  }
-
-  .navbar-nav .nav-link {
-    padding-left: 0px;
-  }
-}
-
 .card {
   background-color: rgba(127, 127, 127, .15);
 }
