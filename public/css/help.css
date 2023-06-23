@@ -94,6 +94,16 @@ p.lead {
   box-shadow: 0 0.2rem 0.3rem rgba(0, 0, 0, 0.15), 0 0.6rem 1rem rgba(0, 0, 0, 0.15);
 }
 
+.max_token_span {
+  position: absolute;
+  right: 8px;
+  font-size: .9rem;
+  background-color: rgb(200, 125, 200);
+}
+
+.engine_model_content {
+  position: relative;
+}
 
 section {
   padding-top: 20px;
