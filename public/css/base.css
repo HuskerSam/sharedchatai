@@ -540,20 +540,6 @@ a.hover_yellow.show_document_options_help:hover i {
   width: 80px;
 }
 
-.folder_link_mobile {
-  position: relative;
-  line-height: 1.5em;
-  width: 50px;
-  display: block;
-  text-align: center;
-  top: 2px;
-}
-
-.folder_link_mobile i {
-  font-size: 36px;
-  top: 2px;
-}
-
 .home_logo_mobile_only {
   display: none;
 }
