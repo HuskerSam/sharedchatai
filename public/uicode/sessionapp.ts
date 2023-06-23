@@ -845,6 +845,7 @@ export class SessionApp extends BaseApp {
     ele2.setAttribute("uid", this.uid);
 
     this.tickets_list.appendChild(tempCard);
+    this.tickets_list.offsetHeight;
     tempCard.scrollIntoView(false);
     this.scrollTicketListBottom();
 
