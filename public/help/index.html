@@ -72,22 +72,29 @@
                 </span>
             </a>
             <ul class="nav flex-column ">
-                <li class="nav-item"><a class="nav-link active" href="#introduction_start">Introduction</a></li>
+                <li class="nav-item"><a class="nav-link active" href="#introduction_start">Introduction</a>
+                    <ul class="nav flex-column">
+                        <li class="nav-item"><a class="nav-link" href="#key_concepts">Basics</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#help_sign_in">Signing In</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#quick_start">Starting a Chat Session</a></li>
+                    </ul>
+                </li>
                 <li class="nav-item"><a class="nav-link" href="#session">Chat Interface</a>
                     <ul class="nav flex-column">
                         <li class="nav-item"><a class="nav-link" href="#chat_features">Features</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#sidebar_options">Document Info</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#engine_parameters">Engine Parameters</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#feedback_token_usage">Token Usage</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#threshold">Threshold Stats</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link active" href="#sidebar_options">Chat Setting</a>
+                    <ul class="nav flex-column">
+                        <li class="nav-item"><a class="nav-link" href="#engine_parameters">Engine Parameter</a></li>
                         <li class="nav-item"><a class="nav-link" href="#users_info">Users</a></li>
                         <li class="nav-item"><a class="nav-link" href="#recent_sessions">Recent Sessions</a></li>
                     </ul>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="#dashboard">Sessions Dashboard</a>
-                    <ul class="nav flex-column">
-                        <li class="nav-item"><a class="nav-link" href="#session_info">Info</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#options">Options</a></li>
-                    </ul>
-                </li>
+                <li class="nav-item"><a class="nav-link" href="#options">Session Settings</a></li>
+                <li class="nav-item"><a class="nav-link" href="#dashboard">Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link" href="#profile">Profile Settings</a></li>
                 <li class="nav-item"><a class="nav-link" href="#templates">Templates</a></li>
                 <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
@@ -131,12 +138,11 @@
                     </p>
                     <p class="mb-4">Think of LLMs as super-smart word predictors. They use the words you've given them
                         to guess what
-                        word should come next. For example, if you say, "The sky is...", it might guess "blue" because
-                        that's a common next word in sentences it's seen during training.</p>
-                    <p class="mb-4">But here's the exciting part - it's not always "blue". These models use something
-                        called a
-                        probabilistic approach, which means the same question could have different answers. So,
-                        sometimes, the sky could be "clear" or even "full of stars" - it all depends on the context!</p>
+                        word should come next. For instance, if you say, "The apple is...", it might guess "red" because
+                        that's a typical subsequent descriptor in sentences it's encountered during training.</p>
+                    <p class="mb-4">But here's the thrilling part - it's not always "red". These models apply something
+                        called a probabilistic approach, which implies the same phrase could yield different responses.
+                        So, sometimes, the apple could be "ripe" or even "delicious" - it all hinges on the context!</p>
 
                     <p class="mb-4">Understanding how these models work helps us get the best out of them, whether we're
                         teaching a
@@ -151,7 +157,7 @@
                 </section>
                 <hr class="divider">
 
-                <section>
+                <section id="help_sign_in">
                     <h2>No Password Sign In</h2>
                     <h4 class="lead">To view a document on PromptPlus, users must first sign in.</h4>
                     <p class="mb-4"> PromptPlus AI employs a passwordless token authentication system for your enhanced
@@ -184,7 +190,7 @@
 
                 </section>
                 <hr class="divider">
-                <section>
+                <section id="quick_start">
                     <h2 class="mb-2">Start Fresh or Jump Right In</h2>
                     <h4 class="mb-1">Kicking off a brand new brainstorm or joining an ongoing chat is
                         a snap with
@@ -282,12 +288,12 @@
                     </p>
                     <p>Understanding and managing token limits can significantly enhance your AI interaction. </p>
 
-                    <p class="alert-link mb-4"><span class="badge badge-dark">Related</span><a
-                            href="#concept_token_limits"> token limits </a>
-                        and
-                        <a href="#chat_models">model details</a>
+                    <p class="alert-link mb-4"><span class="badge badge-dark">Related</span>
+                        <a href="#chat_models">Model Specs</a>
                     </p>
                     <hr>
+                </section>
+                <section id="feedback_token_usage">
                     <h3 class="mt-5 mb-4">Feedback on Token Usage</h3>
                     <p class="mb-4">In addition to providing a platform for interaction with AI, the chat interface is
                         equipped with
@@ -306,7 +312,9 @@
                         graphical representation of the model's tokenization process, providing insights into how
                         text is dissected into tokens. Tokens are integral to how GPT models operate and calculate
                         cost - the cost per token varies on a per-model basis.</p>
-
+                    <p class="alert-link mb-4"><span class="badge badge-dark">Related</span><a
+                            href="#concept_token_limits"> Token limits </a>
+                    </p>
                     <p class="lead">Total Tokens</p>
                     <figure class="figure">
                         <img class="img-fluid text-center rounded"
@@ -469,24 +477,25 @@
 
                     <p class="lead">Currently offering the following Chat Models:</p>
 
-                    <ul class="list-group list-group-unnumbered">
+                    <ul class="list-group list-group-unnumbered mb-5">
                         <li
                             class="list-group-item d-flex justify-content-between align-items-start bg-dark-2 text-light">
                             <div class="ms-2 me-auto engine_model_content">
-                                <div class="fw-bold" style="color:rgb(28, 228, 60);">gpt-3.5-turbo</div>
+                                <div class="fw-bold"><code>gpt-3.5-turbo</code></div>
                                 Can do any language task with better quality, longer output, and consistent
                                 instruction-following than the curie, babbage, or ada models.
                             </div>
-                            <span class="badge rounded-pill max_token_span">4,096 tokens</span>
+                            <span class="badge max_token_span">4,096 tokens</span>
                         </li>
                         <li
                             class="list-group-item d-flex justify-content-between align-items-start bg-dark-2 text-light">
                             <div class="ms-2 me-auto engine_model_content">
-                                <div class="fw-bold" style="color:rgb(28, 228, 60);">gpt-3.5-turbo-16k</div>
+                                <div class="fw-bold" style="color:rgb(28, 228, 60);"><code>gpt-3.5-turbo-16k</code>
+                                </div>
                                 Same capabilities as the standard gpt-3.5-turbo model but with 4 times the
                                 context.
                             </div>
-                            <span class="badge rounded-pill max_token_span">16,384 tokens</span>
+                            <span class="badge max_token_span">16,384 tokens</span>
                         </li>
                     </ul>
 
@@ -495,27 +504,19 @@
                     <section>
                         <h3 id="engine_parameters">Chatgpt Parameters </h3>
                         <p class="lead">Changes from default values are indicated with color cues.</p>
-                        <div class="table-responsive mb-3">
-                            <table class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">PARAMETER</th>
-                                        <th scope="col">DESCRIPTION</th>
-                                        <th scope="col">VALUE</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row"><code>max_token</code></th>
-                                        <td>The maximum number of tokens that the AI model is allowed to generate in
-                                            response to a particular prompt</td>
-                                        <td>model dependent</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <p>affects
-                            the cost per API call and the time it takes to get a response</p>
+
+                        <ul class="list-group list-group-unnumbered mb-5">
+                            <li
+                                class="list-group-item d-flex justify-content-between align-items-start bg-dark-2 text-light">
+                                <div class="ms-2 me-auto engine_model_content">
+                                    <div class="fw-bold"><code>max_token</code></div>
+                                    The maximum number of tokens that the AI model is allowed to generate in
+                                    response to a particular prompt. May affect
+                                    the cost per API call and the time it takes to get a response.
+                                </div>
+                                <span class="badge max_token_span">model dependent</span>
+                            </li>
+                        </ul>
 
                         <h4 class="mb-2" id="concept_token_limits">Understanding and Managing Token Limits</h4>
 
@@ -542,7 +543,7 @@
                             interaction.
                         </p>
 
-                        <p class="mb-5 alert alert-info">
+                        <p class="mb-4 alert alert-info">
                             Tokens management is a important concept to grasp for advance users, learn more by reading
                             more
                             on <a
@@ -551,66 +552,114 @@
                         </p>
                     </section>
                     <section>
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">PARAMETER</th>
-                                        <th scope="col">DESCRIPTION</th>
-                                        <th scope="col">VALUE</th>
-                                        <th scope="col">NOTES</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row"><code>temperature</code></th>
-                                        <td> Governs the randomness of responses. Higher values create diverse but
-                                            potentially less focused replies, while lower values yield more focused and
-                                            predictable answers.</td>
-                                        <td>0 to 2</td>
-                                        <td>Can be thought of as creativity dial. Generally recommended altering
-                                            this or top_p but not both.</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><code class="bg-dark-3 text-white">top_p</code></th>
-                                        <td>Controls the word range for the AI's response. Lower values make it stick to
-                                            more common words, whereas higher values allow it to consider a broader
-                                            vocabulary.
-                                        </td>
-                                        <td>0 to 1</td>
-                                        <td>Generally recommended altering
-                                            this or top_p but not both.</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><code>Frequency Penalty</code></th>
-                                        <td>High values discourage the AI from repeating itself, whereas low values make
-                                            the
-                                            AI more likely to reiterate previous phrases or sentences</td>
-                                        <td>-2.0 to 2.0</td>
-                                        <td>only apply when there is existing conversation history. They don't affect
-                                            the
-                                            AI's initial responses in a new conversation</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><code class="bg-dark-3 text-white">Presence Penalty</code></th>
-                                        <td>High values encourage the AI to bring up new topics in the conversation,
-                                            while
-                                            lower values make the AI stick to the existing topics.</td>
-                                        <td>-2.0 to 2.0</td>
-                                        <td>only apply when there is existing conversation history. They don't affect
-                                            the
-                                            AI's initial responses in a new conversation</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <p class="mb-5 alert alert-info"><span class="badge badge-info">Note</span> Don't worry
-                                about
-                                remembering the values on Promptplus AI, we have simply these values with a slider bar.
-                                For more information on these parameters, <a
-                                    href="https://platform.openai.com/docs/api-reference">visit
-                                    OpenAI's documentation.</a></p>
-                        </div>
+                        <p class="lead"></p>
+                        <ul class="list-group list-group-unnumbered mb-3">
+                            <li
+                                class="list-group-item d-flex justify-content-between align-items-start bg-dark-2 text-light">
+                                <div class="ms-2 me-auto engine_model_content">
+                                    <div class="fw-bold"><code>temperature</code></div>
+                                    <p class="py-1 mb-0">Governs the randomness of responses. Higher values create
+                                        diverse but
+                                        potentially less focused replies, while lower values yield more focused and
+                                        predictable answers.</p>
+                                </div>
+                                <span class="badge max_token_span">0 to 2</span>
+                            </li>
+                        </ul>
+                        <p>
+                            To put it simply, temperature controls how predictably the model selects the next token in a
+                            response. If we revisit the <a href="#key_concepts">"The apple is..." example,</a> with a
+                            lower temperature, the model is more likely to predict a common descriptor like "red".
+                            However, when you increase the temperature, it amplifies the chance of less common
+                            descriptors being chosen, such as "ripe" or "delicious". So, in essence, adjusting the
+                            temperature allows you to tweak the balance between predictability and creativity in the
+                            model's responses. Temperature is a common parameter in most LLMs.
+                        </p>
 
+                        <ul class="list-group list-group-unnumbered mb-3">
+                            <li
+                                class="list-group-item d-flex justify-content-between align-items-start bg-dark-2 text-light">
+                                <div class="ms-2 me-auto engine_model_content">
+                                    <div class="fw-bold"><code>top_p</code></div>
+                                    <p class="py-1 mb-0"> Controls the word range for the AI's response. Lower values
+                                        make it stick to
+                                        more common words, whereas higher values allow it to consider a broader
+                                        vocabulary.</p>
+                                </div>
+                                <span class="badge max_token_span">0 to 1</span>
+                            </li>
+                        </ul>
+                        <p>
+                            In a similar way, top_p works with a method known as nucleus sampling, which helps control
+                            the predictability of the model's responses. A lower top_p value is useful when you're
+                            seeking exact, fact-based answers. If you're after more diverse responses, you would
+                            increase this value. Similar to temperature, top_p is a common parameter in most LLMs.
+                        </p>
+                        <p class="mb-4"><span class="badge badge-success">Note</span> Generally recommended altering
+                            this or top_p but not both.
+                        </p>
+
+
+
+
+
+                        <ul class="list-group list-group-unnumbered mb-3">
+                            <li
+                                class="list-group-item d-flex justify-content-between align-items-start bg-dark-2 text-light">
+                                <div class="ms-2 me-auto engine_model_content">
+                                    <div class="fw-bold"><code>Frequency Penalty</code></div>
+                                    <p class="py-1 mb-0">This setting discourages the model from using commonly
+                                        occurring words and phrases
+                                        in its response, regardless of the specific context.</p>
+                                </div>
+                                <span class="badge max_token_span">-2.0 to 2.0</span>
+                            </li>
+                        </ul>
+                        <p>
+                            The frequency penalty discourages the model from using words or phrases that it
+                            understands to be common or frequently occurring. This understanding is based on the vast
+                            amount of text data from the internet that the model was trained on, not just the immediate
+                            context of the conversation.
+                        </p>
+                        <p>
+                            By increasing the frequency_penalty, you're asking the model to generate responses that
+                            avoid these common words and phrases, leading to outputs that might be more creative or
+                            unique. However, a high frequency penalty can also make the model's responses less
+                            straightforward or harder to understand.
+                        </p>
+
+                        <ul class="list-group list-group-unnumbered mb-3">
+                            <li
+                                class="list-group-item d-flex justify-content-between align-items-start bg-dark-2 text-light">
+                                <div class="ms-2 me-auto engine_model_content">
+                                    <div class="fw-bold"><code>Presence Penalty</code></div>
+                                    <p class="py-1 mb-0"> This setting influences how much the model should stick to or
+                                        diverge from the words
+                                        and phrases present in the current input or context.</p>
+                                </div>
+                                <span class="badge max_token_span">0 to 1</span>
+                            </li>
+                        </ul>
+                        <p>
+                            In contrast to frequency_penalty, the presence_penalty directly relates to the current input
+                            or context. When set high, it encourages the model to use or stick to the words and phrases
+                            that have been mentioned in the conversation or input, helping the model to stay on topic.
+                        </p>
+                        <p>
+                            A low presence_penalty, conversely, encourages the model to introduce new words, ideas, or
+                            topics that were not specifically mentioned in the input. This can lead to responses that
+                            are more varied and creative but can also result in outputs that don't seem as directly
+                            related to the initial input. It's a tool for controlling the balance between sticking to
+                            the current topic and introducing new ones.
+                        </p>
+
+
+                        <p class="mb-5 alert alert-info"><span class="badge badge-info">Note</span> Don't worry
+                            about
+                            remembering the values on Promptplus AI, we have simply these values with a slider bar.
+                            For more information on these parameters, <a
+                                href="https://platform.openai.com/docs/api-reference">visit
+                                OpenAI's documentation.</a></p>
                     </section>
 
 
@@ -667,7 +716,7 @@
                             <img class="figure-img img-fluid rounded shadow bg-dark-3"
                                 src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fcopy_link.png?alt=media&token=abd4facb-7175-47b8-9c2d-1af261bc687b"
                                 alt="">
-                            <figcaption class="figure-caption text-center">Links to give someone access</figcaption>
+                            <figcaption class="figure-caption text-center">Click to copy session URL</figcaption>
                         </figure>
 
                         <p>If you notice the user section lighting up with a color anything other than white, this
@@ -700,10 +749,6 @@
                     <section id="recent_sessions">
                         <h2>Recent</h2>
                         <p class="lead">Get quick access to previous sessions</p>
-                        <p class="">The recent section provides access your last six sessions. Navigate to your
-                            dashboard if
-                            you would like to
-                            view or manage other previous sessions</p>
                         <figure class="figure">
                             <img class="figure-img img-fluid rounded shadow bg-dark-3"
                                 src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Frecent.png?alt=media&token=b8622ced-c03e-469c-bf61-f41dabd93963"
@@ -711,137 +756,13 @@
                             <figcaption class="figure-caption text-center">Each are listed with its last activity date.
                             </figcaption>
                         </figure>
+                        <p class="">The recent section provides access your last six sessions. Navigate to your
+                            dashboard if
+                            you would like to
+                            view or manage other previous sessions</p>
                     </section>
 
                     <hr class="divider">
-
-                    <!-- session dashboard
-            ============================ -->
-                    <section id="dashboard" name="dashboard">
-                        <h2>Sessions Dashboard <a class="btn hover_yellow anchor_copy_link">
-                                <span class="material-icons">link</span>
-                            </a>
-                        </h2>
-                        <p class="lead mb-3">Overview</p>
-                        <p mb-3>The Sessions page is your hub to manage and access all documents/sessions created or
-                            shared
-                            with
-                            you. This section provides a comprehensive overview of all the sessions in a user-friendly
-                            file
-                            system.</p>
-                        <p>Here are the key components of each line item, from left to right:</p>
-                        <figure class="figure">
-                            <img class="figure-img img-fluid rounded shadow bg-dark-3"
-                                src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fdasboard_list.png?alt=media&token=4cc9ae12-cc2f-423e-980d-78b94ffbcbc9"
-                                alt="">
-                            <figcaption class="figure-caption text-center">Each are listed with its last activity date.
-                            </figcaption>
-                        </figure>
-                    </section>
-                    <hr>
-                    <!-- share icon
-            ============================ -->
-                    <section id="session_info">
-                        <h4>Share Icon</h4>
-                        <p class="lead">Click on this icon to get a shareable link for the session.</p>
-                        <p>Icon color indicates whether the session is shared or not. <br>The color coding is as
-                            follows:
-                        </p>
-                        <ul class="list-group">
-                            <li
-                                class="list-group-item pb-0 text-white bg-dark-3 d-flex justify-content-between align-items-start">
-                                <span class="badge"
-                                    style="color:rgb(150, 150, 150);background-color: rgb(40, 50, 84);"><i
-                                        class="material-icons">link</i></span>
-                                <div class="ms-2 me-auto ">
-                                    <p> indicates you are the owner.</p>
-                                </div>
-
-                            </li>
-                            <li
-                                class="list-group-item pb-0 text-white bg-dark-3 d-flex justify-content-between align-items-start">
-                                <span class="badge"
-                                    style="color:rgb(150, 100, 230);background-color: rgb(40, 50, 84);"><i
-                                        class="material-icons">link</i></span>
-                                <div class="ms-2 me-auto ">
-                                    <p> indicates that you are the owner and you have shared the document.</p>
-                                </div>
-
-                            </li>
-                            <li
-                                class="list-group-item pb-0 text-white bg-dark-3 d-flex justify-content-between align-items-start">
-                                <span class="badge"
-                                    style="color:rgb(30, 200, 200);background-color: rgb(40, 50, 84);"><i
-                                        class="material-icons">link</i></span>
-                                <div class="ms-2 me-auto ">
-                                    <p>indicates that the session is shared with you.</p>
-                                </div>
-                            </li>
-                        </ul>
-                    </section>
-                    <section>
-                        <h4 class="mt-5">Document Title</h4>
-                        <p>The title of a session can be set during creation or edited later. <br>If you don't
-                            provide a title during creation, the first prompt will be used as the document name.</p>
-                        <figure class="figure">
-                            <img class="figure-img img-fluid rounded shadow bg-dark-3"
-                                src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fedit_title.png?alt=media&token=315cbe0a-e0a8-4f44-8e89-c8dffbadf4ab"
-                                alt="">
-                            <figcaption class="figure-caption text-center">Using Document Options to edit the title
-                            </figcaption>
-                        </figure>
-                        <h4 class="mt-5">Document Stats</h4>
-                        <p class="lead">Prompt Counter & Last Activity Date</p>
-                        <p class="mb-2">Document stats are there to help you quickly identify
-                            the desired session you want to return to quickly.</p>
-                        <figure class="figure mb-0">
-                            <img class="figure-img mb-0 img-fluid rounded p-1 shadow bg-dark-3"
-                                src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fdashboard_stats.png?alt=media&token=657b5f76-59ba-4966-8b95-db86810788e7"
-                                alt="">
-                        </figure>
-                        <p class="mb-4">Prompt Count totals the number of prompts
-                            executed in a session. <br> Last acitivity date refers to time of most recent prompt request
-                            in
-                            the session.</p>
-
-
-                        <h4>Labels</h4>
-                        <p> Labels can be assigned during creation or added later to help you filter and categorize your
-                            sessions. <br> The default labels provided are "business", "personal", and "archived".
-                        </p>
-                        <figure class="figure">
-                            <img class="figure-img img-fluid rounded shadow bg-dark-3"
-                                src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Flabels.png?alt=media&token=2e3c37c3-03d5-48a5-9ea1-ed58b853a8cd"
-                                alt="">
-                            <figcaption class="figure-caption text-center">labels are visible on larger screens
-                            </figcaption>
-                        </figure>
-                        <p>Use the Filter select at the top of Dashboard to filter by labels. <br> Default labels can be
-                            changed in your profile settings.</p>
-                        <figure class="figure">
-                            <img class="figure-img img-fluid rounded shadow bg-dark-3"
-                                src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Flabel_filter.png?alt=media&token=5bd91ebf-449b-4dd5-8107-45dc7c2c4f1f"
-                                alt="">
-                            <figcaption class="figure-caption text-center">Filter by labels
-                            </figcaption>
-                        </figure>
-
-                        <h4 class="mt-5">Users</h4>
-                        <figure class="figure">
-                            <img class="figure-img img-fluid rounded shadow bg-dark-3"
-                                src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fdashboard_users.png?alt=media&token=0dfca7af-5f35-4dc5-bc7b-23479da9bebc"
-                                alt="">
-                            <figcaption class="figure-caption text-center">User(s) in a session
-                            </figcaption>
-                        </figure>
-                        <p>Displays the users in your session and their current online status.
-                            <br> A green dot indicates a user currently has a broswer open with a session.
-                            <br>Similar to the share icon, usernames are colored to indicate owner status.
-                        </p>
-                    </section>
-
-                    <hr class="divider">
-
                     <!-- Doc options
             ============================ -->
                     <section id="options">
@@ -934,7 +855,126 @@
                                 observations, or any information pertinent to the session.</li>
                         </ul>
                     </section>
+                    <hr class="divider">
 
+                    <!-- session dashboard
+            ============================ -->
+                    <section id="dashboard" name="dashboard">
+                        <h2>Sessions Dashboard <a class="btn hover_yellow anchor_copy_link">
+                                <span class="material-icons">link</span>
+                            </a>
+                        </h2>
+                        <p class="lead mb-3">Overview</p>
+                        <p mb-3>The Sessions page is your hub to manage and access all documents/sessions created or
+                            shared
+                            with
+                            you. This section provides a comprehensive overview of all the sessions in a user-friendly
+                            file
+                            system.</p>
+                        <p>Here are the key components of each line item, from left to right:</p>
+                        <figure class="figure">
+                            <img class="figure-img img-fluid rounded shadow bg-dark-3"
+                                src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fdasboard_list.png?alt=media&token=4cc9ae12-cc2f-423e-980d-78b94ffbcbc9"
+                                alt="">
+                            <figcaption class="figure-caption text-center">Each are listed with its last activity date.
+                            </figcaption>
+                        </figure>
+                        <hr>
+                        <h4>Share Icon</h4>
+                        <p class="lead">Click on this icon to get a shareable link for the session.</p>
+                        <p>Icon color indicates whether the session is shared or not. <br>The color coding is as
+                            follows:
+                        </p>
+                        <ul class="list-group">
+                            <li
+                                class="list-group-item pb-0 text-white bg-dark-3 d-flex justify-content-between align-items-start">
+                                <span class="badge"
+                                    style="color:rgb(150, 150, 150);background-color: rgb(40, 50, 84);"><i
+                                        class="material-icons">link</i></span>
+                                <div class="ms-2 me-auto ">
+                                    <p> indicates you are the owner.</p>
+                                </div>
+
+                            </li>
+                            <li
+                                class="list-group-item pb-0 text-white bg-dark-3 d-flex justify-content-between align-items-start">
+                                <span class="badge"
+                                    style="color:rgb(150, 100, 230);background-color: rgb(40, 50, 84);"><i
+                                        class="material-icons">link</i></span>
+                                <div class="ms-2 me-auto ">
+                                    <p> indicates that you are the owner and you have shared the document.</p>
+                                </div>
+
+                            </li>
+                            <li
+                                class="list-group-item pb-0 text-white bg-dark-3 d-flex justify-content-between align-items-start">
+                                <span class="badge"
+                                    style="color:rgb(30, 200, 200);background-color: rgb(40, 50, 84);"><i
+                                        class="material-icons">link</i></span>
+                                <div class="ms-2 me-auto ">
+                                    <p>indicates that the session is shared with you.</p>
+                                </div>
+                            </li>
+                        </ul>
+                        <h4 class="mt-5">Document Title</h4>
+                        <p>The title of a session can be set during creation or edited later. <br>If you don't
+                            provide a title during creation, the first prompt will be used as the document name.</p>
+                        <figure class="figure">
+                            <img class="figure-img img-fluid rounded shadow bg-dark-3"
+                                src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fedit_title.png?alt=media&token=315cbe0a-e0a8-4f44-8e89-c8dffbadf4ab"
+                                alt="">
+                            <figcaption class="figure-caption text-center">Using Document Options to edit the title
+                            </figcaption>
+                        </figure>
+                        <h4 class="mt-5">Document Stats</h4>
+                        <p class="lead">Prompt Counter & Last Activity Date</p>
+                        <p class="mb-2">Document stats are there to help you quickly identify
+                            the desired session you want to return to quickly.</p>
+                        <figure class="figure mb-0">
+                            <img class="figure-img mb-0 img-fluid rounded p-1 shadow bg-dark-3"
+                                src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fdashboard_stats.png?alt=media&token=657b5f76-59ba-4966-8b95-db86810788e7"
+                                alt="">
+                        </figure>
+                        <p class="mb-4">Prompt Count totals the number of prompts
+                            executed in a session. <br> Last acitivity date refers to time of most recent prompt request
+                            in
+                            the session.</p>
+
+
+                        <h4>Labels</h4>
+                        <p> Labels can be assigned during creation or added later to help you filter and categorize your
+                            sessions. <br> The default labels provided are "business", "personal", and "archived".
+                        </p>
+                        <figure class="figure">
+                            <img class="figure-img img-fluid rounded shadow bg-dark-3"
+                                src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Flabels.png?alt=media&token=2e3c37c3-03d5-48a5-9ea1-ed58b853a8cd"
+                                alt="">
+                            <figcaption class="figure-caption text-center">labels are visible on larger screens
+                            </figcaption>
+                        </figure>
+                        <p>Use the Filter select at the top of Dashboard to filter by labels. <br> Default labels can be
+                            changed in your profile settings.</p>
+                        <figure class="figure">
+                            <img class="figure-img img-fluid rounded shadow bg-dark-3"
+                                src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Flabel_filter.png?alt=media&token=5bd91ebf-449b-4dd5-8107-45dc7c2c4f1f"
+                                alt="">
+                            <figcaption class="figure-caption text-center">Filter by labels
+                            </figcaption>
+                        </figure>
+
+                        <h4 class="mt-5">Users</h4>
+                        <figure class="figure">
+                            <img class="figure-img img-fluid rounded shadow bg-dark-3"
+                                src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fdashboard_users.png?alt=media&token=0dfca7af-5f35-4dc5-bc7b-23479da9bebc"
+                                alt="">
+                            <figcaption class="figure-caption text-center">User(s) in a session
+                            </figcaption>
+                        </figure>
+                        <p>Displays the users in your session and their current online status.
+                            <br> A green dot indicates a user currently has a broswer open with a session.
+                            <br>Similar to the share icon, usernames are colored to indicate owner status.
+                        </p>
+                    </section>
                     <hr class="divider">
                     <section id="profile">
                         <h2>Profile Setting <a class="btn hover_yellow anchor_copy_link">
@@ -1031,7 +1071,7 @@
                         <h2 id="templates">Templates <a class="btn hover_yellow anchor_copy_link">
                                 <span class="material-icons">link</span>
                             </a></h2>
-                        <p class="lead">Coming soon! Prompts to teach you the 101 on working with AI</p>
+                        <p class="lead">Coming soon! A collection of the best starter prompts around</p>
 
 
                     </section>
