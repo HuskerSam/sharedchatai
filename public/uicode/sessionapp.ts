@@ -45,16 +45,7 @@ export class SessionApp extends BaseApp {
   excludingTicketsRunning = false;
   paintOptionsDebounceTimer: any = null;
   lastMembersHTMLCache = "";
-  modelLimit = 0;
   excludeErrorMargin = 0.97;
-  defaultUIEngineSettings: any = {
-    model: "gpt-3.5-turbo",
-    max_tokens: 500,
-    temperature: 1,
-    top_p: 1,
-    presence_penalty: 0,
-    frequency_penalty: 0,
-  };
   systemMessageListElement: any = null;
 
   threshold_dialog_context_limit: any = document.querySelector(".threshold_dialog_context_limit");
@@ -122,6 +113,7 @@ export class SessionApp extends BaseApp {
   navbarSupportedContent: any = document.querySelector("#navbarSupportedContent");
 
   select_all_tickets_button: any = document.querySelector(".select_all_tickets_button");
+  selected_model_context_limit: any = document.querySelector(".selected_model_context_limit");
   firstDocumentLoad = true;
 
   tokenizedStringCache: any = {};
@@ -253,6 +245,11 @@ export class SessionApp extends BaseApp {
       el.style.height = height + "px";
     }, 0);
   }
+  /** get model meta using session document.model
+   * @return { any } meta for model */  
+  get modelMeta(): any {
+    return ChatDocument.getModelMeta(this.sessionDocumentData.model);
+  }
   /** update temperature label and save to api
    * @param { boolean } saveToAPI true to save slider value to api
    * @param { string } sliderField document name of field
@@ -268,7 +265,7 @@ export class SessionApp extends BaseApp {
     if (sliderField === "max_tokens") outPercent = value.toString();
     BaseApp.setHTML(sliderLabel, prefix + "<span>" + outPercent + "</span>");
 
-    if (value !== this.defaultUIEngineSettings[sliderField]) sliderLabel.classList.add("engine_field_not_default");
+    if (value !== this.modelMeta.defaults[sliderField]) sliderLabel.classList.add("engine_field_not_default");
     else sliderLabel.classList.remove("engine_field_not_default");
 
     // only update every 50ms
@@ -649,16 +646,13 @@ export class SessionApp extends BaseApp {
   }
   /** */
   updateContextualLimit() {
-    if (this.sessionDocumentData.model === "gpt-3.5-turbo-16k") this.modelLimit = 16394;
-    else this.modelLimit = 4096;
+    this.docfield_max_tokens.setAttribute("max", this.modelMeta.completionMax);
+    this.docfield_max_tokens.setAttribute("min", this.modelMeta.completionMin);
+    this.threshold_dialog_context_limit.innerHTML = this.modelMeta.contextualLimit;
+    this.selected_model_context_limit.innerHTML =  this.modelMeta.contextualLimit;
 
-    this.docfield_max_tokens.setAttribute("max", this.modelLimit);
-
-    const responseLimit = Math.floor(this.modelLimit / 20) * 20;
-    this.threshold_dialog_context_limit.innerHTML = this.modelLimit;
-
-    if (this.sessionDocumentData.max_tokens > responseLimit) {
-      this.saveDocumentOption(this.documentId, "max_tokens", 500);
+    if (this.sessionDocumentData.max_tokens > this.modelMeta.completionMax) {
+      this.saveDocumentOption(this.documentId, "max_tokens", this.modelMeta.defaultCompletion);
     }
   }
   /** api call for delete user message
@@ -1274,11 +1268,11 @@ export class SessionApp extends BaseApp {
   }
   /**
    *
-   * @return { boolean } true if over this.modelLimit for submit token count
+   * @return { boolean } true if over model contextual limit for submit token count
    */
   isOverSendThreshold(): boolean {
     return this.includeTotalTokens + this.sessionDocumentData.max_tokens +
-      this.lastInputTokenCount + this.lastSystemMessageTokenCount > this.modelLimit;
+      this.lastInputTokenCount + this.lastSystemMessageTokenCount > this.modelMeta.contextualLimit;
   }
   /** shows over threshold modal */
   showOverthresholdToSendModal() {
@@ -1293,8 +1287,9 @@ export class SessionApp extends BaseApp {
     if (this.excludingTicketsRunning) return [];
     this.excludingTicketsRunning = true;
     document.body.classList.add("exclude_tickets_running");
+    
     let tokenReduction = this.includeTotalTokens + this.sessionDocumentData.max_tokens +
-      this.lastInputTokenCount + this.lastSystemMessageTokenCount - (this.modelLimit * this.excludeErrorMargin);
+      this.lastInputTokenCount + this.lastSystemMessageTokenCount - (this.modelMeta.contextualLimit * this.excludeErrorMargin);
 
     const tickets: Array<any> = [];
     this.lastTicketsSnapshot.forEach((doc: any) => tickets.unshift(doc));
@@ -1333,8 +1328,9 @@ export class SessionApp extends BaseApp {
   */
   testForEngineNotDefault(): boolean {
     let fieldChanged = false;
-    Object.keys(this.defaultUIEngineSettings).forEach((key) => {
-      const value = this.defaultUIEngineSettings[key];
+    const defaults = this.modelMeta.defaults;
+    Object.keys(defaults).forEach((key) => {
+      const value = defaults[key];
       if (value.toString() !== this.sessionDocumentData[key].toString()) fieldChanged = true;
     });
     return fieldChanged;
@@ -1344,8 +1340,8 @@ export class SessionApp extends BaseApp {
   */
   testForEngineTweaked(): boolean {
     let fieldChanged = false;
-    Object.keys(this.defaultUIEngineSettings).forEach((key) => {
-      const value = this.defaultUIEngineSettings[key];
+    Object.keys(this.modelMeta.defaults).forEach((key) => {
+      const value = this.modelMeta.defaults[key];
       if (key !== "model" && key !== "max_tokens") {
         if (value.toString() !== this.sessionDocumentData[key].toString()) fieldChanged = true;
       }
@@ -1359,7 +1355,7 @@ export class SessionApp extends BaseApp {
     const body: any = {
       gameNumber: this.documentId,
     };
-    Object.assign(body, this.defaultUIEngineSettings);
+    Object.assign(body, this.modelMeta.defaults);
     const token = await firebase.auth().currentUser.getIdToken();
     const fResult = await fetch(this.basePath + "lobbyApi/games/options", {
       method: "POST",

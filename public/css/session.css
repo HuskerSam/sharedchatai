@@ -255,9 +255,20 @@ html {
 }
 
 .document_option_model_select_wrapper {
-  text-align: center;
+  text-align: left;
   padding-top: 5px;
+  padding-left: 12px;
+  padding-right: 12px;
   padding-bottom: 22px;
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+
+.selected_model_context_limit {
+  width: 70px;
+  text-align: right;
+  align-self: center;
 }
 
 ul.recent_documents_list {
@@ -465,6 +476,7 @@ pre code {
 
 .exclude_tickets_button {
   background-color: rgba(68, 70, 84, 0.5);
+  margin-left: 8px;
 }
 
 .over_token_sendlimit .exclude_tickets_button {
@@ -829,6 +841,10 @@ pre code {
   color: rgb(255, 127, 50);
 }
 
+.over_token_sendlimit .total_prompt_token_count {
+  color: rgb(255, 50, 50);
+}
+
 .send_bar_display_header {
   display: flex;
   flex-direction: row;
@@ -851,7 +867,7 @@ button.btn-primary.send_ticket_button {
   color: rgb(255, 127, 50);
 }
 
-.over_token_sendlimit .send_ticket_button {
+.over_token_sendlimit .send_ticket_button i {
   color: rgb(255, 50, 50);
 }
 

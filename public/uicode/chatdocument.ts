@@ -297,4 +297,33 @@ export default class ChatDocument {
       return "";
     }
   }
+  /** min and max returned in multiples of 20
+   * @param { string } name model name
+   * @return { any } returns model meta (contextualLimit, completionMax, completionMin)
+  */
+  static getModelMeta(name = ""): any {
+    let contextualLimit = 4096;
+    let defaultCompletion = 500;
+    if (name === "gpt-3.5-turbo-16k") {
+      contextualLimit = 16394;
+      defaultCompletion = 2000;
+    }
+    const completionMax = Math.floor(Math.round(contextualLimit * 0.7) / 20) * 20;
+    const completionMin = 20;
+
+    const defaults = {
+      max_tokens: defaultCompletion,
+      temperature: 1,
+      top_p: 1,
+      presence_penalty: 0,
+      frequency_penalty: 0,
+    };
+    return {
+      contextualLimit,
+      completionMax,
+      completionMin,
+      defaultCompletion,
+      defaults,
+    }
+  }
 }
