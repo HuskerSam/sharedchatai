@@ -32,7 +32,6 @@ html {
   }
 }
 
-
 @media (min-width: 992px) {
   .tickets_list {
     padding-left: 5%;
@@ -1132,12 +1131,17 @@ li.mb-1 button.btn.btn-toggle:before {
   overflow: auto;  
   left: -250px;
   transition: left .6s, visibility .6s;
+  width: calc(320px + 2%);
+  padding-left: 1%;
+  padding-right: 1%;
 }
 
 .mobile_layout_mode .left_panel_view {
   width: 250px;
   position: absolute;
   z-index: 10000;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .loaded .left_panel_view {

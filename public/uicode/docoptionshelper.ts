@@ -472,7 +472,7 @@ export default class DocOptionsHelper {
                     <i class="material-icons">logout</i>Leave
                     </button>
                     <div style="flex:1"></div>
-                    <a type="button" class="btn btn-secondary modal_send_email_button" target="_blank">
+                    <a type="button" class="btn btn-secondary modal_send_email_button" target="_blank" style="display:none;">
                         <i class="material-icons">email</i>
                         Send
                     </a>                  
