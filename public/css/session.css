@@ -9,6 +9,7 @@ html {
   flex: 1;
   flex-direction: row;
   overflow: hidden;
+  width: 100%;
 }
 
 .session_page_wrapper {
