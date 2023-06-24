@@ -1118,6 +1118,7 @@ li.mb-1 button.btn.btn-toggle:before {
 .mobile_layout_mode .left_panel_view {
   display: flex;
   visibility: hidden;
+  border-right: solid 1px rgb(0, 0, 0);
 }
 
 .mobile_layout_mode.loaded.side_bar_opened .left_panel_view {

@@ -228,8 +228,10 @@ export class DashboardApp extends BaseApp {
         <div class="session_labels_column" data-docid="${doc.id}"></div>
         <div class="session_shared_column" data-docid="${doc.id}"></div>
         <div class="btn-group dropstart">
-          <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></button>
-          <ul class="dropdown-menu">
+          <button type="button" class="btn btn-secondary dropdown-toggle dashboard_menu_toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="material-icons">more_vert</i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-dark">
             <li><button class="dropdown-item options">Options</button></li>
             <li><button class="dropdown-item clone">Clone</button></li>
             <li><button class="dropdown-item share_email">Share Email</button></li>

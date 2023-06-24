@@ -131,7 +131,7 @@ export class SessionApp extends BaseApp {
         this.sendTicketToAPI();
       }
       if (this.atBottom(this.tickets_list)) {
-        setTimeout(() => this.scrollTicketListBottom(), 100);
+        this.scrollTicketListBottom();
       }
     });
     // redraw message feed to update time since values
@@ -276,8 +276,8 @@ export class SessionApp extends BaseApp {
     else sliderLabel.classList.remove("engine_field_not_default");
 
     // only update every 50ms
-    this.lastDocumentOptionChange = new Date().getTime();
     if (saveToAPI) {
+      this.lastDocumentOptionChange = new Date().getTime();
       if (this.sliderChangeDebounceTimeout[sliderField]) clearTimeout(this.sliderChangeDebounceTimeout[sliderField]);
       this.sliderChangeDebounceTimeout[sliderField] = setTimeout(() => {
         this.saveDocumentOption(this.documentId, sliderField, Number(sliderCtl.value));
@@ -884,7 +884,6 @@ export class SessionApp extends BaseApp {
     this.updateUserNamesImages();
 
     this.scrollTicketListBottom();
-    setTimeout(() => this.scrollTicketListBottom(), 150);
   }
   /** process exisiting tickets and return list of ids to submit
    * @param { string } ticketId doc id
@@ -1166,28 +1165,26 @@ export class SessionApp extends BaseApp {
     if (notDefault && !tweaked) document.body.classList.add("engine_settings_minor_tweaked");
     else document.body.classList.remove("engine_settings_minor_tweaked");
 
-    const debounce = (this.lastDocumentOptionChange + 750 < new Date().getTime());
-
     this.docfield_model.value = this.sessionDocumentData.model;
     this.updateContextualLimit();
 
-    this.__debounceSliderPaint("max_tokens", debounce, "Max Response: ");
-    this.__debounceSliderPaint("temperature", debounce, "Temperature: ");
-    this.__debounceSliderPaint("top_p", debounce, "Top P: ");
-    this.__debounceSliderPaint("presence_penalty", debounce, "Presence Penalty: ");
-    this.__debounceSliderPaint("frequency_penalty", debounce, "Frequency Penalty: ");
+    this.__debounceSliderPaint("max_tokens", "Max Response: ");
+    this.__debounceSliderPaint("temperature", "Temperature: ");
+    this.__debounceSliderPaint("top_p", "Top P: ");
+    this.__debounceSliderPaint("presence_penalty", "Presence Penalty: ");
+    this.__debounceSliderPaint("frequency_penalty", "Frequency Penalty: ");
   }
   /** debounce painting slider so doesn't interfere with user input
    *
    * @param { string } field doc field name
-   * @param { boolean } debounce true to debounce painting (delay and paint oafter slider timeout)
    * @param { string } label label to paint for value prefix
    */
-  __debounceSliderPaint(field: string, debounce: boolean, label: string) {
-    if (debounce && this.sliderChangeDebounceTimeout[field]) {
+  __debounceSliderPaint(field: string, label: string) {
+    const debounce = (this.lastDocumentOptionChange + 750 > new Date().getTime());
+    if (debounce) {
       clearTimeout(this.sliderPaintDebounceTimeout[field]);
       this.sliderPaintDebounceTimeout[field] = setTimeout(() => {
-        this.__debounceSliderPaint(field, debounce, label);
+        this.__debounceSliderPaint(field, label);
         this.sliderPaintDebounceTimeout[field] = null;
       }, 500);
       return;

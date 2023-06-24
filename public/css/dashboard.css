@@ -316,3 +316,23 @@
 .dashboard_feed_owner_user.document_list_item .leave {
   display: none;
 }
+
+.dropstart .dropdown-toggle::before {
+  display: inline-block;
+  margin-right: 0;
+  vertical-align: 0;
+  content: none;
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+}
+
+.btn.btn-secondary.dropdown-toggle.dashboard_menu_toggle {
+  background: none;
+  border-color: transparent;
+}
+
+.dashboard_menu_toggle i {
+  top: 4px;
+  position: relative;
+}
