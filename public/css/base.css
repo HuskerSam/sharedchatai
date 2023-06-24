@@ -234,7 +234,7 @@ select.form-select option {
 }
 
 .app_panel .form-check-input {
-  border-color: rgb(100, 255, 100);
+  border-color: rgb(150, 200, 150);
 }
 
 .app_panel .form-check-input:checked {

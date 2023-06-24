@@ -25,6 +25,13 @@ html {
   overflow:auto;
 }
 
+@media (min-width: 501px) {
+  .tickets_list {
+    padding-left: 3%;
+    padding-right: 3%;
+  }
+}
+
 .members_feed_profile_image {
   display: inline-block;
   width: 32px;
