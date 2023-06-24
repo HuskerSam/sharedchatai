@@ -473,12 +473,7 @@ button.btn-primary:active {
 .show_document_options_help i {
   position: relative;
   top: 2px;
-  color: rgb(200, 125, 200);
   float: left;
-}
-
-.showhomepage_help i {
-  color: rgb(200, 125, 200);
 }
 
 .nav-link.dashboard_create_game .menu_dropdown_label_wrapper {
@@ -488,7 +483,6 @@ button.btn-primary:active {
 .nav-link.dashboard_create_game_mobile.hover_yellow i,
 .nav-link.dashboard_create_game.hover_yellow i,
 .nav-link.show_create_modal.hover_yellow i {
-  color: rgb(40, 220, 40);
   position: relative;
 }
 
