@@ -302,15 +302,6 @@ ul.recent_documents_list li a {
   max-height: 50vh;
 }
 
-.left_panel_view {
-  width: 300px;
-}
-
-.left_panel_view .navbar {
-  border-bottom: 1px solid rgba(222, 226, 230, .2);
-  overflow: auto;
-}
-
 .right_panel_view {
   flex: 1;
   flex-direction: column;
@@ -648,12 +639,6 @@ pre code {
 
 .mobile_layout_mode .navbar.menu_nav_bar {
   display: block;
-}
-
-.mobile_layout_mode .left_panel_view {
-  width: 250px;
-  position: absolute;
-  z-index: 10000;
 }
 
 .sidebar_tree_menu {
@@ -1105,8 +1090,9 @@ li.mb-1 button.btn.btn-toggle:before {
   flex: 1;
 }
 
-
 .left_panel_view {
+  width: 300px;
+  overflow: auto;
   display: none;
   flex-direction: column;
   overflow: hidden;
@@ -1114,7 +1100,15 @@ li.mb-1 button.btn.btn-toggle:before {
   color: rgb(217, 217, 227);
   height: 100%;
   top: 0;
-  overflow: auto;
+  overflow: auto;  
+  left: -250px;
+  transition: left .6s, visibility .6s;
+}
+
+.mobile_layout_mode .left_panel_view {
+  width: 250px;
+  position: absolute;
+  z-index: 10000;
 }
 
 .loaded .left_panel_view {
@@ -1122,9 +1116,14 @@ li.mb-1 button.btn.btn-toggle:before {
 }
 
 .mobile_layout_mode .left_panel_view {
-  display: none;
+  display: flex;
+  visibility: hidden;
 }
 
 .mobile_layout_mode.loaded.side_bar_opened .left_panel_view {
-  display: flex;
+  visibility: visible;
+}
+
+.left_panel_view.animate {
+  left: 0;
 }
