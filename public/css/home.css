@@ -263,3 +263,15 @@ ul.recent_documents_list li a {
 .show_create_modal .menu_dropdown_label_wrapper {
   top: -2px;
 }
+
+#navbarSupportedContent.navbar-collapse {
+  text-align: left;
+  padding-left: 12px;
+}
+
+@media (min-width: 992px) {
+  #navbarSupportedContent.navbar-collapse {
+    display: inline-flex!important;
+    max-width: 1200px;
+  }
+}
