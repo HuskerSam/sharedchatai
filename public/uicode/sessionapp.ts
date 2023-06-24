@@ -60,6 +60,7 @@ export class SessionApp extends BaseApp {
   session_sidebar_splitter_div: any = document.querySelector(".session_sidebar_splitter_div");
   sidebarusers_link_copy: any = document.querySelector(".sidebarusers_link_copy");
   threshold_auto_exclude_checkbox: any = document.querySelector(".threshold_auto_exclude_checkbox");
+  side_panel_click_to_close: any = document.querySelector(".side_panel_click_to_close");
 
   tickets_list: any = document.querySelector(".tickets_list");
   members_list: any = document.querySelector(".members_list");
@@ -113,7 +114,6 @@ export class SessionApp extends BaseApp {
 
   select_all_tickets_button: any = document.querySelector(".select_all_tickets_button");
   selected_model_context_limit: any = document.querySelector(".selected_model_context_limit");
-  left_panel_view: any = document.querySelector(".left_panel_view");
   firstDocumentLoad = true;
 
   tokenizedStringCache: any = {};
@@ -225,14 +225,12 @@ export class SessionApp extends BaseApp {
 
     this.session_hamburger.addEventListener("click", () => this.expandSideBar());
 
+    this.side_panel_click_to_close.addEventListener("click", () => this.expandSideBar());
     this.scrollTicketListBottom();
   }
   /** */
   expandSideBar() {
-    setTimeout(() => {
-      document.body.classList.toggle("side_bar_opened");
-      this.left_panel_view.classList.toggle("animate");
-    }, 1);
+    document.body.classList.toggle("side_bar_opened");
   }
   /** expand prompt input textarea */
   autoSizeTextArea() {

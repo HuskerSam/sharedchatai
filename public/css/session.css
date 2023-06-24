@@ -1122,8 +1122,20 @@ li.mb-1 button.btn.btn-toggle:before {
 
 .mobile_layout_mode.loaded.side_bar_opened .left_panel_view {
   visibility: visible;
+  left: 0;
 }
 
-.left_panel_view.animate {
+.side_panel_click_to_close {
+  display: none;
+}
+
+.mobile_layout_mode.loaded.side_bar_opened .side_panel_click_to_close {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
   left: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.3);
 }
