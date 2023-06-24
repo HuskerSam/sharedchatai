@@ -8,12 +8,6 @@
   color: rgb(130, 150, 255);
 }
 
-.session_details_button {
-  background-color: transparent;
-  border-color: transparent;
-  margin: auto;
-}
-
 .document_status {
   display: block;
   clear: both;
@@ -22,10 +16,6 @@
   align-self: center;
   min-width: 3.25em;
   padding-left: 0.25em;
-}
-
-.profile_text_option_large .session_details_button {
-  font-size: 1.3em;
 }
 
 .list-group-item-action:focus {
@@ -46,22 +36,11 @@
   padding-left: 40px;
 }
 
-.session_details_button .settings_icon {
-  position: relative;
-  top: 0px;
-  left: -2px;
-  float: left;
-}
-
 .session_ticket_count {
   color: rgb(130, 150, 255);
   margin: auto;
   width: 3em;
   font-family: monospace;
-}
-
-.profile_text_option_large .session_details_button .session_ticket_count {
-  top: -4px;
 }
 
 .unused_chatroom_title_placeholder {
@@ -223,7 +202,6 @@
 
 .document_list_item {
   display: block;
-  overflow: hidden;
   min-height: 3.75em;
   display: flex;
   flex-direction: row;
@@ -325,4 +303,16 @@
 .dashboard_create_game {
   position: relative;
   left: 3px;
+}
+
+.document_list_item .delete {
+  display: none;
+}
+
+.dashboard_feed_owner_user.document_list_item .delete {
+  display: block;
+}
+
+.dashboard_feed_owner_user.document_list_item .leave {
+  display: none;
 }

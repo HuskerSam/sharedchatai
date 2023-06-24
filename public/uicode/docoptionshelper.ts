@@ -114,23 +114,7 @@ export default class DocOptionsHelper {
         this.clone_current_chatroom_button.addEventListener("click", async (event: any) => {
             event.stopPropagation();
             event.preventDefault();
-            const exportData = ChatDocument.generateExportData(this.docData, this.app.lastTicketsSnapshot,
-                this.app.assistsLookup, true, "JSON");
-            const templateData = JSON.parse(exportData.resultText);
-            let fileName = this.docData.title;
-            if (!fileName) fileName = "Cloned";
-            const file = new File([JSON.stringify(templateData)], fileName, {
-                type: "application/json",
-            });
-            const transfer = new DataTransfer();
-            transfer.items.add(file);
-            this.app.documentCreate.create_modal_template_file.files = transfer.files;
-            const templateRows = await this.app.documentCreate.updateParsedFileStatus();
-            if (!templateRows || templateRows.length === 0) {
-                this.app.documentCreate.create_modal_template_file.value = "";
-            }
-            this.app.documentCreate.create_modal_title_field.value = fileName;
-            this.app.documentCreate.show();
+            this.cloneDocument();
         });
 
         const del: any = this.modalContainer.querySelector("button.delete_game");
@@ -193,6 +177,26 @@ export default class DocOptionsHelper {
         this.options_tab_button.addEventListener("click", () => this.app.saveProfileField("optionsDialogTabIndex", 1));
         this.owner_tab_button = this.modalContainer.querySelector("#owner_tab_button");
         this.owner_tab_button.addEventListener("click", () => this.app.saveProfileField("optionsDialogTabIndex", 2));
+    }
+    /** */
+    async cloneDocument() {
+        const exportData = ChatDocument.generateExportData(this.docData, this.app.lastTicketsSnapshot,
+            this.app.assistsLookup, true, "JSON");
+        const templateData = JSON.parse(exportData.resultText);
+        let fileName = this.docData.title;
+        if (!fileName) fileName = "Cloned";
+        const file = new File([JSON.stringify(templateData)], fileName, {
+            type: "application/json",
+        });
+        const transfer = new DataTransfer();
+        transfer.items.add(file);
+        this.app.documentCreate.create_modal_template_file.files = transfer.files;
+        const templateRows = await this.app.documentCreate.updateParsedFileStatus();
+        if (!templateRows || templateRows.length === 0) {
+            this.app.documentCreate.create_modal_template_file.value = "";
+        }
+        this.app.documentCreate.create_modal_title_field.value = fileName;
+        this.app.documentCreate.show();
     }
     /** */
     async showPacketsDialog() {
