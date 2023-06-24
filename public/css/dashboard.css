@@ -89,6 +89,8 @@
 .game_lobby {
   padding-left: 4px;
   padding-right: 4px;
+  max-width: 1200px;
+  margin: auto;
 }
 
 @media (min-width: 440px) {
@@ -136,7 +138,7 @@
 }
 
 .session_labels_column {
-  width: 20vw;
+  width: 250px;
   display: none;
   max-height: 3.3em;
   overflow: hidden;
@@ -335,4 +337,20 @@
 .dashboard_menu_toggle i {
   top: 4px;
   position: relative;
+}
+
+.navbar_wrapper {
+  background: rgb(32, 33, 35);
+}
+
+.navbar_wrapper .navbar {
+  max-width: 1200px;
+  min-height: 70px;
+  padding-left: 12px;
+  display: inline-flex;
+  width: 100%;
+}
+
+.session_shared_column .member_profile_name {
+  font-size: 10px;
 }

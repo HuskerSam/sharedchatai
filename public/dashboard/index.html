@@ -61,64 +61,66 @@
 
 <body class="promptplus_dashboard_page">
   <div class="main_outer_view basic_page_wrapper app_panel" style="min-height: 100vh;">
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="min-height: 70px;">
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/">
-              <span class="mobile_custom_icon_label">
-                <i class="material-icons">home</i>
-              </span>             
-              <span class="menu_dropdown_label_wrapper">
-                Home
-              </span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="show_dashboard_help_button nav-link" href="/help/#dashboard" target="_blank">
-              <span class="mobile_custom_icon_label">
-                <i class="material-icons">help_outline</i>
-              </span>
-              <span class="menu_dropdown_label_wrapper">
-                Help
-              </span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link dashboard_create_game hover_yellow" href="create">
-              <span class="mobile_custom_icon_label">
-                <i class="material-icons">add</i>
-              </span>
-              <span class="menu_dropdown_label_wrapper">
-                New
-              </span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
-              <span class="menu_profile_user_image_span member_profile_image"></span>
-              <span class="menu_dropdown_label_wrapper member_profile_name menu_profile_user_name_span"></span>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div class="menu_profile_name_spacer"></div>
-      <div class="games_view_header_wrapper">
-        <select class="document_label_filter form-select form-select-lg hover_yellow">
-          <option>All Sessions</option>
-        </select>
-      </div>
-      <a class="nav-link dashboard_create_game_mobile hover_yellow" href="create">
-        <span class="mobile_custom_icon_label">
-          <i class="material-icons">add</i>
-        </span>
-      </a>
-      <button class="navbar-toggler hover_yellow" type="button" data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-        aria-label="Toggle navigation">
-        <span class="hamburger_span"></span>
-      </button>
-    </nav>
+    <div class="navbar_wrapper">
+      <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <span class="mobile_custom_icon_label">
+                  <i class="material-icons">home</i>
+                </span>             
+                <span class="menu_dropdown_label_wrapper">
+                  Home
+                </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="show_dashboard_help_button nav-link" href="/help/#dashboard" target="_blank">
+                <span class="mobile_custom_icon_label">
+                  <i class="material-icons">help_outline</i>
+                </span>
+                <span class="menu_dropdown_label_wrapper">
+                  Help
+                </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link dashboard_create_game hover_yellow" href="create">
+                <span class="mobile_custom_icon_label">
+                  <i class="material-icons">add</i>
+                </span>
+                <span class="menu_dropdown_label_wrapper">
+                  New
+                </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
+                <span class="menu_profile_user_image_span member_profile_image"></span>
+                <span class="menu_dropdown_label_wrapper member_profile_name menu_profile_user_name_span"></span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="menu_profile_name_spacer"></div>
+        <div class="games_view_header_wrapper">
+          <select class="document_label_filter form-select form-select-lg hover_yellow">
+            <option>All Sessions</option>
+          </select>
+        </div>
+        <a class="nav-link dashboard_create_game_mobile hover_yellow" href="create">
+          <span class="mobile_custom_icon_label">
+            <i class="material-icons">add</i>
+          </span>
+        </a>
+        <button class="navbar-toggler hover_yellow" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="hamburger_span"></span>
+        </button>
+      </nav>
+    </div>
     <div class="game_lobby">
       <button id="show_document_options_popup" style="display:none;" class="btn btn-primary" data-bs-toggle="modal"
         data-bs-target="#editDocumentModal"></button>
