@@ -5,7 +5,7 @@
   overflow: hidden;
   margin-top: auto;
   margin-bottom: auto;
-  color: rgb(130, 150, 255);
+  color: rgb(190, 200, 255);
 }
 
 .document_status {
@@ -37,7 +37,7 @@
 }
 
 .session_ticket_count {
-  color: rgb(130, 150, 255);
+  color: rgb(190, 200, 255);
   margin: auto;
   width: 3em;
   font-family: monospace;
