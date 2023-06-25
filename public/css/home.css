@@ -302,7 +302,7 @@ ul.recent_documents_list li a {
   color: rgb(180, 255, 180);
   text-align: left;
   padding: 12px;
-  font-size: 1.25em;
+  font-size: 1.15em;
 }
 
 @media (min-width: 992px) {
