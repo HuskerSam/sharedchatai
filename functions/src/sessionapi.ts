@@ -382,6 +382,43 @@ export default class SessionAPI {
             }
         });
     }
+    /**
+     * @param { string } model model name (gpt-3.5-turbo, etc)
+     * @return { any } input and output $ cost per 1k tokens
+    */
+    static modelCreditMultiplier(model: string): any {
+        if (model === "gpt-3.5-turbo") {
+            return {
+                input: 0.0015,
+                output: 0.002,
+            };
+        }
+        if (model === "gpt-3.5-turbo-16k") {
+            return {
+                input: 0.003,
+                output: 0.004,
+            };
+        }
+        if (model === "gpt-4") {
+            return {
+                input: 0.03,
+                output: 0.06,
+            };
+        }
+        if (model === "gpt-4-32k") {
+            return {
+                input: 0.06,
+                output: 0.12,
+            };
+        }
+
+        console.log("model not found for billing");
+
+        return {
+            input: 0,
+            output: 0,
+        };
+    }
     /** submit ticket to AI engine and store response in /games/{gameid}/assists/{ticketid}
      * @param { any } packet message details
      * @param { any } sessionDocumentData game doc
@@ -397,6 +434,7 @@ export default class SessionAPI {
         let total_tokens = 0;
         let prompt_tokens = 0;
         let completion_tokens = 0;
+        let usage_credits = 0;
 
         let usageLimitError = false;
         let usageErrorObject: any = null;
@@ -405,8 +443,8 @@ export default class SessionAPI {
                 throw new Error("Submit Blocked: Document is set to archived");
             }
 
-            const usageLimit = BaseClass.getNumberOrDefault(sessionDocumentData.tokenUsageLimit, 0);
-            const documentUsed = BaseClass.getNumberOrDefault(sessionDocumentData.totalTokens, 0);
+            const usageLimit = BaseClass.getNumberOrDefault(sessionDocumentData.creditUsageLimit, 0);
+            const documentUsed = BaseClass.getNumberOrDefault(sessionDocumentData.creditUsage, 0);
             if (usageLimit > 0 && documentUsed >= usageLimit) {
                 throw new Error("Submit Blocked: Document Usage Limit Reached");
             }
@@ -422,6 +460,9 @@ export default class SessionAPI {
                 total_tokens = BaseClass.getNumberOrDefault(aiResponse.assist.usage.total_tokens, 0);
                 prompt_tokens = BaseClass.getNumberOrDefault(aiResponse.assist.usage.prompt_tokens, 0);
                 completion_tokens = BaseClass.getNumberOrDefault(aiResponse.assist.usage.completion_tokens, 0);
+
+                const creditFactors = SessionAPI.modelCreditMultiplier(sessionDocumentData.model);
+                usage_credits = creditFactors.input * prompt_tokens + creditFactors.output * completion_tokens;
             }
         } else {
             aiResponse = {
@@ -447,6 +488,7 @@ export default class SessionAPI {
                 totalTokens: FieldValue.increment(total_tokens),
                 promptTokens: FieldValue.increment(prompt_tokens),
                 completionTokens: FieldValue.increment(completion_tokens),
+                creditUsage: FieldValue.increment(usage_credits),
             }, {
                 merge: true,
             }),
@@ -458,6 +500,7 @@ export default class SessionAPI {
                 totalTokens: FieldValue.increment(total_tokens),
                 promptTokens: FieldValue.increment(prompt_tokens),
                 completionTokens: FieldValue.increment(completion_tokens),
+                creditUsage: FieldValue.increment(usage_credits),
                 runningTokens: {
                     ["total_" + yearFrag]: FieldValue.increment(total_tokens),
                     ["total_" + yearMonthFrag]: FieldValue.increment(total_tokens),
@@ -468,6 +511,9 @@ export default class SessionAPI {
                     ["completion_" + yearFrag]: FieldValue.increment(completion_tokens),
                     ["completion_" + yearMonthFrag]: FieldValue.increment(completion_tokens),
                     ["completion_" + ymdFrag]: FieldValue.increment(completion_tokens),
+                    ["credit_" + yearFrag]: FieldValue.increment(usage_credits),
+                    ["credit_" + yearMonthFrag]: FieldValue.increment(usage_credits),
+                    ["credit_" + ymdFrag]: FieldValue.increment(usage_credits),
                 },
             }, {
                 merge: true,
@@ -544,12 +590,12 @@ export default class SessionAPI {
      * @param { string } sessionId
      * @param { number } inc value to adjust ticket count by
     */
-   static async increateTicketCount(sessionId: string, inc: number) {
+    static async increateTicketCount(sessionId: string, inc: number) {
         await firebaseAdmin.firestore().doc(`Games/${sessionId}`).set({
             lastActivity: new Date().toISOString(),
             totalTickets: FieldValue.increment(inc),
         }, {
             merge: true,
         });
-   }
+    }
 }

@@ -233,7 +233,7 @@ export default class DocCreateHelper {
     if (systemMessage) body.systemMessage = systemMessage;
 
     if (this.document_usage_cap_field.value.trim() !== "") {
-      body.tokenUsageLimit = this.document_usage_cap_field.value.trim();
+      body.creditUsageLimit = this.document_usage_cap_field.value.trim();
     }
 
     const token = await firebase.auth().currentUser.getIdToken();

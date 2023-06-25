@@ -43,6 +43,7 @@ export default class DocOptionsHelper {
     doc_prompt_usage: any;
     doc_response_usage: any;
     doc_total_usage: any;
+    doc_credit_usage: any;
     dialog_header_member_image: any;
     dialog_header_member_name: any;
     export_only_selected_prompts: any;
@@ -76,6 +77,7 @@ export default class DocOptionsHelper {
         this.doc_prompt_usage = document.querySelector(".doc_prompt_usage");
         this.doc_response_usage = document.querySelector(".doc_response_usage");
         this.doc_total_usage = document.querySelector(".doc_total_usage");
+        this.doc_credit_usage = document.querySelector(".doc_credit_usage");
 
         this.docfield_archived_checkbox = this.modalContainer.querySelector(".docfield_archived_checkbox");
         this.docfield_archived_checkbox.addEventListener("input", () => this.updateArchivedStatus());
@@ -279,14 +281,14 @@ export default class DocOptionsHelper {
     }
     /** prompt and send token limit usage to api */
     promptForNewUsageLimit() {
-        let newLimit: any = prompt("Token Usage Limit", this.docData.tokenUsageLimit);
+        let newLimit: any = prompt("Token Usage Limit", this.docData.creditUsageLimit);
         if (newLimit !== null) {
             newLimit = Number(newLimit);
             if (isNaN(newLimit)) {
                 alert("invalid value");
                 return;
             }
-            this.docData.tokenUsageLimit = newLimit;
+            this.docData.creditUsageLimit = newLimit;
             this.app.saveDocumentOwnerOption(this.chatDocumentId, "usage", this.docData);
 
             this.paintDocumentData();
@@ -455,6 +457,10 @@ export default class DocOptionsHelper {
                                 <tr>
                                     <td>Total</td>
                                     <td class="doc_total_usage"></td>
+                                </tr>
+                                <tr>
+                                    <td>Credits</td>
+                                    <td class="doc_credit_usage"></td>
                                 </tr>
                             </table>
                         </div>
@@ -647,6 +653,7 @@ export default class DocOptionsHelper {
         this.doc_prompt_usage.innerHTML = BaseApp.numberWithCommas(this.docData.promptTokens);
         this.doc_response_usage.innerHTML = BaseApp.numberWithCommas(this.docData.completionTokens);
         this.doc_total_usage.innerHTML = BaseApp.numberWithCommas(this.docData.totalTokens);
+        this.doc_credit_usage.innerHTML = BaseApp.numberWithCommas(this.docData.creditUsage, 2);
 
         this.modal_document_title_display.innerHTML = BaseApp.escapeHTML(this.docData.title);
 
@@ -663,7 +670,7 @@ export default class DocOptionsHelper {
         if (sharedStatus === 2) this.session_header_link_button.classList.add("shared_status_withothers");
 
         let sharedLimit = "none";
-        if (this.docData.tokenUsageLimit !== 0) sharedLimit = BaseApp.numberWithCommas(this.docData.tokenUsageLimit);
+        if (this.docData.creditUsageLimit !== 0) sharedLimit = BaseApp.numberWithCommas(this.docData.creditUsageLimit);
         this.shared_usage_limit_div.innerHTML = sharedLimit;
         this.docfield_archived_checkbox.checked = this.docData.archived;
         this.shared_archived_status_wrapper.innerHTML = this.docData.archived ? "Archived" : "Active";

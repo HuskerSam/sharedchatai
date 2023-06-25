@@ -31,6 +31,7 @@ export default class ProfileHelper {
     replies_row: any;
     prompts_row: any;
     total_row: any;
+    credits_row: any;
     monthly_tokens_usage: any;
 
     /**
@@ -62,6 +63,7 @@ export default class ProfileHelper {
         this.replies_row = document.querySelector(".replies_row");
         this.prompts_row = document.querySelector(".prompts_row");
         this.total_row = document.querySelector(".total_row");
+        this.credits_row = document.querySelector(".credits_row");
         this.monthly_tokens_usage = document.querySelector(".monthly_tokens_usage");
 
         this.profile_text_large_checkbox = document.querySelector(".profile_text_large_checkbox");
@@ -227,15 +229,11 @@ export default class ProfileHelper {
                         </div>
                         <div class="tab-pane fade" id="profile_user_usage_view" role="tabpanel"
                             aria-labelledby="usage_labels_tab_button">
-                            <div class="form-label">Monthly OpenAI Token Usage</div>
+                            <div class="form-label">Monthly Prompt+ Credits Usage</div>
                             <div class="summary_panel">
-                                Tokens Used: <span class="summary_column monthly_tokens_usage">0</span>
+                                Credits Used: <span class="summary_column monthly_tokens_usage">0</span>
                                 <br>
                                 Monthly Limit: <span class="summary_column">20,000,000</span>
-                                <br>
-                                Reserve used: <span class="summary_column">0</span>
-                                <br>
-                                Token reserve: <span class="summary_column">0</span>
                             </div>
                             <hr>
                             <div class="form-label">Token Usage History</div>
@@ -250,6 +248,7 @@ export default class ProfileHelper {
                                 <tr class="replies_row"></tr>
                                 <tr class="prompts_row"></tr>
                                 <tr class="total_row"></tr>
+                                <tr class="credits_row"></tr>
                             </table>
                             <hr>
                             <table>
@@ -539,17 +538,22 @@ export default class ProfileHelper {
         const allTimeTotalTokens = BaseApp.numberWithCommas(usageData.totalTokens);
         const allTimePromptTokens = BaseApp.numberWithCommas(usageData.promptTokens);
         const allTimeCompletionTokens = BaseApp.numberWithCommas(usageData.completionTokens);
+        const allTimeCreditUsage = BaseApp.numberWithCommas(usageData.creditUsage, 2);
+
         const yearlyTotalTokens = BaseApp.numberWithCommas(runningTokens["total_" + yearFrag]);
         const yearlyPromptTokens = BaseApp.numberWithCommas(runningTokens["prompt_" + yearFrag]);
         const yearlyCompletionTokens = BaseApp.numberWithCommas(runningTokens["completion_" + yearFrag]);
+        const yearlyCreditUsage = BaseApp.numberWithCommas(runningTokens["credit_" + yearFrag], 2);
 
         const monthlyTotalTokens = BaseApp.numberWithCommas(runningTokens["total_" + yearMonthFrag]);
         const monthlyPromptTokens = BaseApp.numberWithCommas(runningTokens["prompt_" + yearMonthFrag]);
         const monthlyCompletionTokens = BaseApp.numberWithCommas(runningTokens["completion_" + yearMonthFrag]);
+        const monthlyCreditUsage = BaseApp.numberWithCommas(runningTokens["credit_" + yearMonthFrag], 2);
 
         const dailyTotalTokens = BaseApp.numberWithCommas(runningTokens["total_" + ymdFrag]);
         const dailyPromptTokens = BaseApp.numberWithCommas(runningTokens["prompt_" + ymdFrag]);
         const dailyCompletionTokens = BaseApp.numberWithCommas(runningTokens["completion_" + ymdFrag]);
+        const dailyCreditUsage = BaseApp.numberWithCommas(runningTokens["credit_" + ymdFrag], 2);
 
         this.replies_row.innerHTML = `<th>Reply</th><td class="day_td">${dailyCompletionTokens}</td>` +
             `<td class="monthly_td">${monthlyCompletionTokens}</td>` +
@@ -563,7 +567,11 @@ export default class ProfileHelper {
             `<td class="monthly_td">${monthlyTotalTokens}</td>` +
             `<td class="yearly_td">${yearlyTotalTokens}</td>` +
             `<td class="all_time_td">${allTimeTotalTokens}</td>`;
-        this.monthly_tokens_usage.innerHTML = monthlyTotalTokens;
+        this.credits_row.innerHTML = `<th>Credits</th><td class="day_td">${dailyCreditUsage}</td>` +
+            `<td class="monthly_td">${monthlyCreditUsage}</td>` +
+            `<td class="yearly_td">${yearlyCreditUsage}</td>` +
+            `<td class="all_time_td">${allTimeCreditUsage}</td>`;
+        this.monthly_tokens_usage.innerHTML = monthlyCreditUsage;
     }
     /** populate modal fields and show */
     async show() {

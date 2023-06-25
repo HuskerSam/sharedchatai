@@ -106,8 +106,8 @@ export default class GameAPI {
     let systemMessage = "";
     if (req.body.systemMessage) systemMessage = req.body.systemMessage;
 
-    let tokenUsageLimit = 500000;
-    if (req.body.tokenUsageLimit) tokenUsageLimit = req.body.tokenUsageLimit;
+    let creditUsageLimit = 500000;
+    if (req.body.creditUsageLimit) creditUsageLimit = req.body.creditUsageLimit;
 
     const game: any = {};
     Object.assign(game, BaseClass.defaultChatDocumentOptions());
@@ -121,7 +121,7 @@ export default class GameAPI {
         totalTokens: 0,
         completionTokens: 0,
         promptTokens: 0,
-        tokenUsageLimit,
+        creditUsageLimit,
         label,
         note,
         title,
@@ -224,9 +224,9 @@ export default class GameAPI {
       sessionDocumentData.archived = updatePacket.archived;
     }
 
-    if (req.body.tokenUsageLimit !== undefined) {
-      const tokenUsageLimit = BaseClass.getNumberOrDefault(req.body.tokenUsageLimit, 0);
-      updatePacket.tokenUsageLimit = tokenUsageLimit;
+    if (req.body.creditUsageLimit !== undefined) {
+      const creditUsageLimit = BaseClass.getNumberOrDefault(req.body.creditUsageLimit, 0);
+      updatePacket.creditUsageLimit = creditUsageLimit;
     }
 
     if (req.body.label !== undefined) {

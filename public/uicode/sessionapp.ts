@@ -1039,7 +1039,7 @@ export class SessionApp extends BaseApp {
     document.body.classList.add("loaded");
 
     BaseApp.setHTML(this.document_menutop_usage_stats_line,
-      `<span class="usage">${BaseApp.numberWithCommas(this.sessionDocumentData.totalTokens)}</span> Usage`);
+      `<span class="usage">${BaseApp.numberWithCommas(this.sessionDocumentData.creditUsage, 2)}</span> Usage`);
     BaseApp.setHTML(this.last_activity_display, this.showGmailStyleDate(new Date(this.sessionDocumentData.lastActivity), true));
     BaseApp.setHTML(this.sidebar_document_title, BaseApp.escapeHTML(this.sessionDocumentData.title));
     BaseApp.setHTML(this.menu_bar_doc_title, BaseApp.escapeHTML(this.sessionDocumentData.title));

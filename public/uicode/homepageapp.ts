@@ -130,7 +130,7 @@ export class HomePageApp extends BaseApp {
         });
         this.recent_documents_list.innerHTML = html;
     }
-    /**populate anchor navigation links  */
+    /** populate anchor navigation links  */
     populateAnchorLinks() {
         const anchorLinks = document.querySelectorAll(".anchor_copy_link");
         anchorLinks.forEach((anchorLink: any) => {
@@ -149,17 +149,15 @@ export class HomePageApp extends BaseApp {
                 anchorLink.innerHTML = `<i class="material-icons copy_green">done</i>
                 <i class="material-icons">link</i>`;
                 setTimeout(() => anchorLink.innerHTML = `<i class="material-icons">link</i>`, 1200);
-                /**console log if href id does not exist  */
+                /** console log if href id does not exist  */
                 const id = href.split("#")[1];
                 const element = document.getElementById(id);
                 if (!element) console.log(`element id ${id} does not exist`);
                 return false;
-
-
             });
         });
     }
-    /**bounce sidebarcollaspe button on page scroll, select by id */
+    /** bounce sidebarcollaspe button on page scroll, select by id */
     bounceSidebarCollapse() {
         const sidebarCollapse = document.getElementById("sidebarCollapse");
         if (sidebarCollapse) {
@@ -170,5 +168,4 @@ export class HomePageApp extends BaseApp {
             });
         }
     }
-    
 }

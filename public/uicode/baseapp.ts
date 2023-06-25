@@ -461,11 +461,13 @@ export default class BaseApp {
   /**
    *
    * @param { number } x incoming number
+   * @param { number } decimalDigits number of decimals (toFixed()) -1 for ignore
    * @return { string } number with commas
    */
-  static numberWithCommas(x: number): string {
+  static numberWithCommas(x: number, decimalDigits = -1): string {
     if (isNaN(Number(x))) x = 0;
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const xString = (decimalDigits !== -1) ? x.toFixed(decimalDigits) : x.toString();
+    return xString.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
   /** save a single field to document
    * @param {string } id doc id
@@ -497,7 +499,7 @@ export default class BaseApp {
   }
   /** send owner setting for document to api
    * @param { string } id session id
-   * @param { string } fieldKey title for title, usage for tokenUsageLimit, note for note
+   * @param { string } fieldKey title for title, usage for creditUsageLimit, note for note
    * @param { any } data session document data (with new field value)
   */
   async saveDocumentOwnerOption(id: string, fieldKey: string, data: any) {
@@ -514,7 +516,7 @@ export default class BaseApp {
       updatePacket.systemMessage = data.systemMessage;
     }
     if (fieldKey === "usage") {
-      updatePacket.tokenUsageLimit = data.tokenUsageLimit;
+      updatePacket.creditUsageLimit = data.creditUsageLimit;
     }
     if (fieldKey === "note") {
       updatePacket.note = data.note;
