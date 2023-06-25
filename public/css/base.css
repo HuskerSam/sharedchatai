@@ -559,12 +559,6 @@ table.number th {
   font-weight: normal;
 }
 
-@media (max-width: 991px) {
-  .navbar-nav.mr-auto {
-    margin-bottom: 12px;
-  }
-}
-
 .creating_new_session .btn.btn-primary.create_game_afterfeed_button {
   background-color: transparent;
 }

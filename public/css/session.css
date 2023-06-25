@@ -1108,6 +1108,11 @@ li.mb-1 button.btn.btn-toggle:before {
   flex: 1;
 }
 
+.menu_buttons_bar li a {
+  padding-top: 16px;
+  padding-bottom: 20px;
+}
+
 .left_panel_view {
   width: 300px;
   overflow: auto;
