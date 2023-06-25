@@ -620,6 +620,7 @@ export class SessionApp extends BaseApp {
     ticket.uid = this.uid;
     ticket.memberName = this.profile.displayName;
     ticket.memberImage = this.profile.memberImage;
+    ticket.submitted = new Date().toISOString();
     const tempCard = this.getTicketCardDom(new Date().toISOString(), ticket, true);
     this.tickets_list.appendChild(tempCard);
 
