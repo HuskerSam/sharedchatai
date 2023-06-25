@@ -354,3 +354,21 @@
 .session_shared_column .member_profile_name {
   font-size: 10px;
 }
+
+.dropdown-menu.dropdown-menu-dark.show button {
+  font-size: 1.25em;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.dropdown-menu.dropdown-menu-dark i {
+  top: 6px;
+  position: relative;
+}
+
+.dropdown-menu.dropdown-menu-dark svg {
+  position: relative;
+  top: -2px;
+  margin-right: 4px;
+  color: rgb(255, 50, 50);
+}

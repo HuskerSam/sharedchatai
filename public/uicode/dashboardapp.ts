@@ -233,11 +233,24 @@ export class DashboardApp extends BaseApp {
             <i class="material-icons">more_vert</i>
           </button>
           <ul class="dropdown-menu dropdown-menu-dark">
-            <li><button class="dropdown-item options">Options</button></li>
-            <li><button class="dropdown-item clone">Clone</button></li>
-            <li><button class="dropdown-item share_email">Share Email</button></li>
-            <li><button class="dropdown-item delete">Delete</button></li>
-            <li><button class="dropdown-item leave">Leave</button></li>
+            <li><button class="dropdown-item options">
+              <i class="material-icons">settings</i>
+              Session Options</button></li>
+            <li><button class="dropdown-item clone">
+            <i class="material-icons">import_export</i>
+            Clone to new</button></li>
+            <li><button class="dropdown-item share_email">
+            <i class="material-icons">email</i>
+            Email Invite</button></li>
+            <li><button class="dropdown-item delete">
+              <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
+                  <path fill="currentColor" d="M261-120q-24.75 0-42.375-17.625T201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 
+                  24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 0h60v-399h-60v399ZM261-750v570-570Z"/>
+              </svg>
+            Delete Session</button></li>
+            <li><button class="dropdown-item leave">
+            <i class="material-icons">logout</i>
+            Leave Session</button></li>
           </ul>
         </div>      
     </a>`;
