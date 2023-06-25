@@ -214,6 +214,7 @@ ul.recent_documents_list li a {
   .faq {
     flex-direction: column;
   }
+
   .profile_menu_anchor .menu_profile_user_image_span {
     top: -2px;
   }
@@ -221,7 +222,7 @@ ul.recent_documents_list li a {
   .flex_change_responsive {
     display: flex;
     flex-direction: column;
-  }  
+  }
 }
 
 @media (max-width: 767px) {
@@ -250,7 +251,8 @@ ul.recent_documents_list li a {
     display: block;
 
   }
-    .template_list_wrapper li .caption {
+
+  .template_list_wrapper li .caption {
     margin-left: 1rem;
   }
 }
@@ -271,7 +273,48 @@ ul.recent_documents_list li a {
 
 @media (min-width: 992px) {
   #navbarSupportedContent.navbar-collapse {
-    display: inline-flex!important;
-    max-width: 1200px;
+    display: inline-flex !important;
+    width: 900px;
   }
+}
+
+@media (min-width: 1200px) {
+  #navbarSupportedContent.navbar-collapse {
+    display: inline-flex !important;
+    width: 1075px;
+  }
+}
+
+@media (min-width: 1400px) {
+  #navbarSupportedContent.navbar-collapse {
+    display: inline-flex !important;
+    width: 1250px;
+  }
+}
+
+.home_logo_mobile_only {
+  display: none;
+}
+
+.opening_message {
+  width: 80%;
+  display: inline-block;
+  color: rgb(180, 255, 180);
+  text-align: left;
+  padding: 12px;
+  font-size: 1.25em;
+}
+
+@media (min-width: 992px) {
+  .home_logo_mobile_only {
+    display: block;
+  }
+  .opening_message {
+    max-width: 800px;
+  }
+}
+
+.menu_logo_image {
+  width: 110px;
+  display: block;
 }

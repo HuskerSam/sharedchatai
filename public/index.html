@@ -74,7 +74,7 @@
             aria-label="Toggle navigation">
             <span class="hamburger_span"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent" style="width:100%">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto" style="width:100%">
                 <li class="nav-item home_logo_mobile_only">
                     <a class="nav-link style=" display: block; max-width:120px">
@@ -142,9 +142,48 @@
             </ul>
         </div>
     </nav>
+    <div style="width: 100%;text-align:center;">
+        <div class="app_panel opening_message">
+            <h1 style="width:100%;text-align: center;color:rgb(230, 230, 0)">Multiuser Chat Completion App!</h1>
+            <p>
+            Welcome friends, we are running a trial release of our new prompting software.  The software is free 
+            to use in the short term and once we release it'll be billed at a monthly rate with several teirs 
+            of credits per month.  Currently we are targeting the post secondary education market where 
+            collaborative learning opportunities involving AI exist. 
+            </p>
+            <p>
+                <a href="https://platform.openai.com/docs/models" target="_blank">OpenAI models</a> (used by ChatGPT)
+                <br>
+            The trial provides gpt-3.5-turbo (4k) and gpt-3.5-turbo-16k in trial. 
+            <br>
+            On release we will support gpt-4 (8k) and gpt-4-32k. 
+            </p>
+            <p>
+            <a href="https://developers.generativeai.google/api/rest/generativelanguage" target="_blank">Google Generate AI</a> (used by Bard)
+            <br>
+            On release we will support chat-bison-001 (9k).
+            <br>
+            The [chat-bison] model parameters are very similar to the [gpt] model.
+            </p>
+            <p>
+                Our usage tracking is based on credits which are spent by using tokens in the various API/model 
+                combinations.  The amount of credit used will be based directly on the models per token cost 
+                and decrease as the models cost per token decreases.
+            </p>
+            <p>
+                Our application uses Google Firestore to host data and so the chat sessions allow collaborations 
+                with more than one human.  The prompts sent to the UI include you user id so the AI can identify 
+                the different people in the conversation. 
+                <br>The prompts API credits cost is billed to the owner 
+                of the document no matter which user prompts the AI.  This enables one person 
+                to have a subscription and share documents with non subscribers to 
+                use the prompting system.
+            </p>
+        </div>
+    </div>
     <div class="container">
-        <div class="flex-lg-row p-3 flex_change_responsive">
-            <div class="side_block p-3 mx-lg-3">
+        <div class="flex-lg-row flex_change_responsive">
+            <div class="side_block mx-lg-3">
                 <p class="header_recent_document">Tips for Prompts</p>
                 <div class="coming-soon card">
                     <p>Crafting effective prompts is the key to unlocking the true potential of AI. Remember, AI is just
