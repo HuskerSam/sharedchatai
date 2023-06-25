@@ -623,6 +623,7 @@ export class SessionApp extends BaseApp {
     const tempCard = this.getTicketCardDom(new Date().toISOString(), ticket, true);
     this.tickets_list.appendChild(tempCard);
 
+    this.updateUserNamesImages();
     tempCard.scrollIntoView(false);
     this.scrollTicketListBottom();
 
@@ -717,8 +718,8 @@ export class SessionApp extends BaseApp {
       <div class="m-1 user_assist_request_header">
         <div style="flex:1;" class="ticket_user_display_header d-flex flex-column">
             <div class="user_assist_request_header_user" >
-              <span class="ticket_owner_image member_profile_image" uid=""></span>
-              <span class="ticket_owner_name member_profile_name" uid=""></span>
+              <span class="ticket_owner_image member_profile_image" uid="${this.uid}"></span>
+              <span class="ticket_owner_name member_profile_name" uid="${this.uid}"></span>
             </div>
           </div>
           <button class="rerun_ticket btn btn-secondary" data-ticketid="${ticketId}"><i
@@ -846,12 +847,9 @@ export class SessionApp extends BaseApp {
     };
 
     const tempCard = this.getTicketCardDom(new Date().toISOString(), tempTicket, true);
-    const ele1: any = tempCard.querySelector(".ticket_owner_name");
-    ele1.setAttribute("uid", this.uid);
-    const ele2: any = tempCard.querySelector(".ticket_owner_image");
-    ele2.setAttribute("uid", this.uid);
 
     this.tickets_list.appendChild(tempCard);
+    this.updateUserNamesImages();
     tempCard.scrollIntoView(false);
     this.scrollTicketListBottom();
     this.tickets_list.offsetHeight;
@@ -880,8 +878,6 @@ export class SessionApp extends BaseApp {
       console.log("message post", json);
       alert(json.errorMessage);
     }
-
-    this.updateUserNamesImages();
 
     this.scrollTicketListBottom();
   }
