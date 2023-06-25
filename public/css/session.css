@@ -1042,16 +1042,6 @@ li.mb-1 button.btn.btn-toggle:before {
   margin-top: 20px;
 }
 
-.temp_ticket_card {
-  max-height: 0px;
-  overflow: hidden;
-}
-
-.temp_ticket_card_animate {
-  transition: min-height .2s;
-  max-height: 100px;
-}
-
 #navbarSupportedContent {
   overflow: auto;
   max-height: calc(100vh - 80px);
