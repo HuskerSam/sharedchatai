@@ -373,3 +373,8 @@
   margin-right: 4px;
   color: rgb(255, 50, 50);
 }
+
+.session_shared_column .member_profile_name {
+  left: 0;
+  margin-top: 4px;
+}

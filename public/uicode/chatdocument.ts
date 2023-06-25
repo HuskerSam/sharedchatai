@@ -126,11 +126,6 @@ export default class ChatDocument {
 
     if (status === 2) {
       uid = doc.createUser;
-      html = `
-        <span class="dashboard_user_image member_profile_image" docid="${id}" uid="${uid}"></span>
-        <div class="members_feed_online_status member_online_status" data-uid="${uid}"></div>
-        <br>
-        <span class="dasboard_user_name member_profile_name" docid="${id}" uid="${uid}"></span>`;
     }
 
     if (status === 1) {
@@ -151,12 +146,16 @@ export default class ChatDocument {
       }
       if (member) {
         uid = member;
-        html = `
+      }
+    }
+
+    if (uid) {
+      html = `
+      <div>
         <span class="dashboard_user_image member_profile_image" docid="${id}" uid="${uid}"></span>
         <div class="members_feed_online_status member_online_status" data-uid="${uid}"></div>
-        <br>
-        <span class="dasboard_user_name member_profile_name" docid="${id}" uid="${uid}"></span>`;
-      }
+      </div>
+      <div class="dasboard_user_name member_profile_name" docid="${id}" uid="${uid}"></div>`;
     }
 
     return {
