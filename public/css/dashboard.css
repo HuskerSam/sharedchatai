@@ -274,6 +274,8 @@
 
 .dashboard_create_game .mobile_custom_icon_label {
   margin-right: -2px;
+  position: relative;
+  left: -2px;
 }
 
 .count_status_wrapper {
@@ -288,7 +290,6 @@
   .menu_profile_user_image_span {
     float: none;
     display: inline-block;
-    top: 3px;
     margin-left: 8px;
   }
 
