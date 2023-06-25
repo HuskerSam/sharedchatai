@@ -136,7 +136,7 @@ html {
   color: rgb(240, 240, 240);
 }
 
-.game_message_list_item.ticket_owner.old_ticket .delete_ticket {
+.game_message_list_item.ticket_owner.old_ticket_5_min .delete_ticket {
   color: rgb(240, 240, 240);
   visibility: visible;
 }

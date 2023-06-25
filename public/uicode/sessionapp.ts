@@ -708,7 +708,7 @@ export class SessionApp extends BaseApp {
     const gameOwnerClass = data.isGameOwner ? " ticket_game_owner" : "";
     const ownerClass = data.uid === this.uid ? " ticket_owner" : "";
     const oldSubmitted = new Date(data.submitted).getTime() < Date.now() + 5 * 3600 * 1000;
-    const oldTicketClass = oldSubmitted ? " old_ticket" : "";
+    const oldTicketClass = oldSubmitted ? " old_ticket_5_min" : "";
     const tempTicketClass = tempTicket ? " temp_ticket_card" : "";
     const cardWrapper = document.createElement("div");
     const classes = gameOwnerClass + ownerClass + tempTicketClass + oldTicketClass;
@@ -1314,8 +1314,6 @@ export class SessionApp extends BaseApp {
       this.excludingTicketsRunning = false;
       document.body.classList.remove("exclude_tickets_running");
     }, 500);
-
-    // this.auto_run_overthreshold_ticket.focus();
 
     return ticketsRemoved;
   }
