@@ -1102,6 +1102,8 @@ li.mb-1 button.btn.btn-toggle:before {
 .navbar-nav.menu_buttons_bar {
   display: flex;
   flex-direction: row;
+  border-bottom: solid 1px rgb(127, 127, 127);
+  margin-bottom: 12px;
 }
 
 .menu_buttons_bar li {
@@ -1110,7 +1112,7 @@ li.mb-1 button.btn.btn-toggle:before {
 
 .menu_buttons_bar li a {
   padding-top: 16px;
-  padding-bottom: 20px;
+  padding-bottom: 12px;
 }
 
 .left_panel_view {
