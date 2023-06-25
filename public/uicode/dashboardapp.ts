@@ -241,7 +241,7 @@ export class DashboardApp extends BaseApp {
             Clone to new</button></li>
             <li><button class="dropdown-item share_email">
             <i class="material-icons">email</i>
-            Email Invite</button></li>
+            Email Invitation</button></li>
             <li><button class="dropdown-item delete">
               <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
                   <path fill="currentColor" d="M261-120q-24.75 0-42.375-17.625T201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 
