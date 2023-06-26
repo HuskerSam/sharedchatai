@@ -24,6 +24,7 @@
   border-radius: 6px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   color: white;
+  flex: 1;
 }
 
 .coming-soon .coming-soon-header {
@@ -323,4 +324,10 @@ ul.recent_documents_list li a {
 .upcoming_model {
   color:  rgb(255, 127, 50);
   margin-left: 12px;
+}
+
+.home_page_login {
+  display:inline-block;
+  font-weight: bold;
+  color: rgb(255, 255, 0);
 }

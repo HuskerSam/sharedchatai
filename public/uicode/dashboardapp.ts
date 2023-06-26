@@ -264,8 +264,6 @@ export class DashboardApp extends BaseApp {
       e.preventDefault();
       await this.prepDocumentOptionsHelper(doc.id);
       this.documentOptions.show(doc.id, this.documentsLookup[doc.id]);
-      const btn: any = document.getElementById("show_document_options_popup");
-      btn.click();
     });
 
     const clone: any = card.querySelector("button.clone");

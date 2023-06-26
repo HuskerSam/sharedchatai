@@ -123,7 +123,7 @@ export default class BaseApp {
       if (location.pathname === "/" && location.search === "") showLoginModal = false;
       if (location.pathname === "/help/") showLoginModal = false;
 
-      if (showLoginModal && this.signin_show_modal) this.signin_show_modal.click();
+      if (showLoginModal) this.login.show();
     }
 
     return;

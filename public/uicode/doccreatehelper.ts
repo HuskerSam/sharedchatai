@@ -10,7 +10,6 @@ export default class DocCreateHelper {
   modalContainer: any = null;
   create_game_afterfeed_button: any = null;
   create_modal_note_field: any = null;
-  doccreatehelper_show_modal: any = null;
   creatingNewRecord = false;
   create_modal_title_field: any;
   system_message_field: any;
@@ -41,7 +40,6 @@ export default class DocCreateHelper {
 
     this.create_game_afterfeed_button = this.modalContainer.querySelector(".create_game_afterfeed_button");
     this.create_modal_note_field = this.modalContainer.querySelector(".create_modal_note_field");
-    this.doccreatehelper_show_modal = document.querySelector(".doccreatehelper_show_modal");
     this.create_game_afterfeed_button = this.modalContainer.querySelector(".create_game_afterfeed_button");
     this.createDocumentModal = this.modalContainer.querySelector("#createDocumentModal");
     this.create_modal_title_field = this.modalContainer.querySelector(".create_modal_title_field");
@@ -313,8 +311,8 @@ export default class DocCreateHelper {
     } else if (this.app.profile.createDialogTabIndex === 1) {
       this.advanced_create_options.click();
     }
-
-    this.doccreatehelper_show_modal.click();
+    const modal = new window.bootstrap.Modal("#createDocumentModal", {});
+    modal.show();
   }
   /** parse template data from file input
    * @param {string } documentId new document to add ticket imports

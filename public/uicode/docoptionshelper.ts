@@ -767,5 +767,7 @@ feedback: promptplusai@gmail.com`);
         } else if (this.app.profile.optionsDialogTabIndex === 2) {
             this.owner_tab_button.click();
         }
+        const modal = new window.bootstrap.Modal("#editDocumentModal", {});
+        modal.show();
     }
 }

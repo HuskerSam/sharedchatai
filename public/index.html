@@ -132,35 +132,35 @@
                             class="menu_dropdown_label_wrapper member_profile_name menu_profile_user_name_span"></span>
                     </a>
                 </li>
-                <button class="btn btn-primary profile_show_modal" style="display:none" type="button"
-                    data-bs-toggle="modal" data-bs-target="#userProfileModal">
-                    Profile
-                </button>
-                <button class="btn btn-primary doccreatehelper_show_modal" style="display:none" type="button"
-                    data-bs-toggle="modal" data-bs-target="#createDocumentModal">
-                    Create Modal
-                </button>
             </ul>
         </div>
     </nav>
     <div class="container" style="margin-top:16px">
         <div class="flex-lg-row flex_change_responsive">
             <div class="side_block app_panel">
-                <h1 class="header_recent_document" style="color: rgb(190, 200, 255);">Shared AI Chat</h1>
+                <h1 class="header_recent_document">
+                    <span style="color: rgb(50, 255, 50);">Prompt</span>
+                     with 
+                     <span style="color: rgb(240, 240, 50);">Power</span></h1>
                 <div class="card intro_card">
-                    <h5 style="color: rgb(240, 240, 50);">Get more from your prompts!</h5>
-                    We are running a free trial at this time, please login!
+                    <div class="signed_out_options_block">
+                        We are running a free trial at this time, please <a class="home_page_login" href="login">sign on</a>.
+                    </div>
+                    <div class="signed_in_options">
+                        Welcome back - we hope you are enjoying the free trial!
+                    </div>
+                    <br>Sessions always remain viewable without a subscription.
                     <br>
-                    <br>You'll always have access to your sessions.
+                    <br><a href="mailto:promptplusai@gmail.com" target="_blank">promptplusai@gmail.com</a> for questions and bugs.
                     <br>
-                    <br>Please <a href="#about" style="display:inline-block;">contact us</a> with questions, requests and bugs!
-                    <br>
-                    <br>If you are interested in customizations, need AI or web development done, please reach out at 
-                    <a href="mailto:promptplusai@gmail.com" target="_blank">promptplusai@gmail.com</a>!
+                    <br>Need customizations or development - 
+                    <a href="#about">about us</a>
                 </div>
             </div>
             <div class="main_block app_panel">
-                <h1 class="header_recent_document" style="color: rgb(255, 127, 50);">Tweak The Response</h1>
+                <h1 class="header_recent_document">
+                    <span  style="color: rgb(255, 127, 50);">Tweak</span> the 
+                    <span style="color: rgb(50, 255, 50);">AI</span></h1>
                 <div class="intro_card card">
                     Tweak the AI engine parameters risking erroneous results in favor of unqiue or creative results.
                 </div>
@@ -168,8 +168,8 @@
         </div>
         <div class="flex-lg-row flex_change_responsive">
             <div class="side_block app_panel">
-                <h1 class="header_recent_document"><span style="color: rgb(30, 200, 200);">Collaboration</span>
-                    <span style="color: rgb(190, 100, 250)">Enabled</span>
+                <h1 class="header_recent_document"><span style="color: rgb(30, 200, 200);">Collaborate</span>
+                  and  <span style="color: rgb(190, 100, 250)">Share</span>
                 </h1>
                 <div class="intro_card card">
                     <p>
@@ -190,28 +190,28 @@
                 </div>
             </div>
             <div class="main_block app_panel">
-                <h1 class="header_recent_document" style="color: rgb(50, 255, 50);">Available Models</h1>
+                <h1 class="header_recent_document">Available 
+                    <span style="color: rgb(50, 255, 50);">Models</span></h1>
                 <div class="intro_card card">
-                    <h5><a href="https://platform.openai.com/docs/models" target="_blank">OpenAI models</a></h5>
+                    <h5 style="display:inline-block">
+                        <a href="https://platform.openai.com/docs/models" target="_blank">OpenAI models</a>
+                    </h5>
+                    (used by ChatGPT)
                     <p>
-                        (used by ChatGPT)
+                        <span class="supported_model">gpt-3.5-turbo</span> 4k
+                        <br><span class="supported_model">gpt-3.5-turbo-16k</span> 
                         <br>
-                        Trial Period<br>
-                        <span class="supported_model">gpt-3.5-turbo</span> (4k)
-                        <br><span class="supported_model">gpt-3.5-turbo-16k</span>
-                        <br>
-                        Soon<br>
-                        <span class="upcoming_model">gpt-4 (8k)</span><br>
-                        <span class="upcoming_model">gpt-4-32k</span>
+                        <span class="upcoming_model">gpt-4</span> 8k (soon)<br>
+                        <span class="upcoming_model">gpt-4-32</span> (soon)
                     </p>
-                    <h5><a href="https://developers.generativeai.google/api/rest/generativelanguage"
+                    <h5 style="display:inline-block">
+                        <a href="https://developers.generativeai.google/api/rest/generativelanguage"
                             target="_blank">Google
-                            Generate AI</a></h5>
+                            Generate AI</a>
+                    </h5>
+                    (used by Bard)
                     <p>
-                        (used by Bard)
-                        <br>
-                        Soon<br>
-                        <span class="upcoming_model">chat-bison-001</span> (9k)
+                        <span class="upcoming_model">chat-bison-001</span> 9k (soon)
                         <br>
                     </p>
                 </div>
@@ -269,16 +269,9 @@
                     <p><strong>
                             Generated with AI using this application!
                         </strong></p>
+                    <div style="flex:1"></div>
                 </div>
                 <p class="header_recent_document" style="display:none">FAQ</p>
-                <div class="faq card p-3" style="display:none">
-                    <div class="help-buttons">
-                        <button class="btn engine_settings_help">Engine Settings</button>
-                        <button class="btn user_profile_help">User Profile</button>
-                        <button class="btn optimizng_prompts_help">Optimizing Prompts</button>
-                        <button class="btn shared_sessions_help">Shared Sessions</button>
-                    </div>
-                </div>
             </div>
             <div class="main_block">
                 <p class="header_recent_document">Example Repo</p>
@@ -344,14 +337,6 @@
             </div>
         </div>
     </div>
-    <button class="btn btn-primary profile_show_modal" style="display:none" type="button" data-bs-toggle="modal"
-        data-bs-target="#userProfileModal">
-        Profile
-    </button>
-    <button class="btn btn-primary doccreatehelper_show_modal" style="display:none" type="button" data-bs-toggle="modal"
-        data-bs-target="#createDocumentModal">
-        Create Modal
-    </button>
 </body>
 
 </html>

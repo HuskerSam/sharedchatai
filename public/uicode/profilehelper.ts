@@ -18,7 +18,6 @@ export default class ProfileHelper {
     profile_display_image_clear: any;
     profile_display_image_randomize: any;
     randomize_name: any;
-    profile_show_modal: any;
     preset_logos_inited = false;
     prompt_for_new_user_name: any;
     profile_text_large_checkbox: any;
@@ -76,7 +75,6 @@ export default class ProfileHelper {
 
         this.prompt_for_new_user_name = document.querySelector(".prompt_for_new_user_name");
         this.prompt_for_new_user_name.addEventListener("click", () => this.promptForNewUserName());
-        this.profile_show_modal = document.querySelector(".profile_show_modal");
         this.profile_text_large_checkbox = document.querySelector(".profile_text_large_checkbox");
 
         this.sign_out_button.addEventListener("click", (e: any) => {
@@ -613,7 +611,8 @@ export default class ProfileHelper {
         this.profile_display_name.setAttribute("uid", this.app.uid);
         this.app.updateUserNamesImages();
         this.updateTokenUsage();
-        this.profile_show_modal.click();
+        const modal = new window.bootstrap.Modal("#userProfileModal", {});
+        modal.show();
     }
     /** */
     async changeEmail() {

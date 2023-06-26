@@ -9,16 +9,13 @@ export class HomePageApp extends BaseApp {
     checkTemplateURL = false;
 
     help_show_modal: any = document.querySelector(".help_show_modal");
-    engine_settings_help: any = document.querySelector(".engine_settings_help");
-    user_profile_help: any = document.querySelector(".user_profile_help");
 
-    optimizng_prompts_help: any = document.querySelector(".optimizng_prompts_help");
-    shared_sessions_help: any = document.querySelector(".shared_sessions_help");
     sign_out_homepage: any = document.querySelector(".sign_out_homepage");
     recent_documents_list: any = document.querySelector(".recent_documents_list");
     lastDocumentsSnapshot: any = null;
     recentDocumentFeedRegistered = false;
     recentDocumentsSubscription: any = null;
+    home_page_login: any = document.querySelector(".home_page_login");
 
     /** */
     constructor() {
@@ -38,7 +35,7 @@ export class HomePageApp extends BaseApp {
                 event.preventDefault();
 
                 if (!this.uid) {
-                    this.signin_show_modal.click();
+                    this.login.show();
                     return;
                 }
 
@@ -57,6 +54,14 @@ export class HomePageApp extends BaseApp {
         }
         this.populateAnchorLinks();
         this.bounceSidebarCollapse();
+
+        if (this.home_page_login) {
+            this.home_page_login.addEventListener("click", (e: any) => {
+                e.stopPropagation();
+                e.preventDefault();
+                this.login.show();
+            });
+        }
     }
     /** override event that happens after authentication resolution */
     authUpdateStatusUI(): void {

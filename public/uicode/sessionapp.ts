@@ -97,7 +97,6 @@ export class SessionApp extends BaseApp {
   sidebar_users_panel: any = document.querySelector("#sidebar_users_panel");
   sidebar_recent_panel: any = document.querySelector("#sidebar_recent_panel");
 
-  show_document_options_popup: any = document.getElementById("show_document_options_popup");
   temperature_slider_label: any = document.querySelector(".temperature_slider_label");
   top_p_slider_label: any = document.querySelector(".top_p_slider_label");
   presence_penalty_slider_label: any = document.querySelector(".presence_penalty_slider_label");
@@ -140,7 +139,6 @@ export class SessionApp extends BaseApp {
     this.ticket_content_input.addEventListener("input", () => this.updatePromptTokenStatus());
     this.show_document_options_modal.addEventListener("click", () => {
       this.documentOptions.show(this.documentId, this.sessionDocumentData);
-      this.show_document_options_popup.click();
     });
 
     this.docfield_temperature.addEventListener("input", () => this.optionSliderChange(true, "temperature",

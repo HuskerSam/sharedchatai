@@ -1,6 +1,7 @@
 declare const firebase: any;
+declare const window: any;
 
-/** login dialog helper - displays automatically if #signin_show_modal button exists */
+/** login dialog helper - displays automatically if not home page */
 export default class LoginHelper {
   login_google: any = null;
   login_email_anchor: any = null;
@@ -8,6 +9,7 @@ export default class LoginHelper {
   login_email: any = null;
   modal_close_button: any = null;
   app: any = null;
+  modalContainer: any = null;
 
   /**
    * @param { any } app baseapp derived instance
@@ -15,15 +17,15 @@ export default class LoginHelper {
   constructor(app: any) {
     this.app = app;
     const html = this.getModalTemplate();
-    const modalContainer = document.createElement("div");
-    modalContainer.innerHTML = html;
-    document.body.appendChild(modalContainer);
+    this.modalContainer = document.createElement("div");
+    this.modalContainer.innerHTML = html;
+    document.body.appendChild(this.modalContainer);
 
     this.login_google = document.getElementById("login_google");
     this.login_email_anchor = document.getElementById("login_email_anchor");
-    this.anon_login_anchor = modalContainer.querySelector(".anon_login_anchor");
-    this.login_email = modalContainer.querySelector(".login_email");
-    this.modal_close_button = modalContainer.querySelector(".modal_close_button");
+    this.anon_login_anchor = this.modalContainer.querySelector(".anon_login_anchor");
+    this.login_email = this.modalContainer.querySelector(".login_email");
+    this.modal_close_button = this.modalContainer.querySelector(".modal_close_button");
     this.login_email.addEventListener("keydown", (e: any) => {
       if (e.key === "Enter") {
         e.preventDefault();
@@ -35,6 +37,11 @@ export default class LoginHelper {
     this.login_google.addEventListener("click", (e: any) => this.app.authGoogleSignIn(e));
     this.login_email_anchor.addEventListener("click", (e: any) => this.signInByEmail(e));
     this.anon_login_anchor.addEventListener("click", (e: any) => this.app.signInAnon(e));
+
+    const modal = document.getElementById("loginModal");
+    modal?.addEventListener("hidden.bs.modal", () => {
+      window.location = "/";
+    });
   }
   /** get modal template
    * @return { string } template
@@ -121,5 +128,9 @@ export default class LoginHelper {
 
     this.modal_close_button.click();
   }
+  /** */
+  show() {
+    const modal = new window.bootstrap.Modal("#loginModal", {});
+    modal.show();
+  }
 }
-
