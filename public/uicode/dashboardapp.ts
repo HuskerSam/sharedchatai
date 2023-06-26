@@ -227,7 +227,7 @@ export class DashboardApp extends BaseApp {
         </div>
         <div class="session_labels_column" data-docid="${doc.id}"></div>
         <div class="session_shared_column" data-docid="${doc.id}"></div>
-        <div class="btn-group dropstart">
+        <div class="btn-group dropstart hover_yellow">
           <button type="button" class="btn btn-secondary dropdown-toggle dashboard_menu_toggle" 
             data-bs-toggle="dropdown" aria-expanded="false">
             <i class="material-icons">more_vert</i>
