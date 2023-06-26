@@ -296,6 +296,7 @@
 
 .open_button_wrapper {
   float: right;
+  display: none;
 }
 
 .randomize_name {

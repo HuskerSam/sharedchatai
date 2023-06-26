@@ -6,6 +6,12 @@
   flex: 1;
 }
 
+@media (min-width: 992px) {
+  .main_block {
+    margin: 0.5rem;
+  }
+}
+
 .homepage_display_header {
   color: rgba(28, 228, 60, 0.8);
   letter-spacing: 0.1em;
@@ -200,6 +206,11 @@ ul.recent_documents_list li a {
   flex: 2;
 }
 
+@media (min-width: 992px) {
+  .side_block {
+    margin: 0.5rem;
+  }
+}
 .faq {
   display: flex;
   flex-direction: column;
@@ -337,4 +348,9 @@ ul.recent_documents_list li a {
   .container {
     max-width: none;
   }
+}
+
+.profile_text_option_large ul.recent_documents_list {
+  font-size: 1.5em;
+  line-height: 1.65em;
 }

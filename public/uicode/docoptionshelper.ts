@@ -758,6 +758,7 @@ feedback: promptplusai@gmail.com`);
         this.dialog_header_member_name.setAttribute("uid", this.docData.createUser);
         this.app.updateUserNamesImages();
         this.paintDocumentData();
+        this.exportFormat = this.export_format_select.value;
         this.refreshReportData();
 
         if (this.app.profile.optionsDialogTabIndex === 0) {
