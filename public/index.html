@@ -189,6 +189,7 @@
                         <li>Cost tracking based on each model</li>
                         <li>HTML and text reports for sharing work</li>
                         <li>JSON and CSV import/export for sessions</li>
+                        <li>AI is aware of each user individually</li>
                     </ul>
                     </p>
                 </div>
@@ -207,7 +208,7 @@
                         <br><span class="supported_model">gpt-3.5-turbo-16k</span>
                         <br>
                         <span class="upcoming_model">gpt-4</span> 8k (soon)<br>
-                        <span class="upcoming_model">gpt-4-32</span> (soon)
+                        <span class="upcoming_model">gpt-4-32k</span> (soon)
                     </p>
                     <h5 style="display:inline-block">
                         <a href="https://developers.generativeai.google/api/rest/generativelanguage"
@@ -278,9 +279,9 @@
                 </div>
                 <p class="header_recent_document" style="display:none">FAQ</p>
             </div>
-            <div class="main_block">
-                <p class="header_recent_document">Example Repo</p>
-                <div class="template_list_wrapper card">
+            <div class="main_block signed_in_flex" style="flex-direction: column;">
+                <div class="template_list_wrapper card" style="display:none">
+                    <p class="header_recent_document">Example Repo</p>
                     <ul class="template_list_wrapper">
                         <li>
                             <a class="p-3 text-center"
@@ -316,8 +317,8 @@
                         </li>
                     </ul>
                 </div>
-                <p class="header_recent_document signed_in_options">Recent Sessions</p>
-                <div class="recent_sessions_list card signed_in_options">
+                <p class="header_recent_document">Recent Sessions</p>
+                <div class="recent_sessions_list card">
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small recent_documents_list"></ul>
                 </div>
             </div>
