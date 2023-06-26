@@ -58,7 +58,8 @@
 </head>
 
 <body class="basic_page_wrapper">
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="min-height: 70px;text-align: center; display: block;">
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top"
+        style="min-height: 70px;text-align: center; display: block;">
         <div class="menu_bar_doc_title_wrapper">
             <a class="nav-link style=" display: block; max-width:120px">
                 <span class="mobile_custom_icon_label" style="display: block; max-width:120px">
@@ -142,45 +143,69 @@
             </ul>
         </div>
     </nav>
-    <div style="width: 100%;text-align:center;">
-        <div class="app_panel opening_message">
-            <h1 style="width:100%;text-align: center;color:rgb(230, 230, 0)">Multiuser Chat Completion App!</h1>
-            <p>
-            Welcome friends, we are running a trial release of our new prompting software.  
-            <br>The software is free to use during the trial.
-            <br>You'll always have access to your sessions.
-            </p>
-            <p>
-                <a href="https://platform.openai.com/docs/models" target="_blank">OpenAI models</a> (used by ChatGPT)
-                <br>
-            The trial provides gpt-3.5-turbo (4k) and gpt-3.5-turbo-16k in trial. 
-            <br>
-            On release we will support gpt-4 (8k) and gpt-4-32k. 
-            </p>
-            <p>
-            <a href="https://developers.generativeai.google/api/rest/generativelanguage" target="_blank">Google Generate AI</a> (used by Bard)
-            <br>
-            On release we will support chat-bison-001 (9k).
-            <br>
-            The [chat-bison] model parameters are very similar to the [gpt] model.
-            </p>
-            <p>
-                Billed monthly once released.
-                <br>
-                Cost tracking is based on the rates for each model<br>
-                Usage available is based on a weighted cost system using credits<br>
-                As each model decreases so will it's cost<br>
-            </p>
-            <p>
-                The chat sessions allow collaborations 
-                with more than one human user.
-                <br>
-                Requests include user id AI can identify 
-                <br>You can share and collaborate in sessions with non subscribers.
-            </p>
-        </div>
-    </div>
     <div class="container">
+        <div class="flex-lg-row flex_change_responsive">
+            <div class="side_block app_panel">
+                <h1 class="header_recent_document" style="color:rgb(230, 230, 0)">Shared AI Chat</h1>
+                <div class="card intro_card">
+                    Welcome friends our multiuser ai chatting software.
+                    <br>We are running a free trial at this time, please login!
+                    <br>The software is free to use during the trial.
+                    <br>You'll always have access to your sessions.
+                    <br><a href="#about" style="display:inline-block;">Contact</a> us with questions!
+                    <br>We are interested in new projects, please check us out.
+                </div>
+            </div>
+
+            <div class="main_block app_panel mx-lg-3">
+                <h1 class="header_recent_document">Tweak the Models</h1>
+                <div class="intro_card card">
+                    Tweak the AI engine parameters risking erroneous results in favor of unqiue or creative results.
+                </div>
+            </div>
+        </div>
+        <div class="flex-lg-row flex_change_responsive">
+            <div class="side_block app_panel">
+                <h1 class="header_recent_document">Collaboration Enabled</h1>
+                <div class="intro_card card">
+                    The chat sessions allow collaborations
+                    with more than one human user.
+                    <br>
+                    Requests include user id AI can identify
+                    <br>You can share and collaborate in sessions with non subscribers.
+                </div>
+            </div>
+            <div class="main_block app_panel mx-lg-3">
+                <h1 class="header_recent_document">Models</h1>
+                <div class="intro_card card">
+                    <p>
+                        <a href="https://platform.openai.com/docs/models" target="_blank">OpenAI models</a> (used by
+                        ChatGPT)
+                        <br>
+                        The trial provides gpt-3.5-turbo (4k) and gpt-3.5-turbo-16k in trial.
+                        <br>
+                        On release we will support gpt-4 (8k) and gpt-4-32k.
+                    </p>
+                    <p>
+                        <a href="https://developers.generativeai.google/api/rest/generativelanguage"
+                            target="_blank">Google
+                            Generate AI</a> (used by Bard)
+                        <br>
+                        On release we will support chat-bison-001 (9k).
+                        <br>
+                        The [chat-bison] model parameters are very similar to the [gpt] model.
+                    </p>
+
+                    <p>
+                        Billed monthly once released.
+                        <br>
+                        Cost tracking is based on the rates for each model<br>
+                        Usage available is based on a weighted cost system using credits<br>
+                        As each model decreases so will it's cost<br>
+                    </p>
+                </div>
+            </div>
+        </div>
         <div class="flex-lg-row flex_change_responsive">
             <div class="side_block mx-lg-3">
                 <p class="header_recent_document">Tips for Prompts</p>
@@ -285,6 +310,24 @@
                 <p class="header_recent_document signed_in_options">Recent Sessions</p>
                 <div class="recent_sessions_list card signed_in_options">
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small recent_documents_list"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="flex-lg-row flex_change_responsive" id="about">
+            <div class="side_block mx-lg-3">
+                <p class="header_recent_document">About PromptPlus AI</p>
+                <div class="coming-soon card">
+                    We are ACTIVELY seeking pivots and contract work related to AI and Web Application development.
+                    <br>
+                    <br>
+                    We're a pair of US based Node, Typescript, Firebase, webGL and AI experienced developers.
+                    <br>
+                    <br>
+                    We relish AI and / or multiuser application opportunities.
+                    <br>
+                    Please contact us at <a href="mailto:promptplusai@gmail.com" target="_blank">promptplusai@gmail.com</a>
+                    <br>
+                    <br>
                 </div>
             </div>
         </div>

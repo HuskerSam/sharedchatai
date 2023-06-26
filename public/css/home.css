@@ -296,25 +296,20 @@ ul.recent_documents_list li a {
   display: none;
 }
 
-.opening_message {
-  width: 80%;
-  display: inline-block;
-  color: rgb(180, 255, 180);
-  text-align: left;
-  padding: 12px;
-  font-size: 1.15em;
-}
-
 @media (min-width: 992px) {
   .home_logo_mobile_only {
     display: block;
-  }
-  .opening_message {
-    max-width: 800px;
   }
 }
 
 .menu_logo_image {
   width: 110px;
   display: block;
+}
+
+.intro_card {
+  padding: 8px;
+  text-align: left;
+  display: block;
+  flex: 1;
 }
