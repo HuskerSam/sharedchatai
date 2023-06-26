@@ -345,11 +345,17 @@
 }
 
 .navbar_wrapper .navbar {
-  max-width: 1200px;
+  max-width: 1100px;
   min-height: 70px;
   padding-left: 12px;
   display: inline-flex;
   width: 100%;
+}
+
+@media (min-width: 992px) {
+  .navbar_wrapper .navbar {
+    width: 90%;
+  }
 }
 
 .session_shared_column .member_profile_name {

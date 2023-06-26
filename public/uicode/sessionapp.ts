@@ -105,7 +105,6 @@ export class SessionApp extends BaseApp {
   recent_documents_list: any = document.querySelector(".recent_documents_list");
   sidebar_document_title: any = document.querySelector(".sidebar_document_title");
   menu_bar_doc_title: any = document.querySelector(".menu_bar_doc_title");
-  show_overthreshold_dialog: any = document.querySelector(".show_overthreshold_dialog");
 
   auto_run_overthreshold_ticket: any = document.querySelector(".auto_run_overthreshold_ticket");
   overthresholdModalDialog: any = document.querySelector("#overthresholdModalDialog");
@@ -1270,7 +1269,8 @@ export class SessionApp extends BaseApp {
   }
   /** shows over threshold modal */
   showOverthresholdToSendModal() {
-    this.show_overthreshold_dialog.click();
+    const modal = new window.bootstrap.Modal("#overthresholdModalDialog", {});
+    modal.show();
   }
   /**
    * @param { any } currentTicketId ticketid to ignore (optional)

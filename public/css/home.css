@@ -326,3 +326,15 @@ ul.recent_documents_list li a {
   color:  rgb(255, 127, 50);
   margin-left: 8px;
 }
+
+@media (max-width: 991px) {
+  .container {
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    max-width: none;
+  }
+}
