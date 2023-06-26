@@ -319,16 +319,10 @@ ul.recent_documents_list li a {
 
 .supported_model {
   color: rgb(50, 255, 50);
-  margin-left: 12px;
+  margin-left: 8px;
 }
 
 .upcoming_model {
   color:  rgb(255, 127, 50);
-  margin-left: 12px;
-}
-
-.home_page_login {
-  display:inline-block;
-  font-weight: bold;
-  color: rgb(255, 255, 0);
+  margin-left: 8px;
 }

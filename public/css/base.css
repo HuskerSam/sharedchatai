@@ -562,7 +562,19 @@ table.number th {
   display: block;
 }
 
+.signed_in_list_item {
+  display: none;
+}
+
 .app_signed_in .signed_in_list_item {
+  display: list-item;
+}
+
+.signed_out_list_item {
+  display: none;
+}
+
+.app_signed_out .signed_out_list_item {
   display: list-item;
 }
 
