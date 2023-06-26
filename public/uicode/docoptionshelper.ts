@@ -313,7 +313,7 @@ export default class DocOptionsHelper {
                         <span class="member_profile_image dialog_header_member_image"></span>
                         <span class="member_profile_name dialog_header_member_name"></span>
                     </h5>
-                    <a class="btn btn-secondary show_export_tickets_help" href="/help/#options" target="_blank">
+                    <a class="btn btn-secondary show_export_tickets_help" href="/help/#options" target="help">
                         <i class="material-icons">help_outline</i>
                     </a>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
