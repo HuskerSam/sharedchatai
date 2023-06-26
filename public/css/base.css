@@ -441,8 +441,7 @@ button.btn-primary:active {
 .btn.btn-secondary.hover_yellow:hover,
 .hover_yellow:focus,
 .hover_yellow:hover {
-  color: rgb(240, 240, 50);
-  background-color: transparent;
+  background-color: rgb(0,0,0);
   border-color: transparent;
 }
 
@@ -473,6 +472,11 @@ button.btn-primary:active {
 .nav-link.dashboard_create_game_mobile.hover_yellow:hover i,
 .nav-link.dashboard_create_game.hover_yellow:hover i,
 .nav-link.show_create_modal.hover_yellow:hover i {
+  color: rgb(240, 240, 50);
+}
+
+.hover_yellow:hover svg,
+.hover_yellow:hover i {
   color: rgb(240, 240, 50);
 }
 
