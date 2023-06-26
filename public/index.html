@@ -137,14 +137,23 @@
     </nav>
     <div class="container" style="margin-top:16px;">
         <div class="flex-lg-row flex_change_responsive">
-            <h1 class="header_recent_document"
-                style="width:100%;text-align: center;margin-top: -8px;margin-bottom: 8px;">
-                <span style="color: rgb(255, 127, 50);">Written</span>
-                and
-                <span style="color: rgb(240, 240, 50);">formatted</span>
-                using
-                <span style="color: rgb(50, 255, 50);">AI</span>
-            </h1>
+            <div style="flex:1"></div>
+            <div>
+                <h1 class="header_recent_document signed_out_options_block"
+                style="width:100%;text-align: center;margin-top: -8px;margin-bottom: 20px;">
+                    Free trial in progress - <a class="home_page_login" href="login"
+                        style="color: rgb(50, 255, 50);">sign on</a>
+                </h1>
+                <h1 class="header_recent_document"
+                    style="width:100%;text-align: center;margin-top: -8px;margin-bottom: 8px;">
+                    <span style="color: rgb(255, 127, 50);">Written</span>
+                    and
+                    <span style="color: rgb(240, 240, 50);">formatted</span>
+                    using
+                    <span style="color: rgb(50, 255, 50);">AI</span>
+                </h1>
+            </div>
+            <div style="flex:1"></div>
         </div>
         <div class="flex-lg-row flex_change_responsive">
             <div class="main_block app_panel">
@@ -155,19 +164,14 @@
                 </h1>
                 <div class="card intro_card">
                     <ul>
-                        <li class="signed_in_list_item">
-                            <span style="color: rgb(50, 255, 50);">Welcome back!</span>
-                        </li>
-                        <li class="signed_out_list_item">
-                            Free trial in progress - please <a class="home_page_login" href="login"
-                                style="color: rgb(50, 255, 50);">sign on</a>.
-                        </li>
-                        <li><a class="" href="/help/#users_info" target="help"
+                        <li><a class="hover_yellow" href="/help/#users_info" target="help"
                                 style="color: rgb(30, 200, 200);">Collaborate</a> with friends and coworkers</li>
-                        <li>Control responses with <a class="" href="/help/#chat_models" target="help"
-                                style="color: rgb(255, 127, 50);">model parameters</a></li>
+                        <li>Control responses with <a class="hover_yellow" href="/help/#chat_models" target="help"
+                                style="color: rgb(255, 127, 50);">model parameters</a>
+                            <br><br>
+                            </li>
                         <li>
-                            <a href="#about" style="color: rgb(240, 240, 50);">Contact the team</a><br>
+                            <a href="#about" class="hover_yellow" style="color: rgb(240, 240, 50);">Contact the team</a><br>
                             &nbsp; Bugs or Questions<br>
                             &nbsp; Application development
                         </li>
@@ -205,7 +209,7 @@
                 <div class="intro_card card">
                     <h5 style="display:inline-block">
                         <a href="https://platform.openai.com/docs/models" target="_blank"
-                            style="color:rgb(240, 240, 50)">OpenAI</a>
+                            class="hover_yellow" style="color:rgb(240, 240, 50)">OpenAI</a>
                     </h5>
                     (used by ChatGPT)
                     <ul>
@@ -216,7 +220,7 @@
                     </ul>
                     <h5 style="display:inline-block">
                         <a href="https://developers.generativeai.google/api/rest/generativelanguage" target="_blank"
-                            style="color:rgb(240, 240, 50)">Google
+                          class="hover_yellow" style="color:rgb(240, 240, 50)">Google
                             Generate</a>
                     </h5>
                     (used by Bard)
@@ -235,10 +239,10 @@
                     <ul>
                         <li><span>Collaborate with others</span> using only your
                             subscription</li>
-                        <li><a class="" href="/help/#help_sign_in" target="help"
+                        <li><a class="hover_yellow" href="/help/#help_sign_in" target="help"
                                 style="color: rgb(30, 200, 200);">Anonymous login</a> is enabled for quick access</li>
                         <li>AI is aware of different users prompts</li>
-                        <li><a class="" href="/help/#options" target="help" style="color: rgb(190, 100, 250)">JSON
+                        <li><a class="hover_yellow" href="/help/#options" target="help" style="color: rgb(190, 100, 250)">JSON
                                 import/export</a> for sharing</li>
                         <li><span>HTML and text reports</span> for sharing work</li>
                         <li>Learn and <span>work with your friends</span> using AI</li>
