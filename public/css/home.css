@@ -212,6 +212,7 @@ ul.recent_documents_list li a {
     margin: 0.5rem;
   }
 }
+
 .faq {
   display: flex;
   flex-direction: column;
@@ -335,7 +336,7 @@ ul.recent_documents_list li a {
 }
 
 .upcoming_model {
-  color:  rgb(255, 127, 50);
+  color: rgb(255, 127, 50);
   margin-left: 8px;
 }
 
@@ -354,4 +355,10 @@ ul.recent_documents_list li a {
 .profile_text_option_large ul.recent_documents_list {
   font-size: 1.5em;
   line-height: 1.65em;
+}
+
+#mc_embed_signup {
+  clear: left;
+  font: 14px Helvetica, Arial, sans-serif;
+  width: 600px;
 }
