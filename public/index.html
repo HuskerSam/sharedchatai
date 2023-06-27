@@ -214,85 +214,57 @@
                         <a href="https://platform.openai.com/docs/models" target="_blank" class="hover_yellow"
                             style="color:rgb(240, 240, 50)">OpenAI</a>
                     </h5>
-                    (used by ChatGPT)
+                    (ChatGPT)
                     <ul>
                         <li><span class="supported_model">gpt-3.5-turbo</span> 4k</li>
                         <li><span class="supported_model">gpt-3.5-turbo-16k</span></li>
                         <li><span class="upcoming_model">gpt-4</span> 8k (soon)</li>
-                        <li><span class="upcoming_model">gpt-4-32k</span> (soon)</li>
+                        <li><span class="upcoming_model">gpt-4-32k</span></li>
                     </ul>
                     <h5 style="display:inline-block">
                         <a href="https://developers.generativeai.google/api/rest/generativelanguage" target="_blank"
                             class="hover_yellow" style="color:rgb(240, 240, 50)">Google
                             Generate</a>
                     </h5>
-                    (used by Bard)
+                    (Bard)
                     <ul>
-                        <li> <span class="upcoming_model">chat-bison-001</span> 9k (soon)</li>
+                        <li> <span class="upcoming_model">chat-bison-001</span> 9k</li>
                     </ul>
                 </div>
             </div>
         </div>
         <div class="flex-lg-row flex_change_responsive">
+            <div class="main_block app_panel">
+                <h1 class="header_recent_document">Power
+                    <span style="color:rgb(240, 240, 50)">Features</span>
+                </h1>
+                <div class="intro_card card">
+                    <ul>
+                        <li>Context specific help</li>
+                        <li>Lifetime access to data</li>
+                        <li>Data will never be shared</li>
+                        <li>Labels to organize</li>
+                        <li>Send email invitations</li>
+                        <li>Usage limits per session</li>
+                    </ul>
+                </div>
+            </div>
             <div class="side_block app_panel">
                 <h1 class="header_recent_document"><span style="color: rgb(30, 200, 200);">Collaborate</span>
                     and <span style="color: rgb(190, 100, 250)">Share</span>
                 </h1>
                 <div class="intro_card card">
                     <ul>
-                        <li><span>Collaborate with others</span> using only your
-                            subscription</li>
+                        <li><span>Only the session owner</span> requires a subscription</li>
                         <li><a class="hover_yellow" href="/help/#help_sign_in" target="help"
                                 style="color: rgb(30, 200, 200);">Anonymous login</a> is enabled for quick access</li>
-                        <li>AI is aware of different users prompts</li>
+                        <li>AI distinguishes different users input</li>
                         <li><a class="hover_yellow" href="/help/#options" target="help"
                                 style="color: rgb(190, 100, 250)">JSON
                                 import/export</a> for sharing</li>
                         <li><span>HTML and text reports</span> for sharing work</li>
                         <li>Learn and <span>work with your friends</span> using AI</li>
                     </ul>
-                </div>
-            </div>
-            <div class="side_block app_panel">
-                <h1 class="header_recent_document">Power Features</h1>
-                <div class="intro_card card">
-                    <ul>
-                        <li>Thorough context specific documentation</li>
-                        <li>Access to your sessions without a subscription</li>
-                        <li>Your Data is not shared</li>
-                        <li>Labels to organize</li>
-                        <li>Send Email Invitations</li>
-                        <li>Set Usage limits per session</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div id="about" style="position:relative;top:-80px"></div>
-        <div class="flex-lg-row flex_change_responsive">
-            <div class="side_block app_panel">
-                <p class="header_recent_document">About the Team</p>
-                <div class="intro_card card">
-                    <ul>
-                        <li>Any bugs or questions - please reach out below</li>
-                        <li>We're a US-based development team</li>
-                        <li>Node, Typescript, Firebase, webGL and AI</li>
-                        <li>Located in Lincoln, Nebraska</li>
-                        <li>We are seeking software development projects</li>
-                        <li>Please contact us at <a href="mailto:promptplusai@gmail.com" target="_blank">promptplusai@gmail.com</a></li>
-                      </ul>
-                </div>
-            </div>
-            <div class="side_block app_panel">
-                <p class="header_recent_document">About the App</p>
-                <div class="intro_card card">
-                    <ul>
-                        <li>Derived from our <a href="https://github.com/HuskerSam/sharedgamelobby" target="_blank">game example</a></li>
-                        <li>Written in Typescript, Node and Bootstrap</li>
-                        <li>Hosted on <a href="https://firebase.google.com/" target="_blank">Google Firebase</a></li>
-                        <li>Scale on demand to support rapid growth</li>
-                        <li>Password free authentication</li>
-                        <li>Runs on any screen size</li>
-                      </ul>
                 </div>
             </div>
         </div>
@@ -352,9 +324,17 @@
                 </div>
                 <p class="header_recent_document" style="display:none">FAQ</p>
             </div>
+        </div>
+        <div class="flex-lg-row flex_change_responsive">
             <div class="main_block signed_in_flex" style="flex-direction: column;">
-                <div class="template_list_wrapper card" style="display:none">
-                    <p class="header_recent_document">Example Repo</p>
+                <p class="header_recent_document">Recent Sessions</p>
+                <div class="recent_sessions_list card">
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small recent_documents_list"></ul>
+                </div>
+            </div>
+            <div class="side_block signed_in_flex" style="flex-direction: column;">
+                <p class="header_recent_document">Example Repo</p>
+                <div class="intro_card card">
                     <ul class="template_list_wrapper">
                         <li>
                             <a class="p-3 text-center"
@@ -390,12 +370,40 @@
                         </li>
                     </ul>
                 </div>
-                <p class="header_recent_document">Recent Sessions</p>
-                <div class="recent_sessions_list card">
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small recent_documents_list"></ul>
+            </div>
+        </div>
+        <div id="about" style="position:relative;top:-80px"></div>
+        <div class="flex-lg-row flex_change_responsive">
+            <div class="side_block app_panel">
+                <p class="header_recent_document">About the Team</p>
+                <div class="intro_card card">
+                    <ul>
+                        <li>Any bugs or questions - please reach out below</li>
+                        <li>We're a US-based development team</li>
+                        <li>Node, Typescript, Firebase, webGL and AI</li>
+                        <li>Located in Lincoln, Nebraska</li>
+                        <li>We are seeking software development projects</li>
+                        <li>Please contact us at <a href="mailto:promptplusai@gmail.com"
+                                target="_blank">promptplusai@gmail.com</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="main_block app_panel">
+                <p class="header_recent_document">About the App</p>
+                <div class="intro_card card">
+                    <ul>
+                        <li>Based on <a href="https://github.com/HuskerSam/sharedgamelobby" target="_blank">our
+                                example</a></li>
+                        <li>Typescript and Node</li>
+                        <li>Hosted on <a href="https://firebase.google.com/" target="_blank">Firebase</a></li>
+                        <li>Scale on demand hosting</li>
+                        <li>Password free login</li>
+                        <li>Runs on any screen size</li>
+                    </ul>
                 </div>
             </div>
         </div>
+
     </div>
 </body>
 
