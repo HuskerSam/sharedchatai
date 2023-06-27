@@ -670,7 +670,9 @@ export default class DocOptionsHelper {
         if (sharedStatus === 2) this.session_header_link_button.classList.add("shared_status_withothers");
 
         let sharedLimit = "none";
-        if (this.docData.creditUsageLimit !== 0) sharedLimit = BaseApp.numberWithCommas(this.docData.creditUsageLimit);
+        let creditLimit = Number(this.docData.creditUsageLimit);
+        if (isNaN(creditLimit)) creditLimit = 0;
+        if (creditLimit !== 0) sharedLimit = BaseApp.numberWithCommas(creditLimit);
         this.shared_usage_limit_div.innerHTML = sharedLimit;
         this.docfield_archived_checkbox.checked = this.docData.archived;
         this.shared_archived_status_wrapper.innerHTML = this.docData.archived ? "Archived" : "Active";

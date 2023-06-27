@@ -265,7 +265,9 @@ export default class ChatDocument {
 
         resultText += `<div class="ticket-item">\n`;
         resultText += `    <div class="prompt-text">${selected} ${prompt}</div>\n`;
+        resultText += `    <br>\n`;
         resultText += `    <div class="completion-text">${completion}</div>\n`;
+        resultText += `    <br>\n`;
         resultText += `</div>`;
         displayText = resultText;
       });
