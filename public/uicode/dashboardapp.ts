@@ -136,7 +136,7 @@ export class DashboardApp extends BaseApp {
         const titleDom = card.querySelector(".document_name");
         let title = BaseApp.escapeHTML(doc.data().title);
         if (!title) title = "";
-        if (title === "") title = `<span class="unused_chatroom_title_placeholder">unused</span>`;
+        if (title === "") title = `<span class="unused_chatroom_title_placeholder">untitled</span>`;
         BaseApp.setHTML(titleDom, title);
 
         const labelsDom = card.querySelector(".session_labels_column");

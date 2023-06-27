@@ -27,15 +27,15 @@ html {
 
 @media (min-width: 501px) {
   .tickets_list {
-    padding-left: 3%;
-    padding-right: 3%;
+    padding-left: 1%;
+    padding-right: 1%;
   }
 }
 
 @media (min-width: 992px) {
   .tickets_list {
-    padding-left: 5%;
-    padding-right: 5%;
+    padding-left: 3%;
+    padding-right: 3%;
   }
 }
 
@@ -244,15 +244,15 @@ html {
 
 @media (min-width: 501px) {
   .message_list_send_wrapper {
-    padding-left: 3%;
-    padding-right: 3%;
+    padding-left: 1%;
+    padding-right: 1%;
   }
 }
 
 @media (min-width: 992px) {
   .message_list_send_wrapper {
-    padding-left: 5%;
-    padding-right: 5%;
+    padding-left: 3%;
+    padding-right: 3%;
   }
 }
 
