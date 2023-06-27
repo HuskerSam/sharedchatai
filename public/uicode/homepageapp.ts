@@ -139,7 +139,7 @@ export class HomePageApp extends BaseApp {
     populateAnchorLinks() {
         const anchorLinks = document.querySelectorAll(".anchor_copy_link");
         anchorLinks.forEach((anchorLink: any) => {
-            const section = anchorLink.closest("[id");
+            const section = anchorLink.closest("[id]");
             if (section) {
                 const id = section.id;
                 if (id) {
