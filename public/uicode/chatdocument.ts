@@ -250,8 +250,8 @@ export default class ChatDocument {
         const completion = ChatDocument.messageForCompletion(assistsLookup, ticket.id);
         const prompt = ticket.data().message;
 
-        resultText += "Prompt: " + prompt + "\n";
-        if (completion) resultText += "Assist: " + completion + "\n";
+        resultText += "Prompt:\n" + prompt + "\n\n";
+        if (completion) resultText += "Assist:\n" + completion + "\n";
         resultText += "\n";
         displayText = BaseApp.escapeHTML(resultText);
       });
