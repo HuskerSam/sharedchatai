@@ -582,10 +582,10 @@ table.number th {
   display: list-item;
 }
 
-.signed_in_flex {
+div.signed_in_flex {
   display: none;
 }
 
-.app_signed_in .signed_in_flex {
+.app_signed_in div.signed_in_flex {
   display: flex;
 }

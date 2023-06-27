@@ -107,7 +107,7 @@ export class HomePageApp extends BaseApp {
         if (this.recentDocumentsSubscription) this.recentDocumentsSubscription();
         this.recentDocumentsSubscription = firebase.firestore().collection(`Games`)
             .orderBy(`members.${this.uid}`, "desc")
-            .limit(10)
+            .limit(5)
             .onSnapshot((snapshot: any) => this.updateRecentDocumentFeed(snapshot));
     }
     /** paint recent document feed
@@ -127,7 +127,7 @@ export class HomePageApp extends BaseApp {
             title = title.substring(0, 100);
             const activityDate = this.showGmailStyleDate(new Date(data.lastActivity));
             const rowHTML = `<li>
-        <a href="/session/${doc.id}">
+        <a href="/session/${doc.id}" class="hover_yellow">
           <div class="sidebar_tree_recent_title title">${title}</div>
           <div class="activity_date">${activityDate}</div>
         </a></li>`;

@@ -104,22 +104,11 @@
 
 /** from AI chat **/
 
-.recent_sessions_list {
-  background-color: rgba(211, 211, 211, .1);
-  flex: 1;
-}
-
-ul.recent_documents_list {
-  padding-right: 4px;
-}
-
 ul.recent_documents_list li {
-  display: block;
   position: relative;
-  margin-bottom: 1rem;
+  margin-bottom: 0.25rem;
   text-align: left;
   position: relative;
-  padding-right: 30px;
   margin-right: 12px;
 }
 
@@ -128,7 +117,9 @@ ul.recent_documents_list li a {
   color: rgb(230, 230, 230);
   padding-top: 4px;
   padding-bottom: 4px;
-  text-decoration: underline;
+  height: 2em;
+  overflow: hidden;
+  text-decoration: none;
 }
 
 .recent_documents_list .activity_date {
@@ -141,10 +132,6 @@ ul.recent_documents_list li a {
   padding: 2px 8px;
 }
 
-.recent_documents_list li {
-  margin-left: -15px;
-}
-
 /** from AI chat **/
 
 
@@ -154,48 +141,26 @@ ul.recent_documents_list li a {
   align-items: center;
 }
 
-.recent_sessions_list {
-  padding-left: 10px;
-  padding-top: 4px;
-  margin-top: 8px;
-}
-
 .template_list_wrapper {
-  padding-left: 4px;
-  padding-top: 4px;
-  margin-top: 8px;
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  text-align: left;
 }
 
 .template_list_wrapper li {
-  margin-right: 1rem;
-  margin-bottom: .5rem;
-  display: block;
+  margin-bottom: .25rem;
   width: 100%;
 }
 
 .template_list_wrapper li a {
   color: rgb(255, 255, 0);
   text-decoration: none;
-  font-size: 1.1rem;
-}
-
-.template_list_wrapper li a:hover {
-  color: #198754;
+  min-height: 2em;
+  display: block;
+  text-align: left;
 }
 
 .template_list_wrapper li .caption {
   text-align: left;
-  font-size: 0.9rem;
-  color: rgb(200, 125, 200);
-  font-style: italic;
-  display: inline-block;
-  margin-left: 2rem;
+  color: rgb(230, 230, 230);
 }
-
 
 .side_block {
   display: flex;
@@ -260,15 +225,6 @@ ul.recent_documents_list li a {
 
   .help-buttons button {
     font-size: 14px;
-  }
-
-  .template_list_wrapper li {
-    display: block;
-
-  }
-
-  .template_list_wrapper li .caption {
-    margin-left: 1rem;
   }
 }
 

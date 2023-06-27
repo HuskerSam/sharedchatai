@@ -146,7 +146,7 @@
                     Free trial in progress - <a class="home_page_login hover_yellow" href="login"
                         style="color: rgb(50, 255, 50);">sign on</a>
                 </h1>
-                <h1 class="header_recent_document"
+                <h1 class="header_recent_document signed_out_options_block"
                     style="width:100%;text-align: center;margin-top: -8px;margin-bottom: 8px;">
                     <span style="color: rgb(255, 127, 50);">Composed</span>
                     and
@@ -156,6 +156,40 @@
                 </h1>
             </div>
             <div style="flex:1"></div>
+        </div>
+        <div class="flex-lg-row flex_change_responsive signed_in_flex">
+            <div class="main_block app_panel" style="flex-direction: column;">
+                <p class="header_recent_document">Recent Sessions</p>
+                <div class="intro_card card">
+                    <ul class="recent_documents_list"></ul>
+                </div>
+            </div>
+            <div class="side_block app_panel" style="flex-direction: column;">
+                <p class="header_recent_document">Import Examples</p>
+                <div class="intro_card card">
+                    <ul class="template_list_wrapper">
+                        <li>
+                            <a class="hover_yellow" href="/?templatepath=/templates/createhelpchat.json&title=Create Dialog Help">HTML Help
+                                - <span class="caption">Compose application documentation</span></a>
+                        </li>
+                        <li>
+                            <a class="hover_yellow"
+                                href="/?templatepath=/templates/ogmetatag.json&title=SEO Social Metatag Help">HTML Meta Tags
+                                - <span class="caption">Generate meta tags for your page</span></a>
+                        </li>
+                        <li>
+                            <a class="hover_yellow"
+                                href="/?templatepath=/templates/homepage3.json&title=Creating Homepage Copy">Homepage Copy
+                                - <span class="caption">Conversation about brand copy</span></a>
+                        </li>
+                        <li>
+                            <a class="hover_yellow"
+                                href="/?templatepath=/templates/session.json&title=Help for Chat Sessions">Improving Help
+                                - <span class="caption">Iterating to increase quality</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
         <div class="flex-lg-row flex_change_responsive">
             <div class="main_block app_panel">
@@ -175,7 +209,8 @@
                                 style="color: rgb(240, 240, 50);">contextual history</a>
                         </li>
                         <li>
-                            Signup for our <a href="#emaillist" class="hover_yellow" style="color: rgb(50, 255, 50);">email list</a>
+                            Signup for our <a href="#emaillist" class="hover_yellow"
+                                style="color: rgb(50, 255, 50);">email list</a>
                         </li>
                         <li>
                             <a href="#about" class="hover_yellow" style="color:white">Contact us</a>
@@ -330,53 +365,6 @@
                 <p class="header_recent_document" style="display:none">FAQ</p>
             </div>
         </div>
-        <div class="flex-lg-row flex_change_responsive">
-            <div class="main_block signed_in_flex" style="flex-direction: column;">
-                <p class="header_recent_document">Recent Sessions</p>
-                <div class="recent_sessions_list card">
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small recent_documents_list"></ul>
-                </div>
-            </div>
-            <div class="side_block signed_in_flex" style="flex-direction: column;">
-                <p class="header_recent_document">Example Repo</p>
-                <div class="intro_card card">
-                    <ul class="template_list_wrapper">
-                        <li>
-                            <a class="p-3 text-center"
-                                href="/?templatepath=/templates/createhelpchat.json&title=Create Dialog Help">Prompt+
-                                user help
-                                <span class="caption">How to create user end documentation</span></a>
-                        </li>
-                        <li>
-                            <a class="p-3 text-center"
-                                href="/?templatepath=/templates/multipleusers.json&title=Multiple Users">Multiple
-                                users
-                                talking
-                                <span class="caption">Configure system message to register pre-text id</span></a>
-                        </li>
-                        <li>
-                            <a class="p-3 text-center"
-                                href="/?templatepath=/templates/ogmetatag.json&title=SEO Social Metatag Help">SEO
-                                Social Tags - Metatag Help
-                                <span class="caption">Get social media metatag syntax</span></a>
-                        </li>
-                        <li>
-                            <a class="p-3 text-center"
-                                href="/?templatepath=/templates/homepage3.json&title=Creating Homepage Copy">Writing
-                                copy
-                                for the homepage
-                                <span class="caption">Have a conversation about brand copy</span></a>
-                        </li>
-                        <li>
-                            <a class="p-3 text-center"
-                                href="/?templatepath=/templates/session.json&title=Help for Chat Sessions">Writing
-                                help for chat sessions
-                                <span class="caption">Using back and forth to create help</span></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
         <div id="about" style="position:relative;top:-80px"></div>
         <div class="flex-lg-row flex_change_responsive">
             <div class="side_block app_panel">
@@ -420,8 +408,9 @@
                                 method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
                                 class="validate" target="_self" novalidate="">
                                 <div id="mc_embed_signup_scroll">
-                                    <div class="mc-field-group"><label for="mce-EMAIL">Email Address</label><input type="email" name="EMAIL"
-                                            class="required email" id="mce-EMAIL" required="" value=""></div>
+                                    <div class="mc-field-group"><label for="mce-EMAIL">Email Address</label><input
+                                            type="email" name="EMAIL" class="required email" id="mce-EMAIL" required=""
+                                            value=""></div>
                                     <div id="mce-responses" class="clear foot">
                                         <div class="response" id="mce-error-response" style="display: none;"></div>
                                         <div class="response" id="mce-success-response" style="display: none;"></div>

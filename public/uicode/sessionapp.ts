@@ -136,7 +136,7 @@ export class SessionApp extends BaseApp {
     setInterval(() => this.updateTimeSince(this.tickets_list), this.timeSinceRedraw);
 
     this.ticket_content_input.addEventListener("input", () => this.updatePromptTokenStatus());
-    this.show_document_options_modal.addEventListener("click", () => {    
+    this.show_document_options_modal.addEventListener("click", () => {
       document.body.classList.remove("side_bar_opened");
       this.documentOptions.show(this.documentId, this.sessionDocumentData);
     });
@@ -1271,7 +1271,7 @@ export class SessionApp extends BaseApp {
       this.lastInputTokenCount + this.lastSystemMessageTokenCount > this.modelMeta.contextualLimit;
   }
   /** shows over threshold modal */
-  showOverthresholdToSendModal() {     
+  showOverthresholdToSendModal() {
     document.body.classList.remove("side_bar_opened");
     const modal = new window.bootstrap.Modal("#overthresholdModalDialog", {});
     modal.show();
