@@ -361,3 +361,8 @@ ul.recent_documents_list li a {
   clear: left;
   max-width: 600px;
 }
+
+#mc-embedded-subscribe.button {
+  background-color: rgb(50, 255, 50);
+  color: black;
+}
