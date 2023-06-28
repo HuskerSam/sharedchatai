@@ -51,6 +51,7 @@ export default class DocOptionsHelper {
     export_tab_button: any;
     options_tab_button: any;
     owner_tab_button: any;
+    isOwner = false;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -701,7 +702,8 @@ feedback: promptplusai@gmail.com`);
     show(chatDocumentId: string, doc: any) {
         this.chatDocumentId = chatDocumentId;
         this.documentData = doc;
-        if (doc.createUser === this.app.uid) {
+        this.isOwner = doc.createUser === this.app.uid;
+        if (this.isOwner) {
             this.modalContainer.classList.add("modal_options_owner_user");
             this.modalContainer.classList.remove("modal_options_shared_user");
         } else {
@@ -709,7 +711,7 @@ feedback: promptplusai@gmail.com`);
             this.modalContainer.classList.add("modal_options_shared_user");
         }
 
-        if (doc.createUser === this.app.uid) {
+        if (this.isOwner) {
             const queryLabelSelect2 = window.$(".edit_options_document_labels");
             this.noLabelSave = true;
             queryLabelSelect2.html("");
@@ -768,7 +770,8 @@ feedback: promptplusai@gmail.com`);
         } else if (this.app.profile.optionsDialogTabIndex === 1) {
             this.options_tab_button.click();
         } else if (this.app.profile.optionsDialogTabIndex === 2) {
-            this.owner_tab_button.click();
+            if (this.isOwner) this.owner_tab_button.click();
+            else this.export_tab_button.click();
         }
         const modal = new window.bootstrap.Modal("#editDocumentModal", {});
         modal.show();
