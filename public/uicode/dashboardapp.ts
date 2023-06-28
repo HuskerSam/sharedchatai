@@ -124,8 +124,14 @@ export class DashboardApp extends BaseApp {
     snapshot.forEach((doc: any) => {
       let labels = doc.data().label;
       if (!labels) labels = "";
+      labels = labels.trim();
       const labelsArray = labels.split(",");
-      if (labelFilter === "All Sessions" || labelsArray.indexOf(labelFilter) !== -1) {
+      let includeSession = false;
+      if (labelFilter === "All Sessions") includeSession = true;
+      else if (labelFilter === "Not Labelled" && labels === "") includeSession = true;
+      else if (labelsArray.indexOf(labelFilter) !== -1) includeSession = true;
+
+      if (includeSession) {
         let card: any = this.dashboard_documents_view.querySelector(`a[gamenumber="${doc.id}"]`);
         if (!card) {
           card = this.getDocumentCardElement(doc);
@@ -336,7 +342,7 @@ export class DashboardApp extends BaseApp {
   */
   paintLabelSelect(firstLoad = false) {
     const labels = this.getLabelsList();
-    let html = "<option>All Sessions</option>";
+    let html = "<option>All Sessions</option><option>Not Labelled</option>";
     const startingValue = this.document_label_filter.value;
 
     labels.forEach((label: string) => html += `<option>${label}</option>`);
