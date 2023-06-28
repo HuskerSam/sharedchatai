@@ -145,14 +145,14 @@ ul.recent_documents_list li a {
 }
 
 .template_list_wrapper li {
-  margin-bottom: .25rem;
+  height: 2.25em;
   width: 100%;
 }
 
 .template_list_wrapper li a {
   color: rgb(255, 255, 0);
   text-decoration: none;
-  min-height: 2em;
+  line-height: 2em;
   display: block;
   text-align: left;
 }
