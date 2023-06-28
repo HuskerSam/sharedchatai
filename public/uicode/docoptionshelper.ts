@@ -716,7 +716,6 @@ feedback: promptplusai@gmail.com`);
             this.noLabelSave = true;
             queryLabelSelect2.html("");
             queryLabelSelect2.val(null).trigger("change");
-            this.noLabelSave = false;
 
             try {
                 let labelString = doc.label;
@@ -750,8 +749,10 @@ feedback: promptplusai@gmail.com`);
                     }
                 });
             } catch (error) {
+                this.noLabelSave = false;
                 console.log(error);
             }
+            this.noLabelSave = false;
         }
         this.app.sessionDeleting = false;
         if (this.app.profile.optionsDialogExportFormat) {

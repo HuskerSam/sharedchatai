@@ -283,8 +283,10 @@ export default class DocCreateHelper {
 
     return labels.join(",");
   }
-  /** populate modal fields and show */
-  show() {
+  /** populate modal fields and show
+   * @param { string } label optional label to add
+  */
+  show(label = "") {
     this.create_modal_note_field.value = "";
 
     const queryLabelSelect2 = window.$(".create_document_label_options");
@@ -304,7 +306,7 @@ export default class DocCreateHelper {
     });
     this.insert_todaylabel_default_checkbox.checked = this.app.profile.insertTodayAsLabel === true;
     if (this.app.profile.insertTodayAsLabel) this.addTodayAsLabel();
-
+    if (label) this.addTodayAsLabel(label);
 
     if (this.app.profile.createDialogTabIndex === 0) {
       this.basic_create_options.click();
@@ -358,9 +360,13 @@ export default class DocCreateHelper {
     if (this.create_modal_template_file.files[0]) fileName = this.create_modal_template_file.files[0].name;
     this.parsed_file_name.innerHTML = fileName;
     return importData;
-  }/** add todays yy/mm/dd as label */
-  addTodayAsLabel() {
-    const today = this.getLocal8DigitDate();
+  }
+  /** add todays yy/mm/dd as label
+   * @param { string } label overrides today to be added
+  */
+  addTodayAsLabel(label = "") {
+    let today = this.getLocal8DigitDate();
+    if (label) today = label;
     const queryLabelSelect2 = window.$(".create_document_label_options");
 
     if (queryLabelSelect2.find("option[value='" + today + "']").length) {

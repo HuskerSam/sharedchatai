@@ -31,12 +31,12 @@ export class DashboardApp extends BaseApp {
     this.dashboard_create_game.addEventListener("click", (e: any) => {
       e.preventDefault();
       e.stopPropagation();
-      this.documentCreate.show();
+      this.documentCreate.show(this.getCustomSelectedLabel());
     });
     this.dashboard_create_game_mobile.addEventListener("click", (e: any) => {
       e.preventDefault();
       e.stopPropagation();
-      this.documentCreate.show();
+      this.documentCreate.show(this.getCustomSelectedLabel());
     });
 
     this.document_label_filter.addEventListener("input", () => {
@@ -53,6 +53,14 @@ export class DashboardApp extends BaseApp {
       event.preventDefault();
       this.profileHelper.show();
     });
+  }
+  /**
+   * @return { string } label if custom, "" if not (all or unlabeled)
+   */
+  getCustomSelectedLabel(): string {
+    if (this.document_label_filter.selectedIndex < 2) return "";
+
+    return this.document_label_filter.value;
   }
   /** load tickets for options/export dialog
    * @param { any } documentId firestore record id
@@ -332,6 +340,15 @@ export class DashboardApp extends BaseApp {
         if (str) labels[str] = true;
       });
     });
+
+    let labelString = this.profile.documentLabels;
+    if (!labelString) labelString = "";
+    const profileLabels = labelString.split(",");
+    profileLabels.forEach((label: string) => {
+      const str = BaseApp.escapeHTML(label.trim());
+      if (str) labels[str] = true;
+    });
+
     const arr = Object.keys(labels).sort((a: string, b: string) => {
       return a.toLowerCase().localeCompare(b.toLowerCase());
     });

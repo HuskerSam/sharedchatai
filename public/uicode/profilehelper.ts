@@ -46,6 +46,10 @@ export default class ProfileHelper {
             // this.profile_text_large_checkbox.focus();
         });
 
+        this.modalContainer.children[0].addEventListener("hidden.bs.modal", () => {
+            if (this.app.paintLabelSelect) this.app.paintLabelSelect();
+        });
+
         this.modal_close_button = this.modalContainer.querySelector(".modal_close_button");
 
         this.logged_in_status = document.querySelector(".logged_in_status");
@@ -452,7 +456,7 @@ export default class ProfileHelper {
     /** get user label pick list comma delimited
    * @return { string } label list
    */
-    getLabels(): string {
+    scrapeLabelList(): string {
         const data = window.$(".label_profile_picker").select2("data");
         const labels: Array<string> = [];
         data.forEach((item: any) => {
@@ -465,7 +469,7 @@ export default class ProfileHelper {
     /** scrape and save select2 label list */
     saveProfileLabels() {
         if (this.noLabelSave) return;
-        this.app.profile.documentLabels = this.getLabels();
+        this.app.profile.documentLabels = this.scrapeLabelList();
         this.saveProfileField("labels");
     }
     /**
