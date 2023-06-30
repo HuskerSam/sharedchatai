@@ -156,7 +156,7 @@ export class SessionApp extends BaseApp {
     this.docfield_top_k.addEventListener("input", () => this.optionSliderChange(true, "top_k",
       this.docfield_top_k, this.top_k_slider_label, "Top K: "));
 
-    this.docfield_model.addEventListener("change", () => {
+    this.docfield_model.addEventListener("input", () => {
       this.saveDocumentOption(this.documentId, "model", this.docfield_model.value);
     });
 
@@ -688,7 +688,6 @@ export class SessionApp extends BaseApp {
     document.body.classList.remove("model_type_bard");
     if (this.modelMeta.type === "gpt") document.body.classList.add("model_type_gpt");
     else document.body.classList.add("model_type_bard");
-
   }
   /** api call for delete user message
    * @param { any } btn dom control
