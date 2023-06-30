@@ -10,6 +10,10 @@ import {
 import {
     GoogleAuth,
  } from "google-auth-library";
+ import {
+    encode,
+} from "gpt-3-encoder";
+
 /** Match game specific turn logic wrapped in a transaction */
 export default class SessionAPI {
     /** http endpoint for user posting message to table chat
@@ -349,19 +353,23 @@ export default class SessionAPI {
         assistResults.forEach((assist: any) => {
             assistLookup[assist.id] = assist.data();
         });
+        let prompt_tokens = 0;
         dataResults.forEach((includeTicket: any) => {
             if (ticket.id !== includeTicket.id) {
                 if (assistLookup[includeTicket.id] && assistLookup[includeTicket.id].success &&
                     !assistLookup[includeTicket.id].assist.error) {
+                    const msg = includeTicket.data().message;
+                    const assist = assistLookup[includeTicket.id].assist.choices["0"].message.content;
                     messages.push({
                         role: "user",
-                        content: includeTicket.data().message,
+                        content: msg,
                     });
-
                     messages.push({
                         role: "bot",
-                        content: assistLookup[includeTicket.id].assist.choices["0"].message.content,
+                        content: assist,
                     });
+
+                    prompt_tokens += encode(msg).length + encode(assist).length;
                 }
             }
         });
@@ -370,6 +378,7 @@ export default class SessionAPI {
             content: ticket.message,
             name: ticket.uid,
         });
+        prompt_tokens += encode(ticket.message).length;
         const defaults = BaseClass.defaultChatDocumentOptions();
         const model = sessionDocumentData.model;
         const maxOutputTokens = BaseClass.getNumberOrDefault(sessionDocumentData.max_tokens, defaults.max_tokens);
@@ -397,6 +406,7 @@ export default class SessionAPI {
             aiRequest,
             model,
             submitted: ticket.submitted,
+            prompt_tokens
         };
         await firebaseAdmin.firestore().doc(`Games/${ticket.gameNumber}/packets/${ticketId}`).set(packet);
 
@@ -578,10 +588,15 @@ export default class SessionAPI {
                         };
                         clearTimeout(timeoutTest);
 
+                        const completion = assist["0"].candidates["0"].content;
+                        aiResponse.prompt_tokens = packet.prompt_tokens;
+                        aiResponse.completion_tokens = encode(completion).length;
+                        aiResponse.total_tokens = aiResponse.prompt_tokens + aiResponse.completion_tokens;
+
                         aiResponse.assist.choices = {
                             "0": {
                                 message: {
-                                    content: assist["0"].candidates["0"].content,
+                                    content: completion,
                                 },
                             },
                         };
@@ -709,10 +724,10 @@ export default class SessionAPI {
         /* eslint-disable camelcase */
         let aiResponse: any = null;
         aiResponse = await SessionAPI.submitGAIRequest(packet, submitted, bardKey);
-        if (aiResponse.assist && aiResponse.assist.usage) {
-            total_tokens = BaseClass.getNumberOrDefault(aiResponse.assist.usage.total_tokens, 0);
-            prompt_tokens = BaseClass.getNumberOrDefault(aiResponse.assist.usage.prompt_tokens, 0);
-            completion_tokens = BaseClass.getNumberOrDefault(aiResponse.assist.usage.completion_tokens, 0);
+        if (aiResponse.assist) {
+            prompt_tokens = aiResponse.prompt_tokens;
+            completion_tokens = aiResponse.completion_tokens;
+            total_tokens = aiResponse.total_tokens;
 
             const creditFactors = SessionAPI.modelCreditMultiplier(sessionDocumentData.model);
             usage_credits = creditFactors.input * prompt_tokens + creditFactors.output * completion_tokens;
