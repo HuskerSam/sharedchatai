@@ -305,17 +305,22 @@ export default class ChatDocument {
   static getModelMeta(name = ""): any {
     let contextualLimit = 4096;
     let defaultCompletion = 500;
+    let completionMax = 2048;
+    const completionMin = 20;
     if (name === "gpt-3.5-turbo-16k") {
       contextualLimit = 16394;
       defaultCompletion = 2000;
     }
-    const completionMax = Math.floor(Math.round(contextualLimit * 0.7) / 20) * 20;
-    const completionMin = 20;
-
+    if (name === "chat-bison-001") {
+      contextualLimit = 8192;
+      defaultCompletion = 1024;
+      completionMax = 1024;
+    }
     const defaults = {
       max_tokens: defaultCompletion,
       temperature: 1,
       top_p: 1,
+      top_k: 40,
       presence_penalty: 0,
       frequency_penalty: 0,
     };

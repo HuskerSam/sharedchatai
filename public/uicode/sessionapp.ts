@@ -153,10 +153,6 @@ export class SessionApp extends BaseApp {
       this.docfield_max_tokens, this.max_tokens_slider_label, "Max Response: "));
 
     this.docfield_model.addEventListener("change", () => {
-      if (this.sessionDocumentData.archived || this.docfield_model.value.indexOf("gpt-3.5") === -1) {
-        this.docfield_model.value = this.sessionDocumentData.model;
-        return;
-      }
       this.saveDocumentOption(this.documentId, "model", this.docfield_model.value);
     });
 
@@ -455,16 +451,24 @@ export class SessionApp extends BaseApp {
               assistSection.appendChild(continueButton);
               continueButton.addEventListener("click", () => this.sendTicketToAPI(true, "Continue Previous"));
 
-              totalSpan.innerHTML = assistData.assist.usage.total_tokens;
-              promptSpan.innerHTML = assistData.assist.usage.prompt_tokens;
+              let totalTokens = 0;
+              let promptTokens = 0;
+              let completionTokens = 0;
+              if (assistData.assist.usage) {
+                totalTokens = assistData.assist.usage.total_tokens;
+                promptTokens = assistData.assist.usage.prompt_tokens;
+                completionTokens = assistData.assist.usage.completion_tokens;
+              }
+              totalSpan.innerHTML = totalTokens;
+              promptSpan.innerHTML = promptTokens;
               let responseTime = assistData.runTime;
               if (!responseTime) responseTime = 0;
-              completionSpan.innerHTML = assistData.assist.usage.completion_tokens +
+              completionSpan.innerHTML = completionTokens +
                 "&nbsp; " + Math.round(responseTime / 1000) + "s";
 
               let responseCap = this.sessionDocumentData.max_tokens;
               if (ticketData.max_tokens !== undefined) responseCap = ticketData.max_tokens;
-              if (assistData.assist.usage.completion_tokens >= responseCap) {
+              if (completionTokens >= responseCap && completionTokens !== 0) {
                 card.classList.add("completion_max_tokens_reached");
               } else {
                 card.classList.remove("completion_max_tokens_reached");
@@ -1327,7 +1331,9 @@ export class SessionApp extends BaseApp {
     const defaults = this.modelMeta.defaults;
     Object.keys(defaults).forEach((key) => {
       const value = defaults[key];
-      if (value.toString() !== this.sessionDocumentData[key].toString()) fieldChanged = true;
+      let docValue: any = this.sessionDocumentData[key];
+      if (docValue === undefined) docValue = 0;
+      if (value.toString() !== docValue.toString()) fieldChanged = true;
     });
     return fieldChanged;
   }
@@ -1339,7 +1345,9 @@ export class SessionApp extends BaseApp {
     Object.keys(this.modelMeta.defaults).forEach((key) => {
       const value = this.modelMeta.defaults[key];
       if (key !== "model" && key !== "max_tokens") {
-        if (value.toString() !== this.sessionDocumentData[key].toString()) fieldChanged = true;
+        let docValue: any = this.sessionDocumentData[key];
+        if (docValue === undefined) docValue = 0;
+        if (value.toString() !== docValue.toString()) fieldChanged = true;
       }
     });
     return fieldChanged;

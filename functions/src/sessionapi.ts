@@ -5,9 +5,11 @@ import {
 import BaseClass from "./baseclass";
 import fetch from "node-fetch";
 import {
-    encode,
-} from "gpt-3-encoder";
-
+    DiscussServiceClient,
+ } from "@google-ai/generativelanguage";
+import {
+    GoogleAuth,
+ } from "google-auth-library";
 /** Match game specific turn logic wrapped in a transaction */
 export default class SessionAPI {
     /** http endpoint for user posting message to table chat
@@ -49,8 +51,8 @@ export default class SessionAPI {
         /* eslint-disable camelcase */
         const defaults = BaseClass.defaultChatDocumentOptions();
         const max_tokens = BaseClass.getNumberOrDefault(sessionDocumentData.max_tokens, defaults.max_tokens);
-        // const chatGptKey = ownerProfile.chatGptKey;
         const chatGptKey = localInstance.privateConfig.chatGPTKey;
+        const bardKey = localInstance.privateConfig.googleAIKey;
 
         const memberImage = sessionDocumentData.memberImages[uid] ? sessionDocumentData.memberImages[uid] : "";
         const memberName = sessionDocumentData.memberNames[uid] ? sessionDocumentData.memberNames[uid] : "";
@@ -112,8 +114,108 @@ export default class SessionAPI {
             merge: true,
         });
 
-        const packet = await this._generatePacket(ticket, sessionDocumentData, gameNumber, ticketId, includeTickets);
-        await this._processTicket(packet, sessionDocumentData, ticket, ticketId, chatGptKey, submitted);
+        let usageLimitError = false;
+        let usageErrorObject: any = null;
+        try {
+            if (sessionDocumentData.archived) {
+                throw new Error("Submit Blocked: Document is set to archived");
+            }
+
+            const usageLimit = BaseClass.getNumberOrDefault(sessionDocumentData.creditUsageLimit, 0);
+            const documentUsed = BaseClass.getNumberOrDefault(sessionDocumentData.creditUsage, 0);
+            if (usageLimit > 0 && documentUsed >= usageLimit) {
+                throw new Error("Submit Blocked: Document Usage Limit Reached");
+            }
+        } catch (usageTestError) {
+            usageLimitError = true;
+            usageErrorObject = usageTestError;
+        }
+
+        let aiResults: any = {};
+        if (usageLimitError) {
+            aiResults = {
+                aiResponse: {
+                    success: false,
+                    created: new Date().toISOString(),
+                    error: usageErrorObject.message,
+                    submitted,
+                },
+                total_tokens: 0,
+                prompt_tokens: 0,
+                completion_tokens: 0,
+                usage_credits: 0,
+            };
+        } else {
+            const model = sessionDocumentData.model;
+            const gptModels = ["gpt-3.5-turbo", "gpt-3.5-turbo-16k", "gpt-4", "gpt-4-32k"];
+            const bardModels = ["chat-bison-001"];
+            if (gptModels.indexOf(model) !== -1) {
+                const packet = await SessionAPI._generateOpenAIPacket(ticket, sessionDocumentData, gameNumber, ticketId, includeTickets);
+                aiResults = await SessionAPI._processOpenAIPacket(packet, sessionDocumentData, ticket, ticketId, chatGptKey, submitted);
+            } else if (bardModels.indexOf(model) !== -1) {
+                const packet = await SessionAPI._generateGAIPacket(ticket, sessionDocumentData, gameNumber, ticketId, includeTickets);
+                aiResults = await SessionAPI._processGAIPacket(packet, sessionDocumentData, ticket, ticketId, bardKey, submitted);
+            } else {
+                return res.status(200).send({
+                    success: false,
+                    errorMessage: "Model not found",
+                });
+            }
+        }
+
+        const total_tokens = aiResults.total_tokens;
+        const prompt_tokens = aiResults.prompt_tokens;
+        const completion_tokens = aiResults.completion_tokens;
+        const usage_credits = aiResults.usage_credits;
+        const aiResponse = aiResults.aiResponse;
+
+        const today = new Date().toISOString();
+        const yearFrag = today.substring(0, 4);
+        const yearMonthFrag = today.substring(0, 7);
+        const ymdFrag = today.substring(0, 10);
+
+        const promises = [
+            firebaseAdmin.firestore().doc(`Games/${gameNumber}/assists/${ticketId}`).set(aiResponse),
+            firebaseAdmin.firestore().doc(`Games/${gameNumber}`).set({
+                lastActivity: new Date().toISOString(),
+                // lastMessage: ticketData.message,
+                lastTicketId: ticketId,
+                // lastResponse,
+                totalTokens: FieldValue.increment(total_tokens),
+                promptTokens: FieldValue.increment(prompt_tokens),
+                completionTokens: FieldValue.increment(completion_tokens),
+                creditUsage: FieldValue.increment(usage_credits),
+            }, {
+                merge: true,
+            }),
+            firebaseAdmin.firestore().doc(`Users/${sessionDocumentData.createUser}/internal/tokenUsage`).set({
+                lastActivity: new Date().toISOString(),
+                lastChatDocumentId: gameNumber,
+                lastChatTicketId: ticketId,
+                totalTokens: FieldValue.increment(total_tokens),
+                promptTokens: FieldValue.increment(prompt_tokens),
+                completionTokens: FieldValue.increment(completion_tokens),
+                creditUsage: FieldValue.increment(usage_credits),
+                runningTokens: {
+                    ["total_" + yearFrag]: FieldValue.increment(total_tokens),
+                    ["total_" + yearMonthFrag]: FieldValue.increment(total_tokens),
+                    ["total_" + ymdFrag]: FieldValue.increment(total_tokens),
+                    ["prompt_" + yearFrag]: FieldValue.increment(prompt_tokens),
+                    ["prompt_" + yearMonthFrag]: FieldValue.increment(prompt_tokens),
+                    ["prompt_" + ymdFrag]: FieldValue.increment(prompt_tokens),
+                    ["completion_" + yearFrag]: FieldValue.increment(completion_tokens),
+                    ["completion_" + yearMonthFrag]: FieldValue.increment(completion_tokens),
+                    ["completion_" + ymdFrag]: FieldValue.increment(completion_tokens),
+                    ["credit_" + yearFrag]: FieldValue.increment(usage_credits),
+                    ["credit_" + yearMonthFrag]: FieldValue.increment(usage_credits),
+                    ["credit_" + ymdFrag]: FieldValue.increment(usage_credits),
+                },
+            }, {
+                merge: true,
+            }),
+        ];
+        await Promise.all(promises);
+
 
         return res.status(200).send({
             success: true,
@@ -227,7 +329,87 @@ export default class SessionAPI {
      * @param { string } ticketId ticketId
      * @param { Array<string> } includeTickets tickets sent to packet
      */
-    static async _generatePacket(ticket: any, sessionDocumentData: any, gameNumber: string, ticketId: string,
+    static async _generateGAIPacket(ticket: any, sessionDocumentData: any, gameNumber: string, ticketId: string,
+        includeTickets: Array<string>): Promise<any> {
+        const messages: Array<any> = [];
+        let context = "";
+        if (sessionDocumentData.systemMessage) context = sessionDocumentData.systemMessage;
+
+        const promises: Array<any> = [];
+        includeTickets.forEach((includeTicketId) => {
+            promises.push(firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${includeTicketId}`).get());
+        });
+        const assistsPromises: Array<any> = [];
+        includeTickets.forEach((includeTicketId: string) => {
+            assistsPromises.push(firebaseAdmin.firestore().doc(`Games/${gameNumber}/assists/${includeTicketId}`).get());
+        });
+        const dataResults: Array<any> = await Promise.all(promises);
+        const assistResults: Array<any> = await Promise.all(assistsPromises);
+        const assistLookup: any = {};
+        assistResults.forEach((assist: any) => {
+            assistLookup[assist.id] = assist.data();
+        });
+        dataResults.forEach((includeTicket: any) => {
+            if (ticket.id !== includeTicket.id) {
+                if (assistLookup[includeTicket.id] && assistLookup[includeTicket.id].success &&
+                    !assistLookup[includeTicket.id].assist.error) {
+                    messages.push({
+                        role: "user",
+                        content: includeTicket.data().message,
+                    });
+
+                    messages.push({
+                        role: "bot",
+                        content: assistLookup[includeTicket.id].assist.choices["0"].message.content,
+                    });
+                }
+            }
+        });
+        messages.push({
+            role: "user",
+            content: ticket.message,
+            name: ticket.uid,
+        });
+        const defaults = BaseClass.defaultChatDocumentOptions();
+        const model = sessionDocumentData.model;
+        const maxOutputTokens = BaseClass.getNumberOrDefault(sessionDocumentData.max_tokens, defaults.max_tokens);
+        const temperature = BaseClass.getNumberOrDefault(sessionDocumentData.temperature, defaults.temperature);
+        const topP = BaseClass.getNumberOrDefault(sessionDocumentData.top_p, defaults.top_p);
+        const topK = BaseClass.getNumberOrDefault(sessionDocumentData.top_k, defaults.top_k);
+        const examples: Array<any> = [];
+
+        const aiRequest: any = {
+            model: "models/" + model,
+            prompt: {
+                context,
+                examples,
+                messages,
+            },
+            temperature,
+            maxOutputTokens,
+            topP,
+            topK,
+            candidateCount: 1,
+        };
+
+        const packet = {
+            gameNumber: ticket.gameNumber,
+            aiRequest,
+            model,
+            submitted: ticket.submitted,
+        };
+        await firebaseAdmin.firestore().doc(`Games/${ticket.gameNumber}/packets/${ticketId}`).set(packet);
+
+        return packet;
+    }
+    /** generate ai api request including previous messages and store in /games/{gameid}/packets/{ticketid}
+     * @param { any } ticket message details
+     * @param { any } sessionDocumentData chat document
+     * @param { string } gameNumber document id
+     * @param { string } ticketId ticketId
+     * @param { Array<string> } includeTickets tickets sent to packet
+     */
+    static async _generateOpenAIPacket(ticket: any, sessionDocumentData: any, gameNumber: string, ticketId: string,
         includeTickets: Array<string>): Promise<any> {
         const messages: Array<any> = [];
         if (sessionDocumentData.systemMessage) {
@@ -252,14 +434,14 @@ export default class SessionAPI {
         });
         dataResults.forEach((includeTicket: any) => {
             if (ticket.id !== includeTicket.id) {
-                messages.push({
-                    role: "user",
-                    content: includeTicket.data().message,
-                    name: includeTicket.data().uid,
-                });
-
                 if (assistLookup[includeTicket.id] && assistLookup[includeTicket.id].success &&
                     !assistLookup[includeTicket.id].assist.error) {
+                    messages.push({
+                        role: "user",
+                        content: includeTicket.data().message,
+                        name: includeTicket.data().uid,
+                    });
+
                     messages.push({
                         role: "assistant",
                         content: assistLookup[includeTicket.id].assist.choices["0"].message.content,
@@ -281,42 +463,21 @@ export default class SessionAPI {
         const presence_penalty = BaseClass.getNumberOrDefault(sessionDocumentData.presence_penalty, defaults.presence_penalty);
         const frequency_penalty = BaseClass.getNumberOrDefault(sessionDocumentData.frequency_penalty, defaults.frequency_penalty);
 
-        let logit_bias_text = sessionDocumentData.logit_bias;
-        if (!logit_bias_text) logit_bias_text = "";
-        let includeBias = false;
-        const bias_lines = logit_bias_text.replaceAll("\n", "").split(",");
-        const logit_bias: any = {};
-        bias_lines.forEach((line: string) => {
-            includeBias = true;
-            const parts = line.split(":");
-            let numberTerm = parts[1];
-            if (numberTerm) numberTerm = numberTerm.trim();
-            const value = BaseClass.getNumberOrDefault(numberTerm, 0);
-            const term = parts[0].trim();
-            if (term.length > 0) {
-                const tokens = encode(" " + term);
-
-                tokens.forEach((token: number) => {
-                    logit_bias[token] = value;
-                });
-            }
-        });
-
         const aiRequest: any = {
             model,
             max_tokens,
+            top_p,
+            temperature,
             presence_penalty,
             frequency_penalty,
             messages,
             user: ticket.uid,
         };
-        if (includeBias) aiRequest.logit_bias = logit_bias;
-        if (top_p !== 1.0) aiRequest.top_p = top_p;
-        if (temperature !== 1.0) aiRequest.temperature = temperature;
 
         const packet = {
             gameNumber: ticket.gameNumber,
             aiRequest,
+            model,
             submitted: ticket.submitted,
         };
         await firebaseAdmin.firestore().doc(`Games/${ticket.gameNumber}/packets/${ticketId}`).set(packet);
@@ -382,6 +543,72 @@ export default class SessionAPI {
             }
         });
     }
+    /** promise wrapper submit with timeout detection
+     * @param { any } packet request packet
+     * @param { string } submitted iso date
+     * @param { string } bardKey
+     * @return { Promise<any> } aiResponse containing assist or error
+    */
+    static async submitGAIRequest(packet: any, submitted: string, bardKey: string): Promise<any> {
+        return new Promise((res: any) => {
+            const startTime = new Date().getTime();
+            try {
+                const timeoutTest = setTimeout(() => {
+                    res({
+                        success: false,
+                        created: new Date().toISOString(),
+                        error: "5 minute response timeout reached",
+                        submitted,
+                    });
+                }, 4.9 * 60 * 1000);
+
+                const client = new DiscussServiceClient({
+                    authClient: new GoogleAuth().fromAPIKey(bardKey),
+                });
+                client.generateMessage(packet.aiRequest)
+                    .then(async (assist: any) => {
+                        const aiResponse: any = {
+                            success: true,
+                            created: new Date().toISOString(),
+                            assist: {
+                                bardResponse: assist,
+                            },
+                            submitted,
+                            runTime: new Date().getTime() - startTime,
+                        };
+                        clearTimeout(timeoutTest);
+
+                        aiResponse.assist.choices = {
+                            "0": {
+                                message: {
+                                    content: assist["0"].candidates["0"].content,
+                                },
+                            },
+                        };
+
+                        res(aiResponse);
+                    }).catch((error: any) => {
+                        const aiResponse = {
+                            success: false,
+                            created: new Date().toISOString(),
+                            error: error.message,
+                            submitted,
+                            runTime: new Date().getTime() - startTime,
+                        };
+                        res(aiResponse);
+                    });
+            } catch (aiRequestError: any) {
+                const aiResponse = {
+                    success: false,
+                    created: new Date().toISOString(),
+                    error: aiRequestError.message,
+                    submitted,
+                    runTime: new Date().getTime() - startTime,
+                };
+                res(aiResponse);
+            }
+        });
+    }
     /**
      * @param { string } model model name (gpt-3.5-turbo, etc)
      * @return { any } input and output $ cost per 1k tokens
@@ -412,6 +639,12 @@ export default class SessionAPI {
             };
         }
 
+        if (model === "chat-bison-001") {
+            return {
+                input: 0.03,
+                output: 0.06,
+            };
+        }
         console.log("model not found for billing");
 
         return {
@@ -426,100 +659,72 @@ export default class SessionAPI {
      * @param { string } id document id
      * @param { string } chatGptKey api key from user profile
      * @param { string } submitted submitted date
-     * @return { Promise<void> }
+     * @return { Promise<any> } token usage
      */
-    static async _processTicket(packet: any, sessionDocumentData: any, ticketData: any,
-        id: string, chatGptKey: string, submitted: string): Promise<void> {
+    static async _processOpenAIPacket(packet: any, sessionDocumentData: any, ticketData: any,
+        id: string, chatGptKey: string, submitted: string): Promise<any> {
         /* eslint-disable camelcase */
         let total_tokens = 0;
         let prompt_tokens = 0;
         let completion_tokens = 0;
         let usage_credits = 0;
 
-        let usageLimitError = false;
-        let usageErrorObject: any = null;
-        try {
-            if (sessionDocumentData.archived) {
-                throw new Error("Submit Blocked: Document is set to archived");
-            }
-
-            const usageLimit = BaseClass.getNumberOrDefault(sessionDocumentData.creditUsageLimit, 0);
-            const documentUsed = BaseClass.getNumberOrDefault(sessionDocumentData.creditUsage, 0);
-            if (usageLimit > 0 && documentUsed >= usageLimit) {
-                throw new Error("Submit Blocked: Document Usage Limit Reached");
-            }
-        } catch (usageTestError) {
-            usageLimitError = true;
-            usageErrorObject = usageTestError;
-        }
-
         let aiResponse: any = null;
-        if (!usageLimitError) {
-            aiResponse = await SessionAPI.submitOpenAIRequest(packet.aiRequest, submitted, chatGptKey);
-            if (aiResponse.assist && aiResponse.assist.usage) {
-                total_tokens = BaseClass.getNumberOrDefault(aiResponse.assist.usage.total_tokens, 0);
-                prompt_tokens = BaseClass.getNumberOrDefault(aiResponse.assist.usage.prompt_tokens, 0);
-                completion_tokens = BaseClass.getNumberOrDefault(aiResponse.assist.usage.completion_tokens, 0);
+        aiResponse = await SessionAPI.submitOpenAIRequest(packet.aiRequest, submitted, chatGptKey);
+        if (aiResponse.assist && aiResponse.assist.usage) {
+            total_tokens = BaseClass.getNumberOrDefault(aiResponse.assist.usage.total_tokens, 0);
+            prompt_tokens = BaseClass.getNumberOrDefault(aiResponse.assist.usage.prompt_tokens, 0);
+            completion_tokens = BaseClass.getNumberOrDefault(aiResponse.assist.usage.completion_tokens, 0);
 
-                const creditFactors = SessionAPI.modelCreditMultiplier(sessionDocumentData.model);
-                usage_credits = creditFactors.input * prompt_tokens + creditFactors.output * completion_tokens;
-            }
-        } else {
-            aiResponse = {
-                success: false,
-                created: new Date().toISOString(),
-                error: usageErrorObject.message,
-                submitted,
-            };
+            const creditFactors = SessionAPI.modelCreditMultiplier(sessionDocumentData.model);
+            usage_credits = creditFactors.input * prompt_tokens + creditFactors.output * completion_tokens;
         }
 
-        const today = new Date().toISOString();
-        const yearFrag = today.substring(0, 4);
-        const yearMonthFrag = today.substring(0, 7);
-        const ymdFrag = today.substring(0, 10);
+        return {
+            aiResponse,
+            total_tokens,
+            prompt_tokens,
+            completion_tokens,
+            usage_credits,
+        };
+        /* eslint-enable camelcase */
+    }
+    /** submit ticket to AI engine and store response in /games/{gameid}/assists/{ticketid}
+     * @param { any } packet message details
+     * @param { any } sessionDocumentData game doc
+     * @param { any } ticketData ticket doc
+     * @param { string } id document id
+     * @param { string } bardKey api key from user profile
+     * @param { string } submitted submitted date
+     * @return { Promise<any> } token usage
+     */
+    static async _processGAIPacket(packet: any, sessionDocumentData: any, ticketData: any,
+        id: string, bardKey: string, submitted: string): Promise<any> {
+        /* eslint-disable camelcase */
+        let total_tokens = 0;
+        let prompt_tokens = 0;
+        let completion_tokens = 0;
+        let usage_credits = 0;
 
-        const promises = [
-            firebaseAdmin.firestore().doc(`Games/${packet.gameNumber}/assists/${id}`).set(aiResponse),
-            firebaseAdmin.firestore().doc(`Games/${packet.gameNumber}`).set({
-                lastActivity: new Date().toISOString(),
-                // lastMessage: ticketData.message,
-                lastTicketId: id,
-                // lastResponse,
-                totalTokens: FieldValue.increment(total_tokens),
-                promptTokens: FieldValue.increment(prompt_tokens),
-                completionTokens: FieldValue.increment(completion_tokens),
-                creditUsage: FieldValue.increment(usage_credits),
-            }, {
-                merge: true,
-            }),
-            firebaseAdmin.firestore().doc(`Users/${sessionDocumentData.createUser}/internal/tokenUsage`).set({
-                lastActivity: new Date().toISOString(),
-                lastMessage: ticketData.message,
-                lastChatDocumentId: packet.gameNumber,
-                lastChatTicketId: id,
-                totalTokens: FieldValue.increment(total_tokens),
-                promptTokens: FieldValue.increment(prompt_tokens),
-                completionTokens: FieldValue.increment(completion_tokens),
-                creditUsage: FieldValue.increment(usage_credits),
-                runningTokens: {
-                    ["total_" + yearFrag]: FieldValue.increment(total_tokens),
-                    ["total_" + yearMonthFrag]: FieldValue.increment(total_tokens),
-                    ["total_" + ymdFrag]: FieldValue.increment(total_tokens),
-                    ["prompt_" + yearFrag]: FieldValue.increment(prompt_tokens),
-                    ["prompt_" + yearMonthFrag]: FieldValue.increment(prompt_tokens),
-                    ["prompt_" + ymdFrag]: FieldValue.increment(prompt_tokens),
-                    ["completion_" + yearFrag]: FieldValue.increment(completion_tokens),
-                    ["completion_" + yearMonthFrag]: FieldValue.increment(completion_tokens),
-                    ["completion_" + ymdFrag]: FieldValue.increment(completion_tokens),
-                    ["credit_" + yearFrag]: FieldValue.increment(usage_credits),
-                    ["credit_" + yearMonthFrag]: FieldValue.increment(usage_credits),
-                    ["credit_" + ymdFrag]: FieldValue.increment(usage_credits),
-                },
-            }, {
-                merge: true,
-            }),
-        ];
-        await Promise.all(promises);
+        /* eslint-disable camelcase */
+        let aiResponse: any = null;
+        aiResponse = await SessionAPI.submitGAIRequest(packet, submitted, bardKey);
+        if (aiResponse.assist && aiResponse.assist.usage) {
+            total_tokens = BaseClass.getNumberOrDefault(aiResponse.assist.usage.total_tokens, 0);
+            prompt_tokens = BaseClass.getNumberOrDefault(aiResponse.assist.usage.prompt_tokens, 0);
+            completion_tokens = BaseClass.getNumberOrDefault(aiResponse.assist.usage.completion_tokens, 0);
+
+            const creditFactors = SessionAPI.modelCreditMultiplier(sessionDocumentData.model);
+            usage_credits = creditFactors.input * prompt_tokens + creditFactors.output * completion_tokens;
+        }
+
+        return {
+            aiResponse,
+            total_tokens,
+            prompt_tokens,
+            completion_tokens,
+            usage_credits,
+        };
         /* eslint-enable camelcase */
     }
     /** http endpoint for user deleting message from user chat

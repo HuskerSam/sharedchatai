@@ -46,6 +46,7 @@ export default class BaseClass {
       top_p: 1,
       presence_penalty: 0,
       frequency_penalty: 0,
+      top_k: 40,
       logit_bias: "",
       stop: "",
     };
