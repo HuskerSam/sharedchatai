@@ -353,7 +353,7 @@ export default class SessionAPI {
         assistResults.forEach((assist: any) => {
             assistLookup[assist.id] = assist.data();
         });
-        let prompt_tokens = 0;
+        let promptTokens = 0;
         dataResults.forEach((includeTicket: any) => {
             if (ticket.id !== includeTicket.id) {
                 if (assistLookup[includeTicket.id] && assistLookup[includeTicket.id].success &&
@@ -369,7 +369,7 @@ export default class SessionAPI {
                         content: assist,
                     });
 
-                    prompt_tokens += encode(msg).length + encode(assist).length;
+                    promptTokens += encode(msg).length + encode(assist).length;
                 }
             }
         });
@@ -378,7 +378,7 @@ export default class SessionAPI {
             content: ticket.message,
             name: ticket.uid,
         });
-        prompt_tokens += encode(ticket.message).length;
+        promptTokens += encode(ticket.message).length;
         const defaults = BaseClass.defaultChatDocumentOptions();
         const model = sessionDocumentData.model;
         const maxOutputTokens = BaseClass.getNumberOrDefault(sessionDocumentData.max_tokens, defaults.max_tokens);
@@ -406,7 +406,7 @@ export default class SessionAPI {
             aiRequest,
             model,
             submitted: ticket.submitted,
-            prompt_tokens
+            prompt_tokens: promptTokens,
         };
         await firebaseAdmin.firestore().doc(`Games/${ticket.gameNumber}/packets/${ticketId}`).set(packet);
 
