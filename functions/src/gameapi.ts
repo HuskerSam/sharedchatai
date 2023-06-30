@@ -280,11 +280,9 @@ export default class GameAPI {
       "max_tokens",
       "temperature",
       "top_p",
-      "n",
+      "top_k",
       "presence_penalty",
       "frequency_penalty",
-      "logit_bias",
-      "stop",
       "title",
       "systemMessage",
     ];

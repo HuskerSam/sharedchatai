@@ -306,7 +306,9 @@ export default class ChatDocument {
     let contextualLimit = 4096;
     let defaultCompletion = 500;
     let completionMax = 2048;
+    let type = "gpt";
     const completionMin = 20;
+    let temperature = 1;
     if (name === "gpt-3.5-turbo-16k") {
       contextualLimit = 16394;
       defaultCompletion = 2000;
@@ -315,10 +317,12 @@ export default class ChatDocument {
       contextualLimit = 8192;
       defaultCompletion = 1024;
       completionMax = 1024;
+      type = "bard";
+      temperature = 0.2;
     }
     const defaults = {
       max_tokens: defaultCompletion,
-      temperature: 1,
+      temperature,
       top_p: 1,
       top_k: 40,
       presence_penalty: 0,
@@ -329,6 +333,7 @@ export default class ChatDocument {
       completionMax,
       completionMin,
       defaultCompletion,
+      type,
       defaults,
     };
   }

@@ -83,6 +83,7 @@ export class SessionApp extends BaseApp {
   docfield_top_p: any = document.querySelector(".docfield_top_p");
   docfield_presence_penalty: any = document.querySelector(".docfield_presence_penalty");
   docfield_frequency_penalty: any = document.querySelector(".docfield_frequency_penalty");
+  docfield_top_k: any = document.querySelector(".docfield_top_k");
   document_menutop_usage_stats_line: any = document.querySelector(".document_menutop_usage_stats_line");
   last_activity_display: any = document.querySelector(".last_activity_display");
   document_export_button: any = document.querySelector(".document_export_button");
@@ -101,6 +102,7 @@ export class SessionApp extends BaseApp {
   top_p_slider_label: any = document.querySelector(".top_p_slider_label");
   presence_penalty_slider_label: any = document.querySelector(".presence_penalty_slider_label");
   frequency_penalty_slider_label: any = document.querySelector(".frequency_penalty_slider_label");
+  top_k_slider_label: any = document.querySelector(".top_k_slider_label");
   max_tokens_slider_label: any = document.querySelector(".max_tokens_slider_label");
   recent_documents_list: any = document.querySelector(".recent_documents_list");
   sidebar_document_title: any = document.querySelector(".sidebar_document_title");
@@ -151,6 +153,8 @@ export class SessionApp extends BaseApp {
       this.docfield_frequency_penalty, this.frequency_penalty_slider_label, "Frequency Penalty: "));
     this.docfield_max_tokens.addEventListener("input", () => this.optionSliderChange(true, "max_tokens",
       this.docfield_max_tokens, this.max_tokens_slider_label, "Max Response: "));
+    this.docfield_top_k.addEventListener("input", () => this.optionSliderChange(true, "top_k",
+      this.docfield_top_k, this.top_k_slider_label, "Top K: "));
 
     this.docfield_model.addEventListener("change", () => {
       this.saveDocumentOption(this.documentId, "model", this.docfield_model.value);
@@ -264,8 +268,9 @@ export class SessionApp extends BaseApp {
     sliderLabel: any, prefix: string) {
     let value = Number(sliderCtl.value);
     if (isNaN(value)) value = 0;
+
     let outPercent = Math.round(value * 100) + "%";
-    if (sliderField === "max_tokens") outPercent = value.toString();
+    if (sliderField === "max_tokens" || sliderField === "top_k") outPercent = value.toString();
     BaseApp.setHTML(sliderLabel, prefix + "<span>" + outPercent + "</span>");
 
     if (value !== this.modelMeta.defaults[sliderField]) sliderLabel.classList.add("engine_field_not_default");
@@ -661,12 +666,29 @@ export class SessionApp extends BaseApp {
   updateContextualLimit() {
     this.docfield_max_tokens.setAttribute("max", this.modelMeta.completionMax);
     this.docfield_max_tokens.setAttribute("min", this.modelMeta.completionMin);
+    let step = 1;
+    if (this.modelMeta.type === "gpt") step = 20;
+    this.docfield_max_tokens.setAttribute("step", step);
+
     this.threshold_dialog_context_limit.innerHTML = this.modelMeta.contextualLimit;
     this.selected_model_context_limit.innerHTML = this.modelMeta.contextualLimit;
 
     if (this.sessionDocumentData.max_tokens > this.modelMeta.completionMax) {
       this.saveDocumentOption(this.documentId, "max_tokens", this.modelMeta.defaultCompletion);
     }
+
+    if (this.modelMeta.type === "gpt") {
+      this.docfield_temperature.setAttribute("max", 2);
+      this.docfield_temperature.setAttribute("min", 0);
+    } else {
+      this.docfield_temperature.setAttribute("max", 1);
+    }
+
+    document.body.classList.remove("model_type_gpt");
+    document.body.classList.remove("model_type_bard");
+    if (this.modelMeta.type === "gpt") document.body.classList.add("model_type_gpt");
+    else document.body.classList.add("model_type_bard");
+
   }
   /** api call for delete user message
    * @param { any } btn dom control
@@ -1172,6 +1194,7 @@ export class SessionApp extends BaseApp {
     this.__debounceSliderPaint("max_tokens", "Max Response: ");
     this.__debounceSliderPaint("temperature", "Temperature: ");
     this.__debounceSliderPaint("top_p", "Top P: ");
+    this.__debounceSliderPaint("top_k", "Top K: ");
     this.__debounceSliderPaint("presence_penalty", "Presence Penalty: ");
     this.__debounceSliderPaint("frequency_penalty", "Frequency Penalty: ");
   }

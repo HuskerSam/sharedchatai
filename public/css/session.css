@@ -74,7 +74,7 @@ html {
 }
 
 .members_feed_line_wrapper.is_document_owner .members_feed_profile_name {
-  color: rgb(240, 240, 50);
+  color: rgb(255, 255, 20);
 }
 
 .members_feed_profile_lastactivity {
@@ -651,7 +651,7 @@ pre code {
 
 .engine_settings_not_default .app_panel .reset_engine_options_button,
 .engine_settings_not_default .app_panel .engine_sidebar_menu_button {
-  color: rgb(240, 240, 50);
+  color: rgb(255, 255, 20);
 }
 
 .engine_settings_tweaked .app_panel .reset_engine_options_button,
@@ -696,7 +696,7 @@ pre code {
 }
 
 .max_tokens_slider_label.engine_field_not_default span {
-  color: rgb(240, 240, 50);
+  color: rgb(255, 255, 20);
 }
 
 .continue_previous_response {
@@ -746,7 +746,7 @@ pre code {
 }
 
 .ticket_sent_api_pending .menu_bar_doc_title {
-  color: rgb(240, 240, 50)
+  color: rgb(255, 255, 20)
 }
 
 .ticket_sent_api_pending.engine_settings_tweaked .menu_bar_doc_title {
@@ -754,7 +754,7 @@ pre code {
 }
 
 .pending_message {
-  color: rgb(240, 240, 50);
+  color: rgb(255, 255, 20);
 }
 
 .engine_settings_tweaked .pending_message {
@@ -762,7 +762,7 @@ pre code {
 }
 
 .ticket_sent_api_pending .document_menutop_usage_stats_line {
-  color: rgb(240, 240, 50);
+  color: rgb(255, 255, 20);
 }
 
 .ticket_sent_api_pending.engine_settings_tweaked .document_menutop_usage_stats_line {
@@ -802,7 +802,7 @@ pre code {
 }
 
 .token_visualizer_preview .token_even {
-  color: rgb(240, 240, 50);
+  color: rgb(255, 255, 20);
   word-wrap: break-word;
   background: rgba(127, 127, 127, 0.5);
 }
@@ -827,7 +827,7 @@ pre code {
 }
 
 .engine_settings_minor_tweaked .total_prompt_token_count {
-  color: rgb(240, 240, 50);
+  color: rgb(255, 255, 20);
 }
 
 .engine_settings_tweaked .total_prompt_token_count {
@@ -871,7 +871,7 @@ button.btn-primary.send_ticket_button {
 
 .ticket_running_in_queue .member_online_status,
 .ticket_running_in_queue .member_online_status.online {
-  background-color: rgb(240, 240, 50);
+  background-color: rgb(255, 255, 20);
 }
 
 .engine_settings_tweaked .ticket_running_in_queue .member_online_status,
@@ -1056,7 +1056,7 @@ li.mb-1 button.btn.btn-toggle:before {
 
 .system_message_label {
   text-align: left;
-  color: rgb(240, 240, 50)
+  color: rgb(255, 255, 20)
 }
 
 .system_message_content {
@@ -1096,7 +1096,7 @@ li.mb-1 button.btn.btn-toggle:before {
 
 .app_panel button.btn-toggle:hover,
 .app_panel button.btn-toggle:focus {
-  color: rgb(240, 240, 50);
+  color: rgb(255, 255, 20);
 }
 
 .navbar-nav.menu_buttons_bar {
@@ -1169,4 +1169,29 @@ li.mb-1 button.btn.btn-toggle:before {
   left: 0;
   top: 0;
   background: rgba(0, 0, 0, 0.3);
+}
+
+
+.docfield_presence_penalty,
+.docfield_frequency_penalty,
+.presence_penalty_slider_label,
+.frequency_penalty_slider_label {
+  display: none;
+}
+
+.model_type_gpt .docfield_presence_penalty,
+.model_type_gpt .docfield_frequency_penalty,
+.model_type_gpt .presence_penalty_slider_label,
+.model_type_gpt .frequency_penalty_slider_label {
+  display: inline-block;
+}
+
+.docfield_top_k,
+.slider_label_top_k {
+  display: none;
+}
+
+.model_type_bard .docfield_top_k,
+.model_type_bard .slider_label_top_k {
+  display: inline-block;
 }
