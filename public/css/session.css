@@ -205,7 +205,7 @@ html {
 
 .tokens_total {
   padding: 4px;
-  font-family: monospace;
+  font-family: "MonospaceTTF";
 }
 
 .tokens_total_since_wrapper {
@@ -229,7 +229,7 @@ html {
   color: rgb(190, 190, 190);
   z-index: 1;
   background-color: transparent;
-  font-family: monospace;
+  font-family: "MonospaceTTF";
 }
 
 .completion_max_tokens_reached .tokens_completion {
@@ -273,7 +273,7 @@ html {
 }
 
 .slider_label span {
-  font-family: monospace;
+  font-family: "MonospaceTTF";
   color: rgb(230, 230, 230);
 }
 
@@ -481,7 +481,7 @@ pre code {
   width: 80px;
   text-align: center;
   overflow: visible;
-  font-family: monospace;
+  font-family: "MonospaceTTF";
 }
 
 .ticket_count_span {
@@ -602,7 +602,7 @@ pre code {
 .profile_text_option_monospace .game_message_list_item .message,
 .profile_text_option_monospace .game_message_list_item .assist_section,
 .profile_text_option_monospace .ticket_content_input {
-  font-family: monospace;
+  font-family: "MonospaceTTF";
 }
 
 .sidebar_tree_options_container {
@@ -822,7 +822,7 @@ pre code {
 .total_prompt_token_count {
   min-width: 35px;
   text-align: center;
-  font-family: monospace;
+  font-family: "MonospaceTTF";
   color: rgb(217, 217, 227);
 }
 
@@ -999,7 +999,7 @@ li.mb-1 button.btn.btn-toggle:before {
 }
 
 .document_menutop_usage_stats_line span {
-  font-family: monospace;
+  font-family: "MonospaceTTF";
 }
 
 @media (min-width: 992px) {
@@ -1187,11 +1187,16 @@ li.mb-1 button.btn.btn-toggle:before {
 }
 
 .docfield_top_k,
-.slider_label_top_k {
+.top_k_slider_label {
   display: none;
 }
 
 .model_type_bard .docfield_top_k,
-.model_type_bard .slider_label_top_k {
+.model_type_bard .top_k_slider_label {
   display: inline-block;
+}
+
+@font-face {
+  font-family: "MonospaceTTF";
+  src: url("/images/DejavuSans.ttf") format("truetype");
 }

@@ -39,7 +39,6 @@ export default class BaseClass {
     return {
       documentType: "chatSession",
       title: "",
-      unsetTitle: true,
       model: "gpt-3.5-turbo",
       max_tokens: 500,
       temperature: 1,

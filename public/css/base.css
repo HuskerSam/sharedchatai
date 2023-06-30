@@ -530,7 +530,7 @@ table.number {
 }
 
 table.number td {
-  font-family: monospace;
+  font-family: "MonospaceTTF";
   padding-left: 8px;
 }
 

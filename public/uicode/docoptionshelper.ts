@@ -261,10 +261,6 @@ export default class DocOptionsHelper {
         let newTitle = prompt("Document Title", this.docData.title);
         if (newTitle !== null) {
             newTitle = newTitle.trim();
-            if (!newTitle) {
-                alert("no title entered");
-                return;
-            }
             this.docData.title = newTitle.substring(0, 300);
             this.app.saveDocumentOwnerOption(this.chatDocumentId, "title", this.docData);
             this.paintDocumentData();

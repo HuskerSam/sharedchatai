@@ -109,8 +109,7 @@ export default class SessionAPI {
                 [uid]: new Date().toISOString(),
             },
         };
-        if (sessionDocumentData.unsetTitle && message) {
-            sessionPacket.unsetTitle = false;
+        if (message && !sessionDocumentData.title) {
             sessionPacket.title = message.substring(0, 300);
         }
 
