@@ -587,6 +587,10 @@ export default class SessionAPI {
                         };
                         clearTimeout(timeoutTest);
 
+                        if (assist["0"].candidates.length === 0) {
+                            console.log(JSON.stringify(assist));
+                            throw new Error("\"Other\" reason for failure - likely throttled - try again in a little bit.");
+                        }
                         const completion = assist["0"].candidates["0"].content;
                         aiResponse.prompt_tokens = packet.prompt_tokens;
                         aiResponse.completion_tokens = encode(completion).length;
@@ -608,6 +612,7 @@ export default class SessionAPI {
 
                         res(aiResponse);
                     }).catch((error: any) => {
+                        console.log("response error", error);
                         const aiResponse = {
                             success: false,
                             created: new Date().toISOString(),
@@ -618,6 +623,7 @@ export default class SessionAPI {
                         res(aiResponse);
                     });
             } catch (aiRequestError: any) {
+                console.log("request error", aiRequestError);
                 const aiResponse = {
                     success: false,
                     created: new Date().toISOString(),
