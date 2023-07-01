@@ -596,7 +596,7 @@ export default class SessionAPI {
                             prompt_tokens: aiResponse.prompt_tokens,
                             completion_tokens: aiResponse.completion_tokens,
                             total_tokens: aiResponse.total_tokens,
-                        }
+                        };
 
                         aiResponse.assist.choices = {
                             "0": {
