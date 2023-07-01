@@ -599,9 +599,12 @@ export class SessionApp extends BaseApp {
     let systemMessage = this.sessionDocumentData.systemMessage;
     if (systemMessage === undefined) systemMessage = "";
 
-    if (this.currentSystemMessage === systemMessage) return;
-    this.currentSystemMessage = systemMessage;
+    if (this.currentSystemMessage === systemMessage) {
+      this.tickets_list.insertBefore(this.systemMessageListElement, this.tickets_list.firstChild);
+      return;
+    } 
 
+    this.currentSystemMessage = systemMessage;
     if (this.systemMessageListElement) this.systemMessageListElement.remove();
     this.systemMessageListElement = null;
     if (systemMessage !== "") {
