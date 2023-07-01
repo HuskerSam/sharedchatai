@@ -115,6 +115,7 @@ export class SessionApp extends BaseApp {
   select_all_tickets_button: any = document.querySelector(".select_all_tickets_button");
   selected_model_context_limit: any = document.querySelector(".selected_model_context_limit");
   firstDocumentLoad = true;
+  currentSystemMessage = "";
 
   tokenizedStringCache: any = {};
 
@@ -597,6 +598,9 @@ export class SessionApp extends BaseApp {
   refreshSystemMessageElement() {
     let systemMessage = this.sessionDocumentData.systemMessage;
     if (systemMessage === undefined) systemMessage = "";
+
+    if (this.currentSystemMessage === systemMessage) return;
+    this.currentSystemMessage = systemMessage;
 
     if (this.systemMessageListElement) this.systemMessageListElement.remove();
     this.systemMessageListElement = null;
