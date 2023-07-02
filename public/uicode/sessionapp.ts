@@ -279,10 +279,14 @@ export class SessionApp extends BaseApp {
     if (value !== this.modelMeta.defaults[sliderField]) sliderLabel.classList.add("engine_field_not_default");
     else sliderLabel.classList.remove("engine_field_not_default");
 
-    // only update every 50ms
+    // update first and only every 75 ms after
     if (saveToAPI) {
       this.lastDocumentOptionChange = new Date().getTime();
-      if (this.sliderChangeDebounceTimeout[sliderField]) clearTimeout(this.sliderChangeDebounceTimeout[sliderField]);
+
+      if (this.sliderChangeDebounceTimeout[sliderField]) return;
+
+      this.saveDocumentOption(this.documentId, sliderField, Number(sliderCtl.value));
+      // if (this.sliderChangeDebounceTimeout[sliderField]) clearTimeout(this.sliderChangeDebounceTimeout[sliderField]);
       this.sliderChangeDebounceTimeout[sliderField] = setTimeout(() => {
         this.saveDocumentOption(this.documentId, sliderField, Number(sliderCtl.value));
         this.sliderChangeDebounceTimeout[sliderField] = null;
@@ -683,10 +687,6 @@ export class SessionApp extends BaseApp {
 
     this.threshold_dialog_context_limit.innerHTML = this.modelMeta.contextualLimit;
     this.selected_model_context_limit.innerHTML = this.modelMeta.contextualLimit;
-
-    if (this.sessionDocumentData.max_tokens > this.modelMeta.completionMax) {
-      this.saveDocumentOption(this.documentId, "max_tokens", this.modelMeta.defaultCompletion);
-    }
 
     if (this.modelMeta.type === "gpt") {
       this.docfield_temperature.setAttribute("max", 2);
@@ -1410,6 +1410,7 @@ export class SessionApp extends BaseApp {
     }
     this.sliderChangeDebounceTimeout = {};
     this.paintDocumentOptions();
+    setTimeout(() => this.paintDocumentOptions(), 100);
   }
   /** */
   selectAllTickets() {
