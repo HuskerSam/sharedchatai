@@ -159,6 +159,8 @@ export class SessionApp extends BaseApp {
 
     this.docfield_model.addEventListener("input", () => {
       this.saveDocumentOption(this.documentId, "model", this.docfield_model.value);
+      this.sessionDocumentData.model = this.docfield_model.value;
+      this.resetEngineDefaults();
     });
 
     this.reset_engine_options_button.addEventListener("click", () => this.resetEngineDefaults());

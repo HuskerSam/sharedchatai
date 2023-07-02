@@ -312,11 +312,12 @@ export default class ChatDocument {
     if (name === "gpt-3.5-turbo-16k") {
       contextualLimit = 16394;
       defaultCompletion = 2000;
+      completionMax = 4000;
     }
     if (name === "chat-bison-001") {
       contextualLimit = 8192;
-      defaultCompletion = 1024;
-      completionMax = 1024;
+      defaultCompletion = 1000;
+      completionMax = 3000;
       type = "bard";
       temperature = 0.2;
     }
