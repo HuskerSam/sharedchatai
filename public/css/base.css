@@ -7,6 +7,11 @@ body {
   min-height: 100vh;
 }
 
+@font-face {
+  font-family: "MonospaceTTF";
+  src: url("/images/DejavuSans.ttf") format("truetype");
+}
+
 .impact-font {
   font-family: 'Arial';
   font-weight: normal;

@@ -589,7 +589,7 @@ export default class SessionAPI {
 
                         if (assist["0"].candidates.length === 0) {
                             console.log(JSON.stringify(assist));
-                            throw new Error("\"Other\" reason for failure - likely throttled - try again in a little bit.");
+                            throw new Error("\"Other\" reason for failure - Bard failed - please change your message or try again later.");
                         }
                         const completion = assist["0"].candidates["0"].content;
                         aiResponse.prompt_tokens = packet.prompt_tokens;
