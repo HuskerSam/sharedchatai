@@ -353,11 +353,11 @@ export default class BaseApp {
       .forEach((div: any) => {
         if (this.userPresenceStatus[div.dataset.uid]) {
           div.classList.add("online");
+        } else {
+          div.classList.remove("online");
           if (div.dataset.uid === this.uid) {
             this.initRTDBPresence(true);
           }
-        } else {
-          div.classList.remove("online");
         }
       });
   }
