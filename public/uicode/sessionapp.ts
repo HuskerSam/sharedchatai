@@ -385,7 +385,7 @@ export class SessionApp extends BaseApp {
 
         const lastSubmit: any = card.querySelector(`.last_submit_time`);
         if (ticketRunning) {
-          BaseApp.setHTML(assistSection, `<div class="pending_message">Prompt sent to OpenAI for processing...</div>`);
+          BaseApp.setHTML(assistSection, `<div class="pending_message">Prompt sent to model for processing...</div>`);
           card.classList.add("ticket_running");
           lastSubmit.dataset.showseconds = "1";
           this.ticketIsPending = true;
@@ -783,7 +783,7 @@ export class SessionApp extends BaseApp {
       </div>
       <div class="assist_section_wrapper">
           <div class="tokens_completion"></div>
-          <div class="assist_section"><div class="pending_message">Prompt sent to OpenAI for processing...</div></div>
+          <div class="assist_section"><div class="pending_message">Prompt sent to model for processing...</div></div>
       </div>
       <hr>
   </div>`;
