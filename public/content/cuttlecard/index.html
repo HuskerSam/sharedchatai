@@ -182,10 +182,6 @@
 4. On your turn, you must either draw a card or play a card from your hand. You may not draw past the 8-card hand limit. If there are no cards left in the deck, you may pass. Three consecutive passes end the game in a stalemate
 5. Playing a point card: point cards are number cards, it is worth rank in points and lasts until scrapped.
 6. Scuttling is the act of scraping an opponent's point card with a bigger one from your hand. You can only scuttle point cards with higher point cards (1-10). Ties are broken by the suit: ♣️ (weakest) < ♦️ < ♥️ < ♠️ (strongest). Both are discarded into the scrap pile after. ace is valued at 1. 10 is the highest point card. Face cards have no point value - therefore cannot scuttle.
-6. One-off effect cards (Ace to 9) have special abilities, like scrapping cards or drawing additional cards.
-7. Permanent effect cards (8, Jack, Queen, King) are played on the table and have ongoing effects.
-8. Twos can be used to scrap a permanent effect or block an opponent's one-off effect card. Effect 1: Two's have two alternative one-off effects: Counter target One-Off Effect. May be played during your opponent's turn. Effect 2: Twos have two alternative one-off effects: Scrap a royal card on the field or an Eight.
-9. Threes allow you to rummage through the discard pile and take a card of your choice.
 
 ...
 
@@ -208,15 +204,13 @@ Yes! Queens protect against targeting, when a card applies a unique effect to on
         </div>
         <div class="flex-lg-row flex_change_responsive">
             <div class="side_block">
-                <p class="header_recent_document">Having the AI pick a card</p>
+                <p class="header_recent_document">Playing through the Game</p>
                 <div class="coming-soon card" style="text-align:left;">
                     <ul>
                         <li>Getting the AI to make a legal moves</li>
                         <li>Give it a game situation and have it decide the next move</li>
                         <li>Dealing/new card acquisition was handled manually</li>
                     </ul>
-
-                    <br>
                     <h3>Prompting log</h3>
                     <div class="prompt_log_display">
                     <div class="prompt">We are playing a game of cuttle. We both start with 6 cards. Your job is only to respond with what action you want. If your action involves getting a random card, I will tell you what card you get. When you play a card, let me know if it is for points, to scuttle, or as an action card. Explain your thinking as you play.
@@ -242,7 +236,7 @@ It is your turn.</div>
                         <div class="assist">I will play my K♥️ to scuttle your 6♣️. This allows me to prevent you from accumulating points and gives me the opportunity to potentially scuttle your other point cards in the future.</div>
                     </div>
                     <br>
-                    <p class="impact-font"> Cuttle.card - was the rule set I used for this game. I used the website to simulate a game and had chatgpt play the game's AI using my hand. Cuttle overwrote the rules given in the system message with its own training data. It constant tried to use the King to scuttle despite the rules in the system message saying they cannot</p>
+                    <p class="impact-font"> Cuttle.card - was the rule set I used for this game. I used the website to simulate a game and had chatgpt play the game's AI using my hand. Cuttle overwrote the rules given in the system message with its own training data. It constantly tried to use the King to scuttle despite the rules in the system message saying they cannot</p>
                     <div class="prompt_log_display">   
                         <br>
                         <div class="prompt">Cards on the field: 
@@ -262,15 +256,32 @@ you: 17 points</div>
                         </div>
                     </div>
                     <p class="impact-font">By unselecting illegal moves and changing the rules in system message, the AI was able to play through a whole game. </p>
-                    <div>
-                        <a href="teachnewgamecuttle.json" target="_blank">json (template)</a><br>
-                        <a href="teachnewgamecuttle.txt" target="_blank">text</a>
+                    <div class="prompt_log_display">   
                         <br>
-                    </div>  
+                        <div class="prompt">The king is not played that way. A king reduces the amount of points to win.</div>
+                        <br>
+                        <div class="assist">Apologies for the misunderstanding. Thank you for clarifying. In that case, I will play the King (K♥️) as an action card to reduce the number of points needed to win. Since I already have 15 points, playing the King will allow me to win the game immediately, as the requirement is now reduced to 5 points.
+                        </div>
+                    </div>
+                    <p class="impact-font">The AI did not detect the end state. This may be due to the overwriting error described above. In the AI's training data, when prompted if it knows about the rules of Cuttle, it states: King is Worth 10 points and has no special abilities. See part 2 and part 3 of Cuttle. In part 2, we see if it can instead be used as a AI strategist or announcer. In part 3, I retry all the prompts in this session except with a new, unused game name to avoid encountered here.</p>
                     <br>
                 </div>
             </div>
         </div>
+
+
+        <div class="flex-lg-row flex_change_responsive">
+            <div class="side_block">
+                <p class="header_recent_document">See session conversation:</p>
+                <div class="coming-soon card" style="text-align:left;">
+                    <ul>
+                        <li> <a href="teachnewgamecuttle.json" target="_blank">json (used for cloning session)</a></li>
+                        <li><a href="teachnewgamecuttle.txt" target="_blank">text</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
         <div class="flex-lg-row flex_change_responsive">
             <div class="main_block app_panel signed_in_flex" style="flex-direction: column;">
                 <p class="header_recent_document">Recent Sessions</p>
