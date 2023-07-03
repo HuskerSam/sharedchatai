@@ -47,6 +47,7 @@ export class SessionApp extends BaseApp {
   lastMembersHTMLCache = "";
   excludeErrorMargin = 0.97;
   systemMessageListElement: any = null;
+  deleteTicketId: string = "";
 
   threshold_dialog_context_limit: any = document.querySelector(".threshold_dialog_context_limit");
   chat_history_tokens: any = document.querySelector(".chat_history_tokens");
@@ -549,7 +550,7 @@ export class SessionApp extends BaseApp {
         if (doc.data().uid === this.uid) newUserTicketInFeed = true;
         card = this.getTicketCardDom(doc.id, doc.data());
       }
-      this.tickets_list.insertBefore(card, this.tickets_list.firstChild);
+      if (doc.id !== this.deleteTicketId) this.tickets_list.insertBefore(card, this.tickets_list.firstChild);
       this.ticketsLookup[doc.id] = doc.data();
 
       if (this.ticketsLookup[doc.id].includeInMessage) this.selectedTicketCount++;
@@ -712,6 +713,7 @@ export class SessionApp extends BaseApp {
 
     const card: any = this.tickets_list.querySelector(`div[ticketid="${ticketId}"]`);
     if (card) card.remove();
+    this.deleteTicketId = ticketId;
 
     const body = {
       gameNumber,
