@@ -594,3 +594,15 @@ div.signed_in_flex {
 .app_signed_in div.signed_in_flex {
   display: flex;
 }
+
+div.signed_out_flex {
+  display: none;
+}
+
+.app_signed_out div.signed_out_flex {
+  display: flex;
+}
+
+a:hover {
+  color: yellow;
+}

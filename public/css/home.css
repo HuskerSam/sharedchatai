@@ -307,11 +307,6 @@ ul.recent_documents_list li a {
   }
 }
 
-.profile_text_option_large ul.recent_documents_list {
-  font-size: 1.5em;
-  line-height: 1.65em;
-}
-
 #mc_embed_signup {
   clear: left;
   max-width: 600px;
