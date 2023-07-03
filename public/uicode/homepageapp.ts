@@ -20,6 +20,8 @@ export class HomePageApp extends BaseApp {
     /** */
     constructor() {
         super();
+        this.showLoginModal = false;
+        
         if (this.show_profile_modal) {
             this.show_profile_modal.addEventListener("click", (event: any) => {
                 event.stopPropagation();

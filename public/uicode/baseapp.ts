@@ -30,6 +30,7 @@ export default class BaseApp {
   userPresenceStatusRefs: any = {};
   userStatusDatabaseRef: any;
   sessionDocumentData: any = null;
+  showLoginModal = true;
   profileHelper = new ProfileHelper(this);
   login = new LoginHelper(this);
   documentCreate = new DocCreateHelper(this);
@@ -119,11 +120,7 @@ export default class BaseApp {
       document.body.classList.add("app_signed_out");
       this.authUpdateStatusUI();
 
-      let showLoginModal = true;
-      if (location.pathname === "/" && location.search === "") showLoginModal = false;
-      if (location.pathname === "/help/") showLoginModal = false;
-
-      if (showLoginModal) this.login.show();
+      if (this.showLoginModal) this.login.show();
     }
 
     return;
