@@ -1,0 +1,38 @@
+[
+  {
+    "prompt": "",
+    "completion": "",
+    "selected": "",
+    "system": "You're a player in a 4 player hearts game in seat 1"
+  },
+  {
+    "prompt": "Remaining cards:\nQ♦️ 4♦️ A♣️ 10♣️ 8♣️ 3♣️ 9♥️ 7♥️ 5♥️ K♠️ 8♠️ 3♠️\n\nRound 1\nPlayer 1: 2♠️ (lead)\nPlayer 2: 9♠️\nPlayer 3: 6♠️\nPlayer 4: 8♥️\n\nRound 2\nPlayer 1: \nPlayer 2: 8♦️ (lead)\nPlayer 3: 3♦️\nPlayer 4: 10♦️\n\nYou are player 1, round 2, what card do you play?",
+    "completion": "Since Player 2 led with the 8♦️ and Player 3 played the 3♦️, it's clear that diamonds are being played in this round. As player 1, I need to follow suit and play a diamond if I have one. Looking at my remaining cards, I have the Q♦️ and 4♦️. Since the 8♦️ and 3♦️ were already played, it's safe to assume that the A♦️ and K♦️ are not in play. \n\nConsidering this information, I should play my higher diamond card, which is the Q♦️.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "Remaining cards:\nQ♦️ 4♦️ A♣️ 10♣️ 8♣️ 3♣️ 9♥️ 7♥️ 5♥️ K♠️ 8♠️ 2♠️ 3♠️\n\nRound 1\nPlayer 1:\n\nYou're player 1 and it's your turn, what card do you want to play?",
+    "completion": "I will play the 2♠️.",
+    "selected": "n",
+    "system": ""
+  },
+  {
+    "prompt": "Remaining cards:\n4♦️ A♣️ 10♣️ 8♣️ 3♣️ 9♥️ 7♥️ 5♥️ K♠️ 8♠️ 3♠️\n\nRound 1\nPlayer 1: 2♠️ (lead)\nPlayer 2: 9♠️\nPlayer 3: 6♠️\nPlayer 4: 8♥️\n\nRound 2\nPlayer 1: Q♦️\nPlayer 2: 8♦️ (lead)\nPlayer 3: 3♦️\nPlayer 4: 10♦️\n\nRound 3\nPlayer 1: ?\nPlayer 2: \nPlayer 3:\nPlayer 4:\n\nYou are player 1, round 3, what card do you play?",
+    "completion": "Since it's now round 3 and I am Player 1, I need to evaluate my options based on the cards played so far. Looking at the cards played in the previous rounds, it seems that diamonds and spades are being played. \n\nAnalyzing my remaining cards, I see that I have the 4♦️, A♣️, 10♣️, 8♣️, 3♣️, 9♥️, 7♥️, 5♥️, K♠️, 8♠️, and 3♠️. \n\nSince no hearts have been played yet and I want to avoid taking any hearts, playing a heart would be my best choice. Therefore, I will play my lowest heart, the 5♥️, in order to get rid of it.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "K♠️ A♣️ 7♥️ 10♣️ 8♠️ 2♠️ Q♦️ 3♣️ 5♥️ 9♥️ 8♣️ 4♦️ 3♠️\ncan you order these cards by suit then value, with A the highest",
+    "completion": "Sure! Here are the cards ordered by suit (from highest to lowest suit), and within each suit, they are ordered by value (from highest to lowest value):\n\n1. ♦️ Q♦️ 4♦️\n2. ♣️ A♣️ 10♣️ 8♣️ 3♣️\n3. ♥️ 9♥️ 7♥️ 5♥️\n4. ♠️ K♠️ 8♠️ 2♠️ 3♠️\n\nSo the final ordering is: \n\n♦️ Q♦️ 4♦️ A♣️ 10♣️ 8♣️ 3♣️ 9♥️ 7♥️ 5♥️ K♠️ 8♠️ 2♠️ 3♠️",
+    "selected": "n",
+    "system": ""
+  },
+  {
+    "prompt": "Remaining cards:\nQ♦️ 4♦️ A♣️ 10♣️ 8♣️ 3♣️ 9♥️ 7♥️ 5♥️ K♠️ 8♠️ 3♠️\n\nRound 1\nPlayer 1: 2♠️ (lead)\nPlayer 2: 9♠️\nPlayer 3: 6♠️\nPlayer 4: 8♥️\n\nYou are player 4 which card do you play?",
+    "completion": "As player 4, I will play the 3♠️.",
+    "selected": "n",
+    "system": ""
+  }
+]
