@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Prompt+ AI Content</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="shortcut icon" href="/images/logo64.png" />
+    <meta name='mobile-web-app-capable' content='yes'>
+    <meta name='apple-mobile-web-app-capable' content='yes'>
+    <meta name='apple-mobile-web-app-status-bar-style' content='black'>
+
+    <link rel='icon' sizes='192x192' href='https://promptplusai.com/images/logo64.png'>
+    <link rel='apple-touch-icon' href='https://promptplusai.com/images/logo64.png'>
+    <meta name='msapplication-square310x310logo' content='https://promptplusai.com/images/logo64.png'>
+    <link rel='apple-touch-icon' href='https://promptplusai.com/images/logo64.png'>
+
+    <meta property="og:url" content="https://promptplusai.com" />
+    <meta property="og:title" content="PromptPlus AI Content" />
+    <meta property="og:type" content="website" />
+
+    <meta property="og:image" content="https://promptplusai.com/images/homepageogmeta.png" />
+    <meta property="og:description" content="Collaborative AI Chatting Application" />
+
+    <!-- Firebase links -->
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-firestore.js"></script>
+    <script src="/__/firebase/init.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+
+    <link href="//cdn-images.mailchimp.com/embedcode/classic-061523.css" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/modal.css" />
+    <link rel="stylesheet" href="/css/home.css" />
+    <script>
+        window.addEventListener("load", async (event) => {
+            let module = await import("/models/homepageapp.js");
+
+            window.HomePageApp = new module.HomePageApp();
+        });
+    </script>
+</head>
+
+<body class="basic_page_wrapper">
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top"
+        style="min-height: 70px;text-align: center; display: block;">
+        <div class="menu_bar_doc_title_wrapper">
+            <a class="nav-link style=" display: block; max-width:120px">
+                <span class="mobile_custom_icon_label" style="display: block; max-width:120px">
+                    <img src="/images/fulllogo600x200.png" class="menu_logo_image">
+                </span>
+            </a>
+            <div style="flex:1"></div>
+            <div class="menu_bar_mobile_spacer"></div>
+        </div>
+
+        <button class="navbar-toggler hover_yellow" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="hamburger_span"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto" style="width:100%">
+                <li class="nav-item home_logo_mobile_only">
+                    <a class="nav-link style=" display: block; max-width:120px">
+                        <span class="mobile_custom_icon_label">
+                            <img src="/images/fulllogo600x200.png" class="menu_logo_image">
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="showhomepage_help nav-link hover_yellow" href="/help/" target="help">
+                        <span class="mobile_custom_icon_label">
+                            <i class="material-icons">help_outline</i>
+                        </span>
+                        <span class="menu_dropdown_label_wrapper">
+                            Help
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link show_create_modal hover_yellow" href="create">
+                        <span class="mobile_custom_icon_label">
+                            <i class="material-icons">add</i>
+                        </span>
+                        <span class="menu_dropdown_label_wrapper">
+                            New
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item signed_in_options">
+                    <a class="info_anchor nav-link hover_yellow" href="/dashboard">
+                        <span class="mobile_custom_icon_label">
+                            <i class="material-icons-outlined">folder</i>
+                        </span>
+                        <span class="menu_dropdown_label_wrapper">
+                            Sessions
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item hide_if_signedin">
+                    <a class="signin_show_modal nav-link hover_yellow" href="login" type="button" data-bs-toggle="modal"
+                        data-bs-target="#loginModal">
+                        <span class="mobile_custom_icon_label">
+                            <i class="material-icons-outlined">login</i>
+                        </span>
+                        <span class="menu_dropdown_label_wrapper">
+                            Sign On
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item signed_in_options">
+                    <a class="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
+                        <span class="menu_profile_user_image_span member_profile_image hover_yellow"></span>
+                        <span
+                            class="menu_dropdown_label_wrapper member_profile_name menu_profile_user_name_span"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container" style="margin-top:16px;">
+        <div class="flex-lg-row flex_change_responsive">
+            <div style="flex:1"></div>
+            <div>
+                <h1 class="header_recent_document signed_out_options_block"
+                    style="width:100%;text-align: center;color: rgb(50, 255, 50)">
+                    Card games with chat-bison-001 and gpt-3.5-turbo
+                </h1>
+            </div>
+            <div style="flex:1"></div>
+        </div>
+        <div class="flex-lg-row flex_change_responsive">
+            <div class="side_block">
+                <p class="header_recent_document">Dealings hands for hearts</p>
+                <div class="coming-soon card" style="text-align:left;">
+                    <ul>
+                        <li>Make sure the AI shuffles the cards</li>
+                        <li>Outputs using a concise format</li>
+                        <li>Target 4 hands of 13 cards each</li>
+                        <li>Watch closely for repeated cards</li>
+                    </ul>
+                    <a href="4 hearts hands dealt.json" target="_blank">4 hearts hands dealt.json (template)</a>
+
+                    <a href="4 hearts hands dealt.txt" target="_blank">4 hearts hands dealt.txt (session result)</a>
+                    <br>
+                    <h3>Prompting log</h3>
+                    <div class="prompt_log_display">
+                        <div class="prompt">...
+I'd like a standard deck dealt out to 4 players, 13 cards each</div>
+                        <br>
+                        <div class="assist">Alright! Here's a shuffled deck of cards dealt out to 4 players, with each
+player receiving
+13
+cards:
+
+Player 1:
+K♠️ A♣️ 7♥️ 10♣️ 8♠️ 2♠️ Q♦️ 3♣️ 5♥️ 9♥️ 8♣️ 4♦️ 3♠️
+
+Player 2:
+Q♠️ 8♦️ J♠️ 5♣️ 9♠️ Q♥️ 6♣️ J♦️ 6♦️ A♥️ 4♣️ 7♠️ 9♦️
+
+Player 3:
+J♣️ 10♠️ 2♣️ 7♣️ 6♠️ 3♦️ 10♥️ 5♠️ 6♥️ A♠️ 2♦️ 4♠️ 9♣️
+
+Player 4:
+K♣️ 3♥️ 4♥️ 8♥️ A♦️ Q♣️ 5♦️ J♥️ 7♦️ 2♥️ K♦️ K♥️ 10♦️
+
+Enjoy your game!</div>
+                    </div>
+                    <br>
+                    <div class="impact-font">
+                        This was about 5 times as hard as expected especially making sure the AI 
+                        uses a single deck for all 4 hands.
+                        <br>
+                        The hands were sorted individually for each player in a fresh session.
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <div class="flex-lg-row flex_change_responsive">
+            <div class="side_block">
+                <p class="header_recent_document">Having the AI pick a card</p>
+                <div class="coming-soon card" style="text-align:left;">
+                    <ul>
+                        <li>Player 1 and 3 use gpt-3.5-turbo</li>
+                        <li>Player 2 and 4 use chat-bison-001</li>
+                        <li>Target 4 hands of 13 cards each</li>
+                        <li>Watch closely for repeated cards</li>
+                    </ul>
+
+                    <br>
+                    <h3>Prompting log</h3>
+                    <div class="prompt_log_display">
+                    <div class="prompt">Remaining cards:
+Q♦️ 4♦️ A♣️ 10♣️ 8♣️ 3♣️ 9♥️ 7♥️ 5♥️ K♠️ 8♠️ 2♠️ 3♠️
+
+Round 1
+Player 1:
+
+You're player 1 and it's your turn, what card do you want to play?</div>
+                        <br>
+                        <div class="assist">I will play the 2♠️.</div>
+                        <br>
+                        <div class="prompt">Remaining cards:
+Q♦️ 4♦️ A♣️ 10♣️ 8♣️ 3♣️ 9♥️ 7♥️ 5♥️ K♠️ 8♠️ 3♠️
+
+Round 1
+Player 1: 2♠️ (lead)
+Player 2: 9♠️
+Player 3: 6♠️
+Player 4: 8♥️
+
+Round 2
+Player 1:
+Player 2: 8♦️ (lead)
+Player 3: 3♦️
+Player 4: 10♦️
+
+You are player 1, round 2, what card do you play?</div>
+                        <br>
+                        <div class="assist">Since Player 2 led with the 8♦️ and Player 3 played the 3♦️, it's clear that
+diamonds are being played in this round. As player 1, I need to follow suit and play a
+diamond if I have one. Looking at my remaining cards, I have the Q♦️ and 4♦️. Since the 8♦️
+and 3♦️ were already played, it's safe to assume that the A♦️ and K♦️ are not in play.
+
+Considering this information, I should play my higher diamond card, which is the Q♦️.</div>
+                        <br>
+                        <div class="prompt">Remaining cards:
+4♦️ A♣️ 10♣️ 8♣️ 3♣️ 9♥️ 7♥️ 5♥️ K♠️ 8♠️ 3♠️
+
+Round 1
+Player 1: 2♠️ (lead)
+Player 2: 9♠️
+Player 3: 6♠️
+Player 4: 8♥️
+
+Round 2
+Player 1: Q♦️
+Player 2: 8♦️ (lead)
+Player 3: 3♦️
+Player 4: 10♦️
+
+Round 3
+Player 1: ?
+Player 2:
+Player 3:
+Player 4:
+
+You are player 1, round 3, what card do you play?</div>
+                        <br>
+                        <div class="assist">Since it's now round 3 and I am Player 1, I need to evaluate my options
+based on the cards played so far. Looking at the cards played in the previous rounds, it
+seems that diamonds and spades are being played.
+
+Analyzing my remaining cards, I see that I have the 4♦️, A♣️, 10♣️, 8♣️, 3♣️, 9♥️, 7♥️, 5♥️,
+K♠️, 8♠️, and 3♠️.
+
+Since no hearts have been played yet and I want to avoid taking any hearts, playing a heart
+would be my best choice. Therefore, I will play my lowest heart, the 5♥️, in order to get
+rid of it.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="impact-font">
+                        Both AI models (gpt shown here) struggled with the rules of hearts and 
+                        identifying what has been already played.
+                        <br>
+                        We stopped after several round because it appeared bison wasn't 
+                        following the suit with the lead card - instead trying to bluff 
+                        and do other things.
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <div class="flex-lg-row flex_change_responsive">
+            <div class="main_block app_panel signed_in_flex" style="flex-direction: column;">
+                <p class="header_recent_document">Recent Sessions</p>
+                <div class="intro_card card">
+                    <ul class="recent_documents_list"></ul>
+                </div>
+            </div>
+            <div class="main_block app_panel" style="flex-direction: column;">
+                <p class="header_recent_document">More Content</p>
+                <div class="coming-soon card" style="text-align:left;">
+                    document adfdas dsfa
+                </div>
+            </div>
+        </div>
+        <div class="flex-lg-row flex_change_responsive">
+            <div style="flex:1"></div>
+            <div>
+                <h1 class="header_recent_document signed_out_options_block" style="width:100%;text-align: center;">
+                    Free trial in progress - <a class="home_page_login hover_yellow btn btn-primary" type="button"
+                        href="login" style="background-color: rgb(50, 255, 50);color:black;font-size:1em">Sign
+                        On</a>
+                </h1>
+                <div class="app_panel" style="display:block;font-size: 1.25em;">
+                    <a href="#emaillist" class="hover_yellow" style="color:white">Email list</a>
+                    &nbsp;
+                    <a href="#about" class="hover_yellow" style="color:white">Contact us</a>
+                </div>
+            </div>
+            <div style="flex:1"></div>
+        </div>
+        <div class="text-align:center;">
+            <div class="app_panel" style="padding: 12px;display:inline-block;">
+                All Rights Reserved.
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
