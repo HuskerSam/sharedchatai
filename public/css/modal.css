@@ -252,6 +252,7 @@
 
 .modal_document_title_display,
 .modal_document_system_message_display {
+  white-space: pre-wrap;
   display: block;
   min-height: 3em;
   color: rgb(190, 200, 255);

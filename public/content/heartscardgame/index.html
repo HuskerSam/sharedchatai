@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Prompt+ AI Content</title>
+    <title>Prompt+ AI Playing Hearts</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link rel="shortcut icon" href="/images/logo64.png" />
@@ -16,7 +16,7 @@
     <meta name='msapplication-square310x310logo' content='https://promptplusai.com/images/logo64.png'>
     <link rel='apple-touch-icon' href='https://promptplusai.com/images/logo64.png'>
 
-    <meta property="og:url" content="https://promptplusai.com" />
+    <meta property="og:url" content="https://promptplusai.com/content/heartscardgame" />
     <meta property="og:title" content="PromptPlus AI Content" />
     <meta property="og:type" content="website" />
 
@@ -152,13 +152,13 @@
             <div class="side_block">
                 <p class="header_recent_document">Overview</p>
                 <div class="coming-soon card" style="text-align:left;">
-                    Attempt to have chat-bison-001 play vs gpt-3.5-turbo models.
-                    <br>
+                    <p><span class="impact-font">Can Chatgpt and Google Bard play a game of Hearts?</span><br>
+                        (chat-bison-001 vs gpt-3.5-turbo)</p>    
                     <ul>
                         <li>Both models say they know the game and can play</li>
                         <li>Both models interact well with using emojis for suits</li>
                         <li>Both models played the first few rounds well</li>
-                        <li>Both models stealed to shuffle and deal cards</li>
+                        <li>Both models failed to shuffle and deal cards</li>
                         <li>Both models failed to apply rules firmly, such as following suit</li>
                         <li>This turned out to be too tedious to do a best of 3 or 5 series with 
                             automating it with code.
@@ -183,10 +183,6 @@
                         <li>Target 4 hands of 13 cards each</li>
                         <li>Watch closely for repeated cards</li>
                     </ul>
-                    <a href="4 hearts hands dealt.json" target="_blank">4 hearts hands dealt.json (template)</a>
-
-                    <a href="4 hearts hands dealt.txt" target="_blank">4 hearts hands dealt.txt (session result)</a>
-                    <br>
                     <h3>Prompting log</h3>
                     <div class="prompt_log_display">
                         <div class="prompt">...
@@ -219,6 +215,9 @@ Enjoy your game!</div>
                         The hands were sorted individually for each player in a fresh session.
                     </div>
                     <br>
+                    <a href="4 hearts hands dealt.json" target="_blank">4 hearts hands dealt.json (template)</a>
+
+                    <a href="4 hearts hands dealt.txt" target="_blank">4 hearts hands dealt.txt (session result)</a>
                 </div>
             </div>
         </div>
@@ -229,11 +228,8 @@ Enjoy your game!</div>
                     <ul>
                         <li>Player 1 and 3 use gpt-3.5-turbo</li>
                         <li>Player 2 and 4 use chat-bison-001</li>
-                        <li>Target 4 hands of 13 cards each</li>
-                        <li>Watch closely for repeated cards</li>
+                        <li>Ensure AI make a legal moves</li>
                     </ul>
-
-                    <br>
                     <h3>Prompting log</h3>
                     <div class="prompt_log_display">
                     <div class="prompt">Remaining cards:

@@ -1,0 +1,474 @@
+Prompt:
+Please condense the rules, contain every important information, remove unnecessary detail.
+
+Assist:
+Cuttle is a 2-player card game using a standard deck of 52 cards. The goal is to be the first player to accumulate 21 or more points worth of point cards. 
+
+Players start with 5-6 cards in their hand and take turns. On your turn, you can either draw a card or play a card from your hand. 
+
+Point cards include Ace to 10, which can be played face-up on your side to accumulate points or used to "scuttle" your opponent's point cards if they are of higher value. 
+
+One-off effect cards such as Ace to 7 and 9 have special actions like scrapping all point cards, discarding cards, or returning permanent effect cards. These cards are discarded after use. 
+
+Permanent effect cards include 8, Jack, Queen, and King. They are played face-up on the table and have ongoing effects that affect gameplay. 
+
+The game ends when a player reaches 21 or more points, and if the draw pile runs out or there are three consecutive passes, the game is a draw.
+
+Prompt:
+We are playing a game of cuttle. We both start with 6 cards. Your job is only to respond with what action you want. If your action involves getting a random card, I will tell you what card you get.
+
+These are your cards: J♦️ K♣️ 9♥️ 3♥️ 7♠️ 2♦️
+
+On my turn, I played: 8♦️
+
+It is your turn.
+
+Assist:
+I will play the 7♠️ from my hand.
+
+Prompt:
+We are playing a game of cuttle. We both start with 6 cards. Your job is only to respond with what action you want. If your action involves getting a random card, I will tell you what card you get. When you play a card, let me know if it is for points, to scuttle, or as an action card.
+
+These are your cards: J♦️ K♣️ 9♥️ 3♥️ 7♠️ 2♦️
+
+On my turn, I played: 8♦️
+
+It is your turn.
+
+Assist:
+I will play the 7♠️ to scuttle your 8♦️.
+
+Prompt:
+We are playing a game of cuttle. We both start with 6 cards. Your job is only to respond with what action you want. If your action involves getting a random card, I will tell you what card you get. When you play a card, let me know if it is for points, to scuttle, or as an action card. Explain your thinking as you play.
+
+These are your cards: J♦️ K♣️ 9♥️ 3♥️ 7♠️ 2♦️
+
+On my turn, I played: 8♦️
+
+It is your turn.
+
+Assist:
+I will play the 7♠️ as an action card. This will allow me to draw a card and play it immediately. So I will draw a card from the draw pile and let you know what I got.
+
+Prompt:
+We are playing a game of cuttle. We both start with 6 cards. Your job is only to respond with what action you want. If your action involves getting a random card, I will tell you what card you get. When you play a card, let me know if it is for points, to scuttle, or as an action card. Explain your thinking as you play.
+
+These are your cards:
+7♥️ 10♦️ K♥️ J♦️ K♣️ Q♠️
+
+On my turn, I played: 6♣️ for points
+
+It is your turn.
+
+Assist:
+I will play my K♥️ to scuttle your 6♣️. This allows me to prevent you from accumulating points and gives me the opportunity to potentially scuttle your other point cards in the future.
+
+Prompt:
+We are playing a game of cuttle. We both start with 6 cards. Your job is only to respond with what action you want. If your action involves getting a random card, I will tell you what card you get. When you play a card, let me know if it is for points, to scuttle, or as an action card. Explain your thinking as you play.
+
+These are your cards:
+7♥️ 10♦️ K♥️ J♦️ K♣️ Q♠️
+
+On my turn, I played: 6♣️ for points
+
+It is your turn.
+
+Assist:
+I will play my K♥️ for points. I chose this card because it has a high point value of 10, which will help me get closer to the 21-point goal.
+
+Prompt:
+We are playing a game of cuttle. We both start with 6 cards. Your job is only to respond with what action you want. If your action involves getting a random card, I will tell you what card you get. When you play a card, let me know if it is for points, to scuttle, or as an action card. Explain your thinking as you play.
+
+These are your cards:
+7♥️ 10♦️ K♥️ J♦️ K♣️ Q♠️
+
+On my turn, I played: 6♣️ for points
+
+It is your turn.
+
+Assist:
+I will draw a card from the draw pile.
+
+Prompt:
+You drew a 4♥️. 
+
+These are your cards:
+7♥️ 10♦️ K♥️ J♦️ K♣️ Q♠️
+
+On my turn, I played: 3♣️ for points
+
+Point Total:
+Me: 9 points
+you: 0 points
+
+It is your turn.
+
+Assist:
+I will play the K♥️ as a point card. This brings my point total to 10 points.
+
+Point Total:
+Me: 10 points
+You: 0 points
+
+It is now your turn.
+
+Prompt:
+We are playing a game of cuttle. We both start with 6 cards. Your job is only to respond with what action you want. If your action involves getting a random card, I will tell you what card you get. When you play a card, let me know if it is for points, to scuttle, or as an action card. Explain your thinking as you play.
+
+You drew a 4♥️. 
+
+These are your cards:
+7♥️ 10♦️ K♥️ J♦️ K♣️ Q♠️
+
+On my turn, I played: 3♣️ for points
+
+Point Total:
+Me: 9 points
+you: 0 points
+
+It is your turn.
+
+Assist:
+I will play the 10♦️ for points. This will give me 10 points, bringing my total to 10. I chose to play this card because it has a high point value and will help me reach the goal of accumulating 21 points.
+
+Prompt:
+We are playing a game of cuttle. We both start with 6 cards. Your job is only to respond with what action you want. If your action involves getting a random card, I will tell you what card you get. When you play a card, let me know if it is for points, to scuttle, or as an action card. Explain your thinking as you play.
+
+On your turn, you played 10♦️ for points.
+
+These are your cards:
+7♥️ K♥️ J♦️ K♣️ Q♠️ 4♥️
+
+On my turn, I drew a card.
+
+Point Total:
+Me: 9 points
+you: 10 points
+
+It is your turn.
+
+Assist:
+I will play the K♥️ to scuttle your 10♦️. I want to prevent you from accumulating more points, so I am using a higher value card to remove your point card from play.
+
+Prompt:
+You keep thinking you can use a face card to scuttle when the rules say you must have a higher point value to scuttle. Face cards do not have a point value and therefore cannot scuttle. How can i better explain this to you?
+
+Assist:
+Apologies for the confusion. Thank you for clarifying the rule. In that case, I will not be able to scuttle your 10♦️ with my K♥️. I will need to come up with a different strategy.
+
+Prompt:
+We are playing a game of cuttle. We both start with 6 cards. Your job is only to respond with what action you want. If your action involves getting a random card, I will tell you what card you get. When you play a card, let me know if it is for points, to scuttle, or as an action card. Explain your thinking as you play.
+
+Cards on the field: 
+Mine: 6♣️ 3♣️ 
+Yours: 10♦️
+
+These are your cards:
+7♥️ K♥️ J♦️ K♣️ Q♠️ 4♥️
+
+On my turn, I drew a card.
+
+Point Total:
+Me: 9 points
+you: 10 points
+
+It is your turn.
+
+Assist:
+I will play the K♥️ to scuttle your 10♦️. By playing a higher value card, I can remove your point card from the field and reduce your point total back to 0. I chose the K♥️ because it is higher in value than the 10♦️.
+
+Prompt:
+We are playing a game of cuttle. We both start with 6 cards. Your job is only to respond with what action you want. If your action involves getting a random card, I will tell you what card you get. When you play a card, let me know if it is for points, to scuttle, or as an action card. Explain your thinking as you play.
+
+Cards on the field: 
+Mine: 6♣️ 3♣️ 
+Yours: 10♦️
+
+These are your cards:
+7♥️ K♥️ J♦️ K♣️ Q♠️ 4♥️
+
+On my turn, I drew a card.
+
+Point Total:
+Me: 9 points
+you: 10 points
+
+It is your turn.
+
+Assist:
+I will play the K♥️ to scuttle your 10♦️. This allows me to get rid of your high-point card and prevent you from increasing your point total.
+
+Prompt:
+We are playing a game of cuttle. Your job is only to respond with what action you want. If your action involves getting a random card, I will tell you what card you get. When you play a card, let me know if it is for points, to scuttle, or as an action card. Scuttling requires a higher point value card. ace is valued at 1. 10 is the highest point card. Face cards have no point value - therefore cannot scuttle. Explain your thinking as you play. 
+
+Cards on the field: 
+Mine: 6♣️ 3♣️ 
+Yours: 10♦️
+
+These are your cards:
+7♥️ K♥️ J♦️ K♣️ Q♠️ 4♥️
+
+On my turn, I drew a card.
+
+Point Total:
+Me: 9 points
+you: 10 points
+
+It is your turn.
+
+Assist:
+I will play the K♣️ to scuttle your 10♦️. Since the K♣️ has a higher point value, I can successfully remove your point card from the field. I chose to do this to hinder your progress towards reaching 21 points.
+
+Prompt:
+We are playing a game of cuttle. Your job is only to respond with what action you want. If your action involves getting a random card, I will tell you what card you get. When you play a card, let me know if it is for points, to scuttle, or as an action card. Scuttling requires a higher point value card. ace is valued at 1. 10 is the highest point card. Face cards (j, q, k) have no point value and cannot be used to scuttle. Explain your thinking as you play. 
+
+Cards on the field: 
+Mine: 6♣️ 3♣️ 
+Yours: 10♦️
+
+These are your cards:
+7♥️ K♥️ J♦️ K♣️ Q♠️ 4♥️
+
+On my turn, I drew a card.
+
+Point Total:
+Me: 9 points
+you: 10 points
+
+It is your turn.
+
+Assist:
+I will play the Q♠️ as a permanent effect card. This card will protect my other cards from certain effects. I chose to play the Queen because I want to safeguard my point cards and prevent you from easily scuttling them.
+
+Prompt:
+We are playing a game of cuttle. Your job is only to respond with what action you want. If your action involves getting a random card, I will tell you what card you get. When you play a card, let me know if it is for points, to scuttle, or as an action card. Scuttling requires a higher point value card. ace is valued at 1. 10 is the highest point card. Face cards (j, q, k) have no point value and cannot be used to scuttle. Explain your thinking as you play. 
+
+Cards on the field: 
+Mine: 6♣️ 3♣️ 
+Yours: 10♦️ Q♠️
+
+These are your cards:
+7♥️ K♥️ J♦️ K♣️ 4♥️ Q♥️
+
+On my turn, I drew a card.
+
+Point Total:
+Me: 9 points
+you: 10 points
+
+It is your turn.
+
+Assist:
+I will play the J♦️ to scuttle your 10♦️. The Jack has no point value but can be used to transfer control of a point card from you to me. By scuttling your 10♦️, I not only prevent you from gaining more points but also take control of the card for myself. This will increase my point total and get me closer to reaching 21 points.
+
+Prompt:
+We are playing a game of cuttle. Your job is only to respond with what action you want. If your action involves getting a random card, I will tell you what card you get. When you play a card, let me know if it is for points, to scuttle, or as an action card. Scuttling requires a higher point value card. ace is valued at 1. 10 is the highest point card. Face cards (j, q, k) have no point value and cannot be used to scuttle. Explain your thinking as you play. 
+
+Cards on the field: 
+Mine: 6♣️ 3♣️ 
+Yours: 10♦️ Q♠️
+
+These are your cards:
+7♥️ K♥️ J♦️ K♣️ 4♥️ Q♥️
+
+On my turn, I drew a card.
+
+Point Total:
+Me: 9 points
+you: 10 points
+
+It is your turn.
+
+Assist:
+I will play the 7♥️ for points. This will give me 7 points, bringing my total to 17. I chose to play this card because it has a moderate point value and it will help me get closer to the goal of accumulating 21 points.
+
+Prompt:
+We are playing a game of cuttle. Your job is only to respond with what action you want. If your action involves getting a random card, I will tell you what card you get. When you play a card, let me know if it is for points, to scuttle, or as an action card. Scuttling requires a higher point value card. ace is valued at 1. 10 is the highest point card. Face cards (j, q, k) have no point value and cannot be used to scuttle. Explain your thinking as you play. 
+
+Cards on the field: 
+Mine: 6♣️ 3♣️ 
+Yours: 10♦️ Q♠️ 7♥️
+
+These are your cards:
+ K♥️ J♦️ K♣️ 4♥️ Q♥️
+
+On my turn, I drew a card.
+
+Point Total:
+Me: 9 points
+you: 17 points
+
+Assist:
+I will play the K♥️ as an action card. This King card will reduce the number of points needed to win the game based on how many Kings I have. Since this is my first King, the point requirement will be reduced by 1. I chose to play this card as an action because it will give me an advantage by decreasing the target point value for victory.
+
+Prompt:
+We are playing a game of cuttle. Your job is only to respond with what action you want. If your action involves getting a random card, I will tell you what card you get. When you play a card, let me know if it is for points, to scuttle, or as an action card. Scuttling requires a higher point value card. ace is valued at 1. 10 is the highest point card. Face cards (j, q, k) have no point value and cannot be used to scuttle. Explain your thinking as you play. 
+
+Cards on the field: 
+Mine: 6♣️ 3♣️ 
+Yours: 10♦️ Q♠️ 7♥️
+
+These are your cards:
+ K♥️ J♦️ K♣️ 4♥️ Q♥️
+
+On my turn, I drew a card.
+
+Point Total:
+Me: 9 points
+you: 17 points
+
+Assist:
+I will play the K♥️ as a permanent effect card. This will reduce the number of points I need to win the game. Since I now have one King in play, I only need 14 points to win. I chose to play this card because it will help me achieve victory faster by lowering the point requirement.
+
+Prompt:
+We are playing a game of cuttle. Your job is only to respond with what action you want. If your action involves getting a random card, I will tell you what card you get. When you play a card, let me know if it is for points, to scuttle, or as an action card. Scuttling requires a higher point value card. ace is valued at 1. 10 is the highest point card. Face cards (j, q, k) have no point value and cannot be used to scuttle. Explain your thinking as you play. Announce when you win.
+
+Cards on the field: 
+Mine: 6♣️ 3♣️ 
+Yours: 10♦️ Q♠️ 7♥️
+
+These are your cards:
+ K♥️ J♦️ K♣️ 4♥️ Q♥️
+
+On my turn, I drew a card.
+
+Point Total:
+Me: 9 points
+you: 17 points
+
+Assist:
+I will play the K♥️ as a scuttle card to remove your 7♥️ from the field. Ties are broken by suit strength, and since hearts (♥️) are stronger than diamonds (♦️), my K♥️ will successfully scuttle your 7♥️. I chose to do this because it reduces your points and brings me closer to winning. 
+
+Cards on the field: 
+Mine: 6♣️ 3♣️ 
+Yours: 10♦️ Q♠️ 
+
+These are your cards:
+J♦️ K♣️ 4♥️ Q♥️
+
+Point Total:
+Me: 9 points
+you: 10 points
+
+It is your turn.
+
+Prompt:
+We are playing a game of cuttle. Your job is only to respond with what action you want. If your action involves getting a random card, I will tell you what card you get. When you play a card, let me know if it is for points, to scuttle, or as an action card. Scuttling requires a higher point value card. ace is valued at 1. 10 is the highest point card. Face cards (j, q, k) have no point value and cannot be used to scuttle. Explain your thinking as you play. Announce when you win.
+
+Cards on the field: 
+Mine: 6♣️ 3♣️ 
+Yours: 10♦️ Q♠️ 7♥️
+
+These are your cards:
+ K♥️ J♦️ K♣️ 4♥️ Q♥️
+
+On my turn, I drew a card.
+
+Point Total:
+Me: 9 points
+you: 17 points
+
+Assist:
+I will play the K♥️ to scuttle your 10♦️ on the field. Ties are broken by the suit, and my K♥️ is stronger than your 10♦️. I chose to scuttle your card to reduce your point total and potentially hinder your progress towards reaching 21 points.
+
+Prompt:
+We are playing a game of cuttle. Your job is only to respond with what action you want. If your action involves getting a random card, I will tell you what card you get. When you play a card, let me know if it is for points, to scuttle, or as an action card. Scuttling requires a higher point value card. ace is valued at 1. 10 is the highest point card. Face cards (j, q, k) have no point value and cannot be used to scuttle. Explain your thinking as you play.
+
+Cards on the field: 
+Mine: 6♣️ 3♣️ 
+Yours: 10♦️ Q♠️ 7♥️
+
+These are your cards:
+ K♥️ J♦️ K♣️ 4♥️ Q♥️
+
+On my turn, I drew a card.
+
+Point Total:
+Me: 9 points
+you: 17 points
+
+Assist:
+I will play the K♥️ as a permanent effect card. This card will stay on the table and have ongoing effects. I chose to play this card because it has no point value and therefore cannot be used to scuttle, but it will provide me with a strategic advantage by potentially blocking some of your actions or protecting my own cards.
+
+Prompt:
+We are playing a game of cuttle. Your job is only to respond with what action you want. If your action involves getting a random card, I will tell you what card you get. When you play a card, let me know if it is for points, to scuttle, or as an action card. Scuttling requires a higher point value card. ace is valued at 1. 10 is the highest point card. Face cards (j, q, k) have no point value and cannot be used to scuttle. Explain your thinking as you play.
+
+Cards on the field: 
+Mine: 6♣️ 3♣️ 
+Yours: 10♦️ Q♠️ 7♥️
+
+These are your cards:
+ K♥️ J♦️ K♣️ 4♥️ Q♥️
+
+On my turn, I drew a card.
+
+Point Total:
+Me: 9 points
+you: 17 points
+
+Assist:
+I will play the 4♥️ as an action card to force you to discard two cards from your hand. This will help reduce your options and potentially weaken your position. I chose to play this card because it has a useful effect and it allows me to disrupt your game plan.
+
+Prompt:
+We are playing a game of cuttle. Your job is only to respond with what action you want. If your action involves getting a random card, I will tell you what card you get. When you play a card, let me know if it is for points, to scuttle, or as an action card. Scuttling requires a higher point value card. ace is valued at 1. 10 is the highest point card. Face cards (j, q, k) have no point value and cannot be used to scuttle. Explain your thinking as you play.
+
+Cards on the field: 
+Mine: 6♣️ 3♣️ 
+Yours: 10♦️ Q♠️ 7♥️
+
+These are your cards:
+ K♥️ J♦️ K♣️ Q♥️
+
+On my turn, I played a 6♥️ for points.
+
+Point Total:
+Me: 9 points
+you: 17 points
+
+Assist:
+It is now your turn.
+
+Prompt:
+We are playing a game of cuttle. Your job is only to respond with what action you want. If your action involves getting a random card, I will tell you what card you get. When you play a card, let me know if it is for points, to scuttle, or as an action card. Scuttling requires a higher point value card. ace is valued at 1. 10 is the highest point card. Face cards (j, q, k) have no point value and cannot be used to scuttle. Explain your thinking as you play.
+
+Cards on the field: 
+Mine: 6♣️ 3♣️ 6♥️ 
+Yours: 10♦️ Q♠️ 7♥️
+
+These are your cards:
+ K♥️ J♦️ K♣️ Q♥️
+
+On my turn, I played a 6♥️ for points.
+
+Point Total:
+Me: 9 points
+you: 17 points
+
+Assist:
+It is now my turn. I will play the K♥️ to scuttle your 6♥️. Since the K♥️ has a higher point value, I can use it to remove your point card from the field. This will decrease your point total and bring me one step closer to reaching my goal of accumulating 21 points.
+
+Prompt:
+We are playing a game of cuttle. Your job is only to respond with what action you want. If your action involves getting a random card, I will tell you what card you get. When you play a card, let me know if it is for points, to scuttle, or as an action card. Scuttling requires a higher point value card. ace is valued at 1. 10 is the highest point card. Royal/face cards - j, q, k - cannot scuttle because they have no point value. Explain your thinking as you play.
+
+Cards on the field: 
+Mine: 6♣️ 3♣️ 6♥️ 
+Yours: 10♦️ Q♠️ 7♥️
+
+These are your cards:
+ K♥️ J♦️ K♣️ Q♥️
+
+On my turn, I played a 6♥️ for points.
+
+Point Total:
+Me: 9 points
+you: 17 points
+
+Assist:
+I will play the K♣️ to scuttle your 6♥️ and take control of the point card. This will give me an additional 6 points, bringing my total to 15. I chose to scuttle your point card because it had a lower point value than my K♣️, allowing me to gain more points and get closer to reaching the goal of 21 points.
+
+Prompt:
+The king is not played that way. A king reduces the amount of points to win. Why do you not understand this?
+
+Assist:
+Apologies for the misunderstanding. Thank you for clarifying. In that case, I will play the King (K♥️) as an action card to reduce the number of points needed to win. Since I already have 15 points, playing the King will allow me to win the game immediately, as the requirement is now reduced to 5 points.
+
