@@ -21,6 +21,7 @@ export class DashboardApp extends BaseApp {
   profile_menu_anchor: any = document.querySelector(".profile_menu_anchor");
   documentOptions = new DocOptionsHelper(this, "dashboard_options_view");
   help_show_modal: any = document.querySelector(".help_show_modal");
+  clear_label_filter: any = document.querySelector(".clear_label_filter");
 
   /** */
   constructor() {
@@ -52,6 +53,10 @@ export class DashboardApp extends BaseApp {
       event.stopPropagation();
       event.preventDefault();
       this.profileHelper.show();
+    });
+    this.clear_label_filter.addEventListener("click", () => {
+      this.document_label_filter.selectedIndex = 0;
+      this.document_label_filter.dispatchEvent(new Event("input"));
     });
   }
   /**
@@ -208,6 +213,9 @@ export class DashboardApp extends BaseApp {
     this.paintLabelSelect();
     this.updateUserNamesImages();
     this.updateUserPresence();
+
+    if (labelFilter === "All Sessions") document.body.classList.remove("show_clear_label_filter");
+    else document.body.classList.add("show_clear_label_filter");
   }
   /** paint html list card
    * @param { any } doc Firestore doc for game
