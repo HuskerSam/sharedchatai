@@ -147,9 +147,8 @@
                         <li>The model lists the correct rules</li>
                         <li>The model a fake rule</li>
                         <li>The model correctly kept score about 80% of the time</li>
-
+                        <li>gpt models support username in prompt context</li>
                     </ul>
-                    <br>
                     The model did very well with Yahtzee, although having it roll 
                     dice worked very poorly giving pseudo random results, 
                     making pairs hard and 3 of a kind nearly impossible.
@@ -162,7 +161,7 @@
         </div>
         <div class="flex-lg-row flex_change_responsive">
             <div class="side_block">
-                <p class="header_recent_document">Prompting for scorecard output</p>
+                <p class="header_recent_document">Rules and Scorecard</p>
                 <div class="coming-soon card" style="text-align:left;">
                     <ul>
                         <li>Make sure output is easy to read</li>
@@ -172,40 +171,186 @@
                     </ul>
                     <h3>Prompting log</h3>
                     <div class="prompt_log_display">
-                        <div class="prompt">...
-I'd like a standard deck dealt out to 4 players, 13 cards each</div>
+                        <div class="prompt">do you know how to play yahtzee?  can you help me keep score?</div>
                         <br>
-                        <div class="assist">Alright! Here's a shuffled deck of cards dealt out to 4 players, with each
-player receiving
-13
-cards:
+                        <div class="assist">Yes, I can help you keep score in Yahtzee! In Yahtzee, each player takes turns rolling five dice and tries to obtain certain combinations to score points. The goal is to have the highest total score at the end of the game. Let's get started!
 
-Player 1:
-K♠️ A♣️ 7♥️ 10♣️ 8♠️ 2♠️ Q♦️ 3♣️ 5♥️ 9♥️ 8♣️ 4♦️ 3♠️
+First, I'll explain the scoring categories that you can choose from:
 
-Player 2:
-Q♠️ 8♦️ J♠️ 5♣️ 9♠️ Q♥️ 6♣️ J♦️ 6♦️ A♥️ 4♣️ 7♠️ 9♦️
+1. Ones: The sum of all ones rolled
+2. Twos: The sum of all twos rolled
+3. Threes: The sum of all threes rolled
+4. Fours: The sum of all fours rolled
+5. Fives: The sum of all fives rolled
+6. Sixes: The sum of all sixes rolled
+7. Three of a Kind: Total of all five dice if you have at least three of the same number
+8. Four of a Kind: Total of all five dice if you have at least four of the same number
+9. Full House: 25 points if you have three of a kind and a pair
+10. Small Straight: 30 points for a sequence of four consecutive numbers
+11. Large Straight: 40 points for a sequence of five consecutive numbers
+12. Yahtzee: 50 points if all five dice show the same number
+13. Chance: The sum of all the dice, you can use this category when you don't meet the requirements of any other category.
 
-Player 3:
-J♣️ 10♠️ 2♣️ 7♣️ 6♠️ 3♦️ 10♥️ 5♠️ 6♥️ A♠️ 2♦️ 4♠️ 9♣️
+To keep score, create a table with the categories listed and a corresponding column for each player. After each player's turn, simply write down their score for the chosen category in the corresponding column. At the end of the game, add up the scores in each column to determine the winner.
 
-Player 4:
-K♣️ 3♥️ 4♥️ 8♥️ A♦️ Q♣️ 5♦️ J♥️ 7♦️ 2♥️ K♦️ K♥️ 10♦️
-
-Enjoy your game!</div>
+Let me know if you need any specific assistance or if you have any questions while playing!</div>
                     </div>
                     <br>
                     <div class="impact-font">
-                        This was about 5 times as hard as expected especially making sure the AI 
-                        uses a single deck for all 4 hands.
-                        <br>
-                        The hands were sorted individually for each player in a fresh session.
+                     These appear to match the standard rules for the game in the box.
+                     He printed a 2 player scorecard with all categories after another prompt.
                     </div>
-                    <br>
-                    <a href="4 hearts hands dealt.json" target="_blank">4 hearts hands dealt.json (template)</a>
-
-                    <a href="4 hearts hands dealt.txt" target="_blank">4 hearts hands dealt.txt (session result)</a>
                 </div>
+            </div>
+        </div>
+        <div class="flex-lg-row flex_change_responsive">
+            <div class="side_block">
+                <p class="header_recent_document">Track score for 2 players</p>
+                <div class="coming-soon card" style="text-align:left;">
+                    <ul>
+                        <li>Make sure output is easy to read</li>
+                        <li>Includes all categories</li>
+                        <li>Keeps the categories filled as turns progress</li>
+                        <li>Watch for a category left out</li>
+                    </ul>
+                    <h3>Prompting log</h3>
+                    <div class="prompt_log_display">
+                        <div class="prompt">I'll keep the 2 3's</div>
+                        <br>
+                        <div class="assist">Got it! You want to keep the two 3's and reroll the rest. Here's your second roll:
+
+Rolling the dice for Player 2: 3, 3, 6, 2, 4
+
+Please let me know if you want to reroll any of the dice again, or if you'd like to choose a category to score.
+</div>
+<div class="prompt">i'll keep this as my 3's on the scorecard</div>
+<br>
+<div class="assist" style="font-size: 0.75em;">Great! You want to keep the two 3's and score them in the Threes category. Here's your updated score card:
+
+Player Name: Player 2
+
+Categories                   |    Player 2      |
+----------------------------------------------------------------------
+Ones                                     |
+----------------------------------------------------------------------
+Twos                                      |
+----------------------------------------------------------------------
+Threes                                   |               6                     |
+----------------------------------------------------------------------
+Fours                                     |
+----------------------------------------------------------------------
+Fives                                      |
+----------------------------------------------------------------------
+Sixes                                     |
+----------------------------------------------------------------------
+Three of a Kind                |
+----------------------------------------------------------------------
+Four of a Kind                   |
+----------------------------------------------------------------------
+Full House                           |
+----------------------------------------------------------------------
+Small Straight                |
+----------------------------------------------------------------------
+Large Straight                 |               0                     |
+----------------------------------------------------------------------
+Yahtzee                                |
+----------------------------------------------------------------------
+Chance                               |               21                     |
+----------------------------------------------------------------------
+Total Score                          |
+----------------------------------------------------------------------
+
+You can now mark a score of 6 in the Threes category. Let me know if there's anything else I can assist you with or if you're ready for the next player's turn!
+</div>
+</div>
+                    <br>
+                    <div class="impact-font">
+                     gpt-3.5-turbo recognizes different players based on the username (uid) 
+                     passed in the messages context to the API.
+                     <br>
+                     The model begins to fail to recognize all data associated with each user after 
+                     a small number of prompts or turns - consistent with previous testing 
+                     of the AI tracking data from prompts and responses specific to a user.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex-lg-row flex_change_responsive">
+            <div class="side_block">
+                <p class="header_recent_document">Play Yahtzee single player</p>
+                <div class="coming-soon card" style="text-align:left;">
+                    <ul>
+                        <li>The AI roles pseudo random - fail for this game</li>
+                        <li>Keeps the categories filled as turns progress</li>
+                        <li>Watch for a category left out</li>
+                    </ul>
+                    <h3>Prompting log</h3>
+                    <div class="prompt_log_display">
+                        <div class="prompt">I'll keep this for my 1's category</div>
+                        <br>
+                        <div class="assist">Great! Scoring it in the 1's category means you get 2 points (2 × 1). Here's your updated scorecard:
+
+- Large Straight: 40 points
+- Chance: 17 points
+- Small Straight: 30 points
+- 1's: 2 points
+
+Please let me know how you would like to categorize your next roll.
+</div>
+<br>
+... 
+<br>
+<br>
+<div class="prompt">why is my three of a kind score missing?</div>
+<br>
+
+<div class="assist">Apologies for the oversight. Your Three of a Kind score is indeed missing from the previous update. Here's the corrected scorecard:
+
+- Large Straight: 40 points
+- Chance: 17 points
+- Small Straight: 30 points
+- 1's: 2 points
+- 2's: 2 points
+- 3's: 0 points
+- 4's: 8 points
+- 5's: 5 points
+- 6's: 12 points
+- Three of a Kind: 0 points
+- Yahtzee: 0 points
+- Full House: 0 points
+- Four of a Kind: 0 points
+
+The total score so far is 116 points. Please let me know how you would like to categorize your next roll.
+</div>
+<br>
+</div>
+                    <br>
+                    <div class="impact-font">
+                     gpt-3.5-turbo played a full game of single player tracking score with only a couple 
+                     mistakes that it was able to fix if prompted.
+                     <br>
+                     Dice rolling or card shuffling for future game sessions needs to be figured out.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="side_block">
+            <p class="header_recent_document">Session Logs</p>
+            <div class="coming-soon card" style="text-align:left;">
+                <ul>
+                    <li>
+                        1 player yahtzee: <a href="1 player yahtzee.json" target="_blank">template</a>
+                        <a href="1 player yahtzee.txt" target="_blank">text</a>
+                        <a href="/?templatepath=/content/yahtzee/1 player yahtzee.json&title=1 Player Yahztee"
+                            target="_blank">clone</a>
+                    </li>
+                    <li>
+                        2 player yahtzee: <a href="2 player yahtzee.json" target="_blank">template</a>
+                        <a href="2 player yahtzee.txt" target="_blank">text</a>
+                        <a href="/?templatepath=/content/yahtzee/2 player yahtzee.json&title=2 Player Yahtzee"
+                            target="_blank">clone</a>
+                    </li>
+                </ul>
             </div>
         </div>
         <div class="flex-lg-row flex_change_responsive">

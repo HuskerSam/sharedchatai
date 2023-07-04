@@ -1,0 +1,314 @@
+[
+  {
+    "prompt": "",
+    "completion": "",
+    "selected": "",
+    "system": "You're a yahtzee score keeper and roll dice"
+  },
+  {
+    "prompt": "I'll keep 6",
+    "completion": "Understood! Here's your new roll: 5, 2, 3, 4. Let me know how you'd like to categorize these rolls and I'll update your scorecard.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "roll plz, and you roll each dice separately to get a more random result?",
+    "completion": "Certainly! I'll roll each dice separately to give you a more randomized result. Here's your new roll: 3, 2, 6, 4, 5. Please let me know how you would like to categorize these rolls and I'll update your scorecard.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "I'll keep the 6",
+    "completion": "Understood! Here's your new roll: 2, 4, 3, 1. Let me know how you'd like to categorize these rolls and I'll update your scorecard.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "I want to play a single player game of yahztee - can you keep score?",
+    "completion": "Of course! I'd be happy to keep score for your single player game of Yahtzee. Could you please provide me with the rolls and the category in which you would like to score for each roll?",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "i'll score it as 3's, can i see the udpated card",
+    "completion": "Certainly! By scoring it as 3's, you will earn 3 points (1 count of 3). Here's your updated scorecard:\n\n- Large Straight: 40 points\n- Chance: 17 points\n- Small Straight: 30 points\n- 1's: 2 points\n- 2's: 2 points\n- 3's: 3 points\n\nPlease let me know how you would like to categorize your next roll.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "i'll keep the 2 4's, please reroll the other 3",
+    "completion": "Certainly! Here's your new roll: 6, 3, 2. Please let me know how you would like to categorize these rolls and I'll update your scorecard.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "roll the dice?",
+    "completion": "Certainly! Here's your new roll: 6, 1, 5, 4, 3. Let me know how you'd like to categorize these rolls and I'll update your scorecard.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "i'll keep the 3 only - please reroll the other 4 dice",
+    "completion": "Sure! Here's your new roll: 6, 5, 2, 1. Please let me know how you would like to categorize these rolls and I'll update your scorecard.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "I'll keep this as my 3 of a kind",
+    "completion": "Got it! By keeping the 2, 4, and 4 for the Three of a Kind category, you will earn 10 points (2 + 4 + 4). Here's your updated scorecard:\n\n- Large Straight: 40 points\n- Chance: 17 points\n- Small Straight: 30 points\n- 1's: 2 points\n- 2's: 2 points\n- 3's: 10 points\n- 4's: 8 points\n- 5's: 5 points\n- Yahtzee: 0 points\n- Full House: 0 points\n- Four of a Kind: 0 points\n\nPlease let me know how you would like to categorize your next roll.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "I'll keep this for my 1's category",
+    "completion": "Great! Scoring it in the 1's category means you get 2 points (2 × 1). Here's your updated scorecard:\n\n- Large Straight: 40 points\n- Chance: 17 points\n- Small Straight: 30 points\n- 1's: 2 points\n\nPlease let me know how you would like to categorize your next roll.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "roll plz",
+    "completion": "Sure! Here's your new roll: 1, 2, 6, 5, 3. Please let me know how you would like to categorize these rolls and I'll update your scorecard.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "did i qualify for any bonus points?",
+    "completion": "Apologies for the confusion earlier. In Yahtzee, bonus points are awarded if the total score in the upper section (1's to 6's) is 63 or more. Let's calculate your upper section score first:\n\n- 1's: 2 points\n- 2's: 2 points\n- 3's: 0 points\n- 4's: 8 points\n- 5's: 5 points\n- 6's: 12 points\n\nThe total score in the upper section is 29 points, which is less than 63. Therefore, you have not qualified for any bonus points at this time. \n\nApologies for the confusion earlier. Please let me know how you would like to categorize your next roll.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "roll for a new turn plz",
+    "completion": "Certainly! Here's your new roll: 1, 2, 5, 4, 3. Please let me know how you would like to categorize these rolls and I'll update your scorecard.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "roll",
+    "completion": "Certainly! Here's your new roll: 6, 5, 2, 3, 4. Please let me know how you would like to categorize these rolls and I'll update your scorecard.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "I'll keep the 2 6's as my 6's category",
+    "completion": "Got it! By keeping the 6, 6 and scoring it in the 6's category, you will earn 12 points (2 × 6). Here's your updated scorecard:\n\n- Large Straight: 40 points\n- Chance: 17 points\n- Small Straight: 30 points\n- 1's: 2 points\n- 2's: 2 points\n- 3's: 3 points\n- 4's: 8 points\n- 6's: 12 points\n\nPlease let me know how you would like to categorize your next roll.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "I'll score this as my 4's, can i see the card?",
+    "completion": "Certainly! By scoring it as 4's, you will earn 8 points (2 counts of 4). Here's your updated scorecard:\n\n- Large Straight: 40 points\n- Chance: 17 points\n- Small Straight: 30 points\n- 1's: 2 points\n- 2's: 2 points\n- 3's: 3 points\n- 4's: 8 points\n\nPlease let me know how you would like to categorize your next roll.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "roll plz",
+    "completion": "Sure! Here's your new roll: 6, 1, 3, 2, 5. Please let me know how you would like to categorize these rolls and I'll update your scorecard.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "I'm ready to roll - will you roll 5 dice for me?",
+    "completion": "Sure! Here are your 5 dice rolls: 4, 2, 5, 6, 3. How would you like to categorize these rolls?",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "I'll keep the 3,4,5,6 and roll 1 dice",
+    "completion": "Got it! Here's your additional roll: 2.\n\nBased on your kept dice (3, 4, 5, 6) and the extra roll (2), it appears you have a Small Straight. However, please note that the Small Straight category requires the dice to be 1-2-3-4 or 2-3-4-5 or 3-4-5-6. Since you have a 2-3-4-5-6, it actually qualifies for a Large Straight, which you have already scored. Please let me know which category you would like to use for this roll.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "I'll keep all 5 dice and score it a large straight",
+    "completion": "Great! Scoring it as a large straight means you get 40 points. Here's your updated scorecard:\n\n- Large Straight: 40 points\n\nWhat category would you like to score for your next roll?",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "score this as a zero for my full house",
+    "completion": "Understood! I will mark a zero for your Full House category with this roll. Here's your updated scorecard:\n\n- Large Straight: 40 points\n- Chance: 17 points\n- Small Straight: 30 points\n- 1's: 2 points\n- 2's: 2 points\n- 3's: 3 points\n- 4's: 8 points\n- 5's: 5 points\n- Yahtzee: 0 points\n- Full House: 0 points\n\nPlease let me know how you would like to categorize your next roll.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "I'll keep 6 and roll the rest",
+    "completion": "Alright! Here's your new roll: 1, 2, 5, 4. Let me know how you'd like to categorize these rolls and I'll update your scorecard.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "i'll keep the 4",
+    "completion": "Got it! Here's your new roll: 3, 1, 2, 6. Since you're keeping the 4 and have already scored in the 4's category, please select another category in which to score.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "i'll keep the 5, please roll the rest",
+    "completion": "Sure! Here's your new roll: 4, 6, 1, 3. Let me know how you'd like to categorize these rolls and I'll update your scorecard.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "I'll keep the 2 4's, please reroll the others",
+    "completion": "Got it! Here's your new roll: 3, 5, 1. Let me know how you'd like to categorize these rolls and I'll update your scorecard.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "i'll keep the 6 please roll",
+    "completion": "Alright! Here's your new roll: 3, 5, 2, 4. Please let me know how you would like to categorize these rolls and I'll update your scorecard.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "I'll keep 6, 5, 2, 3, 4 for my 2's category - can I see my updated score",
+    "completion": "Certainly! By keeping the 6, 5, 2, 3, and 4 for the 2's category, you will earn 2 points (2 × 1 count of 2). Here's your updated scorecard:\n\n- Large Straight: 40 points\n- Chance: 17 points\n- Small Straight: 30 points\n- 1's: 2 points\n- 2's: 2 points\n\nPlease let me know how you would like to categorize your next roll.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "can't you put a zero in?",
+    "completion": "Apologies for the confusion earlier. Of course, I can assist you by marking a zero in the Yahtzee category. Here's your updated scorecard:\n\n- Large Straight: 40 points\n- Chance: 17 points\n- Small Straight: 30 points\n- 1's: 2 points\n- 2's: 2 points\n- 3's: 3 points\n- 4's: 8 points\n- 6's: 12 points\n- 5's: 5 points\n- Yahtzee: 0 points\n\nPlease let me know how you would like to categorize your next roll.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "roll plz",
+    "completion": "Sure! Here's your new roll: 2, 1, 4, 5, 4. Please let me know how you would like to categorize these rolls and I'll update your scorecard.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "i'll score 0 for this for my 4 of a kind",
+    "completion": "Understood! I will mark a zero for your Four of a Kind category with this roll. Here's your updated scorecard:\n\n- Large Straight: 40 points\n- Chance: 17 points\n- Small Straight: 30 points\n- 1's: 2 points\n- 2's: 2 points\n- 3's: 3 points\n- 4's: 8 points\n- 5's: 5 points\n- Yahtzee: 0 points\n- Full House: 0 points\n- Four of a Kind: 0 points\n\nPlease let me know how you would like to categorize your next roll.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "roll plz",
+    "completion": "Certainly! Here's your new roll: 2, 4, 3, 6, 1. Please let me know how you would like to categorize these rolls and I'll update your scorecard.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "I'll keep the 6",
+    "completion": "Alright! Here's your new roll: 5, 2, 3, 4. Since you are keeping the 6 and already used the large straight category, please select another category in which to score.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "can you sum that up?  is the game over?",
+    "completion": "Apologies again for the confusion. Here's the correct total score for each category:\n\n- Large Straight: 40 points\n- Chance: 17 points\n- Small Straight: 30 points\n- 1's: 2 points\n- 2's: 2 points\n- 3's: 0 points\n- 4's: 8 points\n- 5's: 5 points\n- 6's: 12 points\n- Three of a Kind: 0 points\n- Yahtzee: 0 points\n- Full House: 0 points\n- Four of a Kind: 0 points\n\nThe total score so far is 116 points. The game is not over yet, as there are still some categories with zero scores. Please let me know how you would like to categorize your next roll.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "why is my three of a kind score missing?",
+    "completion": "Apologies for the oversight. Your Three of a Kind score is indeed missing from the previous update. Here's the corrected scorecard:\n\n- Large Straight: 40 points\n- Chance: 17 points\n- Small Straight: 30 points\n- 1's: 2 points\n- 2's: 2 points\n- 3's: 0 points\n- 4's: 8 points\n- 5's: 5 points\n- 6's: 12 points\n- Three of a Kind: 0 points\n- Yahtzee: 0 points\n- Full House: 0 points\n- Four of a Kind: 0 points\n\nThe total score so far is 116 points. Please let me know how you would like to categorize your next roll.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "roll",
+    "completion": "Certainly! Here's your new roll: 4, 2, 6, 3, 1. Please let me know how you would like to categorize these rolls and I'll update your scorecard.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "please roll",
+    "completion": "Certainly! Here's your new roll: 3, 1, 2, 4, 6. Please let me know how you would like to categorize these rolls and I'll update your scorecard.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "I'll score it as chance",
+    "completion": "Understood! Scoring it as chance means you simply sum up all the dice values. In this case, the sum is 17. Here's your updated scorecard:\n\n- Large Straight: 40 points\n- Chance: 17 points\n\nWhat category would you like to score for your next roll?",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "didn't i have a score for 6's?",
+    "completion": "Apologies for the oversight. You did have a score for 6's, which is 12 points. Here's your corrected updated scorecard:\n\n- Large Straight: 40 points\n- Chance: 17 points\n- Small Straight: 30 points\n- 1's: 2 points\n- 2's: 2 points\n- 3's: 10 points\n- 4's: 8 points\n- 5's: 5 points\n- 6's: 12 points\n- Yahtzee: 0 points\n- Full House: 0 points\n- Four of a Kind: 0 points\n\nPlease let me know how you would like to categorize your next roll.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "what categories do i have left?",
+    "completion": "Apologies for the confusion. Here are the categories that have not been scored yet:\n\n- 5's\n- Yahtzee\n- Full House\n- Three of a Kind\n- Four of a Kind\n- Small Straight\n- Large Straight\n\nPlease let me know how you would like to categorize your roll.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "I'll keep the 6 and roll again",
+    "completion": "Certainly! Here's your new roll: 1, 2, 1, 5. Please let me know how you would like to categorize these rolls and I'll update your scorecard.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "can i see my updated score?",
+    "completion": "Apologies for the confusion earlier. Here's your updated scorecard:\n\n- Large Straight: 40 points\n- Chance: 17 points\n- Small Straight: 30 points\n- 1's: 2 points\n- 2's: 2 points\n- 3's: 10 points\n- 4's: 8 points\n- 5's: 5 points\n- Yahtzee: 0 points\n- Full House: 0 points\n- Four of a Kind: 0 points\n\nPlease let me know how you would like to categorize your next roll.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "I'll keep the 5",
+    "completion": "Understood! Here's your new roll: 3, 2, 6, 4. Since you're keeping the 5 and have already scored in the 5's category, please select another category in which to score.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "roll plz",
+    "completion": "Certainly! Here's your new roll: 2, 1, 4, 6, 4. Please let me know how you would like to categorize these rolls and I'll update your scorecard.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "would you roll dice for me?",
+    "completion": "Certainly! Here are your 5 dice rolls for this turn: 1, 3, 2, 6, 4. Please let me know how you would like to categorize these rolls and I'll update your scorecard.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "I want to score 0 for three of a kind category",
+    "completion": "Understood! I will mark a zero for your Three of a Kind category with this roll. Here's your updated scorecard:\n\n- Large Straight: 40 points\n- Chance: 17 points\n- Small Straight: 30 points\n- 1's: 2 points\n- 2's: 2 points\n- 3's: 0 points\n- 4's: 8 points\n- 5's: 5 points\n- 6's: 12 points\n- Yahtzee: 0 points\n- Full House: 0 points\n- Four of a Kind: 0 points\n\nPlease let me know how you would like to categorize your next roll.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "can you sum up the score for me?",
+    "completion": "Certainly! Here's the total score for each category:\n\n- Large Straight: 40 points\n- Chance: 17 points\n- Small Straight: 30 points\n- 1's: 2 points\n- 2's: 2 points\n- 3's: 0 points\n- 4's: 8 points\n- 5's: 5 points\n- 6's: 12 points\n- Yahtzee: 0 points\n- Full House: 0 points\n- Four of a Kind: 0 points\n\nThe total score so far is 116 points. Please let me know how you would like to categorize your next roll.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "roll again",
+    "completion": "Sure! Here's your new roll: 2, 4, 6, 3. Please let me know how you would like to categorize these rolls and I'll update your scorecard.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "i'll score this as my yahtzee",
+    "completion": "Understood! Scoring it as a Yahtzee means you will earn 50 points. However, in order to score a Yahtzee, you must have all dice showing the same value. Since you only have one 5 and the other dice are different, it does not qualify as a Yahtzee. Please select another category to score in.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "i'll keep the small straight",
+    "completion": "Apologies for the confusion earlier. By keeping the 2, 3, 4, 5, and 6, and scoring it as a Small Straight, you will earn 30 points. Here's your updated scorecard:\n\n- Large Straight: 40 points\n- Chance: 17 points\n- Small Straight: 30 points\n\nPlease let me know how you would like to categorize your next roll.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "please keep thsi for the 5's",
+    "completion": "Understood! By keeping the 5 and scoring it in the 5's category, you will earn 5 points. Here's the updated scorecard:\n\n- Large Straight: 40 points\n- Chance: 17 points\n- Small Straight: 30 points\n- 1's: 2 points\n- 2's: 2 points\n- 3's: 3 points\n- 4's: 8 points\n- 6's: 12 points\n- 5's: 5 points\n\nPlease let me know how you would like to categorize your next roll.",
+    "selected": "y",
+    "system": ""
+  },
+  {
+    "prompt": "I'll keep the 6, please roll again",
+    "completion": "Alright! Here's your new roll: 3, 2, 5, 1. Let me know how you'd like to categorize these rolls and I'll update your scorecard.",
+    "selected": "y",
+    "system": ""
+  }
+]
