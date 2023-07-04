@@ -404,6 +404,7 @@ html {
   display: inline-block;
 }
 
-.menu_toggle_button {
+.navbar-light .navbar-toggler.menu_toggle_button {
   background: none;
+  top: 9px;
 }
