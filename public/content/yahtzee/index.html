@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Prompt+ AI Playing Hearts</title>
+    <title>Prompt+ AI Yahtzee Session</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link rel="shortcut icon" href="/images/logo64.png" />
@@ -17,7 +17,7 @@
     <link rel='apple-touch-icon' href='https://promptplusai.com/images/logo64.png'>
 
     <meta property="og:url" content="https://promptplusai.com/content/heartscardgame" />
-    <meta property="og:title" content="PromptPlus AI Content" />
+    <meta property="og:title" content="PromptPlus AI Yahtzee Session" />
     <meta property="og:type" content="website" />
 
     <meta property="og:image" content="https://promptplusai.com/images/homepageogmeta.png" />
@@ -142,21 +142,18 @@
             <div class="side_block">
                 <p class="header_recent_document">Overview</p>
                 <div class="coming-soon card" style="text-align:left;">
-                    <p><span class="impact-font">Prompting gpt-3.5-turbo and chat-bison-001 to play a game of Hearts</span></p>    
+                    <p><span class="impact-font">Can Chatgpt and Google Bard play a game of Hearts?</span><br>
+                        (chat-bison-001 vs gpt-3.5-turbo)</p>    
                     <ul>
-                        <li>Both models know the game and can play</li>
-                        <li>They interact well with using emojis for suits</li>
-                        <li>They played the first few rounds well</li>
-                        <li>They failed to shuffle and deal cards</li>
-                        <li>They failed to apply rules firmly, such as following suit</li>
-                        <li>This turned out to be too tedious to do a best of 3 or 5 series without resorting to coding.
-                        </li>
+                        <li>Both models say they know the game and can play</li>
+
                     </ul>
+                    <br>
                     While the models made decent plays in early rounds they started to fail 
                     simple rules more easily as the rounds went on, making it difficult to complete 
                     a full game without making forced moves for the AI players due to them breaking 
-                    rules.  Hearts is probably a tough game for an AI because it's one of the few 
-                    games where you don't want to take certain tricks.
+                    rules.  Hearts is probably a tougher game for the AI to play and we're going 
+                    to try Spades next.
                 </div>
             </div>
         </div>
@@ -169,7 +166,6 @@
                         <li>Outputs using a concise format</li>
                         <li>Target 4 hands of 13 cards each</li>
                         <li>Watch closely for repeated cards</li>
-                        <li>gpt-3.5-turbo is model</li>
                     </ul>
                     <h3>Prompting log</h3>
                     <div class="prompt_log_display">
@@ -202,20 +198,11 @@ Enjoy your game!</div>
                         <br>
                         The hands were sorted individually for each player in a fresh session.
                     </div>
+                    <br>
+                    <a href="4 hearts hands dealt.json" target="_blank">4 hearts hands dealt.json (template)</a>
+
+                    <a href="4 hearts hands dealt.txt" target="_blank">4 hearts hands dealt.txt (session result)</a>
                 </div>
-            </div>
-        </div>
-        <div class="side_block">
-            <p class="header_recent_document">Session Logs</p>
-            <div class="coming-soon card" style="text-align:left;">
-                <ul>
-                    <li>
-                        4 player hearts hands: <a href="4 hearts hands dealt.json" target="_blank">template</a>
-                        <a href="4 hearts hands dealt.txt" target="_blank">text</a>
-                        <a href="/?templatepath=/content/heartscardgame/4 hearts hands dealt.json&title=4 player hearts hands"
-                            target="_blank">create</a>
-                    </li>
-                </ul>
             </div>
         </div>
         <div class="flex-lg-row flex_change_responsive">
@@ -300,42 +287,29 @@ rid of it.
                     </div>
                     <br>
                     <div class="impact-font">
-                        Both AI models (gpt shown here) struggled with the rules of hearts and
+                        Both AI models (gpt shown here) struggled with the rules of hearts and 
                         identifying what has been already played.
                         <br>
-                        We stopped after several round because it appeared bison wasn't
-                        following the suit with the lead card - instead trying to bluff
+                        We stopped after several round because it appeared bison wasn't 
+                        following the suit with the lead card - instead trying to bluff 
                         and do other things.
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="side_block">
-            <p class="header_recent_document">Session Logs</p>
-            <div class="coming-soon card" style="text-align:left;">
-                <ul>
-                    <li>
-                        Player 1: <a href="player 1 gpt.json" target="_blank">template</a>
+                    </div>    
+                    <br>    
+                    <div>
+                        <a href="player 1 gpt.json" target="_blank">Player 1 template</a> 
                         <a href="player 1 gpt.txt" target="_blank">text</a>
-                        <a href="/?templatepath=/content/heartscardgame/player 1 gpt.json&title=Player 1 Hearts gpt-3.5-turbo"
-                            target="_blank">create</a>
-                    </li>
-                    <li>
-                        Player 2: <a href="player 2 bison.json" target="_blank">template</a>
-                        <a href="player 2 bison.txt" target="_blank">text</a>
-                        <a href="/?templatepath=/content/heartscardgame/player 2 gpt.json&title=Player 2 Hearts chat-bison"
-                            target="_blank">create</a>
-                    </li>
-                    <li>
-                        Player 3: <a href="player 3 gpt.json" target="_blank">template</a>
-                        <a href="player 3 gpt.txt" target="_blank">text</a>
-                        <a href="/?templatepath=/content/heartscardgame/player 3 gpt.json&title=Player 3 Hearts gpt-3.5-turbo"
-                            target="_blank">create</a>
-                    </li>
-                    <li>
-                        Player 4's log was lost in an anonymous account logout accident before being captured.
-                    </li>
-                </ul>
+                        <a href="href="/?templatepath=/content/heartscardgame/player 1 gpt.json&title=Player 1 Hearts" target="_blank">create</a>
+                        <br>
+                        <a href="player 2 bison.json" target="_blank">Player 2 template</a> 
+                        <a href="player 2 bison.txt" target="_blank">text</a>                     
+                        <br>
+                        <a href="player 3 gpt.json" target="_blank">Player 3 template</a> 
+                        <a href="player 3 gpt.txt" target="_blank">text</a>                     
+                        <br>
+                        Player 4's log was lost in an anonymous account before being captured.
+                    </div>  
+                    <br>
+                </div>
             </div>
         </div>
         <div class="flex-lg-row flex_change_responsive">
