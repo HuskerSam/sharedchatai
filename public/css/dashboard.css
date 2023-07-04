@@ -403,3 +403,7 @@ html {
 .open_button_wrapper {
   display: inline-block;
 }
+
+.menu_toggle_button {
+  background: none;
+}
