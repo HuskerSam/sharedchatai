@@ -334,3 +334,7 @@ ul.recent_documents_list li a {
   color: white;
   white-space: pre-wrap;
 }
+
+.content_page_container {
+  font-size: 1.25em;
+}
