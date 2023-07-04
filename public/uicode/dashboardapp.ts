@@ -57,7 +57,7 @@ export class DashboardApp extends BaseApp {
     this.menu_toggle_button.addEventListener("click", () => {
       setTimeout(() => {
         if (this.menu_toggle_button.getAttribute("aria-expanded") === "false") {
-          setTimeout(() => document.body.classList.remove("navbar_shown"), 400);
+          document.body.classList.remove("navbar_shown");
         } else {
           document.body.classList.add("navbar_shown");
         }
