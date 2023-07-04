@@ -21,7 +21,7 @@ export class DashboardApp extends BaseApp {
   profile_menu_anchor: any = document.querySelector(".profile_menu_anchor");
   documentOptions = new DocOptionsHelper(this, "dashboard_options_view");
   help_show_modal: any = document.querySelector(".help_show_modal");
-  clear_label_filter: any = document.querySelector(".clear_label_filter");
+  menu_toggle_button: any = document.querySelector(".menu_toggle_button");
 
   /** */
   constructor() {
@@ -54,9 +54,14 @@ export class DashboardApp extends BaseApp {
       event.preventDefault();
       this.profileHelper.show();
     });
-    this.clear_label_filter.addEventListener("click", () => {
-      this.document_label_filter.selectedIndex = 0;
-      this.document_label_filter.dispatchEvent(new Event("input"));
+    this.menu_toggle_button.addEventListener("click", () => {
+      setTimeout(() => {
+        if (this.menu_toggle_button.getAttribute("aria-expanded") === "false") {
+          setTimeout(() => document.body.classList.remove("navbar_shown"), 400);
+        } else {
+          document.body.classList.add("navbar_shown");
+        }
+      }, 1);
     });
   }
   /**

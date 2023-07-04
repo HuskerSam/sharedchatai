@@ -96,6 +96,7 @@ html {
   max-width: 1200px;
   margin: auto;
   width: 100%;
+  margin-top: 72px;
 }
 
 @media (min-width: 440px) {
@@ -107,16 +108,18 @@ html {
 
 .document_label_filter.form-select {
   flex: 1;
-  margin-left: 48px;
+}
+
+.show_clear_label_filter .document_label_filter.form-select {
+  color: rgb(50, 255, 50);
 }
 
 .games_view_header_wrapper {
   flex-basis: auto;
-  max-width: calc(100% - 200px);
+  max-width: calc(100% - 154px);
   padding-left: 0;
   padding-right: 0;
   text-align: right;
-  position: relative;
 }
 
 .menu_profile_name_spacer {
@@ -357,6 +360,13 @@ html {
   width: 100%;
 }
 
+.navbar_wrapper {
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+}
+
 @media (min-width: 992px) {
   .navbar_wrapper .navbar {
     width: 90%;
@@ -391,16 +401,5 @@ html {
 }
 
 .open_button_wrapper {
-  display: inline-block;
-}
-
-.clear_label_filter {
-  display: none;
-  position: absolute;
-  top: 6px;
-  left: 0px;
-}
-
-.show_clear_label_filter .clear_label_filter {
   display: inline-block;
 }
