@@ -138,7 +138,7 @@ export class DashboardApp extends BaseApp {
     const oldKeys = Object.keys(this.documentsLookup);
     this.documentsLookup = {};
     const localLookup: any = {};
-    const labelFilter = this.document_label_filter.value;
+    let labelFilter = this.document_label_filter.value;
     snapshot.forEach((doc: any) => {
       let labels = doc.data().label;
       if (!labels) labels = "";
@@ -219,6 +219,7 @@ export class DashboardApp extends BaseApp {
     this.updateUserNamesImages();
     this.updateUserPresence();
 
+    labelFilter = this.document_label_filter.value;
     if (labelFilter === "All Sessions") document.body.classList.remove("show_clear_label_filter");
     else document.body.classList.add("show_clear_label_filter");
   }
@@ -382,8 +383,7 @@ export class DashboardApp extends BaseApp {
       else this.document_label_filter.value = startingValue;
       if (this.document_label_filter.selectedIndex === -1) {
         this.document_label_filter.selectedIndex = 0;
-        document.body.classList.remove("show_clear_label_filter");
-        if (!firstLoad) this.updateSessionFeed(null);
+        this.document_label_filter.dispatchEvent(new Event("input"));
       }
     }
   }
