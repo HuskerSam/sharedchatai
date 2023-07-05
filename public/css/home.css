@@ -171,6 +171,14 @@ ul.recent_documents_list li a {
   flex: 2;
 }
 
+.impact_font_secondary {
+ color: rgb(50, 255, 50);
+}
+
+.impact_font_change {
+  color: rgb(255, 127, 50);
+ }
+
 @media (min-width: 992px) {
   .side_block {
     margin: 0.5rem;
