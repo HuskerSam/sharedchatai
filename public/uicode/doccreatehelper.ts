@@ -309,7 +309,6 @@ export default class DocCreateHelper {
     if (this.app.profile.insertTodayAsLabel) this.addTodayAsLabel();
     if (label) this.addTodayAsLabel(label);
 
-    
     if (this.app.profile.createDialogTabIndex === 1 || forceAdvanced) {
       this.advanced_create_options.click();
     } else if (this.app.profile.createDialogTabIndex === 0) {

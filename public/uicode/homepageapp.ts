@@ -22,7 +22,7 @@ export class HomePageApp extends BaseApp {
         super();
         this.showLoginModal = false;
         this.profileHelper.noAuthPage = true;
-        
+
         if (this.show_profile_modal) {
             this.show_profile_modal.addEventListener("click", (event: any) => {
                 event.stopPropagation();

@@ -393,7 +393,8 @@
 }
 
 .app_panel .form-check-input.modal_open_new_document,
-.app_panel .form-check-input.docfield_archived_checkbox {
+.app_panel .form-check-input.docfield_archived_checkbox,
+.app_panel .form-check-input.docfield_include_user_names_checkbox {
   width: 24px;
   height: 24px;
   border-color: rgb(127, 127, 127);

@@ -47,7 +47,7 @@ export class SessionApp extends BaseApp {
   lastMembersHTMLCache = "";
   excludeErrorMargin = 0.97;
   systemMessageListElement: any = null;
-  deleteTicketId: string = "";
+  deleteTicketId = "";
 
   threshold_dialog_context_limit: any = document.querySelector(".threshold_dialog_context_limit");
   chat_history_tokens: any = document.querySelector(".chat_history_tokens");

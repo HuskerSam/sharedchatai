@@ -6,11 +6,11 @@ import BaseClass from "./baseclass";
 import fetch from "node-fetch";
 import {
     DiscussServiceClient,
- } from "@google-ai/generativelanguage";
+} from "@google-ai/generativelanguage";
 import {
     GoogleAuth,
- } from "google-auth-library";
- import {
+} from "google-auth-library";
+import {
     encode,
 } from "gpt-3-encoder";
 
@@ -441,18 +441,18 @@ export default class SessionAPI {
         assistResults.forEach((assist: any) => {
             assistLookup[assist.id] = assist.data();
         });
-        const ownerUid = sessionDocumentData.createUser;
+        const includeUsers = sessionDocumentData.includeUserNames === true;
         dataResults.forEach((includeTicket: any) => {
             if (ticket.id !== includeTicket.id) {
                 if (assistLookup[includeTicket.id] && assistLookup[includeTicket.id].success &&
                     !assistLookup[includeTicket.id].assist.error) {
-                    let name = includeTicket.data().uid;
-                    if (name === ownerUid) name = "1";
-                    messages.push({
+                    const message: any = {
                         role: "user",
                         content: includeTicket.data().message,
-                        name,
-                    });
+                    }
+
+                    if (includeUsers) message.name = includeTicket.data().uid;
+                    messages.push(message);
 
                     messages.push({
                         role: "assistant",
@@ -461,13 +461,14 @@ export default class SessionAPI {
                 }
             }
         });
-        let name = ticket.uid;
-        if (name === ownerUid) name = "1";
-        messages.push({
+
+        const message: any = {
             role: "user",
             content: ticket.message,
-            name,
-        });
+        };
+        if (includeUsers) message.name = ticket.uid;
+
+        messages.push(message);
         /* eslint-disable camelcase */
         const defaults = BaseClass.defaultChatDocumentOptions();
         const model = sessionDocumentData.model;

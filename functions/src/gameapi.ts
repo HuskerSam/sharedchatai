@@ -285,6 +285,7 @@ export default class GameAPI {
       "frequency_penalty",
       "title",
       "systemMessage",
+      "includeUserNames",
     ];
     const updatePacket: any = {};
     fieldsFilter.forEach((field: string) => {
