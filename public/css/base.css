@@ -19,6 +19,11 @@ body {
   color: rgb(13, 202, 240);
 }
 
+.impact-green {
+  font-weight: normal;
+  color: rgb(100, 255, 100);
+}
+
 a {
   color: white;
 }
