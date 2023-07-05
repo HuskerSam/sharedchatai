@@ -382,6 +382,7 @@ export class DashboardApp extends BaseApp {
       else this.document_label_filter.value = startingValue;
       if (this.document_label_filter.selectedIndex === -1) {
         this.document_label_filter.selectedIndex = 0;
+        document.body.classList.remove("show_clear_label_filter");
         if (!firstLoad) this.updateSessionFeed(null);
       }
     }
