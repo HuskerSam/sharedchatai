@@ -449,7 +449,7 @@ export default class SessionAPI {
                     const message: any = {
                         role: "user",
                         content: includeTicket.data().message,
-                    }
+                    };
 
                     if (includeUsers) message.name = includeTicket.data().uid;
                     messages.push(message);
