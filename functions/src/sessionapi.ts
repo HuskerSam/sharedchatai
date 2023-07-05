@@ -441,14 +441,17 @@ export default class SessionAPI {
         assistResults.forEach((assist: any) => {
             assistLookup[assist.id] = assist.data();
         });
+        const ownerUid = sessionDocumentData.createUser;
         dataResults.forEach((includeTicket: any) => {
             if (ticket.id !== includeTicket.id) {
                 if (assistLookup[includeTicket.id] && assistLookup[includeTicket.id].success &&
                     !assistLookup[includeTicket.id].assist.error) {
+                    let name = includeTicket.data().uid;
+                    if (name === ownerUid) name = "1";
                     messages.push({
                         role: "user",
                         content: includeTicket.data().message,
-                        name: includeTicket.data().uid,
+                        name,
                     });
 
                     messages.push({
@@ -458,10 +461,12 @@ export default class SessionAPI {
                 }
             }
         });
+        let name = ticket.uid;
+        if (name === ownerUid) name = "1";
         messages.push({
             role: "user",
             content: ticket.message,
-            name: ticket.uid,
+            name,
         });
         /* eslint-disable camelcase */
         const defaults = BaseClass.defaultChatDocumentOptions();
