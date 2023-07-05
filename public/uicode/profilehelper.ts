@@ -32,6 +32,7 @@ export default class ProfileHelper {
     total_row: any;
     credits_row: any;
     monthly_tokens_usage: any;
+    noAuthPage = false;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -520,7 +521,8 @@ export default class ProfileHelper {
             this.app.fireUser = null;
             this.app.uid = null;
 
-            window.location = "/";
+            if (this.noAuthPage) window.location.reload();
+            else window.location = "/";
         }
     }
     /** fetch and paint user token usage */

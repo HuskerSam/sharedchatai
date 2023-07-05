@@ -617,3 +617,7 @@ label.btn {
   position: relative;
   top: 7px;
 }
+
+.create_import_file_description {
+  color: rgb(100, 255, 100);
+}

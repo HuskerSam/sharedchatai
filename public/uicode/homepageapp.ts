@@ -21,6 +21,7 @@ export class HomePageApp extends BaseApp {
     constructor() {
         super();
         this.showLoginModal = false;
+        this.profileHelper.noAuthPage = true;
         
         if (this.show_profile_modal) {
             this.show_profile_modal.addEventListener("click", (event: any) => {
@@ -95,9 +96,9 @@ export class HomePageApp extends BaseApp {
         const templateRows = await this.documentCreate.updateParsedFileStatus();
         if (!templateRows || templateRows.length === 0) {
             this.documentCreate.create_modal_template_file.value = "";
-            alert("not importable rows round");
+            alert("no importable rows round");
         } else {
-            this.documentCreate.show();
+            this.documentCreate.show("", true);
         }
     }
 

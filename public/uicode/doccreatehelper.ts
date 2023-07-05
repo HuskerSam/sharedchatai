@@ -182,7 +182,7 @@ export default class DocCreateHelper {
                             </div>
                         </div>
                         <hr>
-                        <div style="display:inline-block; line-height: 3em;">
+                        <div class="create_import_file_description">
                           <button class="btn btn-secondary modal_create_template_tickets_button">
                               <i class="material-icons">upload_file</i>
                               Import...
@@ -285,8 +285,9 @@ export default class DocCreateHelper {
   }
   /** populate modal fields and show
    * @param { string } label optional label to add
+   * @param { boolean } forceAdvanced true to show advanced tab (i.e. template preloaded)
   */
-  show(label = "") {
+  show(label = "", forceAdvanced = false) {
     this.create_modal_note_field.value = "";
 
     const queryLabelSelect2 = window.$(".create_document_label_options");
@@ -308,11 +309,13 @@ export default class DocCreateHelper {
     if (this.app.profile.insertTodayAsLabel) this.addTodayAsLabel();
     if (label) this.addTodayAsLabel(label);
 
-    if (this.app.profile.createDialogTabIndex === 0) {
-      this.basic_create_options.click();
-    } else if (this.app.profile.createDialogTabIndex === 1) {
+    
+    if (this.app.profile.createDialogTabIndex === 1 || forceAdvanced) {
       this.advanced_create_options.click();
+    } else if (this.app.profile.createDialogTabIndex === 0) {
+      this.basic_create_options.click();
     }
+
     const modal = new window.bootstrap.Modal("#createDocumentModal", {});
     modal.show();
   }
