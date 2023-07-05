@@ -434,7 +434,7 @@ export default class DocOptionsHelper {
                             <div class="owner_note_display_div"></div>
                             <br>
                             <hr>
-                            <label class="form-label">Usage Cap</label>
+                            <label class="form-label">Usage Cap (credits)</label>
                             <br>
                             <div class="token_usage_document_limit_header">
                                 <span class="shared_usage_limit_div"></span>
