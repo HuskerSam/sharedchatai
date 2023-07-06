@@ -448,8 +448,8 @@ export class SessionApp extends BaseApp {
                         display: false,
                       });
                       delimiters.push({
-                        left: '\\(',
-                        right: '\\)',
+                        left: "\\(",
+                        right: "\\)",
                         display: false,
                       });
                     }
