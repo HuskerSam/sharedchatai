@@ -1195,3 +1195,7 @@ li.mb-1 button.btn.btn-toggle:before {
 .model_type_bard .top_k_slider_label {
   display: inline-block;
 }
+
+.katex-display {
+  color: white;
+}
