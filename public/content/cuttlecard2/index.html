@@ -141,9 +141,9 @@
         <div class="flex-lg-row flex_change_responsive">
             <div style="flex:1"></div>
             <div>
-                <h1 class="header_recent_document signed_out_options_block"
-                    style="width:100%;text-align: center;color: rgb(50, 255, 50)">
-                    Cuttle Part 2 - Using GPT-3.5 Turbo for game tips in Cuttle
+                <h1 class="header_recent_document"
+                    style="width:100%;text-align: center">
+                    Cuttle Part 1: Playing a New Card Game with GPT-3.5-Turbo
                 </h1>
             </div>
             <div style="flex:1"></div>
@@ -151,121 +151,177 @@
         <div class="flex-lg-row flex_change_responsive">
             <div class="side_block">
                 <p class="header_recent_document">Overview</p>
-                <div class="coming-soon card" style="text-align:left;">
-                    <p><span class="impact-font">Can GPT-3.5 Turbo be used as an announcer/tip bot for a new game?</span></p>    
-                    <ul>
-                        <li>In the previous study, GPT-3.5-Turbo demonstrated difficulties playing a new card game</li>
-                        <li>In this study, we will see if GPT-3.5-Turbo is able aid a new player as a helper bot</li>
-                        <li>GPT-3.5-Turbo was able to serve as a helper bot, given it was provided with the correct context and prompts</li>
-                        <li>GPT-3.5-Turbo demonstrated</li>
-                        
+                <div class="coming-soon" style="text-align:left;">
+                    <p><span class="impact_font_secondary">Can GPT-3.5 Turbo learn to play a new game?</span></p>    
+                    <ul class="impact_font_change">
+                        <li>GPT-3.5-Turbo can grasp the basics of a new game, albeit strong with challenges</li>
+                        <li>The model struggles with prioritizing given rules over its pre-existing training data</li>
+                        <li>The handling of tasks like card dealing is not really possible</li>
+                        <li>To enable gameplay, the game data must be presented in a format GPT-3.5 Turbo can understand</li>
+                        <li>Prior to initiating gameplay, verify if GPT-3.5 Turbo is familiar with the game to avoid confusion due to similar game names</li>
                     </ul>
-                   <p class="impact-font">In summary, while GPT-3.5 Turbo was not able to reliably play a new game - with the complexity of Cuttle - it seems capable of dictating rules to the player with enough specificity to be useful.</p> 
+                   <p>In summary, while GPT-3.5 Turbo can be utilized to play games, its reliability is questionable due to its inclination to favor its training data over supplied input.</p> 
                 </div>
             </div>
         </div>
         <div class="flex-lg-row flex_change_responsive">
             <div class="side_block">
-                <p class="header_recent_document">Teach AI a new card game</p>
-                <div class="coming-soon card" style="text-align:left;">
-                    <ul>
-                        <li>Give all rules to AI about game in system message</li>
-                        <li>Refine system message when AI fumbles on a rule</li>
+                <p class="header_recent_document">Teaching AI a new card game with system message</p>
+                <div class="coming-soon" style="text-align:left;">
+                    <ul class="impact_font_secondary">
+                        <li>As in part 1, we gave all rules to AI about game in system message</li>
                     </ul>
-                    <h3>System Message</h3>
-                    <p>To keep things simple, the same prompt from part 1 was used.</p>
+                    <h3 class="mt-4">System Message</h3>
+                    <hr>
                     <div class="prompt_log_display">
                     <div class="prompt">Learn to play the game of cuttle with me.
 
 1. Cuttle is a two-player game using a standard deck of 52 cards.
 2. The goal is to be the first player to have 21 or more points worth of point cards on your field. The first player to reach the goal wins immediately.
 3. Each player starts with a hand of cards, and the remaining cards form the draw pile. One player (traditionally the dealer) is dealt 6 cards and their opponent is dealt 5. The player with 5 cards goes first. 
-4. On your turn, you must either draw a card or play a card from your hand. You may not draw past the 8-card hand limit. If there are no cards left in the deck, you may pass. Three consecutive passes end the game in a stalemate
-5. Playing a point card: point cards are number cards, it is worth rank in points and lasts until scrapped.
-6. Scuttling is the act of scraping an opponent's point card with a bigger one from your hand. You can only scuttle point cards with higher point cards (1-10). Ties are broken by the suit: ♣️ (weakest) < ♦️ < ♥️ < ♠️ (strongest). Both are discarded into the scrap pile after. ace is valued at 1. 10 is the highest point card. Face cards have no point value - therefore cannot scuttle.
-
 ...
 
 Can I play a two to counter a point card? What about a scuttle?
 Nope! Twos can only counter One-Offs. You can play a two to destroy a Royal or Glasses Eight, but this takes your turn, unlike countering.
 
-Do Queens protect against countering with a two?
-Yes! Queens protect against targeting, when a card applies a unique effect to one specific card. This means your other cards (not the Queen, herself) are protected against Twos (either effect), Nines, and Jacks
-
 ...
                     </div>
                 </div>
-                    <div class="impact-font">
-                   System messages were refined as the AI made mistakes. Even so, the AI still struggled with the rules and could not comprehend certain parts of the rule set. 
-                        <br>Unsure if this is due to the AI or the rule set being too complex for the AI to understand, although chances are it's the AI as the rule set was constantly adjusted
-                    </div>
-                    <br>
+                <p class="impact_font_change mb-3 mt-1">Unlike in part 1 where we refined the system message, in this session we kept the system message consistent throughout. While there may be room for improvement, (decreasing the length, changing keywords, etc),
+                    given that the AI was able to complete a game (with our help in selecting for the best response), we decided to keep the system message as is.</p>
+                </p>
                 </div>
             </div>
         </div>
         <div class="flex-lg-row flex_change_responsive">
             <div class="side_block">
-                <p class="header_recent_document">Playing through the Game</p>
-                <div class="coming-soon card" style="text-align:left;">
-                    <ul>
-                        <li>Getting the AI to make a legal moves</li>
-                        <li>Give it a game situation and have it decide the next move</li>
-                        <li>Dealing/new card acquisition was handled manually</li>
+                <p class="header_recent_document">Crafting the Right Prompt</p>
+                <div class="coming-soon" style="text-align:left;">
+                    <ul class="impact_font_secondary">
+                        <li>Give it resulting game moves and ask it for narration/strategy input</li>
+                        <li>Adjustments to prompt keyword to change tone/content type</li>
+                        <li>Ask for Suggestions for next move</li>
                     </ul>
-                    <h3>Prompting log</h3>
+                    <h3 class="mt-4" >Prompt Log:</h3>
+                    <hr>
                     <div class="prompt_log_display">
-                    <div class="prompt">We are playing a game of cuttle. We both start with 6 cards. Your job is only to respond with what action you want. If your action involves getting a random card, I will tell you what card you get. When you play a card, let me know if it is for points, to scuttle, or as an action card. Explain your thinking as you play.
+                    <div class="prompt">You are an expert game announcer covering a game of Cuttle online. Please provide insight as to why moves to taken by each party. Walk through the thinking process of each player. We only get the cards of 1 player. 
 
-These are your cards:
-7♥️ 10♦️ K♥️ J♦️ K♣️ Q♠️
-
-On my turn, I played: 6♣️ for points
-
-It is your turn.</div>
-                        <br>
-                        <div class="assist">I will draw a card from the draw pile.</div>
-                    </div>
-                    <p class="impact-font">After some tinkering to the system message and prompt, chat was able to play a valid first move.
-                        It was important to give it a choice of actions: draw or play a card for points, scuttle or as an action. It was quickly discovered that the AI wanted to hallucinate cards so card dealing had to be done manually.</p>
-                    <div class="prompt_log_display">   
-                        <div class="prompt">These are your cards:
-7♥️ 10♦️ K♥️ J♦️ K♣️ Q♠️
-
-On my turn, I played: 6♣️ for points
-
-It is your turn.</div>
-                        <div class="assist">I will play my K♥️ to scuttle your 6♣️. This allows me to prevent you from accumulating points and gives me the opportunity to potentially scuttle your other point cards in the future.</div>
-                    </div>
-                    <br>
-                    <p class="impact-font"> Cuttle.card - was the rule set I used for this game. I used the website to simulate a game and had chatgpt play the game's AI using my hand. Cuttle overwrote the rules given in the system message with its own training data. It constantly tried to use the King to scuttle despite the rules in the system message saying they cannot</p>
-                    <div class="prompt_log_display">   
-                        <br>
-                        <div class="prompt">Cards on the field: 
-Mine: 6♣️ 3♣️ 6♥️ 
-Yours: 10♦️ Q♠️ 7♥️
-
-These are your cards:
-    K♥️ J♦️ K♣️ Q♥️
-
-On my turn, I played a 6♥️ for points.
-
+---------------
+Player's Hand: 10♦️ 9♣️ 3♠️ 9♥️ 10♠️
+---------------
+Player action: Draw a card. +2♦️ to Player's Hand.
+Opponent action: Plays 5♣️ for points.
+---------------
+Cards in the field: 
+Player: 
+Opponent: 5♣️
+---------------
 Point Total:
-Me: 9 points
-you: 17 points</div>
+Me: 0 points
+Opponent: 5 points</div>
                         <br>
-                        <div class="assist">I will play the K♣️ to scuttle your 6♥️ and take control of the point card. This will give me an additional 6 points, bringing my total to 15. I chose to scuttle your point card because it had a lower point value than my K♣️, allowing me to gain more points and get closer to reaching the goal of 21 points.
+                        <div class="assist">Welcome, ladies and gentlemen, to another thrilling game of Cuttle! Today, we are following the actions of our player as they face off against their opponent. Let's dive into the thought process behind their moves.
+
+Player starts with a hand consisting of 10♦️ 9♣️ 3♠️ 9♥️ 10♠️. As the player with 5 cards, they have the advantage of going first.
+
+Player's first action is to draw a card. They add a +2♦️ to their hand. This move allows the player to increase their options and potentially set up a stronger play in the future.
+
+...
+
                         </div>
                     </div>
-                    <p class="impact-font">By unselecting illegal moves and changing the rules in system message, the AI was able to play through a whole game. </p>
+                    <p class="impact_font_change mb-3 mt-1">Chat-GPT-3.5-Turbo seems to be able to handle the task well however several prompt iterations were needed to adjust for tones. 
+                        When prompted to be a "expert game announcer...," the AI will take on the personality and voice of a game caster. 
+                        This was undesirable for our purpose here - as a possible AI helper for new Cuttle players.</p>
+                 <hr>
+                        <div class="prompt_log_display">   
+                        <div class="prompt">You are covering a game of Cuttle. Please provide insight/walk through the thinking process of each player for this turn. We only have the perspective of 1 player.
+
+---------------
+Player's Hand: 10♦️ 9♣️ 3♠️ 9♥️ 10♠️
+---------------
+
+...
+
+</div>
+                        <div class="assist">As the player, my hand currently consists of 10♦️, 9♣️, 3♠️, 9♥️, and 10♠️. The opponent has played a 5♣️ for 5 points on their turn. My goal is to accumulate 21 or more points to win the game.
+
+For my turn, I have two options: I can either draw a card or play a card from my hand. Since I don't have any point cards in my hand yet, it would be beneficial to draw a card and hope to get a point card.
+
+I decide to draw a card. I draw 2♦️ and add it to my hand. 
+
+Now, the field consists of the opponent's 5♣️ and my hand includes 10♦️, 9♣️, 3♠️, 9♥️, 10♠️, and 2♦️.
+
+The point total currently stands at 5 points for the opponent and 0 points for me. It's still early in the game, and my priority should be to acquire point cards to catch up to or surpass the opponent's score.</div>
+                    </div>
+                    <p class="impact_font_change mb-3 mt-1">Rewording to "You are covering a game of Cuttle," provided more context appropriate language for our intended use case. This time, the AI removed the fluff from its response and gave us a step by step walk through of its thinking.</p>
+                  <hr>
+                    <div class="prompt_log_display">   
+                        <div class="prompt">Next turn:
+
+---------------
+Player's Hand: 9♣️ 3♠️ 9♥️ 10♠️ 2♦️
+---------------
+Player action: Play 10♦️ for points. Remove 10♦️ from the Player's Hand.
+Opponent action: Draws a card.
+---------------
+Cards in the field: 
+Player: 10♦️
+Opponent: 5♣️
+---------------
+Point Total:
+Me: 10 points
+Opponent: 5 points</div>
+                        <br>
+                        <div class="assist">On this turn, with my updated hand consisting of 9♣️, 3♠️, 9♥️, 10♠️, and 2♦️, I have a 10♦️ in my hand which I can play for points.
+
+...
+                            
+In terms of the point total, I have 10 points and the opponent has 5 points. I'm now catching up to the opponent's score and getting closer to reaching the goal of 21 points.
+                        </div>
+                    </div>
+                    <p class="impact_font_change mb-3 mt-1">Chat-GPT-3.5-Turbo had a firm enough grasp upon the task performed that we were able to omit the original prompt request and simply tell it the next game state we wanted to be analyzed. It's strategy recommendation are rudimentary but I have a inkling it would do better if we gave it details on Cuttle strategies.</p>
+                    <hr>
                     <div class="prompt_log_display">   
                         <br>
-                        <div class="prompt">The king is not played that way. A king reduces the amount of points to win.</div>
+                        <div class="prompt">What is your suggestion for the players next turn</div>
                         <br>
-                        <div class="assist">Apologies for the misunderstanding. Thank you for clarifying. In that case, I will play the King (K♥️) as an action card to reduce the number of points needed to win. Since I already have 15 points, playing the King will allow me to win the game immediately, as the requirement is now reduced to 5 points.
+                        <div class="assist">Based on the current game state, here's a suggestion for the player's next turn:
+
+---------------
+Player's Hand: 9♣️, 3♠️, 9♥️, 10♠️, 2♦️
+---------------
+
+...
+
+Since I now have 10 points on the field with my 10♦️, I only need to accumulate 11 more points to win the game. With a 9♥️ in my hand, I can choose to play it for points.
+
+I decide to play the 9♥️ from my hand onto the field, adding 9 points. I remove the 9♥️ from my hand.
+
+On the opponent's turn, they choose to draw a card.
+
+Now, the field consists of my 10♦️ and 9♥️, while the opponent has their 5♣️.
+
+In terms of the point total, I now have 19 points, bringing me closer to reaching the goal of 21 points. The opponent still has 5 points. Winning the game on the next turn is within reach.
                         </div>
                     </div>
-                    <p class="impact-font">The AI did not detect the end state. This may be due to the overwriting error described above. In the AI's training data, when prompted if it knows about the rules of Cuttle, it states: King is Worth 10 points and has no special abilities. See part 2 and part 3 of Cuttle. In part 2, we see if it can instead be used as a AI strategist or announcer. In part 3, I retry all the prompts in this session except with a new, unused game name to avoid encountered here.</p>
-                    <br>
+                    <p class="impact_font_change">We were able to get the AI to give us several suggestions for the next move. This is one of the better suggestions the AI came with.</p>                     
+                </div>
+            </div>
+        </div>
+        <div class="flex-lg-row flex_change_responsive">
+            <div class="side_block text-start">
+                <h3 class="text-white mt-4">Concluding Thoughts</h3>
+                <div class="card p-3">
+                <p class="impact_font_change"> While the AI model was able to provide a suggestion for the next turn, identify a move to make based on the current game state and give a step-by-step explanation of its thought process, there were some shortcomings. 
+
+                    Firstly, Chat-GPT-3.5-Turbo did a poor job of assuming what opponent would do - defaulting to the session's context of the opponent drawing a card. Secondly, it was very bad at strategy recommendations. 
+                    Thirdly, unless prompted very specifically, the model wants to only give general tips rather than specific ones based on the game condition. Further optimization may be needed to determine if the model can be used to give specific strategy recommendations given more detail.
+                 </p>
+                <p  class="impact_font_change">
+                    See <a href="#">part 1</a> and <a href="#">part 3</a> of Cuttle. In part 1, we started by seeing if Chat-GPT-3.5-Turbo could play Cuttle. 
+                    In part 3, I retry all the prompts in this session except with a new, unused game name to avoid the confusion encountered here.</p>
                 </div>
             </div>
         </div>
@@ -276,8 +332,8 @@ you: 17 points</div>
                 <p class="header_recent_document">See session conversation:</p>
                 <div class="coming-soon card" style="text-align:left;">
                     <ul>
-                        <li> <a href="teachnewgamecuttle.json" target="_blank">json (used for cloning session)</a></li>
-                        <li><a href="teachnewgamecuttle.txt" target="_blank">text</a></li>
+                        <li> <a href="teachnewgamecuttle2.json" target="_blank">json (used for cloning session)</a></li>
+                        <li><a href="teachnewgamecuttle2.txt" target="_blank">text</a></li>
                     </ul>
                 </div>
             </div>
@@ -286,8 +342,12 @@ you: 17 points</div>
         <div class="flex-lg-row flex_change_responsive">
             <div class="main_block app_panel" style="flex-direction: column;">
                 <a class="header_recent_document" href="/content">Recent Content</a>
-                <div class="intro_card card" style="text-align:left;">
+                <div class="intro_card" style="text-align:left;">
                     <ul class="template_list_wrapper">
+                        <li>
+                            <a class="hover_yellow" href="/content/cuttlecard/">Cuttle Part 1: Teach AI new card game
+                                - <span class="caption">Using gpt-3.5-turbo to play Cuttle</span></a>
+                        </li>
                         <li>
                             <a class="hover_yellow" href="/content/heartscardgame/">Hearts Card Game Prompts
                                 - <span class="caption">gpt-3.5-turbo vs chat-bison-001</span>
