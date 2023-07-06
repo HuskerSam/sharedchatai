@@ -1199,3 +1199,7 @@ li.mb-1 button.btn.btn-toggle:before {
 .katex-display {
   color: white;
 }
+
+.katex {
+  color: white;
+}

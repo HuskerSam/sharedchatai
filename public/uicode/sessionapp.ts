@@ -429,20 +429,33 @@ export class SessionApp extends BaseApp {
                   const sectionDiv = document.createElement("div");
                   const html = "<div>" + BaseApp.escapeHTML(responseFrag) + "</div>";
                   sectionDiv.innerHTML = html;
-                  if (this.profile.disableKatex !== true) {
+                  if (this.profile.enableKatex === true) {
+                    const delimiters = [
+                      {
+                        left: "$$",
+                        right: "$$",
+                        display: true,
+                      }, {
+                        left: "\\[",
+                        right: "\\]",
+                        display: true,
+                      },
+                    ];
+                    if (this.profile.enableKatexInline) {
+                      delimiters.push({
+                        left: "$",
+                        right: "$",
+                        display: false,
+                      });
+                      delimiters.push({
+                        left: '\\(',
+                        right: '\\)',
+                        display: false,
+                      });
+                    }
                     if (html.indexOf("\n$$") !== -1 || html.indexOf("\n\\[") !== -1) {
                       window.renderMathInElement(sectionDiv, {
-                        delimiters: [
-                          {
-                            left: "$$",
-                            right: "$$",
-                            display: true,
-                          },{
-                            left: "\\[",
-                            right: "\\]",
-                            display: true,
-                          },
-                        ],
+                        delimiters,
                         throwOnError: false,
                       });
                     }
