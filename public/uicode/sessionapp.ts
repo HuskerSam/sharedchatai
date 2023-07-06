@@ -427,16 +427,21 @@ export class SessionApp extends BaseApp {
                   if (sectionDiv.children.length > 0) assistSection.appendChild(sectionDiv.children[0]);
                 } else {
                   const sectionDiv = document.createElement("div");
-                  let html = "<div>" + BaseApp.escapeHTML(responseFrag) + "</div>";
+                  const html = "<div>" + BaseApp.escapeHTML(responseFrag) + "</div>";
                   sectionDiv.innerHTML = html;
                   if (this.profile.disableKatex !== true) {
                     if (html.indexOf("\n$$") !== -1 || html.indexOf("\n\\[") !== -1) {
                       window.renderMathInElement(sectionDiv, {
                         delimiters: [
-                          { left: '$$', right: '$$', display: true },
-                          //  { left: '$', right: '$', display: false },
-                          //  { left: '\\(', right: '\\)', display: false },
-                          { left: '\\[', right: '\\]', display: true },
+                          {
+                            left: "$$",
+                            right: "$$",
+                            display: true,
+                          },{
+                            left: "\\[",
+                            right: "\\]",
+                            display: true,
+                          },
                         ],
                         throwOnError: false,
                       });
@@ -570,7 +575,6 @@ export class SessionApp extends BaseApp {
       const chkBox: any = card.querySelector(`input[ticketid="${doc.id}"]`);
       const submittedTime: any = card.querySelector(".last_submit_time");
       submittedTime.setAttribute("data-timesince", doc.data().submitted);
-
 
       const ele1: any = card.querySelector(".ticket_owner_name");
       ele1.setAttribute("uid", this.ticketsLookup[doc.id].uid);
