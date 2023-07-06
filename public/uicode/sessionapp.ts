@@ -410,8 +410,8 @@ export class SessionApp extends BaseApp {
                 const fragmentId = ticketId + "_" + index;
                 this.fragmentCache[fragmentId] = responseFrag;
                 if (index % 2 === 1 && index < l - 1) {
-                  const htmlForMarkdown = this.markdownConverter.makeHtml("```" + responseFrag + "```");
-
+                  //const htmlForMarkdown = this.markdownConverter.makeHtml("```" + responseFrag + "```");
+                  const htmlForMarkdown = window.marked.parse("```" + responseFrag + "```");
                   const sectionDiv = document.createElement("div");
                   sectionDiv.innerHTML = `<div class="code_block_wrapper">` +
                     htmlForMarkdown + "</div>";

@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Prompt+ AI Content</title>
+    <title>Nodal Analysis Session Review - Prompt+ AI</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link rel="shortcut icon" href="/images/logo64.png" />
@@ -16,8 +16,8 @@
     <meta name='msapplication-square310x310logo' content='https://promptplusai.com/images/logo64.png'>
     <link rel='apple-touch-icon' href='https://promptplusai.com/images/logo64.png'>
 
-    <meta property="og:url" content="https://promptplusai.com" />
-    <meta property="og:title" content="PromptPlus AI Content" />
+    <meta property="og:url" content="https://promptplusai.com/content/heartscardgame" />
+    <meta property="og:title" content="PromptPlus AI Yahtzee Session" />
     <meta property="og:type" content="website" />
 
     <meta property="og:image" content="https://promptplusai.com/images/homepageogmeta.png" />
@@ -50,6 +50,8 @@
     <link rel="stylesheet" href="/css/base.css" />
     <link rel="stylesheet" href="/css/modal.css" />
     <link rel="stylesheet" href="/css/home.css" />
+    <link rel="stylesheet" href="/css/content.css" />
+
     <script>
         window.addEventListener("load", async (event) => {
             let module = await import("/models/homepageapp.js");
@@ -63,7 +65,7 @@
     <nav class="navbar navbar-expand-lg navbar-light sticky-top"
         style="min-height: 70px;text-align: center; display: block;">
         <div class="menu_bar_doc_title_wrapper">
-            <a class="nav-link" style=" display: block; max-width:120px" href="/">
+            <a class="nav-link" href="/" style="display: block; max-width:120px">
                 <span class="mobile_custom_icon_label" style="display: block; max-width:120px">
                     <img src="/images/fulllogo600x200.png" class="menu_logo_image">
                 </span>
@@ -139,9 +141,96 @@
     </nav>
     <div class="container content_page_container" style="margin-top:16px;">
         <div class="flex-lg-row flex_change_responsive">
-            <div class="main_block app_panel" style="flex-direction: column;">
-                <p class="header_recent_document">Recent Content</p>
+            <div class="side_block">
+                <p class="header_recent_document">Overview</p>
                 <div class="coming-soon card" style="text-align:left;">
+                    <p><span class="impact-green">Nodal Analysis using chat-bison-001 and gpt-3.5-turbo</p>    
+                    <p>Exampled used: <a href="https://en.wikiversity.org/wiki/Electric_Circuit_Analysis/Nodal_Analysis" target="_blank">
+                        Nodal Analysis (Wikiversity)
+                    </a></p>
+                    <p>
+                        <a href="https://www.allaboutcircuits.com/textbook/reference/chpt-7/example-circuits-and-netlists/">
+                            spice example
+                        </a>
+                    </p>
+                    <div>
+                        <img src="nodalcircuit.svg" class="content_image">
+                    </div>
+                    <ul>
+                        <li>TBD</li>
+                    </ul>
+                    TBD
+                </div>
+            </div>
+        </div>
+        <div class="flex-lg-row flex_change_responsive">
+            <div class="side_block">
+                <p class="header_recent_document">Describing the circuit for the models</p>
+                <div class="coming-soon card" style="text-align:left;">
+                    <ul>
+                        <li>Define and describe the nodes</li>
+                        <li>Use SPICE format to describe circuit</li>
+                    </ul>
+                    <p>SPICE description:<br>
+                        Multiple dc sources v1 1 0 dc 24 v2 3 0 dc 15 r1 1 2 10k r2 2 3 8.1k r3 2 0 4.7k .end 
+                    </p>
+                    <h3>Prompting log</h3>
+                    <div class="prompt_log_display">
+                        <div class="prompt">do you know how to play yahtzee?  can you help me keep score?</div>
+                        <br>
+                        <div class="assist">Yes, I can help you keep score in Yahtzee! In Yahtzee, each player takes turns rolling five dice and tries to obtain certain combinations to score points. The goal is to have the highest total score at the end of the game. Let's get started!
+
+First, I'll explain the scoring categories that you can choose from:
+
+1. Ones: The sum of all ones rolled
+2. Twos: The sum of all twos rolled
+3. Threes: The sum of all threes rolled
+4. Fours: The sum of all fours rolled
+5. Fives: The sum of all fives rolled
+6. Sixes: The sum of all sixes rolled
+7. Three of a Kind: Total of all five dice if you have at least three of the same number
+8. Four of a Kind: Total of all five dice if you have at least four of the same number
+9. Full House: 25 points if you have three of a kind and a pair
+10. Small Straight: 30 points for a sequence of four consecutive numbers
+11. Large Straight: 40 points for a sequence of five consecutive numbers
+12. Yahtzee: 50 points if all five dice show the same number
+13. Chance: The sum of all the dice, you can use this category when you don't meet the requirements of any other category.
+
+To keep score, create a table with the categories listed and a corresponding column for each player. After each player's turn, simply write down their score for the chosen category in the corresponding column. At the end of the game, add up the scores in each column to determine the winner.
+
+Let me know if you need any specific assistance or if you have any questions while playing!</div>
+                    </div>
+                    <br>
+                    <div class="impact-green">
+                     These appear to match the standard rules for the game in the box.
+                     He printed a 2 player scorecard with all categories after another prompt.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="side_block">
+            <p class="header_recent_document">Session Logs</p>
+            <div class="coming-soon card" style="text-align:left;">
+                <ul>
+                    <li>
+                        1 player yahtzee: <a href="1 player yahtzee.json" target="_blank">template</a>
+                        <a href="1 player yahtzee.txt" target="_blank">text</a>
+                        <a href="/?templatepath=/content/yahtzee/1 player yahtzee.json&title=1 Player Yahztee"
+                            target="_blank" class="signed_in_inline_block">clone</a>
+                    </li>
+                    <li>
+                        2 player yahtzee: <a href="2 player yahtzee.json" target="_blank">template</a>
+                        <a href="2 player yahtzee.txt" target="_blank">text</a>
+                        <a href="/?templatepath=/content/yahtzee/2 player yahtzee.json&title=2 Player Yahtzee"
+                            target="_blank" class="signed_in_inline_block">clone</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="flex-lg-row flex_change_responsive">
+            <div class="main_block app_panel" style="flex-direction: column;">
+                <a class="header_recent_document" href="/content">Recent Content</a>
+                <div class="intro_card card">
                     <ul class="template_list_wrapper">
                         <li>
                             <a class="hover_yellow" href="/content/cuttlecard/">Teach a new card game: Cuttle
@@ -152,18 +241,7 @@
                                 - <span class="caption">gpt-3.5-turbo vs chat-bison-001</span>
                             </a>
                         </li>
-                        <li>
-                            <a class="hover_yellow" href="/content/yahtzee/">Keep score in Yahtzee
-                                - <span class="caption">keep score for 2 players and roll dice</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="hover_yellow" href="/content/nodalanalysis/">Nodal Analysis
-                                - <span class="caption">gpt-3.5-turbo and chat-bison-001 are taken to task with a circuit.</span>
-                            </a>
-                        </li>                        
                     </ul>
-                    <div style="flex:1"></div>
                 </div>
             </div>
         </div>
@@ -176,9 +254,9 @@
                         On</a>
                 </h1>
                 <div class="app_panel" style="display:block;font-size: 1.25em;">
-                    <a href="#emaillist" class="hover_yellow" style="color:white">Email list</a>
+                    <a href="https://promptplusai.com/#emaillist" class="hover_yellow" style="color:white">Email list</a>
                     &nbsp;
-                    <a href="#about" class="hover_yellow" style="color:white">Contact us</a>
+                    <a href="https://promptplusai.com/#about" class="hover_yellow" style="color:white">Contact us</a>
                 </div>
             </div>
             <div style="flex:1"></div>
