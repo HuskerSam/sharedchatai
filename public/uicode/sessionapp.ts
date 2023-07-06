@@ -429,16 +429,18 @@ export class SessionApp extends BaseApp {
                   const sectionDiv = document.createElement("div");
                   let html = "<div>" + BaseApp.escapeHTML(responseFrag) + "</div>";
                   sectionDiv.innerHTML = html;
-                  if (html.indexOf("\n$$") !== -1 || html.indexOf("\n\\[") !== -1) {
-                    window.renderMathInElement(sectionDiv, {
-                      delimiters: [
-                        { left: '$$', right: '$$', display: true },
-                        //  { left: '$', right: '$', display: false },
-                        //  { left: '\\(', right: '\\)', display: false },
-                        { left: '\\[', right: '\\]', display: true },
-                      ],
-                      throwOnError: false,
-                    });
+                  if (this.profile.disableKatex !== true) {
+                    if (html.indexOf("\n$$") !== -1 || html.indexOf("\n\\[") !== -1) {
+                      window.renderMathInElement(sectionDiv, {
+                        delimiters: [
+                          { left: '$$', right: '$$', display: true },
+                          //  { left: '$', right: '$', display: false },
+                          //  { left: '\\(', right: '\\)', display: false },
+                          { left: '\\[', right: '\\]', display: true },
+                        ],
+                        throwOnError: false,
+                      });
+                    }
                   }
                   if (sectionDiv.children.length > 0) assistSection.appendChild(sectionDiv.children[0]);
                 }
