@@ -33,7 +33,6 @@ export class SessionApp extends BaseApp {
   ticketIsPending = false;
   selectedTicketCount = 0;
   documentOptions = new DocOptionsHelper(this);
-  markdownConverter = new window.showdown.Converter();
   lastDocumentOptionChange = 0;
   sliderChangeDebounceTimeout: any = {};
   sliderPaintDebounceTimeout: any = {};
@@ -410,8 +409,7 @@ export class SessionApp extends BaseApp {
                 const fragmentId = ticketId + "_" + index;
                 this.fragmentCache[fragmentId] = responseFrag;
                 if (index % 2 === 1 && index < l - 1) {
-                  const htmlForMarkdown = this.markdownConverter.makeHtml("```" + responseFrag + "```");
-
+                  const htmlForMarkdown = window.marked.parse("```" + responseFrag + "```");
                   const sectionDiv = document.createElement("div");
                   sectionDiv.innerHTML = `<div class="code_block_wrapper">` +
                     htmlForMarkdown + "</div>";
@@ -429,7 +427,39 @@ export class SessionApp extends BaseApp {
                   if (sectionDiv.children.length > 0) assistSection.appendChild(sectionDiv.children[0]);
                 } else {
                   const sectionDiv = document.createElement("div");
-                  sectionDiv.innerHTML = "<div>" + BaseApp.escapeHTML(responseFrag) + "</div>";
+                  const html = "<div>" + BaseApp.escapeHTML(responseFrag) + "</div>";
+                  sectionDiv.innerHTML = html;
+                  if (this.profile.enableKatex === true) {
+                    const delimiters = [
+                      {
+                        left: "$$",
+                        right: "$$",
+                        display: true,
+                      }, {
+                        left: "\\[",
+                        right: "\\]",
+                        display: true,
+                      },
+                    ];
+                    if (this.profile.enableKatexInline) {
+                      delimiters.push({
+                        left: "$",
+                        right: "$",
+                        display: false,
+                      });
+                      delimiters.push({
+                        left: "\\(",
+                        right: "\\)",
+                        display: false,
+                      });
+                    }
+                    if (html.indexOf("\n$$") !== -1 || html.indexOf("\n\\[") !== -1) {
+                      window.renderMathInElement(sectionDiv, {
+                        delimiters,
+                        throwOnError: false,
+                      });
+                    }
+                  }
                   if (sectionDiv.children.length > 0) assistSection.appendChild(sectionDiv.children[0]);
                 }
               });
@@ -558,7 +588,6 @@ export class SessionApp extends BaseApp {
       const chkBox: any = card.querySelector(`input[ticketid="${doc.id}"]`);
       const submittedTime: any = card.querySelector(".last_submit_time");
       submittedTime.setAttribute("data-timesince", doc.data().submitted);
-
 
       const ele1: any = card.querySelector(".ticket_owner_name");
       ele1.setAttribute("uid", this.ticketsLookup[doc.id].uid);

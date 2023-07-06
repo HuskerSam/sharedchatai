@@ -1,0 +1,6 @@
+.content_image {
+    max-height: 250px;
+    object-fit: contain;
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.75)
+}

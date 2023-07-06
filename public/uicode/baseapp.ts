@@ -155,6 +155,7 @@ export default class BaseApp {
       displayName,
       displayImage,
       documentLabels: "Personal,Business,Revisit",
+      enableKatex: true,
     };
 
     this.profileDefaulted = true;

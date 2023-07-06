@@ -23,6 +23,8 @@ export default class ProfileHelper {
     profile_text_large_checkbox: any;
     profile_text_monospace_checkbox: any;
     profile_autoexclude_checkbox: any;
+    profile_enablekatex_checkbox: any;
+    profile_enablekatexinline_checkbox: any;
     profile_new_email: any;
     change_email_button: any;
     lastLabelsSave = 0;
@@ -64,6 +66,8 @@ export default class ProfileHelper {
         this.randomize_name = document.querySelector(".randomize_name");
         this.profile_text_monospace_checkbox = document.querySelector(".profile_text_monospace_checkbox");
         this.profile_autoexclude_checkbox = document.querySelector(".profile_autoexclude_checkbox");
+        this.profile_enablekatex_checkbox = document.querySelector(".profile_enablekatex_checkbox");
+        this.profile_enablekatexinline_checkbox = document.querySelector(".profile_enablekatexinline_checkbox");
         this.replies_row = document.querySelector(".replies_row");
         this.prompts_row = document.querySelector(".prompts_row");
         this.total_row = document.querySelector(".total_row");
@@ -104,6 +108,14 @@ export default class ProfileHelper {
         this.prompt_for_new_user_name.addEventListener("click", () => this.saveProfileField("name"));
         this.profile_text_monospace_checkbox.addEventListener("input", () => this.saveProfileField("monospace"));
         this.profile_autoexclude_checkbox.addEventListener("input", () => this.saveProfileField("autoExclude"));
+        this.profile_enablekatex_checkbox.addEventListener("input", () => {
+            this.saveProfileField("enableKatex");
+            if (this.app.updateAssistsFeed) this.app.updateAssistsFeed();
+        });
+        this.profile_enablekatexinline_checkbox.addEventListener("input", () => {
+            this.saveProfileField("enableKatexInline");
+            if (this.app.updateAssistsFeed) this.app.updateAssistsFeed();
+        });
 
         this.profile_text_large_checkbox.addEventListener("input", () => this.saveProfileField("largetext"));
 
@@ -218,6 +230,14 @@ export default class ProfileHelper {
                                 <label class="form-check-label">
                                     <input class="form-check-input profile_autoexclude_checkbox" type="checkbox" value="">
                                     Auto Exclude
+                                </label>
+                                <label class="form-check-label">
+                                    <input class="form-check-input profile_enablekatex_checkbox" type="checkbox" value="">
+                                    KaTeX
+                                </label>
+                                <label class="form-check-label">
+                                    <input class="form-check-input profile_enablekatexinline_checkbox" type="checkbox" value="">
+                                    KaTeX Inline
                                 </label>
                             </div>
                         </div>
@@ -501,6 +521,14 @@ export default class ProfileHelper {
             this.app.profile.autoExclude = this.profile_autoexclude_checkbox.checked;
             updatePacket.autoExclude = this.app.profile.autoExclude;
         }
+        if (fieldType === "enableKatex") {
+            this.app.profile.enableKatex = this.profile_enablekatex_checkbox.checked;
+            updatePacket.enableKatex = this.app.profile.enableKatex;
+        }
+        if (fieldType === "enableKatexInline") {
+            this.app.profile.enableKatexInline = this.profile_enablekatexinline_checkbox.checked;
+            updatePacket.enableKatexInline = this.app.profile.enableKatexInline;
+        }
 
         if (this.app.fireToken) {
             await firebase.firestore().doc(`Users/${this.app.uid}`).set(updatePacket, {
@@ -613,6 +641,8 @@ export default class ProfileHelper {
         this.profile_text_large_checkbox.checked = (this.app.profile.textOptionsLarge === true);
         this.profile_text_monospace_checkbox.checked = (this.app.profile.textOptionsMonospace === true);
         this.profile_autoexclude_checkbox.checked = (this.app.profile.autoExclude === true);
+        this.profile_enablekatex_checkbox.checked = (this.app.profile.enableKatex === true);
+        this.profile_enablekatexinline_checkbox.checked = (this.app.profile.enableKatexInline === true);
         this.profile_display_image.setAttribute("uid", this.app.uid);
         this.profile_display_name.setAttribute("uid", this.app.uid);
         this.app.updateUserNamesImages();
