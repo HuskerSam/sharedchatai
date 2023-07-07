@@ -6,7 +6,7 @@
 }
 
 .responsive_img {
-    max-width: 80%;
+    max-width: 100%;
     object-fit: contain;
     display: inline-block;
     background: rgba(255, 255, 255, 0.75);
