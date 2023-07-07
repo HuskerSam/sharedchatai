@@ -402,6 +402,7 @@ export class SessionApp extends BaseApp {
               assistSection.innerHTML = result;
             } else {
               const completionRawText = assistData.assist.choices["0"].message.content;
+              const finishedComplete = assistData.assist.choices["0"].finish_reason === "stop";
               const markDownPieces = completionRawText.split("```");
               const l = markDownPieces.length;
               assistSection.innerHTML = "";
@@ -511,12 +512,10 @@ export class SessionApp extends BaseApp {
               completionSpan.innerHTML = completionTokens +
                 "&nbsp; " + Math.round(responseTime / 1000) + "s";
 
-              let responseCap = this.sessionDocumentData.max_tokens;
-              if (ticketData.max_tokens !== undefined) responseCap = ticketData.max_tokens;
-              if (completionTokens >= responseCap && completionTokens !== 0) {
-                card.classList.add("completion_max_tokens_reached");
-              } else {
+              if (finishedComplete) {
                 card.classList.remove("completion_max_tokens_reached");
+              } else {
+                card.classList.add("completion_max_tokens_reached");
               }
             }
           } else {
