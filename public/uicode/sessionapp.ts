@@ -453,11 +453,13 @@ export class SessionApp extends BaseApp {
                         display: false,
                       });
                     }
-                    if (html.indexOf("\n$$") !== -1 || html.indexOf("\n\\[") !== -1) {
+                    try {
                       window.renderMathInElement(sectionDiv, {
                         delimiters,
                         throwOnError: false,
                       });
+                    } catch (katexError: any) {
+                      console.log("KaTeX error", katexError);
                     }
                   }
                   if (sectionDiv.children.length > 0) assistSection.appendChild(sectionDiv.children[0]);
