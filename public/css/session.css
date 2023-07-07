@@ -318,7 +318,7 @@ ul.recent_documents_list li a {
   border-radius: 5px;
   z-index: 100;
   padding: 2px 8px;
-  background-color: rgb(10, 72, 20);
+  background-color: rgba(32, 33, 35, 1);
 }
 
 .sidebar_tree_recent_title {

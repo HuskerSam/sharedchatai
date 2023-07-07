@@ -683,7 +683,7 @@ export class SessionApp extends BaseApp {
     ticket.submitted = new Date().toISOString();
     const tempCard = this.getTicketCardDom(new Date().toISOString(), ticket, true);
     this.tickets_list.appendChild(tempCard);
-    
+
     this.updateUserNamesImages();
     tempCard.scrollIntoView(false);
     this.scrollTicketListBottom();
