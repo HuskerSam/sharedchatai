@@ -185,6 +185,7 @@
                     <ul>
                         <li>Define and describe the nodes</li>
                         <li>Use SPICE format to describe circuit</li>
+                        <li></li>
                     </ul>
                     <p>SPICE description:<br>
                         Multiple dc sources v1 1 0 dc 24 v2 3 0 dc 15 r1 1 2 10k r2 2 3 8.1k r3 2 0 4.7k .end
@@ -200,52 +201,20 @@
         </div>
         <div class="flex-lg-row flex_change_responsive">
             <div class="side_block">
-                <p class="header_recent_document">Describing the circuit for the models</p>
+                <p class="header_recent_document">Convert to Matrixes and Results</p>
                 <div class="coming-soon card" style="text-align:left;">
                     <ul>
-                        <li>Define and describe the nodes</li>
-                        <li>Use SPICE format to describe circuit</li>
+                        <li>Prompt the models for matrixes</li>
+                        <li>Prompt for node voltage results</li>
                     </ul>
-                    <p>SPICE description:<br>
-                        Multiple dc sources v1 1 0 dc 24 v2 3 0 dc 15 r1 1 2 10k r2 2 3 8.1k r3 2 0 4.7k .end
+                    <p class="impact-green">chat-bison-001 and gpt-3.5-turbo both mix and match some values leading 
+                        neither to end up matching the reference page results.
                     </p>
                     <h3>Prompting log</h3>
-                    <div class="prompt_log_display">
-                        <div class="prompt">do you know how to play yahtzee? can you help me keep score?</div>
-                        <br>
-                        <div class="assist">Yes, I can help you keep score in Yahtzee! In Yahtzee, each player takes
-                            turns rolling five dice and tries to obtain certain combinations to score points. The goal
-                            is to have the highest total score at the end of the game. Let's get started!
-
-                            First, I'll explain the scoring categories that you can choose from:
-
-                            1. Ones: The sum of all ones rolled
-                            2. Twos: The sum of all twos rolled
-                            3. Threes: The sum of all threes rolled
-                            4. Fours: The sum of all fours rolled
-                            5. Fives: The sum of all fives rolled
-                            6. Sixes: The sum of all sixes rolled
-                            7. Three of a Kind: Total of all five dice if you have at least three of the same number
-                            8. Four of a Kind: Total of all five dice if you have at least four of the same number
-                            9. Full House: 25 points if you have three of a kind and a pair
-                            10. Small Straight: 30 points for a sequence of four consecutive numbers
-                            11. Large Straight: 40 points for a sequence of five consecutive numbers
-                            12. Yahtzee: 50 points if all five dice show the same number
-                            13. Chance: The sum of all the dice, you can use this category when you don't meet the
-                            requirements of any other category.
-
-                            To keep score, create a table with the categories listed and a corresponding column for each
-                            player. After each player's turn, simply write down their score for the chosen category in
-                            the corresponding column. At the end of the game, add up the scores in each column to
-                            determine the winner.
-
-                            Let me know if you need any specific assistance or if you have any questions while playing!
-                        </div>
-                    </div>
+                    <img src="matrixes.jpg" class="responsive_img">
                     <br>
                     <div class="impact-green">
-                        These appear to match the standard rules for the game in the box.
-                        He printed a 2 player scorecard with all categories after another prompt.
+
                     </div>
                 </div>
             </div>
@@ -255,15 +224,15 @@
             <div class="coming-soon card" style="text-align:left;">
                 <ul>
                     <li>
-                        1 player yahtzee: <a href="1 player yahtzee.json" target="_blank">template</a>
-                        <a href="1 player yahtzee.txt" target="_blank">text</a>
-                        <a href="/?templatepath=/content/yahtzee/1 player yahtzee.json&title=1 Player Yahztee"
+                        Nodal Analysis GPT: <a href="nodal analysis gpt.json" target="_blank" download>template</a>
+                        <a href="nodal analysis gpt.txt" target="_blank" download>text</a>
+                        <a href="/?templatepath=/content/nodalanalysis/nodal analysis gpt.json&title=Nodal Analysis GPT"
                             target="_blank" class="signed_in_inline_block">clone</a>
                     </li>
                     <li>
-                        2 player yahtzee: <a href="2 player yahtzee.json" target="_blank">template</a>
-                        <a href="2 player yahtzee.txt" target="_blank">text</a>
-                        <a href="/?templatepath=/content/yahtzee/2 player yahtzee.json&title=2 Player Yahtzee"
+                        Nodal Analysis Chat Bison: <a href="nodal analysis bard.json" target="_blank">template</a>
+                        <a href="nodal analysis bard.txt" target="_blank">text</a>
+                        <a href="/?templatepath=/content/nodalanalysis/nodal analysis bard.json&title=2 Player Yahtzee"
                             target="_blank" class="signed_in_inline_block">clone</a>
                     </li>
                 </ul>
@@ -280,16 +249,7 @@
             <div class="main_block app_panel" style="flex-direction: column;">
                 <a class="header_recent_document" href="/content">Recent Content</a>
                 <div class="intro_card card">
-                    <ul class="template_list_wrapper">
-                        <li>
-                            <a class="hover_yellow" href="/content/cuttlecard/">Teach a new card game: Cuttle
-                                - <span class="caption">Using gpt-3.5-turbo to play Cuttle</span></a>
-                        </li>
-                        <li>
-                            <a class="hover_yellow" href="/content/heartscardgame/">Hearts Card Game Prompts
-                                - <span class="caption">gpt-3.5-turbo vs chat-bison-001</span>
-                            </a>
-                        </li>
+                    <ul class="template_list_wrapper recent_content_ul_list">
                     </ul>
                 </div>
             </div>
