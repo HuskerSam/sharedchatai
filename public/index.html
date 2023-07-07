@@ -195,6 +195,41 @@
             </div>
         </div>
         <div class="flex-lg-row flex_change_responsive">
+            <div class="side_block app_panel">
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/9VMFh3eAFrE"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
+            </div>
+            <div class="main_block app_panel">
+                <h1 class="header_recent_document">Available
+                    <span style="color: rgb(50, 255, 50);">Models</span>
+                </h1>
+                <div class="intro_card card">
+                    <h5 style="display:inline-block">
+                        <a href="https://platform.openai.com/docs/models" target="_blank"
+                            class="hover_yellow">OpenAI</a>
+                    </h5>
+                    (ChatGPT)
+                    <ul>
+                        <li><span class="supported_model">gpt-3.5-turbo</span> 4k</li>
+                        <li><span class="supported_model">gpt-3.5-turbo-16k</span></li>
+                        <li><span class="upcoming_model">gpt-4</span> 8k (soon)</li>
+                        <li><span class="upcoming_model">gpt-4-32k</span> (soon)</li>
+                    </ul>
+                    <h5 style="display:inline-block">
+                        <a href="https://developers.generativeai.google/api/rest/generativelanguage" target="_blank"
+                            class="hover_yellow">Google
+                            Generate</a>
+                    </h5>
+                    (Bard)
+                    <ul>
+                        <li> <span class="supported_model">chat-bison-001</span> 9k</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="flex-lg-row flex_change_responsive">
             <div class="main_block app_panel">
                 <h1 class="header_recent_document">
                     <span style="color: rgb(50, 255, 50);">Prompt</span>
@@ -236,40 +271,23 @@
         </div>
         <div class="flex-lg-row flex_change_responsive">
             <div class="side_block app_panel">
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/9VMFh3eAFrE"
-                    title="YouTube video player" frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen></iframe>
-            </div>
-            <div class="main_block app_panel">
-                <h1 class="header_recent_document">Available
-                    <span style="color: rgb(50, 255, 50);">Models</span>
+                <h1 class="header_recent_document"><span style="color: rgb(30, 200, 200);">Collaborate</span>
+                    and <span style="color: rgb(190, 100, 250)">Share</span>
                 </h1>
                 <div class="intro_card card">
-                    <h5 style="display:inline-block">
-                        <a href="https://platform.openai.com/docs/models" target="_blank"
-                            class="hover_yellow">OpenAI</a>
-                    </h5>
-                    (ChatGPT)
                     <ul>
-                        <li><span class="supported_model">gpt-3.5-turbo</span> 4k</li>
-                        <li><span class="supported_model">gpt-3.5-turbo-16k</span></li>
-                        <li><span class="upcoming_model">gpt-4</span> 8k (soon)</li>
-                        <li><span class="upcoming_model">gpt-4-32k</span> (soon)</li>
-                    </ul>
-                    <h5 style="display:inline-block">
-                        <a href="https://developers.generativeai.google/api/rest/generativelanguage" target="_blank"
-                            class="hover_yellow">Google
-                            Generate</a>
-                    </h5>
-                    (Bard)
-                    <ul>
-                        <li> <span class="supported_model">chat-bison-001</span> 9k</li>
+                        <li><span>Only the session owner</span> requires a subscription</li>
+                        <li><a class="hover_yellow" href="/help/#help_sign_in" target="help"
+                                style="color: rgb(30, 200, 200);">Anonymous login</a> is enabled for quick access</li>
+                        <li>AI distinguishes different users input</li>
+                        <li><a class="hover_yellow" href="/help/#options" target="help"
+                                style="color: rgb(190, 100, 250)">JSON
+                                import/export</a> for sharing</li>
+                        <li><span>HTML and text reports</span> for sharing work</li>
+                        <li>Learn and <span>work with your friends</span> using AI</li>
                     </ul>
                 </div>
             </div>
-        </div>
-        <div class="flex-lg-row flex_change_responsive">
             <div class="main_block app_panel">
                 <h1 class="header_recent_document">Power
                     <span style="color:rgb(255, 255, 20)">Features</span>
@@ -285,21 +303,54 @@
                     </ul>
                 </div>
             </div>
+        </div>
+        <div class="flex-lg-row flex_change_responsive" id="emaillist">
+            <div class="main_block app_panel">
+                <p class="header_recent_document">Signup for Email List</p>
+                <div class="intro_card card">
+                    <div id="mc_embed_shell">
+                        <div id="mc_embed_signup">
+                            <form
+                                action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febcbb50595f9c46&amp;id=4abff76760&amp;f_id=00695ee1f0"
+                                method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
+                                class="validate" target="_self" novalidate="">
+                                <div id="mc_embed_signup_scroll">
+                                    <div class="mc-field-group"><label for="mce-EMAIL">Email Address</label><input
+                                            type="email" name="EMAIL" class="required email" id="mce-EMAIL" required=""
+                                            value=""></div>
+                                    <div id="mce-responses" class="clear foot">
+                                        <div class="response" id="mce-error-response" style="display: none;"></div>
+                                        <div class="response" id="mce-success-response" style="display: none;"></div>
+                                    </div>
+                                    <div aria-hidden="true" style="position: absolute; left: -5000px;">
+                                        /* real people should not fill this in and expect good things - do not remove
+                                        this or risk form bot signups */
+                                        <input type="text" name="b_064c017e2febcbb50595f9c46_4abff76760" tabindex="-1"
+                                            value="">
+                                    </div>
+                                    <div class="optionalParent">
+                                        <div class="clear foot">
+                                            <input type="submit" name="subscribe" id="mc-embedded-subscribe"
+                                                class="button" value="Subscribe">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
             <div class="side_block app_panel">
-                <h1 class="header_recent_document"><span style="color: rgb(30, 200, 200);">Collaborate</span>
-                    and <span style="color: rgb(190, 100, 250)">Share</span>
-                </h1>
+                <p class="header_recent_document">Walk Throughs (coming soon)</p>
                 <div class="intro_card card">
                     <ul>
-                        <li><span>Only the session owner</span> requires a subscription</li>
-                        <li><a class="hover_yellow" href="/help/#help_sign_in" target="help"
-                                style="color: rgb(30, 200, 200);">Anonymous login</a> is enabled for quick access</li>
-                        <li>AI distinguishes different users input</li>
-                        <li><a class="hover_yellow" href="/help/#options" target="help"
-                                style="color: rgb(190, 100, 250)">JSON
-                                import/export</a> for sharing</li>
-                        <li><span>HTML and text reports</span> for sharing work</li>
-                        <li>Learn and <span>work with your friends</span> using AI</li>
+                        <li>Sharing new sessions with users</li>
+                        <li>Exporting sessions to share results</li>
+                        <li>Send email invitations</li>
+                        <li>Multiple conversations in one session</li>
+                        <li>Tweaking the engine</li>
+                        <li>Priming the engine</li>
                     </ul>
                 </div>
             </div>
@@ -335,135 +386,98 @@
                 </div>
             </div>
         </div>
-        <div class="flex-lg-row flex_change_responsive" id="emaillist">
-            <div class="main_block app_panel">
-                <p class="header_recent_document">Signup for Email List</p>
-                <div class="intro_card card">
-                    <div id="mc_embed_shell">
-                        <div id="mc_embed_signup">
-                            <form
-                                action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febcbb50595f9c46&amp;id=4abff76760&amp;f_id=00695ee1f0"
-                                method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
-                                class="validate" target="_self" novalidate="">
-                                <div id="mc_embed_signup_scroll">
-                                    <div class="mc-field-group"><label for="mce-EMAIL">Email Address</label><input
-                                            type="email" name="EMAIL" class="required email" id="mce-EMAIL" required=""
-                                            value=""></div>
-                                    <div id="mce-responses" class="clear foot">
-                                        <div class="response" id="mce-error-response" style="display: none;"></div>
-                                        <div class="response" id="mce-success-response" style="display: none;"></div>
-                                    </div>
-                                    <div aria-hidden="true" style="position: absolute; left: -5000px;">
-                                        /* real people should not fill this in and expect good things - do not remove
-                                        this or risk form bot signups */
-                                        <input type="text" name="b_064c017e2febcbb50595f9c46_4abff76760" tabindex="-1"
-                                            value="">
-                                    </div>
-                                    <div class="optionalParent">
-                                        <div class="clear foot">
-                                            <input type="submit" name="subscribe" id="mc-embedded-subscribe"
-                                                class="button" value="Subscribe">
-                                            <p class="brandingLogo" style="margin: 0px auto;opacity:0"><a
-                                                    href="http://eepurl.com/iumDTE"
-                                                    title="Mailchimp - email marketing made easy and fun"><img
-                                                        src="https://eep.io/mc-cdn-images/template_images/branding_logo_text_dark_dtp.svg"
-                                                        alt="referral badge"></a></p>
-                                        </div>
+        <div class="mb-3">
+            <footer class="side_block m-0 pb-1 app_panel">
+                <div class="row">
+                    <div class="col-12 col-md-3 mb-3 mb-md-0 text-center text-md-start">
+                        <h5>PromptPlus AI</h5>
+                        <p>
+                            Hailing from Lincoln, Nebraska, we're a US-based team on the lookout for exciting software
+                            development projects to bootstrap. To collaborate with us, please reach out at <a
+                                href="mailto:promptplusai@gmail.com" target="_blank">promptplusai@gmail.com</a>
+                        </p>
+                    </div>
+                    <div class="col-6 col-md-2 mb-3 mb-md-0">
+                        <h5>Navigate</h5>
+                        <ul class="nav flex-column" style="font-size: 1.2em;">
+                            <li class="nav-item mb-2"><a href="/session/"
+                                    class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                                    target="session">Sessions</a></li>
+                            <li class="nav-item mb-2"><a href="/content/"
+                                    class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                                    target="content">Content</a></li>
+                            <li class="nav-item mb-2"><a
+                                    class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                                    href="/help/" target="help">Help</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-6 col-md-2 mb-3 mb-md-0">
+                        <h5>Company</h5>
+                        <ul class="nav flex-column" style="font-size: 1.2em;">
+                            <li class="nav-item mb-2"><a href="/about/"
+                                    class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                                    target="about">About</a></li>
+                            <li class="nav-item mb-2"><a href="/content/"
+                                    class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                                    target="privacy">Privacy</a></li>
+                            <li class="nav-item mb-2"><a
+                                    class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                                    href="/help/" target="pricing">Pricing</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4 offset-md-1 mb-3">
+                        <form>
+                            <h5>Subscribe to our newsletter</h5>
+                            <p>News, Tips & More - Let's Learn AI Together</p>
+                            <div class="d-flex flex-column flex-sm-row w-100 gap-2">
+                                <div class="w-100" id="mc_embed_shell">
+                                    <div id="mc_embed_signup">
+                                        <form
+                                            action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febcbb50595f9c46&amp;id=4abff76760&amp;f_id=00695ee1f0"
+                                            method="post" id="mc-embedded-subscribe-form"
+                                            name="mc-embedded-subscribe-form" class="validate" target="_self"
+                                            novalidate="">
+                                            <div class="d-flex flex-wrap" id="mc_embed_signup_scroll">
+                                                <div class="mc-field-group w-100 mb-0 me-1">
+                                                    <label for="mce-EMAIL" class="visually-hidden">Email Address</label>
+                                                    <input type="email" name="EMAIL" placeholder="Email address"
+                                                        class="required email form-control" id="mce-EMAIL" required=""
+                                                        value="">
+                                                </div>
+
+                                                <div class="clear foot d-block w-100">
+                                                    <input type="submit" name="subscribe" id="mc-embedded-subscribe"
+                                                        class="button" value="Subscribe">
+                                                </div>
+                                                <div style="position: absolute; left: -6000px;" id="mce-responses"
+                                                    class="clear foot">
+                                                    <div class="response" id="mce-error-response"
+                                                        style="display: none;"></div>
+                                                    <div class="response" id="mce-success-response"
+                                                        style="display: none;"></div>
+                                                </div>
+                                                <div aria-hidden="true" style="position: absolute; left: -5000px;">
+                                                    /* real people should not fill this in and expect good things - do
+                                                    not remove
+                                                    this or risk form bot signups */
+                                                    <input type="text" name="b_064c017e2febcbb50595f9c46_4abff76760"
+                                                        tabindex="-1" value="">
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
+                </div>
 
+
+                <div class="d-flex flex-column flex-sm-row justify-content-center py-2 mt-3 border-top">
+                    <p class="my-1"> © 2023, All Rights Reserved</p>
                 </div>
-            </div>
-            <div class="side_block app_panel">
-                <p class="header_recent_document">Walk Throughs (coming soon)</p>
-                <div class="intro_card card">
-                    <ul>
-                        <li>Sharing new sessions with users</li>
-                        <li>Exporting sessions to share results</li>
-                        <li>Send email invitations</li>
-                        <li>Multiple conversations in one session</li>
-                        <li>Tweaking the engine</li>
-                        <li>Priming the engine</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div id="privacy" style="position:relative;top:-80px"></div>
-        <div class="flex-lg-row flex_change_responsive">
-            <div class="main_block app_panel">
-                <p class="header_recent_document">Privacy</p>
-                <div class="intro_card card">
-                    <ul>
-                        <li>Your data will never be shared or sold</li>
-                        <li>We will not view or process your data</li>
-                        <li>Deleting a session destroys the data</li>
-                        <li>We will not share your email</li>
-                        <li>Promotions are sent to the email list</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="main_block app_panel">
-                <p class="header_recent_document">Terms</p>
-                <div class="intro_card card">
-                    <ul>
-                        <li>Free trial period</li>
-                        <li>Sessions are always viewable</li>
-                        <li>Monthly subscriptions coming soon!</li>
-                        <li>Credits used to balance costs between models</li>
-                        <li>Be responsible with your prompting!</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="app_panel">
-            <footer class="side_block m-0 pb-1">
-              <div class="row">
-                <div class="col-12 col-md-3 mb-3 mb-md-0 text-center text-md-start my-auto">
-                    <h5>PromptPlus AI</h5>
-                    <p>
-                        US-based Team - located in Lincoln, Nebraska. 
-                        We are seeking software development projects to bootstrap. 
-                        Please contact us at <a href="mailto:promptplusai@gmail.com"
-                                                    target="_blank">promptplusai@gmail.com</a>
-                    </p>
-                  </div>
-                <div class="col-6 col-md-2 mb-3 mb-md-0">
-                  <h5>Navigate</h5>
-                  <ul class="nav flex-column" style="font-size: 1.2em;">
-                    <li class="nav-item mb-2"><a href="/session/" class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" target="session">Sessions</a></li>
-                    <li class="nav-item mb-2"><a href="/content/" class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" target="content">Content</a></li>
-                    <li class="nav-item mb-2"><a class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="/help/" target="help">Help</a></li>
-                  </ul>
-                </div>
-                <div class="col-6 col-md-2 mb-3 mb-md-0">
-                  <h5>Company</h5>
-                  <ul class="nav flex-column" style="font-size: 1.2em;">
-                    <li class="nav-item mb-2"><a href="/about/" class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" target="about">About</a></li>
-                    <li class="nav-item mb-2"><a href="/content/" class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" target="privacy">Privacy</a></li>
-                    <li class="nav-item mb-2"><a class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="/help/" target="pricing">Pricing</a></li>
-                  </ul>
-                </div>
-                <div class="col-md-4 offset-md-1 my-auto mx-auto">
-                  <form>
-                    <h5>Subscribe to our newsletter</h5>
-                    <p>Monthly digest of what's new and exciting from us.</p>
-                    <div class="d-flex flex-column flex-sm-row w-100 gap-2">
-                      <label for="newsletter1" class="visually-hidden">Email address</label>
-                      <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
-                      <button class="btn btn-primary" type="button">Subscribe</button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-          
-              <div class="d-flex flex-column flex-sm-row justify-content-center py-2 mt-3 border-top">
-                <p class="my-1"> © 2023, All Rights Reserved</p>
-              </div>
             </footer>
-          </div>
+        </div>
     </div>
 </body>
 
