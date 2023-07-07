@@ -47,6 +47,7 @@ export class SessionApp extends BaseApp {
   excludeErrorMargin = 0.97;
   systemMessageListElement: any = null;
   deleteTicketId = "";
+  logKaTeXError = false;
 
   threshold_dialog_context_limit: any = document.querySelector(".threshold_dialog_context_limit");
   chat_history_tokens: any = document.querySelector(".chat_history_tokens");
@@ -410,7 +411,10 @@ export class SessionApp extends BaseApp {
                 const fragmentId = ticketId + "_" + index;
                 this.fragmentCache[fragmentId] = responseFrag;
                 if (index % 2 === 1 && index < l - 1) {
-                  const htmlForMarkdown = window.marked.parse("```" + responseFrag + "```");
+                  const htmlForMarkdown = window.marked.parse("```" + responseFrag + "```", {
+                    mangle: false,
+                    headerIds: false,
+                  });
                   const sectionDiv = document.createElement("div");
                   sectionDiv.innerHTML = `<div class="code_block_wrapper">` +
                     htmlForMarkdown + "</div>";
@@ -456,11 +460,13 @@ export class SessionApp extends BaseApp {
                     }
                     try {
                       window.renderMathInElement(sectionDiv, {
+                        strict: false,
+                        trust: true,
                         delimiters,
                         throwOnError: false,
                       });
                     } catch (katexError: any) {
-                      console.log("KaTeX error", katexError);
+                      if (this.logKaTeXError) console.log("KaTeX error", katexError);
                     }
                   }
                   if (sectionDiv.children.length > 0) assistSection.appendChild(sectionDiv.children[0]);
