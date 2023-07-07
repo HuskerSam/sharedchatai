@@ -608,12 +608,14 @@ export default class SessionAPI {
                             total_tokens: aiResponse.total_tokens,
                         };
 
+                        let finishReason = "stop";
+                        if (aiResponse.completion_tokens > 950) finishReason = "max_tokens error range";
                         aiResponse.assist.choices = {
                             "0": {
                                 message: {
                                     content: completion,
-                                    finish_reason: "stop",
                                 },
+                                finish_reason: finishReason,
                             },
                         };
 
