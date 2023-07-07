@@ -346,3 +346,7 @@ ul.recent_documents_list li a {
 .content_page_container {
   font-size: 1.25em;
 }
+
+.nav-item a:hover {
+  color: yellow;
+}
