@@ -79,6 +79,7 @@ export default class SessionAPI {
                 memberImage,
                 submitted,
                 max_tokens,
+                includeInMessage: true,
             }, {
                 merge: true,
             });

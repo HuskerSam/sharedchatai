@@ -674,7 +674,6 @@ export class SessionApp extends BaseApp {
         removedTickets = this.autoExcludeTicketsToMeetThreshold();
       }
     }
-    const includeTickets = this.generateSubmitList(ticketId, removedTickets);
     card.classList.add("running_ticket");
     card.remove();
     const ticket = this.ticketsLookup[ticketId];
@@ -684,11 +683,12 @@ export class SessionApp extends BaseApp {
     ticket.submitted = new Date().toISOString();
     const tempCard = this.getTicketCardDom(new Date().toISOString(), ticket, true);
     this.tickets_list.appendChild(tempCard);
-
+    
     this.updateUserNamesImages();
     tempCard.scrollIntoView(false);
     this.scrollTicketListBottom();
 
+    const includeTickets = this.generateSubmitList(ticketId, removedTickets);
     const body = {
       gameNumber: this.documentId,
       includeTickets,
