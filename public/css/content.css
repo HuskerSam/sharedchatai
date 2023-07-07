@@ -4,3 +4,12 @@
     display: inline-block;
     background: rgba(255, 255, 255, 0.75)
 }
+
+.responsive_img {
+    max-width: 80%;
+    object-fit: contain;
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.75);
+    margin: auto;
+    border: solid 2px black;
+}
