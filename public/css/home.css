@@ -350,3 +350,8 @@ ul.recent_documents_list li a {
 .nav-item a:hover {
   color: yellow;
 }
+
+.footer_container_div {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}

@@ -558,10 +558,12 @@ table.number th {
 
 .signed_out_options_block {
   display: none;
+  height: 0;
 }
 
 .app_signed_out .signed_out_options_block {
   display: block;
+  height: unset;
 }
 
 .app_signed_out .signed_out_options_list_item {
