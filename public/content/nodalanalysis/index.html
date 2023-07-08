@@ -150,21 +150,30 @@
                             Nodal Analysis (Wikiversity)
                         </a>
                     </p>
-                    <div>
+                    <a href="nodalcircuit.svg" target="_blank">
                         <img src="nodalcircuit.svg" class="content_image">
-                    </div>
+                    </a>
                     <div class="impact-green">Circuit Description in SPICE format</div>
                     <div>
                         Multiple dc sources
-                        v1 1 0 dc 15
-                        v2 5 0 dc 7
-                        r1 2 1 2k
-                        r2 2 3 20k
-                        r3 4 0 10k
-                        r4 3 4 5k
-                        r5 4 5 2k
-                        r6 2 4 2k
-                        .end
+                        <br>
+                            v1 4 0 dc 15
+                            <br>
+                            v2 5 0 dc 7
+                            <br>
+                            r1 1 4 2k
+                            <br>
+                            r2 2 1 20k
+                            <br>
+                            r3 2 0 10k
+                            <br>
+                            r4 2 3 5k
+                            <br>
+                            r5 3 5 2k
+                            <br>
+                            r6 1 3 2k
+                            <br>
+                            .end
                     </div>
                     <ul>
                         <li>The SPICE format input was well received</li>
@@ -181,9 +190,6 @@
                         <li>Use SPICE format to describe circuit</li>
                         <li></li>
                     </ul>
-                    <p>SPICE description:<br>
-                        Multiple dc sources v1 1 0 dc 24 v2 3 0 dc 15 r1 1 2 10k r2 2 3 8.1k r3 2 0 4.7k .end
-                    </p>
                     <h3>Prompting log</h3>
                     <img src="equationsforspice.jpg" class="responsive_img">
                     <div class="impact-green">
