@@ -688,7 +688,7 @@ export class SessionApp extends BaseApp {
     this.tickets_list.appendChild(tempCard);
     tempCard.scrollIntoView(false);
     this.scrollTicketListBottom();
-    
+
     const includeTickets = this.generateSubmitList(ticketId, removedTickets);
     const body = {
       gameNumber: this.documentId,
