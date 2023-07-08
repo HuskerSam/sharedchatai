@@ -18,6 +18,7 @@ export class HomePageApp extends BaseApp {
     home_page_login: any = document.querySelector(".home_page_login");
     add_footer = true;
     html_body_container: any = document.querySelector(".container");
+    content_list_container: any = document.querySelector(".recent_content_ul_list");
 
     /** */
     constructor(contentPage = false) {
@@ -59,7 +60,7 @@ export class HomePageApp extends BaseApp {
         }
         this.populateAnchorLinks();
         this.bounceSidebarCollapse();
-        
+
 
         if (this.home_page_login) {
             this.home_page_login.addEventListener("click", (e: any) => {
@@ -73,6 +74,9 @@ export class HomePageApp extends BaseApp {
             element.classList.add("footer_container_div");
             element.innerHTML = this.getFooterTemplate(contentPage);
             this.html_body_container.appendChild(element);
+        }
+        if (this.content_list_container) {
+            this.content_list_container.innerHTML = this.getContentListTemplate();
         }
     }
     /** override event that happens after authentication resolution */
@@ -186,14 +190,14 @@ export class HomePageApp extends BaseApp {
         }
     }
     /** get footer template */
-    getFooterTemplate(contentPage: boolean) { 
+    getFooterTemplate(contentPage: boolean) {
         let link = `<a href="/content/"
         class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
         target="content">Content</a>`;
         if (contentPage) link = `<a href="/"
         class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
         target="content">Home</a>`;
-        
+
         return `<footer class="side_block m-0 pb-1 app_panel">
             <div class="row">
                 <div class="col-12 col-md-3 mb-3 mb-md-0 text-center text-md-start">
@@ -270,4 +274,31 @@ export class HomePageApp extends BaseApp {
             </div>
         </footer>`
     };
+    /** get content list template */
+    getContentListTemplate() {
+        return `<li>
+                    <a class="hover_yellow" href="/content/cuttlecard/">Cuttle part 1: Teach AI New Card Game
+                        - <span class="caption">Using gpt-3.5-turbo to play Cuttle</span></a>
+                </li>
+                <li>
+                    <a class="hover_yellow" href="/content/cuttlecard2/">Cuttle Part 2: AI Strategist
+                        - <span class="caption">Using gpt-3.5-turbo to help with tips</span></a>
+                </li>
+                <li>
+                    <a class="hover_yellow" href="/content/heartscardgame/">Hearts Card Game Prompts
+                        - <span class="caption">gpt-3.5-turbo vs chat-bison-001</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="hover_yellow" href="/content/yahtzee/">Keep score in Yahtzee
+                        - <span class="caption">keep score for 2 players and roll dice</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="hover_yellow" href="/content/nodalanalysis/">Nodal Analysis
+                        - <span class="caption">gpt-3.5-turbo and chat-bison-001 are taken to task with a
+                            circuit.</span>
+                    </a>
+                </li>`
+    }
 }
