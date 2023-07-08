@@ -403,7 +403,6 @@ export class SessionApp extends BaseApp {
               assistSection.innerHTML = result;
             } else {
               const completionRawText = assistData.assist.choices["0"].message.content;
-              const finishedComplete = assistData.assist.choices["0"].finish_reason === "stop";
               const markDownPieces = completionRawText.split("```");
               const l = markDownPieces.length;
               assistSection.innerHTML = "";
@@ -517,6 +516,9 @@ export class SessionApp extends BaseApp {
               if (!responseTime) responseTime = 0;
               completionSpan.innerHTML = completionTokens +
                 "&nbsp; " + Math.round(responseTime / 1000) + "s";
+
+              const finishedComplete = assistData.assist.choices["0"].finish_reason === "stop" ||
+                assistData.assist.choices["0"].finish_reason === undefined;
 
               if (finishedComplete) {
                 card.classList.remove("completion_max_tokens_reached");

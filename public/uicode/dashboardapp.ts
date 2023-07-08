@@ -78,7 +78,8 @@ export class DashboardApp extends BaseApp {
   async prepDocumentOptionsHelper(documentId: string) {
     this.lastTicketsSnapshot = {};
 
-    this.lastTicketsSnapshot = await firebase.firestore().collection(`Games/${documentId}/tickets`).get();
+    this.lastTicketsSnapshot = await firebase.firestore().collection(`Games/${documentId}/tickets`)
+      .orderBy(`submitted`, "desc").get();
     this.lastAssistsSnapshot = await firebase.firestore().collection(`Games/${documentId}/assists`).get();
     this.assistsLookup = {};
     this.lastAssistsSnapshot.forEach((assistDoc: any) => this.assistsLookup[assistDoc.id] = assistDoc.data());
