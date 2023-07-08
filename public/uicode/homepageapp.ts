@@ -16,9 +16,11 @@ export class HomePageApp extends BaseApp {
     recentDocumentFeedRegistered = false;
     recentDocumentsSubscription: any = null;
     home_page_login: any = document.querySelector(".home_page_login");
+    add_footer = true;
+    html_body_container: any = document.querySelector(".container");
 
     /** */
-    constructor() {
+    constructor(contentPage = false) {
         super();
         this.showLoginModal = false;
         this.profileHelper.noAuthPage = true;
@@ -57,6 +59,7 @@ export class HomePageApp extends BaseApp {
         }
         this.populateAnchorLinks();
         this.bounceSidebarCollapse();
+        
 
         if (this.home_page_login) {
             this.home_page_login.addEventListener("click", (e: any) => {
@@ -64,6 +67,12 @@ export class HomePageApp extends BaseApp {
                 e.preventDefault();
                 this.login.show();
             });
+        }
+        if (this.add_footer) {
+            const element = document.createElement("div");
+            element.classList.add("footer_container_div");
+            element.innerHTML = this.getFooterTemplate(contentPage);
+            this.html_body_container.appendChild(element);
         }
     }
     /** override event that happens after authentication resolution */
@@ -176,4 +185,89 @@ export class HomePageApp extends BaseApp {
             });
         }
     }
+    /** get footer template */
+    getFooterTemplate(contentPage: boolean) { 
+        let link = `<a href="/content/"
+        class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+        target="content">Content</a>`;
+        if (contentPage) link = `<a href="/"
+        class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+        target="content">Home</a>`;
+        
+        return `<footer class="side_block m-0 pb-1 app_panel">
+            <div class="row">
+                <div class="col-12 col-md-3 mb-3 mb-md-0 text-center text-md-start">
+                    <h5>PromptPlus AI</h5>
+                    <p>
+                        We are a dedicated team based in Lincoln, Nebraska, USA. We are actively pursuing software development projects to fuel our growth. To collaborate with us, please reach out at <a
+                            href="mailto:promptplusai@gmail.com" target="_blank">promptplusai@gmail.com</a>
+                    </p>
+                </div>
+                <div class="col-6 col-md-2 mb-3 mb-md-0">
+                    <h5>Navigate</h5>
+                    <ul class="nav flex-column" style="font-size: 1.2em;">
+                        <li class="nav-item mb-2">${link}</li>
+                        <li class="nav-item mb-2"><a href="/dashboard/"
+                                class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                                target="session">Sessions</a></li>
+                        <li class="nav-item mb-2"><a
+                                class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                                href="/help/" target="help">Help</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-2 mb-3 mb-md-0">
+                    <h5>Company</h5>
+                    <ul class="nav flex-column" style="font-size: 1.2em;">
+                        <li class="nav-item mb-2"><a href="/content/about/"
+                                class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                                target="about">About</a></li>
+                        <li class="nav-item mb-2"><a href="/content/privacy/"
+                                class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                                target="privacy">Privacy</a></li>
+                        <li class="nav-item mb-2"><a
+                                class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                                href="/content/pricing/" target="pricing">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 offset-md-1 mb-3">
+                    <p class="header_recent_document">Signup for Email List</p>
+                    <div class="intro_card card">
+                        <div id="mc_embed_shell">
+                            <div id="mc_embed_signup">
+                                <form
+                                    action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febcbb50595f9c46&amp;id=4abff76760&amp;f_id=00695ee1f0"
+                                    method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
+                                    class="validate" target="_self" novalidate="">
+                                    <div id="mc_embed_signup_scroll">
+                                        <div class="mc-field-group"><label for="mce-EMAIL">Email Address</label><input
+                                                type="email" name="EMAIL" class="required email" id="mce-EMAIL" required=""
+                                                value=""></div>
+                                        <div id="mce-responses" class="clear foot">
+                                            <div class="response" id="mce-error-response" style="display: none;"></div>
+                                            <div class="response" id="mce-success-response" style="display: none;"></div>
+                                        </div>
+                                        <div aria-hidden="true" style="position: absolute; left: -5000px;">
+                                            /* real people should not fill this in and expect good things - do not remove
+                                            this or risk form bot signups */
+                                            <input type="text" name="b_064c017e2febcbb50595f9c46_4abff76760" tabindex="-1"
+                                                value="">
+                                        </div>
+                                        <div class="optionalParent">
+                                            <div class="clear foot">
+                                                <input type="submit" name="subscribe" id="mc-embedded-subscribe"
+                                                    class="button" value="Subscribe">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex flex-column flex-sm-row justify-content-center py-2 mt-3 border-top">
+                <p class="my-1"> © 2023, All Rights Reserved</p>
+            </div>
+        </footer>`
+    };
 }
