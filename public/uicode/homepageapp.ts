@@ -76,7 +76,7 @@ export class HomePageApp extends BaseApp {
             this.html_body_container.appendChild(element);
         }
         if (this.content_list_container) {
-            this.content_list_container.innerHTML = this.getContentListTemplate();
+            this.content_list_container.innerHTML = this.getContentListTemplate(contentPage);
         }
     }
     /** override event that happens after authentication resolution */
@@ -275,30 +275,34 @@ export class HomePageApp extends BaseApp {
         </footer>`
     };
     /** get content list template */
-    getContentListTemplate() {
-        return `<li>
-                    <a class="hover_yellow" href="/content/cuttlecard/">Cuttle part 1: Teach AI New Card Game
-                        - <span class="caption">Using gpt-3.5-turbo to play Cuttle</span></a>
-                </li>
-                <li>
-                    <a class="hover_yellow" href="/content/cuttlecard2/">Cuttle Part 2: AI Strategist
-                        - <span class="caption">Using gpt-3.5-turbo to help with tips</span></a>
-                </li>
-                <li>
-                    <a class="hover_yellow" href="/content/heartscardgame/">Hearts Card Game Prompts
-                        - <span class="caption">gpt-3.5-turbo vs chat-bison-001</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="hover_yellow" href="/content/yahtzee/">Keep score in Yahtzee
-                        - <span class="caption">keep score for 2 players and roll dice</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="hover_yellow" href="/content/nodalanalysis/">Nodal Analysis
-                        - <span class="caption">gpt-3.5-turbo and chat-bison-001 are taken to task with a
-                            circuit.</span>
-                    </a>
-                </li>`
+    getContentListTemplate(contentPage: boolean) {
+        let items = `<li>
+        <a class="hover_yellow" href="/content/cuttlecard/">Cuttle part 1: Teach AI New Card Game
+            - <span class="caption">Using gpt-3.5-turbo to play Cuttle</span></a>
+    </li>
+    <li>
+        <a class="hover_yellow" href="/content/cuttlecard2/">Cuttle Part 2: AI Strategist
+            - <span class="caption">Using gpt-3.5-turbo to help with tips</span></a>
+    </li>
+    <li>
+        <a class="hover_yellow" href="/content/heartscardgame/">Hearts Card Game Prompts
+            - <span class="caption">gpt-3.5-turbo vs chat-bison-001</span>
+        </a>
+    </li>
+    <li>
+        <a class="hover_yellow" href="/content/yahtzee/">Keep score in Yahtzee
+            - <span class="caption">keep score for 2 players and roll dice</span>
+        </a>
+    </li>
+`;
+        if (contentPage) {
+            items += `    <li>
+            <a class="hover_yellow" href="/content/nodalanalysis/">Nodal Analysis
+                - <span class="caption">gpt-3.5-turbo and chat-bison-001 are taken to task with a
+                    circuit.</span>
+            </a>
+        </li>`;
+        }
+        return items;
     }
 }
