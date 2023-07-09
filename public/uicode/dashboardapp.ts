@@ -333,12 +333,7 @@ export class DashboardApp extends BaseApp {
             <i class="material-icons">logout</i>
             Leave Session</button></li>
             <li><hr class="dropdown-divider"></li>
-            <li class="dropdown">
-              <button class="dropdown-item dropdown-toggle label_toggle" data-bs-toggle="dropdown" data-bs-auto-close="inside">
-                <i class="material-icons">label</i> Labels
-              </button>
-              <ul class="dropdown-menu dropdown-submenu dropdown-menu-dark label_menu dashboard_menus_list"></ul>
-            </li>
+            <div class="label_menu dashboard_menus_list"></div>
           </ul>
         </div>      
     </a>`;
@@ -392,12 +387,6 @@ export class DashboardApp extends BaseApp {
       e.stopPropagation();
       e.preventDefault();
       BaseApp.copyGameLink(data.gameNumber, linkCopy);
-    });
-
-    const labelToggle: any = card.querySelector(".label_toggle");
-    labelToggle.addEventListener("click", (e: any) => {
-      e.preventDefault();
-      e.stopPropagation();
     });
 
     card.labelMenuContainer = card.querySelector(".dashboard_menus_list");

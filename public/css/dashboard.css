@@ -411,10 +411,6 @@ html {
   top: 9px;
 }
 
-.dropdown-menu .dropdown-submenu {
-  background-color: rgba(0, 0, 0)
-}
-
 .dashboard_menus_list li i {
   visibility: hidden;
   position: relative;
