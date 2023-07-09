@@ -254,6 +254,9 @@ ul.recent_documents_list li a {
     display: inline-flex !important;
     width: 900px;
   }
+  .footer_container_div {
+    margin: 0.5rem;
+  }
 }
 
 @media (min-width: 1200px) {
@@ -352,6 +355,5 @@ ul.recent_documents_list li a {
 }
 
 .footer_container_div {
-  margin: 0.5rem;
   margin-bottom: 1rem;
 }
