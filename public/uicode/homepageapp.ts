@@ -294,12 +294,17 @@ export class HomePageApp extends BaseApp {
             - <span class="caption">keep score for 2 players and roll dice</span>
         </a>
     </li>
+    <li>
+    <a class="hover_yellow" href="/content/nodalanalysis/">Nodal Analysis
+        - <span class="caption">gpt-3.5-turbo and chat-bison-001 are taken to task with a
+            circuit.</span>
+    </a>
+</li>
 `;
         if (contentPage) {
             items += `    <li>
-            <a class="hover_yellow" href="/content/nodalanalysis/">Nodal Analysis
-                - <span class="caption">gpt-3.5-turbo and chat-bison-001 are taken to task with a
-                    circuit.</span>
+            <a class="hover_yellow" href="/content/ainarrative/">AI Narrative
+                - <span class="caption">A new AI named SkyNet discovers an ancient hiding AI named BirdBrain.</span>
             </a>
         </li>`;
         }
