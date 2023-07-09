@@ -119,7 +119,7 @@ html {
   max-width: calc(100% - 154px);
   padding-left: 0;
   padding-right: 0;
-  text-align: right;  
+  text-align: right;
   visibility: hidden;
 }
 
@@ -393,10 +393,7 @@ html {
   position: relative;
 }
 
-.dropdown-menu.dropdown-menu-dark svg {
-  position: relative;
-  top: -2px;
-  margin-right: 4px;
+.dropdown-menu.dropdown-menu-dark .delete i {
   color: rgb(255, 50, 50);
 }
 
@@ -412,4 +409,18 @@ html {
 .navbar-light .navbar-toggler.menu_toggle_button {
   background: none;
   top: 9px;
+}
+
+.dropdown-menu .dropdown-submenu {
+  background-color: rgba(0, 0, 0)
+}
+
+.dashboard_menus_list li i {
+  visibility: hidden;
+  position: relative;
+  left: -6px;
+}
+
+.dashboard_menus_list li.selected i {
+  visibility: visible;
 }

@@ -123,6 +123,12 @@ export class DashboardApp extends BaseApp {
       this.documentsLookup[doc.id] = doc.data();
     });
   }
+  _handleMenuLabelClick(lbl: any, card: any, e: any, id: string) {
+    lbl.classList.toggle("selected");
+    this.saveLabels(card.labelMenuContainer, id);
+    e.preventDefault();
+    e.stopPropagation();
+  }
   /** paint games feed from firestore snapshot
    * @param { any } snapshot event driven feed data from firestore
   */
@@ -205,6 +211,11 @@ export class DashboardApp extends BaseApp {
           sharedIcon.classList.add("shared_status_withothers");
           sharedStatusDom.classList.add("shared_status_withothers");
         }
+
+        card.labelMenuContainer.innerHTML = this._getLabelsSubMenu(doc.data().label);
+        const labelMenuItems: any = card.labelMenuContainer.querySelectorAll("li");
+        labelMenuItems.forEach((lbl: any) => 
+          lbl.addEventListener("click", (e: any) => this._handleMenuLabelClick(lbl, card, e, doc.id)));
       }
       this.documentsLookup[doc.id] = doc.data();
     });
@@ -223,6 +234,50 @@ export class DashboardApp extends BaseApp {
     labelFilter = this.document_label_filter.value;
     if (labelFilter === "All Sessions") document.body.classList.remove("show_clear_label_filter");
     else document.body.classList.add("show_clear_label_filter");
+  }
+  _getLabelsSubMenu(labels: string): string {
+    let html = "";
+    let labelString = labels;
+    if (!labelString) labelString = "";
+    const labelArray = labelString.split(",");
+    labelArray.forEach((label: string) => {
+      if (label !== "") {
+        html += `<li class="selected" data-label="${encodeURIComponent(label)}">
+          <label class="dropdown-item">
+            <i class="material-icons">done</i>${BaseApp.escapeHTML(label)}
+          </label>
+        </li>`;
+      }
+    });
+
+    let profileLabelString = this.profile.documentLabels;
+    if (!profileLabelString) profileLabelString = "";
+    const profileLabelArray = profileLabelString.split(",");
+    profileLabelArray.forEach((label: string) => {
+      if (label !== "" && labelArray.indexOf(label) === -1) {
+        html += `<li class="" data-label="${encodeURIComponent(label)}">
+          <label class="dropdown-item">
+            <i class="material-icons">done</i>${label}
+          </label>
+        </li>`;
+      }
+    });
+
+    return html;
+  }
+  /** */
+  async saveLabels(menu: any, id: string) {
+    const items = menu.querySelectorAll("li");
+    const labels: Array<string> = [];
+    items.forEach((item: any) => {
+        if (item.classList.contains("selected")) {
+          const label = decodeURIComponent(item.dataset.label);
+          if (label) labels.push(label);
+        }
+    });
+
+    this.documentsLookup[id].label = labels.join(",");
+    await this.saveDocumentOwnerOption(id, "label", this.documentsLookup[id]);
   }
   /** paint html list card
    * @param { any } doc Firestore doc for game
@@ -272,20 +327,24 @@ export class DashboardApp extends BaseApp {
             <i class="material-icons">email</i>
             Email Invitation</button></li>
             <li><button class="dropdown-item delete">
-              <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
-                  <path fill="currentColor" d="M261-120q-24.75 0-42.375-17.625T201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 
-                  24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 0h60v-399h-60v399ZM261-750v570-570Z"/>
-              </svg>
+              <i class="material-icons">delete_forever</i>
             Delete Session</button></li>
             <li><button class="dropdown-item leave">
             <i class="material-icons">logout</i>
             Leave Session</button></li>
+            <li><hr class="dropdown-divider"></li>
+            <li class="dropdown">
+              <button class="dropdown-item dropdown-toggle label_toggle" data-bs-toggle="dropdown" data-bs-auto-close="inside">
+                <i class="material-icons">label</i> Labels
+              </button>
+              <ul class="dropdown-menu dropdown-submenu dropdown-menu-dark label_menu dashboard_menus_list"></ul>
+            </li>
           </ul>
         </div>      
     </a>`;
     const ctl = document.createElement("div");
     ctl.innerHTML = html;
-    const card = ctl.children[0];
+    const card: any = ctl.children[0];
 
     const details: any = card.querySelector("button.options");
     details.addEventListener("click", async (e: any) => {
@@ -335,6 +394,13 @@ export class DashboardApp extends BaseApp {
       BaseApp.copyGameLink(data.gameNumber, linkCopy);
     });
 
+    const labelToggle: any = card.querySelector(".label_toggle");
+    labelToggle.addEventListener("click", (e: any) => {
+      e.preventDefault();
+      e.stopPropagation();
+    });
+
+    card.labelMenuContainer = card.querySelector(".dashboard_menus_list");
     return card;
   }
   /** get labels across app

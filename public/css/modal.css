@@ -237,7 +237,7 @@
 }
 
 .sign_out_button i,
-.delete_game svg {
+.delete_game i {
   color: rgb(255, 50, 50);
 }
 
