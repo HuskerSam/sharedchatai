@@ -306,6 +306,11 @@ export class HomePageApp extends BaseApp {
             <a class="hover_yellow" href="/content/ainarrative/">AI Narrative
                 - <span class="caption">A new AI named SkyNet discovers an ancient hiding AI named BirdBrain.</span>
             </a>
+        </li>
+        <li>
+            <a class="hover_yellow" href="/content/labelsmenu/">Bootstrap sub menu
+                - <span class="caption">Add sub menu for selecting labels for each session.</span>
+            </a>
         </li>`;
         }
         return items;
