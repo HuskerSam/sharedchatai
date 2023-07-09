@@ -193,10 +193,10 @@ export class HomePageApp extends BaseApp {
     getFooterTemplate(contentPage: boolean) {
         let link = `<a href="/content/"
         class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-        target="content">Content</a>`;
+        >Content</a>`;
         if (contentPage) link = `<a href="/"
         class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-        target="content">Home</a>`;
+        >Home</a>`;
 
         return `<footer class="side_block m-0 pb-1 app_panel">
             <div class="row">
@@ -213,7 +213,7 @@ export class HomePageApp extends BaseApp {
                         <li class="nav-item mb-2">${link}</li>
                         <li class="nav-item mb-2"><a href="/dashboard/"
                                 class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                                target="session">Sessions</a></li>
+                                >Sessions</a></li>
                         <li class="nav-item mb-2"><a
                                 class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
                                 href="/help/" target="help">Help</a></li>
@@ -224,27 +224,27 @@ export class HomePageApp extends BaseApp {
                     <ul class="nav flex-column" style="font-size: 1.2em;">
                         <li class="nav-item mb-2"><a href="/content/about/"
                                 class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                                target="about">About</a></li>
+                                >About</a></li>
                         <li class="nav-item mb-2"><a href="/content/privacy/"
-                                class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                                target="privacy">Privacy</a></li>
+                                class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Privacy</a></li>
                         <li class="nav-item mb-2"><a
                                 class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                                href="/content/pricing/" target="pricing">Pricing</a></li>
+                                href="/content/pricing/">Pricing</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4 offset-md-1 mb-3">
-                    <p class="header_recent_document">Signup for Email List</p>
+                    <h5 class="mb-0">Newsletter Signup:</h5>
+                    <p class="my-1">Get tips, updates, news and more.</p>
                     <div class="intro_card card">
                         <div id="mc_embed_shell">
                             <div id="mc_embed_signup">
                                 <form
                                     action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febcbb50595f9c46&amp;id=4abff76760&amp;f_id=00695ee1f0"
                                     method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
-                                    class="validate" target="_self" novalidate="">
+                                    class="validate m-2 mb-1" target="_self" novalidate="">
                                     <div id="mc_embed_signup_scroll">
-                                        <div class="mc-field-group"><label for="mce-EMAIL">Email Address</label><input
-                                                type="email" name="EMAIL" class="required email" id="mce-EMAIL" required=""
+                                        <div class="mc-field-group w-100"><label class="visually-hidden" for="mce-EMAIL">Email Address</label><input
+                                                type="email" name="EMAIL" placeholder="Email Address" class="required email py-2" id="mce-EMAIL" required=""
                                                 value=""></div>
                                         <div id="mce-responses" class="clear foot">
                                             <div class="response" id="mce-error-response" style="display: none;"></div>
@@ -256,8 +256,8 @@ export class HomePageApp extends BaseApp {
                                             <input type="text" name="b_064c017e2febcbb50595f9c46_4abff76760" tabindex="-1"
                                                 value="">
                                         </div>
-                                        <div class="optionalParent">
-                                            <div class="clear foot">
+                                        <div class="optionalParent text-center">
+                                            <div class="clear foot d-inline-block">
                                                 <input type="submit" name="subscribe" id="mc-embedded-subscribe"
                                                     class="button" value="Subscribe">
                                             </div>
