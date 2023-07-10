@@ -73,6 +73,10 @@ export default class SessionAPI {
                 return BaseClass.respondError(res, "Rerun Ticket not found " + reRunticket);
             }
 
+            if (ticket.running) {
+                return BaseClass.respondError(res, "Ticket is already running " + reRunticket);
+            }
+
             await firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${reRunticket}`).set({
                 uid,
                 memberName,
@@ -80,6 +84,7 @@ export default class SessionAPI {
                 submitted,
                 max_tokens,
                 includeInMessage: true,
+                running: true,
             }, {
                 merge: true,
             });
@@ -180,6 +185,11 @@ export default class SessionAPI {
 
         const promises = [
             firebaseAdmin.firestore().doc(`Games/${gameNumber}/assists/${ticketId}`).set(aiResponse),
+            firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${ticketId}`).set({
+                running: false,
+            }, {
+                merge: true,
+            }),
             firebaseAdmin.firestore().doc(`Games/${gameNumber}`).set({
                 lastActivity: new Date().toISOString(),
                 // lastMessage: ticketData.message,
