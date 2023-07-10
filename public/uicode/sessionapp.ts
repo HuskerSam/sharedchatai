@@ -369,7 +369,7 @@ export class SessionApp extends BaseApp {
 
     this.ticketIsPending = false;
     const ticketIds = Object.keys(this.ticketsLookup);
-    ticketIds.forEach((ticketId: string) => {
+    ticketIds.forEach((ticketId: string) => {  
       const ticketData = this.ticketsLookup[ticketId];
       const assistData = this.assistsLookup[ticketId];
       const card: any = this.tickets_list.querySelector(`div[ticketid="${ticketId}"]`);
@@ -383,7 +383,7 @@ export class SessionApp extends BaseApp {
         totalSpan.innerHTML = "";
         promptSpan.innerHTML = "";
         completionSpan.innerHTML = "";
-
+  
         const lastSubmit: any = card.querySelector(`.last_submit_time`);
         if (ticketRunning) {
           BaseApp.setHTML(assistSection, `<div class="pending_message">Prompt sent to model for processing...</div>`);
@@ -782,14 +782,14 @@ export class SessionApp extends BaseApp {
   getTicketCardDom(ticketId: string, data: any, tempTicket = false): any {
     const gameOwnerClass = data.isGameOwner ? " ticket_game_owner" : "";
     const ownerClass = data.uid === this.uid ? " ticket_owner" : "";
-    const oldSubmitted = new Date(data.submitted).getTime() > Date.now() + 5 * 3600 * 1000;
+    const oldSubmitted = new Date(data.submitted).getTime()  + 5 * 60 * 1000 < Date.now();
     const oldTicketClass = oldSubmitted ? " old_ticket_5_min" : "";
     const tempTicketClass = tempTicket ? " temp_ticket_card" : "";
     const cardWrapper = document.createElement("div");
     const classes = gameOwnerClass + ownerClass + tempTicketClass + oldTicketClass;
     const cardClass = `mt-1 game_message_list_item${classes} ticket_running`;
     const cardHTML =
-      `<div class="${cardClass}" ticketid="${ticketId}" chatroomid="${ticketId}">
+      `<div class="${cardClass}" ticketid="${ticketId}">
       <span class="tokens_prompt"></span>
       <div class="m-1 user_assist_request_header">
         <div style="flex:1;" class="ticket_user_display_header d-flex flex-column">
@@ -800,7 +800,7 @@ export class SessionApp extends BaseApp {
           </div>
           <button class="rerun_ticket btn btn-secondary" data-ticketid="${ticketId}"><i
                   class="material-icons">loop</i></button>
-          <button class="delete_ticket btn btn-secondary" data-chatroomid="${data.gameNumber}"
+          <button class="delete_ticket btn btn-secondary" data-ticketid="${data.gameNumber}"
               data-messageid="${ticketId}">
               <svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 -960 960 960" width="30">
                 <path fill="currentColor" d="M261-120q-24.75 0-42.375-17.625T201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 
@@ -839,7 +839,7 @@ export class SessionApp extends BaseApp {
 
     const deleteBtn: any = cardDom.querySelector("button.delete_ticket");
     deleteBtn.addEventListener("click", () =>
-      this.deleteTicket(deleteBtn, deleteBtn.dataset.chatroomid, deleteBtn.dataset.messageid));
+      this.deleteTicket(deleteBtn, deleteBtn.dataset.ticketid, deleteBtn.dataset.messageid));
 
     const reRunBtn: any = cardDom.querySelector("button.rerun_ticket");
     reRunBtn.addEventListener("click", () => this.reRunTicket(reRunBtn, reRunBtn.dataset.ticketid, cardDom));
