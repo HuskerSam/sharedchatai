@@ -44,7 +44,7 @@ export class SessionApp extends BaseApp {
   excludingTicketsRunning = false;
   paintOptionsDebounceTimer: any = null;
   lastMembersHTMLCache = "";
-  excludeErrorMargin = 0.97;
+  excludeErrorMargin = 0.92;
   systemMessageListElement: any = null;
   deleteTicketId = "";
   logKaTeXError = false;
