@@ -11,16 +11,16 @@
     <meta name='apple-mobile-web-app-capable' content='yes'>
     <meta name='apple-mobile-web-app-status-bar-style' content='black'>
 
-    <link rel='icon' sizes='192x192' href='https://promptplusai.com/images/logo64.png'>
-    <link rel='apple-touch-icon' href='https://promptplusai.com/images/logo64.png'>
-    <meta name='msapplication-square310x310logo' content='https://promptplusai.com/images/logo64.png'>
-    <link rel='apple-touch-icon' href='https://promptplusai.com/images/logo64.png'>
+    <link rel='icon' sizes='192x192' href='https://cogliber.com/images/logo64.png'>
+    <link rel='apple-touch-icon' href='https://cogliber.com/images/logo64.png'>
+    <meta name='msapplication-square310x310logo' content='https://cogliber.com/images/logo64.png'>
+    <link rel='apple-touch-icon' href='https://cogliber.com/images/logo64.png'>
 
-    <meta property="og:url" content="https://promptplusai.com" />
+    <meta property="og:url" content="https://cogliber.com" />
     <meta property="og:title" content="Prompt+ AI" />
     <meta property="og:type" content="website" />
 
-    <meta property="og:image" content="https://promptplusai.com/images/homepageogmeta.png" />
+    <meta property="og:image" content="https://cogliber.com/images/homepageogmeta.png" />
     <meta property="og:description" content="Collaborative AI Chatting Application" />
 
     <!-- Firebase links -->
@@ -145,34 +145,45 @@
                     <ul class="template_list_wrapper recent_content_ul_list"></ul>
                 </div>
             </div>
-            <div class="main_block app_panel">
-                <h1 class="header_recent_document">Available
-                    <span style="color: rgb(50, 255, 50);">Models</span>
-                </h1>
-                <div class="intro_card card">
-                    <h5 style="display:inline-block">
-                        <a href="https://platform.openai.com/docs/models" target="_blank"
-                            class="hover_yellow">OpenAI</a>
-                    </h5>
-                    (ChatGPT)
-                    <ul>
-                        <li><span class="supported_model">gpt-3.5-turbo</span> 4k</li>
-                        <li><span class="supported_model">gpt-3.5-turbo-16k</span></li>
-                        <li><span class="upcoming_model">gpt-4</span> 8k (soon)</li>
-                        <li><span class="upcoming_model">gpt-4-32k</span> (soon)</li>
-                    </ul>
-                    <h5 style="display:inline-block">
-                        <a href="https://developers.generativeai.google/api/rest/generativelanguage" target="_blank"
-                            class="hover_yellow">Google
-                            Generate</a>
-                    </h5>
-                    (Bard)
-                    <ul>
-                        <li> <span class="supported_model">chat-bison-001</span> 9k</li>
-                    </ul>
-                </div>
-            </div>
         </div>
+
+        <div class="flex-lg-row flex_change_responsive">
+            <div class="side_block app_panel">
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/9VMFh3eAFrE"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
+            </div>
+            
+        <div class="main_block app_panel">
+            <h1 class="header_recent_document">
+                <span style="color: rgb(50, 255, 50);">Models</span>
+            </h1>
+            <p class="py-0" style="font-size:1rem;">Change models without losing context</p>
+            <div class="intro_card card">
+                <h5 style="display:inline-block">
+                    <a href="https://platform.openai.com/docs/models" target="_blank"
+                        class="hover_yellow">OpenAI</a>
+                </h5>
+                (ChatGPT)
+                <ul>
+                    <li><span class="supported_model">gpt-3.5-turbo</span> 4k</li>
+                    <li><span class="supported_model">gpt-3.5-turbo-16k</span></li>
+                    <li><span class="upcoming_model">gpt-4</span> 8k (soon)</li>
+                    <li><span class="upcoming_model">gpt-4-32k</span> (soon)</li>
+                </ul>
+                <h5 style="display:inline-block">
+                    <a href="https://developers.generativeai.google/api/rest/generativelanguage" target="_blank"
+                        class="hover_yellow">Google
+                        Generate</a>
+                </h5>
+                (Bard)
+                <ul>
+                    <li> <span class="supported_model">chat-bison-001</span> 9k</li>
+                </ul>
+            </div>        </div>
+        </div>
+
         <div class="flex-lg-row flex_change_responsive">
             <div class="side_block app_panel">
                 <h1 class="header_recent_document">
@@ -190,9 +201,7 @@
                         <li>Direct control of <a class="hover_yellow" href="/help/#threshold" target="help"
                                 style="color: rgb(255, 255, 20);">contextual history</a>
                         </li>
-                        <li>Export HTML or text to the clipboard</li>
                         <li>Prime the context by importing sessions</li>
-                        <li>Change the model without losing the context</li>
                     </ul>
                 </div>
             </div>
@@ -203,37 +212,17 @@
                 </h1>
                 <div class="intro_card card">
                     <ul>
-                        <li><span style="color: rgb(50, 255, 50);">System messages</span> for specific results</li>
-                        <li><span>Auto Exclude</span> to manage request size</li>
-                        <li>Choose from a <span>range of models</span></li>
-                        <li><span>Exclude or delete</span> prompts</li>
-                        <li>Adjust <span style="color: rgb(255, 127, 50);">temperature</span> for creativity</li>
-                        <li>Decrease <span style="color: rgb(255, 127, 50);">top p</span> for more possibilities</li>
+                        <li><span ><a href="/help/#system_message" class="hover_yellow" target="help"
+                            style="color: rgb(50, 255, 50);">System messages</a></span> for specific results</li>
+                        <li><a href="/help/#auto_exclude" class="hover_yellow" target="help"
+                            style="color: rgb(50, 255, 50);">Auto exclude</a></span> to manage request size</li>
+                        <li>Prompts <a href="/help/#chat_features" class="hover_yellow" target="help"
+                            style="color: rgb(50, 255, 50);">controls</a></span> - copy, include, rerun, and delete</li>
+                        <li>Adjust <a href="/help/#temperature" class="hover_yellow" target="help"
+                            style="color: rgb(255, 127, 50);">temperature</a> for creativity</li>
+                        <li>Decrease <span style="color: rgb(255, 127, 50);"></span><a href="/help/#top_p" class="hover_yellow" target="help">top p</a></span> for more possibilities</li>
                     </ul>
                 </div>
-            </div>
-        </div>
-        <div class="flex-lg-row flex_change_responsive">
-            <div class="main_block app_panel">
-                <h1 class="header_recent_document">Power
-                    <span style="color:rgb(255, 255, 20)">Features</span>
-                </h1>
-                <div class="intro_card card">
-                    <ul>
-                        <li>Context specific help</li>
-                        <li>Lifetime access to data</li>
-                        <li>Data will never be shared</li>
-                        <li>Labels to organize</li>
-                        <li>Send email invitations</li>
-                        <li>Usage limits per session</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="side_block app_panel">
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/9VMFh3eAFrE"
-                    title="YouTube video player" frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen></iframe>
             </div>
         </div>
         <div class="flex-lg-row flex_change_responsive signed_out_options_block main_block app_panel signed_out_flex">
@@ -247,14 +236,22 @@
             </div>
         </div>
         <div class="flex-lg-row flex_change_responsive">
-            <div class="side_block app_panel">
-                <p class="header_recent_document">Walk Throughs (coming soon)</p>
+            <div class="main_block app_panel">
+                <h1 class="header_recent_document">Power
+                    <span style="color:rgb(255, 255, 20)">Features</span>
+                </h1>
                 <div class="intro_card card">
                     <ul>
-                        <li>Sharing new sessions with users</li>
-                        <li>Exporting sessions to share results</li>
-                        <li>Send email invitations</li>
-                        <li>Multiple conversations in one session</li>
+                        <li><a class="hover_yellow" href="/content/privacy"
+                            style="color: rgb(255, 127, 50);">Data</a> will never be shared</li>
+                        <li><span>Only one <a class="hover_yellow" href="/content/pricing"
+                            style="color: rgb(255, 127, 50);">subscription</a> required</li>
+                        <li>Labels to <a class="hover_yellow" href="/help/#owner_labels" target="help"
+                            style="color: rgb(255, 255, 20);">organize</a></li>
+                        <li>Send <a class="hover_yellow" href="/help/#email_link" target="help"
+                            style="color: rgb(255, 127, 50);">email</a> invitations</li>
+                        <li><a class="hover_yellow" href="/help/#session_limit" target="help"
+                            style="color: rgb(255, 127, 50);">Usage limits</a> per session</li>
                     </ul>
                 </div>
             </div>
@@ -264,15 +261,12 @@
                 </h1>
                 <div class="intro_card card">
                     <ul>
-                        <li><span>Only one subscription required</li>
                         <li><a class="hover_yellow" href="/help/#help_sign_in" target="help"
                                 style="color: rgb(30, 200, 200);">Anonymous login</a> is available</li>
-                        <li>GPT distinguishes between users</li>
                         <li><a class="hover_yellow" href="/help/#options" target="help"
                                 style="color: rgb(190, 100, 250)">JSON
-                                import and export</a></li>
-                        <li><span>HTML and text reports</span></li>
-                        <li>Explore with friends</li>
+                                import and export</a> to share session</li>
+                        <li><span>HTML and text to share results/reports</span></li>
                     </ul>
                 </div>
             </div>
