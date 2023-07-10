@@ -263,10 +263,10 @@
                             alt="sidebar_title"></div>
 
                     <p class="lead">Prompt Inclusion/Exclusion </p>
-                    <p class="mb-4">Each user can determine which prompts to include or exclude from the AI's response
+                    <p id="auto_exclude" class="mb-4">Each user can determine which prompts to include or exclude from the AI's response
                         context, controlled by a selection box attached to each prompt. Exclusion of prompts allows
                         users to modify the context swiftly. Each participant can influence the AI's consideration when
-                        generating responses, granting collective control over the conversation and narrative.</p>
+                        generating responses, granting collective control over the conversation and narrative. Auto exclude can be enabled in <a href="#profile">profile options</a>.</p>
 
 
                     <p class="lead">Prompt Rerun</p>
@@ -369,7 +369,7 @@
                     </figure>
                     <ul class="list-group list-group-unnumbered mb-4">
                         <li
-                            class="list-group-item d-flex justify-content-between align-items-start text-white bg-dark-2">
+                            class="list-group-item d-flex justify-content-between align-items-start text-white bg-dark-2 p-1">
                             <div class="ms-2 me-auto">
                                 <div class="fw-bold">Max Token</div>
                                 This displays the parameter setting set in the Engine, which governs the maximum token
@@ -377,7 +377,7 @@
                             </div>
                         </li>
                         <li
-                            class="list-group-item d-flex justify-content-between align-items-start text-white bg-dark-2">
+                            class="list-group-item d-flex justify-content-between align-items-start text-white bg-dark-2 p-1">
                             <div class="ms-2 me-auto">
                                 <div class="fw-bold">New Prompt</div>
                                 This shows the token count of the current input in the text area, which hasn't been
@@ -385,14 +385,14 @@
                             </div>
                         </li>
                         <li
-                            class="list-group-item d-flex justify-content-between align-items-start text-white bg-dark-2">
+                            class="list-group-item d-flex justify-content-between align-items-start text-white bg-dark-2 p-1">
                             <div class="ms-2 me-auto">
                                 <div class="fw-bold">System Message</div>
                                 This reveals the token allocation used in the system message.
                             </div>
                         </li>
                         <li
-                            class="list-group-item d-flex justify-content-between align-items-start text-white bg-dark-2">
+                            class="list-group-item d-flex justify-content-between align-items-start text-white bg-dark-2 p-1">
                             <div class="ms-2 me-auto">
                                 <div class="fw-bold">Prompt Count</div>
                                 This displays all prompts as a ratio between selected and unselected responses, giving
@@ -400,7 +400,7 @@
                             </div>
                         </li>
                         <li
-                            class="list-group-item d-flex justify-content-between align-items-start text-white bg-dark-2">
+                            class="list-group-item d-flex justify-content-between align-items-start text-white bg-dark-2 p-1">
                             <div class="ms-2 me-auto">
                                 <div class="fw-bold">Request Size</div>
                                 This reflects the current token count in the context history (i.e., selected prompts),
@@ -408,7 +408,7 @@
                             </div>
                         </li>
                         <li
-                            class="list-group-item d-flex justify-content-between align-items-start text-white bg-dark-2">
+                            class="list-group-item d-flex justify-content-between align-items-start text-white bg-dark-2 p-1">
                             <div class="ms-2 me-auto">
                                 <div class="fw-bold">Model Limit:</div>
                                 This indicates the token limit for the selected model.
@@ -556,8 +556,7 @@
                         </p>
                     </section>
                     <section>
-                        <p class="lead"></p>
-                        <ul class="list-group list-group-unnumbered mb-3">
+                        <ul class="list-group list-group-unnumbered mb-3" id="temperature">
                             <li
                                 class="list-group-item d-flex justify-content-between align-items-start bg-dark-2 text-light">
                                 <div class="ms-2 me-auto engine_model_content">
@@ -580,7 +579,7 @@
                             model's responses. Temperature is a common parameter in most LLMs.
                         </p>
 
-                        <ul class="list-group list-group-unnumbered mb-3">
+                        <ul class="list-group list-group-unnumbered mb-3" id="top_p">
                             <li
                                 class="list-group-item d-flex justify-content-between align-items-start bg-dark-2 text-light">
                                 <div class="ms-2 me-auto engine_model_content">
@@ -821,13 +820,15 @@
                         <br>
 
                         <h3 id="options_tab">Options Tab</h3>
+                        <h1>UNDER CONSTRUCTION</h1>
                         <p>This is where the majority of the session control tools reside</p>
+                        <h1 id="email_link">Send email</h1>
                         <ul class="mb-3">
                             <li>
                                 <span class="text-info">Edit title</span>: Allows you to modify the title of your
                                 session.
                             </li>
-                            <li> <span class="text-info">Edit system message</span>: Modify the system messages for a
+                            <li> <span id="system_message" class="text-info">Edit system message</span>: Modify the system messages for a
                                 personalized experience. A system message gives context to a
                                 session without invoking a response.</li>
                             <li><span class="text-info">upload</span>: Use this feature to upload and integrate previous
@@ -849,8 +850,9 @@
                                 API</li>
                         </ul>
                         <br>
-                        <h3>Owner Tab</h3>
+                        <h3 id="owner_labels">Owner Tab</h3>
                         <p>As an owner, you have additional tools at your disposal:</p>
+                        <h1 id="session_limit">Usage limits per session</h1>
                         <ul>
                             <li>Add Labels: This feature allows you to classify your sessions using custom labels, which
                                 aids in the organization and filtering of your documents.</li>
