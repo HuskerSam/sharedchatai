@@ -201,7 +201,7 @@ export class HomePageApp extends BaseApp {
         return `<footer class="side_block m-0 pb-1 app_panel">
             <div class="row">
                 <div class="col-12 col-md-3 mb-3 mb-md-0 text-center text-md-start">
-                    <h5>PromptPlus AI</h5>
+                    <h5>Cogliber</h5>
                     <p>
                         We are a dedicated team based in Lincoln, Nebraska, USA. We are actively pursuing software development projects to fuel our growth. To collaborate with us, please reach out at <a
                             href="mailto:promptplusai@gmail.com" target="_blank">promptplusai@gmail.com</a>

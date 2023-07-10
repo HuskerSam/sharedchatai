@@ -700,7 +700,7 @@ export default class DocOptionsHelper {
         const subject = encodeURIComponent(`${displayName} invited you to a Prompt+ Session`);
         const body = encodeURIComponent(`${this.docData.title}
 
-Use this link to join - https://promptplusai.com/session/${this.chatDocumentId}
+Use this link to join - https://cogliber.com/session/${this.chatDocumentId}
 
 Session hosted by: ${ownerDescription}
 
