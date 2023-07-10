@@ -106,7 +106,7 @@ export default class GameAPI {
     let systemMessage = "";
     if (req.body.systemMessage) systemMessage = req.body.systemMessage;
 
-    let creditUsageLimit = 500;
+    let creditUsageLimit = 1000;
     if (req.body.creditUsageLimit) creditUsageLimit = req.body.creditUsageLimit;
 
     const game: any = {};

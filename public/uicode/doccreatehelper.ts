@@ -172,7 +172,7 @@ export default class DocCreateHelper {
                                 <label class="form-label">Usage Cap</label>
                                 <br>
                                 <input type="text" class="form-control document_usage_cap_field"
-                                    placeholder="500 default">
+                                    placeholder="1k default">
                             </div>
                             <div style="flex:1;overflow:hidden;padding-left: 12px;">
                                 <label class="form-label">Owner Note</label>
