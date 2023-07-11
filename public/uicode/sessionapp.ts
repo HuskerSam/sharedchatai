@@ -369,7 +369,7 @@ export class SessionApp extends BaseApp {
 
     this.ticketIsPending = false;
     const ticketIds = Object.keys(this.ticketsLookup);
-    ticketIds.forEach((ticketId: string) => {  
+    ticketIds.forEach((ticketId: string) => {
       const ticketData = this.ticketsLookup[ticketId];
       const assistData = this.assistsLookup[ticketId];
       const card: any = this.tickets_list.querySelector(`div[ticketid="${ticketId}"]`);
@@ -383,7 +383,7 @@ export class SessionApp extends BaseApp {
         totalSpan.innerHTML = "";
         promptSpan.innerHTML = "";
         completionSpan.innerHTML = "";
-  
+
         const lastSubmit: any = card.querySelector(`.last_submit_time`);
         if (ticketRunning) {
           BaseApp.setHTML(assistSection, `<div class="pending_message">Prompt sent to model for processing...</div>`);
@@ -781,7 +781,7 @@ export class SessionApp extends BaseApp {
   getTicketCardDom(ticketId: string, data: any, tempTicket = false): any {
     const gameOwnerClass = data.isGameOwner ? " ticket_game_owner" : "";
     const ownerClass = data.uid === this.uid ? " ticket_owner" : "";
-    const oldSubmitted = new Date(data.submitted).getTime()  + 5 * 60 * 1000 < Date.now();
+    const oldSubmitted = new Date(data.submitted).getTime() + 5 * 60 * 1000 < Date.now();
     const oldTicketClass = oldSubmitted ? " old_ticket_5_min" : "";
     const tempTicketClass = tempTicket ? " temp_ticket_card" : "";
     const cardWrapper = document.createElement("div");
