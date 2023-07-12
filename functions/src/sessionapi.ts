@@ -158,7 +158,7 @@ export default class SessionAPI {
             const model = sessionDocumentData.model;
             const gptModels = ["gpt-3.5-turbo", "gpt-3.5-turbo-16k", "gpt-4", "gpt-4-32k"];
             const bardModels = ["chat-bison-001"];
-            const anthroModels = ["claude-2", "claude-instant-1"];
+            // const anthroModels = ["claude-2", "claude-instant-1"];
             if (gptModels.indexOf(model) !== -1) {
                 const packet = await SessionAPI._generateOpenAIPacket(ticket, sessionDocumentData, gameNumber, ticketId, includeTickets);
                 aiResults = await SessionAPI._processOpenAIPacket(packet, sessionDocumentData, ticket, ticketId, chatGptKey, submitted);

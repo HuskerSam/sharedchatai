@@ -584,11 +584,14 @@ table.number th {
   display: flex;
 }
 
-.signed_in_inline_block {
+.signed_in_inline_block,
+.signed_in_inline_block,
+.signed_out_inline_block {
   display: none;
 }
 
-.app_signed_in .signed_in_inline_block {
+.app_signed_in .signed_in_inline_block,
+.app_signed_out .signed_out_inline_block {
   display: inline-block;
 }
 

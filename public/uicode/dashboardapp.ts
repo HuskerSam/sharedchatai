@@ -22,10 +22,12 @@ export class DashboardApp extends BaseApp {
   documentOptions = new DocOptionsHelper(this, "dashboard_options_view");
   help_show_modal: any = document.querySelector(".help_show_modal");
   menu_toggle_button: any = document.querySelector(".menu_toggle_button");
+  dashboard_tab_button: any = document.querySelector("#dashboard_tab_button");
 
   /** */
   constructor() {
-    super();
+    super(false, true);
+    this.showLoginModal = false;
 
     this.initRTDBPresence();
 
@@ -88,7 +90,9 @@ export class DashboardApp extends BaseApp {
         if (firstLoad) {
           this.refreshDocumentsLookup(snapshot);
           this.paintLabelSelect(true);
-          setTimeout(() => document.body.classList.add("list_loaded"), 100);
+          setTimeout(() => document.body.classList.add("list_loaded"), 100);   
+          this.dashboard_tab_button.innerHTML = "Sessions";
+          this.dashboard_tab_button.click();
         }
         this.updateSessionFeed(snapshot);
         firstLoad = false;
@@ -263,10 +267,10 @@ export class DashboardApp extends BaseApp {
     const items = menu.querySelectorAll("li");
     const labels: Array<string> = [];
     items.forEach((item: any) => {
-        if (item.classList.contains("selected")) {
-          const label = decodeURIComponent(item.dataset.label);
-          if (label) labels.push(label);
-        }
+      if (item.classList.contains("selected")) {
+        const label = decodeURIComponent(item.dataset.label);
+        if (label) labels.push(label);
+      }
     });
 
     this.documentsLookup[id].label = labels.join(",");

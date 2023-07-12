@@ -45,8 +45,15 @@ export default class BaseApp {
     state: "online",
     last_changed: firebase.database.ServerValue.TIMESTAMP,
   };
-  /** constructor  */
-  constructor() {
+  html_body_container: any = document.querySelector(".main_container");
+  content_list_container: any = document.querySelector(".recent_content_ul_list");
+
+  /**
+ * @param { boolean } contentPage content list trimmed on other pages and footer link change
+ * @param { boolean } addFooter add footer (true by default)
+ * @param { boolean } showAuthDialog true to show login popup (default)
+ */
+  constructor(contentPage = false, addFooter = true, showAuthDialog = true) {
     window.addEventListener("beforeinstallprompt", (e: any) => {
       e.preventDefault();
       this.deferredPWAInstallPrompt = e;
@@ -56,6 +63,16 @@ export default class BaseApp {
 
     firebase.auth().onAuthStateChanged((u: any) => this.authHandleEvent(u));
     this.signInWithURL();
+
+    if (addFooter) {
+      const element = document.createElement("div");
+      element.classList.add("footer_container_div");
+      element.innerHTML = this.getFooterTemplate(contentPage);
+      this.html_body_container.appendChild(element);
+    }
+    if (this.content_list_container) {
+      this.content_list_container.innerHTML = this.getContentListTemplate(contentPage);
+    }
 
     document.body.classList.add("body_loaded");
     this.load();
@@ -614,5 +631,143 @@ export default class BaseApp {
   static stripHtml(html: string) {
     const doc = new DOMParser().parseFromString(html, "text/html");
     return doc.body.textContent || "";
+  }
+  /** get footer template
+ * @param { boolean } contentPage if true change links
+ * @return { string } html
+*/
+  getFooterTemplate(contentPage: boolean): string {
+    let link = `<a href="/content/"
+        class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+        >Content</a>`;
+    if (contentPage) {
+      link = `<a href="/"
+            class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+            >Home</a>`;
+    }
+    return `<footer class="side_block m-0 pb-1 app_panel">
+            <div class="row">
+                <div class="col-12 col-md-3 mb-3 mb-md-0 text-center text-md-start">
+                    <h5><span>Úna<span
+                    style="color: rgb(28, 227, 60);">cog</span></span></h5>
+                    <p>
+                        We are a dedicated team based in Lincoln, Nebraska, USA. We are actively pursuing software
+                         development projects to fuel our growth. To collaborate with us, please reach out at <a
+                            href="mailto:promptplusai@gmail.com" target="_blank">promptplusai@gmail.com</a>
+                    </p>
+                </div>
+                <div class="col-6 col-md-2 mb-3 mb-md-0">
+                    <h5>Navigate</h5>
+                    <ul class="nav flex-column" style="font-size: 1.2em;">
+                        <li class="nav-item mb-2">${link}</li>
+                        <li class="nav-item mb-2"><a
+                                class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25
+                                 link-underline-opacity-100-hover"
+                                href="/help/" target="help">Help</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-2 mb-3 mb-md-0">
+                    <h5>Company</h5>
+                    <ul class="nav flex-column" style="font-size: 1.2em;">
+                        <li class="nav-item mb-2"><a href="/content/about/"
+                                class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25
+                                 link-underline-opacity-100-hover"
+                                >About</a></li>
+                        <li class="nav-item mb-2"><a href="/content/privacy/"
+                                class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25
+                                 link-underline-opacity-100-hover">Privacy</a></li>
+                        <li class="nav-item mb-2"><a
+                                class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25
+                                 link-underline-opacity-100-hover"
+                                href="/content/pricing/">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 offset-md-1 mb-3">
+                    <h5 class="mb-0">Newsletter Signup:</h5>
+                    <p class="my-1">Get tips, updates, news and more.</p>
+                    <div class="intro_card card">
+                        <div id="mc_embed_shell">
+                            <div id="mc_embed_signup">
+                                <form
+action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febcbb50595f9c46&amp;id=4abff76760&amp;f_id=00695ee1f0"
+                                    method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
+                                    class="validate m-2 mb-1" target="_self" novalidate="">
+                                    <div id="mc_embed_signup_scroll">
+                                        <div class="mc-field-group w-100"><label class="visually-hidden" for="mce-EMAIL">
+                                        Email Address</label><input
+                                                type="email" name="EMAIL" placeholder="Email Address" class="required email py-2"
+                                                 id="mce-EMAIL" required=""
+                                                value=""></div>
+                                        <div id="mce-responses" class="clear foot">
+                                            <div class="response" id="mce-error-response" style="display: none;"></div>
+                                            <div class="response" id="mce-success-response" style="display: none;"></div>
+                                        </div>
+                                        <div aria-hidden="true" style="position: absolute; left: -5000px;">
+                                            /* real people should not fill this in and expect good things - do not remove
+                                            this or risk form bot signups */
+                                            <input type="text" name="b_064c017e2febcbb50595f9c46_4abff76760" tabindex="-1"
+                                                value="">
+                                        </div>
+                                        <div class="optionalParent text-center">
+                                            <div class="clear foot d-inline-block">
+                                                <input type="submit" name="subscribe" id="mc-embedded-subscribe"
+                                                    class="button" value="Subscribe">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex flex-column flex-sm-row justify-content-center py-2 mt-3 border-top">
+                <p class="my-1"> © 2023, All Rights Reserved</p>
+            </div>
+        </footer>`;
+  }
+  /** get content list template
+   * @param { boolean } contentPage return content list if true
+   * @return { string } html footer
+   */
+  getContentListTemplate(contentPage: boolean): string {
+    let items = `<li>
+        <a class="hover_yellow" href="/content/cuttlecard/">Cuttle part 1: Teach AI New Card Game
+            - <span class="caption">Using gpt-3.5-turbo to play Cuttle</span></a>
+    </li>
+    <li>
+        <a class="hover_yellow" href="/content/cuttlecard2/">Cuttle Part 2: AI Strategist
+            - <span class="caption">Using gpt-3.5-turbo to help with tips</span></a>
+    </li>
+    <li>
+        <a class="hover_yellow" href="/content/heartscardgame/">Hearts Card Game Prompts
+            - <span class="caption">gpt-3.5-turbo vs chat-bison-001</span>
+        </a>
+    </li>
+    <li>
+        <a class="hover_yellow" href="/content/yahtzee/">Keep score in Yahtzee
+            - <span class="caption">keep score for 2 players and roll dice</span>
+        </a>
+    </li>
+    <li>
+    <a class="hover_yellow" href="/content/nodalanalysis/">Nodal Analysis
+        - <span class="caption">gpt-3.5-turbo and chat-bison-001 are taken to task with a
+            circuit.</span>
+    </a>
+</li>
+`;
+    if (contentPage) {
+      items += `    <li>
+            <a class="hover_yellow" href="/content/ainarrative/">AI Narrative
+                - <span class="caption">A new AI named SkyNet discovers an ancient hiding AI named BirdBrain.</span>
+            </a>
+        </li>
+        <li>
+            <a class="hover_yellow" href="/content/labelsmenu/">Bootstrap sub menu
+                - <span class="caption">Add sub menu for selecting labels for each session.</span>
+            </a>
+        </li>`;
+    }
+    return items;
   }
 }
