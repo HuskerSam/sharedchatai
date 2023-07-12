@@ -64,7 +64,7 @@ export default class BaseApp {
     firebase.auth().onAuthStateChanged((u: any) => this.authHandleEvent(u));
     this.signInWithURL();
 
-    if (addFooter) {
+    if (addFooter && this.html_body_container) {
       const element = document.createElement("div");
       element.classList.add("footer_container_div");
       element.innerHTML = this.getFooterTemplate(contentPage);

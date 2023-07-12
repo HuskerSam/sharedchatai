@@ -18,8 +18,8 @@ export class HomePageApp extends BaseApp {
     home_page_login: any = document.querySelector(".home_page_login");
 
     /** */
-    constructor() {
-        super();
+    constructor(contentPage = false) {
+        super(contentPage);
         this.showLoginModal = false;
         this.profileHelper.noAuthPage = true;
 
