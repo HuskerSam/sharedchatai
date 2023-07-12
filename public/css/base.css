@@ -459,6 +459,10 @@ button.btn-primary:active {
   top: -6px;
 }
 
+.menu_dropdown_label_wrapper.member_profile_name {
+  top:0px;
+}
+
 .show_dashboard_help_button i,
 .show_document_options_help i {
   position: relative;
