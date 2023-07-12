@@ -6,11 +6,6 @@
   flex: 1;
 }
 
-@media (min-width: 992px) {
-  .main_block {
-    margin: 0.5rem;
-  }
-}
 
 .homepage_display_header {
   color: rgba(28, 228, 60, 0.8);
@@ -179,11 +174,6 @@ ul.recent_documents_list li a {
   color: rgb(255, 127, 50);
  }
 
-@media (min-width: 992px) {
-  .side_block {
-    margin: 0.5rem;
-  }
-}
 
 .faq {
   display: flex;
@@ -197,13 +187,14 @@ ul.recent_documents_list li a {
   flex-direction: row;
 }
 
+
 @media (max-width: 991px) {
   .faq {
     flex-direction: column;
   }
 
   .profile_menu_anchor .menu_profile_user_image_span {
-    top: -2px;
+    top: 0px;
   }
 
   .flex_change_responsive {
@@ -241,7 +232,7 @@ ul.recent_documents_list li a {
 }
 
 .show_create_modal .menu_dropdown_label_wrapper {
-  top: -2px;
+  top: -6px;
 }
 
 #navbarSupportedContent.navbar-collapse {
@@ -249,13 +240,26 @@ ul.recent_documents_list li a {
   padding-left: 12px;
 }
 
+.mobile_hide {
+  display: none;
+}
+
 @media (min-width: 992px) {
+  .main_block {
+    margin: 0.5rem;
+  }
+  .side_block {
+    margin: 0.5rem;
+  }
   #navbarSupportedContent.navbar-collapse {
     display: inline-flex !important;
     width: 900px;
   }
   .footer_container_div {
     margin: 0.5rem;
+  }
+  .mobile_hide {
+    display: inline-block;
   }
 }
 
@@ -273,20 +277,23 @@ ul.recent_documents_list li a {
   }
 }
 
-.home_logo_mobile_only {
+
+.menu_logo_image {
+  width: 40px;
   display: none;
 }
 
 @media (min-width: 992px) {
-  .home_logo_mobile_only {
+  .menu_logo_image {
     display: block;
+  }
+  .mobile_full_menu_logo_image {
+    width: 120px;
+    display: none;
   }
 }
 
-.menu_logo_image {
-  width: 110px;
-  display: block;
-}
+
 
 .intro_card {
   padding: 8px;
@@ -307,13 +314,13 @@ ul.recent_documents_list li a {
 }
 
 @media (max-width: 991px) {
-  .container {
+  .main_container {
     max-width: 90%;
   }
 }
 
 @media (max-width: 768px) {
-  .container {
+  .main_container {
     max-width: none;
   }
 }
@@ -356,4 +363,20 @@ ul.recent_documents_list li a {
 
 .footer_container_div {
   margin-bottom: 1rem;
+}
+
+.navbar-brand {
+  font-family: Georgia,'Times New Roman',Times, serif;
+  font-size: 1.5em;
+  color:#fff; 
+  font-weight: 600;
+}
+
+.navbar_logo {
+  width: 44px;
+  height: 44px;
+  background-size: contain;
+  background-position: center center;
+  display: inline-block;
+  position: relative;
 }

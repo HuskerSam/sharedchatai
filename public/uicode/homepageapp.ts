@@ -17,7 +17,7 @@ export class HomePageApp extends BaseApp {
     recentDocumentsSubscription: any = null;
     home_page_login: any = document.querySelector(".home_page_login");
     add_footer = true;
-    html_body_container: any = document.querySelector(".container");
+    html_body_container: any = document.querySelector(".main_container");
     content_list_container: any = document.querySelector(".recent_content_ul_list");
 
     /** */
