@@ -62,82 +62,53 @@
 </head>
 
 <body class="basic_page_wrapper">
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top"
-        style="min-height: 70px;text-align: center; display: block;">
-        <div class="menu_bar_doc_title_wrapper">
-            <a class="nav-link" href="/" style="display: block; max-width:120px">
-                <span class="mobile_custom_icon_label" style="display: block; max-width:120px">
-                    <img src="/images/fulllogo600x200.png" class="menu_logo_image">
-                </span>
-            </a>
-            <div style="flex:1"></div>
-            <div class="menu_bar_mobile_spacer"></div>
-        </div>
-
-        <button class="navbar-toggler hover_yellow" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-            aria-label="Toggle navigation">
-            <span class="hamburger_span"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto" style="width:100%">
-                <li class="nav-item home_logo_mobile_only">
-                    <a class="nav-link" style=" display: block; max-width:120px" href="/">
-                        <span class="mobile_custom_icon_label">
-                            <img src="/images/fulllogo600x200.png" class="menu_logo_image">
-                        </span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="showhomepage_help nav-link hover_yellow" href="/help/" target="help">
-                        <span class="mobile_custom_icon_label">
-                            <i class="material-icons">help_outline</i>
-                        </span>
-                        <span class="menu_dropdown_label_wrapper">
-                            Help
-                        </span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link show_create_modal hover_yellow" href="create">
-                        <span class="mobile_custom_icon_label">
-                            <i class="material-icons">add</i>
-                        </span>
-                        <span class="menu_dropdown_label_wrapper">
-                            New
-                        </span>
-                    </a>
-                </li>
-                <li class="nav-item signed_in_options">
-                    <a class="info_anchor nav-link hover_yellow" href="/dashboard">
-                        <span class="mobile_custom_icon_label">
-                            <i class="material-icons-outlined">folder</i>
-                        </span>
-                        <span class="menu_dropdown_label_wrapper">
-                            Sessions
-                        </span>
-                    </a>
-                </li>
-                <li class="nav-item hide_if_signedin">
-                    <a class="signin_show_modal nav-link hover_yellow" href="login" type="button" data-bs-toggle="modal"
-                        data-bs-target="#loginModal">
-                        <span class="mobile_custom_icon_label">
-                            <i class="material-icons-outlined">login</i>
-                        </span>
-                        <span class="menu_dropdown_label_wrapper">
-                            Sign On
-                        </span>
-                    </a>
-                </li>
-                <li class="nav-item signed_in_options">
-                    <a class="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
-                        <span class="menu_profile_user_image_span member_profile_image hover_yellow"></span>
-                        <span
-                            class="menu_dropdown_label_wrapper member_profile_name menu_profile_user_name_span"></span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+    <nav class="navbar navbar-light sticky-top" style="min-height: 50px;text-align: center;">
+        <ul class="navbar-nav container-fluid container-md d-flex flex-row justify-content-end justify-content-sm-between">
+            <li class="home_logo_mobile_only me-auto ms-2">
+                <a class="navbar_brand nav-link hover_yellow" href="/" style="text-decoration: none;">
+                    <span class="navbar_logo" style="background-image: url('/images/logo64.png'); top:6px;"></span>
+                    <span class="mobile_hide position-relative" style="top:-6px;">Úna<span
+                            style="color: rgb(28, 227, 60);">cog</span></span>
+                </a>
+            </li>
+            <li class="nav-item signed_in_options ms-auto ms-lg-4 me-lg-4">
+                <a class="info_anchor nav-link hover_yellow" href="/dashboard">
+                    <span class="mobile_custom_icon_label">
+                        <i class="material-icons-outlined impact_font_change">folder</i>
+                    </span>
+                    <span class="menu_dropdown_label_wrapper mobile_hide">
+                        Sessions
+                    </span>
+                </a>
+            </li>
+            <li class="nav-item signed_in_options ms-auto ms-lg-4 me-lg-4">
+                <a class="nav-link show_create_modal hover_yellow" href="create">
+                    <span class="mobile_custom_icon_label">
+                        <i class="material-icons add_icon impact_font_secondary">add</i>
+                    </span>
+                    <span class="menu_dropdown_label_wrapper mobile_hide">
+                        New
+                    </span>
+                </a>
+            </li>
+            <li class="nav-item hide_if_signedin  ms-auto me-lg-5">
+                <a class="signin_show_modal nav-link hover_yellow btn btn-outline-success px-5" href="login"
+                    type="button" data-bs-toggle="modal" data-bs-target="#loginModal">Sign In
+                </a>
+            </li>
+            <li class="nav-item signed_in_options ms-auto ms-lg-4 me-lg-4">
+                <a class="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
+                    <span class="menu_profile_user_image_span member_profile_image hover_yellow"> </span> 
+                </a>
+            </li>
+            <li class="nav-item ms-auto ms-lg-1">
+                <a class="showhomepage_help nav-link hover_yellow" href="/help/" target="help">
+                    <span class="mobile_custom_icon_label">
+                        <i class="material-icons">help_outline</i>
+                    </span>
+                </a>
+            </li>
+        </ul>
     </nav>
     <div class="container main_container content_page_container" style="margin-top:16px;">
         <div class="flex-lg-row flex_change_responsive">
