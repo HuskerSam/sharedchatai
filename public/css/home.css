@@ -1,17 +1,27 @@
 .main_block {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgb(28, 35, 59);
   border-radius: 6px;
-  padding: 1rem;
-  margin-bottom: 1rem;
+  padding: 1em;
+  margin-bottom: .75em;
   flex: 1;
-}
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;}
 
+.side_block {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(28, 35, 59);
+  border-radius: 6px;
+  padding: 1em;
+  margin-bottom: .75em;
+  flex: 2;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+}
 
 .homepage_display_header {
   color: rgba(28, 228, 60, 0.8);
   letter-spacing: 0.1em;
-  margin-top: 1.5rem;
-  margin-bottom: .5rem;
+  margin-top: 1.5em;
+  margin-bottom: .5em;
   text-align: center;
   font-weight: 900;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -21,7 +31,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 1rem 3rem;
+  padding: 1em 3em;
   border-radius: 6px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   color: white;
@@ -31,13 +41,13 @@
 .coming-soon .coming-soon-header {
   color: rgb(220, 220, 220);
   font-weight: 300;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.5em;
 }
 
 .coming-soon-descr {
   margin-bottom: 30px;
   color: #198754;
-  font-size: 1.5rem;
+  font-size: 1.5em;
 }
 
 .coming-soon p,
@@ -51,11 +61,11 @@
 
 .header_recent_document {
   color: #fff;
-  font-size: 1.75rem;
+  font-size: 1.75em;
   text-align: left;
   padding-left: 4px;
   font-weight: 500;
-  margin-bottom: .5rem;
+  margin-bottom: .5em;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
@@ -101,7 +111,7 @@
 
 ul.recent_documents_list li {
   position: relative;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.25em;
   text-align: left;
   position: relative;
   margin-right: 12px;
@@ -155,15 +165,6 @@ ul.recent_documents_list li a {
   color: rgb(230, 230, 230);
 }
 
-.side_block {
-  display: flex;
-  flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 6px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  flex: 2;
-}
 
 .impact_font_secondary {
   color: rgb(50, 255, 50);
@@ -204,15 +205,15 @@ ul.recent_documents_list li a {
 
 @media (max-width: 767px) {
   .coming-soon {
-    padding: 1rem;
+    padding: 1em;
   }
 
   .coming-soon-descr {
-    font-size: 1.2rem;
+    font-size: 1.2em;
   }
 
   .header_recent_document {
-    font-size: 1.5rem;
+    font-size: 1.5em;
   }
 
   .cta {
@@ -245,19 +246,22 @@ ul.recent_documents_list li a {
 
 @media (min-width: 992px) {
   .main_block {
-    margin: 0.5rem;
+    margin: 0.3em;
   }
+
   .side_block {
-    margin: 0.5rem;
+    margin: 0.3em;
   }
+
   #navbarSupportedContent.navbar-collapse {
     display: inline-flex !important;
     width: 900px;
   }
 
   .footer_container_div {
-    margin: 0.5rem;
+    margin: 0.3em;
   }
+
   .mobile_hide {
     display: inline-block;
   }
@@ -287,6 +291,7 @@ ul.recent_documents_list li a {
   .menu_logo_image {
     display: block;
   }
+
   .mobile_full_menu_logo_image {
     width: 120px;
     display: none;
@@ -362,13 +367,13 @@ ul.recent_documents_list li a {
 }
 
 .footer_container_div {
-  margin-bottom: 1rem;
+  margin-bottom: 1em;
 }
 
-.navbar-brand {
-  font-family: Georgia,'Times New Roman',Times, serif;
+.navbar_brand {
+  font-family: Georgia, 'Times New Roman', Times, serif;
   font-size: 1.5em;
-  color:#fff; 
+  color: #fff;
   font-weight: 600;
 }
 
@@ -381,14 +386,18 @@ ul.recent_documents_list li a {
   position: relative;
 }
 
+.home_logo_mobile_only a:hover {
+  color: #fff;
+}
+
 .navbar {
   padding-top: 0;
   padding-bottom: 0;
 }
 
 iframe {
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   min-height: 40vh;
   width: 90%;
   margin: auto;
 }
+
