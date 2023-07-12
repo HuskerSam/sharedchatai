@@ -29,17 +29,6 @@ export class DashboardApp extends BaseApp {
 
     this.initRTDBPresence();
 
-    this.dashboard_create_game.addEventListener("click", (e: any) => {
-      e.preventDefault();
-      e.stopPropagation();
-      this.documentCreate.show(this.getCustomSelectedLabel());
-    });
-    this.dashboard_create_game_mobile.addEventListener("click", (e: any) => {
-      e.preventDefault();
-      e.stopPropagation();
-      this.documentCreate.show(this.getCustomSelectedLabel());
-    });
-
     this.document_label_filter.addEventListener("input", () => {
       firebase.firestore().doc(`Users/${this.uid}`).set({
         defaultDashboardLabel: this.document_label_filter.value,
@@ -53,15 +42,6 @@ export class DashboardApp extends BaseApp {
       event.stopPropagation();
       event.preventDefault();
       this.profileHelper.show();
-    });
-    this.menu_toggle_button.addEventListener("click", () => {
-      setTimeout(() => {
-        if (this.menu_toggle_button.getAttribute("aria-expanded") === "false") {
-          document.body.classList.remove("navbar_shown");
-        } else {
-          document.body.classList.add("navbar_shown");
-        }
-      }, 1);
     });
   }
   /**

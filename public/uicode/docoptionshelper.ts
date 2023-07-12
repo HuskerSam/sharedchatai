@@ -531,7 +531,7 @@ export default class DocOptionsHelper {
         const token = await firebase.auth().currentUser.getIdToken();
         this.app.sessionDeleting = true;
 
-        if (this.app.isSessionApp) window.location = "/dashboard";
+        if (this.app.isSessionApp) window.location = "/";
         this.modal_close_button.click();
 
         const fResult = await fetch(this.app.basePath + "lobbyApi/games/delete", {
@@ -581,7 +581,7 @@ export default class DocOptionsHelper {
             return;
         }
 
-        if (this.app.isSessionApp) window.location = "/dashboard";
+        if (this.app.isSessionApp) window.location = "/";
         this.modal_close_button.click();
     }
     /** refresh report data

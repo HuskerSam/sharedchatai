@@ -111,7 +111,7 @@ export default class LoginHelper {
       return;
     }
 
-    let url = location.origin + "/dashboard";
+    let url = location.origin + "";
     if (location.href !== "/") url = location.href;
 
     const actionCodeSettings = {

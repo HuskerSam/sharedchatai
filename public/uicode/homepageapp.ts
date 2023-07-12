@@ -219,10 +219,6 @@ export class HomePageApp extends BaseApp {
                     <h5>Navigate</h5>
                     <ul class="nav flex-column" style="font-size: 1.2em;">
                         <li class="nav-item mb-2">${link}</li>
-                        <li class="nav-item mb-2"><a href="/dashboard/"
-                                class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25
-                                 link-underline-opacity-100-hover"
-                                >Sessions</a></li>
                         <li class="nav-item mb-2"><a
                                 class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25
                                  link-underline-opacity-100-hover"

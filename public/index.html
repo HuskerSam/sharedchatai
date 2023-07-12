@@ -52,31 +52,22 @@
     <link rel="stylesheet" href="/css/home.css" />
     <script>
         window.addEventListener("load", async (event) => {
-            let module = await import("/models/homepageapp.js");
+            let module = await import("/models/dashboardapp.js");
 
-            window.HomePageApp = new module.HomePageApp();
+            window.HomePageApp = new module.DashboardApp();
         });
     </script>
 </head>
 
 <body class="basic_page_wrapper">
     <nav class="navbar navbar-light sticky-top" style="min-height: 50px;text-align: center;">
-        <ul class="navbar-nav container-fluid container-md d-flex flex-row justify-content-end justify-content-sm-between">
+        <ul
+            class="navbar-nav container-fluid container-md d-flex flex-row justify-content-end justify-content-sm-between">
             <li class="home_logo_mobile_only me-auto ms-2">
                 <a class="navbar_brand" style="text-decoration: none;">
                     <span class="navbar_logo" style="background-image: url('/images/logo64.png'); top:6px;"></span>
                     <span class="mobile_hide position-relative" style="top:-6px;">Úna<span
                             style="color: rgb(28, 227, 60);">cog</span></span>
-                </a>
-            </li>
-            <li class="nav-item signed_in_options ms-auto ms-lg-4 me-lg-4">
-                <a class="info_anchor nav-link hover_yellow" href="/dashboard">
-                    <span class="mobile_custom_icon_label">
-                        <i class="material-icons-outlined impact_font_change">folder</i>
-                    </span>
-                    <span class="menu_dropdown_label_wrapper mobile_hide">
-                        Sessions
-                    </span>
                 </a>
             </li>
             <li class="nav-item signed_in_options ms-auto ms-lg-4 me-lg-4">
@@ -96,7 +87,7 @@
             </li>
             <li class="nav-item signed_in_options ms-auto ms-lg-4 me-lg-4">
                 <a class="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
-                    <span class="menu_profile_user_image_span member_profile_image hover_yellow"> </span> 
+                    <span class="menu_profile_user_image_span member_profile_image hover_yellow"> </span>
                 </a>
             </li>
             <li class="nav-item ms-auto ms-lg-1">
@@ -108,152 +99,177 @@
             </li>
         </ul>
     </nav>
-    <div class="main_container container mt-2 mt-md-1">
-        <div class="flex-lg-row flex_change_responsive signed_in_options">
-            <div class="side_block app_panel">
-                <h2 class="header_recent_document">Recent Sessions</h2>
-                <div class="intro_card card">
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 mb-0 small recent_documents_list"></ul>
+    <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="news_tab_button" data-bs-toggle="tab" href="#news_tab_view" role="tab"
+                aria-controls="news_tab_view" aria-selected="false">News</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="dashboard_tab_button" data-bs-toggle="tab" href="#dashboard_tab_view" role="tab"
+                aria-controls="dashboard_tab_view" aria-selected="true">Session</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="signup_tab_button" data-bs-toggle="tab" href="#signup_tab_view" role="tab"
+                aria-controls="signup_tab_view" aria-selected="false">Sign Up</a>
+        </li>
+    </ul>
+    <div class="tab-content" style="overflow:hidden;display:flex;">
+        <div class="tab-pane fade" id="news_tab_view" role="tabpanel" style="flex-direction:column;overflow:hidden;"
+            aria-labelledby="news_tab_button">
+            <div class="main_container container mt-2 mt-md-1">
+                <div class="flex-lg-row flex_change_responsive">
+                    <div class="main_block app_panel">
+                        <h1 class="header_recent_document">
+                            <span style="color: rgb(50, 255, 50);">Models</span>
+                        </h1>
+                        <p class="py-0" style="font-size:1rem;">Change models without losing context</p>
+                        <div class="intro_card card">
+                            <h5 style="display:inline-block">
+                                <a href="https://platform.openai.com/docs/models" target="_blank"
+                                    class="hover_yellow">OpenAI</a>
+                            </h5>
+                            (ChatGPT)
+                            <ul>
+                                <li><span class="supported_model">gpt-3.5-turbo</span> 4k</li>
+                                <li><span class="supported_model">gpt-3.5-turbo-16k</span></li>
+                                <li><span class="upcoming_model">gpt-4</span> 8k (soon)</li>
+                                <li><span class="upcoming_model">gpt-4-32k</span> (soon)</li>
+                            </ul>
+                            <h5 style="display:inline-block">
+                                <a href="https://developers.generativeai.google/api/rest/generativelanguage" target="_blank"
+                                    class="hover_yellow">Google
+                                    Generate</a>
+                            </h5>
+                            (Bard)
+                            <ul>
+                                <li> <span class="supported_model">chat-bison-001</span> 9k</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="flex-lg-row flex_change_responsive">
-            <div class="side_block app_panel">
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/9VMFh3eAFrE"
-                    title="YouTube video player" frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen></iframe>
-            </div>
-
-            <div class="main_block app_panel">
-                <h1 class="header_recent_document">
-                    <span style="color: rgb(50, 255, 50);">Models</span>
-                </h1>
-                <p class="py-0" style="font-size:1rem;">Change models without losing context</p>
-                <div class="intro_card card">
-                    <h5 style="display:inline-block">
-                        <a href="https://platform.openai.com/docs/models" target="_blank"
-                            class="hover_yellow">OpenAI</a>
-                    </h5>
-                    (ChatGPT)
-                    <ul>
-                        <li><span class="supported_model">gpt-3.5-turbo</span> 4k</li>
-                        <li><span class="supported_model">gpt-3.5-turbo-16k</span></li>
-                        <li><span class="upcoming_model">gpt-4</span> 8k (soon)</li>
-                        <li><span class="upcoming_model">gpt-4-32k</span> (soon)</li>
-                    </ul>
-                    <h5 style="display:inline-block">
-                        <a href="https://developers.generativeai.google/api/rest/generativelanguage" target="_blank"
-                            class="hover_yellow">Google
-                            Generate</a>
-                    </h5>
-                    (Bard)
-                    <ul>
-                        <li> <span class="supported_model">chat-bison-001</span> 9k</li>
-                    </ul>
+                <div class="flex-lg-row flex_change_responsive">
+                    <div class="side_block app_panel" style="flex-direction: column;">
+                        <a class="header_recent_document hover_yellow" href="/content">Recent Discussions</a>
+                        <div class="intro_card card">
+                            <ul class="template_list_wrapper recent_content_ul_list"></ul>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="flex-lg-row flex_change_responsive">
-            <div class="side_block app_panel" style="flex-direction: column;">
-                <a class="header_recent_document hover_yellow" href="/content">Recent Discussions</a>
-                <div class="intro_card card">
-                    <ul class="template_list_wrapper recent_content_ul_list"></ul>
-                </div>
-            </div>
-        </div>
-        <div class="flex-lg-row flex_change_responsive">
-            <div class="side_block app_panel">
-                <h1 class="header_recent_document">
-                    <span style="color: rgb(50, 255, 50);">Prompt</span>
-                    with
-                    <span style="color: rgb(255, 255, 20);">Power</span>
-                </h1>
-                <div class="card intro_card">
-                    <ul>
-                        <li><a class="hover_yellow" href="/help/#users_info" target="help"
-                                style="color: rgb(30, 200, 200);">Collaborate</a> with friends and coworkers</li>
-                        <li>Control responses with <a class="hover_yellow" href="/help/#chat_models" target="help"
-                                style="color: rgb(255, 127, 50);">model parameters</a>
-                        </li>
-                        <li>Direct control of <a class="hover_yellow" href="/help/#threshold" target="help"
-                                style="color: rgb(255, 255, 20);">contextual history</a>
-                        </li>
-                        <li>Prime the context by importing sessions</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="side_block app_panel">
-                <h1 class="header_recent_document">
-                    <span style="color: rgb(255, 127, 50);">Tweak</span> the
-                    <span style="color: rgb(50, 255, 50);">Models</span>
-                </h1>
-                <div class="intro_card card">
-                    <ul>
-                        <li><span><a href="/help/#system_message" class="hover_yellow" target="help"
-                                    style="color: rgb(50, 255, 50);">System messages</a></span> for specific results
-                        </li>
-                        <li><a href="/help/#auto_exclude" class="hover_yellow" target="help"
-                                style="color: rgb(50, 255, 50);">Auto exclude</a></span> to manage request size</li>
-                        <li>Prompts <a href="/help/#chat_features" class="hover_yellow" target="help"
-                                style="color: rgb(50, 255, 50);">controls</a></span> - copy, include, rerun, and delete
-                        </li>
-                        <li>Adjust <a href="/help/#temperature" class="hover_yellow" target="help"
+                <div class="flex-lg-row flex_change_responsive">
+                    <div class="side_block app_panel">
+                        <h1 class="header_recent_document">
+                            <span style="color: rgb(50, 255, 50);">Prompt</span>
+                            with
+                            <span style="color: rgb(255, 255, 20);">Power</span>
+                        </h1>
+                        <div class="card intro_card">
+                            <ul>
+                                <li><a class="hover_yellow" href="/help/#users_info" target="help"
+                                        style="color: rgb(30, 200, 200);">Collaborate</a> with friends and coworkers</li>
+                                <li>Control responses with <a class="hover_yellow" href="/help/#chat_models" target="help"
+                                        style="color: rgb(255, 127, 50);">model parameters</a>
+                                </li>
+                                <li>Direct control of <a class="hover_yellow" href="/help/#threshold" target="help"
+                                        style="color: rgb(255, 255, 20);">contextual history</a>
+                                </li>
+                                <li>Prime the context by importing sessions</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="side_block app_panel">
+                        <h1 class="header_recent_document">
+                            <span style="color: rgb(255, 127, 50);">Tweak</span> the
+                            <span style="color: rgb(50, 255, 50);">Models</span>
+                        </h1>
+                        <div class="intro_card card">
+                            <ul>
+                                <li><span><a href="/help/#system_message" class="hover_yellow" target="help"
+                                            style="color: rgb(50, 255, 50);">System messages</a></span> for specific results
+                                </li>
+                                <li><a href="/help/#auto_exclude" class="hover_yellow" target="help"
+                                        style="color: rgb(50, 255, 50);">Auto exclude</a></span> to manage request size</li>
+                                <li>Prompts <a href="/help/#chat_features" class="hover_yellow" target="help"
+                                        style="color: rgb(50, 255, 50);">controls</a></span> - copy, include, rerun, and delete
+                                </li>
+                                <li>Adjust <a href="/help/#temperature" class="hover_yellow" target="help"
+                                        style="color: rgb(255, 127, 50);">temperature</a> for creativity</li>
+                                <li>Decrease <span style="color: rgb(255, 127, 50);"></span><a href="/help/#top_p"
+                                        class="hover_yellow" target="help">top p</a></span> for more possibilities</li>
                                 style="color: rgb(255, 127, 50);">temperature</a> for creativity</li>
-                        <li>Decrease <span style="color: rgb(255, 127, 50);"></span><a href="/help/#top_p"
-                                class="hover_yellow" target="help">top p</a></span> for more possibilities</li>
-                                style="color: rgb(255, 127, 50);">temperature</a> for creativity</li>
-                        <li>Decrease <span style="color: rgb(255, 127, 50);"></span><a href="/help/#top_p"
-                                class="hover_yellow" target="help">top p</a></span> for more possibilities</li>
-                    </ul>
+                                <li>Decrease <span style="color: rgb(255, 127, 50);"></span><a href="/help/#top_p"
+                                        class="hover_yellow" target="help">top p</a></span> for more possibilities</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-lg-row flex_change_responsive signed_out_options_block main_block app_panel signed_out_flex">
+                    <div class="py-3 intro_card">
+                        <h1 class="header_recent_document signed_out_options_block" style="width:100%;text-align: center;">
+                            Free trial currently in progress
+                            <a class="home_page_login btn ms-3 p-2 px-5 mt-2 mt-lg-0" type="button" href="login"
+                                style="background-color: rgb(50, 255, 50);font-size:1em">Sign
+                                Up Now</a>
+                        </h1>
+                    </div>
+                </div>
+                <div class="flex-lg-row flex_change_responsive">
+                    <div class="main_block app_panel">
+                        <h1 class="header_recent_document">Power
+                            <span style="color:rgb(255, 255, 20)">Features</span>
+                        </h1>
+                        <div class="intro_card card">
+                            <ul>
+                                <li><a class="hover_yellow" href="/content/privacy" style="color: rgb(255, 127, 50);">Data</a>
+                                    will never be shared</li>
+                                <li><span>Only one <a class="hover_yellow" href="/content/pricing"
+                                            style="color: rgb(255, 127, 50);">subscription</a> required</li>
+                                <li>Labels to <a class="hover_yellow" href="/help/#owner_labels" target="help"
+                                        style="color: rgb(255, 255, 20);">organize</a></li>
+                                <li>Send <a class="hover_yellow" href="/help/#email_link" target="help"
+                                        style="color: rgb(255, 127, 50);">email</a> invitations</li>
+                                <li><a class="hover_yellow" href="/help/#session_limit" target="help"
+                                        style="color: rgb(255, 127, 50);">Usage limits</a> per session</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="main_block app_panel">
+                        <h1 class="header_recent_document"><span style="color: rgb(30, 200, 200);">Collaborate</span>
+                            and <span style="color: rgb(190, 100, 250)">Share</span>
+                        </h1>
+                        <div class="intro_card card">
+                            <ul>
+                                <li><a class="hover_yellow" href="/help/#help_sign_in" target="help"
+                                        style="color: rgb(30, 200, 200);">Anonymous login</a> is available</li>
+                                <li><a class="hover_yellow" href="/help/#options" target="help"
+                                        style="color: rgb(190, 100, 250)">JSON
+                                        import and export</a> to share session</li>
+                                <li><span>HTML and text to share results/reports</span></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="flex-lg-row flex_change_responsive signed_out_options_block main_block app_panel signed_out_flex">
-            <div class="py-3 intro_card">
-                <h1 class="header_recent_document signed_out_options_block" style="width:100%;text-align: center;">
-                    Free trial currently in progress
-                    <a class="home_page_login btn ms-3 p-2 px-5 mt-2 mt-lg-0" type="button" href="login"
-                        style="background-color: rgb(50, 255, 50);font-size:1em">Sign
-                        Up Now</a>
-                </h1>
+        <div class="tab-pane fade show active" id="dashboard_tab_view" role="tabpanel" style="flex-direction:column;overflow:hidden;"
+            aria-labelledby="dashboard_tab_button">
+            <div class="games_view_header_wrapper">
+                <select class="document_label_filter form-select form-select-lg hover_yellow">
+                    <option>All Sessions</option>
+                </select>
+            </div>
+            <div class="game_lobby">
+                <div class="games_view_wrapper">
+                    <div class="dashboard_documents_view"></div>
+                </div>
+            </div>
+            <div class="no_games_in_dashboard">
+                <br>
+                Please click New Prompt session to begin.
             </div>
         </div>
-        <div class="flex-lg-row flex_change_responsive">
-            <div class="main_block app_panel">
-                <h1 class="header_recent_document">Power
-                    <span style="color:rgb(255, 255, 20)">Features</span>
-                </h1>
-                <div class="intro_card card">
-                    <ul>
-                        <li><a class="hover_yellow" href="/content/privacy" style="color: rgb(255, 127, 50);">Data</a>
-                            will never be shared</li>
-                        <li><span>Only one <a class="hover_yellow" href="/content/pricing"
-                                    style="color: rgb(255, 127, 50);">subscription</a> required</li>
-                        <li>Labels to <a class="hover_yellow" href="/help/#owner_labels" target="help"
-                                style="color: rgb(255, 255, 20);">organize</a></li>
-                        <li>Send <a class="hover_yellow" href="/help/#email_link" target="help"
-                                style="color: rgb(255, 127, 50);">email</a> invitations</li>
-                        <li><a class="hover_yellow" href="/help/#session_limit" target="help"
-                                style="color: rgb(255, 127, 50);">Usage limits</a> per session</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="main_block app_panel">
-                <h1 class="header_recent_document"><span style="color: rgb(30, 200, 200);">Collaborate</span>
-                    and <span style="color: rgb(190, 100, 250)">Share</span>
-                </h1>
-                <div class="intro_card card">
-                    <ul>
-                        <li><a class="hover_yellow" href="/help/#help_sign_in" target="help"
-                                style="color: rgb(30, 200, 200);">Anonymous login</a> is available</li>
-                        <li><a class="hover_yellow" href="/help/#options" target="help"
-                                style="color: rgb(190, 100, 250)">JSON
-                                import and export</a> to share session</li>
-                        <li><span>HTML and text to share results/reports</span></li>
-                    </ul>
-                </div>
-            </div>
+        <div class="tab-pane fade" id="signup_tab_view" role="tabpanel" style="flex-direction:column;overflow:hidden;"
+            aria-labelledby="signup_tab_button">
+            Signup Details / Login
         </div>
     </div>
 </body>
