@@ -58,9 +58,6 @@ export default class LoginHelper {
         <div style="text-align: left;">
         You are currently accessing our pre-release version which is free to use. 
        Please note that this is subject to change in the future.
-        <br>
-        <br>
-        We truly appreciate your support and hope you find great value in using our application.
         <hr>
       </div>
             <h5 class="mt-1">Email Login</h5>
@@ -76,7 +73,7 @@ export default class LoginHelper {
               <hr>
               <div style="text-align:center">
                Recommended for viewing only. <br>
-               Data lost upon sign out. <br>
+               Data typically only retained for 7 days. Data lost upon sign out.
               </div>
               <div style="text-align:center;line-height: 3em;">
                 <button class="anon_login_anchor btn btn-primary">Log in Anonymously</button>

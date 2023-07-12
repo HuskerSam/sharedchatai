@@ -375,7 +375,6 @@ button.btn-primary:active {
   background-size: contain;
   background-repeat: no-repeat;
   position: relative;
-  top: 1px;
 }
 
 .menu_profile_user_name_span {
@@ -388,7 +387,6 @@ button.btn-primary:active {
   .menu_profile_user_image_span {
     float: none;
     display: inline-block;
-    top: -1px;
   }
 
   .menu_profile_user_name_span {
@@ -456,9 +454,9 @@ button.btn-primary:active {
 
 .menu_dropdown_label_wrapper {
   white-space: nowrap;
-  font-size: 1.5em;
+  font-size: 1.25em;
   position: relative;
-  top: -4px;
+  top: -6px;
 }
 
 .show_dashboard_help_button i,
@@ -569,12 +567,17 @@ table.number th {
   display: list-item;
 }
 
-.signed_in_options {
+.signed_in_options,
+.main_container .flex_change_responsive.signed_in_options {
   display: none;
 }
 
 .app_signed_in .signed_in_options {
   display: block;
+}
+
+.app_signed_in .main_container .flex_change_responsive.signed_in_options {
+  display: flex;
 }
 
 .signed_in_inline_block {
