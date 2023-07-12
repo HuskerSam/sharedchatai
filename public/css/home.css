@@ -136,8 +136,7 @@ ul.recent_documents_list li a {
   align-items: center;
 }
 
-.template_list_wrapper {
-}
+.template_list_wrapper {}
 
 .template_list_wrapper li {
   min-height: 2.25em;
@@ -167,12 +166,12 @@ ul.recent_documents_list li a {
 }
 
 .impact_font_secondary {
- color: rgb(50, 255, 50);
+  color: rgb(50, 255, 50);
 }
 
 .impact_font_change {
   color: rgb(255, 127, 50);
- }
+}
 
 
 .faq {
@@ -255,6 +254,7 @@ ul.recent_documents_list li a {
     display: inline-flex !important;
     width: 900px;
   }
+
   .footer_container_div {
     margin: 0.5rem;
   }
@@ -379,4 +379,10 @@ ul.recent_documents_list li a {
   background-position: center center;
   display: inline-block;
   position: relative;
+}
+iframe {
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  min-height: 50vh;
+  width: 90%;
+  margin: auto;
 }

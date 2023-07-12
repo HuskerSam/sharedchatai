@@ -123,6 +123,12 @@ export class DashboardApp extends BaseApp {
       this.documentsLookup[doc.id] = doc.data();
     });
   }
+  /**
+   * @param { any } lbl menu label dom element
+   * @param { any } card session list item dom
+   * @param { any } e event
+   * @param { string } id session
+   */
   _handleMenuLabelClick(lbl: any, card: any, e: any, id: string) {
     lbl.classList.toggle("selected");
     this.saveLabels(card.labelMenuContainer, id);
@@ -214,7 +220,7 @@ export class DashboardApp extends BaseApp {
 
         card.labelMenuContainer.innerHTML = this._getLabelsSubMenu(doc.data().label);
         const labelMenuItems: any = card.labelMenuContainer.querySelectorAll("li");
-        labelMenuItems.forEach((lbl: any) => 
+        labelMenuItems.forEach((lbl: any) =>
           lbl.addEventListener("click", (e: any) => this._handleMenuLabelClick(lbl, card, e, doc.id)));
       }
       this.documentsLookup[doc.id] = doc.data();
@@ -235,6 +241,10 @@ export class DashboardApp extends BaseApp {
     if (labelFilter === "All Sessions") document.body.classList.remove("show_clear_label_filter");
     else document.body.classList.add("show_clear_label_filter");
   }
+  /**
+   * @param { string } labels comma delimited label list
+   * @return { string } html li
+   */
   _getLabelsSubMenu(labels: string): string {
     let html = "";
     let labelString = labels;
@@ -265,7 +275,10 @@ export class DashboardApp extends BaseApp {
 
     return html;
   }
-  /** */
+  /**
+   * @param { any } menu dom
+   * @param { string } id session id
+   */
   async saveLabels(menu: any, id: string) {
     const items = menu.querySelectorAll("li");
     const labels: Array<string> = [];
