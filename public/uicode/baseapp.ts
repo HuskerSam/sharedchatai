@@ -181,9 +181,14 @@ export default class BaseApp {
     if (loginResult.additionalUserInfo && loginResult.additionalUserInfo.profile && loginResult.user.uid) {
       this.uid = loginResult.user.uid;
       const profile = await firebase.firestore().doc(`Users/${this.uid}`).get();
-      if (!profile.data() || !profile.data().displayName) {
-        const picture = loginResult.additionalUserInfo.profile.picture;
-        await this._authCreateDefaultProfile(loginResult.additionalUserInfo.profile.name, picture);
+      let displayName = profile.data().displayName;
+      let displayImage = profile.data().displayImage;
+      if (!displayName) displayName = "";
+      if (!displayImage) displayImage = "";
+      if (!profile.data() || !displayName || !displayImage) {
+        const picture = !displayImage ? loginResult.additionalUserInfo.profile.picture : displayImage;
+        const name = !displayName ? loginResult.additionalUserInfo.profile.name : displayName;
+        await this._authCreateDefaultProfile(name, picture);
       }
     }
     setTimeout(() => {
