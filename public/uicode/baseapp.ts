@@ -560,7 +560,7 @@ export default class BaseApp {
     let imagePath = "";
     if (doc) imagePath = doc.memberImages[uid];
     if (this.uid === uid) imagePath = this.profile.displayImage;
-    if (!imagePath) imagePath = "/images/defaultprofile.png";
+    if (!imagePath) imagePath = "/images/person.svg";
 
     let name = "";
     if (doc) name = doc.memberNames[uid];
