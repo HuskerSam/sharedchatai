@@ -158,6 +158,7 @@ export default class SessionAPI {
             const model = sessionDocumentData.model;
             const gptModels = ["gpt-3.5-turbo", "gpt-3.5-turbo-16k", "gpt-4", "gpt-4-32k"];
             const bardModels = ["chat-bison-001"];
+            const anthroModels = ["claude-2", "claude-instant-1"];
             if (gptModels.indexOf(model) !== -1) {
                 const packet = await SessionAPI._generateOpenAIPacket(ticket, sessionDocumentData, gameNumber, ticketId, includeTickets);
                 aiResults = await SessionAPI._processOpenAIPacket(packet, sessionDocumentData, ticket, ticketId, chatGptKey, submitted);
@@ -684,11 +685,22 @@ export default class SessionAPI {
                 output: 0.12,
             };
         }
-
         if (model === "chat-bison-001") {
             return {
                 input: 0.03,
                 output: 0.06,
+            };
+        }
+        if (model === "claude-instant-1") {
+            return {
+                input: 0.00163,
+                output: 0.00551,
+            };
+        }
+        if (model === "claude-2") {
+            return {
+                input: 0.01102,
+                output: 0.03268,
             };
         }
         console.log("model not found for billing");
