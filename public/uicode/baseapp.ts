@@ -650,7 +650,7 @@ export default class BaseApp {
                             href="mailto:promptplusai@gmail.com" target="_blank">promptplusai@gmail.com</a>
                     </p>
                 </div>
-                <div class="col-6 col-md-2 mb-3 mb-md-0">
+                <div class="col-md-2 mb-md-0">
                     <h5>Company</h5>
                     <ul class="nav flex-column" style="font-size: 1.2em;">
                         <li class="nav-item mb-2"><a href="/content/about/"
@@ -666,7 +666,7 @@ export default class BaseApp {
                                 href="/content/pricing/">Pricing</a></li>
                     </ul>
                 </div>
-                <div class="col-md-4 offset-md-1 mb-3">
+                <div class="col-md-4 mb-3">
                     <h5 class="mb-0">Newsletter Signup:</h5>
                     <p class="my-1">Get tips, updates, news and more.</p>
                     <div class="intro_card card">
