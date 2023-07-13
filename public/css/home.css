@@ -322,6 +322,13 @@ ul.recent_documents_list li a {
   margin-left: 8px;
 }
 
+.main_container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-top: 70px;
+}
+
 @media (max-width: 991px) {
   .main_container {
     max-width: 90%;
@@ -371,7 +378,7 @@ ul.recent_documents_list li a {
 }
 
 .footer_container_div {
-  margin-bottom: 1em;
+  margin-bottom: 0;
 }
 
 .navbar_brand {
@@ -496,16 +503,8 @@ iframe {
 .game_lobby {
   padding-left: 4px;
   padding-right: 4px;
-  max-width: 1200px;
   margin: auto;
   width: 100%;
-}
-
-@media (min-width: 440px) {
-  .game_lobby {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
 }
 
 .show_clear_label_filter .document_label_filter.form-select {
@@ -518,6 +517,10 @@ iframe {
   text-align: right;
   visibility: hidden;
   display: inline-block;
+  margin-top: 8px;
+  margin-bottom: 4px;
+  margin-left: 8px;
+  margin-right: 8px;
 }
 
 .documents_feed_loaded .games_view_header_wrapper {
@@ -809,4 +812,8 @@ iframe {
 
 .dashboard_menus_list li.selected i {
   visibility: visible;
+}
+
+.tab-pane {
+  width: 100%;
 }

@@ -136,7 +136,7 @@ export default class GameAPI {
     let displayName = BaseClass.escapeHTML(profile.displayName);
     let displayImage = profile.displayImage;
 
-    if (!displayName) displayName = "Anonymous";
+    if (!displayName) displayName = "New User";
     if (!displayImage) displayImage = "";
 
     game.members = {
@@ -336,7 +336,7 @@ export default class GameAPI {
     let displayName = BaseClass.escapeHTML(profile.displayName);
     let displayImage = profile.displayImage;
 
-    if (!displayName) displayName = "Anonymous";
+    if (!displayName) displayName = "New User";
     if (!displayImage) displayImage = "";
 
     const updatePacket: any = {
@@ -445,7 +445,7 @@ export default class GameAPI {
     const freshUser = <any>await firebaseAdmin.firestore().doc(`Users/${uid}`).get();
 
     let name: string = freshUser.data().displayName;
-    if (!name) name = "Anonymous";
+    if (!name) name = "New User";
 
     const gamesQuery = await firebaseAdmin.firestore().collection(`Games`)
       .where("members." + uid, ">", "").get();

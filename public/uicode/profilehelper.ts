@@ -608,7 +608,7 @@ export default class ProfileHelper {
     /** populate modal fields and show */
     async show() {
         let displayName = this.app.profile.displayName;
-        if (!displayName) displayName = "Anonymous";
+        if (!displayName) displayName = "New User";
         this.profile_display_name.innerHTML = displayName;
 
         let email = firebase.auth().currentUser.email;

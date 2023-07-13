@@ -582,7 +582,7 @@ export default class BaseApp {
     let name = "";
     if (doc) name = doc.memberNames[uid];
     if (this.uid === uid) name = this.profile.displayName;
-    if (!name) name = "Anonymous";
+    if (!name) name = "New User";
 
     return {
       imagePath,
