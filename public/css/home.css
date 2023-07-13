@@ -462,6 +462,10 @@ iframe {
   border-color: transparent;
   position: relative;
   align-self: center;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  margin-top: -16px;
+  margin-bottom: -16px;
 }
 
 .document_shared_status_icon_wrapper span {
@@ -548,6 +552,11 @@ iframe {
   margin-bottom: -8px;
   text-align: center;
   align-self: center;
+}
+
+.btn-group.dropstart {
+  margin-top: -12px;
+  margin-bottom: -12px;
 }
 
 @media (min-width: 850px) {
@@ -702,6 +711,12 @@ iframe {
 .btn.btn-secondary.dropdown-toggle.dashboard_menu_toggle {
   background: none;
   border-color: transparent;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.btn.btn-secondary.dropdown-toggle.dashboard_menu_toggle.show {
+  background: black;
 }
 
 .dashboard_menu_toggle i {
