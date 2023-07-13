@@ -5,7 +5,6 @@ declare const firebase: any;
 /** Guess app class */
 export class HomePageApp extends BaseApp {
     show_profile_modal: any = document.querySelector(".show_profile_modal");
-    show_create_modal: any = document.querySelector(".show_create_modal");
     checkTemplateURL = false;
 
     help_show_modal: any = document.querySelector(".help_show_modal");
@@ -29,20 +28,6 @@ export class HomePageApp extends BaseApp {
                 event.preventDefault();
 
                 this.profileHelper.show();
-            });
-        }
-
-        if (this.show_create_modal) {
-            this.show_create_modal.addEventListener("click", (event: any) => {
-                event.stopPropagation();
-                event.preventDefault();
-
-                if (!this.uid) {
-                    this.login.show();
-                    return;
-                }
-
-                this.documentCreate.show();
             });
         }
 

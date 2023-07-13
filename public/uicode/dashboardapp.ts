@@ -23,6 +23,7 @@ export class DashboardApp extends BaseApp {
   help_show_modal: any = document.querySelector(".help_show_modal");
   menu_toggle_button: any = document.querySelector(".menu_toggle_button");
   dashboard_tab_button: any = document.querySelector("#dashboard_tab_button");
+  show_create_modal: any = document.querySelector(".show_create_modal");
 
   /** */
   constructor() {
@@ -39,12 +40,16 @@ export class DashboardApp extends BaseApp {
       });
       this.updateSessionFeed(null);
     });
-
     this.profile_menu_anchor.addEventListener("click", (event: any) => {
       event.stopPropagation();
       event.preventDefault();
       this.profileHelper.show();
     });
+    this.show_create_modal.addEventListener("click", (event: any) => {
+      event.stopPropagation();
+      event.preventDefault();
+      this.documentCreate.show(this.getCustomSelectedLabel());
+  });
   }
   /**
    * @return { string } label if custom, "" if not (all or unlabeled)

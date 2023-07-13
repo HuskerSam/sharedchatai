@@ -646,7 +646,7 @@ export default class BaseApp {
     }
     return `<footer class="side_block m-0 pb-1 app_panel">
             <div class="row">
-                <div class="col-12 col-md-3 mb-3 mb-md-0 text-center text-md-start">
+                <div class="mb-3 mb-md-0 text-center text-md-start" style="flex:1">
                     <h5><span>Úna<span
                     style="color: rgb(28, 227, 60);">cog</span></span></h5>
                     <p>
@@ -654,16 +654,6 @@ export default class BaseApp {
                          development projects to fuel our growth. To collaborate with us, please reach out at <a
                             href="mailto:promptplusai@gmail.com" target="_blank">promptplusai@gmail.com</a>
                     </p>
-                </div>
-                <div class="col-6 col-md-2 mb-3 mb-md-0">
-                    <h5>Navigate</h5>
-                    <ul class="nav flex-column" style="font-size: 1.2em;">
-                        <li class="nav-item mb-2">${link}</li>
-                        <li class="nav-item mb-2"><a
-                                class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25
-                                 link-underline-opacity-100-hover"
-                                href="/help/" target="help">Help</a></li>
-                    </ul>
                 </div>
                 <div class="col-6 col-md-2 mb-3 mb-md-0">
                     <h5>Company</h5>
@@ -720,7 +710,7 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
                     </div>
                 </div>
             </div>
-            <div class="d-flex flex-column flex-sm-row justify-content-center py-2 mt-3 border-top">
+            <div class="d-flex flex-column flex-sm-row justify-content-center py-2 border-top">
                 <p class="my-1"> © 2023, All Rights Reserved</p>
             </div>
         </footer>`;
