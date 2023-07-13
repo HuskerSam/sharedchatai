@@ -199,8 +199,10 @@ export default class BaseApp {
     if (loginResult.additionalUserInfo && loginResult.additionalUserInfo.profile && loginResult.user.uid) {
       this.uid = loginResult.user.uid;
       const profile = await firebase.firestore().doc(`Users/${this.uid}`).get();
-      let displayName = profile.data().displayName;
-      let displayImage = profile.data().displayImage;
+      let data = profile.data();
+      if (!data) data = {};
+      let displayName = data.displayName;
+      let displayImage = data.displayImage;
       if (!displayName) displayName = "";
       if (!displayImage) displayImage = "";
       if (!profile.data() || !displayName || !displayImage) {
