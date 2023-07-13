@@ -27,6 +27,8 @@ export class DashboardApp extends BaseApp {
   news_tab_button: any = document.querySelector("#news_tab_button");
   content_tab_button: any = document.querySelector("#content_tab_button");
   dashboard_tab_button: any = document.querySelector("#dashboard_tab_button");
+  news_tab_view: any = document.querySelector("#news_tab_view");
+  footer_container_div: any = null;
 
   /** */
   constructor() {
@@ -57,6 +59,9 @@ export class DashboardApp extends BaseApp {
     this.news_tab_button.addEventListener("click", () => this.saveProfileField("homePageTabIndex", 0));
     this.content_tab_button.addEventListener("click", () => this.saveProfileField("homePageTabIndex", 1));
     this.dashboard_tab_button.addEventListener("click", () => this.saveProfileField("homePageTabIndex", 2));
+
+    this.footer_container_div = document.querySelector(".footer_container_div");
+    this.news_tab_view.appendChild(this.footer_container_div);
   }
   /**
    * @return { string } label if custom, "" if not (all or unlabeled)
