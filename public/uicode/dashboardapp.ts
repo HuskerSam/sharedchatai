@@ -132,8 +132,10 @@ export class DashboardApp extends BaseApp {
       this.news_tab_button.click();
     } else if (this.profile.homePageTabIndex === 1) {
       this.content_tab_button.click();
+    } else if (this.profile.homePageTabIndex === 2) {
+      this.dashboard_tab_button.click();
     }
-
+    setTimeout(() => document.body.classList.add("session_feed_inited"), 100);
     let firstLoad = true;
     this.gameFeedSubscription = firebase.firestore().collection(`Games`)
       .orderBy(`members.${this.uid}`, "desc")
@@ -143,11 +145,6 @@ export class DashboardApp extends BaseApp {
           this.refreshDocumentsLookup(snapshot);
           this.paintLabelSelect(true);
           setTimeout(() => document.body.classList.add("list_loaded"), 100);
-          this.dashboard_tab_button.innerHTML = "Sessions";
-
-          if (this.profile.homePageTabIndex === 2) {
-            this.dashboard_tab_button.click();
-          }
         }
         this.updateSessionFeed(snapshot);
         firstLoad = false;

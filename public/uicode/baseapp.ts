@@ -138,7 +138,6 @@ export default class BaseApp {
 
       if (this.showLoginModal) this.login.show();
     }
-
     return;
   }
   /** setup watch for user profile changes */
