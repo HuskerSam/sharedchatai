@@ -314,7 +314,7 @@ ul.recent_documents_list li a {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding-top: 65px;
+  padding-top: 70px;
 }
 
 @media (max-width: 991px) {
@@ -799,10 +799,17 @@ iframe {
   position: absolute;
   right: 0px;
   padding: 2px;
-  margin-top: -6px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-top: -2px;
+}
+
+.mobile_custom_icon_label i {
+  font-size: 40px;
 }
 
 .navbar-light .navbar-nav .nav-link.profile_menu_anchor {
   padding-left: 8px;
   padding-right: 8px;
+  padding-bottom: 0;
 }
