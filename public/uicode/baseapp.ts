@@ -636,14 +636,6 @@ export default class BaseApp {
  * @return { string } html
 */
   getFooterTemplate(contentPage: boolean): string {
-    let link = `<a href="/content/"
-        class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-        >Content</a>`;
-    if (contentPage) {
-      link = `<a href="/"
-            class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-            >Home</a>`;
-    }
     return `<footer class="side_block m-0 pb-1 app_panel">
             <div class="row">
                 <div class="mb-3 mb-md-0 text-center text-md-start" style="flex:1">
