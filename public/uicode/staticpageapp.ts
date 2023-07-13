@@ -3,7 +3,7 @@ import BaseApp from "./baseapp.js";
 declare const firebase: any;
 
 /** Guess app class */
-export class HomePageApp extends BaseApp {
+export class StaticPageApp extends BaseApp {
     show_profile_modal: any = document.querySelector(".show_profile_modal");
     checkTemplateURL = false;
 

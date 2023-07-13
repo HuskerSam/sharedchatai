@@ -54,7 +54,7 @@
         window.addEventListener("load", async (event) => {
             let module = await import("/models/dashboardapp.js");
 
-            window.HomePageApp = new module.DashboardApp();
+            window.StaticPageApp = new module.DashboardApp();
         });
     </script>
 </head>
@@ -274,9 +274,9 @@
                         <div class="dashboard_documents_view"></div>
                     </div>
                 </div>
-                <div class="no_games_in_dashboard">
+                <div class="no_games_in_dashboard app_panel" style="font-size: 2em;">
                     <br>
-                    Please click New Prompt session to begin.
+                   Welcome to Únacog!
                 </div>
             </div>
         </div>

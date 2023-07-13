@@ -67,9 +67,6 @@ export default class DocOptionsHelper {
         this.modalContainer.innerHTML = html;
         document.body.appendChild(this.modalContainer);
         if (this.wrapperClass) this.modalContainer.classList.add(this.wrapperClass);
-        this.modalContainer.children[0].addEventListener("shown.bs.modal", () => {
-            // this.prompt_for_new_title.focus();
-        });
 
         this.owner_note_display_div = this.modalContainer.querySelector(".owner_note_display_div");
         this.modal_close_button = this.modalContainer.querySelector(".modal_close_button");

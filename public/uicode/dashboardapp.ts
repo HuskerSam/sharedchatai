@@ -22,8 +22,10 @@ export class DashboardApp extends BaseApp {
   documentOptions = new DocOptionsHelper(this, "dashboard_options_view");
   help_show_modal: any = document.querySelector(".help_show_modal");
   menu_toggle_button: any = document.querySelector(".menu_toggle_button");
-  dashboard_tab_button: any = document.querySelector("#dashboard_tab_button");
   show_create_modal: any = document.querySelector(".show_create_modal");
+  news_tab_button: any = document.querySelector("#news_tab_button");
+  content_tab_button: any = document.querySelector("#content_tab_button");
+  dashboard_tab_button: any = document.querySelector("#dashboard_tab_button");
 
   /** */
   constructor() {
@@ -49,7 +51,11 @@ export class DashboardApp extends BaseApp {
       event.stopPropagation();
       event.preventDefault();
       this.documentCreate.show(this.getCustomSelectedLabel());
-  });
+    });
+
+    this.news_tab_button.addEventListener("click", () => this.saveProfileField("homePageTabIndex", 0));
+    this.content_tab_button.addEventListener("click", () => this.saveProfileField("homePageTabIndex", 1));
+    this.dashboard_tab_button.addEventListener("click", () => this.saveProfileField("homePageTabIndex", 2));
   }
   /**
    * @return { string } label if custom, "" if not (all or unlabeled)
@@ -87,6 +93,12 @@ export class DashboardApp extends BaseApp {
 
     if (this.gameFeedSubscription) this.gameFeedSubscription();
 
+    if (this.profile.homePageTabIndex === 0) {
+      this.news_tab_button.click();
+    } else if (this.profile.homePageTabIndex === 1) {
+      this.content_tab_button.click();
+    }
+    
     let firstLoad = true;
     this.gameFeedSubscription = firebase.firestore().collection(`Games`)
       .orderBy(`members.${this.uid}`, "desc")
@@ -95,9 +107,12 @@ export class DashboardApp extends BaseApp {
         if (firstLoad) {
           this.refreshDocumentsLookup(snapshot);
           this.paintLabelSelect(true);
-          setTimeout(() => document.body.classList.add("list_loaded"), 100);   
+          setTimeout(() => document.body.classList.add("list_loaded"), 100);
           this.dashboard_tab_button.innerHTML = "Sessions";
-          this.dashboard_tab_button.click();
+
+    if (this.profile.homePageTabIndex === 2) {
+      this.dashboard_tab_button.click();
+    }
         }
         this.updateSessionFeed(snapshot);
         firstLoad = false;

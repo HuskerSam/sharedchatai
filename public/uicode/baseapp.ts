@@ -172,6 +172,7 @@ export default class BaseApp {
       displayImage,
       documentLabels: "Personal,Business,Revisit",
       enableKatex: true,
+      homePageTabIndex: 2,
     };
 
     this.profileDefaulted = true;
