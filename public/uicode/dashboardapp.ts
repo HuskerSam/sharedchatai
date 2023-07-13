@@ -135,7 +135,7 @@ export class DashboardApp extends BaseApp {
     } else if (this.profile.homePageTabIndex === 2) {
       this.dashboard_tab_button.click();
     }
-    setTimeout(() => document.body.classList.add("session_feed_inited"), 100);
+    document.body.classList.add("session_feed_inited");
     let firstLoad = true;
     this.gameFeedSubscription = firebase.firestore().collection(`Games`)
       .orderBy(`members.${this.uid}`, "desc")

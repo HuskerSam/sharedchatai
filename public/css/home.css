@@ -319,11 +319,12 @@ ul.recent_documents_list li a {
   display: flex;
   flex-direction: column;
   padding-top: 70px;
-  opacity: 0;
+  display: none;
 }
 
-.session_feed_inited .main_container {
-  opacity: 1;
+.session_feed_inited .main_container,
+.app_signed_out .main_container {
+  display: block;
 }
 
 @media (max-width: 991px) {

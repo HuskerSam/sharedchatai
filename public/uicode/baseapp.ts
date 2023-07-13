@@ -138,6 +138,8 @@ export default class BaseApp {
 
       if (this.showLoginModal) this.login.show();
     }
+    
+    document.body.classList.add("auth_inited");
     return;
   }
   /** setup watch for user profile changes */
@@ -471,6 +473,7 @@ export default class BaseApp {
  * @param { any } value string or boolean usually
 */
   saveProfileField(fieldKey: string, value: any) {
+    if (!this.profile) return;
     firebase.firestore().doc(`Users/${this.uid}`).set({
       [fieldKey]: value,
     }, {
