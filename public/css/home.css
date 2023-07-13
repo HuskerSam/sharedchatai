@@ -504,8 +504,6 @@ iframe {
 }
 
 .game_lobby {
-  padding-left: 4px;
-  padding-right: 4px;
   margin: auto;
   width: 100%;
 }
@@ -832,7 +830,7 @@ iframe {
 }
 
 .nav-pills .nav-link {
-  color: rgb(180, 180, 180);
+  color: rgb(220, 220,220);
 }
 
 .nav-pills .nav-link.active,
@@ -855,9 +853,17 @@ iframe {
 .filter_bar_wrapper {
   opacity: 0;
   text-align: left;
-  padding-left: 12px;
+  padding-left: 0px;
 }
 
 .list_loaded .filter_bar_wrapper {
   opacity: 1;
+}
+
+.nav-pills .nav-link {
+  text-decoration: underline;
+}
+
+.nav-pills .nav-link.active {
+  text-decoration: none;
 }
