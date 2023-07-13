@@ -14,6 +14,7 @@ export class DashboardApp extends BaseApp {
   gameFeedSubscription: any;
   lastGamesFeedSnapshot: any;
   gameFeedInited = false;
+  checkTemplateURL = false;
   lastTicketsSnapshot: any = null;
   lastAssistsSnapshot: any = null;
   assistsLookup: any = {};
@@ -80,11 +81,40 @@ export class DashboardApp extends BaseApp {
     this.documentOptions.chatDocumentId = documentId;
     this.documentOptions.documentData = this.documentsLookup[documentId];
   }
+  /** show create dialog if a url "templatepath" is passed in
+ * @param { string } templatePath url to json tickets import
+*/
+  async showCreateDialog(templatePath: string) {
+    const templateData = await BaseApp.readJSONFile(templatePath);
+    const pathParts = templatePath.split("/");
+    const fileName = pathParts[pathParts.length - 1];
+    const file = new File([JSON.stringify(templateData)], fileName, {
+      type: "application/json",
+    });
+    const transfer = new DataTransfer();
+    transfer.items.add(file);
+    this.documentCreate.create_modal_template_file.files = transfer.files;
+    const templateRows = await this.documentCreate.updateParsedFileStatus();
+    if (!templateRows || templateRows.length === 0) {
+      this.documentCreate.create_modal_template_file.value = "";
+      alert("no importable rows round");
+    } else {
+      this.documentCreate.show("", true);
+    }
+  }
+
   /** BaseApp override to update additional use profile status */
   authUpdateStatusUI() {
     super.authUpdateStatusUI();
     this.initGameFeeds();
     this.initRTDBPresence();
+    if (!this.checkTemplateURL) {
+      this.checkTemplateURL = true;
+      const templatePath = this.urlParams.get("templatepath");
+      const title = this.urlParams.get("title");
+      if (title) this.documentCreate.create_modal_title_field.value = title;
+      if (templatePath) this.showCreateDialog(templatePath);
+    }
   }
   /** init listening events on games store to populate feeds in realtime */
   async initGameFeeds() {
@@ -98,7 +128,7 @@ export class DashboardApp extends BaseApp {
     } else if (this.profile.homePageTabIndex === 1) {
       this.content_tab_button.click();
     }
-    
+
     let firstLoad = true;
     this.gameFeedSubscription = firebase.firestore().collection(`Games`)
       .orderBy(`members.${this.uid}`, "desc")
@@ -110,9 +140,9 @@ export class DashboardApp extends BaseApp {
           setTimeout(() => document.body.classList.add("list_loaded"), 100);
           this.dashboard_tab_button.innerHTML = "Sessions";
 
-    if (this.profile.homePageTabIndex === 2) {
-      this.dashboard_tab_button.click();
-    }
+          if (this.profile.homePageTabIndex === 2) {
+            this.dashboard_tab_button.click();
+          }
         }
         this.updateSessionFeed(snapshot);
         firstLoad = false;

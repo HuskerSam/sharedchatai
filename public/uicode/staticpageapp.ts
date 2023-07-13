@@ -5,10 +5,7 @@ declare const firebase: any;
 /** Guess app class */
 export class StaticPageApp extends BaseApp {
     show_profile_modal: any = document.querySelector(".show_profile_modal");
-    checkTemplateURL = false;
-
     help_show_modal: any = document.querySelector(".help_show_modal");
-
     sign_out_homepage: any = document.querySelector(".sign_out_homepage");
     recent_documents_list: any = document.querySelector(".recent_documents_list");
     lastDocumentsSnapshot: any = null;
@@ -56,38 +53,9 @@ export class StaticPageApp extends BaseApp {
     authUpdateStatusUI(): void {
         super.authUpdateStatusUI();
         if (this.profile) {
-            if (!this.checkTemplateURL) {
-                this.checkTemplateURL = true;
-                const templatePath = this.urlParams.get("templatepath");
-                const title = this.urlParams.get("title");
-                if (title) this.documentCreate.create_modal_title_field.value = title;
-                if (templatePath) this.showCreateDialog(templatePath);
-            }
             if (this.recent_documents_list) this.initRecentDocumentsFeed();
         }
     }
-    /** show create dialog if a url "templatepath" is passed in
-     * @param { string } templatePath url to json tickets import
-    */
-    async showCreateDialog(templatePath: string) {
-        const templateData = await BaseApp.readJSONFile(templatePath);
-        const pathParts = templatePath.split("/");
-        const fileName = pathParts[pathParts.length - 1];
-        const file = new File([JSON.stringify(templateData)], fileName, {
-            type: "application/json",
-        });
-        const transfer = new DataTransfer();
-        transfer.items.add(file);
-        this.documentCreate.create_modal_template_file.files = transfer.files;
-        const templateRows = await this.documentCreate.updateParsedFileStatus();
-        if (!templateRows || templateRows.length === 0) {
-            this.documentCreate.create_modal_template_file.value = "";
-            alert("no importable rows round");
-        } else {
-            this.documentCreate.show("", true);
-        }
-    }
-
     /** setup data listener for recent document feed */
     async initRecentDocumentsFeed() {
         if (this.recentDocumentFeedRegistered) return;
