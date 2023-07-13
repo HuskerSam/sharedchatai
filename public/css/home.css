@@ -521,8 +521,9 @@ iframe {
   visibility: hidden;
   display: inline-block;
   margin: 0px;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
   max-width: calc(100% - 86px);
+  padding-top: 16px;
 }
 
 .documents_feed_loaded .games_view_header_wrapper {
