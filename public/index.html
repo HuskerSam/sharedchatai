@@ -77,8 +77,8 @@
                 </a>
             </li>
             <li class="nav-item signed_out_options">
-                <a class="signin_show_modal nav-link hover_yellow btn btn-outline-success px-5" href="login"
-                    type="button" data-bs-toggle="modal" data-bs-target="#loginModal">Sign In
+                <a class="signin_show_modal nav-link hover_yellow btn px-4" href="login"
+                    type="button" data-bs-toggle="modal" data-bs-target="#loginModal" style="background-color: rgb(50, 255, 50);color:#212529;">Sign In
                 </a>
             </li>
             <li class="nav-item">
@@ -185,8 +185,9 @@
                                     </li>
                                     <li>Use and reuse templates by cloning or importing sessions</li>
                                     <li>Use <a class="hover_yellow" href="/help/#options" target="help"
-                                        style="color: rgb(190, 100, 250)">CSV/JSON
-                                    </a> export to download and share session data.</li>
+                                            style="color: rgb(190, 100, 250)">CSV/JSON
+                                        </a> export to download and share session data.</li>
+                                    <li><span>HTML and text to share results</span></li>
                                     <li><a class="hover_yellow" href="/content/privacy"
                                             style="color: rgb(255, 127, 50);">Data</a>
                                         will never be shared</li>
@@ -209,7 +210,6 @@
                                     <li><a class="hover_yellow" href="/help/#help_sign_in" target="help"
                                             style="color: rgb(30, 200, 200);">Anonymous</a> login available for viewers
                                     </li>
-                                    <li><span>HTML and text to share results</span></li>
                                     <li><span>Only one <a class="hover_yellow" href="/content/pricing"
                                                 style="color: rgb(255, 127, 50);">subscription</a> required</li>
                                     <li>Set <a class="hover_yellow" href="/help/#session_limit" target="help"
@@ -218,16 +218,16 @@
                             </div>
                         </div>
                     </div>
-                    <div
-                        class="flex-lg-row flex_change_responsive signed_out_options_block main_block app_panel signed_out_flex">
-                        <div class="py-3 intro_card">
-                            <h1 class="header_recent_document signed_out_options_block"
-                                style="width:100%;text-align: center;">
-                                Free trial currently in progress
-                                <a class="home_page_login btn ms-3 p-2 px-5 mt-2 mt-lg-0" type="button" href="login"
-                                    style="background-color: rgb(50, 255, 50);font-size:1em">Sign
-                                    Up Now</a>
-                            </h1>
+                    <div class="flex-lg-row flex_change_responsive signed_out_options_block signed_out_flex">
+                        <div class="main_block app_panel">
+                            <div class="p-5 intro_card">
+                                <h1 class="signed_out_options_block" style="text-align: center;">
+                                    Free trial in progress<br>
+                                    <a class="home_page_login btn p-2 px-5 mt-1" type="button" href="login"
+                                        style="background-color: rgb(50, 255, 50);">Sign
+                                        In</a>
+                                </h1>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -246,7 +246,8 @@
                 style="flex-direction:column;overflow:hidden;" aria-labelledby="dashboard_tab_button">
                 <div class="filter_bar_wrapper">
                     <div class="games_view_header_wrapper">
-                        <select class="document_label_filter form-select form-select-lg hover_yellow" style="font-size:1.5em;">
+                        <select class="document_label_filter form-select form-select-lg hover_yellow"
+                            style="font-size:1.25em;">
                             <option>All Sessions</option>
                         </select>
                     </div>
