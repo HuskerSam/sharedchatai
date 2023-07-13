@@ -77,8 +77,9 @@
                 </a>
             </li>
             <li class="nav-item signed_out_options">
-                <a class="signin_show_modal nav-link hover_yellow btn px-4" href="login"
-                    type="button" data-bs-toggle="modal" data-bs-target="#loginModal" style="background-color: rgb(50, 255, 50);color:#212529;">Sign In
+                <a class="signin_show_modal nav-link hover_yellow btn px-4" href="login" type="button"
+                    data-bs-toggle="modal" data-bs-target="#loginModal"
+                    style="background-color: rgb(50, 255, 50);color:#212529;">Sign In
                 </a>
             </li>
             <li class="nav-item">
@@ -91,6 +92,18 @@
         </ul>
     </nav>
     <div class="main_container container homepage_content">
+        <div class="flex-lg-row flex_change_responsive signed_out_options_block signed_out_flex">
+            <div class="main_block app_panel">
+                <div class="p-2 intro_card">
+                    <h1 class="signed_out_options_block" style="text-align: center;">
+                        Free trial in progress
+                        <a class="home_page_login btn p-2 px-5 mt-1" type="button" href="login"
+                            style="background-color: rgb(50, 255, 50);display:none;">Sign
+                            In</a>
+                    </h1>
+                </div>
+            </div>
+        </div>
         <ul class="nav nav-pills" id="ex1" role="tablist" style="position: relative;font-size: 1.25em;margin-top:4px;">
             <li class="nav-item signed_in_inline_block" role="presentation">
                 <a class="nav-link" id="dashboard_tab_button" data-bs-toggle="tab" href="#dashboard_tab_view" role="tab"
@@ -106,16 +119,16 @@
             </li>
         </ul>
         <div class="tab-content" style="display:flex;flex:1;">
-            <div class="tab-pane fade show active" id="news_tab_view" role="tabpanel"
-                style="flex-direction:column;" aria-labelledby="news_tab_button">
+            <div class="tab-pane fade show active" id="news_tab_view" role="tabpanel" style="flex-direction:column;"
+                aria-labelledby="news_tab_button">
                 <div class="mt-2">
-                    <div class="flex-lg-row flex_change_responsive">
+                    <div class="flex-lg-row flex_change_responsive" style="max-height: 40vh;">
                         <div class="main_block app_panel">
                             <h1 class="header_recent_document">
-                                <span style="color: rgb(50, 255, 50);">Models</span>
+                                <span style="color: rgb(50, 255, 50);">Model Updates</span>
                             </h1>
-                            <p class="py-0" style="font-size:1rem;">Change models without losing context</p>
-                            <div class="intro_card card">
+                            <div class="intro_card card" style="overflow: auto;">
+                                <p class="py-0" style="font-size:1rem;">Change models without losing context</p>
                                 <h5 style="display:inline-block">
                                     <a href="https://platform.openai.com/docs/models" target="_blank"
                                         class="hover_yellow">OpenAI</a>
@@ -136,14 +149,6 @@
                                 <ul>
                                     <li> <span class="supported_model">chat-bison-001</span> 9k</li>
                                 </ul>
-                            </div>
-                        </div>
-                        <div class="side_block app_panel">
-                            <h1 class="header_recent_document">
-                                <span style="color: rgb(255, 127, 50);">Tweak</span> the
-                                <span style="color: rgb(50, 255, 50);">Models</span>
-                            </h1>
-                            <div class="intro_card card">
                                 <ul>
                                     <li><span><a href="/help/#system_message" class="hover_yellow" target="help"
                                                 style="color: rgb(50, 255, 50);">System messages</a></span> for specific
@@ -170,15 +175,11 @@
                                 </ul>
                             </div>
                         </div>
-                    </div>
-                    <div class="flex-lg-row flex_change_responsive">
                         <div class="main_block app_panel">
                             <h1 class="header_recent_document">
-                                <span style="color: rgb(50, 255, 50);">Prompt</span>
-                                with
-                                <span style="color: rgb(255, 255, 20);">Power</span>
+                                <span style="color: rgb(50, 255, 50);">Feature Updates</span>
                             </h1>
-                            <div class="card intro_card">
+                            <div class="card intro_card" style="overflow: auto;">
                                 <ul>
                                     <li><a class="hover_yellow" href="/help/#users_info" target="help"
                                             style="color: rgb(30, 200, 200);">Collaborate</a> with friends and coworkers
@@ -194,14 +195,6 @@
                                     <li>Use labels to <a class="hover_yellow" href="/help/#owner_labels" target="help"
                                             style="color: rgb(255, 255, 20);">filter by and organize</a> sessions</li>
                                 </ul>
-                            </div>
-                        </div>
-                        <div class="main_block app_panel">
-                            <h1 class="header_recent_document"><span
-                                    style="color: rgb(30, 200, 200);">Collaborative</span>
-                                <span style="color: rgb(190, 100, 250)">Features</span>
-                            </h1>
-                            <div class="intro_card card">
                                 <ul>
                                     <li>Share session as simple as <a class="hover_yellow" href="/help/#email_link"
                                             target="help" style="color: rgb(255, 127, 50);">sharing url</a></li>
@@ -218,16 +211,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex-lg-row flex_change_responsive signed_out_options_block signed_out_flex">
+                    <div class="flex-lg-row flex_change_responsive">
                         <div class="main_block app_panel">
-                            <div class="p-5 intro_card">
-                                <h1 class="signed_out_options_block" style="text-align: center;">
-                                    Free trial in progress<br>
-                                    <a class="home_page_login btn p-2 px-5 mt-1" type="button" href="login"
-                                        style="background-color: rgb(50, 255, 50);">Sign
-                                        In</a>
-                                </h1>
-                            </div>
+                            <a class="header_recent_document hover_yellow" href="youtube"
+                                style="color: rgb(50, 255, 50);">
+                                <span>Youtube Channel</span>
+                            </a>
+
+                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/9VMFh3eAFrE"
+                                title="YouTube video player" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen></iframe>
                         </div>
                     </div>
                 </div>
@@ -242,8 +236,8 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade" id="dashboard_tab_view" role="tabpanel"
-                style="flex-direction:column;" aria-labelledby="dashboard_tab_button">
+            <div class="tab-pane fade" id="dashboard_tab_view" role="tabpanel" style="flex-direction:column;"
+                aria-labelledby="dashboard_tab_button">
                 <div class="filter_bar_wrapper">
                     <div class="games_view_header_wrapper">
                         <select class="document_label_filter form-select form-select-lg hover_yellow"
