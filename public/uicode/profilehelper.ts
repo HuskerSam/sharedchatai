@@ -252,7 +252,7 @@ export default class ProfileHelper {
                         </div>
                         <div class="tab-pane fade" id="profile_user_usage_view" role="tabpanel"
                             aria-labelledby="usage_labels_tab_button">
-                            <div class="form-label">Monthly Prompt+ Credits Usage</div>
+                            <div class="form-label">Monthly Únacog Credits Usage</div>
                             <div class="summary_panel">
                                 Credits Used: <span class="summary_column monthly_tokens_usage">0</span>
                                 <br>
