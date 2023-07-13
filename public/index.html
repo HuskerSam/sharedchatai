@@ -97,6 +97,10 @@
                 <a class="nav-link active" id="news_tab_button" data-bs-toggle="tab" href="#news_tab_view" role="tab"
                     aria-controls="news_tab_view" aria-selected="true">News</a>
             </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="content_tab_button" data-bs-toggle="tab" href="#content_tab_view" role="tab"
+                    aria-controls="news_tab_view" aria-selected="true">Content</a>
+            </li>
             <li class="nav-item signed_in_inline_block" role="presentation">
                 <a class="nav-link" id="dashboard_tab_button" data-bs-toggle="tab" href="#dashboard_tab_view" role="tab"
                     aria-controls="dashboard_tab_view" aria-selected="false">Loading...</a>
@@ -133,14 +137,6 @@
                                 <ul>
                                     <li> <span class="supported_model">chat-bison-001</span> 9k</li>
                                 </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex-lg-row flex_change_responsive">
-                        <div class="side_block app_panel" style="flex-direction: column;">
-                            <a class="header_recent_document hover_yellow" href="/content">Recent Discussions</a>
-                            <div class="intro_card card">
-                                <ul class="template_list_wrapper recent_content_ul_list"></ul>
                             </div>
                         </div>
                     </div>
@@ -247,6 +243,11 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="content_tab_view" role="tabpanel" aria-labelledby="content_tab_button">
+                <div class="main_block app_panel">
+                    <ul class="template_list_wrapper recent_content_ul_list"></ul>
                 </div>
             </div>
             <div class="tab-pane fade" id="dashboard_tab_view" role="tabpanel"

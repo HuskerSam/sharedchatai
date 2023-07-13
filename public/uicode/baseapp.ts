@@ -51,9 +51,8 @@ export default class BaseApp {
   /**
  * @param { boolean } contentPage content list trimmed on other pages and footer link change
  * @param { boolean } addFooter add footer (true by default)
- * @param { boolean } showAuthDialog true to show login popup (default)
  */
-  constructor(contentPage = false, addFooter = true, showAuthDialog = true) {
+  constructor(contentPage = false, addFooter = true) {
     window.addEventListener("beforeinstallprompt", (e: any) => {
       e.preventDefault();
       this.deferredPWAInstallPrompt = e;

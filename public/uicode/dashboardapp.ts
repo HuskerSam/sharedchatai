@@ -26,7 +26,7 @@ export class DashboardApp extends BaseApp {
 
   /** */
   constructor() {
-    super(false, true);
+    super(true, true);
     this.showLoginModal = false;
 
     this.initRTDBPresence();
