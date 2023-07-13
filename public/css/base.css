@@ -343,10 +343,6 @@ button.btn-primary:active {
   background-color: rgb(120, 120, 120);
 }
 
-.show_profile_modal i {
-  margin-right: 8px;
-}
-
 .mobile_custom_icon_label {
   display: inline-block;
 }
@@ -450,6 +446,7 @@ button.btn-primary:active {
 .hover_yellow:hover {
   background-color: rgb(0,0,0);
   border-color: transparent;
+  color: white;
 }
 
 .menu_dropdown_label_wrapper {
@@ -471,6 +468,12 @@ button.btn-primary:active {
 }
 
 .nav-link.dashboard_create_game .menu_dropdown_label_wrapper {
+  position: relative;
+}
+
+.nav-link.show_create_modal.homepage {
+  display: inline-block;
+  top: 6px;
   position: relative;
 }
 
@@ -530,6 +533,7 @@ a.hover_yellow.show_document_options_help:hover i {
 
 body {
   visibility: hidden;
+  padding-right: 0px!important;
 }
 
 body.body_loaded {

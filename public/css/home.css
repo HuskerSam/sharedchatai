@@ -142,14 +142,6 @@ ul.recent_documents_list li a {
 }
 
 /** from AI chat **/
-
-
-.profile_menu_anchor {
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-}
-
 .template_list_wrapper {}
 
 .template_list_wrapper li {
@@ -195,10 +187,6 @@ ul.recent_documents_list li a {
 @media (max-width: 991px) {
   .faq {
     flex-direction: column;
-  }
-
-  .profile_menu_anchor .menu_profile_user_image_span {
-    top: 0px;
   }
 
   .flex_change_responsive {
@@ -326,7 +314,7 @@ ul.recent_documents_list li a {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding-top: 70px;
+  padding-top: 65px;
 }
 
 @media (max-width: 991px) {
@@ -462,11 +450,6 @@ iframe {
   opacity: .85;
 }
 
-.profile_menu_anchor {
-  white-space: nowrap;
-  display: flex;
-}
-
 .document_shared_status_icon_wrapper {
   background: none;
   border-color: transparent;
@@ -517,10 +500,9 @@ iframe {
   text-align: right;
   visibility: hidden;
   display: inline-block;
-  margin-top: 8px;
-  margin-bottom: 4px;
-  margin-left: 8px;
-  margin-right: 8px;
+  margin: 0px;
+  margin-bottom: 8px;
+  max-width: calc(100% - 80px);
 }
 
 .documents_feed_loaded .games_view_header_wrapper {
@@ -581,11 +563,6 @@ iframe {
 
   .menu_profile_name_spacer {
     display: block;
-  }
-
-  .show_profile_modal {
-    position: relative;
-    top: 2px;
   }
 }
 
@@ -694,9 +671,9 @@ iframe {
 
 @media (min-width: 992px) {
   .menu_profile_user_image_span {
-    float: none;
     display: inline-block;
-    margin-left: 8px;
+    position: relative;
+    top: 4px;
   }
 
   .dashboard_create_game .mobile_custom_icon_label {
@@ -816,4 +793,16 @@ iframe {
 
 .tab-pane {
   width: 100%;
+}
+
+.homepage .showhomepage_help {
+  position: absolute;
+  right: 0px;
+  padding: 2px;
+  margin-top: -6px;
+}
+
+.navbar-light .navbar-nav .nav-link.profile_menu_anchor {
+  padding-left: 8px;
+  padding-right: 8px;
 }
