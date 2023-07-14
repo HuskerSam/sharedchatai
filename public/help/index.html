@@ -387,33 +387,40 @@
                         model via a unified chat interface. Usernames distinctly label each contribution, maintaining
                         clarity throughout the dialogue. Features available to all participants include: </p>
                     <p class="lead">Prompting</p>
-                    <p class="mb-1">Every participant in a session can send prompts to the AI, fostering a vibrant
+                    <p class="mb-4">Every participant in a session can send prompts to the AI, fostering a vibrant
                         conversation.
                     </p>
                     <div class="text-center">
-                        <img class="img-fluid text-center bg-dark-2 p-1 rounded"
+                        <img class="img-fluid text-center rounded"
                             src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fenterprompt.png?alt=media&token=675ae24a-9692-4eaf-a4c2-40e6d0c53c2c"
                             alt="sidebar_title">
                     </div>
-                    <p>
-                        Color-coded indicators monitor shifts in engine parameters. If the 'max tokens' parameter
-                        alters, the predicted token amount above the send icon turns <span class="badge text-dark"
-                            style="background-color:rgb(255, 255, 20)">yellow</span>. </p>
+                    <p>The color coding of the session provides instant visual cues, enabling users to identify changes
+                        in parameters swiftly and thus ensuring effective and informed interactions with the AI.</p>
                     <div class="text-center">
-                        <img style="max-width:100px" class="img-fluid p-1 bg-dark-2 rounded"
+                        <img style="max-width:100px" class="img-fluid rounded"
                             src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fyellow_send.png?alt=media&token=237b73d7-5ce5-4b8d-82aa-8fa75df42ff6"
                             alt="sidebar_title">
                     </div>
-                    <p class="mb-1">
-                        Adjustments to temperature,
-                        top_p, frequency penalty, or presence penalty shift the icon to <span class="badge text-dark"
-                            style="background-color:rgb(255, 127, 50)">orange</span>. This immediate visual
-                        feedback helps users recognize parameter changes, enhancing effective and informed AI
-                        interactions.</p>
-                    <div class="text-center"> <img style="max-width:100px"
-                            class="img-fluid text-center p-1 bg-dark-2 rounded"
+                    <p><span class="badge bg-warning">YELLOW</span>
+                        Indicates a modification in the 'Max_token' parameter.</p>
+
+                    <div class="text-center"> <img style="max-width:100px" class="img-fluid text-center rounded"
                             src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Forange_send.png?alt=media&token=a77496bd-0d85-48f3-994a-ee9f643ff42a"
                             alt="sidebar_title"></div>
+                    <p><span class="badge" style="background-color: orange;">ORANGE</span>
+                        Reflects adjustments to any parameter that could influence your outcome. These parameters vary
+                        based on the model in use. For OpenAI's chatgpt, this includes changes to temperature, top_p,
+                        frequency penalty, or presence penalty.</p>
+                    <div class="text-center">
+                        <img class="img-fluid text-center rounded" style="max-width:100px"
+                            src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fred_send.png?alt=media&token=d63d4193-e920-4454-b9a6-ff8d4a48f4c8"
+                            alt="sidebar_title">
+                    </div>
+                    <p>
+                        <span class="badge bg-danger">RED</span> Serves
+                        as a warning that the app anticipates your next message may reach the API's token cap limit.
+                    </p>
 
                     <p class="lead">Prompt Inclusion/Exclusion </p>
                     <p id="auto_exclude" class="mb-4">Each user can determine which prompts to include or exclude from
@@ -490,7 +497,8 @@
                         text is dissected into tokens. Tokens are integral to how GPT models operate and calculate
                         cost - the cost per token varies on a per-model basis.</p>
                     <p class="alert-link mb-4"><span class="badge badge-dark">Related</span><a
-                            href="#concept_token_limits"> Token limits </a>
+                            href="#concept_token_limits">
+                            Token limits </a>
                     </p>
                     <p class="lead">Total Tokens</p>
                     <div class="text-center">
@@ -649,20 +657,20 @@
                                 <span class="badge max_token_span">0 to 2</span>
                             </li>
                         </ul>
-                        <ul class="list-unstyled text-center">
-                            <li class="text-white">
+                        <ul class="mb-3">
+                            <li>
                                 Controls model's response predictability
                             </li>
-                            <li class="text-white">
+                            <li>
                                 Lower temperature = more common responses
                             </li>
-                            <li class="text-white">
+                            <li>
                                 Higher temperature = less predictable, more creative responses
                             </li>
-                            <li class="text-white">Common parameter in
+                            <li>Common parameter in
                                 most LLMs</li>
                         </ul>
-                        <p>
+                        <p class="mb-4">
                             If we revisit the <a href="#key_concepts">"The apple is..." example,</a> with a
                             lower temperature, the model is more likely to predict a common descriptor like "red".
                             However, when you increase the temperature, it amplifies the chance of less common
@@ -681,14 +689,14 @@
                                 <span class="badge max_token_span">0 to 1</span>
                             </li>
                         </ul>
-                        <ul class="list-unstyled text-center">
-                            <li class="text-white">
+                        <ul class="mb-3">
+                            <li>
                                 Works with nucleus sampling to control response predictability </li>
-                            <li class="text-white">
+                            <li>
                                 Lower top_p = exact, fact-based responses </li>
-                            <li class="text-white">
+                            <li>
                                 Higher top_p = more diverse responses </li>
-                            <li class="text-white">Common parameter in most LLMs</li>
+                            <li>Common parameter in most LLMs</li>
                         </ul>
                         <p class="mb-4"><span class="badge badge-success">Note</span> Generally recommended altering
                             this or top_p but not both.
@@ -705,11 +713,11 @@
                                 <span class="badge max_token_span">-2.0 to 2.0</span>
                             </li>
                         </ul>
-                        <ul class="list-unstyled text-center">
-                            <li class="text-white">
+                        <ul class="mb-3">
+                            <li>
                                 Discourages common words/phrases
                             </li>
-                            <li class="text-white">
+                            <li>
                                 High frequency_penalty = creative/unique, but possibly less straightforward responses
                             </li>
                         </ul>
@@ -719,13 +727,12 @@
                             amount of text data from the internet that the model was trained on, not just the immediate
                             context of the conversation.
                         </p>
-                        <p>
+                        <p class="mb-4">
                             By increasing the frequency_penalty, you're asking the model to generate responses that
                             avoid these common words and phrases, leading to outputs that might be more creative or
                             unique. However, a high frequency penalty can also make the model's responses less
                             straightforward or harder to understand.
                         </p>
-
                         <ul class="list-group list-group-unnumbered mb-3">
                             <li
                                 class="list-group-item d-flex justify-content-between align-items-start bg-dark-2 text-light">
@@ -738,18 +745,18 @@
                                 <span class="badge max_token_span">0 to 1</span>
                             </li>
                         </ul>
-                        <ul class="list-unstyled text-center">
-                            <li class="text-white">
+                        <ul class="mb-3">
+                            <li>
                                 Relates to current input/context </li>
-                            <li class="text-white">
+                            <li>
                                 High presence_penalty = encourages use of input-specific words/phrases, helps model stay
                                 on topic
                             </li>
-                            <li class="text-white">
+                            <li>
                                 Low presence_penalty = introduces new words/ideas/topics, resulting in more varied
                                 responses, but possibly less related to initial input </li>
                         </ul>
-                        <p>
+                        <p class="mb-4">
                             In contrast to frequency_penalty, the presence_penalty directly relates to the current input
                             or context. When set high, it encourages the model to use or stick to the words and phrases
                             that have been mentioned in the conversation or input, helping the model to stay on topic.
@@ -987,13 +994,6 @@
                                 </figcaption>
                             </figure>
                         </div>
-                        <ul class="mb-5">
-                            <li><span class="text-info"></span>: </li>
-                            <li> <span class="text-info"></span>: </li>
-                            </li>
-                            <li><span class="text-info mb-1">Token Usage Stats</span>: </li>
-                        </ul>
-
                         <h3 id="upload_data_sessions">Upload Data</h3>
                         <p>Use this feature to upload and integrate previous
                             prompts into your current session. The application exports and imports JSON and CSV files
@@ -1089,7 +1089,7 @@
                             scenarios.</p>
                         <div class="text-center">
                             <figure class="figure">
-                                <img class="img-fluid text-center p-1 bg-dark-3 rounded"
+                                <img class="img-fluid text-center rounded"
                                     src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2FemailInvite.png?alt=media&token=d1dcac21-af62-4aef-8ea3-5e312319086a"
                                     alt="sidebar_title">
                                 <figcaption class="figure-caption text-center">email invite inside document options
@@ -1100,7 +1100,7 @@
                             session. If the user is not registered, they will be prompted to log in. </p>
                         <div class="text-center">
                             <figure class="figure">
-                                <img class="img-fluid text-center p-1 bg-dark-3 rounded"
+                                <img class="img-fluid text-center rounded"
                                     src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2FemailInviteEmail.png?alt=media&token=3533992a-deb0-40dc-9190-fafab8a1f70c"
                                     alt="sidebar_title">
                                 <figcaption class="figure-caption text-center">sending an email invite
@@ -1119,7 +1119,7 @@
                             API for processing. Most users can ignore this feature.</p>
                         <div class="text-center">
                             <figure class="figure">
-                                <img class="img-fluid text-center p-1 bg-dark-3 rounded" style="max-width:280px"
+                                <img class="img-fluid text-center rounded" style="max-width:280px"
                                     src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fpacket_data.png?alt=media&token=a273363e-f256-4f12-abfd-dcc409c28557"
                                     alt="sidebar_title">
                                 <figcaption class="figure-caption text-center">packet information for a session
@@ -1135,7 +1135,7 @@
                             usage.</p>
                         <div class="text-center">
                             <figure class="figure">
-                                <img class="img-fluid text-center p-1 bg-light-4 rounded" style="max-width:320px"
+                                <img class="img-fluid text-center rounded" style="max-width:320px"
                                     src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fthreshold_dialog.png?alt=media&token=d1162c02-115a-4321-97ab-99c6c3616230"
                                     alt="sidebar_title">
                                 <figcaption class="figure-caption text-center">Feedback for token usage on your sessions
@@ -1148,7 +1148,7 @@
                             <li>
                                 <div class="ms-2 me-auto">
                                     <div class="fw-bold">Max Token</div>
-                                 the maximum alloted token for a specific model.
+                                    the maximum alloted token for a specific model.
                                 </div>
                             </li>
                             <li>
@@ -1166,14 +1166,15 @@
                             <li>
                                 <div class="ms-2 me-auto">
                                     <div class="fw-bold">Prompt Count</div>
-                                    prompts as a ratio between selected and unselected responses                        
+                                    prompts as a ratio between selected and unselected responses
                                 </div>
                             </li>
                             <li>
                                 <div class="ms-2 me-auto">
                                     <div class="fw-bold">Request Size</div>
                                     This reflects the current token count in the context history (i.e., selected
-                                    prompts), plus the value set for max tokens (the amount you set for the response back).
+                                    prompts), plus the value set for max tokens (the amount you set for the response
+                                    back).
                                 </div>
                             </li>
                             <li>
@@ -1216,7 +1217,7 @@
                         </div>
                         <p><strong>Owner's Note: </strong> A space for you to write notes related to the session. These
                             can be reminders, observations, or any information pertinent to the session.</p>
-                      
+
                         <h3 id="session_limit" class="mb-2">Usage limits per session</h3>
                         <p>Gives you a detailed report on token usage for the session, helping you to monitor and manage
                             your resource usage more
@@ -1230,11 +1231,10 @@
                                 </figcaption>
                             </figure>
                         </div>
-                        <p class=""><span
-                            class="badge badge-dark">Related</span>
+                        <p class=""><span class="badge badge-dark">Related</span>
                             See your total usage stats in profile settings below.</p>
 
-               
+
                     </section>
 
                     <hr class="divider">
@@ -1243,7 +1243,8 @@
                                 <span class="material-icons">link</span>
                             </a>
                         </h2>
-                        <p mb-3>The Profile Options is accessible from anywhere on the app and lets you personalize your user experience on Únacog. It's
+                        <p mb-3>The Profile Options is accessible from anywhere on the app and lets you personalize your
+                            user experience on Únacog. It's
                             structured into three tabs: User, Labels, and Account.</p>
                         <div class="text-center">
                             <figure class="figure">
@@ -1255,69 +1256,122 @@
                             </figure>
                         </div>
                         <h3>User</h3>
-                        <p>Use this tab to personalize your profile by changing your name and profile image</p>
-
-                        <ul>
-                            <li>Name: Use the pencil icon to manually change your name, or the dice icon to generate a
-                                random one.</li>
-                            <li>Profile Image: Upload a custom image or choose to generate a random mascot image.</li>
-                        </ul>
-                        <figure class="figure">
-                            <img class="img-fluid text-center bg-dark-1 rounded"
-                                src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fprofile_name.png?alt=media&token=a93b2524-6971-4c3e-af74-f5d00ab119d1"
-                                alt="sidebar_title">
-                            <figcaption class="figure-caption text-center">Profile options tabs
-                            </figcaption>
-                        </figure>
-                        <p>In addition to these, there are four checkboxes for customizing display settings:</p>
-                        <ul>
-                            <li>Large Text: Check this box to increase the size of the chat interface text.</li>
-                            <li>Monospace Font: Switch the font family to monospace for chat prompts and responses.</li>
-                            <li>Auto Exclude: This feature automatically excludes the oldest prompt in your chat session
-                                to
-                                avoid going over the API token limit for each ChatGPT model. This option is also
-                                available
-                                on a session basis inside document options > threhold</li>
-                        </ul>
-                        <br>
-                        <h3>Labels</h3>
+                        <p>Use this tab to personalize your profile image and personalize your experience</p>
+                        <div class="text-center">
+                            <figure class="figure">
+                                <img class="img-fluid text-center bg-dark-1 rounded"
+                                    src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fprofile_options_user.png?alt=media&token=29d1fd27-d224-4714-b47c-cc4fb6e08cbf"
+                                    alt="sidebar_title">
+                                <figcaption class="figure-caption text-center">profile options user tab
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <p><strong>Name:</strong> Use the pencil icon to manually change your name, or the dice icon to
+                            generate a
+                            random one.</p>
+                        <div class="text-center">
+                            <figure class="figure">
+                                <img class="img-fluid text-center bg-dark-1 rounded"
+                                    src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fprofile_name.png?alt=media&token=a93b2524-6971-4c3e-af74-f5d00ab119d1"
+                                    alt="sidebar_title">
+                                <figcaption class="figure-caption text-center">profile name and image options
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <p><strong>Profile Image:</strong> Upload a custom image or choose to generate a random mascot
+                            image.</p>
+                        <p class="lead mb-4">Use the checkboxes to customize display settings and other preferences</p>
+                        <div class="text-center">
+                            <figure class="figure">
+                                <img class="img-fluid text-center bg-dark-1 rounded"
+                                    src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fprofile_options_preference.png?alt=media&token=c9b921b0-a4c0-4eb9-ba8e-3776040dd19f"
+                                    alt="sidebar_title">
+                                <figcaption class="figure-caption text-center">user interface preferences
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <p><strong>Large Text:</strong> Check this box to increase the size of the chat interface text.
+                        </p>
+                        <p><strong>Monospace Font:</strong> Switch the font family to monospace for chat prompts and
+                            responses.</p>
+                        <p><strong>Auto Exclude:</strong> This feature automatically excludes the oldest prompt in your
+                            chat session
+                            to
+                            avoid going over the API token limit for each ChatGPT model. This option is also
+                            available
+                            on a session basis inside document options > threshold</p>
+                        <p id="katex"><a class="link-info text-decoration-underline"
+                                href="https://katex.org/"><strong>KaTex:</strong></a> KaTeX is a JavaScript library for
+                            formatting math expressions on the
+                            web. If math formulas do not come out looking right, make sure you have Katex and Katex
+                            Inline checked.</p>
+                        <div class="text-center">
+                            <figure class="figure">
+                                <img class="img-fluid text-center bg-dark-1 rounded"
+                                    src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fkatex_pref.png?alt=media&token=f8ed4dc9-3b7e-4719-8a4b-36b1db895a7a"
+                                    alt="sidebar_title">
+                                <figcaption class="figure-caption text-center">example of when KaTex formatting is
+                                    needed
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <p class="mb-4"><strong>KaTex Inline</strong> Sometimes the formatter can get tripped up by
+                            different notations, like the dollar sing "$". This feature is particularly useful when you
+                            need to include mathematical symbols or equations within paragraphs, headings, or any other
+                            text elements.</p>
+                        <h3 class="mb-2">Labels</h3>
                         <p>This section presents default labels (Personal, Business, and Archived) that you can assign
                             to
                             sessions during creation or afterwards. You can modify these labels according to your needs
                             for
                             better organization and filtering of your documents.</p>
-                        <br>
+                        <div class="text-center">
+                            <figure class="figure">
+                                <img class="img-fluid text-center bg-dark-1 rounded"
+                                    src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fprofile_options_labels.png?alt=media&token=7aaa1096-49f8-4a13-8373-b131b3cc08e1"
+                                    alt="sidebar_title">
+                                <figcaption class="figure-caption text-center">default labels set in profile options
+                                </figcaption>
+                            </figure>
+                        </div>
                         <h3>Account</h3>
                         <p class="lead">This tab provides critical information about your usage and subscription.</p>
                         <p>Token Usage History: Provides a detailed breakdown of token usage by day, month, year, and
                             all time based on sent messages and replies from the AI.</p>
-                        <figure class="figure">
-                            <img class="img-fluid text-center bg-dark-1 rounded"
-                                src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fusage_history.png?alt=media&token=ced0a4cf-d1b4-43cd-840e-beac8f5d09b5"
-                                alt="sidebar_title">
-                            <figcaption class="figure-caption text-center">Profile options tabs
-                            </figcaption>
-                        </figure>
-                        <p>Monthly OpenAI Token Usage: Displays the total token limit and your usage for the month.</p>
-                        <figure class="figure">
-                            <img class="img-fluid text-center bg-dark-1 rounded"
-                                src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fmonthy_usage.png?alt=media&token=7acbe3ee-ff4d-460c-8fed-6c790045e2be"
-                                alt="sidebar_title">
-                            <figcaption class="figure-caption text-center">Profile options tabs
-                            </figcaption>
-                        </figure>
-                        <p>New Email: Allows you to migrate your document data to another email account.</p>
-                        <figure class="figure">
-                            <img class="img-fluid text-center bg-dark-1 rounded"
-                                src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fnew_email.png?alt=media&token=3bb7ce3f-c632-4406-bfe7-770974c55df4"
-                                alt="sidebar_title">
-                            <figcaption class="figure-caption text-center">Profile options tabs
-                            </figcaption>
-                        </figure>
-                        <p>Subscription Level: Shows your current subscription level. During the beta phase, all users
-                            are identified as Pre Release</p>
+                        <div class="text-center">
+                            <figure class="figure">
+                                <img class="img-fluid text-center bg-dark-1 rounded"
+                                    src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fusage_history.png?alt=media&token=ced0a4cf-d1b4-43cd-840e-beac8f5d09b5"
+                                    alt="sidebar_title">
+                                <figcaption class="figure-caption text-center">total token usage history
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <p class="lead">Monthly OpenAI Token Usage:</p>
+                        <p>Displays the total token limit and your usage for the month.</p>
+                        <div class="text-center">
+                            <figure class="figure">
+                                <img class="img-fluid text-center bg-dark-1 rounded"
+                                    src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fmonthy_usage.png?alt=media&token=7acbe3ee-ff4d-460c-8fed-6c790045e2be"
+                                    alt="sidebar_title">
+                                <figcaption class="figure-caption text-center">monthly token usage stats
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <p class="lead">New Email:</p>
+                        <p>Allows you to migrate your document data to another email account.</p>
+                        <div class="text-center">
+                            <figure class="figure">
+                                <img class="img-fluid text-center bg-dark-1 rounded"
+                                    src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fnew_email.png?alt=media&token=3bb7ce3f-c632-4406-bfe7-770974c55df4"
+                                    alt="sidebar_title">
+                                <figcaption class="figure-caption text-center">migrate data to another email
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <p class="lead link-info"><a href="/content/pricing/">Subscription Level:</a></p>
+                        <p>During the beta phase, all users are identified as Pre Release</p>
                     </section>
-
                     <hr class="divider">
                     <section id="key_concepts">
                         <h2 class="mb-2">Foundations <a class="btn hover_yellow anchor_copy_link">
