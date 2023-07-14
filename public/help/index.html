@@ -949,8 +949,10 @@
                             the export tab, most of document options are available to users initially when they create
                             the
                             session.
-                            <br>
-                        <h3>Export Tab</h3>
+                    </section>
+
+                    <section id="export_options">
+                        <h2>Export Tab</h2>
                         <p> This tab focuses on export options for your sessions. </p>
                         <div class="text-center">
                             <figure class="figure">
@@ -966,35 +968,42 @@
                             history or select specific parts to download, providing flexibility in managing and
                             preserving
                             your session data.</p>
-                            <div class="text-center">
-                                <figure class="figure">
-                                    <img class="figure-img img-fluid rounded mb-0"
-                                        src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fdocoptionsexportjson.png?alt=media&token=4b7e4c1d-f7f3-4b6f-a85b-3cae2b73f434"
-                                        alt="">
-                                    <figcaption class="figure-caption text-center">Document options tabs
-                                    </figcaption>
-                                </figure>
-                            </div>
-                            <p>You can export your chat history in the following formats <code
+                        <div class="text-center">
+                            <figure class="figure">
+                                <img class="figure-img img-fluid rounded mb-0"
+                                    src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fdocoptionsexportjson.png?alt=media&token=4b7e4c1d-f7f3-4b6f-a85b-3cae2b73f434"
+                                    alt="">
+                                <figcaption class="figure-caption text-center">Document options tabs
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <p>You can export your chat history in the following formats <code
                                 class="text-info">Text</code>,
                             <code class="text-info">HTML</code>, <code class="text-info">JSON</code>, <code
-                                class="text-info">CSV</code>.</p> 
-        
+                                class="text-info">CSV</code>.
+                        </p>
+
                         <p><span class="badge badge-success">Note</span> CVS and JSON can be uploaded to clone a session
                         </p>
-                        <h3 id="options_tab">Options Tab</h3>
-                        <h1>UNDER CONSTRUCTION</h1>
+                    </section>
+                    <section id="general_options">
+                        <h2>Options Tab</h2>
                         <p>This is where the majority of the session control tools reside</p>
-                        <h1 id="email_link">Send email</h1>
-                        <ul class="mb-3">
+                        <div class="text-center">
+                            <figure class="figure">
+                                <img class="img-fluid text-center p-1 bg-dark-3 rounded"
+                                    src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fdocumentoptions_primary.png?alt=media&token=1bc5b368-1627-4f31-8e8f-34b6da414ea3"
+                                    alt="sidebar_title">
+                                <figcaption class="figure-caption text-center">sessions general options
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <ul class="mb-5">
                             <li>
                                 <span class="text-info">Edit title</span>: Allows you to modify the title of your
                                 session.
                             </li>
-                            <li> <span id="system_message" class="text-info">Edit system message</span>: Modify the
-                                system messages for a
-                                personalized experience. A system message gives context to a
-                                session without invoking a response.</li>
+                            <li> <span class="text-info">Edit system message</span>:</li>
                             <li><span class="text-info">upload</span>: Use this feature to upload and integrate previous
                                 prompts into your current session. Make sure to use JSON or CSV.</li>
                             <li><span class="text-info">Delete Session</span>: Remove a session permanently.</li>
@@ -1013,24 +1022,87 @@
                                 to
                                 API</li>
                         </ul>
+                        <h3 id="system_message">Edit system message</h3>
+                        <p> You can use a system level instruction to guide your model's behavior throughout the
+                            conversation. You can think of it like a like giving the model context without asking for a
+                            response. There are many places online to find prompt examples, like this one from <a
+                                class="link-info" href="https://developers.generativeai.google/prompt-gallery">Google's
+                                Palm API</a>.</p>
+                        <div class="text-center">
+                            <figure class="figure">
+                                <img class="img-fluid text-center p-1 bg-dark-3 rounded"
+                                    src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fdocumentoptions_edit_system_message.png?alt=media&token=504ee595-07bd-40d8-83a4-ed98cd617631"
+                                    alt="sidebar_title">
+                                <figcaption class="figure-caption text-center">editing system message
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <div class="text-center">
+                            <figure class="figure">
+                                <img class="img-fluid text-center p-1 bg-dark-3 rounded"
+                                    src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fsystem_message.png?alt=media&token=f9d92219-f6fd-4bbb-bd8d-d92018b2dc8f"
+                                    alt="sidebar_title">
+                                <figcaption class="figure-caption text-center">appear at the start of your session
+                                </figcaption>
+                            </figure>
+                        </div>
 
+
+                        <p>See <a href="#prompt_structure">prompt structure</a> for more</p>
+
+
+                        <h3 id="clone">Clone</h3>
+                        <p></p>
+
+
+                        <h3 id="email_link">Send email</h3>
+                        <p>This feature allows you to swiftly send an email to a user with a session link. While copying
+                            the URL and sending it through your usual communication channel might be quicker for
+                            individual use, our email tool streamlines the process for those who need to send bulk
+                            invites, such as for AI homework assignments in a class or in collaborative prompt training
+                            scenarios.</p>
+                        <div class="text-center">
+                            <figure class="figure">
+                                <img class="img-fluid text-center p-1 bg-dark-3 rounded"
+                                    src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2FemailInvite.png?alt=media&token=d1dcac21-af62-4aef-8ea3-5e312319086a"
+                                    alt="sidebar_title">
+                                <figcaption class="figure-caption text-center">email invite inside document options
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <p>To use this feature, simply enter the email address of the user you wish to invite to the
+                            session. If the user is not registered, they will be prompted to log in. </p>
+                        <div class="text-center">
+                            <figure class="figure">
+                                <img class="img-fluid text-center p-1 bg-dark-3 rounded"
+                                    src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2FemailInviteEmail.png?alt=media&token=3533992a-deb0-40dc-9190-fafab8a1f70c"
+                                    alt="sidebar_title">
+                                <figcaption class="figure-caption text-center">sending an email invite
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <p>Please note that the email function leverages the default email set by your browser and
+                            operating system. For
+                            instance, on Windows, you need to have your email account connected to the Email App for
+                            this functionality to work correctly.</p>
 
                         <h3 id="threshold" class="mb-2">Threshold Dialog</h3>
                         <p class="mb-4">The Threshold Dialog is a valuable feature located within the Document Options.
                             This
-                            handy tool provides crucial data about your session, particularly concerning maximum token
+                            advance tool provides crucial data about your session, particularly concerning maximum token
                             usage. It's designed to offer you a clear and comprehensive view of your token count, so you
                             have better control over your interaction with the AI.</p>
-                        <figure class="figure">
-                            <img class="img-fluid text-center p-1 bg-light-4 rounded"
-                                src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fthreshold_dialog.png?alt=media&token=d1162c02-115a-4321-97ab-99c6c3616230"
-                                alt="sidebar_title">
-                            <figcaption class="figure-caption text-center">Feedback for token usage on your sessions
-                            </figcaption>
-                        </figure>
-                        <ul class="list-group list-group-unnumbered mb-4">
-                            <li
-                                class="list-group-item d-flex justify-content-between align-items-start text-white bg-dark-2 p-1">
+                        <div class="text-center">
+                            <figure class="figure">
+                                <img class="img-fluid text-center p-1 bg-light-4 rounded"
+                                    src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fthreshold_dialog.png?alt=media&token=d1162c02-115a-4321-97ab-99c6c3616230"
+                                    alt="sidebar_title">
+                                <figcaption class="figure-caption text-center">Feedback for token usage on your sessions
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <ul class="list-unstyled mb-4">
+                            <li class="text-white bg-dark-1 p-1">
                                 <div class="ms-2 me-auto">
                                     <div class="fw-bold">Max Token</div>
                                     This displays the parameter setting set in the Engine, which governs the maximum
@@ -1038,23 +1110,20 @@
                                     count for an AI response.
                                 </div>
                             </li>
-                            <li
-                                class="list-group-item d-flex justify-content-between align-items-start text-white bg-dark-2 p-1">
+                            <li class="text-white bg-dark-1 p-1">
                                 <div class="ms-2 me-auto">
                                     <div class="fw-bold">New Prompt</div>
                                     This shows the token count of the current input in the text area, which hasn't been
                                     submitted yet.
                                 </div>
                             </li>
-                            <li
-                                class="list-group-item d-flex justify-content-between align-items-start text-white bg-dark-2 p-1">
+                            <li class="text-white bg-dark-1 p-1">
                                 <div class="ms-2 me-auto">
                                     <div class="fw-bold">System Message</div>
                                     This reveals the token allocation used in the system message.
                                 </div>
                             </li>
-                            <li
-                                class="list-group-item d-flex justify-content-between align-items-start text-white bg-dark-2 p-1">
+                            <li class="text-white bg-dark-1 p-1">
                                 <div class="ms-2 me-auto">
                                     <div class="fw-bold">Prompt Count</div>
                                     This displays all prompts as a ratio between selected and unselected responses,
@@ -1062,8 +1131,7 @@
                                     you a snapshot of your prompt selections.
                                 </div>
                             </li>
-                            <li
-                                class="list-group-item d-flex justify-content-between align-items-start text-white bg-dark-2 p-1">
+                            <li class="text-white bg-dark-1 p-1">
                                 <div class="ms-2 me-auto">
                                     <div class="fw-bold">Request Size</div>
                                     This reflects the current token count in the context history (i.e., selected
@@ -1071,8 +1139,7 @@
                                     plus the value set for max tokens.
                                 </div>
                             </li>
-                            <li
-                                class="list-group-item d-flex justify-content-between align-items-start text-white bg-dark-2 p-1">
+                            <li class="text-white bg-dark-1 p-1">
                                 <div class="ms-2 me-auto">
                                     <div class="fw-bold">Model Limit:</div>
                                     This indicates the token limit for the selected model.
@@ -1081,7 +1148,7 @@
                         </ul>
                         <p class="mb-4">In addition, the Threshold Dialog provides an option to automatically exclude
                             prompts that exceed the API limit, a function that is often performed invisibly in other app
-                            interfaces. Remember, understanding how tokens are used and managed in the interface is key
+                            interfaces. Understanding how tokens are used and managed in the interface is key
                             to
                             maximizing your interaction with the AI model. </p>
                         <p class="alert-link"><a href="#concept_token_limits"><span
@@ -1219,7 +1286,7 @@
                             it to
                             be more
                             creative or less repetitive? You'll get the hang of it!</p>
-
+                        <hr>
                         <h3 class="mb-2" id="concept_token_limits">Understanding and Managing Token Limits</h3>
                         <p>Each Large Language Models (LLMs) has a token limit. GPT-3.5 Turbo's limit is 4096 tokens per
                             conversation. This limit dictates the AI's context, meaning once reached, the earliest parts
@@ -1255,6 +1322,59 @@
                                 href="https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them">
                                 Tokens in this OpenAI Article</a>
                         </p>
+                        <hr>
+
+                        <h4 id="prompt_structure">ChatGPT Prompt Structure</h4>
+
+                        <p>
+                            ChatGPT is a versatile AI tool that facilitates interactive dialogues. Its structure can initially seem complex, so we're simplifying it for you. 
+                        </p>
+
+                        <p class="lead">Here's how it works:</p>
+                        <ol>
+                            <li><strong>Prompts:</strong> Instead of one long string, your input breaks down into a series of messages.</li>
+                            <li><strong>Message List:</strong> This list includes all the messages, staying within the token limit.</li>
+                            <li><strong>Attributes:</strong> Every message has 'role' and 'content'.</li>
+                            <li><strong>Roles:</strong> These can be 'system', 'user', or 'assistant'.</li>
+                            <li><strong>Content:</strong> This is the actual text of the message.</li>
+                            <li><strong>System Message:</strong> This can set broad instructions for the conversation.</li>
+                            <li><strong>Sequence:</strong> The assistant responds to messages in the order they appear.</li>
+                          </ol>
+                        <p class="lead">For instance, the following is an example of how system message can be used to define responses.</p>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <pre class="mb-0"><code class="language-json">'prompt': 'tell me a joke'</code></pre>
+                            </div>
+                        </div>
+
+                        <p class="impact-font">To:</p>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <pre
+                                    class="mb-0"><code class="language-json">'messages': [{'role':'user', 'content':'tell me a joke'}]</code></pre>
+                            </div>
+                        </div>
+
+                        <h5>System Instructions/Message</h5>
+                        <p>System instructions can guide the model's behavior during the conversation.</p>
+                        <p class="lead">
+                            Consider this example:</p>
+
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <pre
+                                    class="mb-0"><code class="language-json">'messages': [{'role':'system', 'content':'You are an assistant that speaks like Shakespeare.'}, {'role':'user', 'content':'tell me a joke'}]</code></pre>
+                            </div>
+                        </div>
+
+                        <p class="lead">This would yield:</p>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <pre
+                                    class="mb-0"><code class="language-json">{... 'message': {'role':'assistant', 'content':'Why did the chicken cross the road? To get to the other side, but verily, the other side was fraught with danger, so it quickly returned to its safe haven, forsooth!'} ...}</code></pre>
+                            </div>
+                        </div>
+
                     </section>
                     <hr class="divider">
 
@@ -1272,8 +1392,8 @@
         </div>
 
     </div>
-    <a style="font-size: 1.25em" id="back-to-top" data-toggle="tooltip" title="" href="javascript:void(0)" data-original-title="Back to Top"
-        style="display: inline;"><i class="fa fa-chevron-up"></i></a>
+    <a style="font-size: 1.25em" id="back-to-top" data-toggle="tooltip" title="" href="javascript:void(0)"
+        data-original-title="Back to Top" style="display: inline;"><i class="fa fa-chevron-up"></i></a>
     <button class="btn btn-primary help_show_modal" style="display:none" type="button" data-bs-toggle="modal"
         data-bs-target="#helpIframeModal">
         Help
