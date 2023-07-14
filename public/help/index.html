@@ -497,7 +497,7 @@
                         <figure class="figure">
                             <img class="img-fluid text-center rounded"
                                 src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fcompletion_token.png?alt=media&token=42da5add-0e46-4b3b-a216-8134b6fbe0bc"
-                                alt="sidebar_title" style="width:180px">
+                                alt="sidebar_title" style="max-width:200px">
                             <figcaption class="figure-caption text-center">total tokens for prompt and response
                             </figcaption>
                         </figure>
@@ -527,7 +527,7 @@
                         <figure class="figure">
                             <img class="img-fluid text-center rounded"
                                 src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2FtimeSince.png?alt=media&token=1fa2c330-255f-441e-9465-00c8942da273"
-                                alt="sidebar_title" style="width:180px">
+                                alt="sidebar_title" style="max-width:200px">
                             <figcaption class="figure-caption text-center">time elapsed since message was sent
                             </figcaption>
                         </figure>
@@ -563,24 +563,11 @@
                         title, token
                         count,
                         and time of last activity.</p>
-                    <img class="img-fluid p-1 bg-light-4 rounded"
-                        src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fsidebar_title.png?alt=media&token=8f5f756a-f3b5-4f3c-ade2-31c35726895e"
-                        alt="sidebar_title">
+                    <div class="text-center"><img class="img-fluid p-1 bg-light-4 mb-4 rounded"
+                            src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fsidebar_title.png?alt=media&token=8f5f756a-f3b5-4f3c-ade2-31c35726895e"
+                            alt="sidebar_title"></div>
                     <p class="alert-link"><a class="" href="#options"><span class="badge badge-dark">Related</span>
-                            document options <svg xmlns="http://www.w3.org/2000/svg" height="18"
-                                viewBox="0 -960 960 960" width="18">
-                                <path fill="currentColor" d="m388-80-20-126q-19-7-40-19t-37-25l-118 54-93-164 108-79q-2-9-2.5-20.5T185-480q0-9
-                    .5-20.5T188-521L80-600l93-164 118 54q16-13 37-25t40-18l20-127h184l20 126q19 7
-                      40.5 18.5T669-710l118-54 93 164-108 77q2 10 2.5 21.5t.5 21.5q0 10-.5 21t-2.5 21l108 78-93 164-118-54q-16 13-36.5
-                      25.5T592-206L572-80H388Zm92-270q54 0 92-38t38-92q0-54-38-92t-92-38q-54 0-92 38t-38 92q0
-                        54 38 92t92 38Zm0-60q-29 0-49.5-20.5T410-480q0-29 20.5-49.5T480-550q29 0 49.5 20.5T550-480q0
-                        29-20.5 49.5T480-410Zm0-70Zm-44 340h88l14-112q33-8 62.5-25t53.5-41l106 46 40-72-94-69q4-17
-                          6.5-33.5T715-480q0-17-2-33.5t-7-33.5l94-69-40-72-106 46q-23-26-52-43.5T538-708l-14-112h-88l-14
-                          112q-34 7-63.5 24T306-642l-106-46-40 72 94 69q-4 17-6.5 33.5T245-480q0 17 2.5 33.5T254-413l-94
-                            69 40 72 106-46q24 24 53.5 41t62.5 25l14 112Z"></path>
-                            </svg></a></p>
-                    <p class="lead mb-3">The session sidebar houses important document options,
-                        engine parameters, and user details.</p>
+                            document options</a></p>
                     <hr class="divider">
                     <h2 id="chat_models" class="mb-2">Chat Engine <a class="btn hover_yellow anchor_copy_link">
                             <span class="material-icons">link</span>
@@ -588,13 +575,15 @@
                     <p class="lead">Use Reset to restore system defaults <i
                             class="material-icons text-white">restart_alts</i>
                     </p>
-                    <figure class="figure">
-                        <img class="img-fluid text-center p-1 bg-light-4 rounded"
-                            src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Forange_engine.png?alt=media&token=1f9a8e1f-8124-4d3d-b47a-18ab2f5eba6f"
-                            alt="sidebar_title">
-                        <figcaption class="figure-caption text-center">Feedback for token usage on your sessions
-                        </figcaption>
-                    </figure>
+                    <div class="text-center">
+                        <figure class="figure">
+                            <img class="img-fluid text-center p-1 bg-light-4 rounded"
+                                src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Forange_engine.png?alt=media&token=1f9a8e1f-8124-4d3d-b47a-18ab2f5eba6f"
+                                alt="sidebar_title">
+                            <figcaption class="figure-caption text-center">Feedback for token usage on your sessions
+                            </figcaption>
+                        </figure>
+                    </div>
                     <p>
                         Like the chat interface, changes in the engine parameters are reflected in the UI. <span
                             class="badge badge-info text-dark" style="background-color:rgb(255, 255, 20);">yellow</span>
@@ -940,7 +929,7 @@
                                 <img class="figure-img img-fluid rounded shadow bg-dark-3 mb-0"
                                     src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Foptions_tabs.png?alt=media&token=1b00c48a-3f8e-4602-8c95-1dafa2e5ccd3"
                                     alt="">
-                                <figcaption class="figure-caption text-center">Document options tabs
+                                <figcaption class="figure-caption text-center">Document options tab
                                 </figcaption>
                             </figure>
                         </div>
@@ -959,7 +948,7 @@
                                 <img class="figure-img img-fluid rounded shadow bg-dark-3 mb-0"
                                     src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fdocoptionsexport.png?alt=media&token=690ec2f4-1047-4cc0-a1a9-ae1646ceaa00"
                                     alt="">
-                                <figcaption class="figure-caption text-center">Document options tabs
+                                <figcaption class="figure-caption text-center">export options tab
                                 </figcaption>
                             </figure>
                         </div>
@@ -973,7 +962,7 @@
                                 <img class="figure-img img-fluid rounded mb-0"
                                     src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fdocoptionsexportjson.png?alt=media&token=4b7e4c1d-f7f3-4b6f-a85b-3cae2b73f434"
                                     alt="">
-                                <figcaption class="figure-caption text-center">Document options tabs
+                                <figcaption class="figure-caption text-center">export json selected in export options
                                 </figcaption>
                             </figure>
                         </div>
@@ -999,29 +988,57 @@
                             </figure>
                         </div>
                         <ul class="mb-5">
-                            <li>
-                                <span class="text-info">Edit title</span>: Allows you to modify the title of your
-                                session.
+                            <li><span class="text-info"></span>: </li>
+                            <li> <span class="text-info"></span>: </li>
                             </li>
-                            <li> <span class="text-info">Edit system message</span>:</li>
-                            <li><span class="text-info">upload</span>: Use this feature to upload and integrate previous
-                                prompts into your current session. Make sure to use JSON or CSV.</li>
-                            <li><span class="text-info">Delete Session</span>: Remove a session permanently.</li>
-                            <li> <span class="text-info">Archive Session</span>: If you want to preserve a session
-                                without
-                                any further prompt requests, use this option to make the session read-only.</li>
-                            <li><span class="text-info">Clone Session</span>: Create an identical copy of the current
-                                session. This is especially useful when you want to try different approaches without
-                                modifying the original session.
-                            </li>
-                            <li><span class="text-info mb-1">Token Usage Stats</span>: Gives you a detailed report on
-                                token
-                                usage for the session, helping you to monitor and manage your resource usage more
-                                effectively.</li>
-                            <li><span class="text-info">Clone Packet</span>: Click to get a JSON of the packet info sent
-                                to
-                                API</li>
+                            <li><span class="text-info mb-1">Token Usage Stats</span>: </li>
                         </ul>
+
+                        <h3 id="upload_data_sessions">Upload Data</h3>
+                        <p>Use this feature to upload and integrate previous
+                            prompts into your current session. The application exports and imports JSON and CSV files
+                            only.</p>
+                        <div class="text-center">
+                            <figure class="figure">
+                                <img class="img-fluid text-center rounded" style="max-width:200px"
+                                    src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fupload_data_session.png?alt=media&token=08f6ea07-771c-4dfc-8ed9-717729eeab2f"
+                                    alt="sidebar_title">
+                                <figcaption class="figure-caption text-center">upload data inside options
+                                </figcaption>
+                            </figure>
+                        </div>
+
+                        <h3 id="archive_session">Archive Session</h3>
+                        <p>If you want to preserve a session without any further prompt requests, use this option to
+                            make the session read-only. This option is available to the session owner only.</p>
+                        <div class="text-center">
+                            <figure class="figure">
+                                <img class="img-fluid text-center rounded" style="max-width:200px"
+                                    src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Farchive_session.png?alt=media&token=f7b1c52d-8609-4065-9d25-dc5d71a66845"
+                                    alt="sidebar_title">
+                                <figcaption class="figure-caption text-center">archive session inside options
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <p class="mb-4"><span class="badge badge-success">Note</span> If you notice that your chat
+                            session is
+                            missing the input text area, it is likely that the session has been archived. </p>
+
+                        <h3 id="delete_session">Delete Session</h3>
+                        <p> Remove a session permanently. Please exercise caution as we are unable to help retrieve any
+                            deleted data.</p>
+                        <div class="text-center">
+                            <figure class="figure">
+                                <img class="img-fluid text-center rounded"
+                                    src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fdelete_session.png?alt=media&token=83edc766-0144-4c24-b92a-72b68d4bb2ab"
+                                    alt="sidebar_title">
+                                <figcaption class="figure-caption text-center">delete session inside options or dropdown
+                                    menu
+                                </figcaption>
+                            </figure>
+                        </div>
+
+
                         <h3 id="system_message">Edit system message</h3>
                         <p> You can use a system level instruction to guide your model's behavior throughout the
                             conversation. You can think of it like a like giving the model context without asking for a
@@ -1030,7 +1047,7 @@
                                 Palm API</a>.</p>
                         <div class="text-center">
                             <figure class="figure">
-                                <img class="img-fluid text-center p-1 bg-dark-3 rounded"
+                                <img class="img-fluid text-center rounded"
                                     src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fdocumentoptions_edit_system_message.png?alt=media&token=504ee595-07bd-40d8-83a4-ed98cd617631"
                                     alt="sidebar_title">
                                 <figcaption class="figure-caption text-center">editing system message
@@ -1039,23 +1056,32 @@
                         </div>
                         <div class="text-center">
                             <figure class="figure">
-                                <img class="img-fluid text-center p-1 bg-dark-3 rounded"
+                                <img class="img-fluid text-center rounded"
                                     src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fsystem_message.png?alt=media&token=f9d92219-f6fd-4bbb-bd8d-d92018b2dc8f"
                                     alt="sidebar_title">
                                 <figcaption class="figure-caption text-center">appear at the start of your session
                                 </figcaption>
                             </figure>
                         </div>
-
-
                         <p>See <a href="#prompt_structure">prompt structure</a> for more</p>
 
 
-                        <h3 id="clone">Clone</h3>
-                        <p></p>
+                        <h3 id="clone_session" class="mb-2">Clone Session</h3>
+                        <p> Create an identical copy of the current session. This is useful when you want to try
+                            different approaches or invite collaborators without
+                            modifying the original session.</p>
+                        <div class="text-center">
+                            <figure class="figure">
+                                <img class="img-fluid text-center rounded" style="max-width:180px"
+                                    src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fclone_session.png?alt=media&token=b2c3a304-ee0d-4f90-ae8e-3390540bf414"
+                                    alt="sidebar_title">
+                                <figcaption class="figure-caption text-center">clone session inside options
+                                </figcaption>
+                            </figure>
+                        </div>
 
 
-                        <h3 id="email_link">Send email</h3>
+                        <h3 id="email_link" class="mb-2">Send email</h3>
                         <p>This feature allows you to swiftly send an email to a user with a session link. While copying
                             the URL and sending it through your usual communication channel might be quicker for
                             individual use, our email tool streamlines the process for those who need to send bulk
@@ -1081,119 +1107,156 @@
                                 </figcaption>
                             </figure>
                         </div>
-                        <p>Please note that the email function leverages the default email set by your browser and
+                        <p><span class="badge badge-success">Note</span> The email function leverages the default email
+                            set by your browser and
                             operating system. For
                             instance, on Windows, you need to have your email account connected to the Email App for
                             this functionality to work correctly.</p>
+
+                        <h3 id="packet_data" class="mb-2">Clone Packets</h3>
+                        <p>This is an advance feature for those that want the packet data they send up to the API. Click
+                            to get a JSON of the packet info sent to API This data contains the raw data we send to the
+                            API for processing. Most users can ignore this feature.</p>
+                        <div class="text-center">
+                            <figure class="figure">
+                                <img class="img-fluid text-center p-1 bg-dark-3 rounded" style="max-width:280px"
+                                    src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fpacket_data.png?alt=media&token=a273363e-f256-4f12-abfd-dcc409c28557"
+                                    alt="sidebar_title">
+                                <figcaption class="figure-caption text-center">packet information for a session
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <p>See <a href="#prompt_structure">prompt structure</a> for more</p>
 
                         <h3 id="threshold" class="mb-2">Threshold Dialog</h3>
                         <p class="mb-4">The Threshold Dialog is a valuable feature located within the Document Options.
                             This
                             advance tool provides crucial data about your session, particularly concerning maximum token
-                            usage. It's designed to offer you a clear and comprehensive view of your token count, so you
-                            have better control over your interaction with the AI.</p>
+                            usage.</p>
                         <div class="text-center">
                             <figure class="figure">
-                                <img class="img-fluid text-center p-1 bg-light-4 rounded"
+                                <img class="img-fluid text-center p-1 bg-light-4 rounded" style="max-width:320px"
                                     src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fthreshold_dialog.png?alt=media&token=d1162c02-115a-4321-97ab-99c6c3616230"
                                     alt="sidebar_title">
                                 <figcaption class="figure-caption text-center">Feedback for token usage on your sessions
                                 </figcaption>
                             </figure>
                         </div>
-                        <ul class="list-unstyled mb-4">
-                            <li class="text-white bg-dark-1 p-1">
+                        <p>It's designed to offer you a clear and comprehensive view of your token count, so you
+                            have better control over your interaction with the AI.</p>
+                        <ol class="mb-4">
+                            <li>
                                 <div class="ms-2 me-auto">
                                     <div class="fw-bold">Max Token</div>
-                                    This displays the parameter setting set in the Engine, which governs the maximum
-                                    token
-                                    count for an AI response.
+                                 the maximum alloted token for a specific model.
                                 </div>
                             </li>
-                            <li class="text-white bg-dark-1 p-1">
+                            <li>
                                 <div class="ms-2 me-auto">
                                     <div class="fw-bold">New Prompt</div>
-                                    This shows the token count of the current input in the text area, which hasn't been
-                                    submitted yet.
+                                    token count of the current input in the text area, has yet to be submitted.
                                 </div>
                             </li>
-                            <li class="text-white bg-dark-1 p-1">
+                            <li>
                                 <div class="ms-2 me-auto">
                                     <div class="fw-bold">System Message</div>
-                                    This reveals the token allocation used in the system message.
+                                    token used in the system message.
                                 </div>
                             </li>
-                            <li class="text-white bg-dark-1 p-1">
+                            <li>
                                 <div class="ms-2 me-auto">
                                     <div class="fw-bold">Prompt Count</div>
-                                    This displays all prompts as a ratio between selected and unselected responses,
-                                    giving
-                                    you a snapshot of your prompt selections.
+                                    prompts as a ratio between selected and unselected responses                        
                                 </div>
                             </li>
-                            <li class="text-white bg-dark-1 p-1">
+                            <li>
                                 <div class="ms-2 me-auto">
                                     <div class="fw-bold">Request Size</div>
                                     This reflects the current token count in the context history (i.e., selected
-                                    prompts),
-                                    plus the value set for max tokens.
+                                    prompts), plus the value set for max tokens (the amount you set for the response back).
                                 </div>
                             </li>
-                            <li class="text-white bg-dark-1 p-1">
+                            <li>
                                 <div class="ms-2 me-auto">
                                     <div class="fw-bold">Model Limit:</div>
                                     This indicates the token limit for the selected model.
                                 </div>
                             </li>
-                        </ul>
-                        <p class="mb-4">In addition, the Threshold Dialog provides an option to automatically exclude
-                            prompts that exceed the API limit, a function that is often performed invisibly in other app
-                            interfaces. Understanding how tokens are used and managed in the interface is key
-                            to
-                            maximizing your interaction with the AI model. </p>
+                        </ol>
                         <p class="alert-link"><a href="#concept_token_limits"><span
                                     class="badge badge-dark">Related</span>
                                 How API max
                                 token limits work</a></p>
-                        <p class="mb-4">With the Threshold Dialog, we strive to give you the insights and controls
-                            needed to
-                            truly shape your AI interaction. Happy experimenting!</p>
-
-                        <br>
-                        <h3 id="owner_labels">Owner Tab</h3>
-                        <p>As an owner, you have additional tools at your disposal:</p>
-                        <h1 id="session_limit">Usage limits per session</h1>
-                        <ul>
-                            <li>Add Labels: This feature allows you to classify your sessions using custom labels, which
-                                aids in the organization and filtering of your documents.</li>
-                            <li>Owner's Note: A space for you to write notes related to the session. These can be
-                                reminders,
-                                observations, or any information pertinent to the session.</li>
-                        </ul>
                     </section>
+
+
+                    <hr class="divider">
+                    <section id="owner_labels">
+                        <h2>Owner Tab</h2>
+                        <p>As an owner, you have additional tools at your disposal.</p>
+                        <div class="text-center">
+                            <figure class="figure">
+                                <img class="img-fluid text-center rounded" style="max-width: 320px;"
+                                    src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fdocumentoptions_owner.png?alt=media&token=0fa00db6-c358-41a8-8aa1-7d53beacb62f"
+                                    alt="sidebar_title">
+                                <figcaption class="figure-caption text-center">owners tab in session options
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <p><strong>Add Labels:</strong> This is one of the places that allow you to add custom
+                            labels to your session, which aids in the organization and filtering of your documents. </p>
+                        <div class="text-center">
+                            <figure class="figure">
+                                <img class="img-fluid text-center rounded" style="max-width: 320px;"
+                                    src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fdocumentoptions_owner_labels.png?alt=media&token=f2f211d8-afe5-47a4-af7f-67f763245fb3"
+                                    alt="sidebar_title">
+                                <figcaption class="figure-caption text-center">adding a label
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <p><strong>Owner's Note: </strong> A space for you to write notes related to the session. These
+                            can be reminders, observations, or any information pertinent to the session.</p>
+                      
+                        <h3 id="session_limit" class="mb-2">Usage limits per session</h3>
+                        <p>Gives you a detailed report on token usage for the session, helping you to monitor and manage
+                            your resource usage more
+                            effectively.</p>
+                        <div class="text-center">
+                            <figure class="figure">
+                                <img class="img-fluid text-center rounded"
+                                    src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fdocumentoptions_owner_usage.png?alt=media&token=0247b29b-313b-4857-b90d-c83c30532a88"
+                                    alt="sidebar_title">
+                                <figcaption class="figure-caption text-center">Feedback for token usage on your sessions
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <p class=""><span
+                            class="badge badge-dark">Related</span>
+                            See your total usage stats in profile settings below.</p>
+
+               
+                    </section>
+
                     <hr class="divider">
                     <section id="profile">
                         <h2>Profile Setting <a class="btn hover_yellow anchor_copy_link">
                                 <span class="material-icons">link</span>
                             </a>
                         </h2>
-                        <p class="lead mb-3">Overview</p>
-                        <p mb-3>The Profile Options, accessible from both the chat interface and session dashboard, is
-                            an
-                            essential tool for personalizing and controlling your user experience in Únacog. The
-                            dialog
-                            presents the user's registered email at the top and the sign-out option at the bottom. It's
+                        <p mb-3>The Profile Options is accessible from anywhere on the app and lets you personalize your user experience on Únacog. It's
                             structured into three tabs: User, Labels, and Account.</p>
-                        <br>
+                        <div class="text-center">
+                            <figure class="figure">
+                                <img class="img-fluid text-center bg-dark-1 rounded"
+                                    src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fprofile_tabs.png?alt=media&token=04c590fa-6aba-4258-bfb2-b0bf4d4e2124"
+                                    alt="sidebar_title">
+                                <figcaption class="figure-caption text-center">Profile options tabs
+                                </figcaption>
+                            </figure>
+                        </div>
                         <h3>User</h3>
                         <p>Use this tab to personalize your profile by changing your name and profile image</p>
-                        <figure class="figure">
-                            <img class="img-fluid text-center bg-dark-1 rounded"
-                                src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fprofile_tabs.png?alt=media&token=04c590fa-6aba-4258-bfb2-b0bf4d4e2124"
-                                alt="sidebar_title">
-                            <figcaption class="figure-caption text-center">Profile options tabs
-                            </figcaption>
-                        </figure>
+
                         <ul>
                             <li>Name: Use the pencil icon to manually change your name, or the dice icon to generate a
                                 random one.</li>
@@ -1327,20 +1390,26 @@
                         <h4 id="prompt_structure">ChatGPT Prompt Structure</h4>
 
                         <p>
-                            ChatGPT is a versatile AI tool that facilitates interactive dialogues. Its structure can initially seem complex, so we're simplifying it for you. 
+                            ChatGPT is a versatile AI tool that facilitates interactive dialogues. Its structure can
+                            initially seem complex, so we're simplifying it for you.
                         </p>
 
                         <p class="lead">Here's how it works:</p>
                         <ol>
-                            <li><strong>Prompts:</strong> Instead of one long string, your input breaks down into a series of messages.</li>
-                            <li><strong>Message List:</strong> This list includes all the messages, staying within the token limit.</li>
+                            <li><strong>Prompts:</strong> Instead of one long string, your input breaks down into a
+                                series of messages.</li>
+                            <li><strong>Message List:</strong> This list includes all the messages, staying within the
+                                token limit.</li>
                             <li><strong>Attributes:</strong> Every message has 'role' and 'content'.</li>
                             <li><strong>Roles:</strong> These can be 'system', 'user', or 'assistant'.</li>
                             <li><strong>Content:</strong> This is the actual text of the message.</li>
-                            <li><strong>System Message:</strong> This can set broad instructions for the conversation.</li>
-                            <li><strong>Sequence:</strong> The assistant responds to messages in the order they appear.</li>
-                          </ol>
-                        <p class="lead">For instance, the following is an example of how system message can be used to define responses.</p>
+                            <li><strong>System Message:</strong> This can set broad instructions for the conversation.
+                            </li>
+                            <li><strong>Sequence:</strong> The assistant responds to messages in the order they appear.
+                            </li>
+                        </ol>
+                        <p class="lead">For instance, the following is an example of how system message can be used to
+                            define responses.</p>
                         <div class="card mb-3">
                             <div class="card-body">
                                 <pre class="mb-0"><code class="language-json">'prompt': 'tell me a joke'</code></pre>
