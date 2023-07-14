@@ -274,7 +274,7 @@ export class DashboardApp extends BaseApp {
     this.updateUserPresence();
 
     labelFilter = this.document_label_filter.value;
-    if (labelFilter === "All Sessions") document.body.classList.remove("show_clear_label_filter");
+    if (labelFilter === "All Sessions" || labelFilter === "Not Labelled") document.body.classList.remove("show_clear_label_filter");
     else document.body.classList.add("show_clear_label_filter");
   }
   /**

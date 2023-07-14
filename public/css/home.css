@@ -835,10 +835,9 @@ iframe {
 
 .nav-pills .nav-link.active,
 .nav-pills .show>.nav-link {
-  color: rgb(240, 240, 240);
-  font-size: 1.05em;
   background-color: transparent;
   border: 1px solid rgb(255, 255, 0);
+  color: rgb(255, 255, 0);
 }
 
 .sessions_list_loading_panel {
