@@ -895,3 +895,21 @@ iframe {
   white-space: normal;
   width: 90%;
 }
+
+.models_api_panel li {
+  display: block;
+}
+
+.features_tips_panel i {
+  position: relative;
+  top: 6px;
+}
+
+.features_tips_panel a span.link {
+  margin-left: 4px;
+}
+
+.features_tips_panel li {
+  display: block;
+  margin-left: -24px;
+}

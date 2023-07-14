@@ -101,6 +101,9 @@
                             style="background-color: rgb(50, 255, 50);display:none;">Sign
                             In</a>
                     </h1>
+                    <span style="width:100%;text-align:center;display:block;">
+                        Chat with the same AI models as ChatGPT and Bard
+                    </span>
                 </div>
             </div>
         </div>
@@ -123,15 +126,15 @@
                 aria-labelledby="news_tab_button">
                 <div class="mt-2">
                     <div class="flex-lg-row flex_change_responsive news_top_row">
-                        <div class="main_block app_panel">
+                        <div class="main_block app_panel models_api_panel">
                             <h1 class="header_recent_document">
                                 <span style="color:rgb(190, 200, 255)">Models and APIs</span>
                             </h1>
                             <div class="intro_card card" style="overflow: auto;">
                                 <h5 style="display:inline-block">
                                     <a href="https://platform.openai.com/docs/models" target="_blank">
-                                        <img src="/images/openai.svg" style="width:150px;"><i 
-                                        class="material-icons" style="margin-left: 4px;position:relative;top: 8px;">open_in_new</i>
+                                        <img src="/images/openai.svg" style="width:150px;"><i class="material-icons"
+                                            style="margin-left: 4px;position:relative;top: 8px;">open_in_new</i>
                                     </a>
                                 </h5>
                                 <ul>
@@ -143,26 +146,29 @@
                                 <h5 style="display:inline-block">
                                     <a href="https://developers.generativeai.google/api/rest/generativelanguage"
                                         target="_blank">
-                                        <img src="/images/palmapi.png" style="width:40px;"><img 
-                                        src="/images/palmapiname.png" style="margin-left:6px;width:120px;"><i 
-                                        class="material-icons" style="margin-left: 4px;position:relative;top: 6px;">open_in_new</i>
-                                        </a>
+                                        <img src="/images/palmapi.png" style="width:40px;"><img
+                                            src="/images/palmapiname.png" style="margin-left:6px;width:120px;"><i
+                                            class="material-icons"
+                                            style="margin-left: 4px;position:relative;top: 6px;">open_in_new</i>
+                                    </a>
                                 </h5>
                                 <ul>
                                     <li> <span class="supported_model">chat-bison-001</span> 9k</li>
                                 </ul>
                                 <h5 style="display:inline-block">
                                     <a href="https://docs.anthropic.com/claude/reference/complete_post" target="_blank">
-                                        <img src="/images/anthropologic.png" style="width:40px;"><img 
-                                        src="/images/anthrofull.svg" style="margin-left:6px;width:150px;"><i 
-                                        class="material-icons" style="margin-left: 4px;position:relative;top: 6px;">open_in_new</i>
+                                        <img src="/images/anthropologic.png" style="width:40px;"><img
+                                            src="/images/anthrofull.svg" style="margin-left:6px;width:150px;"><i
+                                            class="material-icons"
+                                            style="margin-left: 4px;position:relative;top: 6px;">open_in_new</i>
                                     </a>
                                 </h5>
                                 <ul>
                                     <li><span class="upcoming_model">claude-2</span> 100k (soon)</li>
                                     <li><span class="upcoming_model">claude-instant-1</span> 100k (soon)</li>
                                 </ul>
-                                <h2 style="font-size:25px;color:rgb(255, 255, 20)">Our Costs per 1k tokens</h2>
+                                <h2 style="font-size:25px;color:rgb(255, 255, 20);width:100%;text-align:center;">Raw
+                                    cost per 1k tokens</h2>
                                 <table class="price_table">
                                     <tr>
                                         <th>Model</th>
@@ -170,105 +176,160 @@
                                         <th>Output</th>
                                     </tr>
                                     <tr>
-                                      <td>gpt-3.5-turbo</td>
-                                      <td>0.0015</td>
-                                      <td>0.002</td>
+                                        <td>gpt-3.5-turbo</td>
+                                        <td>0.0015</td>
+                                        <td>0.002</td>
                                     </tr>
                                     <tr>
-                                      <td>gpt-3.5-turbo-16k</td>
-                                      <td>0.003</td>
-                                      <td>0.004</td>
+                                        <td>gpt-3.5-turbo-16k</td>
+                                        <td>0.003</td>
+                                        <td>0.004</td>
                                     </tr>
                                     <tr>
-                                      <td>gpt-4</td>
-                                      <td>0.03</td>
-                                      <td>0.06</td>
+                                        <td>gpt-4</td>
+                                        <td>0.03</td>
+                                        <td>0.06</td>
                                     </tr>
                                     <tr>
-                                      <td>gpt-4-32k</td>
-                                      <td>0.06</td>
-                                      <td>0.12</td>
+                                        <td>gpt-4-32k</td>
+                                        <td>0.06</td>
+                                        <td>0.12</td>
                                     </tr>
                                     <tr>
-                                      <td>chat-bison-001</td>
-                                      <td>0.03</td>
-                                      <td>0.06</td>
+                                        <td>chat-bison-001</td>
+                                        <td>0.03</td>
+                                        <td>0.06</td>
                                     </tr>
                                     <tr>
-                                      <td>claude-instant-1</td>
-                                      <td>.00163</td>
-                                      <td>.00551</td>
+                                        <td>claude-instant-1</td>
+                                        <td>.00163</td>
+                                        <td>.00551</td>
                                     </tr>
                                     <tr>
-                                      <td>claude-2</td>
-                                      <td>.01102</td>
-                                      <td>.03268</td>
+                                        <td>claude-2</td>
+                                        <td>.01102</td>
+                                        <td>.03268</td>
                                     </tr>
-                                  </table>
-                                  <br>
-                                  <h3 style="font-size:18px;color:rgb(50, 255, 50);">Tokens per credit is directly based on these costs and 
-                                    you'll get more tokens per credit as the costs decrease.</h3>
-                                
+                                </table>
+                                <br>
+                                <div style="text-align:center;">
+                                    <h3 style="font-size:18px;">Tokens per credit is directly based on these costs and
+                                        you'll get more tokens per credit as the costs decrease.</h3>
+                                    <br>
+                                    <h3 style="font-size:18px;color:rgb(50, 255, 50);">Change models during a session
+                                        without losing context.</h3>
+                                    <br>
+                                    <h3 style="font-size:18px;">The Únacog UI is packed full of features to manage
+                                        token usage.
+                                    </h3>
+                                </div>
                             </div>
                         </div>
                         <div class="side_block app_panel">
                             <h1 class="header_recent_document">
                                 <span style="color:rgb(190, 200, 255);">Features and Tips</span>
                             </h1>
-                            <div class="card intro_card" style="overflow: auto;">
-                                <p class="py-0" style="font-size:1rem;">Change models without losing context</p>
-
+                            <div class="card intro_card features_tips_panel" style="overflow: auto;">
                                 <ul>
-                                    <li><span><a href="/help/#system_message" class="hover_yellow" target="help"
-                                                style="color: rgb(50, 255, 50);">System messages</a></span> for specific
-                                        results
+                                    <li>
+                                        <a href="/help/#system_message" class="hover_yellow" target="help">
+                                            <span class="gear_icon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" height="24"
+                                                    viewBox="0 -960 960 960" width="24">
+                                                    <path fill="currentColor" d="m388-80-20-126q-19-7-40-19t-37-25l-118 54-93-164 108-79q-2-9-2.5-20.5T185-480q0-9
+                                                .5-20.5T188-521L80-600l93-164 118 54q16-13 37-25t40-18l20-127h184l20 126q19 7
+                                                  40.5 18.5T669-710l118-54 93 164-108 77q2 10 2.5 21.5t.5 21.5q0 10-.5 21t-2.5 21l108 78-93 164-118-54q-16 13-36.5
+                                                  25.5T592-206L572-80H388Zm92-270q54 0 92-38t38-92q0-54-38-92t-92-38q-54 0-92 38t-38 92q0
+                                                    54 38 92t92 38Zm0-60q-29 0-49.5-20.5T410-480q0-29 20.5-49.5T480-550q29 0 49.5 20.5T550-480q0
+                                                    29-20.5 49.5T480-410Zm0-70Zm-44 340h88l14-112q33-8 62.5-25t53.5-41l106 46 40-72-94-69q4-17
+                                                      6.5-33.5T715-480q0-17-2-33.5t-7-33.5l94-69-40-72-106 46q-23-26-52-43.5T538-708l-14-112h-88l-14
+                                                      112q-34 7-63.5 24T306-642l-106-46-40 72 94 69q-4 17-6.5 33.5T245-480q0 17 2.5 33.5T254-413l-94
+                                                        69 40 72 106-46q24 24 53.5 41t62.5 25l14 112Z" />
+                                                </svg></span><span class="link">System messages</span></a>
+                                        for specific results
                                     </li>
-                                    <li><a href="/help/#auto_exclude" class="hover_yellow" target="help"
-                                            style="color: rgb(50, 255, 50);">Auto exclude</a></span> to manage request
-                                        size</li>
-                                    <li>Direct control of <a class="hover_yellow" href="/help/#threshold" target="help"
-                                            style="color: rgb(255, 255, 20);">contextual history</a>
+                                    <li>
+                                        <a href="/help/#auto_exclude" class="hover_yellow" target="help">
+                                            <i class="material-icons">data_thresholding</i><span class="link">Auto
+                                                exclude</span></a>
+                                        to manage request
+                                        size
                                     </li>
-                                    <li>Prompts <a href="/help/#chat_features" class="hover_yellow" target="help"
-                                            style="color: rgb(50, 255, 50);">controls</a></span> - copy, include, rerun,
-                                        and delete
+                                    <li><a href="/help/#chat_features" class="hover_yellow" target="help">
+                                            <i class="material-icons">loop</i><span class="link">Rerun
+                                                Prompts</span></a> to get different results
                                     </li>
-                                    <li>Control responses with <a class="hover_yellow" href="/help/#chat_models"
-                                            target="help" style="color: rgb(255, 127, 50);">model parameters</a>
+                                    <li><a class="hover_yellow shared_status_withusers" href="/help/#users_info"
+                                            target="help">
+                                            <i class="material-icons">link</i><span class="link">Collaborate</span></a>
+                                        with friends and coworkers
                                     </li>
-                                    <li>Adjust <a href="/help/#temperature" class="hover_yellow" target="help"
-                                            style="color: rgb(255, 127, 50);">temperature</a> for creativity</li>
-                                    <li>Decrease <span style="color: rgb(255, 127, 50);"></span><a href="/help/#top_p"
-                                            class="hover_yellow" target="help">top p</a></span> for more possibilities
+                                    <li><a class="hover_yellow" href="/help/#options" target="help">
+                                            <i class="material-icons">download</i><span class="link">Export
+                                                json</span></a>
+                                        templates to share sessions your team
                                     </li>
-                                </ul>
-                                <ul>
-                                    <li><a class="hover_yellow" href="/help/#users_info" target="help"
-                                            style="color: rgb(30, 200, 200);">Collaborate</a> with friends and coworkers
+                                    <li><a class="hover_yellow" href="/help/#options" target="help">
+                                            <i class="material-icons">upload</i><span class="link">Import
+                                                templates</span></a>
+                                        from others to initialize your session
                                     </li>
-                                    <li>Use and reuse templates by cloning or importing sessions</li>
-                                    <li>Use <a class="hover_yellow" href="/help/#options" target="help"
-                                            style="color: rgb(190, 100, 250)">CSV/JSON
-                                        </a> export to download and share session data.</li>
-                                    <li><span>HTML and text to share results</span></li>
-                                    <li><a class="hover_yellow" href="/content/privacy"
-                                            style="color: rgb(255, 127, 50);">Data</a>
-                                        will never be shared</li>
-                                    <li>Use labels to <a class="hover_yellow" href="/help/#owner_labels" target="help"
-                                            style="color: rgb(255, 255, 20);">filter by and organize</a> sessions</li>
-                                </ul>
-                                <ul>
-                                    <li>Share session as simple as <a class="hover_yellow" href="/help/#email_link"
-                                            target="help" style="color: rgb(255, 127, 50);">sharing url</a></li>
-                                    <li>Use app to send <a class="hover_yellow" href="/help/#email_link" target="help"
-                                            style="color: rgb(255, 127, 50);">email</a> invitations</li>
-                                    <li><a class="hover_yellow" href="/help/#help_sign_in" target="help"
-                                            style="color: rgb(30, 200, 200);">Anonymous</a> login available for viewers
+                                    <li><a class="hover_yellow" href="/help/#options" target="help">
+                                            <i class="material-icons">content_copy</i><span class="link">Use the
+                                                clipboard</span></a>
+                                        to copy text or html to other applications
                                     </li>
-                                    <li><span>Only one <a class="hover_yellow" href="/content/pricing"
-                                                style="color: rgb(255, 127, 50);">subscription</a> required</li>
-                                    <li>Set <a class="hover_yellow" href="/help/#session_limit" target="help"
-                                            style="color: rgb(255, 127, 50);">Usage limits</a> per session</li>
+                                    <li><a class="hover_yellow shared_status_withothers" href="/help/#help_sign_in"
+                                            target="help">
+                                            <i class="material-icons">link</i><span class="link">Anonymous
+                                                login</span></a>
+                                        available for external collaborators
+                                    </li>
+                                    <li>
+                                        <a href="/help/#session_limit" class="hover_yellow" target="help">
+                                            <span class="gear_icon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" height="24"
+                                                    viewBox="0 -960 960 960" width="24">
+                                                    <path fill="currentColor" d="m388-80-20-126q-19-7-40-19t-37-25l-118 54-93-164 108-79q-2-9-2.5-20.5T185-480q0-9
+                                                    .5-20.5T188-521L80-600l93-164 118 54q16-13 37-25t40-18l20-127h184l20 126q19 7
+                                                      40.5 18.5T669-710l118-54 93 164-108 77q2 10 2.5 21.5t.5 21.5q0 10-.5 21t-2.5 21l108 78-93 164-118-54q-16 13-36.5
+                                                      25.5T592-206L572-80H388Zm92-270q54 0 92-38t38-92q0-54-38-92t-92-38q-54 0-92 38t-38 92q0
+                                                        54 38 92t92 38Zm0-60q-29 0-49.5-20.5T410-480q0-29 20.5-49.5T480-550q29 0 49.5 20.5T550-480q0
+                                                        29-20.5 49.5T480-410Zm0-70Zm-44 340h88l14-112q33-8 62.5-25t53.5-41l106 46 40-72-94-69q4-17
+                                                          6.5-33.5T715-480q0-17-2-33.5t-7-33.5l94-69-40-72-106 46q-23-26-52-43.5T538-708l-14-112h-88l-14
+                                                          112q-34 7-63.5 24T306-642l-106-46-40 72 94 69q-4 17-6.5 33.5T245-480q0 17 2.5 33.5T254-413l-94
+                                                            69 40 72 106-46q24 24 53.5 41t62.5 25l14 112Z" />
+                                                </svg></span><span class="link">Session usage limit</span></a>
+                                        to protect your account from abuse
+                                    </li>
+                                    <li><a class="hover_yellow" href="/help/#help_sign_in" target="help">
+                                            <i class="material-icons">email</i><span class="link">Email
+                                                invitations</span></a>
+                                        for convenient session access
+                                    </li>
+                                    <li>
+                                        <a class="hover_yellow" href="/help/#owner_labels" target="help">
+                                            <i class="material-icons">label</i><span class="link">Organize using
+                                                labels</span></a>
+                                        to categorize and find sessions quickly
+                                    </li>
+                                    <li>
+                                        <a class="hover_yellow" href="/help/#temperature" target="help">
+                                            <i class="material-icons">thermostat</i><span class="link">Adjust
+                                                temperature</span></a>
+                                        for more creative or regular results
+                                    </li>
+                                    <li>
+                                        <a class="hover_yellow" href="/help/#threshold" target="help">
+                                            <i class="material-icons">data_thresholding</i><span class="link">Manage
+                                                context</span></a>
+                                        to control quality and cost of responses
+                                    </li>
+                                    <li>
+                                        <a class="hover_yellow" href="/help/#top_p" target="help">
+                                            <i class="material-icons">filter_list</i><span class="link">Throttle top p</span></a>
+                                        for more response possibilities
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -277,7 +338,7 @@
                         <div class="main_block app_panel">
                             <h1 class="header_recent_document">
                                 <span style="color:rgb(190, 200, 255)">Media and Social</span>
-                        </h1>
+                            </h1>
 
                             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/9VMFh3eAFrE"
                                 title="YouTube video player" frameborder="0"
