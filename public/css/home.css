@@ -866,3 +866,32 @@ iframe {
 .nav-pills .nav-link.active {
   text-decoration: none;
 }
+
+.news_top_row {
+  max-height: 40vh;
+}
+
+@media (max-width: 991px) {
+  .news_top_row {
+    max-height: none;
+  }
+
+  .news_top_row .main_block,
+  .news_top_row .side_block {
+    max-height: 40vh;
+  }
+}
+
+.price_table td {
+  white-space: nowrap;
+  text-align: right;
+  font-family: "MonospaceTTF";
+  padding-left: 4px;
+}
+
+.price_table tr td:nth-child(1) {
+  font-family: unset;
+  text-align: left;
+  white-space: normal;
+  width: 90%;
+}
