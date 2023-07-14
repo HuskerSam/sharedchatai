@@ -294,8 +294,6 @@ ul.recent_documents_list li a {
   }
 }
 
-
-
 .intro_card {
   padding: 8px;
   text-align: left;
@@ -310,7 +308,6 @@ ul.recent_documents_list li a {
 }
 
 .upcoming_model {
-  color: rgb(255, 127, 50);
   margin-left: 8px;
 }
 
