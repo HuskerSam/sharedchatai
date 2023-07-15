@@ -78,7 +78,6 @@ a {
   box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075)
 }
 
-
 .dropdown-toggle {
   outline: 0;
 }
@@ -633,4 +632,21 @@ div.signed_out_flex {
 
 a:hover {
   color: yellow;
+}
+
+.member_online_status {
+  border-radius: 100%;
+  width: 14px;
+  height: 14px;
+  background: rgb(127, 127, 127);
+  border: solid 1px rgb(200, 200, 200);
+  display: inline-block;
+  align-self: center;
+  position: relative;
+  left: -10px;
+  top: 8px;
+}
+
+.member_online_status.online {
+  background: rgb(50, 255, 50);
 }
