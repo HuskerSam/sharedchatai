@@ -66,7 +66,7 @@ export default class BaseApp {
     if (addFooter && this.html_body_container) {
       const element = document.createElement("div");
       element.classList.add("footer_container_div");
-      element.innerHTML = this.getFooterTemplate(contentPage);
+      element.innerHTML = this.getFooterTemplate();
       this.html_body_container.appendChild(element);
     }
     if (this.content_list_container) {
