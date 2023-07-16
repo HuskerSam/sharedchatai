@@ -433,6 +433,7 @@ export default class SessionAPI {
     static async _generateOpenAIPacket(ticket: any, sessionDocumentData: any, gameNumber: string, ticketId: string,
         includeTickets: Array<string>): Promise<any> {
         const messages: Array<any> = [];
+        const uidIndexes = Object.keys(sessionDocumentData.members);
         if (sessionDocumentData.systemMessage) {
             messages.push({
                 role: "system",
@@ -463,7 +464,9 @@ export default class SessionAPI {
                         content: includeTicket.data().message,
                     };
 
-                    if (includeUsers) message.name = includeTicket.data().uid;
+                    if (includeUsers) {
+                        message.name = uidIndexes.indexOf(includeTicket.data().uid).toString();
+                    } 
                     messages.push(message);
 
                     messages.push({
@@ -478,7 +481,7 @@ export default class SessionAPI {
             role: "user",
             content: ticket.message,
         };
-        if (includeUsers) message.name = ticket.uid;
+        if (includeUsers) message.name = uidIndexes.indexOf(ticket.uid).toString();
 
         messages.push(message);
         /* eslint-disable camelcase */

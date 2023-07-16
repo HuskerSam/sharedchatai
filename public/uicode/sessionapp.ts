@@ -966,6 +966,7 @@ export class SessionApp extends BaseApp {
     this.includeTotalTokens = 0;
     this.includeMessageTokens = 0;
     this.includeAssistTokens = 0;
+    const includeUsers = this.sessionDocumentData.includeUserNames === true;
     // return reverse order for submission
     this.lastTicketsSnapshot.forEach((doc: any) => {
       const ticket: any = this.ticketsLookup[doc.id];
@@ -979,6 +980,7 @@ export class SessionApp extends BaseApp {
             this.includeMessageTokens += promptTokenCount;
             this.includeAssistTokens += tokenCountCompletion;
             this.includeTotalTokens += tokenCountCompletion + promptTokenCount;
+            if (includeUsers) this.includeTotalTokens += 2;
             tickets.push(doc.id);
           }
         }
