@@ -466,7 +466,7 @@ export default class SessionAPI {
 
                     if (includeUsers) {
                         message.name = uidIndexes.indexOf(includeTicket.data().uid).toString();
-                    } 
+                    }
                     messages.push(message);
 
                     messages.push({
