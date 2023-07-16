@@ -1116,7 +1116,7 @@ export class SessionApp extends BaseApp {
     BaseApp.setHTML(this.menu_bar_doc_title, BaseApp.escapeHTML(this.sessionDocumentData.title));
 
     let windowTitle = this.sessionDocumentData.title;
-    if (!windowTitle) windowTitle = "New Únacog Session";
+    if (!windowTitle) windowTitle = "New Unacog Session";
     document.title = windowTitle;
 
     const sharedStatus = ChatDocument.getDocumentSharedStatus(this.sessionDocumentData, this.uid);

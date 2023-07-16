@@ -694,7 +694,7 @@ export default class DocOptionsHelper {
         const ownerDescription = BaseApp.escapeHTML(ownerMeta.name);
         const displayName = BaseApp.escapeHTML(this.app.userMetaFromDocument(this.app.uid).name);
 
-        const subject = encodeURIComponent(`${displayName} invited you to a Únacog Session`);
+        const subject = encodeURIComponent(`${displayName} invited you to a Unacog Session`);
         const body = encodeURIComponent(`${this.docData.title}
 
 Use this link to join - https://unacog.com/session/${this.chatDocumentId}

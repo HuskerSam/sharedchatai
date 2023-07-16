@@ -177,7 +177,7 @@ export default function(hljs) {
     },
     {
       className: 'meta',
-      begin: '^('+SIMPLE_Únacog"|"+DEFAULT_Únacog'|'+RVM_Únacog')',
+      begin: '^('+SIMPLE_Unacog"|"+DEFAULT_Unacog'|'+RVM_Unacog')',
       starts: {
         end: '$', contains: RUBY_DEFAULT_CONTAINS
       }
