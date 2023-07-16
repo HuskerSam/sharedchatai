@@ -1,9 +1,23 @@
+:root {
+  --background: rgb(28, 35, 59); /* dark blue  var(--background) */ 
+  --background-dark: rgb(20, 25, 40); /* darker blue, var(--background-dark), [navbar, textarea, session left panel, help background] */  
+  --highlight:  rgb(255, 255, 0); /* yellow var(--highlight */ 
+  --change: rgb(255, 127, 50); /* orange var(--change) */ 
+  --warning: rgb(255, 50, 50); /* red, var(--warning), [session warning, delete icon */
+  --impact-green: rgb(50, 255, 50); /* green var(--impact-green) */  
+  --light-1: rgb(230, 230, 230); /* white var(--light-1) */
+  --prompt-assist : rgb(180, 255, 180); /* grey var(--prompt-assist) */
+  --secondary: rgb(150, 150, 150); /* grey, var(--secondary) [ ] */
+  --document-title: rgb(190, 200, 255); /* light blue, var(--document-title) */
+}
+
+
 html {
   overflow-y: scroll;
 }
 
 .main_block {
-  background-color: rgb(28, 35, 59);
+  background-color: var(--background);
   border-radius: 6px;
   padding: 1em;
   margin-bottom: .75em;
@@ -14,7 +28,7 @@ html {
 .side_block {
   display: flex;
   flex-direction: column;
-  background-color: rgb(28, 35, 59);
+  background-color: var(--background);
   border-radius: 6px;
   padding: 1em;
   margin-bottom: .75em;
@@ -34,15 +48,9 @@ html {
 }
 
 .coming-soon .coming-soon-header {
-  color: rgb(220, 220, 220);
+  color: var(--light-1);
   font-weight: 300;
   margin-bottom: 1.5em;
-}
-
-.coming-soon-descr {
-  margin-bottom: 30px;
-  color: #198754;
-  font-size: 1.5em;
 }
 
 .coming-soon p,
@@ -51,7 +59,7 @@ html {
 }
 
 .coming-soon strong {
-  color: rgb(255, 255, 0);
+  color: var(--highlight);
 }
 
 .header_recent_document {
@@ -64,43 +72,6 @@ html {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.cta {
-  color: #fff;
-  font-size: 24px;
-  padding: 10px 50px;
-  border: none;
-  border-radius: 6px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-bottom: 30px;
-}
-
-.cta:hover {
-  color: #005AA7;
-}
-
-
-.help-buttons {
-  display: flex;
-  justify-content: center;
-}
-
-.help-buttons button {
-  background-color: transparent;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  font-size: 16px;
-  margin: 0 10px;
-  padding: 0;
-  text-decoration: underline;
-  transition: color 0.3s ease;
-}
-
-.help-buttons button:hover {
-  color: #0096FF;
-}
 
 /** from AI chat **/
 
@@ -114,7 +85,7 @@ ul.recent_documents_list li {
 
 ul.recent_documents_list li a {
   display: block;
-  color: rgb(230, 230, 230);
+  color: var(--light-1);
   padding-top: 4px;
   padding-bottom: 4px;
   height: 2em;
@@ -123,7 +94,7 @@ ul.recent_documents_list li a {
 }
 
 .recent_documents_list .activity_date {
-  background-color: rgb(15, 92, 30);
+  background-color: rgb(15, 92, 30); /* date hihglight */
   position: absolute;
   right: -10px;
   top: 2px;
@@ -144,7 +115,7 @@ ul.recent_documents_list li a {
 }
 
 .template_list_wrapper li a {
-  color: rgb(255, 255, 0);
+  color: var(--highlight);
   text-decoration: none;
   display: block;
   text-align: left;
@@ -163,15 +134,15 @@ ul.recent_documents_list li a {
 
 .template_list_wrapper li .caption {
   text-align: left;
-  color: rgb(230, 230, 230);
+  color: var(--light-1);
 }
 
-.impact_font_secondary {
-  color: rgb(50, 255, 50);
+.impact_font_green {
+  color: var(--impact-green);
 }
 
 .impact_font_change {
-  color: rgb(255, 127, 50);
+  color: var(--change);
 }
 
 
@@ -210,11 +181,6 @@ ul.recent_documents_list li a {
 
   .header_recent_document {
     font-size: 1.5em;
-  }
-
-  .cta {
-    font-size: 16px;
-    padding: 10px 30px;
   }
 
   .help-buttons button {
@@ -303,7 +269,7 @@ ul.recent_documents_list li a {
 }
 
 .supported_model {
-  color: rgb(50, 255, 50);
+  color: var(--impact-green);
   margin-left: 8px;
 }
 
@@ -345,7 +311,7 @@ ul.recent_documents_list li a {
 }
 
 #mc-embedded-subscribe.button {
-  background-color: rgb(50, 255, 50);
+  background-color: var(--impact-green);
   color: black;
 }
 
@@ -358,7 +324,7 @@ ul.recent_documents_list li a {
 }
 
 .prompt_log_display .assist {
-  color: rgb(180, 255, 180);
+  color: var(--prompt-assist);
   white-space: pre-wrap;
 }
 
@@ -372,7 +338,7 @@ ul.recent_documents_list li a {
 }
 
 .nav-item a:hover {
-  color: yellow;
+  color: var(--highlight);
 }
 
 .footer_container_div {
@@ -421,7 +387,7 @@ iframe {
   overflow: hidden;
   margin-top: auto;
   margin-bottom: auto;
-  color: rgb(190, 200, 255);
+  color: var(--document-title);
 }
 
 .document_status {
@@ -513,7 +479,7 @@ iframe {
 }
 
 .show_clear_label_filter .document_label_filter.form-select {
-  color: rgb(50, 255, 50);
+  color: var(--impact-green);
 }
 
 .games_view_header_wrapper {
@@ -595,7 +561,7 @@ iframe {
 }
 
 .shared_status_not {
-  color: rgb(150, 150, 150);
+  color: var(--secondary);
 }
 
 .promptplus_dashboard_page .show_threshold_dialog {
@@ -609,7 +575,7 @@ iframe {
   border-radius: 20px;
   padding: 2px 10px;
   color: rgb(200, 200, 200);
-  border: solid 1px rgb(100, 100, 100);
+  border: solid 1px var(--grey);
   font-size: 0.75em;
 }
 
@@ -618,7 +584,7 @@ iframe {
   min-height: 3.75em;
   display: flex;
   flex-direction: row;
-  color: rgb(230, 230, 230);
+  color: var(--light-1);
   padding-left: 0;
   padding-right: 0;
 }
@@ -717,7 +683,7 @@ iframe {
 }
 
 .navbar_wrapper {
-  background: rgb(32, 33, 35);
+  background: var(--background-dark);
   height: 62px;
   position: fixed;
   top: 0;
@@ -755,7 +721,7 @@ iframe {
 }
 
 .dropdown-menu.dropdown-menu-dark .delete i {
-  color: rgb(255, 50, 50);
+  color: var(--warning);
 }
 
 .session_shared_column .member_profile_name {
@@ -790,7 +756,7 @@ iframe {
   padding: 6px;
   padding-top: 0px;
   padding-bottom: 0px;
-  color: rgb(230, 230, 230)
+  color: var(--light-1);
 }
 
 .mobile_custom_icon_label i {
@@ -813,14 +779,14 @@ iframe {
 }
 
 .nav-pills .nav-link {
-  color: rgb(220, 220,220);
+  color: var(--light-1);
 }
 
 .nav-pills .nav-link.active,
 .nav-pills .show>.nav-link {
   background-color: transparent;
-  border: 1px solid rgb(255, 255, 0);
-  color: rgb(255, 255, 0);
+  border: 1px solid var(--highlight);
+  color: var(--highlight);
 }
 
 .sessions_list_loading_panel {
