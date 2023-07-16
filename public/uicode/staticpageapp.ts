@@ -13,7 +13,9 @@ export class StaticPageApp extends BaseApp {
     recentDocumentsSubscription: any = null;
     home_page_login: any = document.querySelector(".home_page_login");
 
-    /** */
+    /**
+     * @param { boolean } contentPage true if content page for all items
+     */
     constructor(contentPage = false) {
         super(contentPage);
         this.showLoginModal = false;

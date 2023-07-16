@@ -138,7 +138,7 @@ export default class BaseApp {
 
       if (this.showLoginModal) this.login.show();
     }
-    
+
     document.body.classList.add("auth_inited");
     return;
   }
@@ -637,10 +637,9 @@ export default class BaseApp {
     return doc.body.textContent || "";
   }
   /** get footer template
- * @param { boolean } contentPage if true change links
  * @return { string } html
 */
-  getFooterTemplate(contentPage: boolean): string {
+  getFooterTemplate(): string {
     return `<footer class="side_block m-0 pb-1 app_panel">
             <div class="row">
                 <div class="mb-3 mb-md-0 text-center text-md-start" style="flex:1">
