@@ -333,10 +333,6 @@ ul.recent_documents_list li a {
   white-space: pre-wrap;
 }
 
-.content_page_container {
-  font-size: 1.25em;
-}
-
 .nav-item a:hover {
   color: var(--highlight);
 }
