@@ -751,6 +751,11 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
             <a class="hover_yellow" href="/content/labelsmenu/">Bootstrap sub menu
                 - <span class="caption">Add sub menu for selecting labels for each session.</span>
             </a>
+        </li>
+        <li>
+            <a class="hover_yellow" href="/content/learntogether/">Learn Together
+                - <span class="caption">exercise session and sharing operations for groups</span>
+            </a>
         </li>`;
     }
     return items;
