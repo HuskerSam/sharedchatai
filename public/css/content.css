@@ -19,3 +19,15 @@
     flex-direction: column;
     min-height: calc(100vh - 100px);
 }
+
+.flyer_image {
+    width:100%;
+    opacity:0.9;
+}
+
+@media (min-width: 992px) {
+    .flyer_image {
+        width: unset;
+        max-height: 450px;
+    }
+}
