@@ -47,6 +47,7 @@ export default class BaseApp {
   };
   html_body_container: any = document.querySelector(".main_container");
   content_list_container: any = document.querySelector(".recent_content_ul_list");
+  flyer_list_container: any = document.querySelector(".recent_content_flyers_ul_list");
 
   /**
  * @param { boolean } contentPage content list trimmed on other pages and footer link change
@@ -71,6 +72,9 @@ export default class BaseApp {
     }
     if (this.content_list_container) {
       this.content_list_container.innerHTML = this.getContentListTemplate(contentPage);
+    }
+    if (this.flyer_list_container) {
+      this.flyer_list_container.innerHTML = this.getFlyerListTemplate(contentPage);
     }
 
     document.body.classList.add("body_loaded");
@@ -712,6 +716,22 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
         </footer>`;
   }
   /** get content list template
+  * @param { boolean } contentPage return content list if true
+  * @return { string } html footer
+  */
+  getFlyerListTemplate(contentPage: boolean): string {
+    let items = `<li>
+        <a class="hover_yellow" href="/content/learntogether/">Learn Together
+            - <span class="caption">Sessions and sharing for groups</span>
+        </a>
+    </li>`;
+
+    if (contentPage) {
+      items += ``;
+    }
+    return items;
+  }
+  /** get content list template
    * @param { boolean } contentPage return content list if true
    * @return { string } html footer
    */
@@ -750,11 +770,6 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
         <li>
             <a class="hover_yellow" href="/content/labelsmenu/">Bootstrap sub menu
                 - <span class="caption">Add sub menu for selecting labels for each session.</span>
-            </a>
-        </li>
-        <li>
-            <a class="hover_yellow" href="/content/learntogether/">Learn Together
-                - <span class="caption">exercise session and sharing operations for groups</span>
             </a>
         </li>`;
     }
