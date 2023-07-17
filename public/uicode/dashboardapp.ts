@@ -62,6 +62,8 @@ export class DashboardApp extends BaseApp {
 
     this.footer_container_div = document.querySelector(".footer_container_div");
     this.news_tab_view.appendChild(this.footer_container_div);
+
+    if (location.hash === "#moreinfo") this.content_tab_button.click();
   }
   /**
    * @return { string } label if custom, "" if not (all or unlabeled)
@@ -127,13 +129,15 @@ export class DashboardApp extends BaseApp {
     this.gameFeedInited = true;
 
     if (this.gameFeedSubscription) this.gameFeedSubscription();
-
-    if (this.profile.homePageTabIndex === 0) {
-      this.news_tab_button.click();
-    } else if (this.profile.homePageTabIndex === 1) {
-      this.content_tab_button.click();
-    } else if (this.profile.homePageTabIndex === 2) {
-      this.dashboard_tab_button.click();
+    
+    if (location.hash !== "#moreinfo") {
+      if (this.profile.homePageTabIndex === 0) {
+        this.news_tab_button.click();
+      } else if (this.profile.homePageTabIndex === 1) {
+        this.content_tab_button.click();
+      } else if (this.profile.homePageTabIndex === 2) {
+        this.dashboard_tab_button.click();
+      }
     }
     document.body.classList.add("session_feed_inited");
     let firstLoad = true;
