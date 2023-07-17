@@ -6,9 +6,11 @@
   --warning: rgb(255, 50, 50); /* red, var(--warning), [session warning, delete icon */
   --impact-green: rgb(50, 255, 50); /* green var(--impact-green) */  
   --light-1: rgb(230, 230, 230); /* white var(--light-1) */
-  --prompt-assist : rgb(180, 255, 180); /* grey var(--prompt-assist) */
+  --prompt-assist : rgb(180, 255, 180); /* light green var(--prompt-assist) */
   --secondary: rgb(150, 150, 150); /* grey, var(--secondary) [ ] */
   --document-title: rgb(190, 200, 255); /* light blue, var(--document-title) */
+  --brand-name-color:  rgb(28, 227, 60); /* green, var(--brand-name-color) */
+  --recent-document-activity-date: rgb(15, 92, 30); /* green, var(--recent-document-activity-date) */
 }
 
 
@@ -94,7 +96,7 @@ ul.recent_documents_list li a {
 }
 
 .recent_documents_list .activity_date {
-  background-color: rgb(15, 92, 30); /* date hihglight */
+  background-color: var(--recent-document-activity-date);
   position: absolute;
   right: -10px;
   top: 2px;
@@ -360,10 +362,24 @@ ul.recent_documents_list li a {
   display: inline-block;
   position: relative;
   background-repeat: no-repeat;
+  background-image: url('/images/logo64.png'); 
+  top:6px;
+}
+
+.home_logo_mobile_only {
+  margin-left: 20px;
 }
 
 .home_logo_mobile_only a:hover {
   color: #fff;
+}
+
+.home_navbar_name {
+  top:-6px;
+}
+
+.home_navbar_name_color {
+  color: var(--brand-name-color);
 }
 
 .navbar {
