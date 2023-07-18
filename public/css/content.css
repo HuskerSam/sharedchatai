@@ -11,7 +11,7 @@
     display: inline-block;
     background: rgba(255, 255, 255, 0.75);
     margin: auto;
-    border: solid 2px black;
+    border: solid 2px var(--secondary-color);
 }
 
 .container {

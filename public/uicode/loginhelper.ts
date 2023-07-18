@@ -66,7 +66,7 @@ export default class LoginHelper {
                 <input type="text" name="email" class="form-control login_email mx-1" placeholder="Email">
               </div>
               <div style="text-align:center">
-                <button class="btn btn-success" id="login_email_anchor">Log in with Email Link</button>
+                <button class="btn btn-primary" id="login_email_anchor">Log in with Email Link</button>
               <hr>
               <button class="btn btn-primary" id="login_google">
                 Log in with Google &nbsp;<img class="google_logo" src="/images/google_signin.png"></button>

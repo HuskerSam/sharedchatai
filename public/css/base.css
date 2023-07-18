@@ -2,6 +2,7 @@
   --home-panel-background: rgb(28, 35, 59); /* var(--background) */ 
   --background-accent: rgb(32, 33, 35);  /* var(--background-accent) */
   --background-accent-2: rgb(40, 50, 84); /*  var(--background-dark), [navbar, textarea, session left panel, help background] */ 
+  --background-accent-3: rgb(52, 53, 65); /*  var(--background-accent-3) */
   --highlight:  rgb(255, 255, 0); /*  var(--highlight */ 
   --change: rgb(255, 127, 50); /*  var(--change) */ 
   --warning: rgb(255, 50, 50); /* var(--warning), [session warning, delete icon */
@@ -11,16 +12,25 @@
   --document-title: rgb(190, 200, 255); /* var(--document-title) */
   --brand-name-color:  rgb(28, 227, 60); /*  var(--brand-name-color) */
   --recent-document-activity-date: rgb(15, 92, 30); /* var(--recent-document-activity-date) */
+  
   --primary-color: white;  /* var(--primary-color) */
   --primary-color-1: rgb(240, 240, 240); /*  var(--primary-color-1) */
   --primary-color-2: rgb(230, 230, 230); /*  var(--primary-color-2) */
   --primary-color-3: rgb(217, 217, 227); /*  var(--primary-color-3) */
+  --secondary-color: rgb(33, 37, 41); /* var(--secondary-color) */
+  --secondary-color-1: rgb(100, 100, 100); /* var(--secondary-color-1) */
+  --secondary-color-2: rgb(127, 127, 127); /* var(--secondary-color-2) */
+  --secondary-color-3: rgb(150, 150, 150); /* grey, var(--secondary) [ ] */
 
 
+  --options-tab-color: rgb(200, 255, 200); /* var(--options-tab-color) */
+  --member-online-green: rgb(50, 255, 50);
 
 
+  --shared_status_owner: rgb(190, 100, 250); /* var(--shared_status_owner) */
+  --shared_status_user: rgb(30, 200, 200); /* var(--shared_status_user) */
 
-  --secondary: rgb(150, 150, 150); /* grey, var(--secondary) [ ] */
+  
 }
 
 html,
@@ -122,7 +132,7 @@ a {
 
 .btn-toggle:hover,
 .btn-toggle:focus {
-  background-color: rgb(100, 100, 100);
+  background-color: var(--secondary-color-1);
 }
 
 .btn-toggle::before {
@@ -151,7 +161,7 @@ a {
 
 .btn-toggle-nav a:hover,
 .btn-toggle-nav a:focus {
-  background-color: rgb(100, 100, 100);
+  background-color: var(--secondary-color-1);
 }
 
 .btn-check:focus+.btn,
@@ -236,7 +246,7 @@ a {
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
-  background: #5c636a;
+  background: var(--secondary-color-1);
 }
 
 .list-group-item {
@@ -244,22 +254,22 @@ a {
 }
 
 .list-group-item-action:hover {
-  background-color: rgb(50, 50, 50);
+  background-color: var(--background-accent-3);
   color: var(--primary-color-1);
 }
 
 select.form-select {
-  background-color: rgb(52, 53, 65);
+  background-color: var(--background-accent-3);
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgb%28240,240,240%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
 }
 
 select.form-select option {
-  background-color: rgb(52, 53, 65);
+  background-color: var(--background-accent-3);
   color: var(--primary-color-2);
 }
 
 .app_panel .form-check-input {
-  border-color: rgb(150, 200, 150);
+  border-color: var(--primary-color-3);
 }
 
 .app_panel .form-check-input:checked {
@@ -270,32 +280,32 @@ select.form-select option {
 .app_panel .form-check-input:hover,
 .app_panel .form-check-input:focus {
   border-color: var(--primary-color);
-  background-color: rgb(100, 100, 50);
+  background-color: var(--secondary-color-3);
 }
 
 .nav-tabs .nav-item.show .nav-link,
 .nav-tabs .nav-link.active {
-  color: rgb(200, 255, 200);
-  background-color: #5c636a;
+  color: var(--options-tab-color);
+  background-color: var(--secondary-color-1);
   border-color: var(--primary-color-1);
   border-bottom-color: transparent;
 }
 
 .nav-tabs .nav-link {
-  color: #fff;
+  color: var(--primary-color);
 }
 
 .btn-check:checked+.btn-outline-primary,
 .btn-check:checked+.btn-outline-primary:hover,
 .btn-outline-primary:hover {
-  color: rgb(200, 255, 200);
-  background-color: #5c636a;
+  color: var(--options-tab-color);
+  background-color: var(--secondary-color-1);
   border-color: var(--primary-color-1);
 }
 
 .btn-outline-primary {
   color: var(--primary-color-1);
-  background-color: rgb(52, 53, 65);
+  background-color: var(--background-accent-3);
   border-color: var(--primary-color-1);
 }
 
@@ -305,26 +315,32 @@ select.form-select option {
 }
 
 .btn-outline-primary:active {
-  background-color: rgb(127, 127, 127);
+  background-color: var(--secondary-color-2);
 }
 
+a.btn-primary,
 button.btn-primary {
-  background-color: #198754;
-  border-color:#198754; 
+  background-color: var(--brand-name-color);
+  border-color: var(--brand-name-color);
+  color: var(--secondary-color);
 }
 
+a.btn.btn-primary:hover,
+a.btn.btn-primary:focus,
+a.btn.btn-primary:active,
 button.btn-primary:hover,
 button.btn-primary:focus,
 button.btn-primary:active {
-  background-color: #146c43;
-  border-color: #13653f;
+  color: var(--secondary-color);
+  background-color: var(--member-online-green);
+  border-color: var(--member-online-green);
 }
 
 .app_panel input[type="range"] {
   width: 100%;
   height: 15px;
   border-radius: 5px;
-  background-color: rgb(127, 127, 127);
+  background-color: var(--secondary-color-2);
   outline: none;
   opacity: 0.7;
   -webkit-transition: .2s;
@@ -337,7 +353,7 @@ button.btn-primary:active {
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background: rgb(100, 100, 100);
+  background: var(--secondary-color-1);
   cursor: pointer;
   position: relative;
   top: -5px;
@@ -347,7 +363,7 @@ button.btn-primary:active {
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background: rgb(100, 100, 100);
+  background: var(--secondary-color-1);
   cursor: pointer;
   position: relative;
   top: -5px;
@@ -359,12 +375,12 @@ button.btn-primary:active {
 .navbar-light .navbar-nav .nav-link:hover i,
 .navbar-light .navbar-nav .nav-link:focus svg,
 .navbar-light .navbar-nav .nav-link:hover svg {
-  color: rgb(255, 255, 0);
+  color: var(--highlight);
 }
 
 .navbar-light .navbar-brand:focus,
 .navbar-light .navbar-brand:hover {
-  background-color: rgb(120, 120, 120);
+  background-color: var(--secondary-color-2);
 }
 
 .mobile_custom_icon_label {
@@ -433,13 +449,13 @@ button.btn-primary:active {
 .app_panel .btn.shared_status_withusers,
 .shared_status_withusers,
 .shared_status_withusers.hover_yellow {
-  color: rgb(190, 100, 250);
+  color: var(--shared_status_owner);
 }
 
 .app_panel .btn.shared_status_withothers,
 .shared_status_withothers,
 .shared_status_withothers.hover_yellow {
-  color: rgb(30, 200, 200);
+  color: var(--shared_status_user);
 }
 
 .navbar-light .navbar-toggler {
@@ -468,9 +484,9 @@ button.btn-primary:active {
 .btn.btn-secondary.hover_yellow:hover,
 .hover_yellow:focus,
 .hover_yellow:hover {
-  background-color: rgb(0,0,0);
+  background-color: var(--secondary-color);
   border-color: transparent;
-  color: white;
+  color: var(--primary-color);
 }
 
 .menu_dropdown_label_wrapper {
@@ -656,15 +672,15 @@ div.signed_out_flex {
 }
 
 a:hover {
-  color: yellow;
+  color: var(--highlight);
 }
 
 .member_online_status {
   border-radius: 100%;
   width: 14px;
   height: 14px;
-  background: rgb(127, 127, 127);
-  border: solid 1px rgb(200, 200, 200);
+  background: var(--secondary-color-2);
+  border: solid 1px var(--primary-color-3);
   display: inline-block;
   align-self: center;
   position: relative;
@@ -673,5 +689,5 @@ a:hover {
 }
 
 .member_online_status.online {
-  background: rgb(50, 255, 50);
+  background: var(--member-online-green);
 }
