@@ -20,7 +20,8 @@
     <meta property="og:title" content="Unacog AI Application" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://unacog.com/images/homepageogmeta.jpg" />
-    <meta property="og:description" content="Unacog is an online AI chat tool, enabling instant collaboration on any device. It equips you with a comprehensive set of features to optimize your interaction with advanced AI models." />
+    <meta property="og:description"
+        content="Unacog is an online AI chat tool, enabling instant collaboration on any device. It equips you with a comprehensive set of features to optimize your interaction with advanced AI models." />
 
     <meta name="twitter:site" content="https://unacog.com/">
     <meta name="twitter:title" content="Unacog About">
@@ -68,13 +69,12 @@
 
 <body class="basic_page_wrapper homepage">
     <nav class="navbar navbar-light navbar_wrapper">
-        <ul
-            class="navbar-nav container-fluid d-flex flex-row justify-content-end justify-content-sm-between">
+        <ul class="navbar-nav container-fluid d-flex flex-row justify-content-end justify-content-sm-between">
             <li class="home_logo_mobile_only">
                 <a class="navbar_brand" style="text-decoration: none;cursor: default;">
                     <span class="navbar_logo"></span>
                     <span class="home_navbar_name mobile_hide position-relative">Una<span
-                           class="home_navbar_name_color">cog</span></span>
+                            class="home_navbar_name_color">cog</span></span>
                 </a>
             </li>
             <li style="flex:1"></li>
@@ -84,8 +84,8 @@
                 </a>
             </li>
             <li class="nav-item signed_out_options">
-                <a class="signin_show_modal btn btn-primary px-4" href="login" type="button"
-                    data-bs-toggle="modal" data-bs-target="#loginModal">Sign In
+                <a class="signin_show_modal btn btn-primary px-4" href="login" type="button" data-bs-toggle="modal"
+                    data-bs-target="#loginModal">Sign In
                 </a>
             </li>
             <li class="nav-item">
@@ -98,19 +98,14 @@
         </ul>
     </nav>
     <div class="main_container container homepage_content">
-        <div class="flex-lg-row flex_change_responsive signed_out_options_block signed_out_flex">
+        <div class="flex-lg-row flex_change_responsive signed_out_flex">
             <div class="main_block app_panel">
-                <div class="p-2 intro_card">
-                    <h1 class="signed_out_options_block" style="text-align: center;">
-                        Free trial in progress
-                        <a class="home_page_login btn p-2 px-5 mt-1" type="button" href="login"
-                            style="background-color: rgb(50, 255, 50);display:none;">Sign
-                            In</a>
-                    </h1>
-                    <span style="width:100%;text-align:center;display:block;">
-                        Chat with the same AI models as ChatGPT and Bard
-                    </span>
-                </div>
+                <h5 class="signed_out_options_block impact-font" style="text-align: center;font-size:1.25rem;margin-bottom:0">
+                    Free trial in progress
+                    <a class="home_page_login btn p-2 px-5 mt-1" type="button" href="login"
+                        style="background-color: rgb(50, 255, 50);display:none;">Sign
+                        In</a>
+                </h5>
             </div>
         </div>
         <ul class="nav nav-pills" id="ex1" role="tablist" style="position: relative;font-size: 1.25em;margin-top:4px;">
@@ -160,6 +155,8 @@
                                 </h5>
                                 <ul>
                                     <li> <span class="supported_model">chat-bison-001</span> 9k</li>
+                                    <li> <span class="upcoming_model">med-bison-001</span> 36k (soon)</li>
+                                    <li> <span class="upcoming_model">med-bison-002</span> 144k (later)</li>
                                 </ul>
                                 <h5 style="display:inline-block">
                                     <a href="https://docs.anthropic.com/claude/reference/complete_post" target="_blank">
@@ -230,9 +227,12 @@
                             <div class="card intro_card features_tips_panel" style="overflow: auto;">
                                 <ul>
                                     <li>
-                                        <i class="material-icons" style="color:rgb(235, 235, 10)">lightbulb</i><span class="link">
-                                            Change models during a session
-                                            without losing context.
+                                        <a href="/help/#system_message" class="hover_yellow" target="help">
+                                            <i class="material-icons" style="color:rgb(235, 235, 10)">lightbulb</i><span
+                                                class="link">Change models</span></a>
+                                        <span class="desc">
+                                            during a session without losing context
+                                        </span>
                                     </li>
                                     <li>
                                         <a href="/help/#system_message" class="hover_yellow" target="help">
@@ -249,44 +249,60 @@
                                                       112q-34 7-63.5 24T306-642l-106-46-40 72 94 69q-4 17-6.5 33.5T245-480q0 17 2.5 33.5T254-413l-94
                                                         69 40 72 106-46q24 24 53.5 41t62.5 25l14 112Z" />
                                                 </svg></span><span class="link">System messages</span></a>
-                                        for specific results
+                                        <span class="desc">
+                                            for specific results
+                                        </span>
                                     </li>
                                     <li>
                                         <a href="/help/#auto_exclude" class="hover_yellow" target="help">
                                             <i class="material-icons">data_thresholding</i><span class="link">Auto
                                                 exclude</span></a>
-                                        to manage request
-                                        size
+                                        <span class="desc">
+                                            to manage request size
+                                        </span>
                                     </li>
                                     <li><a href="/help/#chat_features" class="hover_yellow" target="help">
                                             <i class="material-icons">loop</i><span class="link">Rerun
-                                                Prompts</span></a> to get different results
+                                                Prompts</span></a>
+                                        <span class="desc">
+                                            to get different results
+                                        </span>
                                     </li>
-                                    <li><a class="hover_yellow" href="/help/#users_info"
-                                            target="help">
-                                            <i class="material-icons shared_status_withusers">link</i><span class="link">Collaborate</span></a>
-                                        with friends and coworkers
+                                    <li><a class="hover_yellow" href="/help/#users_info" target="help">
+                                            <i class="material-icons shared_status_withusers">link</i><span
+                                                class="link">Collaborate</span></a>
+                                        <span class="desc">
+                                            with friends and coworkers
+                                        </span>
                                     </li>
                                     <li><a class="hover_yellow" href="/help/#export_options" target="help">
                                             <i class="material-icons">download</i><span class="link">Export
                                                 json</span></a>
-                                        templates to share sessions your team
+                                        <span class="desc">
+                                            templates to share sessions your team
+                                        </span>
                                     </li>
                                     <li><a class="hover_yellow" href="/help/#options" target="help">
                                             <i class="material-icons">upload</i><span class="link">Import
                                                 templates</span></a>
-                                        from others to initialize your session
+                                        <span class="desc">
+                                            from others to initialize your session
+                                        </span>
                                     </li>
                                     <li><a class="hover_yellow" href="/help/#options" target="help">
                                             <i class="material-icons">content_copy</i><span class="link">Use the
                                                 clipboard</span></a>
-                                        to copy text or html to other applications
+                                        <span class="desc">
+                                            to copy text or html to other applications
+                                        </span>
                                     </li>
-                                    <li><a class="hover_yellow" href="/help/#help_sign_in"
-                                            target="help">
-                                            <i class="material-icons shared_status_withothers">link</i><span class="link">Anonymous
+                                    <li><a class="hover_yellow" href="/help/#help_sign_in" target="help">
+                                            <i class="material-icons shared_status_withothers">link</i><span
+                                                class="link">Anonymous
                                                 login</span></a>
-                                        available for external collaborators
+                                        <span class="desc">
+                                            available for external collaborators
+                                        </span>
                                     </li>
                                     <li>
                                         <a href="/help/#session_limit" class="hover_yellow" target="help">
@@ -303,36 +319,48 @@
                                                           112q-34 7-63.5 24T306-642l-106-46-40 72 94 69q-4 17-6.5 33.5T245-480q0 17 2.5 33.5T254-413l-94
                                                             69 40 72 106-46q24 24 53.5 41t62.5 25l14 112Z" />
                                                 </svg></span><span class="link">Session usage limit</span></a>
-                                        to protect your account from abuse
+                                        <span class="desc">
+                                            to protect your account from abuse
+                                        </span>
                                     </li>
                                     <li><a class="hover_yellow" href="/help/#help_sign_in" target="help">
                                             <i class="material-icons">email</i><span class="link">Email
                                                 invitations</span></a>
-                                        for convenient session access
+                                        <span class="desc">
+                                            for convenient session access
+                                        </span>
                                     </li>
                                     <li>
                                         <a class="hover_yellow" href="/help/#owner_labels" target="help">
                                             <i class="material-icons">label</i><span class="link">Organize using
                                                 labels</span></a>
-                                        to categorize and find sessions quickly
+                                        <span class="desc">
+                                            to categorize and find sessions quickly
+                                        </span>
                                     </li>
                                     <li>
                                         <a class="hover_yellow" href="/help/#temperature" target="help">
                                             <i class="material-icons">thermostat</i><span class="link">Adjust
                                                 temperature</span></a>
-                                        for more creative or regular results
+                                        <span class="desc">
+                                            for more creative or regular results
+                                        </span>
                                     </li>
                                     <li>
                                         <a class="hover_yellow" href="/help/#threshold" target="help">
                                             <i class="material-icons">data_thresholding</i><span class="link">Manage
                                                 context</span></a>
-                                        to control quality and cost of responses
+                                        <span class="desc">
+                                            to control quality and cost of responses
+                                        </span>
                                     </li>
                                     <li>
                                         <a class="hover_yellow" href="/help/#top_p" target="help">
                                             <i class="material-icons">filter_list</i><span class="link">Throttle top
                                                 p</span></a>
-                                        for more response possibilities
+                                        <span class="desc">
+                                            for more response possibilities
+                                        </span>
                                     </li>
                                 </ul>
                             </div>

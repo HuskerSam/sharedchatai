@@ -814,7 +814,7 @@ iframe {
 }
 
 .news_top_row {
-  max-height: 40vh;
+  max-height: 50vh;
 }
 
 @media (max-width: 991px) {
@@ -824,7 +824,7 @@ iframe {
 
   .news_top_row .main_block,
   .news_top_row .side_block {
-    max-height: 40vh;
+    max-height: 50vh;
   }
 }
 
@@ -851,14 +851,35 @@ iframe {
 
 .features_tips_panel i {
   position: relative;
-  top: 6px;
+  top: 16px;
+  color: var(--primary-color);
+}
+
+.features_tips_panel .gear_icon {
+  color: var(--primary-color);
+  position: relative;
+  top: 8px;
+}
+
+.features_tips_panel a {
+  font-size: 1.25em;
+  color: var(--document-title);
+  padding-bottom: 6px;
+}
+
+span.desc {
+  display: block;
+  padding-left: 36px;
 }
 
 .features_tips_panel a span.link {
-  margin-left: 4px;
+  margin-left: 8px;
 }
 
 .features_tips_panel li {
   display: block;
   margin-left: -24px;
+  line-height: 1.5em;
+  margin-top: 6px;
+  margin-bottom: 6px;
 }
