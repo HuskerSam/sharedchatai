@@ -69,12 +69,12 @@ html {
   display: flex;
   flex-direction: row;
   margin-bottom: 4px;
-  color: rgb(200, 200, 200);
+  color: var(--primary-color-4);
   margin-left: 16px;
 }
 
 .members_feed_line_wrapper.is_document_owner .members_feed_profile_name {
-  color: rgb(240, 240, 10);
+  color: var(--highlight-session);
 }
 
 .members_feed_profile_lastactivity {
@@ -87,7 +87,7 @@ html {
 
 .member_prompt_count {
   text-align: right;
-  color: rgb(190, 200, 255);
+  color: var(--document-title);
 }
 
 .member_online_status {
@@ -118,11 +118,11 @@ html {
 }
 
 .game_message_list_item.ticket_owner .delete_ticket {
-  color: rgb(240, 240, 240);
+  color: var(--primary-color-1);
 }
 
 .game_message_list_item.ticket_owner.old_ticket_5_min .delete_ticket {
-  color: rgb(240, 240, 240);
+  color: var(--primary-color-1);
   visibility: visible;
 }
 
@@ -132,7 +132,7 @@ html {
   align-items: end;
   flex: 1;
   line-height: 1em;
-  /* color: rgb(240, 240, 240);
+  /* color: var(--primary-color-1);
   background: rgb(52, 53, 65); */
 }
 
@@ -218,7 +218,7 @@ html {
 }
 
 .completion_max_tokens_reached .tokens_completion {
-  color: rgb(255, 127, 50);
+  color: var(--change);
 }
 
 .message_list_send_wrapper {
@@ -259,7 +259,7 @@ html {
 
 .slider_label span {
   font-family: "MonospaceTTF";
-  color: rgb(230, 230, 230);
+  color: var(--primary-color-2);
 }
 
 .document_option_model_select_wrapper {
@@ -291,7 +291,7 @@ ul.recent_documents_list li {
 
 ul.recent_documents_list li a {
   display: block;
-  color: rgb(200, 200, 200);
+  color: var(--primary-color-4);
   padding-top: 4px;
   padding-bottom: 4px;
 }
@@ -337,7 +337,7 @@ pre code {
   font-size: .875em;
   background-color: rgba(0, 0, 0, 0.1);
   border-color: rgba(255, 255, 255, 0.2);
-  color: rgb(240, 240, 240);
+  color: var(--primary-color-1);
   border-style: solid;
   padding: 8px;
 }
@@ -347,7 +347,7 @@ pre code {
   top: 12px;
   right: 12px;
   background: rgba(40, 43, 46, 0.5);
-  color: rgb(240, 240, 240);
+  color: var(--primary-color-1);
 }
 
 .copy_code_block_button i {
@@ -366,7 +366,7 @@ pre code {
   bottom: 0px;
   background: none;
   border-color: transparent;
-  color: rgb(240, 240, 240);
+  color: var(--primary-color-1);
   background-color: transparent;
   right: 4px;
   z-index: 1;
@@ -382,7 +382,7 @@ pre code {
   background: none;
   border-color: transparent;
   position: absolute;
-  color: rgb(240, 240, 240);
+  color: var(--primary-color-1);
   left: 8px;
   top: 3px;
   background-color: transparent;
@@ -493,7 +493,7 @@ pre code {
 }
 
 .over_token_sendlimit .auto_run_overthreshold_ticket {
-  color: #fff;
+  color: var(--primary-color);
   background-color: #6c757d;
   border-color: #6c757d;
 }
@@ -513,7 +513,7 @@ pre code {
 .delete_ticket {
   margin: 4px;
   background-color: transparent;
-  color: rgb(240, 240, 240);
+  color: var(--primary-color-1);
   position: relative;
   z-index: 10;
   border-color: transparent;
@@ -605,11 +605,11 @@ pre code {
 
 .over_token_sendlimit .chat_threshold_total_tokens,
 .over_token_sendlimit .selected_ticket_count_span {
-  color: rgb(255, 50, 50);
+  color: var(--warning);
 }
 
 .archived_session .app_panel .engine_sidebar_menu_button {
-  color: rgb(255, 50, 50);
+  color: var(--warning);
 }
 
 .archived_session .game_message_list_item .delete_ticket,
@@ -636,12 +636,12 @@ pre code {
 
 .engine_settings_not_default .app_panel .reset_engine_options_button,
 .engine_settings_not_default .app_panel .engine_sidebar_menu_button {
-  color: rgb(240, 240, 10);
+  color: var(--highlight-session);
 }
 
 .engine_settings_tweaked .app_panel .reset_engine_options_button,
 .engine_settings_tweaked .app_panel .engine_sidebar_menu_button {
-  color: rgb(255, 127, 50);
+  color: var(--change);
 }
 
 .navbar.menu_nav_bar {
@@ -660,7 +660,7 @@ pre code {
 .document_usage_detail_header {
   text-align: center;
   font-weight: bold;
-  color: rgb(200, 200, 200);
+  color: var(--primary-color-4);
 }
 
 .navbar-light .navbar-nav .nav-link.show_profile_modal {
@@ -677,18 +677,18 @@ pre code {
 }
 
 .engine_field_not_default span {
-  color: rgb(255, 127, 50);
+  color: var(--change);
 }
 
 .max_tokens_slider_label.engine_field_not_default span {
-  color: rgb(240, 240, 10);
+  color: var(--highlight-session);
 }
 
 .continue_previous_response {
   display: none;
   position: absolute;
   bottom: 0px;
-  color: rgb(240, 240, 240);
+  color: var(--primary-color-1);
   background-color: rgba(68, 70, 84, 0.5);
   right: 44px;
   z-index: 1;
@@ -717,13 +717,13 @@ pre code {
 }
 
 .navbar-light .navbar-nav .nav-link.show_profile_modal .mobile_custom_icon_label:focus span {
-  border-color: white;
+  border-color: var(--primary-color);
 }
 
 .menu_bar_doc_title {
   flex: 1;
   padding-left: 12px;
-  color: rgb(190, 200, 255);
+  color: var(--document-title);
   max-height: 3em;
   overflow: hidden;
   flex: 1;
@@ -731,27 +731,27 @@ pre code {
 }
 
 .ticket_sent_api_pending .menu_bar_doc_title {
-  color: rgb(240, 240, 10)
+  color: var(--highlight-session)
 }
 
 .ticket_sent_api_pending.engine_settings_tweaked .menu_bar_doc_title {
-  color: rgb(255, 127, 50);
+  color: var(--change);
 }
 
 .pending_message {
-  color: rgb(240, 240, 10);
+  color: var(--highlight-session);
 }
 
 .engine_settings_tweaked .pending_message {
-  color: rgb(255, 127, 50);
+  color: var(--change);
 }
 
 .ticket_sent_api_pending .document_menutop_usage_stats_line {
-  color: rgb(240, 240, 10);
+  color: var(--highlight-session);
 }
 
 .ticket_sent_api_pending.engine_settings_tweaked .document_menutop_usage_stats_line {
-  color: rgb(255, 127, 50);
+  color: var(--change);
 }
 
 .auto_run_overthreshold_ticket {
@@ -787,13 +787,13 @@ pre code {
 }
 
 .token_visualizer_preview .token_even {
-  color: rgb(240, 240, 10);
+  color: var(--highlight-session);
   word-wrap: break-word;
   background: rgba(127, 127, 127, 0.5);
 }
 
 .token_visualizer_preview .token_odd {
-  color: rgb(200, 125, 200);
+  color: var(--shared_status_user);
   word-wrap: break-word;
   background: rgba(127, 127, 127, 0.5);
 }
@@ -808,19 +808,19 @@ pre code {
   min-width: 35px;
   text-align: center;
   font-family: "MonospaceTTF";
-  color: rgb(217, 217, 227);
+  color: var(--primary-color-3);
 }
 
 .engine_settings_minor_tweaked .total_prompt_token_count {
-  color: rgb(240, 240, 10);
+  color: var(--highlight-session);
 }
 
 .engine_settings_tweaked .total_prompt_token_count {
-  color: rgb(255, 127, 50);
+  color: var(--change);
 }
 
 .over_token_sendlimit .total_prompt_token_count {
-  color: rgb(255, 50, 50);
+  color: var(--warning);
 }
 
 .send_bar_display_header {
@@ -842,11 +842,11 @@ button.btn-primary.send_ticket_button {
 }
 
 .engine_settings_tweaked .send_ticket_button i {
-  color: rgb(255, 127, 50);
+  color: var(--change);
 }
 
 .over_token_sendlimit .send_ticket_button i {
-  color: rgb(255, 50, 50);
+  color: var(--warning);
 }
 
 .send_ticket_button i {
@@ -856,12 +856,12 @@ button.btn-primary.send_ticket_button {
 
 .ticket_running_in_queue .member_online_status,
 .ticket_running_in_queue .member_online_status.online {
-  background-color: rgb(255, 255, 255);
+  background-color: var(--primary-color);
 }
 
 .engine_settings_tweaked .ticket_running_in_queue .member_online_status,
 .engine_settings_tweaked .ticket_running_in_queue .member_online_status.online {
-  background-color: rgb(255, 255, 255);
+  background-color: var(--primary-color);
 }
 
 .show_threshold_dialog {
@@ -958,7 +958,7 @@ li.mb-1 button.btn.btn-toggle:before {
   padding: 0 8px 12px 16px;
   overflow: hidden;
   max-height: 3.5em;
-  color: rgb(190, 200, 255);
+  color: var(--document-title);
   flex: 1;
   text-align: left;
   align-self: center;
@@ -1033,7 +1033,7 @@ li.mb-1 button.btn.btn-toggle:before {
 }
 
 .system_message_block {
-  border: solid 1px rgb(200, 200, 200);
+  border: solid 1px var(--primary-color-4);
   padding: 12px;
   margin: 4px;
   border-radius: 10px;
@@ -1041,7 +1041,7 @@ li.mb-1 button.btn.btn-toggle:before {
 
 .system_message_label {
   text-align: left;
-  color: rgb(240, 240, 10)
+  color: var(--highlight-session)
 }
 
 .system_message_content {
@@ -1081,13 +1081,13 @@ li.mb-1 button.btn.btn-toggle:before {
 
 .app_panel button.btn-toggle:hover,
 .app_panel button.btn-toggle:focus {
-  color: rgb(240, 240, 10);
+  color: var(--highlight-session);
 }
 
 .navbar-nav.menu_buttons_bar {
   display: flex;
   flex-direction: row;
-  border-bottom: solid 1px rgb(127, 127, 127);
+  border-bottom: solid 1px var(--secondary-color-2);
   margin-bottom: 12px;
 }
 
@@ -1106,8 +1106,8 @@ li.mb-1 button.btn.btn-toggle:before {
   display: none;
   flex-direction: column;
   overflow: hidden;
-  background: rgb(32, 33, 35);
-  color: rgb(217, 217, 227);
+  background: var(--background-accent);
+  color: var(--primary-color-3);
   height: 100%;
   top: 0;
   overflow: auto;  
@@ -1133,7 +1133,7 @@ li.mb-1 button.btn.btn-toggle:before {
 .mobile_layout_mode .left_panel_view {
   display: flex;
   visibility: hidden;
-  border-right: solid 1px rgb(0, 0, 0);
+  border-right: solid 1px var(--secondary-color);
 }
 
 .mobile_layout_mode.loaded.side_bar_opened .left_panel_view {
@@ -1182,9 +1182,9 @@ li.mb-1 button.btn.btn-toggle:before {
 }
 
 .katex-display {
-  color: white;
+  color: var(--primary-color);
 }
 
 .katex {
-  color: white;
+  color: var(--primary-color);
 }

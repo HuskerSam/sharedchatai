@@ -3,7 +3,8 @@
   --background-accent: rgb(32, 33, 35);  /* var(--background-accent) */
   --background-accent-2: rgb(40, 50, 84); /*  var(--background-dark), [navbar, textarea, session left panel, help background] */ 
   --background-accent-3: rgb(52, 53, 65); /*  var(--background-accent-3) */
-  --highlight:  rgb(255, 255, 0); /*  var(--highlight */ 
+  --highlight:  rgb(255, 255, 0); /*  var(--highlight */
+  --highlight-session: rgb(240, 240, 10); /*  var(--highlight-session) */ 
   --change: rgb(255, 127, 50); /*  var(--change) */ 
   --warning: rgb(255, 50, 50); /* var(--warning), [session warning, delete icon */
   --impact-green: rgb(100, 255, 100); /* var(--impact-green) */  
@@ -16,11 +17,11 @@
   --primary-color-1: rgb(240, 240, 240); /*  var(--primary-color-1) */
   --primary-color-2: rgb(230, 230, 230); /*  var(--primary-color-2) */
   --primary-color-3: rgb(217, 217, 227); /*  var(--primary-color-3) */
+  --primary-color-4: rgb(200, 200, 200); /*  var(--primary-color-4) */
   --secondary-color: rgb(33, 37, 41); /* var(--secondary-color) */
   --secondary-color-1: rgb(100, 100, 100); /* var(--secondary-color-1) */
   --secondary-color-2: rgb(127, 127, 127); /* var(--secondary-color-2) */
   --secondary-color-3: rgb(150, 150, 150); /* grey, var(--secondary) [ ] */
-
 
   --options-tab-color: rgb(200, 255, 200); /* var(--options-tab-color) */
   --member-online-green: rgb(50, 255, 50);

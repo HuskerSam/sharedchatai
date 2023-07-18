@@ -1,38 +1,38 @@
 html,
 body {
-  background: rgb(32, 33, 35);
-  color:rgb(220, 220, 220);
+  background: var(--background-accent);
+  color: var( --primary-color-3);
   font-size: 18px;
 }
 
 h1,
 h2, h3 {
-  color: rgb(255, 255, 255);
+  color:  var( --primary-color);
 }
 
 h3{ 
- color: rgb(190, 200, 255);
+ color: var(--document-title);
 }
 h4 {
-  color: rgb(190, 200, 255);
+  color: var(--document-title);
 }
 
 .help_content table {
-  color: rgb(217, 217, 227);
+  color: var( --primary-color-3);
 }
 
 .help_content table td {
-  color: rgb(217, 217, 227);
+  color: var( --primary-color-3);
 }
 .alert {
   display: inline-block;
-  color:rgb(220, 220, 220);
+  color:var( --primary-color-3);
 }
 
 .alert-link a,
 .alert a,
 a {
-  color:  rgb(200, 125, 200);
+  color:  var(--shared_status_owner);
 }
 
 .alert-info {
@@ -82,7 +82,7 @@ p.lead {
 }
 
 .badge-info {
-  background-color: rgb(200, 125, 200);
+  background-color: var(--shared_status_owner);
 }
 
 .menu_logo_image {
@@ -99,7 +99,7 @@ p.lead {
   right: 22px;
   font-size: .9rem;
   top: 16px;
-  background-color: rgb(200, 125, 200);
+  background-color: var(--shared_status_owner);
 }
 
 .engine_model_content {
