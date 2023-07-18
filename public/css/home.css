@@ -256,11 +256,11 @@ ul.recent_documents_list li a {
 
 .supported_model {
   color: var(--impact-green);
-  margin-left: 8px;
+  margin-left: -16px;
 }
 
 .upcoming_model {
-  margin-left: 8px;
+  margin-left: -16px;
 }
 
 .main_container {
@@ -346,8 +346,8 @@ ul.recent_documents_list li a {
   display: inline-block;
   position: relative;
   background-repeat: no-repeat;
-  background-image: url('/images/logo64.png'); 
-  top:6px;
+  background-image: url('/images/logo64.png');
+  top: 6px;
 }
 
 .home_logo_mobile_only {
@@ -359,7 +359,7 @@ ul.recent_documents_list li a {
 }
 
 .home_navbar_name {
-  top:-6px;
+  top: -6px;
 }
 
 .home_navbar_name_color {
@@ -833,7 +833,13 @@ iframe {
   font-family: "MonospaceTTF";
   padding-left: 4px;
   font-size: 0.75em;
-  padding-left: 8px;
+  padding-right: 16px;
+}
+
+@media (max-width: 768px) {
+  .price_table td {
+    padding-right: 4px;
+  }
 }
 
 .price_table tr td:nth-child(1) {
@@ -869,7 +875,7 @@ iframe {
 
 span.desc {
   display: block;
-  padding-left: 36px;
+  padding-left: 32px;
 }
 
 .features_tips_panel a span.link {
