@@ -255,7 +255,7 @@ ul.recent_documents_list li a {
 }
 
 .supported_model {
-  color: var(--impact-green);
+  color: var(--document-title);
   margin-left: -16px;
 }
 
