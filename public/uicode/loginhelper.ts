@@ -40,7 +40,7 @@ export default class LoginHelper {
 
     const modal = document.getElementById("loginModal");
     modal?.addEventListener("hidden.bs.modal", () => {
-      if (this.app.isSessionApp) window.location = "/"
+      if (this.app.isSessionApp) window.location = "/";
       else window.location.reload();
     });
   }
