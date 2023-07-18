@@ -12,7 +12,6 @@
   --document-title: rgb(190, 200, 255); /* var(--document-title) */
   --brand-name-color:  rgb(28, 227, 60); /*  var(--brand-name-color) */
   --recent-document-activity-date: rgb(15, 92, 30); /* var(--recent-document-activity-date) */
-  
   --primary-color: white;  /* var(--primary-color) */
   --primary-color-1: rgb(240, 240, 240); /*  var(--primary-color-1) */
   --primary-color-2: rgb(230, 230, 230); /*  var(--primary-color-2) */
@@ -221,9 +220,8 @@ a {
 }
 
 .google_logo {
-  width: 16px;
-  height: 16px;
-  vertical-align: unset;
+  width: 20px;
+  height: 20px;
 }
 
 @media (min-width: 768px) {

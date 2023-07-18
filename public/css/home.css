@@ -889,3 +889,21 @@ span.desc {
   margin-top: 6px;
   margin-bottom: 6px;
 }
+
+.cta_panel {
+  width: 100%;
+  text-align: center;
+}
+
+.cta_panel a{
+  background-color: var(--member-online-green);
+  font-size:1em;
+}
+
+h3.cta_panel {
+  color: var(--primary-color-1);
+}
+
+.clone_session_link {
+  color: var(--primary-color-2);
+}

@@ -73,8 +73,7 @@ export default class LoginHelper {
               </div>
               <hr>
               <div style="text-align:center">
-               Recommended for viewing only. <br>
-               Data typically only retained for 7 days. Data lost upon sign out.
+               Recommended for viewing only. Anonymous user data typically only retained for 7 days. Access lost upon sign out.
               </div>
               <div style="text-align:center;line-height: 3em;">
                 <button class="anon_login_anchor btn btn-primary">Log in Anonymously</button>
