@@ -1,25 +1,9 @@
-:root {
-  --background: rgb(28, 35, 59); /* dark blue  var(--background) */ 
-  --background-dark: rgb(20, 25, 40); /* darker blue, var(--background-dark), [navbar, textarea, session left panel, help background] */  
-  --highlight:  rgb(255, 255, 0); /* yellow var(--highlight */ 
-  --change: rgb(255, 127, 50); /* orange var(--change) */ 
-  --warning: rgb(255, 50, 50); /* red, var(--warning), [session warning, delete icon */
-  --impact-green: rgb(50, 255, 50); /* green var(--impact-green) */  
-  --light-1: rgb(230, 230, 230); /* white var(--light-1) */
-  --prompt-assist : rgb(180, 255, 180); /* light green var(--prompt-assist) */
-  --secondary: rgb(150, 150, 150); /* grey, var(--secondary) [ ] */
-  --document-title: rgb(190, 200, 255); /* light blue, var(--document-title) */
-  --brand-name-color:  rgb(28, 227, 60); /* green, var(--brand-name-color) */
-  --recent-document-activity-date: rgb(15, 92, 30); /* green, var(--recent-document-activity-date) */
-}
-
-
 html {
   overflow-y: scroll;
 }
 
 .main_block {
-  background-color: var(--background);
+  background-color: var(--home-panel-background);
   border-radius: 6px;
   padding: 1em;
   margin-bottom: .75em;
@@ -30,7 +14,7 @@ html {
 .side_block {
   display: flex;
   flex-direction: column;
-  background-color: var(--background);
+  background-color: var(--home-panel-background);
   border-radius: 6px;
   padding: 1em;
   margin-bottom: .75em;
@@ -50,7 +34,7 @@ html {
 }
 
 .coming-soon .coming-soon-header {
-  color: var(--light-1);
+  color: var(--primary-color-2);
   font-weight: 300;
   margin-bottom: 1.5em;
 }
@@ -87,7 +71,7 @@ ul.recent_documents_list li {
 
 ul.recent_documents_list li a {
   display: block;
-  color: var(--light-1);
+  color: var(--primary-color-2);
   padding-top: 4px;
   padding-bottom: 4px;
   height: 2em;
@@ -136,7 +120,7 @@ ul.recent_documents_list li a {
 
 .template_list_wrapper li .caption {
   text-align: left;
-  color: var(--light-1);
+  color: var(--primary-color-2);
 }
 
 .impact_font_green {
@@ -597,7 +581,7 @@ iframe {
   min-height: 3.75em;
   display: flex;
   flex-direction: row;
-  color: var(--light-1);
+  color: var(--primary-color-2);
   padding-left: 0;
   padding-right: 0;
 }
@@ -696,7 +680,7 @@ iframe {
 }
 
 .navbar_wrapper {
-  background: var(--background-dark);
+  background: var(--home-panel-background-dark);
   height: 62px;
   position: fixed;
   top: 0;
@@ -769,7 +753,7 @@ iframe {
   padding: 6px;
   padding-top: 0px;
   padding-bottom: 0px;
-  color: var(--light-1);
+  color: var(--primary-color-2);
 }
 
 .mobile_custom_icon_label i {
@@ -792,7 +776,7 @@ iframe {
 }
 
 .nav-pills .nav-link {
-  color: var(--light-1);
+  color: var(--primary-color-2);
 }
 
 .nav-pills .nav-link.active,

@@ -1,9 +1,34 @@
+:root {
+  --home-panel-background: rgb(28, 35, 59); /* var(--background) */ 
+  --background-accent: rgb(32, 33, 35);  /* var(--background-accent) */
+  --background-accent-2: rgb(40, 50, 84); /*  var(--background-dark), [navbar, textarea, session left panel, help background] */ 
+  --highlight:  rgb(255, 255, 0); /*  var(--highlight */ 
+  --change: rgb(255, 127, 50); /*  var(--change) */ 
+  --warning: rgb(255, 50, 50); /* var(--warning), [session warning, delete icon */
+  --impact-green: rgb(100, 255, 100); /* var(--impact-green) */  
+  --impact-font: rgb(13, 202, 240); /*  var(--impact-font) */
+  --prompt-assist : rgb(180, 255, 180); /*  var(--prompt-assist) */
+  --document-title: rgb(190, 200, 255); /* var(--document-title) */
+  --brand-name-color:  rgb(28, 227, 60); /*  var(--brand-name-color) */
+  --recent-document-activity-date: rgb(15, 92, 30); /* var(--recent-document-activity-date) */
+  --primary-color: white;  /* var(--primary-color) */
+  --primary-color-1: rgb(240, 240, 240); /*  var(--primary-color-1) */
+  --primary-color-2: rgb(230, 230, 230); /*  var(--primary-color-2) */
+  --primary-color-3: rgb(217, 217, 227); /*  var(--primary-color-3) */
+
+
+
+
+
+  --secondary: rgb(150, 150, 150); /* grey, var(--secondary) [ ] */
+}
+
 html,
 body {
   margin: 0;
   padding: 0;
   width: 100%;
-  background: rgb(40, 50, 84);
+  background: var(--background-accent-2);
   min-height: 100vh;
 }
 
@@ -16,39 +41,39 @@ body {
   font-family: 'Arial';
   font-weight: normal;
   transition: color .4s ease-out, background-color .4s ease-out;
-  color: rgb(13, 202, 240);
+  color: var(--impact-font);
 }
 
 .impact-green {
   font-weight: normal;
-  color: rgb(100, 255, 100);
+  color: var(--impact-green);
 }
 
 a {
-  color: white;
+  color: var(--primary-color);
 }
 
 .app_panel input,
 .app_panel textarea,
 .app_panel .select2-selection {
-  background: rgb(32, 33, 35);
-  color: rgb(217, 217, 227);
+  background: var(--background-accent);
+  color: var(--primary-color-3);
 
 }
 
 .app_panel button.btn-toggle {
-  color: rgb(230, 230, 230);
+  color: var(--primary-color-2);
 }
 
 .app_panel input:focus,
 .app_panel textarea:focus {
-  background: rgb(32, 33, 35);
-  color: rgb(217, 217, 227)
+  background: var(--background-accent);
+  color: var(--primary-color-3)
 }
 
 .app_panel {
-  background: rgb(40, 50, 84);
-  color: rgb(217, 217, 227);
+  background: var(--background-accent-2);
+  color: var(--primary-color-3);
   display: flex;
   flex-direction: column;
   transition: color .2s ease-out, background-color .2s ease-out, opacity .2s;
@@ -63,7 +88,7 @@ a {
 
 .navbar {
   text-align: left;
-  background: rgb(32, 33, 35);
+  background: var(--background-accent)!important;
 }
 
 .card {
@@ -215,12 +240,12 @@ a {
 }
 
 .list-group-item {
-  color: rgb(240, 240, 240);
+  color: var(--primary-color-1);
 }
 
 .list-group-item-action:hover {
   background-color: rgb(50, 50, 50);
-  color: rgb(240, 240, 240);
+  color: var(--primary-color-1);
 }
 
 select.form-select {
@@ -230,7 +255,7 @@ select.form-select {
 
 select.form-select option {
   background-color: rgb(52, 53, 65);
-  color: rgb(230, 230, 230);
+  color: var(--primary-color-2);
 }
 
 .app_panel .form-check-input {
@@ -244,7 +269,7 @@ select.form-select option {
 
 .app_panel .form-check-input:hover,
 .app_panel .form-check-input:focus {
-  border-color: white;
+  border-color: var(--primary-color);
   background-color: rgb(100, 100, 50);
 }
 
@@ -252,7 +277,7 @@ select.form-select option {
 .nav-tabs .nav-link.active {
   color: rgb(200, 255, 200);
   background-color: #5c636a;
-  border-color: rgb(240, 240, 240);
+  border-color: var(--primary-color-1);
   border-bottom-color: transparent;
 }
 
@@ -265,17 +290,17 @@ select.form-select option {
 .btn-outline-primary:hover {
   color: rgb(200, 255, 200);
   background-color: #5c636a;
-  border-color: rgb(240, 240, 240);
+  border-color: var(--primary-color-1);
 }
 
 .btn-outline-primary {
-  color: rgb(240, 240, 240);
+  color: var(--primary-color-1);
   background-color: rgb(52, 53, 65);
-  border-color: rgb(240, 240, 240);
+  border-color: var(--primary-color-1);
 }
 
 .btn-outline-primary:focus {
-  border-color: white;
+  border-color: var(--primary-color);
   border-width: 3px;
 }
 
@@ -347,7 +372,7 @@ button.btn-primary:active {
 }
 
 .text-success {
-  color: rgb(100, 255, 100) !important;
+  color: var(--impact-green) !important;
 }
 
 .navbar-brand img {
@@ -402,7 +427,7 @@ button.btn-primary:active {
 }
 
 .shared_status_not {
-  color: rgb(230, 230, 230);
+  color: var(--primary-color-2);
 }
 
 .app_panel .btn.shared_status_withusers,
@@ -422,7 +447,7 @@ button.btn-primary:active {
   right: 4px;
   z-index: 1000;
   top: 4px;
-  color: rgb(230, 230, 230);
+  color: var(--primary-color-2);
 }
 
 
@@ -432,11 +457,11 @@ button.btn-primary:active {
 
 .navbar-light .navbar-nav .nav-link,
 .navbar-light .navbar-brand {
-  color: rgb(230, 230, 230);
+  color: var(--primary-color-2);
 }
 
 .hover_yellow {
-  color: rgb(230, 230, 230);
+  color: var(--primary-color-2);
 }
 
 .btn.btn-secondary.hover_yellow:focus,
@@ -485,17 +510,17 @@ button.btn-primary:active {
 .nav-link.dashboard_create_game_mobile.hover_yellow:hover i,
 .nav-link.dashboard_create_game.hover_yellow:hover i,
 .nav-link.show_create_modal.hover_yellow:hover i {
-  color: rgb(255, 255, 255);
+  color: var(--primary-color);
 }
 
 .hover_yellow:hover svg,
 .hover_yellow:hover i {
-  color: rgb(255, 255, 255);
+  color: var(--primary-color);
 }
 
 a.hover_yellow.show_dashboard_help_button:hover i,
 a.hover_yellow.show_document_options_help:hover i {
-  color: rgb(255, 255, 255);
+  color: var(--primary-color);
 }
 
 .navbar .navbar-toggler span.hamburger_span,
