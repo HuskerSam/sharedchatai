@@ -129,7 +129,7 @@ export class DashboardApp extends BaseApp {
     this.gameFeedInited = true;
 
     if (this.gameFeedSubscription) this.gameFeedSubscription();
-    
+
     if (location.hash !== "#moreinfo") {
       if (this.profile.homePageTabIndex === 0) {
         this.news_tab_button.click();
