@@ -1,18 +1,10 @@
 :root {
   --home-panel-background: rgb(28, 35, 59); /* var(--background) */ 
+  --modal-background: rgb(50, 50, 100);
   --background-accent: rgb(32, 33, 35);  /* var(--background-accent) */
   --background-accent-2: rgb(40, 50, 84); /*  var(--background-dark), [navbar, textarea, session left panel, help background] */ 
   --background-accent-3: rgb(52, 53, 65); /*  var(--background-accent-3) */
-  --highlight:  rgb(255, 255, 0); /*  var(--highlight */
-  --highlight-session: rgb(240, 240, 10); /*  var(--highlight-session) */ 
-  --change: rgb(255, 127, 50); /*  var(--change) */ 
-  --warning: rgb(255, 50, 50); /* var(--warning), [session warning, delete icon */
-  --impact-green: rgb(100, 255, 100); /* var(--impact-green) */  
-  --impact-font: rgb(13, 202, 240); /*  var(--impact-font) */
-  --prompt-assist : rgb(180, 255, 180); /*  var(--prompt-assist) */
-  --document-title: rgb(190, 200, 255); /* var(--document-title) */
-  --brand-name-color:  rgb(28, 227, 60); /*  var(--brand-name-color) */
-  --recent-document-activity-date: rgb(15, 92, 30); /* var(--recent-document-activity-date) */
+ 
   --primary-color: white;  /* var(--primary-color) */
   --primary-color-1: rgb(240, 240, 240); /*  var(--primary-color-1) */
   --primary-color-2: rgb(230, 230, 230); /*  var(--primary-color-2) */
@@ -24,14 +16,49 @@
   --secondary-color-3: rgb(150, 150, 150); /* grey, var(--secondary) [ ] */
 
   --options-tab-color: rgb(200, 255, 200); /* var(--options-tab-color) */
-  --member-online-green: rgb(50, 255, 50);
 
+  --brand-name-color:  rgb(28, 227, 60); /*  var(--brand-name-color) */
+  --secondary-green: rgb(50, 150, 50); /* var(--secondary-green) */
+  --member-online-green: rgb(50, 255, 50); /* var(--member-online-green) */
+  --impact-green: rgb(100, 255, 100); /* var(--impact-green) */  
+  --prompt-assist: rgb(180, 255, 180); /*  var(--prompt-assist) */
 
+  --highlight:  rgb(255, 255, 0); /*  var(--highlight */
+  --highlight-session: rgb(240, 240, 10); /*  var(--highlight-session) */ 
+  --change: rgb(255, 127, 50); /*  var(--change) */ 
+  --warning: rgb(255, 50, 50); /* var(--warning), [session warning, delete icon */
+  --impact-font: rgb(13, 202, 240); /*  var(--impact-font) */
+  --document-title: rgb(190, 200, 255); /* var(--document-title) */
+  --recent-document-activity-date: rgb(15, 92, 30); /* var(--recent-document-activity-date) */
   --shared_status_owner: rgb(190, 100, 250); /* var(--shared_status_owner) */
   --shared_status_user: rgb(30, 200, 200); /* var(--shared_status_user) */
-
-  
 }
+
+body.night {
+  --home-panel-background: rgb(227, 220, 196);
+  --modal-background: rgb(205, 205, 155);
+  --background-accent: rgb(180, 180, 180);
+  --background-accent-2: rgb(215, 205, 171);
+  --background-accent-3: rgb(203, 202, 190);
+
+  --primary-color: black;
+  --primary-color-1: rgb(15, 15, 15);
+  --primary-color-2: rgb(25, 25, 25);
+  --primary-color-3: rgb(38, 38, 28);
+  --primary-color-4: rgb(55, 55, 55);
+
+  --secondary-color: rgb(222, 218, 214);
+  --secondary-color-1: rgb(155, 155, 155);
+  --secondary-color-2: rgb(128, 128, 128);
+  --secondary-color-3: rgb(105, 105, 105);
+
+  --options-tab-color: rgb(100, 0, 100);
+  --prompt-assist: rgb(120, 0, 120);
+
+  --document-title: rgb(80, 70, 0);
+  --recent-document-activity-date: rgb(230, 160, 210);
+}
+
 
 html,
 body {
@@ -138,7 +165,7 @@ a {
 .btn-toggle::before {
   width: 1.25em;
   line-height: 0;
-  content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgb%28240,240,240%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+  content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgb%28220,220,220%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
   transition: transform .35s ease;
   transform-origin: .5em 50%;
 }

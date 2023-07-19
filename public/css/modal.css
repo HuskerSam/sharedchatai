@@ -23,7 +23,7 @@
   overflow: auto;
   padding: 8px;
   margin-top: 12px;
-  background-color: rgb(52, 53, 65);
+  background-color: var(--background-accent-3);
 }
 
 .json_preview .export_data_popup_preview,
@@ -71,7 +71,7 @@
   font-size: 1.5em;
   display: inline-block;
   padding-right: 2em;
-  color: rgb(180, 255, 180);
+  color: var(--prompt-assist);
   margin-bottom: 13px;
   margin-top: 0px;
 }
@@ -221,7 +221,7 @@
 }
 
 .select2-container--default .select2-results__option[aria-selected=true] {
-  background-color: rgb(52, 53, 65);
+  background-color: var(--background-accent-3);
 }
 
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
@@ -233,7 +233,7 @@
 }
 
 .app_panel.modal-content .btn-check:checked+.btn-outline-primary label {
-  color: rgb(180, 255, 180);
+  color: var(--prompt-assist);
 }
 
 .sign_out_button i,
@@ -247,7 +247,7 @@
 
 .modal .modal-header,
 .modal .modal-footer {
-  border-color: rgb(50, 120, 50);
+  border-color: var(--secondary-green);
 }
 
 .modal_document_title_display,
@@ -286,8 +286,8 @@
 }
 
 .login_modal_container {
-  background: rgb(50, 50, 100);
-  color: rgb(217, 217, 227);
+  background: var(--modal-background);
+  color: var(--primary-color-3);
 }
 
 .labels_label {
@@ -331,7 +331,7 @@
 }
 
 .modal-dialog .app_panel {
-  background: rgb(50, 50, 100);
+  background: var(--modal-background);
 }
 
 .modal-dialog {
@@ -384,7 +384,7 @@
 .app_panel .form-check-input.insert_todaylabel_default_checkbox {
   width: 24px;
   height: 24px;
-  border-color: rgb(127, 127, 127); 
+  border-color: var(--secondary-color-2); 
   margin-right: 12px;
   align-self: center;
   float: right;
@@ -397,7 +397,7 @@
 .app_panel .form-check-input.docfield_include_user_names_checkbox {
   width: 24px;
   height: 24px;
-  border-color: rgb(127, 127, 127);
+  border-color: var(--secondary-color-2); 
 }
 
 #editDocumentModal .tab-pane {
@@ -429,13 +429,13 @@
 }
 
 #createDocumentModal .dialog_header_icon {
-  color: rgb(50, 255, 50);
+  color: var(--member-online-green);
 }
 
 #userProfileModal .app_panel .form-check-input {
   width: 24px;
   height: 24px;
-  border-color: rgb(127, 127, 127);
+  border-color: var(--secondary-color-2);
 }
 
 #profile_user_usage_view {
@@ -457,11 +457,11 @@
 }
 
 .account_subscription_status {
-  color: rgb(50, 200, 20);
+  color: var(--brand-name-color);
 }
 
 .header.token_usage_row {
-  color: rgb(50, 200, 20);
+  color: var(--brand-name-color);
 }
 
 .usage_prefix_label {
@@ -494,7 +494,7 @@
 }
 
 .subscription_panel .selected {
-  border-color: rgb(100, 255, 100);
+  border-color: var(--impact-geen);
 }
 
 .free_subscription {
@@ -533,7 +533,7 @@
 }
 
 .monthly_tokens_usage {
-  color: rgb(100, 255, 100);
+  color: var(--impact-geen);
 }
 
 .chat_token_usage_display tr td:first-child {
@@ -542,7 +542,7 @@
 
 .help_navigation_bar a {
   padding: 4px;
-  color: white;
+  color: var(--primary-color);
 }
 
 .dialog_header_member_image {
@@ -570,7 +570,7 @@
 }
 
 i.copy_green {
-  color: rgb(50, 255, 50);
+  color: var(--member-online-green);
 }
 
 #editDocumentModalLabel {
@@ -620,5 +620,5 @@ label.btn {
 }
 
 .create_import_file_description {
-  color: rgb(100, 255, 100);
+  color: var(--impact-green);
 }

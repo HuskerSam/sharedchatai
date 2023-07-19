@@ -74,7 +74,7 @@ html {
 }
 
 .members_feed_line_wrapper.is_document_owner .members_feed_profile_name {
-  color: var(--highlight-session);
+  color: var(--primary-color);
 }
 
 .members_feed_profile_lastactivity {
@@ -133,7 +133,7 @@ html {
   flex: 1;
   line-height: 1em;
   /* color: var(--primary-color-1);
-  background: rgb(52, 53, 65); */
+  background: var(--background-accent-3); */
 }
 
 .time_since {
@@ -147,7 +147,7 @@ html {
   white-space: pre-wrap;
   line-height: 1.5rem;
   padding-left: 54px;
-  color: rgb(255, 255, 255);
+  color: var(--primary-color);
 }
 
 .game_message_list_item .game_date {
@@ -180,7 +180,7 @@ html {
   line-height: 1.5rem;
   margin-right: 0;
   margin-left: 0;
-  color: rgb(180, 255, 180);
+  color: var(--prompt-assist);
   position: relative;
 }
 
@@ -211,7 +211,7 @@ html {
   right: 24px;
   top: -20px;
   padding: 4px;
-  color: rgb(190, 190, 190);
+  color: var(--primary-color-4);
   z-index: 1;
   background-color: transparent;
   font-family: "MonospaceTTF";
@@ -253,7 +253,7 @@ html {
 .slider_label {
   text-align: center;
   margin-bottom: 16px;
-  color: rgb(190, 190, 190);
+  color: var(--primary-color-4);
   margin-top: 2px;
 }
 
@@ -303,7 +303,7 @@ ul.recent_documents_list li a {
   border-radius: 5px;
   z-index: 100;
   padding: 2px 8px;
-  background-color: rgba(32, 33, 35, 1);
+  background-color: rgba(32, 33, 35, .1);
 }
 
 .sidebar_tree_recent_title {
@@ -479,8 +479,8 @@ pre code {
 }
 
 .over_token_sendlimit .exclude_tickets_button {
-  background-color: rgb(50, 150, 50);
-  border-color: rgb(120, 255, 120);
+  background-color: var(--secondary-green);
+  border-color: var(--impact-green);
 }
 
 .exclude_tickets_running .exclude_tickets_button {
@@ -488,14 +488,14 @@ pre code {
 }
 
 .auto_run_overthreshold_ticket {
-  background-color: rgb(50, 150, 50);
-  border-color: rgb(120, 255, 120);
+  background-color: var(--secondary-green);
+  border-color: var(--impact-green);
 }
 
 .over_token_sendlimit .auto_run_overthreshold_ticket {
   color: var(--primary-color);
-  background-color: #6c757d;
-  border-color: #6c757d;
+  background-color: var(--secondary-color-1);
+  border-color: var(--secondary-color-1);
 }
 
 .over_token_sendlimit .auto_run_overthreshold_ticket i {
@@ -600,7 +600,7 @@ pre code {
 }
 
 .chat_threshold_total_tokens {
-  color: rgb(50, 255, 50);
+  color: var(--member-online-green);
 }
 
 .over_token_sendlimit .chat_threshold_total_tokens,
@@ -664,16 +664,16 @@ pre code {
 }
 
 .navbar-light .navbar-nav .nav-link.show_profile_modal {
-  color: rgb(220, 220, 220);
+  color: var(---primary-color-3);
 }
 
 .navbar-light .navbar-nav .nav-link.info_anchor {
-  color: rgb(220, 220, 220);
+  color: var(---primary-color-3);
 }
 
 .navbar-light .navbar-nav .nav-link:hover,
 .navbar-light .navbar-nav .nav-link:focus {
-  color: yellow;
+  color: var(--highlight);
 }
 
 .engine_field_not_default span {
@@ -688,8 +688,6 @@ pre code {
   display: none;
   position: absolute;
   bottom: 0px;
-  color: var(--primary-color-1);
-  background-color: rgba(68, 70, 84, 0.5);
   right: 44px;
   z-index: 1;
 }
@@ -755,8 +753,8 @@ pre code {
 }
 
 .auto_run_overthreshold_ticket {
-  background-color: rgb(0, 120, 0);
-  border-color: rgb(70, 220, 70);
+  background-color: var(--secondary-green);
+  border-color: var(--impact-green);
 }
 
 .prompt_token_count {

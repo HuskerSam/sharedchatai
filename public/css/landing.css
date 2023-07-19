@@ -45,7 +45,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    color: rgb(255, 255, 255);
+    color: var(--primary-color);
     background: rgba(68, 70, 84, 0.1);
     padding: 30px 20px;
     border-radius: 6px;

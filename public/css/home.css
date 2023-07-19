@@ -398,11 +398,11 @@ iframe {
 }
 
 .list-group-item-action:focus {
-  background-color: rgb(10, 40, 10);
+  background-color: var(--background-accent-2);
 }
 
 .list-group-item-action {
-  background-color: rgba(5, 30, 30, .5);
+  background-color: var(--home-panel-background);
 }
 
 .session_ticket_count {
@@ -667,6 +667,7 @@ iframe {
 .dashboard_menu_toggle i {
   top: 4px;
   position: relative;
+  color: var(--primary-color);
 }
 
 .navbar_wrapper {

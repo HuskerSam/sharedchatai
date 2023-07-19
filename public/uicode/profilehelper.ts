@@ -180,7 +180,7 @@ export default class ProfileHelper {
                         <div class="tab-pane fade show active" id="profile_user_tab_view" role="tabpanel"
                             aria-labelledby="profile_user_tab_button">
                             <div>
-                                <h3>Edit Profile</h3>
+                                <h5>Edit Profile</h5>
                                 <div style="display:flex;flex-direction:row;width:100%;">
                                     <div style="color:rgb(190, 200, 255)" class="profile_display_name member_profile_name"></div>
                                     <div>
