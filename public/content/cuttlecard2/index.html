@@ -250,7 +250,7 @@ Opponent: 5 points</div>
 In terms of the point total, I have 10 points and the opponent has 5 points. I'm now catching up to the opponent's score and getting closer to reaching the goal of 21 points.
                         </div>
                     </div>
-                    <p class="impact_font_change mb-3 mt-1">Chat-GPT-3.5-Turbo had a firm enough grasp upon the task performed that we were able to omit the original prompt request and simply tell it the next game state we wanted to be analyzed. It's strategy recommendation are rudimentary but I have a inkling it would do better if we gave it details on Cuttle strategies.</p>
+                    <p class="impact_font_change mb-3 mt-1">Chat-GPT-3.5-Turbo had a firm enough grasp upon the task performed that we were able to omit the original prompt request and simply tell it the next game state we wanted to be analyzed. It's strategy recommendation are rudimentary but I have a inkling it would do better if we gave it details on Cuttle strategies. Chat-GPT-3.5-Turbo does a poor job of assuming what opponent would do - defaulting to the session's context of the opponent drawing a card. This may be to a lack of memory management.</p>
                 </div>
             </div>
         </div>
@@ -260,12 +260,13 @@ In terms of the point total, I have 10 points and the opponent has 5 points. I'm
                 <div class="card p-3">
                 <p class="impact_font_change"> While the AI model was able to provide a suggestion for the next turn, identify a move to make based on the current game state and give a step-by-step explanation of its thought process, there were some shortcomings. 
 
-                    Firstly, Chat-GPT-3.5-Turbo did a poor job of assuming what opponent would do - defaulting to the session's context of the opponent drawing a card. Secondly, it was very bad at strategy recommendations. 
-                    Thirdly, unless prompted very specifically, the model wants to only give general tips rather than specific ones based on the game condition. Further optimization may be needed to determine if the model can be used to give specific strategy recommendations given more detail.
+                    1. Chat-GPT-3.5-Turbo did a poor job of assuming what opponent would do - perhaps due to a lack of memory management. 2. it was bad at strategy recommendations. 
+                    Further optimization may be needed to determine if the model can be used to give specific strategy recommendations given more detail.
                  </p>
                 <p  class="impact_font_change">
                     See <a href="#">part 1</a> and part 3 of Cuttle. In <a href="/content/cuttlecard/">part 1</a>, we started by seeing if Chat-GPT-3.5-Turbo could play Cuttle. 
                     In part 3, I will retry all the prompts in this session except with a new, unused game name to avoid the confusion encountered here.</p>
+                <p class="impact_font_change">While we used gpt-3.5 here, it is presumed that chatgpt-4 will greatly exceed what was possible here in terms of strategy and language articulation. It is safe to say that we can build a Cuttle tip bot using gpt-4.</p>
                 </div>
                 <h2 class="clone_session_link signed_in_options text-center my-3"><a href="/?templatepath=/content/cuttlecard/teachnewgamecuttle2.json&title=New Card Game Cuttle P2"
                     target="_blank" class="signed_in_inline_block">Clone the session and review for yourself</a></h2>
