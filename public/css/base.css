@@ -38,17 +38,18 @@ body.day_mode {
   --background-accent-2: rgb(215, 205, 171);
   --background-accent-3: rgb(190, 190, 190);
   --primary-color: rgb(25, 25, 25); 
-  --primary-color-1: rgb(38, 38, 28); 
+  --primary-color-1: rgb(38, 38, 38); 
   --primary-color-2: rgb(55, 55, 55); 
-  --primary-color-3: rgb(80, 80, 80); 
-  --primary-color-4: rgb(95, 95, 85);
+  --primary-color-3: rgb(65, 65, 65); 
+  --primary-color-4: rgb(80, 80, 80); 
+  --primary-color-5: rgb(95, 95, 85);
 
   --secondary-color: rgb(222, 218, 214);
   --secondary-color-1: rgb(155, 155, 155);
   --secondary-color-2: rgb(128, 128, 128);
   --secondary-color-3: rgb(105, 105, 105);
 
-  --impact-green: rgb(40, 165, 40); /* var(--impact-green) */  
+  --impact-green: rgb(5, 125, 5); /* var(--impact-green) */  
   --secondary-green: rgb(50, 150, 50); /* var(--secondary-green) */
 
   --highlight:  rgb(0, 0, 255);
@@ -56,10 +57,10 @@ body.day_mode {
   --prompt-message: rgb(95, 0, 40);
   --change: rgb(230, 100, 20); /*  var(--change) */ 
   --impact-font: rgb(242, 53, 15);
-  --document-title: rgb(25, 70, 10);
+  --document-title: rgb(20, 80, 5);
   --recent-document-activity-date: rgb(230, 160, 210);
   --shared_status_owner: rgb(190, 100, 250); /* var(--shared_status_owner) */
-  --shared_status_user: rgb(50, 150, 150); /* var(--shared_status_user) */
+  --shared_status_user: rgb(15, 140, 140); /* var(--shared_status_user) */
   }
 
 
@@ -498,6 +499,7 @@ button.btn-primary:active {
   z-index: 1000;
   top: 4px;
   color: var(--primary-color-2);
+  border-color: transparent;
 }
 
 
