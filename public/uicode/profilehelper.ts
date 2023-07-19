@@ -201,7 +201,7 @@ export default class ProfileHelper {
                                     </div>
                                 </div>
                                 <div style="line-height: 4em;margin-top:-18px">
-                                    <div class="profile_display_image member_profile_image me-auto"></div>
+                                    <div class="profile_display_image member_profile_image"></div>
                                     <input type="file" class="file_upload_input" style="display:none;">
                                     <button class="profile_display_image_clear btn btn-secondary">
                                         <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">

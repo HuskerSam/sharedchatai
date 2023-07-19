@@ -9,7 +9,7 @@
   --primary-color-2: rgb(230, 230, 230); /*  var(--primary-color-2) */
   --primary-color-3: rgb(217, 217, 227); /*  var(--primary-color-3) */
   --primary-color-4: rgb(200, 200, 200); /*  var(--primary-color-4) */
-  --secondary-color: rgb(33, 37, 41); /* var(--secondary-color) */
+  --secondary-color: rgb(25, 25, 25);  /* var(--secondary-color) */
   --secondary-color-1: rgb(100, 100, 100); /* var(--secondary-color-1) */
   --secondary-color-2: rgb(127, 127, 127); /* var(--secondary-color-2) */
   --secondary-color-3: rgb(150, 150, 150); /* grey, var(--secondary) [ ] */
@@ -18,7 +18,7 @@
   --secondary-green: rgb(75, 220, 75); /* var(--secondary-green) */
   --member-online-green: rgb(50, 255, 50); /* var(--member-online-green) */
   --impact-green: rgb(100, 255, 100); /* var(--impact-green) */  
-  --prompt-assist: rgb(180, 255, 180); /*  var(--prompt-assist) */
+  --prompt-message: rgb(180, 255, 180); /*  var(--prompt-message) */
 
   --highlight:  rgb(255, 255, 0); /*  var(--highlight */
   --highlight-session: rgb(240, 240, 10); /*  var(--highlight-session) */ 
@@ -37,11 +37,12 @@ body.day_mode {
   --background-accent: rgb(170, 170, 170);
   --background-accent-2: rgb(215, 205, 171);
   --background-accent-3: rgb(190, 190, 190);
-  --primary-color: black;
-  --primary-color-1: rgb(15, 15, 15);
-  --primary-color-2: rgb(25, 25, 25);
-  --primary-color-3: rgb(38, 38, 28);
-  --primary-color-4: rgb(55, 55, 55);
+  --primary-color: rgb(25, 25, 25); 
+  --primary-color-1: rgb(38, 38, 28); 
+  --primary-color-2: rgb(55, 55, 55); 
+  --primary-color-3: rgb(80, 80, 80); 
+  --primary-color-4: rgb(95, 95, 85);
+
   --secondary-color: rgb(222, 218, 214);
   --secondary-color-1: rgb(155, 155, 155);
   --secondary-color-2: rgb(128, 128, 128);
@@ -52,14 +53,14 @@ body.day_mode {
 
   --highlight:  rgb(0, 0, 255);
   --highlight-session: rgb(15, 15, 245);
-  --prompt-assist: rgb(75, 0, 75);
+  --prompt-message: rgb(95, 0, 40);
   --change: rgb(230, 100, 20); /*  var(--change) */ 
   --impact-font: rgb(242, 53, 15);
   --document-title: rgb(25, 70, 10);
   --recent-document-activity-date: rgb(230, 160, 210);
   --shared_status_owner: rgb(190, 100, 250); /* var(--shared_status_owner) */
   --shared_status_user: rgb(50, 150, 150); /* var(--shared_status_user) */
-}
+  }
 
 
 html,
@@ -274,7 +275,8 @@ a {
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
-  background: var(--secondary-color-1);
+  background: var(--secondary-color-2);
+  padding: 4px 12px;
 }
 
 .list-group-item {
@@ -311,11 +313,15 @@ select.form-select option {
   background-color: var(--secondary-color-3);
 }
 
+.nav-tabs {
+  border-bottom: 1px solid var(--primary-color-2);
+}
+
 .nav-tabs .nav-item.show .nav-link,
 .nav-tabs .nav-link.active {
-  color: var(--prompt-assist);
+  color: var(--primary-color);
   background-color: var(--secondary-color-1);
-  border-color: var(--primary-color-1);
+  border-color: var(--secondary-color-3);
   border-bottom-color: transparent;
 }
 
@@ -326,7 +332,7 @@ select.form-select option {
 .btn-check:checked+.btn-outline-primary,
 .btn-check:checked+.btn-outline-primary:hover,
 .btn-outline-primary:hover {
-  color: var(--prompt-assist);
+  color: var(--prompt-message);
   background-color: var(--secondary-color-1);
   border-color: var(--primary-color-1);
 }
@@ -505,7 +511,7 @@ button.btn-primary:active {
 }
 
 .hover_yellow {
-  color: var(--primary-color-2);
+  color: var(--primary-color);
 }
 
 .btn.btn-secondary.hover_yellow:focus,
@@ -721,7 +727,16 @@ a:hover {
 }
 
 .btn-secondary {
-  color: var(--primary-color-3);
+  color: var(--primary-color);
   background-color:var(--secondary-color-1);
   border-color: var(--secondary-color-2);
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+  color: var(--secondary-color);
+  margin-right: 4px;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+  color: var(--warning);
 }

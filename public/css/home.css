@@ -308,7 +308,7 @@ ul.recent_documents_list li a {
 }
 
 .prompt_log_display .assist {
-  color: var(--prompt-assist);
+  color: var(--prompt-message);
   white-space: pre-wrap;
 }
 
@@ -356,12 +356,19 @@ ul.recent_documents_list li a {
   color: var(--primary-color);
 }
 
-.home_navbar_name {
-  top: -6px;
-}
+
 
 .home_navbar_name_color {
   color: var(--brand-name-color);
+}
+
+.home_navbar_name {
+  top: -6px;
+  color: var(--primary-color);
+}
+
+.home_navbar_name:hover {
+  color: var(--primary-color);
 }
 
 .navbar {

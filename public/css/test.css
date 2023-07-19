@@ -18,7 +18,7 @@ body.neRed {
     --secondary-green: rgb(183, 16, 46);
     --member-online-green: rgb(183, 16, 46);
     --impact-green: rgb(183, 16, 46);
-    --prompt-assist: rgb(183, 16, 46);
+    --prompt-message: rgb(183, 16, 46);
   
     --highlight:  rgb(0, 0, 200);
     --highlight-session: rgb(15, 15, 245);
@@ -53,7 +53,7 @@ body.neRed {
     --secondary-green: rgb(204, 187, 17);
     --member-online-green: rgb(204, 187, 17);
     --impact-green: rgb(153, 142, 34);
-    --prompt-assist: rgb(102, 94, 17);
+    --prompt-message: rgb(102, 94, 17);
   
     --highlight:  rgb(255, 223, 0);
     --highlight-session: rgb(204, 187, 17);
@@ -87,7 +87,7 @@ body.neRed {
     --secondary-green: rgb(0, 126, 56);
     --member-online-green: rgb(0, 168, 56);
     --impact-green: rgb(56, 168, 0);
-    --prompt-assist: rgb(168, 168, 0);
+    --prompt-message: rgb(168, 168, 0);
   
     --highlight:  rgb(168, 168, 168);
     --highlight-session: rgb(126, 126, 126);

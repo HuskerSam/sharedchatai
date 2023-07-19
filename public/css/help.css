@@ -77,7 +77,7 @@ p span.material-icons {
 }
 
 p.lead {
-  color: var(--prompt-assist);
+  color: var(--prompt-message);
   margin-bottom: 6px;
 }
 

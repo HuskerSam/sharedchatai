@@ -71,7 +71,7 @@
   font-size: 1.5em;
   display: inline-block;
   padding-right: 2em;
-  color: var(--prompt-assist);
+  color: var(--prompt-message);
   margin-bottom: 13px;
   margin-top: 0px;
 }
@@ -212,7 +212,7 @@
 }
 
 .app_panel.modal-content .btn-check:checked+.btn-outline-primary label {
-  color: var(--prompt-assist);
+  color: var(--prompt-message);
 }
 
 .sign_out_button i,
@@ -226,7 +226,7 @@
 
 .modal .modal-header,
 .modal .modal-footer {
-  border-color: var(--prompt-assist);
+  border-color: var(--prompt-message);
 }
 
 .modal_document_title_display,
@@ -285,13 +285,15 @@
 }
 
 .profile_display_name {
-  flex: 1;
+  flex-grow: 1;
   overflow: hidden;
   align-self: center;
-  max-width: 175px;
+  font-style: italic;
+  color: var(--primary-color);
 }
 
 .profile_display_image {
+  flex-grow: 1;
   width: 64px;
   height: 64px;
   display: inline-block;
@@ -400,7 +402,7 @@
 }
 
 #userProfileModal .dialog_header_icon {
-  color: var(--document-title);
+  color: var(--secondary-green);
 }
 
 #userProfileModal .dialog_header_icon i {
@@ -436,11 +438,11 @@
 }
 
 .account_subscription_status {
-  color: var(--brand-name-color);
+  color: var(--secondary-green);
 }
 
 .header.token_usage_row {
-  color: var(--brand-name-color);
+  color: var(--secondary-green);
 }
 
 .usage_prefix_label {
@@ -600,4 +602,8 @@ label.btn {
 
 .create_import_file_description {
   color: var(--impact-green);
+}
+
+.profile_display_image_clear:hover {
+  color: var(--warning);
 }

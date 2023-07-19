@@ -147,7 +147,7 @@ html {
   white-space: pre-wrap;
   line-height: 1.5rem;
   padding-left: 54px;
-  color: var(--primary-color);
+  color:  var(--prompt-message);
 }
 
 .game_message_list_item .game_date {
@@ -180,7 +180,7 @@ html {
   line-height: 1.5rem;
   margin-right: 0;
   margin-left: 0;
-  color: var(--prompt-assist);
+  color: var(--primary-color);
   position: relative;
 }
 
