@@ -135,6 +135,7 @@ export default class ProfileHelper {
 
         this.day_mode = document.querySelector(".day_mode");
         this.day_mode.addEventListener("input", () => this.toggleDayMode());
+        this.initDayMode();
     }
     /** pick a random college logo for the profile image and save to firebase */
     async randomizeImage() {
@@ -186,7 +187,7 @@ export default class ProfileHelper {
                             <div>
                                 <h5>Edit Profile</h5>
                                 <div style="display:flex;flex-direction:row;width:100%;">
-                                    <div style="color:rgb(190, 200, 255)" class="profile_display_name member_profile_name"></div>
+                                    <div class="profile_display_name member_profile_name"></div>
                                     <div>
                                         <button class="btn btn-secondary prompt_for_new_user_name">
                                             <i class="material-icons">edit</i>
@@ -689,13 +690,29 @@ export default class ProfileHelper {
             window.location.reload();
         }
     }
+     /**  On page load, unless on help page, set the day mode based on user preference */
+    initDayMode() {
+        if (window.location.pathname !== "/help/") {
+            const dayMode = localStorage.getItem('dayMode');
+            if (dayMode === 'true') {
+                this.day_mode.checked = true;
+                document.body.classList.add('day_mode');
+            } else {
+                this.day_mode.checked = false;
+                document.body.classList.remove('day_mode');
+            }
+        }
+    }
+
+
     /** Toggle night mode when the checkbox is changed*/
     toggleDayMode() {
-        const dayMode = this.day_mode.checked;
-        if (dayMode) {
-            document.body.classList.add("day_mode");
+        if (this.day_mode.checked) {
+            document.body.classList.add('day_mode');
+            localStorage.setItem('dayMode', 'true');
         } else {
-            document.body.classList.remove("day_mode");
+            document.body.classList.remove('day_mode');
+            localStorage.setItem('dayMode', 'false');
         }
     }
 }

@@ -4,7 +4,6 @@
   --background-accent: rgb(32, 33, 35);  /* var(--background-accent) */
   --background-accent-2: rgb(40, 50, 84); /*  var(--background-dark), [navbar, textarea, session left panel, help background] */ 
   --background-accent-3: rgb(52, 53, 65); /*  var(--background-accent-3) */
- 
   --primary-color: white;  /* var(--primary-color) */
   --primary-color-1: rgb(240, 240, 240); /*  var(--primary-color-1) */
   --primary-color-2: rgb(230, 230, 230); /*  var(--primary-color-2) */
@@ -16,9 +15,8 @@
   --secondary-color-3: rgb(150, 150, 150); /* grey, var(--secondary) [ ] */
 
   --options-tab-color: rgb(200, 255, 200); /* var(--options-tab-color) */
-
   --brand-name-color:  rgb(28, 227, 60); /*  var(--brand-name-color) */
-  --secondary-green: rgb(50, 150, 50); /* var(--secondary-green) */
+  --secondary-green: rgb(75, 220, 75); /* var(--secondary-green) */
   --member-online-green: rgb(50, 255, 50); /* var(--member-online-green) */
   --impact-green: rgb(100, 255, 100); /* var(--impact-green) */  
   --prompt-assist: rgb(180, 255, 180); /*  var(--prompt-assist) */
@@ -37,24 +35,28 @@
 body.day_mode {
   --home-panel-background: rgb(227, 220, 196);
   --modal-background: rgb(205, 205, 155);
-  --background-accent: rgb(180, 180, 180);
+  --background-accent: rgb(170, 170, 170);
   --background-accent-2: rgb(215, 205, 171);
-  --background-accent-3: rgb(203, 202, 190);
-
+  --background-accent-3: rgb(190, 190, 190);
   --primary-color: black;
   --primary-color-1: rgb(15, 15, 15);
   --primary-color-2: rgb(25, 25, 25);
   --primary-color-3: rgb(38, 38, 28);
   --primary-color-4: rgb(55, 55, 55);
-
   --secondary-color: rgb(222, 218, 214);
   --secondary-color-1: rgb(155, 155, 155);
   --secondary-color-2: rgb(128, 128, 128);
   --secondary-color-3: rgb(105, 105, 105);
 
-  --options-tab-color: rgb(100, 0, 100);
-  --prompt-assist: rgb(120, 0, 120);
+  --impact-green: rgb(10, 135, 10); /* var(--impact-green) */  
+  --secondary-green: rgb(50, 150, 50); /* var(--secondary-green) */
 
+  --highlight:  rgb(0, 0, 255);
+  --highlight-session: rgb(15, 15, 245);
+  --options-tab-color: rgb(100, 0, 100);
+  --prompt-assist: rgb(75, 0, 75);
+  --change: rgb(230, 100, 20); /*  var(--change) */ 
+  --impact-font: rgb(242, 53, 15);
   --document-title: rgb(80, 70, 0);
   --recent-document-activity-date: rgb(230, 160, 210);
 }
@@ -346,7 +348,7 @@ select.form-select option {
 
 a.btn-primary,
 button.btn-primary {
-  background-color: var(--brand-name-color);
+  background-color: var(--secondary-green);
   border-color: var(--brand-name-color);
   color: var(--secondary-color);
 }

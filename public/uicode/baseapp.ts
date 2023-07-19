@@ -648,7 +648,7 @@ export default class BaseApp {
             <div class="row">
                 <div class="mb-3 mb-md-0 text-center text-md-start" style="flex:1">
                     <h5><span>Una<span
-                    style="color: rgb(28, 227, 60);">cog</span></span></h5>
+                    class="home_navbar_name_color"">cog</span></span></h5>
                     <p>
                         We are a dedicated team based in Lincoln, Nebraska, USA. We are actively pursuing software
                          development projects to fuel our growth. To collaborate with us, please reach out at <a

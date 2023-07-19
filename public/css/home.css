@@ -29,7 +29,7 @@ html {
   padding: 1em 3em;
   border-radius: 6px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  color: white;
+  color: var(--primary-color);
   flex: 1;
 }
 
@@ -49,7 +49,7 @@ html {
 }
 
 .header_recent_document {
-  color: #fff;
+  color: var(--primary-color);
   font-size: 1.75em;
   text-align: left;
   padding-left: 4px;
@@ -298,7 +298,7 @@ ul.recent_documents_list li a {
 
 #mc-embedded-subscribe.button {
   background-color: var(--impact-green);
-  color: black;
+  color: var(--secondary-color);
 }
 
 .prompt_log_display {
@@ -315,7 +315,7 @@ ul.recent_documents_list li a {
 }
 
 .prompt_log_display .prompt {
-  color: white;
+  color: var(--primary-color);
   white-space: pre-wrap;
 }
 
@@ -330,7 +330,7 @@ ul.recent_documents_list li a {
 .navbar_brand {
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-size: 1.5em;
-  color: #fff;
+  color: var(--primary-color-3);
   font-weight: 600;
   text-decoration: none;
   padding: 2px;
@@ -355,7 +355,7 @@ ul.recent_documents_list li a {
 }
 
 .home_logo_mobile_only a:hover {
-  color: #fff;
+  color: var(--primary-color);
 }
 
 .home_navbar_name {
@@ -661,7 +661,7 @@ iframe {
 }
 
 .btn.btn-secondary.dropdown-toggle.dashboard_menu_toggle.show {
-  background: black;
+  background: var(--secondary-color);
 }
 
 .dashboard_menu_toggle i {
