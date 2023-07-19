@@ -1079,7 +1079,7 @@ li.mb-1 button.btn.btn-toggle:before {
 
 .app_panel button.btn-toggle:hover,
 .app_panel button.btn-toggle:focus {
-  color: var(--highlight-session);
+  color: var(--secondary-color);
 }
 
 .navbar-nav.menu_buttons_bar {

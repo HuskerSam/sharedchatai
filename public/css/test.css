@@ -69,9 +69,9 @@ body.neRed {
   body.neBLUE {
     --home-panel-background: rgb(0, 56, 168); 
     --modal-background: rgb(0, 42, 126);
-    --background-accent: rgb(0, 28, 84); 
-    --background-accent-2: rgb(0, 14, 42);
-    --background-accent-3: rgb(0, 7, 21);
+    --background-accent:  rgb(0, 14, 42);
+    --background-accent-2:   rgb(28, 35, 59);
+    --background-accent-3: rgb(0, 28, 84); 
   
     --primary-color: rgb(255, 255, 255);
     --primary-color-1: rgb(240, 240, 240);
@@ -84,7 +84,6 @@ body.neRed {
     --secondary-color-3: rgb(150, 150, 150);
   
     --options-tab-color: rgb(168, 168, 168);
-    --brand-name-color:  rgb(0, 56, 168);
     --secondary-green: rgb(0, 126, 56);
     --member-online-green: rgb(0, 168, 56);
     --impact-green: rgb(56, 168, 0);
@@ -95,8 +94,8 @@ body.neRed {
     --change: rgb(84, 84, 84);
     --warning: rgb(42, 42, 42);
     --impact-font: rgb(0, 56, 168);
-    --document-title: rgb(0, 42, 126);
+    --document-title: rgb(210, 210, 210);
     --recent-document-activity-date: rgb(0, 28, 84);
-    --shared_status_owner: rgb(0, 14, 42);
-    --shared_status_user: rgb(0, 7, 21);
+    --shared_status_owner: rgb(190, 100, 250); /* var(--shared_status_owner) */
+    --shared_status_user: rgb(30, 200, 200); /* var(--shared_status_user) */
   }

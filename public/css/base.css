@@ -47,7 +47,7 @@ body.day_mode {
   --secondary-color-2: rgb(128, 128, 128);
   --secondary-color-3: rgb(105, 105, 105);
 
-  --impact-green: rgb(10, 135, 10); /* var(--impact-green) */  
+  --impact-green: rgb(40, 165, 40); /* var(--impact-green) */  
   --secondary-green: rgb(50, 150, 50); /* var(--secondary-green) */
 
   --highlight:  rgb(0, 0, 255);
@@ -55,7 +55,7 @@ body.day_mode {
   --prompt-assist: rgb(75, 0, 75);
   --change: rgb(230, 100, 20); /*  var(--change) */ 
   --impact-font: rgb(242, 53, 15);
-  --document-title: rgb(80, 70, 0);
+  --document-title: rgb(25, 70, 10);
   --recent-document-activity-date: rgb(230, 160, 210);
   --shared_status_owner: rgb(190, 100, 250); /* var(--shared_status_owner) */
   --shared_status_user: rgb(50, 150, 150); /* var(--shared_status_user) */
@@ -721,7 +721,7 @@ a:hover {
 }
 
 .btn-secondary {
-  color: var(--primary-color-2);
+  color: var(--primary-color-3);
   background-color:var(--secondary-color-1);
-  border-color: var(--secondary-color-1);
+  border-color: var(--secondary-color-2);
 }
