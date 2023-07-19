@@ -402,7 +402,7 @@ button.btn-primary:active {
 }
 
 .menu_profile_user_image_span {
-  border-radius: 50%;
+  border-radius: 12px;
   display: inline-block;
   width: 40px;
   height: 40px;

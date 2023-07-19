@@ -180,10 +180,9 @@ export default class ProfileHelper {
                         <div class="tab-pane fade show active" id="profile_user_tab_view" role="tabpanel"
                             aria-labelledby="profile_user_tab_button">
                             <div>
-                                <label class="form-label">Name and Image</label>
-                                <br>
+                                <h3>Edit Profile</h3>
                                 <div style="display:flex;flex-direction:row;width:100%;">
-                                    <div class="profile_display_name member_profile_name"></div>
+                                    <div style="color:rgb(190, 200, 255)" class="profile_display_name member_profile_name"></div>
                                     <div>
                                         <button class="btn btn-secondary prompt_for_new_user_name">
                                             <i class="material-icons">edit</i>
@@ -197,16 +196,15 @@ export default class ProfileHelper {
                                     </div>
                                 </div>
                                 <div style="line-height: 4em;margin-top:-18px">
-                                    <div class="profile_display_image member_profile_image"
-                                        style=""></div>
+                                    <div class="profile_display_image member_profile_image me-auto"></div>
                                     <input type="file" class="file_upload_input" style="display:none;">
                                     <button class="profile_display_image_clear btn btn-secondary">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
-                                        <path fill="currentColor" d="M261-120q-24.75 
-                                        0-42.375-17.625T201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 
-                                        24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 
-                                        0h60v-399h-60v399ZM261-750v570-570Z"/>
-                                    </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
+                                            <path fill="currentColor" d="M261-120q-24.75 
+                                            0-42.375-17.625T201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 
+                                            24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 
+                                            0h60v-399h-60v399ZM261-750v570-570Z"/>
+                                        </svg>
                                     </button>
                                     <button class="profile_display_image_randomize btn btn-secondary">
                                         <i class="material-icons">casino</i>
@@ -239,6 +237,21 @@ export default class ProfileHelper {
                                     <input class="form-check-input profile_enablekatexinline_checkbox" type="checkbox" value="">
                                     KaTeX Inline
                                 </label>
+                            </div>
+                            <div style="text-align:center; display:none;">
+                            <hr>
+                                <div class="form-check">
+                                    <input class="form-check-input" name="theme_preference" type="radio" id="day_mode" checked>
+                                    <label class="form-check-label" for="day_mode">
+                                        Day
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" name="theme_preference" type="radio" id="night_mode">
+                                    <label class="form-check-label" for="night_mode">
+                                        Night
+                                    </label>
+                                </div>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="profile_user_labels_view" style="min-height:10em; role=" tabpanel"

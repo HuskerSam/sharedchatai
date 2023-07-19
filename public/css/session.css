@@ -721,7 +721,7 @@ pre code {
 }
 
 .menu_bar_doc_title {
-  flex: 1;
+  flex-grow: 1;
   padding-left: 12px;
   color: var(--document-title);
   max-height: 3em;

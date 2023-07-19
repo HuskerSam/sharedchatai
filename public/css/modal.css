@@ -308,7 +308,7 @@
 .profile_display_name {
   flex: 1;
   overflow: hidden;
-  height: 3em;
+  align-self: center;
   max-width: 175px;
 }
 
