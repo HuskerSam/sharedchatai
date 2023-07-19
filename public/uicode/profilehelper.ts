@@ -35,6 +35,7 @@ export default class ProfileHelper {
     credits_row: any;
     monthly_tokens_usage: any;
     noAuthPage = false;
+    day_mode: any;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -131,6 +132,9 @@ export default class ProfileHelper {
                 event.stopPropagation();
             }
         });
+
+        this.day_mode = document.querySelector(".day_mode");
+        this.day_mode.addEventListener("input", () => this.toggleDayMode());
     }
     /** pick a random college logo for the profile image and save to firebase */
     async randomizeImage() {
@@ -217,6 +221,10 @@ export default class ProfileHelper {
                             <hr>
                             <div style="font-size: 1.25em;text-align:center">
                                 <label class="form-check-label">
+                                    <input class="form-check-input day_mode" type="checkbox" value="">
+                                    Day Mode
+                                </label>    
+                                <label class="form-check-label">
                                     <input class="form-check-input profile_text_large_checkbox" type="checkbox" value="">
                                     Large Text
                                 </label>
@@ -237,21 +245,6 @@ export default class ProfileHelper {
                                     <input class="form-check-input profile_enablekatexinline_checkbox" type="checkbox" value="">
                                     KaTeX Inline
                                 </label>
-                            </div>
-                            <div style="text-align:center; display:none;">
-                            <hr>
-                                <div class="form-check">
-                                    <input class="form-check-input" name="theme_preference" type="radio" id="day_mode" checked>
-                                    <label class="form-check-label" for="day_mode">
-                                        Day
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" name="theme_preference" type="radio" id="night_mode">
-                                    <label class="form-check-label" for="night_mode">
-                                        Night
-                                    </label>
-                                </div>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="profile_user_labels_view" style="min-height:10em; role=" tabpanel"
@@ -696,4 +689,14 @@ export default class ProfileHelper {
             window.location.reload();
         }
     }
+    /** Toggle night mode when the checkbox is changed*/
+    toggleDayMode() {
+        const dayMode = this.day_mode.checked;
+        if (dayMode) {
+            document.body.classList.add("day_mode");
+        } else {
+            document.body.classList.remove("day_mode");
+        }
+    }
 }
+

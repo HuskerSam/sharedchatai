@@ -34,7 +34,7 @@
   --shared_status_user: rgb(30, 200, 200); /* var(--shared_status_user) */
 }
 
-body.night {
+body.day_mode {
   --home-panel-background: rgb(227, 220, 196);
   --modal-background: rgb(205, 205, 155);
   --background-accent: rgb(180, 180, 180);
