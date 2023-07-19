@@ -220,7 +220,7 @@ export default class ProfileHelper {
                             </div>
                             <hr>
                             <div style="font-size: 1.25em;text-align:center">
-                                <label class="form-check-label">
+                                <label class="form-check-label" style="display:none">
                                     <input class="form-check-input day_mode" type="checkbox" value="">
                                     Day Mode
                                 </label>    
