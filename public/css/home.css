@@ -28,7 +28,6 @@ html {
   justify-content: center;
   padding: 1em 3em;
   border-radius: 6px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   color: var(--primary-color);
   flex: 1;
 }
@@ -55,7 +54,6 @@ html {
   padding-left: 4px;
   font-weight: 500;
   margin-bottom: .5em;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 
@@ -548,7 +546,7 @@ iframe {
 }
 
 .shared_status_not {
-  color: var(--secondary);
+  color: var(--primary-color-3);
 }
 
 .promptplus_dashboard_page .show_threshold_dialog {
@@ -562,7 +560,7 @@ iframe {
   border-radius: 20px;
   padding: 2px 10px;
   color: var(--primary-color-4);
-  border: solid 1px var(--grey);
+  border: solid 1px var(--secondary-color-3);
   font-size: 0.75em;
 }
 

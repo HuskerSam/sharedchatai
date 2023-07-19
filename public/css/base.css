@@ -14,7 +14,6 @@
   --secondary-color-2: rgb(127, 127, 127); /* var(--secondary-color-2) */
   --secondary-color-3: rgb(150, 150, 150); /* grey, var(--secondary) [ ] */
 
-  --options-tab-color: rgb(200, 255, 200); /* var(--options-tab-color) */
   --brand-name-color:  rgb(28, 227, 60); /*  var(--brand-name-color) */
   --secondary-green: rgb(75, 220, 75); /* var(--secondary-green) */
   --member-online-green: rgb(50, 255, 50); /* var(--member-online-green) */
@@ -53,12 +52,13 @@ body.day_mode {
 
   --highlight:  rgb(0, 0, 255);
   --highlight-session: rgb(15, 15, 245);
-  --options-tab-color: rgb(100, 0, 100);
   --prompt-assist: rgb(75, 0, 75);
   --change: rgb(230, 100, 20); /*  var(--change) */ 
   --impact-font: rgb(242, 53, 15);
   --document-title: rgb(80, 70, 0);
   --recent-document-activity-date: rgb(230, 160, 210);
+  --shared_status_owner: rgb(190, 100, 250); /* var(--shared_status_owner) */
+  --shared_status_user: rgb(50, 150, 150); /* var(--shared_status_user) */
 }
 
 
@@ -301,7 +301,7 @@ select.form-select option {
 }
 
 .app_panel .form-check-input:checked {
-  background-color: transparent;
+  background-color: var(--background-accent);
   color: transparent;
 }
 
@@ -313,7 +313,7 @@ select.form-select option {
 
 .nav-tabs .nav-item.show .nav-link,
 .nav-tabs .nav-link.active {
-  color: var(--options-tab-color);
+  color: var(--prompt-assist);
   background-color: var(--secondary-color-1);
   border-color: var(--primary-color-1);
   border-bottom-color: transparent;
@@ -326,7 +326,7 @@ select.form-select option {
 .btn-check:checked+.btn-outline-primary,
 .btn-check:checked+.btn-outline-primary:hover,
 .btn-outline-primary:hover {
-  color: var(--options-tab-color);
+  color: var(--prompt-assist);
   background-color: var(--secondary-color-1);
   border-color: var(--primary-color-1);
 }
@@ -718,4 +718,10 @@ a:hover {
 
 .member_online_status.online {
   background: var(--member-online-green);
+}
+
+.btn-secondary {
+  color: var(--primary-color-2);
+  background-color:var(--secondary-color-1);
+  border-color: var(--secondary-color-1);
 }

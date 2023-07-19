@@ -220,11 +220,7 @@ export default class ProfileHelper {
                                 </div>
                             </div>
                             <hr>
-                            <div style="font-size: 1.25em;text-align:center">
-                                <label class="form-check-label" style="display:none">
-                                    <input class="form-check-input day_mode" type="checkbox" value="">
-                                    Day Mode
-                                </label>    
+                            <div style="font-size: 1.25em;text-align:center"> 
                                 <label class="form-check-label">
                                     <input class="form-check-input profile_text_large_checkbox" type="checkbox" value="">
                                     Large Text
@@ -246,6 +242,10 @@ export default class ProfileHelper {
                                     <input class="form-check-input profile_enablekatexinline_checkbox" type="checkbox" value="">
                                     KaTeX Inline
                                 </label>
+                                    <label class="form-check-label">
+                                    <input class="form-check-input day_mode" type="checkbox" value="">
+                                    Day Mode
+                                </label>   
                             </div>
                         </div>
                         <div class="tab-pane fade" id="profile_user_labels_view" style="min-height:10em; role=" tabpanel"
