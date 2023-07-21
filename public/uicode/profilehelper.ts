@@ -35,7 +35,7 @@ export default class ProfileHelper {
     credits_row: any;
     monthly_tokens_usage: any;
     noAuthPage = false;
-    day_mode: any;
+    day_mode_input: any;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -133,8 +133,8 @@ export default class ProfileHelper {
             }
         });
 
-        this.day_mode = document.querySelector(".day_mode");
-        this.day_mode.addEventListener("input", () => this.toggleDayMode());
+        this.day_mode_input = document.querySelector(".day_mode_input");
+        this.day_mode_input.addEventListener("input", () => this.toggleDayMode());
         this.initDayMode();
     }
     /** pick a random college logo for the profile image and save to firebase */
@@ -243,7 +243,7 @@ export default class ProfileHelper {
                                     KaTeX Inline
                                 </label>
                                     <label class="form-check-label">
-                                    <input class="form-check-input day_mode" type="checkbox" value="">
+                                    <input class="form-check-input day_mode_input" type="checkbox" value="">
                                     Day Mode
                                 </label>   
                             </div>
@@ -695,10 +695,10 @@ export default class ProfileHelper {
         if (window.location.pathname !== "/help/") {
             const dayMode = localStorage.getItem('dayMode');
             if (dayMode === 'true') {
-                this.day_mode.checked = true;
+                this.day_mode_input.checked = true;
                 document.body.classList.add('day_mode');
             } else {
-                this.day_mode.checked = false;
+                this.day_mode_input.checked = false;
                 document.body.classList.remove('day_mode');
             }
         }
@@ -706,7 +706,7 @@ export default class ProfileHelper {
 
     /** Toggle night mode when the checkbox is changed*/
     toggleDayMode() {
-        if (this.day_mode.checked) {
+        if (this.day_mode_input.checked) {
             document.body.classList.add('day_mode');
             localStorage.setItem('dayMode', 'true');
         } else {

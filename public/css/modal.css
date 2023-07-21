@@ -607,3 +607,13 @@ label.btn {
 .profile_display_image_clear:hover {
   color: var(--warning);
 }
+
+.day_mode #userProfileModal .app_panel .form-check-input {
+  color: var(--primary-color-3);
+  border-color: var(--primary-color-3);
+}
+
+.day_mode #userProfileModal .app_panel .form-check-input:checked {
+  background-color: var(--background-accent);
+  color: var(--primary-color);
+}

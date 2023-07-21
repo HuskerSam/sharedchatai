@@ -133,9 +133,12 @@ a {
   background: var(--background-accent)!important;
 }
 
+.day_mode .card {
+  background-color: var(--secondary-color-3);
+}
 
 .card {
-background-color: var(--secondary-color-3);
+  background-color: var(--background-accent-3);
 }
 
 .card_shadow_md {
@@ -773,12 +776,3 @@ a:hover {
   border-bottom: 1px solid rgba(127, 127, 127, .2);
 }
 
-.day_mode #userProfileModal .app_panel .form-check-input {
-  color: var(--primary-color-3);
-  border-color: var(--primary-color-3);
-}
-
-.day_mode #userProfileModal .app_panel .form-check-input:checked {
-  background-color: var(--background-accent);
-  color: var(--primary-color);
-}
