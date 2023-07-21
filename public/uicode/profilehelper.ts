@@ -704,7 +704,6 @@ export default class ProfileHelper {
         }
     }
 
-
     /** Toggle night mode when the checkbox is changed*/
     toggleDayMode() {
         if (this.day_mode.checked) {

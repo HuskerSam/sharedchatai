@@ -10,6 +10,8 @@ export default class LoginHelper {
   modal_close_button: any = null;
   app: any = null;
   modalContainer: any = null;
+  disableReload = false;
+  modal: any = null;
 
   /**
    * @param { any } app baseapp derived instance
@@ -34,12 +36,20 @@ export default class LoginHelper {
       }
     });
 
-    this.login_google.addEventListener("click", (e: any) => this.app.authGoogleSignIn(e));
+    this.login_google.addEventListener("click", (e: any) => {
+      this.disableReload = true;
+      this.app.authGoogleSignIn(e);
+    });
     this.login_email_anchor.addEventListener("click", (e: any) => this.signInByEmail(e));
-    this.anon_login_anchor.addEventListener("click", (e: any) => this.app.signInAnon(e));
+    this.anon_login_anchor.addEventListener("click", (e: any) => {
+      this.disableReload = true;
+      this.app.signInAnon(e);
+      this.modal.hide();
+    });
 
-    const modal = document.getElementById("loginModal");
+    const modal: any = document.getElementById("loginModal");
     modal?.addEventListener("hidden.bs.modal", () => {
+      if (this.disableReload) return;
       if (this.app.isSessionApp) window.location = "/";
       else window.location.reload();
     });
@@ -127,7 +137,7 @@ export default class LoginHelper {
   }
   /** */
   show() {
-    const modal = new window.bootstrap.Modal("#loginModal", {});
-    modal.show();
+    this.modal = new window.bootstrap.Modal("#loginModal", {});
+    this.modal.show();
   }
 }

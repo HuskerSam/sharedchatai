@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Technical Overview - Unacog</title>
+    <title>Output Formatting - Unacog</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link rel="shortcut icon" href="/images/logo64.png" />
@@ -17,10 +17,10 @@
     <link rel='apple-touch-icon' href='https://unacog.com/images/logo64.png'>
 
     <meta property="og:url" content="https://unacog.com/content/nodalanalysis/" />
-    <meta property="og:title" content="Technical Overview" />
+    <meta property="og:title" content="Output Formatting" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://unacog.com/images/homepageogmeta.jpg" />
-    <meta property="og:description" content="Architecture, frameworks and APIs" />
+    <meta property="og:description" content="Equations and Code formatting details" />
 
     <!-- Firebase links -->
     <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-app.js"></script>
@@ -94,53 +94,13 @@
     <div class="container main_container">
         <div class="flex-lg-row flex_change_responsive">
             <div class="side_block">
-                <p class="header_recent_document">Technical Overview</p>
+                <p class="header_recent_document">Formatting Markdown and Code</p>
                 <div class="coming-soon card" style="text-align:left;">
                     <p><span class="impact-green">Architecture, frameworks and APIs</span></p>
-                    The code was started from <a href="https://github.com/HuskerSam/sharedgamelobby" target="_blank">Shared Game Lobby</a>
-                    <br>
-                    Authentication, Firebase platform, UI, Online Persistance, and Cloud Functions are covered in detail.
+                   
                 </div>
             </div>
         </div>
-        <div class="flex-lg-row flex_change_responsive">
-            <div class="side_block">
-                <p class="header_recent_document">Architecture</p>
-                <div class="coming-soon card" style="text-align:left;">
-                    <a href="/images/firebasecloud.svg" target="_blank"><img 
-                        src="/images/firebasecloud.svg" style="max-height:350px;" class="content_image"></a>
-                    <br>
-                    Firebase is used for realtime data and scale on demand hosting.  The API keys are contained on the server 
-                    using Firebase Functions.  Session is the main document with 3 subcollections, tickets, assists and packets.
-                    The packets are the data sent to the model API, assists are the resuls and tickets are the user prompts that 
-                    show the UI feed for a session. 
-                    <br>
-                </div>
-            </div>
-        </div>
-        <div class="flex-lg-row flex_change_responsive">
-            <div class="side_block">
-                <p class="header_recent_document">Cost Tracking</p>
-                <div class="coming-soon card" style="text-align:left;">
-                    <a href="/images/costtracking.svg" target="_blank"><img 
-                        src="/images/costtracking.svg" style="max-height:350px;" class="content_image"></a>
-                    <br>
-                    Account usage is tracking using a unit called a credit.  Credits 
-                    are directly bound to the cost of each API call.
-                    <br>
-                    Credits = [Token Count] * [Token Cost / 1000]
-                    <br>
-                    So a Tokens per Credit = 1000 / [Token Cost]
-                    <br>
-                    <br>
-                    Notes 
-                    <ul>
-                        <li>Output tokens are about twice the cost of input</li>
-                        <li>Only the token count returned is used for output (not the max)</li>
-                    </ul>
-                    <br>
-                </div>
-            </div>
         </div>
         <div class="flex-lg-row flex_change_responsive signed_out_options_block main_block app_panel signed_out_flex">
             <div class="py-3 intro_card">

@@ -225,9 +225,11 @@ export default class BaseApp {
   async signInAnon(e: any) {
     e.preventDefault();
     await firebase.auth().signInAnonymously();
+    /*
     setTimeout(() => {
       location.reload();
     }, 1);
+    */
     return true;
   }
 
@@ -728,6 +730,11 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
     <li>
         <a class="hover_yellow" href="/content/teamtogether/">Learn Together
             - <span class="caption">Sessions and sharing for groups</span>
+        </a>
+    </li>
+    <li>
+        <a class="hover_yellow" href="/content/outputformatting/">Output Formatting
+            - <span class="caption">Formatting equation, code and markdown blocks</span>
         </a>
     </li>`;
 
