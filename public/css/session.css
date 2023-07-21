@@ -1082,6 +1082,21 @@ li.mb-1 button.btn.btn-toggle:before {
   color: var(--secondary-color);
 }
 
+.day_mode .app_panel button.btn-toggle:hover,
+.day_mode .app_panel button.btn-toggle:focus {
+  color: var(--options-tab-color);
+  border: none;
+}
+
+
+
+.day_mode .navbar-nav.menu_buttons_bar {
+  display: flex;
+  flex-direction: row;
+  border-bottom: solid 1px var(--options-tab-color);
+  margin-bottom: 12px;
+}
+
 .navbar-nav.menu_buttons_bar {
   display: flex;
   flex-direction: row;

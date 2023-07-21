@@ -1,3 +1,68 @@
+:root {
+  --home-panel-background: rgb(28, 35, 59); /* var(--background) */ 
+  --modal-background: rgb(50, 50, 100);
+  --background-accent: rgb(32, 33, 35);  /* var(--background-accent) */
+  --background-accent-2: rgb(40, 50, 84); /*  var(--background-dark), [navbar, textarea, session left panel, help background] */ 
+  --background-accent-3: rgb(52, 53, 65); /*  var(--background-accent-3) */
+  --primary-color: white;  /* var(--primary-color) */
+  --primary-color-1: rgb(240, 240, 240); /*  var(--primary-color-1) */
+  --primary-color-2: rgb(230, 230, 230); /*  var(--primary-color-2) */
+  --primary-color-3: rgb(217, 217, 227); /*  var(--primary-color-3) */
+  --primary-color-4: rgb(200, 200, 200); /*  var(--primary-color-4) */
+  --secondary-color: rgb(25, 25, 25);  /* var(--secondary-color) */
+  --secondary-color-1: rgb(100, 100, 100); /* var(--secondary-color-1) */
+  --secondary-color-2: rgb(127, 127, 127); /* var(--secondary-color-2) */
+  --secondary-color-3: rgb(150, 150, 150); /* grey, var(--secondary) [ ] */
+
+  --brand-name-color:  rgb(28, 227, 60); /*  var(--brand-name-color) */
+  --secondary-green: rgb(75, 220, 75); /* var(--secondary-green) */
+  --member-online-green: rgb(50, 255, 50); /* var(--member-online-green) */
+  --impact-green: rgb(100, 255, 100); /* var(--impact-green) */  
+  --prompt-message: rgb(180, 255, 180); /*  var(--prompt-message) */
+
+  --highlight:  rgb(255, 255, 0); /*  var(--highlight */
+  --highlight-session: rgb(240, 240, 10); /*  var(--highlight-session) */ 
+  --change: rgb(255, 127, 50); /*  var(--change) */ 
+  --warning: rgb(255, 50, 50); /* var(--warning), [session warning, delete icon */
+  --impact-font: rgb(13, 202, 240); /*  var(--impact-font) */
+  --document-title: rgb(190, 200, 255); /* var(--document-title) */
+  --recent-document-activity-date: rgb(15, 92, 30); /* var(--recent-document-activity-date) */
+  --shared_status_owner: rgb(190, 100, 250); /* var(--shared_status_owner) */
+  --shared_status_user: rgb(30, 200, 200); /* var(--shared_status_user) */
+}
+
+body.day_mode {
+  --home-panel-background: rgb(227, 220, 196);
+  --modal-background: rgb(205, 205, 155);
+  --background-accent: rgb(170, 170, 170);
+  --background-accent-2: rgb(215, 205, 171);
+  --background-accent-3: rgb(190, 190, 190);
+  --primary-color: rgb(25, 25, 25); 
+  --primary-color-1: rgb(38, 38, 38); 
+  --primary-color-2: rgb(55, 55, 55); 
+  --primary-color-3: rgb(65, 65, 65); 
+  --primary-color-4: rgb(80, 80, 80); 
+  --primary-color-5: rgb(95, 95, 85);
+
+  --secondary-color: rgb(222, 218, 214);
+  --secondary-color-1: rgb(155, 155, 155);
+  --secondary-color-2: rgb(128, 128, 128);
+  --secondary-color-3: rgb(105, 105, 105);
+
+  --impact-green: rgb(5, 125, 5); /* var(--impact-green) */  
+  --secondary-green: rgb(50, 150, 50); /* var(--secondary-green) */
+
+  --highlight:  rgb(0, 0, 255);
+  --highlight-session: rgb(15, 15, 245);
+  --prompt-message: rgb(95, 0, 40);
+  --change: rgb(230, 100, 20); /*  var(--change) */ 
+  --warning: rgb(242, 53, 15);
+  --document-title: rgb(20, 80, 5);
+  --recent-document-activity-date: rgb(230, 160, 210);
+  --shared_status_owner: rgb(190, 100, 250); /* var(--shared_status_owner) */
+  --shared_status_user: rgb(15, 140, 140); /* var(--shared_status_user) */
+  }
+
 body.neRed {
     --home-panel-background: rgb(214, 188, 163); 
     --modal-background: rgb(255, 255, 255);

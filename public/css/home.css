@@ -2,6 +2,11 @@ html {
   overflow-y: scroll;
 }
 
+.day_mode .main_block, 
+.day_mode .side_block {
+  border: solid 1px var(--options-tab-color);
+}
+
 .main_block {
   background-color: var(--home-panel-background);
   border-radius: 6px;
@@ -28,7 +33,7 @@ html {
   justify-content: center;
   padding: 1em 3em;
   border-radius: 6px;
-  color: var(--primary-color);
+  color: var(--primary-color-1);
   flex: 1;
 }
 
@@ -676,7 +681,6 @@ iframe {
 }
 
 .navbar_wrapper {
-  background: var(--home-panel-background-dark);
   height: 62px;
   position: fixed;
   top: 0;
@@ -902,4 +906,8 @@ h3.cta_panel {
 
 .clone_session_link {
   color: var(--primary-color-2);
+}
+
+.day_mode .dashboard_documents_view .list-group-item {
+  border: 1px solid rgba(0,0,0,.2);
 }

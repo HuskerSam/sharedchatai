@@ -32,35 +32,36 @@
 }
 
 body.day_mode {
-  --home-panel-background: rgb(227, 220, 196);
-  --modal-background: rgb(205, 205, 155);
-  --background-accent: rgb(170, 170, 170);
-  --background-accent-2: rgb(215, 205, 171);
-  --background-accent-3: rgb(190, 190, 190);
-  --primary-color: rgb(25, 25, 25); 
-  --primary-color-1: rgb(38, 38, 38); 
-  --primary-color-2: rgb(55, 55, 55); 
-  --primary-color-3: rgb(65, 65, 65); 
-  --primary-color-4: rgb(80, 80, 80); 
-  --primary-color-5: rgb(95, 95, 85);
+  --home-panel-background: rgb(245, 245, 245); 
+  --modal-background: rgb(235, 235, 235);
+  --background-accent: rgb(255, 255, 255); 
+  --background-accent-2: rgb(255, 255, 255);
+  --background-accent-3: rgb(240, 240, 240); 
 
-  --secondary-color: rgb(222, 218, 214);
-  --secondary-color-1: rgb(155, 155, 155);
-  --secondary-color-2: rgb(128, 128, 128);
-  --secondary-color-3: rgb(105, 105, 105);
+  --primary-color: black;
+  --primary-color-1: rgb(10, 10, 10);
+  --primary-color-2: rgb(20, 20, 20);
+  --primary-color-3: rgb(30, 30, 30);
+  --primary-color-4: rgb(40, 40, 40);
+  --secondary-color: rgb(255, 255, 255);
+  --secondary-color-1: rgb(250, 250, 250); 
+  --secondary-color-2: rgb(245, 245, 245); 
+  --secondary-color-3: rgb(215, 215, 215);
 
   --impact-green: rgb(5, 125, 5); /* var(--impact-green) */  
   --secondary-green: rgb(50, 150, 50); /* var(--secondary-green) */
+  --options-tab-color: rgb(100, 100, 100);
+  --prompt-assist: rgb(40, 40, 40);
 
-  --highlight:  rgb(0, 0, 255);
-  --highlight-session: rgb(15, 15, 245);
+  --highlight:  rgb(60, 60, 60);
+  --highlight-session: rgb(90, 90, 245);
   --prompt-message: rgb(95, 0, 40);
   --change: rgb(230, 100, 20); /*  var(--change) */ 
-  --impact-font: rgb(242, 53, 15);
-  --document-title: rgb(20, 80, 5);
+  --warning: rgb(242, 53, 15);
+  --document-title: rgb(30, 30, 30);
   --recent-document-activity-date: rgb(230, 160, 210);
   --shared_status_owner: rgb(190, 100, 250); /* var(--shared_status_owner) */
-  --shared_status_user: rgb(15, 140, 140); /* var(--shared_status_user) */
+  --shared_status_user: rgb(30, 200, 200); /* var(--shared_status_user) */
   }
 
 
@@ -132,8 +133,9 @@ a {
   background: var(--background-accent)!important;
 }
 
+
 .card {
-  background-color: rgba(127, 127, 127, .15);
+background-color: var(--secondary-color-3);
 }
 
 .card_shadow_md {
@@ -321,7 +323,7 @@ select.form-select option {
 .nav-tabs .nav-item.show .nav-link,
 .nav-tabs .nav-link.active {
   color: var(--primary-color);
-  background-color: var(--secondary-color-1);
+  background-color: var(--modal-background);
   border-color: var(--secondary-color-3);
   border-bottom-color: transparent;
 }
@@ -371,6 +373,29 @@ button.btn-primary:active {
   border-color: var(--member-online-green);
 }
 
+
+.day_mode .app_panel input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 1px solid var(--options-tab-color);
+  cursor: pointer;
+  position: relative;
+  top: -5px;
+}
+
+.day_mode .app_panel input[type="range"]::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 1px solid var(--options-tab-color);
+  cursor: pointer;
+  position: relative;
+  top: -5px;
+}
+
 .app_panel input[type="range"] {
   width: 100%;
   height: 15px;
@@ -388,7 +413,7 @@ button.btn-primary:active {
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background: var(--secondary-color-1);
+  background: var(--secondary-color-2);
   cursor: pointer;
   position: relative;
   top: -5px;
@@ -398,7 +423,7 @@ button.btn-primary:active {
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background: var(--secondary-color-1);
+  background: var(--secondary-color-2);
   cursor: pointer;
   position: relative;
   top: -5px;
@@ -735,10 +760,25 @@ a:hover {
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
-  color: var(--secondary-color);
+  color: var(--document-title);
   margin-right: 4px;
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
   color: var(--warning);
+}
+
+.day_mode .navbar_wrapper {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+  border-bottom: 1px solid rgba(127, 127, 127, .2);
+}
+
+.day_mode #userProfileModal .app_panel .form-check-input {
+  color: var(--primary-color-3);
+  border-color: var(--primary-color-3);
+}
+
+.day_mode #userProfileModal .app_panel .form-check-input:checked {
+  background-color: var(--background-accent);
+  color: var(--primary-color);
 }
