@@ -17,7 +17,7 @@
   --brand-name-color:  rgb(28, 227, 60); /*  var(--brand-name-color) */
   --secondary-green: rgb(75, 220, 75); /* var(--secondary-green) */
   --member-online-green: rgb(50, 255, 50); /* var(--member-online-green) */
-  --impact-green: rgb(100, 255, 100); /* var(--impact-green) */  
+  --impact-green: rgb(50, 255, 50); /* var(--impact-green) */  
   --prompt-message:  rgb(255, 255, 255); /*  var(--prompt-message) */
 
   --prompt-assist: rgb(180, 255, 180);
@@ -55,7 +55,7 @@ body.day_mode {
   --prompt-assist: rgb(10, 10, 10);
 
   --highlight:  rgb(60, 60, 60);
-  --highlight-session: rgb(90, 90, 245);
+  --highlight-session: rgb(250, 235, 60); /*  var(--highlight-session) */ 
   --prompt-message: rgb(95, 0, 40);
   --change: rgb(250, 100, 0); /*  var(--change) */ 
   --warning: rgb(255, 0, 0);
@@ -116,7 +116,7 @@ a {
 
 .app_panel {
   background: var(--background-accent-2);
-  color: var(--primary-color-3);
+  color: var(--primary-color);
   display: flex;
   flex-direction: column;
   transition: color .2s ease-out, background-color .2s ease-out, opacity .2s;
@@ -135,7 +135,7 @@ a {
 }
 
 .day_mode .card {
-  background-color: var(--secondary-color-3);
+  background-color: var(--background-accent);
 }
 
 .card {
@@ -327,7 +327,7 @@ select.form-select option {
 
 .nav-tabs .nav-item.show .nav-link,
 .nav-tabs .nav-link.active {
-  color: var(--primary-color);
+  color: var(--highlight);
   background-color: var(--modal-background);
   border-color: var(--primary-color);
   border-bottom-color: transparent;
@@ -765,7 +765,7 @@ a:hover {
 }
 
 .btn-secondary {
-  color: var(--primary-color-2);
+  color: var(--primary-color-1);
   background-color:var(--secondary-color-1);
   border-color: var(--secondary-color-1);
 }
@@ -784,7 +784,15 @@ a:hover {
   border-bottom: 1px solid rgba(127, 127, 127, .2);
 }
 
-
 tbody, td, tfoot, th, thead, tr {
   font-size: .9em;
+}
+
+
+.day_mode .btn.btn-secondary.hover_yellow:focus, 
+.day_mode .btn.btn-secondary.hover_yellow:hover, 
+.day_mode .hover_yellow:focus, 
+.day_mode .hover_yellow:hover {
+  background-color: var(--secondary-color-2);
+  color: var(--primary-color);
 }

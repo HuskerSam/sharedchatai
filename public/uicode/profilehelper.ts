@@ -287,7 +287,6 @@ export default class ProfileHelper {
                                     <td class="account_subscription_status">Pre Release</td>
                                 </tr>
                             </table>
-                            <br>
                             <div class="subscription_panel">
                                 <div class="free_subscription selected">
                                     Try out<br>

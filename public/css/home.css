@@ -911,3 +911,7 @@ h3.cta_panel {
 .day_mode .dashboard_documents_view .list-group-item {
   border: 1px solid rgba(0,0,0,.2);
 }
+
+.day_mode .model_svg {
+  background-color: var(--options-tab-color);
+}
