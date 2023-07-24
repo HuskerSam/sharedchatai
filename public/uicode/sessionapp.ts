@@ -447,13 +447,18 @@ export class SessionApp extends BaseApp {
                     ];
                     if (this.profile.enableKatexInline) {
                       delimiters.push({
-                        left: "$",
-                        right: "$",
+                        left: "\\$",
+                        right: "\\$",
                         display: false,
                       });
                       delimiters.push({
                         left: "\\(",
                         right: "\\)",
+                        display: false,
+                      });
+                      delimiters.push({
+                        left: "$",
+                        right: "$",
                         display: false,
                       });
                     }

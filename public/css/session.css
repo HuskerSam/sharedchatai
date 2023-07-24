@@ -23,6 +23,7 @@ html {
   display: block;
   flex:1;
   overflow:auto;
+  background: rgb(20, 20, 20);
 }
 
 @media (min-width: 501px) {
@@ -147,7 +148,7 @@ html {
   white-space: pre-wrap;
   line-height: 1.5rem;
   padding-left: 54px;
-  color:  var(--prompt-message);
+  color: rgb(255, 255, 255);
 }
 
 .game_message_list_item .game_date {
@@ -222,9 +223,11 @@ html {
 }
 
 .message_list_send_wrapper {
-  position: relative;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, .7);
   padding-top: 6px;
+  position: relative;
+  padding-top: 6px;
+  background: var(--background-accent);
+
 }
 
 @media (min-width: 501px) {
@@ -320,7 +323,6 @@ ul.recent_documents_list li a {
   overflow: hidden;
   height: 100%;
   display: flex;
-  box-shadow: rgba(50, 50, 93, 0.20) 0px 15px 30px -6px inset, rgba(0, 0, 0, 0.25) 0px 9px 18px -9px inset;
 }
 
 .ticket_header_section {
@@ -651,6 +653,7 @@ pre code {
 
 .mobile_layout_mode .navbar.menu_nav_bar {
   display: block;
+  border-bottom: solid 1px silver;
 }
 
 .sidebar_tree_menu {

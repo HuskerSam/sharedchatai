@@ -646,32 +646,17 @@ export default class BaseApp {
  * @return { string } html
 */
   getFooterTemplate(): string {
-    return `<footer class="side_block m-0 pb-1 app_panel">
+    return `<footer class="side_block m-0 pb-1 app_panel" style="background:rgb(20,20,20)">
             <div class="row">
                 <div class="mb-3 mb-md-0 text-center text-md-start" style="flex:1">
                     <h5><span>Una<span
                     class="home_navbar_name_color"">cog</span></span></h5>
                     <p>
-                        We are a dedicated team based in Lincoln, Nebraska, USA. We are actively pursuing software
-                         development projects to fuel our growth. To collaborate with us, please reach out at <a
+                       Please reach out at <a
                             href="mailto:promptplusai@gmail.com" target="_blank">promptplusai@gmail.com</a>
                     </p>
                 </div>
                 <div class="col-md-2 mb-md-0">
-                    <h5>Company</h5>
-                    <ul class="nav flex-column" style="font-size: 1.2em;">
-                        <li class="nav-item mb-2"><a href="/content/about/"
-                                class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25
-                                 link-underline-opacity-100-hover"
-                                >About</a></li>
-                        <li class="nav-item mb-2"><a href="/content/privacy/"
-                                class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25
-                                 link-underline-opacity-100-hover">Privacy</a></li>
-                        <li class="nav-item mb-2"><a
-                                class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25
-                                 link-underline-opacity-100-hover"
-                                href="/content/pricing/">Pricing</a></li>
-                    </ul>
                 </div>
                 <div class="col-md-4 mb-3">
                     <h5 class="mb-0">Newsletter Signup:</h5>
@@ -730,11 +715,6 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
     <li>
         <a class="hover_yellow" href="/content/teamtogether/">Learn Together
             - <span class="caption">Sessions and sharing for groups</span>
-        </a>
-    </li>
-    <li>
-        <a class="hover_yellow" href="/content/outputformatting/">Output Formatting
-            - <span class="caption">Formatting equation, code and markdown blocks</span>
         </a>
     </li>`;
 
