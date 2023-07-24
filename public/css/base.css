@@ -18,8 +18,9 @@
   --secondary-green: rgb(75, 220, 75); /* var(--secondary-green) */
   --member-online-green: rgb(50, 255, 50); /* var(--member-online-green) */
   --impact-green: rgb(100, 255, 100); /* var(--impact-green) */  
-  --prompt-message: rgb(180, 255, 180); /*  var(--prompt-message) */
+  --prompt-message:  rgb(255, 255, 255); /*  var(--prompt-message) */
 
+  --prompt-assist: rgb(180, 255, 180);
   --highlight:  rgb(255, 255, 0); /*  var(--highlight */
   --highlight-session: rgb(240, 240, 10); /*  var(--highlight-session) */ 
   --change: rgb(255, 127, 50); /*  var(--change) */ 
@@ -51,13 +52,13 @@ body.day_mode {
   --impact-green: rgb(5, 125, 5); /* var(--impact-green) */  
   --secondary-green: rgb(50, 150, 50); /* var(--secondary-green) */
   --options-tab-color: rgb(100, 100, 100);
-  --prompt-assist: rgb(40, 40, 40);
+  --prompt-assist: rgb(10, 10, 10);
 
   --highlight:  rgb(60, 60, 60);
   --highlight-session: rgb(90, 90, 245);
   --prompt-message: rgb(95, 0, 40);
-  --change: rgb(230, 100, 20); /*  var(--change) */ 
-  --warning: rgb(242, 53, 15);
+  --change: rgb(250, 100, 0); /*  var(--change) */ 
+  --warning: rgb(255, 0, 0);
   --document-title: rgb(30, 30, 30);
   --recent-document-activity-date: rgb(230, 160, 210);
   --shared_status_owner: rgb(190, 100, 250); /* var(--shared_status_owner) */
@@ -283,6 +284,7 @@ a {
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
   background: var(--secondary-color-2);
   padding: 4px 12px;
+  color: var(--primary-color);
 }
 
 .list-group-item {
@@ -327,8 +329,13 @@ select.form-select option {
 .nav-tabs .nav-link.active {
   color: var(--primary-color);
   background-color: var(--modal-background);
-  border-color: var(--secondary-color-3);
+  border-color: var(--primary-color);
   border-bottom-color: transparent;
+}
+
+.nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
+  background-color: var(--background-accent);
+  border-color: var(--primary-color-2);
 }
 
 .nav-tabs .nav-link {
@@ -362,8 +369,9 @@ a.btn-primary,
 button.btn-primary {
   background-color: var(--secondary-green);
   border-color: var(--brand-name-color);
-  color: var(--secondary-color);
+  color: var(--primary-color);
 }
+
 
 a.btn.btn-primary:hover,
 a.btn.btn-primary:focus,
@@ -371,7 +379,7 @@ a.btn.btn-primary:active,
 button.btn-primary:hover,
 button.btn-primary:focus,
 button.btn-primary:active {
-  color: var(--secondary-color);
+  color: var(--primary-color-3);
   background-color: var(--member-online-green);
   border-color: var(--member-online-green);
 }
@@ -527,7 +535,7 @@ button.btn-primary:active {
   z-index: 1000;
   top: 4px;
   color: var(--primary-color-2);
-  border-color: transparent;
+  border-color: none;
 }
 
 
@@ -757,13 +765,13 @@ a:hover {
 }
 
 .btn-secondary {
-  color: var(--primary-color);
+  color: var(--primary-color-2);
   background-color:var(--secondary-color-1);
-  border-color: var(--secondary-color-2);
+  border-color: var(--secondary-color-1);
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
-  color: var(--document-title);
+  color: var(--primary-color);
   margin-right: 4px;
 }
 
@@ -776,3 +784,7 @@ a:hover {
   border-bottom: 1px solid rgba(127, 127, 127, .2);
 }
 
+
+tbody, td, tfoot, th, thead, tr {
+  font-size: .9em;
+}

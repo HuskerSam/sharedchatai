@@ -206,6 +206,15 @@ html {
   position: relative;
 }
 
+.assist_section {
+  color: var(--prompt-assist);
+}
+
+.day_mode .assist_section {
+  color: var(--prompt-assist);
+}
+
+
 .tokens_completion {
   position: absolute;
   right: 24px;
@@ -338,7 +347,7 @@ pre code {
   font-size: .875em;
   background-color: rgba(0, 0, 0, 0.1);
   border-color: rgba(255, 255, 255, 0.2);
-  color: var(--primary-color-1);
+  color: var(--primary-color);
   border-style: solid;
   padding: 8px;
 }
@@ -348,7 +357,7 @@ pre code {
   top: 12px;
   right: 12px;
   background: var(--background-accent-3);
-  color: var(--primary-color-1);
+  color: var(--primary-color);
 }
 
 .copy_code_block_button i {
@@ -722,7 +731,7 @@ pre code {
 .menu_bar_doc_title {
   flex-grow: 1;
   padding-left: 12px;
-  color: var(--document-title);
+  color: var(--primary-color);
   max-height: 3em;
   overflow: hidden;
   flex: 1;
@@ -956,7 +965,7 @@ li.mb-1 button.btn.btn-toggle:before {
   padding: 0 8px 4px 16px;
   overflow: hidden;
   max-height: 3.35em;
-  color: var(--document-title);
+  color: var(--primary-color);
   flex: 1;
   text-align: left;
   align-self: center;

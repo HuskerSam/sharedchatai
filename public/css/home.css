@@ -394,7 +394,7 @@ iframe {
   overflow: hidden;
   margin-top: auto;
   margin-bottom: auto;
-  color: var(--document-title);
+  color: var(--primary-color);
 }
 
 .document_status {
@@ -558,7 +558,7 @@ iframe {
 }
 
 .shared_status_not {
-  color: var(--primary-color-5);
+  color: var(--primary-color-3);
 }
 
 .promptplus_dashboard_page .show_threshold_dialog {
