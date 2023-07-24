@@ -62,8 +62,7 @@
 
 <body class="basic_page_wrapper">
     <nav class="navbar navbar-light navbar_wrapper">
-        <ul
-            class="navbar-nav container-fluid d-flex flex-row justify-content-end justify-content-sm-between">
+        <ul class="navbar-nav container-fluid d-flex flex-row justify-content-end justify-content-sm-between">
             <li class="home_logo_mobile_only" style="margin-left: 20px;">
                 <a class="navbar_brand hover_yellow" style="text-decoration: none;" href="/">
                     <span class="navbar_logo" style="background-image: url('/images/logo64.png'); top:6px;"></span>
@@ -71,7 +70,8 @@
                             class="home_navbar_name_color"">cog</span></span>
                 </a>
             </li>
-            <li style="flex:1"></li>
+            <li style=" flex:1">
+            </li>
             <li class="nav-item signed_out_options">
                 <a class="signin_show_modal nav-link hover_yellow btn btn-outline-success px-5" href="login"
                     type="button" data-bs-toggle="modal" data-bs-target="#loginModal">Sign In
@@ -94,21 +94,49 @@
     <div class="container main_container">
         <div class="flex-lg-row flex_change_responsive">
             <div class="side_block">
-                <p class="header_recent_document">Formatting Markdown and Code</p>
+                <p class="header_recent_document">Formatting Markdown(code) and Equations</p>
                 <div class="coming-soon card" style="text-align:left;">
                     <div>
                         <a href="https://marked.js.org/" target="_blank">Marked</a>
-                         - for markdown formatting.
-                         <br>
-                         <a href="https://katex.org/" target="_blank">KaTeX</a>
-                         - for equation formatting.
-                         <br>
-                         <a href="https://highlightjs.org/" target="_blank">Highlight.js</a>
-                         - for code formatting.
-                    </div>     
+                        - for markdown formatting.
+                        <br>
+                        <a href="https://katex.org/" target="_blank">KaTeX</a>
+                        - for equation formatting.
+                        <br>
+                        <a href="https://highlightjs.org/" target="_blank">Highlight.js</a>
+                        - for code formatting.
+                        <br>
+                        <br>
+                        Responses can contain Markdown (.md) and/or KaTeX formatted 
+                        equations mixed into the text.  KaTeX blocks are formatted by 
+                        default, and inline KaTex is not - there are options to enable 
+                        either one.        
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="flex-lg-row flex_change_responsive">
+            <div class="side_block">
+                <p class="header_recent_document">Formatting Markdown and Highlighting Code</p>
+                <div class="coming-soon card" style="text-align:left;">
+                    <div>
+                        GPT and Bison models return markdown format (especially upon request).
+                        The markdown portions are delimited with ``` to start and end them.
+                        The markdown is formatted using the library marked and the code 
+                        portion is highlighted using highlight.js.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex-lg-row flex_change_responsive">
+            <div class="side_block">
+                <p class="header_recent_document">Formatting Equations with KaTeX</p>
+                <div class="coming-soon card" style="text-align:left;">
+                    <div>
+                        
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="flex-lg-row flex_change_responsive signed_out_options_block main_block app_panel signed_out_flex">
             <div class="py-3 intro_card">

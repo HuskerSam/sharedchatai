@@ -2,7 +2,7 @@ html {
   overflow-y: scroll;
 }
 
-.day_mode .main_block, 
+.day_mode .main_block,
 .day_mode .side_block {
   border: solid 1px var(--options-tab-color);
 }
@@ -895,9 +895,9 @@ span.desc {
   text-align: center;
 }
 
-.cta_panel a{
+.cta_panel a {
   background-color: var(--member-online-green);
-  font-size:1em;
+  font-size: 1em;
 }
 
 h3.cta_panel {
@@ -909,5 +909,13 @@ h3.cta_panel {
 }
 
 .day_mode .dashboard_documents_view .list-group-item {
-  border: 1px solid rgba(0,0,0,.2);
+  border: 1px solid rgba(0, 0, 0, .2);
+}
+
+.header_tabs {
+  position: relative;
+  font-size: 1.25em;
+  margin-top: 4px;
+  padding-left: 8px;
+  display: inline-flex;
 }
