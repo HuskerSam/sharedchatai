@@ -322,7 +322,7 @@ ul.recent_documents_list li a {
 }
 
 .prompt_log_display .assist {
-  color: var(--prompt-message);
+  color: var(--prompt-assist);
   white-space: pre-wrap;
 }
 
