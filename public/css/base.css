@@ -34,9 +34,9 @@
 
 body.day_mode {
   --home-panel-background: rgb(245, 245, 245); 
-  --modal-background: rgb(235, 235, 235);
+  --modal-background: rgb(250, 250, 250);
   --background-accent: rgb(255, 255, 255); 
-  --background-accent-2: rgb(255, 255, 255);
+  --background-accent-2: rgb(250, 250, 250);
   --background-accent-3: rgb(240, 240, 240); 
 
   --primary-color: black;

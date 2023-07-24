@@ -1205,9 +1205,9 @@ li.mb-1 button.btn.btn-toggle:before {
 }
 
 .katex-display {
-  color: var(--primary-color);
+  color: var(--prompt-assist);
 }
 
 .katex {
-  color: var(--primary-color);
+  color: var(--prompt-assist);
 }
