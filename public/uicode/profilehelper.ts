@@ -242,7 +242,7 @@ export default class ProfileHelper {
                                     <input class="form-check-input profile_enablekatexinline_checkbox" type="checkbox" value="">
                                     KaTeX Inline
                                 </label>
-                                    <label class="form-check-label">
+                                    <label class="form-check-label" style="display:none;">
                                     <input class="form-check-input day_mode_input" type="checkbox" value="">
                                     Day Mode
                                 </label>   

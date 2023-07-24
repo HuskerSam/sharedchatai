@@ -180,7 +180,7 @@ html {
   line-height: 1.5rem;
   margin-right: 0;
   margin-left: 0;
-  color: var(--primary-color);
+  color: rgb(180, 255, 180);
   position: relative;
 }
 

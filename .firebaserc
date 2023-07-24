@@ -1,6 +1,7 @@
 {
   "projects": {
     "default": "sharedchatai",
-    "production": "promptplusai"
+    "production": "promptplusai",
+    "stable": "group-assist"
   }
 }

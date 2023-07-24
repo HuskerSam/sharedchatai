@@ -15,7 +15,6 @@ firebaseAdmin.initializeApp();
 const runtimeOpts: functions.RuntimeOptions = {
     timeoutSeconds: 300,
     memory: "128MB",
-    minInstances: 2,
   };
 
 gameAPIApp.use(cors({
