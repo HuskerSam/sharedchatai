@@ -128,15 +128,16 @@
                     Account usage is tracking using a unit called a credit.  Credits 
                     are directly bound to the cost of each API call.
                     <br>
-                    Credits = [Token Count] * [Token Cost / 1000]
+                    Credits = [Token Count] * [Token Cost / 1000] + [1 per Request]
                     <br>
-                    So a Tokens per Credit = 1000 / [Token Cost]
+                    So a Tokens per Credit ~ 1000 / [Token Cost]
                     <br>
                     <br>
                     Notes 
                     <ul>
                         <li>Output tokens are about twice the cost of input</li>
                         <li>Only the token count returned is used for output (not the max)</li>
+                        <li>1 credit per request for overhead</li>
                     </ul>
                     <br>
                 </div>
