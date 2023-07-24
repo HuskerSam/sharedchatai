@@ -55,8 +55,8 @@ body.day_mode {
   --prompt-assist: rgb(10, 10, 10);
 
   --highlight:  rgb(60, 60, 60);
-  --highlight-session: rgb(250, 235, 60); /*  var(--highlight-session) */ 
-  --prompt-message: rgb(95, 0, 40);
+  --highlight-session: rgb(200, 185, 25); /*  var(--highlight-session) */ 
+  --prompt-message: rgb(0, 0, 255);
   --change: rgb(250, 100, 0); /*  var(--change) */ 
   --warning: rgb(255, 0, 0);
   --document-title: rgb(30, 30, 30);
@@ -73,6 +73,10 @@ body {
   width: 100%;
   background: var(--background-accent-2);
   min-height: 100vh;
+}
+
+body.day_mode {
+  background: var(--background-accent);
 }
 
 @font-face {

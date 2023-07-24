@@ -27,6 +27,11 @@ html {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
 
+.day_mode .side_block,
+.day_mode .main_block {
+  background-color: var(--modal-background);
+}
+
 .coming-soon {
   display: flex;
   flex-direction: column;
@@ -123,6 +128,10 @@ ul.recent_documents_list li a {
 
 .template_list_wrapper li .caption {
   text-align: left;
+  color: var(--primary-color-2);
+}
+
+.template_list_wrapper li .caption {
   color: var(--primary-color-2);
 }
 
@@ -364,7 +373,7 @@ ul.recent_documents_list li a {
 
 
 .home_navbar_name_color {
-  color: var(--brand-name-color);
+  color: var(--impact-green);
 }
 
 .home_navbar_name {

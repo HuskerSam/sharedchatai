@@ -1145,6 +1145,10 @@ li.mb-1 button.btn.btn-toggle:before {
   box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
 }
 
+.day_mode .left_panel_view {
+  background: var(--background-accent-2);
+}
+
 .mobile_layout_mode .left_panel_view {
   width: 250px;
   position: absolute;
