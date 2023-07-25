@@ -226,7 +226,7 @@
 
 .modal .modal-header,
 .modal .modal-footer {
-  border-color: var(--prompt-message);
+  border-color: var(--secondary-color-4);
 }
 
 .modal_document_title_display,

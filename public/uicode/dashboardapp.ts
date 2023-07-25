@@ -351,7 +351,7 @@ export class DashboardApp extends BaseApp {
     if (hour === 0) hour = 12;
     timeStr = hour.toString() + timeStr.substring(2) + " " + suffix;
     const html = `<a href="/session/${data.gameNumber}"
-       class="list-group-item list-group-item-action document_list_item card shadow-sm my-1 rounded card_shadow_sm ${ownerClass}"
+       class="list-group-item list-group-item-action document_list_item card rounded ${ownerClass}"
      data-gamenumber="${doc.id}" gamenumber="${doc.id}">
         <button class="btn btn-secondary document_shared_status_icon_wrapper hover_yellow">
           <span class="material-icons">link</span>
