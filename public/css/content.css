@@ -2,14 +2,14 @@
     max-height: 250px;
     object-fit: contain;
     display: inline-block;
-    background: rgb(230, 230, 230);
+    background: rgb(255, 255, 255);
 }
 
 .responsive_img {
     max-width: 100%;
     object-fit: contain;
     display: inline-block;
-    background: rgb(230, 230, 230);
+    background: rgb(255, 255, 255);
     margin: auto;
     border: solid 2px var(--secondary-color);
 }

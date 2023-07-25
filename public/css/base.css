@@ -54,13 +54,15 @@ body.day_mode {
   --options-tab-color: rgb(100, 100, 100);
   --prompt-assist: rgb(10, 10, 10);
 
-  --highlight:  rgb(60, 60, 60);
+  --highlight:  rgb(13, 110, 253);
+  --highlight-hoover: rgb(10, 88, 202);
   --highlight-session: rgb(200, 185, 25); /*  var(--highlight-session) */ 
   --prompt-message: rgb(0, 0, 255);
   --change: rgb(250, 100, 0); /*  var(--change) */ 
   --warning: rgb(255, 0, 0);
   --document-title: rgb(30, 30, 30);
   --recent-document-activity-date: rgb(230, 160, 210);
+  --impact-font: rgb(10, 161, 191); /*  var(--impact-font) */
   --shared_status_owner: rgb(190, 100, 250); /* var(--shared_status_owner) */
   --shared_status_user: rgb(30, 200, 200); /* var(--shared_status_user) */
   }
@@ -250,7 +252,6 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px;
   text-align: center;
   align-self: center;
   font-size: 1.25em;
@@ -371,11 +372,17 @@ select.form-select option {
 
 a.btn-primary,
 button.btn-primary {
-  background-color: var(--secondary-green);
-  border-color: var(--brand-name-color);
-  color: var(--primary-color);
+  background-color: var(--member-online-green);
+  border-color: var(--member-online-green);
+  color: var(--secondary-color);
 }
 
+.day_mode a.btn-primary, 
+.day_mode button.btn-primary {
+  color: var(--secondary-color);
+  background-color: var(--highlight);
+  border-color:  var(--highlight);
+}
 
 a.btn.btn-primary:hover,
 a.btn.btn-primary:focus,
@@ -383,9 +390,20 @@ a.btn.btn-primary:active,
 button.btn-primary:hover,
 button.btn-primary:focus,
 button.btn-primary:active {
-  color: var(--primary-color-3);
-  background-color: var(--member-online-green);
-  border-color: var(--member-online-green);
+  color: var(--secondary-color);
+  background-color: var(--secondary-green);
+  border-color: var(--secondary-green);
+}
+
+.day_mode a.btn.btn-primary:hover,
+.day_mode a.btn.btn-primary:focus,
+.day_mode a.btn.btn-primary:active,
+.day_mode button.btn-primary:hover,
+.day_mode button.btn-primary:focus,
+.day_mode button.btn-primary:active {
+  color: var(--secondary-color);
+  background-color: var(--highlight-hoover);
+  border-color: var(--highlight-hoover);
 }
 
 
@@ -537,7 +555,7 @@ button.btn-primary:active {
   position: fixed;
   right: 4px;
   z-index: 1000;
-  top: 4px;
+  top: 10px;
   color: var(--primary-color-2);
   border-color: none;
 }
@@ -797,6 +815,6 @@ tbody, td, tfoot, th, thead, tr {
 .day_mode .btn.btn-secondary.hover_yellow:hover, 
 .day_mode .hover_yellow:focus, 
 .day_mode .hover_yellow:hover {
-  background-color: var(--secondary-color-2);
+  background-color: var(--secondary-color-3);
   color: var(--primary-color);
 }
