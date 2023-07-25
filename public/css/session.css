@@ -1240,10 +1240,10 @@ li.mb-1 button.btn.btn-toggle:before {
 }
 
 .katex-display {
-  color: var(--prompt-assist);
+  color: var(--prompt-message);
 }
 
 .katex {
-  color: var(--prompt-assist);
+  color: var(--prompt-message);
 }
 
