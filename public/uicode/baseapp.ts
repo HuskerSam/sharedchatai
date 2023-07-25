@@ -76,6 +76,14 @@ export default class BaseApp {
     if (this.flyer_list_container) {
       this.flyer_list_container.innerHTML = this.getFlyerListTemplate(contentPage);
     }
+    
+    if (this.signin_show_modal) {
+      this.signin_show_modal.addEventListener("click", (e: any) => {
+          e.stopPropagation();
+          e.preventDefault();
+          this.login.show();
+      });
+  }
 
     document.body.classList.add("body_loaded");
     this.load();
