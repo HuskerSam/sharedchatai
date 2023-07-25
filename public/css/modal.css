@@ -637,7 +637,8 @@ label.btn {
   color: var(--primary-color);
 }
 
-.day_mode .show_modal_profile_help {
+.day_mode .show_modal_profile_help,
+.day_mode .show_token_threshold_dialog_help {
   border: none;
 }
 

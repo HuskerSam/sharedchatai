@@ -494,8 +494,18 @@ pre code {
 
 .over_token_sendlimit .exclude_tickets_button {
   background-color: var(--secondary-green);
+  border-color: var(--secondary-green);
+}
+
+.day_mode .modal-dialog .exclude_tickets_button {
+  color: var(--secondary-color);
+}
+
+.over_token_sendlimit .exclude_tickets_button:hover {
+  background-color: var(--impact-green);
   border-color: var(--impact-green);
 }
+
 
 .exclude_tickets_running .exclude_tickets_button {
   visibility: hidden;
@@ -512,8 +522,24 @@ pre code {
   border-color: var(--secondary-color-1);
 }
 
+.over_token_sendlimit .auto_run_overthreshold_ticket:hover {
+  background-color: var(--secondary-color-2);
+  border-color: var(--secondary-color-2);
+}
+
 .over_token_sendlimit .auto_run_overthreshold_ticket i {
-  color: red;
+  color: var(--warning);
+}
+
+.day_mode .auto_run_overthreshold_ticket {
+  background-color: var(--impact-green);
+  border-color: var(--impact-green);
+  color: var(--secondary-color);
+}
+
+.day_mode .auto_run_overthreshold_ticket:hover {
+  background-color: var(--secondary-green);
+  border-color: var(--secondary-green);
 }
 
 .rerun_ticket i,
@@ -851,6 +877,7 @@ button.btn-primary.send_ticket_button {
   background-color: transparent;
   border-color: transparent;
   margin-bottom: -6px;
+  color: var(--primary-color);
 }
 
 .engine_settings_tweaked .send_ticket_button i {
@@ -1219,3 +1246,4 @@ li.mb-1 button.btn.btn-toggle:before {
 .katex {
   color: var(--prompt-assist);
 }
+

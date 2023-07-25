@@ -170,7 +170,7 @@ ul.recent_documents_list li a {
 
 @media (max-width: 767px) {
   .coming-soon {
-    padding: 1em;
+    padding: 0em;
   }
 
   .coming-soon-descr {
@@ -263,7 +263,6 @@ ul.recent_documents_list li a {
   text-align: left;
   display: block;
   flex: 1;
-  font-size: 1.2em;
 }
 
 .supported_model {
@@ -726,8 +725,16 @@ iframe {
   position: relative;
 }
 
-.dropdown-menu.dropdown-menu-dark .delete i {
+.dropdown-menu.dropdown-menu-dark .delete i,
+.day_mode .dropdown-menu.dropdown-menu-dark .delete i,
+.dropdown-menu.dropdown-menu-dark .leave i,
+.day_mode .dropdown-menu.dropdown-menu-dark .leave i  {
   color: var(--warning);
+}
+
+.day_mode .dropdown-menu-dark .dropdown-item, 
+.day_mode .dropdown-menu-dark .dropdown-item i {
+  color: var(--secondary-color);
 }
 
 .session_shared_column .member_profile_name {
@@ -924,3 +931,26 @@ h3.cta_panel {
 .day_mode .model_svg {
   background-color: var(--options-tab-color);
 }
+
+.header_tabs {
+  position: relative;
+  font-size: 1.25em;
+  margin-top: 4px;
+  display: inline-flex;
+  background-color: var(--home-panel-background);
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 8px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.day_mode .header_tabs {
+  background-color: var(--secondary-color-3);
+}
+
+h3,
+ol li {
+  color: var(--primary-color);
+}
+
