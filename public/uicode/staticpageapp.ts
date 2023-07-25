@@ -11,7 +11,6 @@ export class StaticPageApp extends BaseApp {
     lastDocumentsSnapshot: any = null;
     recentDocumentFeedRegistered = false;
     recentDocumentsSubscription: any = null;
-    home_page_login: any = document.querySelector(".home_page_login");
 
     /**
      * @param { boolean } contentPage true if content page for all items
@@ -41,15 +40,6 @@ export class StaticPageApp extends BaseApp {
         }
         this.populateAnchorLinks();
         this.bounceSidebarCollapse();
-
-
-        if (this.home_page_login) {
-            this.home_page_login.addEventListener("click", (e: any) => {
-                e.stopPropagation();
-                e.preventDefault();
-                this.login.show();
-            });
-        }
     }
     /** override event that happens after authentication resolution */
     authUpdateStatusUI(): void {

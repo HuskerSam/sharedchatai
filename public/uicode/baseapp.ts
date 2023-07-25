@@ -13,7 +13,6 @@ export default class BaseApp {
   projectId = firebase.app().options.projectId;
   basePath = `https://us-central1-${this.projectId}.cloudfunctions.net/`;
   urlParams = new URLSearchParams(window.location.search);
-  signin_show_modal: any = document.querySelector(".signin_show_modal");
   muted = false;
   uid: any = null;
   profile: any = null;
@@ -48,6 +47,7 @@ export default class BaseApp {
   html_body_container: any = document.querySelector(".main_container");
   content_list_container: any = document.querySelector(".recent_content_ul_list");
   flyer_list_container: any = document.querySelector(".recent_content_flyers_ul_list");
+  signin_show_modal: any = document.querySelector(".signin_show_modal");
 
   /**
  * @param { boolean } contentPage content list trimmed on other pages and footer link change
@@ -75,6 +75,14 @@ export default class BaseApp {
     }
     if (this.flyer_list_container) {
       this.flyer_list_container.innerHTML = this.getFlyerListTemplate(contentPage);
+    }
+
+    if (this.signin_show_modal) {
+      this.signin_show_modal.addEventListener("click", (e: any) => {
+        e.stopPropagation();
+        e.preventDefault();
+        this.login.show();
+      });
     }
 
     document.body.classList.add("body_loaded");
