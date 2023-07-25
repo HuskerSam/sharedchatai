@@ -13,6 +13,7 @@
   --secondary-color-1: rgb(100, 100, 100); /* var(--secondary-color-1) */
   --secondary-color-2: rgb(127, 127, 127); /* var(--secondary-color-2) */
   --secondary-color-3: rgb(150, 150, 150); /* grey, var(--secondary) [ ] */
+  --secondary-color-4: rgb(175, 175, 175); /* grey, var(--secondary) [ ] */
 
   --brand-name-color:  rgb(28, 227, 60); /*  var(--brand-name-color) */
   --secondary-green: rgb(75, 220, 75); /* var(--secondary-green) */
@@ -48,6 +49,7 @@ body.day_mode {
   --secondary-color-1: rgb(250, 250, 250); 
   --secondary-color-2: rgb(245, 245, 245); 
   --secondary-color-3: rgb(225, 225, 225);
+  --secondary-color-4: rgb(215, 215, 215);
 
   --impact-green: rgb(0, 128, 0); /* var(--impact-green) */  
   --secondary-green: rgb(25, 100, 25); /* var(--secondary-green) */
