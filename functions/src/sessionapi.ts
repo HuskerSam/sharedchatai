@@ -24,6 +24,11 @@ export default class SessionAPI {
         const authResults = await BaseClass.validateCredentials(req.headers.token);
         if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
 
+        const today = new Date().toISOString();
+        const yearFrag = today.substring(0, 4);
+        const yearMonthFrag = today.substring(0, 7);
+        const ymdFrag = today.substring(0, 10);
+
         const uid = authResults.uid;
         const gameNumber = req.body.gameNumber;
         const reRunticket: any = req.body.reRunTicket;
@@ -45,6 +50,14 @@ export default class SessionAPI {
         if (!sessionDocumentData) {
             return BaseClass.respondError(res, "Game not found");
         }
+
+        const userUsageQuery = await firebaseAdmin.firestore().doc(`Users/${sessionDocumentData.createUser}/internal/tokenUsage`).get();
+        let userUsageData: any = userUsageQuery.data();
+        if (!userUsageData) userUsageData = {};
+        const accountUsageLimit = BaseClass.getNumberOrDefault(userUsageData.currentMonthLimit, 50000);
+        let runningTokens: any = userUsageData.runningTokens;
+        if (!runningTokens) runningTokens = {};
+        const monthlyUsage = BaseClass.getNumberOrDefault(runningTokens["credit_" + yearMonthFrag], 0);
 
         const userQ = await firebaseAdmin.firestore().doc(`Users/${sessionDocumentData.createUser}`).get();
         const ownerProfile = userQ.data();
@@ -135,6 +148,10 @@ export default class SessionAPI {
             if (usageLimit > 0 && documentUsed >= usageLimit) {
                 throw new Error("Submit Blocked: Document Usage Limit Reached");
             }
+
+            if (monthlyUsage > accountUsageLimit) {
+                throw new Error("Submit Blocked: Monthly Account Usage Limit Reached");
+            }
         } catch (usageTestError) {
             usageLimitError = true;
             usageErrorObject = usageTestError;
@@ -178,11 +195,6 @@ export default class SessionAPI {
         const completion_tokens = aiResults.completion_tokens;
         const usage_credits = aiResults.usage_credits;
         const aiResponse = aiResults.aiResponse;
-
-        const today = new Date().toISOString();
-        const yearFrag = today.substring(0, 4);
-        const yearMonthFrag = today.substring(0, 7);
-        const ymdFrag = today.substring(0, 10);
 
         const promises = [
             firebaseAdmin.firestore().doc(`Games/${gameNumber}/assists/${ticketId}`).set(aiResponse),
