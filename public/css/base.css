@@ -650,17 +650,17 @@ button.btn-primary:active {
 .nav-link.dashboard_create_game_mobile.hover_yellow:hover i,
 .nav-link.dashboard_create_game.hover_yellow:hover i,
 .nav-link.show_create_modal.hover_yellow:hover i {
-  color: var(--primary-color);
+  color: var(--highlight);
 }
 
 .hover_yellow:hover svg,
 .hover_yellow:hover i {
-  color: var(--primary-color);
+  color: var(--highlight);
 }
 
 a.hover_yellow.show_dashboard_help_button:hover i,
 a.hover_yellow.show_document_options_help:hover i {
-  color: var(--primary-color);
+  color: var(--highlight);
 }
 
 .navbar .navbar-toggler span.hamburger_span,
