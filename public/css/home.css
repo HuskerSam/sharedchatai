@@ -484,7 +484,7 @@ iframe {
 }
 
 .show_clear_label_filter .document_label_filter.form-select {
-  background-color: var(--background-accent);
+  background-color: var(--background-accent-3);
   color: var(--impact-green);
   border: solid 1px var(--secondary-color-1);
 }
@@ -492,8 +492,7 @@ iframe {
 .show_clear_label_filter .document_label_filter.form-select:hover,
 .show_clear_label_filter .document_label_filter.form-select:focus,
 .show_clear_label_filter .document_label_filter.form-select:active {
-  color: var(--impact-green);
-  border: solid 1px var(--secondary-color);
+  border: solid 1px var(--primary-color-4);
 }
 
 
@@ -677,6 +676,30 @@ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 
   display: none;
 }
 
+.dashboard_documents_view .list-group-item {
+  border: 1px solid var(--home-panel-background);
+}
+
+.day_mode .dashboard_documents_view .list-group-item {
+  border: 1px inset rgba(0,0,0, .175);
+  box-shadow: 0px 4px 8px -2px rgba(9, 30, 66, 0.25), 0px 0px 0px 1px rgba(9, 30, 66, 0.08);
+}
+
+.dashboard_documents_view .list-group-item:hover,
+.dashboard_documents_view .list-group-item:focus,
+.dashboard_documents_view .list-group-item:active {
+  border: 1px inset var(--primary-color-3);
+  background-color: var(--background-accent-1);
+}
+
+.day_mode .dashboard_documents_view .list-group-item:hover,
+.day_mode .dashboard_documents_view .list-group-item:focus,
+.day_mode .dashboard_documents_view .list-group-item:active {
+  background-color: var(--background-accent-2);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4), 0px 7px 13px -3px rgba(0, 0, 0, 0.3), inset 0px -3px 0px rgba(0, 0, 0, 0.2);
+}
+
+
 .dropstart .dropdown-toggle::before {
   display: inline-block;
   margin-right: 0;
@@ -689,9 +712,15 @@ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 
 
 .btn.btn-secondary.dropdown-toggle.dashboard_menu_toggle {
   background: none;
-  border-color: transparent;
+  border: none;
+  border-left: solid 1px var(--secondary-color);
+  border-radius: 0;
   padding-top: 12px;
   padding-bottom: 12px;
+}
+
+.btn.btn-secondary.dropdown-toggle.dashboard_menu_toggle {
+  border-left: none;
 }
 
 .btn.btn-secondary.dropdown-toggle.dashboard_menu_toggle.show {
@@ -807,6 +836,25 @@ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 
   top: 6px;
 }
 
+.header_tabs {
+  position: relative;
+  font-size: 1.25em;
+  margin-top: 4px;
+  display: inline-flex;
+  background-color: var(--background-accent-3);
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 8px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  box-shadow: rgba(1, 4, 6, 0.35) 1px 1px 4px 1px inset;
+}
+
+.day_mode .header_tabs {
+  background-color: var(--secondary-color-3);
+  box-shadow: rgba(10, 37, 64, 0.35) 1px 1px 4px 1px inset;
+}
+
 .nav-pills .nav-link {
   color: var(--primary-color-2);
 }
@@ -816,6 +864,14 @@ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 
   background-color: transparent;
   border: 1px solid var(--highlight);
   color: var(--highlight);
+}
+
+.day_mode .nav-pills .nav-link.active,
+.day_mode .nav-pills .show>.nav-link {
+  background-color: var(--secondary-color);
+  color: var(--highlight);
+  border: none;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 1px -1px;
 }
 
 .sessions_list_loading_panel {
@@ -940,34 +996,11 @@ h3.cta_panel {
   color: var(--primary-color-2);
 }
 
-.dashboard_documents_view .list-group-item {
-  border: 1px inset rgba(255, 255, 255, 0.175);
-}
-
-.day_mode .dashboard_documents_view .list-group-item {
-  border: 1px solid rgba(0,0,0,.2);
-}
 
 .day_mode .model_svg {
   background-color: var(--options-tab-color);
 }
 
-.header_tabs {
-  position: relative;
-  font-size: 1.25em;
-  margin-top: 4px;
-  display: inline-flex;
-  background-color: var(--home-panel-background);
-  padding-left: 8px;
-  padding-right: 8px;
-  border-radius: 8px;
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-.day_mode .header_tabs {
-  background-color: var(--secondary-color-3);
-}
 
 h3,
 ol li {
