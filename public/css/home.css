@@ -547,11 +547,6 @@ iframe {
   align-self: center;
 }
 
-.btn-group.dropstart {
-  margin-top: -12px;
-  margin-bottom: -12px;
-}
-
 @media (min-width: 850px) {
   .session_labels_column {
     display: block;
@@ -715,8 +710,11 @@ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 
   border: none;
   border-left: solid 1px var(--secondary-color);
   border-radius: 0;
-  padding-top: 12px;
-  padding-bottom: 12px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  margin-top: -3px;
+  margin-bottom: -3px;
+  border-radius: 8px;
 }
 
 .btn.btn-secondary.dropdown-toggle.dashboard_menu_toggle {

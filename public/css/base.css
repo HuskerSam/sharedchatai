@@ -610,7 +610,7 @@ button.btn-primary:active {
 .hover_yellow:hover {
   background-color: var(--secondary-color);
   border-color: transparent;
-  color: var(--primary-color);
+  color: var(--highlight);
 }
 
 .menu_dropdown_label_wrapper {
