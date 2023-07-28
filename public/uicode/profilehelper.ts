@@ -1,5 +1,6 @@
 import Utility from "./utility.js";
 import BaseApp from "./baseapp.js";
+import AccountHelper from "./accounthelper.js";
 declare const firebase: any;
 declare const window: any;
 
@@ -561,55 +562,25 @@ export default class ProfileHelper {
     }
     /** fetch and paint user token usage */
     async updateTokenUsage() {
-        // lookup usage stats
-        const usageDoc = await firebase.firestore().doc(`Users/${this.app.uid}/internal/tokenUsage`).get();
-        let usageData = usageDoc.data();
-        if (!usageData) usageData = {};
-
-        const today = new Date().toISOString();
-        const yearFrag = today.substring(0, 4);
-        const yearMonthFrag = today.substring(0, 7);
-        const ymdFrag = today.substring(0, 10);
-        let runningTokens: any = {};
-        if (usageData.runningTokens) runningTokens = usageData.runningTokens;
-
-        const allTimeTotalTokens = BaseApp.numberWithCommas(usageData.totalTokens);
-        const allTimePromptTokens = BaseApp.numberWithCommas(usageData.promptTokens);
-        const allTimeCompletionTokens = BaseApp.numberWithCommas(usageData.completionTokens);
-        const allTimeCreditUsage = BaseApp.numberWithCommas(usageData.creditUsage, 2);
-
-        const yearlyTotalTokens = BaseApp.numberWithCommas(runningTokens["total_" + yearFrag]);
-        const yearlyPromptTokens = BaseApp.numberWithCommas(runningTokens["prompt_" + yearFrag]);
-        const yearlyCompletionTokens = BaseApp.numberWithCommas(runningTokens["completion_" + yearFrag]);
-        const yearlyCreditUsage = BaseApp.numberWithCommas(runningTokens["credit_" + yearFrag], 2);
-
-        const monthlyTotalTokens = BaseApp.numberWithCommas(runningTokens["total_" + yearMonthFrag]);
-        const monthlyPromptTokens = BaseApp.numberWithCommas(runningTokens["prompt_" + yearMonthFrag]);
-        const monthlyCompletionTokens = BaseApp.numberWithCommas(runningTokens["completion_" + yearMonthFrag]);
-        const monthlyCreditUsage = BaseApp.numberWithCommas(runningTokens["credit_" + yearMonthFrag], 2);
-
-        const dailyTotalTokens = BaseApp.numberWithCommas(runningTokens["total_" + ymdFrag]);
-        const dailyPromptTokens = BaseApp.numberWithCommas(runningTokens["prompt_" + ymdFrag]);
-        const dailyCompletionTokens = BaseApp.numberWithCommas(runningTokens["completion_" + ymdFrag]);
-        const dailyCreditUsage = BaseApp.numberWithCommas(runningTokens["credit_" + ymdFrag], 2);
-
-        this.replies_row.innerHTML = `<th>Reply</th><td class="day_td">${dailyCompletionTokens}</td>` +
-            `<td class="monthly_td">${monthlyCompletionTokens}</td>` +
-            `<td class="yearly_td">${yearlyCompletionTokens}</td>` +
-            `<td class="all_time_td">${allTimeCompletionTokens}</td>`;
-        this.prompts_row.innerHTML = `<th>Sent</th><td class="day_td">${dailyPromptTokens}</td>` +
-            `<td class="monthly_td">${monthlyPromptTokens}</td>` +
-            `<td class="yearly_td">${yearlyPromptTokens}</td>` +
-            `<td class="all_time_td">${allTimePromptTokens}</td>`;
-        this.total_row.innerHTML = `<th>Total</th><td class="day_td">${dailyTotalTokens}</td>` +
-            `<td class="monthly_td">${monthlyTotalTokens}</td>` +
-            `<td class="yearly_td">${yearlyTotalTokens}</td>` +
-            `<td class="all_time_td">${allTimeTotalTokens}</td>`;
-        this.credits_row.innerHTML = `<th>Credits</th><td class="day_td">${dailyCreditUsage}</td>` +
-            `<td class="monthly_td">${monthlyCreditUsage}</td>` +
-            `<td class="yearly_td">${yearlyCreditUsage}</td>` +
-            `<td class="all_time_td">${allTimeCreditUsage}</td>`;
-        this.monthly_tokens_usage.innerHTML = monthlyCreditUsage;
+        AccountHelper.accountInfoUpdate(this.app, (usageData: any) => {
+            this.replies_row.innerHTML = `<th>Reply</th><td class="day_td">${usageData.dailyCompletionTokens}</td>` +
+                `<td class="monthly_td">${usageData.monthlyCompletionTokens}</td>` +
+                `<td class="yearly_td">${usageData.yearlyCompletionTokens}</td>` +
+                `<td class="all_time_td">${usageData.allTimeCompletionTokens}</td>`;
+            this.prompts_row.innerHTML = `<th>Sent</th><td class="day_td">${usageData.dailyPromptTokens}</td>` +
+                `<td class="monthly_td">${usageData.monthlyPromptTokens}</td>` +
+                `<td class="yearly_td">${usageData.yearlyPromptTokens}</td>` +
+                `<td class="all_time_td">${usageData.allTimePromptTokens}</td>`;
+            this.total_row.innerHTML = `<th>Total</th><td class="day_td">${usageData.dailyTotalTokens}</td>` +
+                `<td class="monthly_td">${usageData.monthlyTotalTokens}</td>` +
+                `<td class="yearly_td">${usageData.yearlyTotalTokens}</td>` +
+                `<td class="all_time_td">${usageData.allTimeTotalTokens}</td>`;
+            this.credits_row.innerHTML = `<th>Credits</th><td class="day_td">${usageData.dailyCreditUsage}</td>` +
+                `<td class="monthly_td">${usageData.monthlyCreditUsage}</td>` +
+                `<td class="yearly_td">${usageData.yearlyCreditUsage}</td>` +
+                `<td class="all_time_td">${usageData.allTimeCreditUsage}</td>`;
+            this.monthly_tokens_usage.innerHTML = usageData.monthlyCreditUsage;
+        });
     }
     /** populate modal fields and show */
     async show() {
@@ -689,7 +660,7 @@ export default class ProfileHelper {
             window.location.reload();
         }
     }
-     /**  On page load, unless on help page, set the day mode based on user preference */
+    /**  On page load, unless on help page, set the day mode based on user preference */
     initDayMode() {
         if (window.location.pathname !== "/help/") {
             const dayMode = localStorage.getItem('dayMode');

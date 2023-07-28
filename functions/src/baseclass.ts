@@ -128,6 +128,7 @@ export default class BaseClass {
         success: true,
         email,
         uid,
+        provider_id: decodedToken.provider_id,
       };
     } catch (errObject) {
       return {

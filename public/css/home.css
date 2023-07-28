@@ -887,6 +887,7 @@ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 
   opacity: 0;
   text-align: left;
   padding-left: 0px;
+  display: flex;
 }
 
 .list_loaded .filter_bar_wrapper {
@@ -1007,3 +1008,35 @@ ol li {
   color: var(--primary-color);
 }
 
+.header_tabs a {
+  min-width: 5em;
+}
+
+@media (max-width: 389px) {
+  .header_tabs a {
+    min-width: 4.25em;
+  }
+}
+
+.account_status_display {
+  color: var(--primary-color);
+  white-space: nowrap;
+  padding-top: 12px;
+}
+
+.credits_left,
+.credits_used {
+  font-family: "MonospaceTTF";
+  text-align: right;
+  min-width: 3em;
+  font-size: .8em;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.credits_label {
+  text-align: left;
+  min-width: 3em;
+  display: inline-block;
+  white-space: nowrap;
+}

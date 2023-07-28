@@ -85,13 +85,16 @@ export default class GameAPI {
     if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
 
     const uid = authResults.uid;
-
     const localInstance = BaseClass.newLocalInstance();
     await localInstance.init();
     const userQ = await firebaseAdmin.firestore().doc(`Users/${uid}`).get();
     const profile = userQ.data();
     if (!profile) {
       return BaseClass.respondError(res, "User not found");
+    }
+
+    if (authResults.provider_id.toLowerCase() === 'anonymous') {
+      return BaseClass.respondError(res, "Sessions can't be created while anonymous");
     }
 
     let label = "";

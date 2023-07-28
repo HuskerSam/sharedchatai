@@ -14,6 +14,8 @@ import {
     encode,
 } from "gpt-3-encoder";
 
+const creditRequestCharge = 1;
+
 /** Match game specific turn logic wrapped in a transaction */
 export default class SessionAPI {
     /** http endpoint for user posting message to table chat
@@ -193,7 +195,7 @@ export default class SessionAPI {
         const total_tokens = aiResults.total_tokens;
         const prompt_tokens = aiResults.prompt_tokens;
         const completion_tokens = aiResults.completion_tokens;
-        const usage_credits = aiResults.usage_credits;
+        const usage_credits = aiResults.usage_credits + creditRequestCharge;
         const aiResponse = aiResults.aiResponse;
 
         const promises = [

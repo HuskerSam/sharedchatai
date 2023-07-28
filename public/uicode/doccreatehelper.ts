@@ -247,8 +247,8 @@ export default class DocCreateHelper {
     });
     const json = await fResult.json();
     if (!json.success) {
-      console.log("failed create", json);
-      alert("failed to create session");
+      console.log(json.errorMessage, json);
+      alert(json.errorMessage);
       return;
     }
 
@@ -289,6 +289,11 @@ export default class DocCreateHelper {
   */
   show(label = "", forceAdvanced = false) {
     this.create_modal_note_field.value = "";
+
+    if (this.app.fireUser.isAnonymous) {
+      alert("Anonymous can only join already created sessions");
+      return;
+    }
 
     const queryLabelSelect2 = window.$(".create_document_label_options");
     queryLabelSelect2.html("");
