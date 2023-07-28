@@ -38,6 +38,8 @@ export default class ProfileHelper {
     noAuthPage = false;
     day_mode_input: any;
     account_tab_button: any;
+    monthly_limit: any;
+    change_subscription: any;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -76,6 +78,11 @@ export default class ProfileHelper {
         this.total_row = document.querySelector(".total_row");
         this.credits_row = document.querySelector(".credits_row");
         this.monthly_tokens_usage = document.querySelector(".monthly_tokens_usage");
+        this.monthly_limit = this.modalContainer.querySelector(".monthly_limit");
+        this.change_subscription = this.modalContainer.querySelector(".change_subscription");
+        this.change_subscription.addEventListener("click", () => {
+            alert("Contact support in while in beta");
+        });
 
         this.profile_text_large_checkbox = document.querySelector(".profile_text_large_checkbox");
         this.profile_display_image_randomize = document.querySelector(".profile_display_image_randomize");
@@ -262,11 +269,14 @@ export default class ProfileHelper {
                         </div>
                         <div class="tab-pane fade" id="profile_user_usage_view" role="tabpanel"
                             aria-labelledby="usage_labels_tab_button">
-                            <div class="form-label">Monthly Unacog Credits Usage</div>
+                            Subscription Level: &nbsp;<span class="account_subscription_status">Pre Release</span>
+                            &nbsp;
+                            <button class="btn btn-secondary change_subscription">Change...</button>
+                            <br>
                             <div class="summary_panel">
                                 Credits Used: <span class="summary_column monthly_tokens_usage">0</span>
                                 <br>
-                                Monthly Limit: <span class="summary_column">20,000,000</span>
+                                Monthly Limit: <span class="summary_column monthly_limit">0</span>
                             </div>
                             <hr>
                             <div class="form-label">Token Usage History</div>
@@ -284,67 +294,9 @@ export default class ProfileHelper {
                                 <tr class="credits_row"></tr>
                             </table>
                             <hr>
-                            <table>
-                                <tr>
-                                    <td>Subscription Level: &nbsp;</td>
-                                    <td class="account_subscription_status">Pre Release</td>
-                                </tr>
-                            </table>
-                            <div class="subscription_panel">
-                                <div class="free_subscription selected">
-                                    Try out<br>
-                                    Unlimited Sharing<br>
-                                    50 thousand tokens<br>
-                                    Monthly<br>
-                                    Free<br>
-                                    <button class="btn btn-secondary">
-                                    <i class="material-icons">upgrade</i>
-                                    Downgrade</button>
-                                </div>
-                                <div class="prompter_subscription">
-                                    Prompter<br>
-                                    Unlimited Sharing<br>
-                                    20 million tokens<br>
-                                    Monthly<br>
-                                    $20<br>
-                                    <button class="btn btn-primary">
-                                    <i class="material-icons">upgrade</i>
-                                    Upgrade</button>
-                                </div>
-                            </div>
-                            <div class="subscription_panel">
-                                <div class="teacher_subscription">
-                                    Collaborator<br>
-                                    Unlimited Sharing<br>
-                                    100 million tokens<br>
-                                    Monthly<br>
-                                    $50<br>
-                                    <button class="btn btn-primary">
-                                    <i class="material-icons">upgrade</i>
-                                    Upgrade</button>
-                                </div>
-                                <div class="one_time_token_purchase">
-                                    Reserve Tokens<br>
-                                    No expiration<br>
-                                    10 million tokens<br>
-                                    One time<br>
-                                    $20<br>
-                                    <button class="btn btn-primary">
-                                        <i class="material-icons">attach_money</i>
-                                        Purchase
-                                    </button>
-                                </div>
-                            </div>
-                            <hr>
                             <div class="change_email_panel">
-                                <div style="text-align:center;font-weight: bold;line-height:2.5em;font-size:.75em;">
-                                    <span class="user_email"></span>
-                                </div>
-                                <div class="form-label">New Email</div>
                                 <input type="text" class="form-control profile_new_email" placeholder="New Email">
-                                <div style="text-align:right;line-height:3em;">
-                                    <button class="change_email_button btn btn-secondary">Change Email</button>
-                                </div>         
+                                <button class="change_email_button btn btn-secondary">Change Email</button>        
                             </div>
                         </div>
                     </div>
@@ -581,7 +533,8 @@ export default class ProfileHelper {
                 `<td class="monthly_td">${usageData.monthlyCreditUsage}</td>` +
                 `<td class="yearly_td">${usageData.yearlyCreditUsage}</td>` +
                 `<td class="all_time_td">${usageData.allTimeCreditUsage}</td>`;
-            this.monthly_tokens_usage.innerHTML = usageData.monthlyCreditUsage;
+            this.monthly_tokens_usage.innerHTML = Math.round(usageData.nMonthlyCreditUsage);
+            this.monthly_limit.innerHTML = Math.round(usageData.currentMonthLimit);
         });
     }
     /** populate modal fields and show
@@ -635,6 +588,11 @@ export default class ProfileHelper {
     /** */
     async changeEmail() {
         const newEmail = this.profile_new_email.value.trim();
+
+        if (newEmail === "") {
+            alert("Must supply a new email");
+            return;
+        }
 
         const oldEmail = this.app.fireUser.email;
         if (newEmail === oldEmail) {

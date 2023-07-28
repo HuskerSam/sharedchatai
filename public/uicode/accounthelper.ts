@@ -32,6 +32,8 @@ export default class AccountHelper {
             const monthlyPromptTokens = BaseApp.numberWithCommas(runningTokens["prompt_" + yearMonthFrag]);
             const monthlyCompletionTokens = BaseApp.numberWithCommas(runningTokens["completion_" + yearMonthFrag]);
             const monthlyCreditUsage = BaseApp.numberWithCommas(runningTokens["credit_" + yearMonthFrag], 2);
+            let nMonthlyCreditUsage = runningTokens["credit_" + yearMonthFrag];
+            if (!nMonthlyCreditUsage) nMonthlyCreditUsage = 0;
     
             const dailyTotalTokens = BaseApp.numberWithCommas(runningTokens["total_" + ymdFrag]);
             const dailyPromptTokens = BaseApp.numberWithCommas(runningTokens["prompt_" + ymdFrag]);
@@ -59,6 +61,7 @@ export default class AccountHelper {
                 dailyCompletionTokens,
                 dailyCreditUsage,
                 currentMonthLimit,
+                nMonthlyCreditUsage,
             });
           });
     }
