@@ -38,6 +38,9 @@ export default class AccountHelper {
             const dailyCompletionTokens = BaseApp.numberWithCommas(runningTokens["completion_" + ymdFrag]);
             const dailyCreditUsage = BaseApp.numberWithCommas(runningTokens["credit_" + ymdFrag], 2);
     
+            let currentMonthLimit = usageData.currentMonthLimit;
+            if (!currentMonthLimit) currentMonthLimit = 50000;
+
             callback({
                 allTimeTotalTokens,
                 allTimePromptTokens,
@@ -55,6 +58,7 @@ export default class AccountHelper {
                 dailyPromptTokens,
                 dailyCompletionTokens,
                 dailyCreditUsage,
+                currentMonthLimit,
             });
           });
     }

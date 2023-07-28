@@ -37,6 +37,7 @@ export default class ProfileHelper {
     monthly_tokens_usage: any;
     noAuthPage = false;
     day_mode_input: any;
+    account_tab_button: any;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -137,6 +138,7 @@ export default class ProfileHelper {
         this.day_mode_input = document.querySelector(".day_mode_input");
         this.day_mode_input.addEventListener("input", () => this.toggleDayMode());
         this.initDayMode();
+        this.account_tab_button = document.querySelector(".account_tab_button");
     }
     /** pick a random college logo for the profile image and save to firebase */
     async randomizeImage() {
@@ -177,7 +179,7 @@ export default class ProfileHelper {
                                 aria-selected="false">Labels</a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" id="usage_labels_tab_button" data-bs-toggle="tab"
+                            <a class="nav-link account_tab_button" id="usage_labels_tab_button" data-bs-toggle="tab"
                                 href="#profile_user_usage_view" role="tab" aria-controls="profile_user_usage_view"
                                 aria-selected="false">Account</a>
                         </li>
@@ -582,8 +584,10 @@ export default class ProfileHelper {
             this.monthly_tokens_usage.innerHTML = usageData.monthlyCreditUsage;
         });
     }
-    /** populate modal fields and show */
-    async show() {
+    /** populate modal fields and show
+     * @param { boolean } showAccountTab
+    */
+    async show(showAccountTab: boolean = false) {
         let displayName = this.app.profile.displayName;
         if (!displayName) displayName = "New User";
         this.profile_display_name.innerHTML = displayName;
@@ -625,6 +629,7 @@ export default class ProfileHelper {
         this.app.updateUserNamesImages();
         this.updateTokenUsage();
         const modal = new window.bootstrap.Modal("#userProfileModal", {});
+        if (showAccountTab) this.account_tab_button.click();
         modal.show();
     }
     /** */

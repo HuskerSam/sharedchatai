@@ -1024,6 +1024,10 @@ ol li {
   padding-top: 12px;
 }
 
+.signed_in_anonymous .account_status_display {
+  opacity: 0;
+}
+
 .credits_left,
 .credits_used {
   font-family: "MonospaceTTF";

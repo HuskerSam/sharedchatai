@@ -92,8 +92,7 @@ export default class GameAPI {
     if (!profile) {
       return BaseClass.respondError(res, "User not found");
     }
-
-    if (authResults.provider_id.toLowerCase() === 'anonymous') {
+    if (authResults.provider_id && authResults.provider_id.toLowerCase() === 'anonymous') {
       return BaseClass.respondError(res, "Sessions can't be created while anonymous");
     }
 

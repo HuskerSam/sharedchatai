@@ -1,6 +1,7 @@
 import BaseApp from "./baseapp.js";
 import DocOptionsHelper from "./docoptionshelper.js";
 import ChatDocument from "./chatdocument.js";
+import AccountHelper from "./accounthelper.js";
 
 declare const firebase: any;
 
@@ -17,6 +18,7 @@ export class DashboardApp extends BaseApp {
   checkTemplateURL = false;
   lastTicketsSnapshot: any = null;
   lastAssistsSnapshot: any = null;
+  usageWatchInited: any = null;
   assistsLookup: any = {};
   document_label_filter: any = document.querySelector(".document_label_filter");
   profile_menu_anchor: any = document.querySelector(".profile_menu_anchor");
@@ -28,7 +30,10 @@ export class DashboardApp extends BaseApp {
   content_tab_button: any = document.querySelector("#content_tab_button");
   dashboard_tab_button: any = document.querySelector("#dashboard_tab_button");
   news_tab_view: any = document.querySelector("#news_tab_view");
+  credits_used: any = document.querySelector(".credits_used");
+  credits_left: any = document.querySelector(".credits_left");
   footer_container_div: any = null;
+  account_status_display: any = document.querySelector(".account_status_display");
 
   /** */
   constructor() {
@@ -64,6 +69,12 @@ export class DashboardApp extends BaseApp {
     this.news_tab_view.appendChild(this.footer_container_div);
 
     if (location.hash === "#moreinfo") this.content_tab_button.click();
+
+    this.account_status_display.addEventListener("click", (e: any) => {
+      e.preventDefault();
+      e.stopPropagation();
+      this.profileHelper.show(true);
+    });
   }
   /**
    * @return { string } label if custom, "" if not (all or unlabeled)
@@ -113,8 +124,12 @@ export class DashboardApp extends BaseApp {
   /** BaseApp override to update additional use profile status */
   authUpdateStatusUI() {
     super.authUpdateStatusUI();
-    this.initGameFeeds();
-    this.initRTDBPresence();
+
+    if (this.uid) {
+      this.initGameFeeds();
+      this.initRTDBPresence();
+      this.initUsageWatch();
+    }
     if (!this.checkTemplateURL) {
       this.checkTemplateURL = true;
       const templatePath = this.urlParams.get("templatepath");
@@ -122,6 +137,18 @@ export class DashboardApp extends BaseApp {
       if (title) this.documentCreate.create_modal_title_field.value = title;
       if (templatePath) this.showCreateDialog(templatePath);
     }
+  }
+  initUsageWatch() {
+    if (this.usageWatchInited) return;
+    this.usageWatchInited = true;
+
+    AccountHelper.accountInfoUpdate(this, (usageData: any) => {
+      const monthlyUsed = Number(usageData.monthlyCreditUsage.replaceAll(",", ""));
+      this.credits_used.innerHTML = Math.round(monthlyUsed);
+      const usageCap = usageData.currentMonthLimit;
+      const creditsLeft = usageCap - monthlyUsed;
+      this.credits_left.innerHTML = Math.floor(creditsLeft);
+    });
   }
   /** init listening events on games store to populate feeds in realtime */
   async initGameFeeds() {
