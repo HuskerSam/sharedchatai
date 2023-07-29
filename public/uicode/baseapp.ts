@@ -48,6 +48,8 @@ export default class BaseApp {
   html_body_container: any = document.querySelector(".main_container");
   content_list_container: any = document.querySelector(".recent_content_ul_list");
   flyer_list_container: any = document.querySelector(".recent_content_flyers_ul_list");
+  themeIndex = 0;
+  highlightjstheme: any = document.querySelector("#highlightjstheme");
 
   /**
  * @param { boolean } contentPage content list trimmed on other pages and footer link change
@@ -85,6 +87,7 @@ export default class BaseApp {
       });
     }
 
+    this.initDayMode();
     document.body.classList.add("body_loaded");
     this.load();
   }
@@ -794,5 +797,41 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
         </li>`;
     }
     return items;
+  }
+  /**  On page load, unless on help page, set the day mode based on user preference */
+  initDayMode() {
+    if (window.location.pathname === "/help/") return;
+
+    const dayMode = localStorage.getItem("dayMode");
+    if (dayMode === "true") {
+      this.themeIndex = 0;
+      document.body.classList.add("day_mode");
+      document.body.classList.remove("nite_mode");
+      if (this.highlightjstheme) {
+        this.highlightjstheme.setAttribute("href", "/css/stackoverflowlight.css");
+        this.highlightjstheme.remove();
+        document.body.append(this.highlightjstheme);
+      }
+    } else {
+      this.themeIndex = 1;
+      document.body.classList.remove("day_mode");
+      document.body.classList.add("nite_mode");
+      if (this.highlightjstheme) {
+        this.highlightjstheme.setAttribute("href", "/css/androidstudio.css");
+        this.highlightjstheme.remove();
+        document.body.append(this.highlightjstheme);
+      }
+    }
+  }
+  /** Toggle night mode when the checkbox is changed
+   * @param { boolean } dayMode true if day mode
+  */
+  toggleDayMode(dayMode = false) {
+    if (dayMode) {
+      localStorage.setItem("dayMode", "true");
+    } else {
+      localStorage.setItem("dayMode", "false");
+    }
+    this.initDayMode();
   }
 }

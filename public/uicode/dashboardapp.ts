@@ -206,7 +206,7 @@ export class DashboardApp extends BaseApp {
   /** paint games feed from firestore snapshot
    * @param { any } snapshot event driven feed data from firestore
   */
-  updateSessionFeed(snapshot: any) {
+  updateSessionFeed(snapshot: any = null) {
     if (snapshot) this.lastGamesFeedSnapshot = snapshot;
     else if (this.lastGamesFeedSnapshot) snapshot = this.lastGamesFeedSnapshot;
     else return;
@@ -371,6 +371,8 @@ export class DashboardApp extends BaseApp {
     if (data.createUser === this.uid) ownerClass += " dashboard_feed_owner_user";
     else ownerClass += " dashboard_feed_shared_user";
 
+    const themeMenuClass = this.themeIndex === 1 ? " dropdown-menu-dark" : "";
+
     let timeStr = BaseApp.isoToLocal(data.created).toISOString().substring(11, 16);
     let hour = Number(timeStr.substring(0, 2));
     const suffix = hour < 12 ? "am" : "pm";
@@ -392,12 +394,12 @@ export class DashboardApp extends BaseApp {
         </div>
         <div class="session_labels_column" data-docid="${doc.id}"></div>
         <div class="session_shared_column" data-docid="${doc.id}"></div>
-        <div class="btn-group dropstart hover_yellow">
+        <div class="btn-group dropstart">
           <button type="button" class="btn btn-secondary dropdown-toggle dashboard_menu_toggle hover_yellow" 
             data-bs-toggle="dropdown" aria-expanded="false">
             <i class="material-icons">more_vert</i>
           </button>
-          <ul class="dropdown-menu dropdown-menu-dark">
+          <ul class="dropdown-menu${themeMenuClass}">
             <li><button class="dropdown-item options">
               <i class="material-icons">settings</i>
               Session Options</button></li>

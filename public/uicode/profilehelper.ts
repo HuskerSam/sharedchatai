@@ -56,6 +56,10 @@ export default class ProfileHelper {
 
         this.modalContainer.children[0].addEventListener("hidden.bs.modal", () => {
             if (this.app.paintLabelSelect) this.app.paintLabelSelect();
+            if (this.app.updateSessionFeed) {
+                this.app.dashboard_documents_view.innerHTML = "";
+                this.app.updateSessionFeed();
+            }
         });
 
         this.modal_close_button = this.modalContainer.querySelector(".modal_close_button");
@@ -143,8 +147,7 @@ export default class ProfileHelper {
         });
 
         this.day_mode_input = document.querySelector(".day_mode_input");
-        this.day_mode_input.addEventListener("input", () => this.toggleDayMode());
-        this.initDayMode();
+        this.day_mode_input.addEventListener("input", () => this.app.toggleDayMode(this.day_mode_input.checked));
         this.account_tab_button = document.querySelector(".account_tab_button");
     }
     /** pick a random college logo for the profile image and save to firebase */
@@ -579,6 +582,8 @@ export default class ProfileHelper {
         this.profile_enablekatexinline_checkbox.checked = (this.app.profile.enableKatexInline === true);
         this.profile_display_image.setAttribute("uid", this.app.uid);
         this.profile_display_name.setAttribute("uid", this.app.uid);
+        this.day_mode_input.checked = (this.app.themeIndex === 0);
+
         this.app.updateUserNamesImages();
         this.updateTokenUsage();
         const modal = new window.bootstrap.Modal("#userProfileModal", {});
@@ -621,30 +626,6 @@ export default class ProfileHelper {
             this.app.uid = null;
             window.location = "/";
             window.location.reload();
-        }
-    }
-    /**  On page load, unless on help page, set the day mode based on user preference */
-    initDayMode() {
-        if (window.location.pathname !== "/help/") {
-            const dayMode = localStorage.getItem("dayMode");
-            if (dayMode === "true") {
-                this.day_mode_input.checked = true;
-                document.body.classList.add("day_mode");
-            } else {
-                this.day_mode_input.checked = false;
-                document.body.classList.remove("day_mode");
-            }
-        }
-    }
-
-    /** Toggle night mode when the checkbox is changed*/
-    toggleDayMode() {
-        if (this.day_mode_input.checked) {
-            document.body.classList.add("day_mode");
-            localStorage.setItem("dayMode", "true");
-        } else {
-            document.body.classList.remove("day_mode");
-            localStorage.setItem("dayMode", "false");
         }
     }
 }
