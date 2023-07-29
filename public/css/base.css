@@ -53,7 +53,7 @@ body.day_mode {
   --secondary-color-3: rgb(225, 225, 225);
   --secondary-color-4: rgb(215, 215, 215);
 
-  --impact-green: rgb(0, 128, 0); /* var(--impact-green) */  
+  --impact-green:  rgb(0, 160, 0); /* var(--impact-green) */  
   --secondary-green: rgb(25, 100, 25); /* var(--secondary-green) */
   --options-tab-color: rgb(100, 100, 100);
   --prompt-assist: rgb(10, 10, 10);
@@ -330,14 +330,10 @@ select.form-select option {
 }
 
 select.document_label_filter.form-select {
-  border: 1px solid var(--secondary-color);
+  border: 1px solid var(--primary-color-4);
 }
 
 .day_mode select.document_label_filter.form-select {
-  border: 1px solid var(--secondary-color-4);
-}
-
-.day_mode select.document_label_filter.form-select:hover {
   border: solid 1px var(--primary-color-4);
 }
 
@@ -572,13 +568,13 @@ button.btn-primary:active {
 .app_panel .btn.shared_status_withusers,
 .shared_status_withusers,
 .shared_status_withusers.hover_yellow {
-  color: var(--shared_status_owner);
+  color: var(--highlight);
 }
 
 .app_panel .btn.shared_status_withothers,
 .shared_status_withothers,
 .shared_status_withothers.hover_yellow {
-  color: var(--shared_status_user);
+  color: var(--highlight);
 }
 
 .navbar-light .navbar-toggler {
@@ -601,7 +597,7 @@ button.btn-primary:active {
 }
 
 .hover_yellow {
-  color: var(--primary-color);
+  color: var(--highlight);
 }
 
 .btn.btn-secondary.hover_yellow:focus,
@@ -846,7 +842,7 @@ tbody, td, tfoot, th, thead, tr {
 .day_mode .hover_yellow:focus, 
 .day_mode .hover_yellow:hover {
   background-color: var(--secondary-color-3);
-  color: var(--primary-color);
+  color: var(--highlight);
 }
 
 h5 {

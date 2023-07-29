@@ -486,13 +486,13 @@ iframe {
 .show_clear_label_filter .document_label_filter.form-select {
   background-color: var(--background-accent-3);
   color: var(--impact-green);
-  border: solid 1px var(--secondary-color-1);
+  border: solid 1px var(--primary-color-4);
 }
 
 .show_clear_label_filter .document_label_filter.form-select:hover,
 .show_clear_label_filter .document_label_filter.form-select:focus,
 .show_clear_label_filter .document_label_filter.form-select:active {
-  border: solid 1px var(--primary-color-4);
+  background-color: var(--secondary-color);
 }
 
 
