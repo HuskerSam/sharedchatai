@@ -540,7 +540,7 @@ export default class ProfileHelper {
     /** populate modal fields and show
      * @param { boolean } showAccountTab
     */
-    async show(showAccountTab: boolean = false) {
+    async show(showAccountTab = false) {
         let displayName = this.app.profile.displayName;
         if (!displayName) displayName = "New User";
         this.profile_display_name.innerHTML = displayName;
@@ -626,13 +626,13 @@ export default class ProfileHelper {
     /**  On page load, unless on help page, set the day mode based on user preference */
     initDayMode() {
         if (window.location.pathname !== "/help/") {
-            const dayMode = localStorage.getItem('dayMode');
-            if (dayMode === 'true') {
+            const dayMode = localStorage.getItem("dayMode");
+            if (dayMode === "true") {
                 this.day_mode_input.checked = true;
-                document.body.classList.add('day_mode');
+                document.body.classList.add("day_mode");
             } else {
                 this.day_mode_input.checked = false;
-                document.body.classList.remove('day_mode');
+                document.body.classList.remove("day_mode");
             }
         }
     }
@@ -640,11 +640,11 @@ export default class ProfileHelper {
     /** Toggle night mode when the checkbox is changed*/
     toggleDayMode() {
         if (this.day_mode_input.checked) {
-            document.body.classList.add('day_mode');
-            localStorage.setItem('dayMode', 'true');
+            document.body.classList.add("day_mode");
+            localStorage.setItem("dayMode", "true");
         } else {
-            document.body.classList.remove('day_mode');
-            localStorage.setItem('dayMode', 'false');
+            document.body.classList.remove("day_mode");
+            localStorage.setItem("dayMode", "false");
         }
     }
 }

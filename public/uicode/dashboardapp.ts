@@ -138,6 +138,7 @@ export class DashboardApp extends BaseApp {
       if (templatePath) this.showCreateDialog(templatePath);
     }
   }
+  /** */
   initUsageWatch() {
     if (this.usageWatchInited) return;
     this.usageWatchInited = true;

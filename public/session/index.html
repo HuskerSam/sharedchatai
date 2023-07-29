@@ -317,6 +317,37 @@
       </div>
     </div>
   </div>
+  <div class="modal fade" id="editResponseDialog" tabindex="-1" aria-labelledby="editResponseModalDialogLabel"
+  aria-hidden="true">
+  <div class="modal-dialog app_panel modal-lg">
+    <div class="modal-content">
+      <div class="modal-header" style="display:flex">
+        <h5 class="modal-title" id="editResponseModalDialogLabel" style="flex:1;display:flex">
+          <span class="dialog_header_icon"><i class="material-icons">edit</i></span>
+          <span style="flex:1">Edit Response</span>
+          <a class="btn btn-secondary show_token_threshold_dialog_help" href="/help/#editresponse" target="help"><i
+              class="material-icons">help_outline</i></a>
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <textarea class="edit_response_textarea"></textarea>
+      </div>
+      <div class="modal-footer">
+        <div style="flex:1"></div>
+        <button type="button" class="btn btn-secondary modal_close_button" data-bs-dismiss="modal">
+          <i class="material-icons">cancel</i>
+          Close
+        </button>
+        <button type="button" class="btn btn-primary edit_response_modal_save_button" data-bs-dismiss="modal">
+          <i class="material-icons">save</i>
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 
 </html>

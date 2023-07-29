@@ -115,8 +115,11 @@ export class SessionApp extends BaseApp {
 
   select_all_tickets_button: any = document.querySelector(".select_all_tickets_button");
   selected_model_context_limit: any = document.querySelector(".selected_model_context_limit");
+  edit_response_textarea: any = document.querySelector(".edit_response_textarea");
+  edit_response_modal_save_button: any = document.querySelector(".edit_response_modal_save_button");
   firstDocumentLoad = true;
   currentSystemMessage = "";
+  editedTicketId = "";
 
   tokenizedStringCache: any = {};
 
@@ -230,7 +233,47 @@ export class SessionApp extends BaseApp {
     this.session_hamburger.addEventListener("click", () => this.expandSideBar());
 
     this.side_panel_click_to_close.addEventListener("click", () => this.expandSideBar());
+
+    this.edit_response_modal_save_button.addEventListener("click", () => this.saveEditedResponse());
     this.scrollTicketListBottom();
+  }
+  /** */
+  async saveEditedResponse() {
+    if (!this.editedTicketId) {
+      alert("error no ticketid");
+      return;
+    }
+
+    const responseValue = this.edit_response_textarea.value.trim();
+
+    if (!responseValue) {
+      alert("response needs to have a value");
+      return;
+    }
+
+    const body = {
+      sessionId: this.sessionDocumentData.gameNumber,
+      ticketId: this.editedTicketId,
+      response: responseValue,
+    };
+    console.log(body);
+    const token = await firebase.auth().currentUser.getIdToken();
+    const fResult = await fetch(this.basePath + "lobbyApi/session/message/editresponse", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      headers: {
+        "Content-Type": "application/json",
+        token,
+      },
+      body: JSON.stringify(body),
+    });
+
+    const result = await fResult.json();
+    if (!result.success) {
+      alert("Update response failed");
+    }
+    console.log(result);
   }
   /** */
   expandSideBar() {
@@ -294,7 +337,7 @@ export class SessionApp extends BaseApp {
       }, 125);
     }
   }
-  /** setup data listender for user messages */
+  /** setup data listener for user messages */
   async initTicketFeed() {
     if (this.ticketFeedRegistered) return;
     this.ticketFeedRegistered = true;
@@ -485,6 +528,19 @@ export class SessionApp extends BaseApp {
                   btn.innerHTML = `<i class="material-icons copy_green">done</i>` + buttonText;
                   setTimeout(() => btn.innerHTML = buttonText, 1200);
                 });
+              });
+
+              const editBtn = document.createElement("button");
+              editBtn.setAttribute("ticketid", ticketId);
+              editBtn.setAttribute("class", "edit_response_block_button btn btn-secondary");
+              editBtn.innerHTML = `<i class="material-icons">edit</i>`;
+              assistSection.appendChild(editBtn);
+              editBtn.addEventListener("click", () => {
+                document.body.classList.remove("side_bar_opened");
+                const modal = new window.bootstrap.Modal("#editResponseDialog", {});
+                this.editedTicketId = <any>btn.getAttribute("ticketid");
+                this.edit_response_textarea.value = this.copyResponseCache[this.editedTicketId];
+                modal.show();
               });
 
               this.copyResponseCache[ticketId] = completionRawText;
