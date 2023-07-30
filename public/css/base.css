@@ -19,6 +19,7 @@
   --brand-name-color:  rgb(28, 227, 60); /*  var(--brand-name-color) */
   --secondary-green: rgb(75, 220, 75); /* var(--secondary-green) */
   --member-online-green: rgb(50, 255, 50); /* var(--member-online-green) */
+  --member-online-yellow: rgb(255, 255, 0); /* var(--member-online-yellow) */
   --impact-green: rgb(50, 255, 50); /* var(--impact-green) */  
   --prompt-message:  rgb(255, 255, 255); /*  var(--prompt-message) */
 
@@ -807,7 +808,7 @@ a:hover {
 }
 
 .member_online_status.online {
-  background: rgb(255, 255, 0);
+  background: var(--member-online-yellow);
 }
 
 .member_online_status.online.activesession {
