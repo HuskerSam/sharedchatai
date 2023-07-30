@@ -408,22 +408,24 @@ export default class BaseApp {
   }
   /** paint users online status */
   updateUserPresence() {
+    if (!this.userPresenceStatus[this.uid]) {
+      this.userPresenceStatus[this.uid] = true;
+      this.userStatusDatabaseRef.set(this.isOnlineForDatabase);
+    } 
     document.querySelectorAll(".member_online_status")
       .forEach((div: any) => {
         const uid = div.dataset.uid;
+        const relatedDocId = div.getAttribute("sessionid");
+        let userDocStatus = this.userDocumentStatus[uid];
+        if (!userDocStatus) userDocStatus = {};
+
         if (this.userPresenceStatus[uid]) {
           div.classList.add("online");
-          const relatedDocId = div.getAttribute("sessionid");
-          let userDocStatus = this.userDocumentStatus[uid];
-          if (!userDocStatus) userDocStatus = {};
           if (userDocStatus[relatedDocId]) div.classList.add("activesession");
           else div.classList.remove("activesession");
         } else {
           div.classList.remove("online");
           div.classList.remove("activesession");
-          if (div.dataset.uid === this.uid) {
-            this.initRTDBPresence(true);
-          }
         }
       });
   }
