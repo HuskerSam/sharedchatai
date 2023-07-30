@@ -256,7 +256,7 @@ export default class DocCreateHelper {
     if (this.create_modal_template_file.files[0]) {
       importError = await this.parseSelectedTemplateFile(json.gameNumber, !systemMessage);
     }
-    this.create_game_afterfeed_button.innerHTML = "Create";
+    this.create_game_afterfeed_button.innerHTML = "Launching...";
     document.body.classList.remove("creating_new_session");
     this.creatingNewRecord = false;
     if (importError) {

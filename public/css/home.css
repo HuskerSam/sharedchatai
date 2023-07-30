@@ -5,6 +5,7 @@ html {
 .day_mode .main_block, 
 .day_mode .side_block {
   border: solid 1px var(--options-tab-color);
+  background-color: var(--modal-background);
 }
 
 .main_block {
@@ -27,10 +28,6 @@ html {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
 
-.day_mode .side_block,
-.day_mode .main_block {
-  background-color: var(--modal-background);
-}
 
 .coming-soon {
   display: flex;

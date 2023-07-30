@@ -130,7 +130,6 @@ a {
   color: var(--primary-color);
   display: flex;
   flex-direction: column;
-  transition: color .2s ease-out, background-color .2s ease-out, opacity .2s;
 }
 
 .basic_page_wrapper {
@@ -718,7 +717,6 @@ table.number th {
 }
 
 .creating_new_session .btn.btn-primary.create_game_afterfeed_button {
-  background-color: transparent;
 }
 
 .navbar-nav .nav-link {
