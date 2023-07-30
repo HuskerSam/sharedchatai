@@ -934,6 +934,11 @@ li.mb-1 button.btn.btn-toggle {
   padding-bottom: 4px;
 }
 
+.sidebar_tree_menu .btn-check:focus+.btn,
+.sidebar_tree_menu .btn:focus {
+  box-shadow: none;
+}
+
 @media (min-width: 992px) {
   li.mb-1 {
     padding-left: 2px;
@@ -1255,3 +1260,9 @@ li.mb-1 button.btn.btn-toggle:before {
   color: var(--prompt-message);
 }
 
+.sidebarusers_link_copy .material-icons {
+  position: relative;
+  top: 4px;
+  right: 0px;
+  font-size: 1.6em;
+}
