@@ -263,6 +263,7 @@ ul.recent_documents_list li a {
   text-align: left;
   display: block;
   flex: 1;
+  overflow: auto;
 }
 
 .supported_model {
