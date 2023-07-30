@@ -66,7 +66,8 @@ export class DashboardApp extends BaseApp {
     this.footer_container_div = document.querySelector(".footer_container_div");
     this.news_tab_view.appendChild(this.footer_container_div);
 
-    if (location.hash === "#moreinfo") this.content_tab_button.click();
+    if (location.hash === "#moreinfo") this.news_tab_button.click();
+    if (location.hash === "#about") this.content_tab_button.click();
 
     this.account_status_display.addEventListener("click", (e: any) => {
       e.preventDefault();

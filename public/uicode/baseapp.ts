@@ -699,7 +699,7 @@ export default class BaseApp {
                 <div class="col-md-2 mb-md-0">
                     <h5>Company</h5>
                     <ul class="nav flex-column" style="font-size: 1.2em;">
-                        <li class="nav-item mb-2"><a href="/content/about/"
+                        <li class="nav-item mb-2"><a href="/#about"
                                 class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25
                                  link-underline-opacity-100-hover"
                                 >About</a></li>

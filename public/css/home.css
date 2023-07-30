@@ -1046,3 +1046,7 @@ ol li {
   display: inline-block;
   white-space: nowrap;
 }
+
+.recent_content_flyers_ul_list {
+  max-height: 50vh;
+}
