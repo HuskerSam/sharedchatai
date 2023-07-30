@@ -39,7 +39,7 @@ export class DashboardApp extends BaseApp {
   constructor() {
     super(true, true);
     this.showLoginModal = false;
-
+    this.memberRefreshBufferTime = 1000;
     this.document_label_filter.addEventListener("input", () => {
       firebase.firestore().doc(`Users/${this.uid}`).set({
         defaultDashboardLabel: this.document_label_filter.value,

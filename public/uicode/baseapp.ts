@@ -41,6 +41,7 @@ export default class BaseApp {
   sessionDeleting = false;
   isSessionApp = false;
   documentId = "";
+  memberRefreshBufferTime = 500;
   menu_profile_user_image_span: any = document.querySelector(".menu_profile_user_image_span");
   menu_profile_user_name_span: any = document.querySelector(".menu_profile_user_name_span");
   isOfflineForDatabase = {
@@ -430,7 +431,7 @@ export default class BaseApp {
             div.classList.remove("online");
             div.classList.remove("activesession");
           }
-        }, 500);
+        }, this.memberRefreshBufferTime);
       });
   }
   /** call join game api
