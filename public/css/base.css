@@ -33,7 +33,7 @@
   --impact-font: rgb(13, 202, 240); /*  var(--impact-font) */
   --document-title: rgb(190, 200, 255); /* var(--document-title) */
   --recent-document-activity-date: rgb(15, 92, 30); /* var(--recent-document-activity-date) */
-  --shared_status_owner: rgb(190, 100, 250); /* var(--shared_status_owner) */
+  --shared_status_owner: rgb(207, 136, 255); /* var(--shared_status_owner) */
   --shared_status_user: rgb(30, 200, 200); /* var(--shared_status_user) */
 }
 
@@ -72,8 +72,8 @@ body.day_mode {
   --document-title: rgb(30, 30, 30);
   --recent-document-activity-date: rgb(230, 160, 210);
   --impact-font: black; /*  var(--impact-font) */
-  --shared_status_owner: rgb(190, 100, 250); /* var(--shared_status_owner) */
-  --shared_status_user: rgb(30, 200, 200); /* var(--shared_status_user) */
+  --shared_status_owner: rgb(153, 0, 255); /* var(--shared_status_owner) */
+  --shared_status_user: rgb(0, 180, 180); /* var(--shared_status_user) */
   }
 
 
@@ -333,7 +333,7 @@ select.form-select option {
 
 select.document_label_filter.form-select {
   border: 1px solid var(--primary-color-4);
-  color: var(--primary-color);
+  color: var(--highlight);
 }
 
 .day_mode select.document_label_filter.form-select {
@@ -568,13 +568,12 @@ button.btn-primary:active {
   color: var(--primary-color-2);
 }
 
-.app_panel .btn.shared_status_withusers,
+
 .shared_status_withusers,
 .shared_status_withusers.hover_yellow {
   color: var(--shared_status_owner);
 }
 
-.app_panel .btn.shared_status_withothers,
 .shared_status_withothers,
 .shared_status_withothers.hover_yellow {
   color: var(--shared_status_user);
