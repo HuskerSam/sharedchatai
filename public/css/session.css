@@ -21,8 +21,8 @@ html {
 
 .tickets_list {
   display: block;
-  flex:1;
-  overflow:auto;
+  flex: 1;
+  overflow: auto;
 }
 
 @media (min-width: 501px) {
@@ -147,7 +147,7 @@ html {
   white-space: pre-wrap;
   line-height: 1.5rem;
   padding-left: 54px;
-  color:  var(--prompt-message);
+  color: var(--prompt-message);
 }
 
 .game_message_list_item .game_date {
@@ -305,6 +305,13 @@ ul.recent_documents_list li a {
   padding-bottom: 4px;
 }
 
+ul.recent_documents_list li a:hover,
+ul.recent_documents_list li a:focus,
+ul.recent_documents_list li a:active {
+  background-color: var(--secondary-color);
+  color: var(--highlight);
+}
+
 .recent_documents_list .activity_date {
   position: absolute;
   right: 4px;
@@ -312,6 +319,10 @@ ul.recent_documents_list li a {
   border-radius: 5px;
   z-index: 100;
   padding: 2px 8px;
+  background-color: rgba(180, 180, 180, .1);
+}
+
+.day_mode .recent_documents_list .activity_date {
   background-color: rgba(32, 33, 35, .1);
 }
 
@@ -1006,7 +1017,7 @@ li.mb-1 button.btn.btn-toggle:before {
   flex-direction: row;
   display: none;
   overflow: hidden;
-  font-size:1.25em;
+  font-size: 1.25em;
 }
 
 .sidebar_document_title {
@@ -1176,7 +1187,7 @@ li.mb-1 button.btn.btn-toggle:before {
   color: var(--primary-color-3);
   height: 100%;
   top: 0;
-  overflow: auto;  
+  overflow: auto;
   left: -250px;
   transition: left .6s, visibility .6s;
   width: calc(320px + 2%);
