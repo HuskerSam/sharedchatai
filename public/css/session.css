@@ -74,7 +74,7 @@ html {
 }
 
 .members_feed_line_wrapper.is_document_owner .members_feed_profile_name {
-  color: var(--primary-color);
+  color: var(--shared_status_owner);
 }
 
 .members_feed_profile_lastactivity {

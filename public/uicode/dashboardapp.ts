@@ -281,11 +281,11 @@ export class DashboardApp extends BaseApp {
         }
         if (sharedStatus === 1) {
           sharedIcon.classList.add("shared_status_withusers");
-          sharedStatusDom.classList.add("shared_status_withusers");
+          // sharedStatusDom.classList.add("shared_status_withusers");
         }
         if (sharedStatus === 2) {
           sharedIcon.classList.add("shared_status_withothers");
-          sharedStatusDom.classList.add("shared_status_withothers");
+          sharedStatusDom.classList.add("shared_status_withusers");
         }
 
         card.labelMenuContainer.innerHTML = this._getLabelsSubMenu(doc.data().label, sharedStatus);
