@@ -336,6 +336,12 @@ select.document_label_filter.form-select {
   color: var(--highlight);
 }
 
+select.document_label_filter.form-select:hover,
+select.document_label_filter.form-select:focus,
+select.document_label_filter.form-select:active {
+  background-color: var(--secondary-color);
+}
+
 .day_mode select.document_label_filter.form-select {
   border: solid 1px var(--primary-color-4);
 }
