@@ -130,6 +130,7 @@ a {
   color: var(--primary-color);
   display: flex;
   flex-direction: column;
+  transition: opacity .2s;
 }
 
 .basic_page_wrapper {
