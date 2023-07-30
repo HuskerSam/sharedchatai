@@ -195,10 +195,13 @@ export class DashboardApp extends BaseApp {
    * @param { any } card session list item dom
    * @param { any } e event
    * @param { string } id session
+   * @param { number } sharedStatus test for 2 to ignore click
    */
-  _handleMenuLabelClick(lbl: any, card: any, e: any, id: string) {
-    lbl.classList.toggle("selected");
-    this.saveLabels(card.labelMenuContainer, id);
+  _handleMenuLabelClick(lbl: any, card: any, e: any, id: string, sharedStatus: number) {
+    if (sharedStatus !== 2) {
+      lbl.classList.toggle("selected");
+      this.saveLabels(card.labelMenuContainer, id);
+    }
     e.preventDefault();
     e.stopPropagation();
   }
@@ -285,10 +288,11 @@ export class DashboardApp extends BaseApp {
           sharedStatusDom.classList.add("shared_status_withothers");
         }
 
-        card.labelMenuContainer.innerHTML = this._getLabelsSubMenu(doc.data().label);
+        card.labelMenuContainer.innerHTML = this._getLabelsSubMenu(doc.data().label, sharedStatus);
         const labelMenuItems: any = card.labelMenuContainer.querySelectorAll("li");
-        labelMenuItems.forEach((lbl: any) =>
-          lbl.addEventListener("click", (e: any) => this._handleMenuLabelClick(lbl, card, e, doc.id)));
+        labelMenuItems.forEach((lbl: any) => {
+            lbl.addEventListener("click", (e: any) => this._handleMenuLabelClick(lbl, card, e, doc.id, sharedStatus));
+        });
       }
       this.documentsLookup[doc.id] = doc.data();
     });
@@ -310,9 +314,10 @@ export class DashboardApp extends BaseApp {
   }
   /**
    * @param { string } labels comma delimited label list
+   * @param { number } sharedStatus test for 2 to only show selected labels
    * @return { string } html li
    */
-  _getLabelsSubMenu(labels: string): string {
+  _getLabelsSubMenu(labels: string, sharedStatus: number): string {
     let html = "";
     let labelString = labels;
     if (!labelString) labelString = "";
@@ -327,18 +332,20 @@ export class DashboardApp extends BaseApp {
       }
     });
 
-    let profileLabelString = this.profile.documentLabels;
-    if (!profileLabelString) profileLabelString = "";
-    const profileLabelArray = profileLabelString.split(",");
-    profileLabelArray.forEach((label: string) => {
-      if (label !== "" && labelArray.indexOf(label) === -1) {
-        html += `<li class="" data-label="${encodeURIComponent(label)}">
-          <label class="dropdown-item">
-            <i class="material-icons">done</i>${label}
-          </label>
-        </li>`;
-      }
-    });
+    if (sharedStatus !== 2) {
+      let profileLabelString = this.profile.documentLabels;
+      if (!profileLabelString) profileLabelString = "";
+      const profileLabelArray = profileLabelString.split(",");
+      profileLabelArray.forEach((label: string) => {
+        if (label !== "" && labelArray.indexOf(label) === -1) {
+          html += `<li class="" data-label="${encodeURIComponent(label)}">
+            <label class="dropdown-item">
+              <i class="material-icons">done</i>${label}
+            </label>
+          </li>`;
+        }
+      });
+    }
 
     return html;
   }
