@@ -30,6 +30,7 @@ export default class BaseApp {
   documentsLookup: any = {};
   userPresenceStatusRefs: any = {};
   userDocumentStatusRefs: any = {};
+  memberUpdateTimeouts: any = {};
   userStatusDatabaseRef: any;
   documentStatusDatabaseRef: any;
   sessionDocumentData: any = null;
@@ -416,17 +417,20 @@ export default class BaseApp {
       .forEach((div: any) => {
         const uid = div.dataset.uid;
         const relatedDocId = div.getAttribute("sessionid");
-        let userDocStatus = this.userDocumentStatus[uid];
-        if (!userDocStatus) userDocStatus = {};
-
-        if (this.userPresenceStatus[uid]) {
-          div.classList.add("online");
-          if (userDocStatus[relatedDocId]) div.classList.add("activesession");
-          else div.classList.remove("activesession");
-        } else {
-          div.classList.remove("online");
-          div.classList.remove("activesession");
-        }
+        clearTimeout(this.memberUpdateTimeouts[relatedDocId + ":" + uid]);
+        this.memberUpdateTimeouts[relatedDocId + ":" + uid] = setTimeout(() => {
+          let userDocStatus = this.userDocumentStatus[uid];
+          if (!userDocStatus) userDocStatus = {};
+  
+          if (this.userPresenceStatus[uid]) {
+            div.classList.add("online");
+            if (userDocStatus[relatedDocId]) div.classList.add("activesession");
+            else div.classList.remove("activesession");
+          } else {
+            div.classList.remove("online");
+            div.classList.remove("activesession");
+          }
+        }, 500);
       });
   }
   /** call join game api

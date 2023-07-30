@@ -805,6 +805,7 @@ a:hover {
   position: relative;
   left: -10px;
   top: 8px;
+  transition: background-color 1s linear;
 }
 
 .member_online_status.online {
