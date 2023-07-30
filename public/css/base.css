@@ -66,7 +66,7 @@ body.day_mode {
   --warning: rgb(255, 0, 0);
   --document-title: rgb(30, 30, 30);
   --recent-document-activity-date: rgb(230, 160, 210);
-  --impact-font: rgb(0, 175, 225); /*  var(--impact-font) */
+  --impact-font: black; /*  var(--impact-font) */
   --shared_status_owner: rgb(190, 100, 250); /* var(--shared_status_owner) */
   --shared_status_user: rgb(30, 200, 200); /* var(--shared_status_user) */
   }
