@@ -66,7 +66,7 @@ body.day_mode {
   --warning: rgb(255, 0, 0);
   --document-title: rgb(30, 30, 30);
   --recent-document-activity-date: rgb(230, 160, 210);
-  --impact-font: rgb(0, 175, 225); /*  var(--impact-font) */
+  --impact-font: black; /*  var(--impact-font) */
   --shared_status_owner: rgb(190, 100, 250); /* var(--shared_status_owner) */
   --shared_status_user: rgb(30, 200, 200); /* var(--shared_status_user) */
   }
@@ -312,6 +312,7 @@ a {
 select.form-select {
   background-color: var(--background-accent-3);
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgb%28240,240,240%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+  color: var(--primary-color);
 }
 
 .day_mode select.form-select {
@@ -331,6 +332,7 @@ select.form-select option {
 
 select.document_label_filter.form-select {
   border: 1px solid var(--primary-color-4);
+  color: var(--primary-color);
 }
 
 .day_mode select.document_label_filter.form-select {
@@ -568,13 +570,13 @@ button.btn-primary:active {
 .app_panel .btn.shared_status_withusers,
 .shared_status_withusers,
 .shared_status_withusers.hover_yellow {
-  color: var(--highlight);
+  color: var(--shared_status_owner);
 }
 
 .app_panel .btn.shared_status_withothers,
 .shared_status_withothers,
 .shared_status_withothers.hover_yellow {
-  color: var(--highlight);
+  color: var(--shared_status_user);
 }
 
 .navbar-light .navbar-toggler {
@@ -594,10 +596,6 @@ button.btn-primary:active {
 .navbar-light .navbar-nav .nav-link,
 .navbar-light .navbar-brand {
   color: var(--primary-color-2);
-}
-
-.hover_yellow {
-  color: var(--highlight);
 }
 
 .btn.btn-secondary.hover_yellow:focus,

@@ -1129,15 +1129,10 @@ li.mb-1 button.btn.btn-toggle:before {
   }
 }
 
-.app_panel button.btn-toggle:hover,
-.app_panel button.btn-toggle:focus {
-  color: var(--secondary-color);
-}
-
 .day_mode .app_panel button.btn-toggle:hover,
-.day_mode .app_panel button.btn-toggle:focus {
-  color: var(--options-tab-color);
-  border: none;
+.day_mode .app_panel button.btn-toggle:focus,
+.day_mode .app_panel button.btn-toggle:active {
+  background-color: var(--secondary-color-4);
 }
 
 
@@ -1163,6 +1158,7 @@ li.mb-1 button.btn.btn-toggle:before {
 .menu_buttons_bar li a {
   padding-top: 16px;
   padding-bottom: 12px;
+  color: var(--primary-color);
 }
 
 .left_panel_view {
