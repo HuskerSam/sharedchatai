@@ -386,10 +386,22 @@ pre code {
   z-index: 1;
 }
 
-.copy_response_block_button i {
+.copy_response_block_button i,
+.edit_response_block_button i {
   position: relative;
   top: 2px;
   font-size: 16px;
+}
+
+.edit_response_block_button {
+  position: absolute;
+  bottom: 0px;
+  background: none;
+  border-color: transparent;
+  color: var(--primary-color);
+  background-color: transparent;
+  right: 50px;
+  z-index: 1;
 }
 
 .copy_ticket_to_clipboard {

@@ -758,13 +758,13 @@ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 
   font-size: 10px;
 }
 
-.dropdown-menu.dropdown-menu-dark.show button {
+.dropdown-menu.show button {
   font-size: 1.25em;
   padding-top: 8px;
   padding-bottom: 8px;
 }
 
-.dropdown-menu.dropdown-menu-dark i {
+.dropdown-menu i {
   top: 6px;
   position: relative;
 }

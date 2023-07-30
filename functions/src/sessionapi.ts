@@ -878,4 +878,37 @@ export default class SessionAPI {
             merge: true,
         });
     }
+    /** edit ticket response
+     * @param { any } req http request object
+     * @param { any } res http response object
+    */
+    static async editTicketResponse(req: any, res: any) {
+        const authResults = await BaseClass.validateCredentials(req.headers.token);
+        if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
+
+        const uid = authResults.uid;
+        const localInstance = BaseClass.newLocalInstance();
+        await localInstance.init();
+
+        const sessionId = req.body.sessionId;
+        const ticketId = req.body.ticketId;
+        const response = req.body.response;
+        await firebaseAdmin.firestore().doc(`Games/${sessionId}/assists/${ticketId}`).update({
+            assist: {
+                choices: [{
+                    message: {
+                        content: response,
+                    },
+                    index: 0,
+                    finish_reason: "stop",
+                    edited: true,
+                    uid: uid,
+                }],
+            },
+        });
+
+        return res.status(200).send({
+            success: true,
+        });
+    }
 }

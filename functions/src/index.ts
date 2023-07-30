@@ -38,3 +38,4 @@ gameAPIApp.post("/session/message", async (req, res) => SessionAPI.submitTicket(
 gameAPIApp.post("/session/message/delete", async (req, res) => SessionAPI.deleteTicket(req, res));
 gameAPIApp.post("/session/message/include", async (req, res) => SessionAPI.updateTicketIncludeStatus(req, res));
 gameAPIApp.post("/session/message/import", async (req, res) => SessionAPI.importTicket(req, res));
+gameAPIApp.post("/session/message/editresponse", async (req, res) => SessionAPI.editTicketResponse(req, res));
