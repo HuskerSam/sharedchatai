@@ -130,7 +130,7 @@ a {
   color: var(--primary-color);
   display: flex;
   flex-direction: column;
-  transition: color .2s ease-out, background-color .2s ease-out, opacity .2s;
+  transition: opacity .2s;
 }
 
 .basic_page_wrapper {
