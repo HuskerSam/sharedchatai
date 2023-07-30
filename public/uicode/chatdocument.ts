@@ -153,7 +153,7 @@ export default class ChatDocument {
       html = `
       <div>
         <span class="dashboard_user_image member_profile_image" docid="${id}" uid="${uid}"></span>
-        <div class="members_feed_online_status member_online_status" data-uid="${uid}"></div>
+        <div class="members_feed_online_status member_online_status" sessionid="${id}" data-uid="${uid}"></div>
       </div>
       <div class="dasboard_user_name member_profile_name" docid="${id}" uid="${uid}"></div>`;
     }

@@ -5,7 +5,13 @@
     "OnlinePresence": {
       ".read": "auth !== null",
       "$uid": {
-        ".write": "auth.uid === $uid"  
+        ".write": "auth.uid === $uid"
+      }
+    },
+    "DocumentPresence": {
+      ".read": "auth !== null",
+      "$uid": {
+        ".write": "auth.uid === $uid"
       }
     }
   }

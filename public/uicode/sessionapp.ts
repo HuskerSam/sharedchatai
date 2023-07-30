@@ -9,7 +9,7 @@ declare const window: any;
 export class SessionApp extends BaseApp {
   isSessionApp = true;
   maxTokenPreviewChars = 30;
-  documentId: any = null;
+  documentId = "";
   lastTicketsSnapshot: any = [];
   gameSubscription: any;
   assistsSubscription: any;
@@ -1085,10 +1085,8 @@ export class SessionApp extends BaseApp {
     super.authUpdateStatusUI();
 
     if (this.profile) {
-      this.initRTDBPresence();
-
       const urlSessionId = window.location.pathname.replace("/session/", "");
-      if (this.documentId === null && urlSessionId) {
+      if (this.documentId === "" && urlSessionId) {
         this.gameAPIJoin(urlSessionId);
         this.documentId = urlSessionId;
         let reloading = false;
@@ -1121,6 +1119,8 @@ export class SessionApp extends BaseApp {
       this.threshold_auto_exclude_checkbox.checked = this.profile.autoExclude;
 
       this.autoSizeTextArea();
+
+      this.initRTDBPresence();
       setTimeout(() => this._updateGameMembersList(), 50);
     }
   }
@@ -1259,7 +1259,8 @@ export class SessionApp extends BaseApp {
         html += `<li class="member_list_item ${ticketRunningClass}">
         <div class="members_feed_line_wrapper${isOwner}">
             <span class="members_feed_profile_image member_profile_image" uid="${member}"></span>
-            <div class="members_feed_online_status member_online_status" data-uid="${member}"></div>
+            <div class="members_feed_online_status member_online_status" sessionid="${this.documentId}"
+              data-uid="${member}"></div>
             <div class="member_name_wrapper">
               <span class="members_feed_profile_name member_profile_name" uid="${member}"></span>
             </div>

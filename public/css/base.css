@@ -809,6 +809,10 @@ a:hover {
 }
 
 .member_online_status.online {
+  background: rgb(255, 255, 0);
+}
+
+.member_online_status.online.activesession {
   background: var(--member-online-green);
 }
 

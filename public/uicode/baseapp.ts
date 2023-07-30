@@ -26,15 +26,20 @@ export default class BaseApp {
   verboseLog = false;
   rtdbPresenceInited = false;
   userPresenceStatus: any = {};
+  userDocumentStatus: any = {};
   documentsLookup: any = {};
   userPresenceStatusRefs: any = {};
+  userDocumentStatusRefs: any = {};
   userStatusDatabaseRef: any;
+  documentStatusDatabaseRef: any;
   sessionDocumentData: any = null;
   showLoginModal = true;
   profileHelper = new ProfileHelper(this);
   login = new LoginHelper(this);
   documentCreate = new DocCreateHelper(this);
   sessionDeleting = false;
+  isSessionApp = false;
+  documentId = "";
   menu_profile_user_image_span: any = document.querySelector(".menu_profile_user_image_span");
   menu_profile_user_name_span: any = document.querySelector(".menu_profile_user_name_span");
   isOfflineForDatabase = {
@@ -357,7 +362,7 @@ export default class BaseApp {
 
     this.rtdbPresenceInited = true;
     this.userStatusDatabaseRef = firebase.database().ref("/OnlinePresence/" + this.uid);
-
+    
     firebase.database().ref(".info/connected").off();
     firebase.database().ref(".info/connected").on("value", (snapshot: any) => {
       if (snapshot.val() == false) return;
@@ -365,6 +370,13 @@ export default class BaseApp {
       this.userStatusDatabaseRef.onDisconnect().set(this.isOfflineForDatabase).then(() => {
         this.userStatusDatabaseRef.set(this.isOnlineForDatabase);
       });
+
+      if (this.isSessionApp && this.documentId) {
+        this.documentStatusDatabaseRef = firebase.database().ref("/DocumentPresence/" + this.uid + "/" + this.documentId);
+        this.documentStatusDatabaseRef.onDisconnect().set(null).then(() => {
+          this.documentStatusDatabaseRef.set(true);
+        });
+      }  
     });
   }
   /** disconnect online presence watch query from RTDB */
@@ -386,15 +398,29 @@ export default class BaseApp {
         this.updateUserPresence();
       });
     }
+    if (!this.userDocumentStatusRefs[uid]) {
+      this.userDocumentStatusRefs[uid] = firebase.database().ref("DocumentPresence/" + uid);
+      this.userDocumentStatusRefs[uid].on("value", (snapshot: any) => {
+        this.userDocumentStatus[uid] = snapshot.val();
+        this.updateUserPresence();
+      });
+    }
   }
   /** paint users online status */
   updateUserPresence() {
     document.querySelectorAll(".member_online_status")
       .forEach((div: any) => {
-        if (this.userPresenceStatus[div.dataset.uid]) {
+        const uid = div.dataset.uid;
+        if (this.userPresenceStatus[uid]) {
           div.classList.add("online");
+          const relatedDocId = div.getAttribute("sessionid");
+          let userDocStatus = this.userDocumentStatus[uid];
+          if (!userDocStatus) userDocStatus = {};
+          if (userDocStatus[relatedDocId]) div.classList.add("activesession");
+          else div.classList.remove("activesession");
         } else {
           div.classList.remove("online");
+          div.classList.remove("activesession");
           if (div.dataset.uid === this.uid) {
             this.initRTDBPresence(true);
           }
