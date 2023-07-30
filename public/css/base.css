@@ -5,7 +5,8 @@
   --background-accent-1: rgb(14, 16, 18);  /* var(--background-accent) */
   --background-accent-2: rgb(18, 23, 39); /*  var(--background-dark), [navbar, textarea, session left panel, help background] */ 
   --background-accent-3: rgb(26, 26, 33); /*  var(--background-accent-3) */
-  --background-accent-4: rgb(30, 50, 80); /*  var(--background-accent-3) */
+  --background-accent-4: rgb(30, 50, 80); /*  var(--background-accent-4) dashboard bkg */
+  --background-accent-5: rgb(30, 40, 60); /*  var(--background-accent-5) sidebar bkg */
   --primary-color: white;  /* var(--primary-color) */
   --primary-color-1: rgb(250, 250, 250); /*  var(--primary-color-1) */
   --primary-color-2: rgb(245, 245, 245); /*  var(--primary-color-2) */
@@ -43,6 +44,8 @@ body.day_mode {
   --background-accent-1: rgb(245, 245, 245); 
   --background-accent-2: rgb(250, 250, 250);
   --background-accent-3: rgb(220, 220, 220); 
+  --background-accent-4: rgb(245, 252, 255);
+  --background-accent-5: rgb(240, 240, 255); 
 
   --primary-color: black;
   --primary-color-1: rgb(10, 10, 10);
@@ -81,10 +84,6 @@ body {
   width: 100%;
   background: var(--background-accent-4);
   min-height: 100vh;
-}
-
-body.day_mode {
-  background: var(--background-accent);
 }
 
 @font-face {

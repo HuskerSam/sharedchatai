@@ -1167,7 +1167,7 @@ li.mb-1 button.btn.btn-toggle:before {
   display: none;
   flex-direction: column;
   overflow: hidden;
-  background: var(--background-accent);
+  background: var(--background-accent-5);
   color: var(--primary-color-3);
   height: 100%;
   top: 0;
@@ -1181,7 +1181,7 @@ li.mb-1 button.btn.btn-toggle:before {
 }
 
 .day_mode .left_panel_view {
-  background: var(--background-accent-2);
+  background: var(--background-accent-5);
 }
 
 .mobile_layout_mode .left_panel_view {
