@@ -995,12 +995,6 @@ h3.cta_panel {
   color: var(--primary-color-2);
 }
 
-
-.day_mode .model_svg {
-  background-color: var(--options-tab-color);
-}
-
-
 h3,
 ol li {
   color: var(--primary-color);

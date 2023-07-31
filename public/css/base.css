@@ -856,3 +856,26 @@ tbody, td, tfoot, th, thead, tr {
 h5 {
   font-size: 1em;
 }
+
+.show_day_mode, 
+.show_nite_mode,
+.show_day_mode_inline_block,
+.show_nite_mode_inline_block {
+  display: none;
+}
+
+.day_mode .show_day_mode_inline_block {
+  display: inline-block;
+}
+
+.nite_mode .show_day_mode_inline_block {
+  display: inline-block;
+}
+
+.day_mode .show_day_mode {
+  display: block;
+}
+
+.nite_mode .show_nite_mode {
+  display: block;
+}
