@@ -415,7 +415,7 @@ export default class DocOptionsHelper {
                                 </div>
                                 <div style="float:right;line-height: 3em;text-align: right;">
                                     <button class="btn btn-secondary btn-125 show_threshold_dialog">
-                                        <i class="material-icons">data_thresholding</i>
+                                        <i class="material-icons">query_stats</i>
                                         Threshold
                                     </button>
                                     <br>
