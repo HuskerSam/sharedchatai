@@ -62,18 +62,18 @@ export class DashboardApp extends BaseApp {
     this.news_tab_button.addEventListener("click", () => {
       this.saveProfileField("homePageTabIndex", 0);
       document.body.classList.remove("sessions_tab");
-      document.body.classList.add("news_tab");
       document.body.classList.remove("about_tab");
+      setTimeout(() => document.body.classList.add("news_tab"), 50);
     });
     this.content_tab_button.addEventListener("click", () => {
       this.saveProfileField("homePageTabIndex", 1);
       document.body.classList.remove("sessions_tab");
       document.body.classList.remove("news_tab");
-      document.body.classList.add("about_tab");
+      setTimeout(() => document.body.classList.add("about_tab"), 50);
     });
     this.dashboard_tab_button.addEventListener("click", () => {
       this.saveProfileField("homePageTabIndex", 2);
-      document.body.classList.add("sessions_tab");
+      setTimeout(() => document.body.classList.add("sessions_tab"), 50);
       document.body.classList.remove("news_tab");
       document.body.classList.remove("about_tab");
     });

@@ -336,10 +336,6 @@ ul.recent_documents_list li a {
   color: var(--highlight);
 }
 
-.footer_container_div {
-  margin-bottom: 0;
-}
-
 .navbar_brand {
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-size: 1.5em;
@@ -1054,4 +1050,23 @@ ol li {
 
 .sessions_tab .footer_container_div {
   display: none;
+}
+
+.footer_container_div {
+  margin-bottom: 0;
+  transition: opacity 1.5s linear;
+  opacity: 0;
+}
+
+.footer_container_div footer {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.news_tab .footer_container_div{
+  opacity: 1;
+}
+
+.about_tab .footer_container_div{
+  opacity: 1;
 }

@@ -790,7 +790,7 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
     </li>
     <li>
         <a class="hover_yellow" href="/content/outputformatting/">Output Formatting
-            - <span class="caption">Formatting equation, code and markdown blocks</span>
+            - <span class="caption">Formatting equations, code and markdown</span>
         </a>
     </li>
     <li>
