@@ -1066,10 +1066,41 @@ ol li {
   border-bottom-right-radius: 0;
 }
 
-.homepage.news_tab .footer_container_div{
+.homepage.news_tab .footer_container_div {
   opacity: 1;
 }
 
-.homepage.about_tab .footer_container_div{
+.homepage.about_tab .footer_container_div {
   opacity: 1;
+}
+
+.video_wrapper {
+  display: block;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.video_wrapper img {
+  border-radius: 12px;
+  width: 100%;
+  display: inline-block;
+}
+
+@media(min-width: 992px) {
+  .video_wrapper img {
+    width: 80%;
+  }
+}
+
+@media(min-width: 1200px) {
+  .video_wrapper img {
+    width: 70%;
+  }
+}
+
+@media(min-width: 1400px) {
+  .video_wrapper img {
+    width: 60%;
+  }
 }
