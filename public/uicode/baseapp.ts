@@ -780,6 +780,21 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
         <a class="hover_yellow" href="/content/outputformatting/">Output Formatting
             - <span class="caption">Formatting equation, code and markdown blocks</span>
         </a>
+    </li>
+    <li>
+    <a class="hover_yellow" hreftobe="/content/sharingprompts/">Share Prompting Sessions
+        - (Coming Soon) <span class="caption">Copy, import, export and share prompts</span>
+    </a>
+    </li>
+    <li>
+    <a class="hover_yellow" hreftobe="/content/tokensandtokenizer/">Tokens, Tokenizers and Credits
+        - (Coming Soon) <span class="caption">Breaking prompts into tokens</span>
+    </a>
+    </li>
+    <li>
+    <a class="hover_yellow" hreftobe="/content/promptsresponsestemplates/">Context and Templates
+        - (Coming Soon) <span class="caption">Control your context for better responses</span>
+    </a>
     </li>`;
 
     if (contentPage) {

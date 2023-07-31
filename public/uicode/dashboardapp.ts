@@ -63,9 +63,6 @@ export class DashboardApp extends BaseApp {
     this.content_tab_button.addEventListener("click", () => this.saveProfileField("homePageTabIndex", 1));
     this.dashboard_tab_button.addEventListener("click", () => this.saveProfileField("homePageTabIndex", 2));
 
-    this.footer_container_div = document.querySelector(".footer_container_div");
-    this.news_tab_view.appendChild(this.footer_container_div);
-
     if (location.hash === "#moreinfo") this.news_tab_button.click();
     if (location.hash === "#about") this.content_tab_button.click();
 
