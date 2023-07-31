@@ -172,7 +172,10 @@ export class DashboardApp extends BaseApp {
         if (firstLoad) {
           this.refreshDocumentsLookup(snapshot);
           this.paintLabelSelect(true);
-          setTimeout(() => document.body.classList.add("list_loaded"), 100);
+          setTimeout(() => {
+            this.updateUserPresence(true);
+            document.body.classList.add("list_loaded");
+          } , 100);
         }
         this.updateSessionFeed(snapshot);
         firstLoad = false;
