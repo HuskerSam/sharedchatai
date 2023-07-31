@@ -408,8 +408,24 @@ export default class BaseApp {
       });
     }
   }
-  /** paint users online status */
-  updateUserPresence() {
+  /** */
+  __updateUserPresence(uid: string, div: any, relatedDocId: string) {
+    let userDocStatus = this.userDocumentStatus[uid];
+    if (!userDocStatus) userDocStatus = {};
+
+    if (this.userPresenceStatus[uid]) {
+      div.classList.add("online");
+      if (userDocStatus[relatedDocId]) div.classList.add("activesession");
+      else div.classList.remove("activesession");
+    } else {
+      div.classList.remove("online");
+      div.classList.remove("activesession");
+    }
+  }
+  /** paint users online status
+   * @param { boolean } noTimeout true for no timeout
+  */
+  updateUserPresence(noTimeout = false) {
     if (!this.userPresenceStatus[this.uid]) {
       this.userPresenceStatus[this.uid] = true;
       this.userStatusDatabaseRef.set(this.isOnlineForDatabase);
@@ -418,20 +434,16 @@ export default class BaseApp {
       .forEach((div: any) => {
         const uid = div.dataset.uid;
         const relatedDocId = div.getAttribute("sessionid");
-        clearTimeout(this.memberUpdateTimeouts[relatedDocId + ":" + uid]);
-        this.memberUpdateTimeouts[relatedDocId + ":" + uid] = setTimeout(() => {
-          let userDocStatus = this.userDocumentStatus[uid];
-          if (!userDocStatus) userDocStatus = {};
-  
-          if (this.userPresenceStatus[uid]) {
-            div.classList.add("online");
-            if (userDocStatus[relatedDocId]) div.classList.add("activesession");
-            else div.classList.remove("activesession");
-          } else {
-            div.classList.remove("online");
-            div.classList.remove("activesession");
-          }
-        }, this.memberRefreshBufferTime);
+
+        if (!noTimeout) {
+          clearTimeout(this.memberUpdateTimeouts[relatedDocId + ":" + uid]);
+          this.memberUpdateTimeouts[relatedDocId + ":" + uid] = 
+            setTimeout(() => this.__updateUserPresence(uid, div, relatedDocId), this.memberRefreshBufferTime);
+        } else { 
+          document.body.classList.add("no_transition");
+          this.__updateUserPresence(uid, div, relatedDocId);
+          document.body.classList.remove("no_transition");
+        }
       });
   }
   /** call join game api

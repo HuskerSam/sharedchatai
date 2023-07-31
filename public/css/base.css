@@ -812,6 +812,10 @@ a:hover {
   transition: background-color 1s linear;
 }
 
+.notransition .member_online_status {
+  transition: none;
+}
+
 .member_online_status.online {
   background: var(--member-online-yellow);
 }

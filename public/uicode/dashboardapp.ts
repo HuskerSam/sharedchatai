@@ -214,7 +214,6 @@ export class DashboardApp extends BaseApp {
     else document.body.classList.remove("no_documents_in_feed");
 
     document.body.classList.add("documents_feed_loaded");
-
     const oldKeys = Object.keys(this.documentsLookup);
     this.documentsLookup = {};
     const localLookup: any = {};
@@ -303,7 +302,8 @@ export class DashboardApp extends BaseApp {
     this.updateTimeSince(this.dashboard_documents_view, true);
     this.paintLabelSelect();
     this.updateUserNamesImages();
-    this.updateUserPresence();
+
+    this.updateUserPresence(true);
 
     labelFilter = this.document_label_filter.value;
     if (labelFilter === "All Sessions" || labelFilter === "Not Labelled") document.body.classList.remove("show_clear_label_filter");
