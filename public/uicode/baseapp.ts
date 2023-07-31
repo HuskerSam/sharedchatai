@@ -835,8 +835,8 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
   initDayMode() {
     if (window.location.pathname === "/help/") return;
 
-    const dayMode = localStorage.getItem("dayMode");
-    if (dayMode === "true") {
+    const niteMode = localStorage.getItem("niteMode");
+    if (niteMode !== "true") {
       this.themeIndex = 0;
       document.body.classList.add("day_mode");
       document.body.classList.remove("nite_mode");
@@ -857,13 +857,13 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
     }
   }
   /** Toggle night mode when the checkbox is changed
-   * @param { boolean } dayMode true if day mode
+   * @param { boolean } niteMode true if nite mode
   */
-  toggleDayMode(dayMode = false) {
-    if (dayMode) {
-      localStorage.setItem("dayMode", "true");
+  toggleDayMode(niteMode = false) {
+    if (niteMode) {
+      localStorage.setItem("niteMode", "true");
     } else {
-      localStorage.setItem("dayMode", "false");
+      localStorage.setItem("niteMode", "false");
     }
     this.initDayMode();
   }

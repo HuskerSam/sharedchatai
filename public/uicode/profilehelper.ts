@@ -36,7 +36,7 @@ export default class ProfileHelper {
     credits_row: any;
     monthly_tokens_usage: any;
     noAuthPage = false;
-    day_mode_input: any;
+    nite_mode_input: any;
     account_tab_button: any;
     monthly_limit: any;
     change_subscription: any;
@@ -146,8 +146,8 @@ export default class ProfileHelper {
             }
         });
 
-        this.day_mode_input = document.querySelector(".day_mode_input");
-        this.day_mode_input.addEventListener("input", () => this.app.toggleDayMode(this.day_mode_input.checked));
+        this.nite_mode_input = document.querySelector(".nite_mode_input");
+        this.nite_mode_input.addEventListener("input", () => this.app.toggleDayMode(this.nite_mode_input.checked));
         this.account_tab_button = document.querySelector(".account_tab_button");
     }
     /** pick a random college logo for the profile image and save to firebase */
@@ -256,8 +256,8 @@ export default class ProfileHelper {
                                     KaTeX Inline
                                 </label>
                                     <label class="form-check-label">
-                                    <input class="form-check-input day_mode_input" type="checkbox" value="">
-                                    Day Mode
+                                    <input class="form-check-input nite_mode_input" type="checkbox" value="">
+                                    Nite Mode
                                 </label>   
                             </div>
                         </div>
@@ -582,7 +582,7 @@ export default class ProfileHelper {
         this.profile_enablekatexinline_checkbox.checked = (this.app.profile.enableKatexInline === true);
         this.profile_display_image.setAttribute("uid", this.app.uid);
         this.profile_display_name.setAttribute("uid", this.app.uid);
-        this.day_mode_input.checked = (this.app.themeIndex === 0);
+        this.nite_mode_input.checked = (this.app.themeIndex === 1);
 
         this.app.updateUserNamesImages();
         this.updateTokenUsage();
