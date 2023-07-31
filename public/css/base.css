@@ -333,7 +333,7 @@ select.form-select option {
 
 select.document_label_filter.form-select {
   border: 1px solid var(--primary-color-4);
-  color: var(--highlight);
+  color: var(--primary-color);
 }
 
 select.document_label_filter.form-select:hover,

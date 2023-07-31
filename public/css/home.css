@@ -123,6 +123,10 @@ ul.recent_documents_list li a {
   text-decoration: underline;
 }
 
+.template_list_wrapper li a .caption.inprogress {
+  text-decoration: none;
+}
+
 .template_list_wrapper li .caption {
   text-align: left;
   color: var(--primary-color-2);

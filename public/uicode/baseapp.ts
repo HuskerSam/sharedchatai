@@ -782,18 +782,22 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
         </a>
     </li>
     <li>
-    <a class="hover_yellow" hreftobe="/content/sharingprompts/">Share Prompting Sessions
-        - (Coming Soon) <span class="caption">Copy, import, export and share prompts</span>
+      <br>
+      <b>Coming Soon</b>
+    </li>
+    <li>
+    <a hreftobe="/content/sharingprompts/">Share Prompting Sessions
+        - <span class="caption inprogress">Copy, import, export and share prompts</span>
     </a>
     </li>
     <li>
-    <a class="hover_yellow" hreftobe="/content/tokensandtokenizer/">Tokens, Tokenizers and Credits
-        - (Coming Soon) <span class="caption">Breaking prompts into tokens</span>
+    <a hreftobe="/content/tokensandtokenizer/">Tokens, Tokenizers and Credits
+        - <span class="caption inprogress">Breaking prompts into tokens</span>
     </a>
     </li>
     <li>
-    <a class="hover_yellow" hreftobe="/content/promptsresponsestemplates/">Context and Templates
-        - (Coming Soon) <span class="caption">Control your context for better responses</span>
+    <a hreftobe="/content/promptsresponsestemplates/">Context and Templates
+        - <span class="caption inprogress">Control your context for better responses</span>
     </a>
     </li>`;
 
