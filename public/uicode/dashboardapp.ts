@@ -59,9 +59,24 @@ export class DashboardApp extends BaseApp {
       this.documentCreate.show(this.getCustomSelectedLabel());
     });
 
-    this.news_tab_button.addEventListener("click", () => this.saveProfileField("homePageTabIndex", 0));
-    this.content_tab_button.addEventListener("click", () => this.saveProfileField("homePageTabIndex", 1));
-    this.dashboard_tab_button.addEventListener("click", () => this.saveProfileField("homePageTabIndex", 2));
+    this.news_tab_button.addEventListener("click", () => {
+      this.saveProfileField("homePageTabIndex", 0);
+      document.body.classList.remove("sessions_tab");
+      document.body.classList.add("news_tab");
+      document.body.classList.remove("about_tab");
+    });
+    this.content_tab_button.addEventListener("click", () => {
+      this.saveProfileField("homePageTabIndex", 1);
+      document.body.classList.remove("sessions_tab");
+      document.body.classList.remove("news_tab");
+      document.body.classList.add("about_tab");
+    });
+    this.dashboard_tab_button.addEventListener("click", () => {
+      this.saveProfileField("homePageTabIndex", 2);
+      document.body.classList.add("sessions_tab");
+      document.body.classList.remove("news_tab");
+      document.body.classList.remove("about_tab");
+    });
 
     if (location.hash === "#moreinfo") this.news_tab_button.click();
     if (location.hash === "#about") this.content_tab_button.click();

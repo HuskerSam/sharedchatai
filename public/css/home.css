@@ -1052,8 +1052,6 @@ ol li {
   flex: 1;
 }
 
-@media (max-width: 768px) {
-  .home_page_tabs {
-    min-height: calc(90vh - 200px);
-  }
+.sessions_tab .footer_container_div {
+  display: none;
 }
