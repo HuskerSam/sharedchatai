@@ -448,13 +448,15 @@ export class DashboardApp extends BaseApp {
       e.stopPropagation();
       e.preventDefault();
       await this.prepDocumentOptionsHelper(doc.id);
-      this.documentOptions.deleteGame();
+      const deleted = await this.documentOptions.deleteGame();
+      if (deleted) card.remove();
     });
 
     const leave: any = card.querySelector("button.leave");
     leave.addEventListener("click", async (e: any) => {
       e.stopPropagation();
       e.preventDefault();
+      card.remove();
       await this.prepDocumentOptionsHelper(doc.id);
       this.documentOptions.logoutGame();
     });

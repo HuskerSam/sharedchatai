@@ -514,13 +514,15 @@ export default class DocOptionsHelper {
         this.docData.label = labels.join(",");
         this.app.saveDocumentOwnerOption(this.chatDocumentId, "label", this.docData);
     }
-    /** delete game api call */
-    async deleteGame() {
-        if (!confirm("Delete this session?")) return;
+    /** delete game api call
+     * @return { Promise<boolean> } true if deleted
+    */
+    async deleteGame(): Promise<boolean> {
+        if (!confirm("Delete this session?")) return false;
 
         if (!this.chatDocumentId) {
-            alert("Game Number not found - error");
-            return;
+            alert("Session not found - error");
+            return false;
         }
         const body = {
             gameNumber: this.chatDocumentId,
@@ -546,8 +548,10 @@ export default class DocOptionsHelper {
         if (!result.success) {
             console.log("delete error", result);
             alert("Delete failed");
-            return;
+            return false;
         }
+
+        return true;
     }
     /** logout api call */
     async logoutGame() {
