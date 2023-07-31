@@ -1057,7 +1057,7 @@ ol li {
 }
 
 .homepage .footer_container_div {
-  transition: opacity 1.5s linear;
+  transition: opacity 1.5s ease-in;
   opacity: 0;
 }
 

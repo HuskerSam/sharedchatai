@@ -95,16 +95,70 @@
             <div class="side_block">
                 <p class="header_recent_document">Formatting Markdown and Code</p>
                 <div class="coming-soon card" style="text-align:left;">
+                    AI models output data in a large number of formats and mix into their textual response.
+                    Text is usually broken down into lines using \n for line break.
+                    Markdown and code files are formatted when delimited in the following way:
+                    <br>
+                    <br>
+                    ```<br>
+                    Markdown File<br>
+                    ```
+                    <br>
+                    <br>
+                    the three backquotes denote the start and end of a
+                    code block in Markdown format.
+                    <br>
+                    Equations are formatted using a KaTeX library. The details of how are KaTeX is delimited
+                    varies by model and version, more below.
+                    <br>
+                    <br>
                     <div>
-                        <a href="https://marked.js.org/" target="_blank">Marked</a>
+                        <a href="https://marked.js.org/" class="impact-green" target="_blank">Marked</a>
                         - for markdown formatting.
                         <br>
-                        <a href="https://katex.org/" target="_blank">KaTeX</a>
+                        <a href="https://katex.org/" class="impact-green" target="_blank">KaTeX</a>
                         - for equation formatting.
                         <br>
-                        <a href="https://highlightjs.org/" target="_blank">Highlight.js</a>
+                        <a href="https://highlightjs.org/" class="impact-green" target="_blank">Highlight.js</a>
                         - for code formatting.
                     </div>
+                    <br>
+                    <br>
+                    KaTeX block delimiters are enabled by default:
+                    <br>
+                    <div>
+                        $$<br>
+                        <span class="impact-green">KaTeX</span><br>
+                        $$<br>
+                        <br>
+                        \[<br>
+                        <span class="impact-green">KaTeX</span><br>
+                        \]<br>
+                        <br>
+                        KaTex inline delimiters are disabled by default, as the $ can conflict with currency<br>
+                        \$<span class="impact-green">KaTeX</span>\$<br>
+                        <br>
+                        \(<span class="impact-green">KaTeX</span>\)<br>
+                        <br>
+                        $<span class="impact-green">KaTeX</span>$<br>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex-lg-row flex_change_responsive">
+            <div class="side_block">
+                <p class="header_recent_document">Editing Responses</p>
+                <div class="coming-soon card" style="text-align:left;">
+                    Often the AI doesn't return quite the right response 
+                    and you want to adjust it.  This can make future responses 
+                    more on track.
+                    <br>
+                    <br>
+                    The response will appear in a popup in raw format (meaning KaTex and or Markdown).
+                    <br>
+                    Also the copy button for the response copies the raw response to the clipboard, 
+                    not the formatted result.
                 </div>
             </div>
         </div>
