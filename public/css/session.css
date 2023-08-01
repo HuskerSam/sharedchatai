@@ -411,7 +411,7 @@ pre code {
   border-color: transparent;
   color: var(--primary-color);
   background-color: transparent;
-  right: 50px;
+  right: 56px;
   z-index: 1;
 }
 
@@ -757,6 +757,9 @@ pre code {
 
 .completion_max_tokens_reached .continue_previous_response {
   display: inline-block;
+  position: absolute;
+  bottom: 0px;
+  right: 110px;
 }
 
 
