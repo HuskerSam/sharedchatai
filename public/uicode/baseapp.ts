@@ -794,13 +794,13 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
         </a>
     </li>
     <li>
-      <br>
-      <b>Coming Soon</b>
+    <a class="hover_yellow" href="/content/sharingprompts/">Share Prompting Sessions
+        - <span class="caption">Copy, import, export and share prompts</span>
+    </a>
     </li>
     <li>
-    <a hreftobe="/content/sharingprompts/">Share Prompting Sessions
-        - <span class="caption inprogress">Copy, import, export and share prompts</span>
-    </a>
+      <br>
+      <b>Coming Soon</b>
     </li>
     <li>
     <a hreftobe="/content/tokensandtokenizer/">Tokens, Tokenizers and Credits
