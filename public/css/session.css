@@ -899,7 +899,7 @@ pre code {
   margin-top: -8px;
 }
 
-button.btn-primary.send_ticket_button {
+button.btn.btn-primary.send_ticket_button {
   background-color: transparent;
   border-color: transparent;
   margin-bottom: -6px;

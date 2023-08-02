@@ -440,7 +440,6 @@ button.btn-primary:active {
   border-color: var(--highlight-session);
 }
 
-
 .day_mode .app_panel input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
@@ -573,12 +572,13 @@ button.btn-primary:active {
   color: var(--primary-color-2);
 }
 
-
+button.shared_status_withusers,
 .shared_status_withusers,
 .shared_status_withusers.hover_yellow {
   color: var(--shared_status_owner);
 }
 
+button.shared_status_withothers,
 .shared_status_withothers,
 .shared_status_withothers.hover_yellow {
   color: var(--shared_status_user);
