@@ -325,6 +325,12 @@ select.form-select {
   margin-right: 4px;
 }
 
+select.docfield_model:hover,
+select.docfield_model:focus,
+select.docfield_model:active {
+  filter: brightness(1.1);
+}
+
 select.form-select option {
   background-color: var(--background-accent-3);
   color: var(--primary-color-2);
