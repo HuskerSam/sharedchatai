@@ -328,7 +328,7 @@ select.form-select {
 select.docfield_model:hover,
 select.docfield_model:focus,
 select.docfield_model:active {
-  filter: brightness(1.1);
+  filter: brightness(0.9);
 }
 
 select.form-select option {

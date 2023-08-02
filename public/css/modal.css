@@ -204,7 +204,9 @@
 }
 
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
-  background-color: var(--secondary-color-1);
+  color: inherit;
+  filter: brightness(1.1);
+  background-color: var(--background-accent-3);
 }
 
 .app_panel.modal-content label {
