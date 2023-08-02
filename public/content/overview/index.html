@@ -16,11 +16,11 @@
     <meta name='msapplication-square310x310logo' content='https://unacog.com/images/logo64.png'>
     <link rel='apple-touch-icon' href='https://unacog.com/images/logo64.png'>
 
-    <meta property="og:url" content="https://unacog.com/content/nodalanalysis/" />
+    <meta property="og:url" content="https://unacog.com/content/overview/" />
     <meta property="og:title" content="Technical Overview" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://unacog.com/images/homepageogmeta.jpg" />
-    <meta property="og:description" content="Architecture, frameworks and APIs" />
+    <meta property="og:image" content="https://unacog.com/content/overview/firebasecloud.png" />
+    <meta property="og:description" content="Architecture, frameworks and APIs - code is ba" />
 
     <!-- Firebase links -->
     <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-app.js"></script>
@@ -94,15 +94,16 @@
     <div class="container main_container">
         <div class="flex-lg-row flex_change_responsive">
             <div class="side_block">
-                <p class="header_recent_document">Technical Overview</p>
+                <h1 class="header_recent_document">Technical Dig Deep</h1>
                 <div class="coming-soon card" style="text-align:left;">
-                    <h1 class="header_recent_document">Full writeup</h1>
                     <div>
                         The code was based off of <a href="https://github.com/HuskerSam/sharedgamelobby" target="_blank">Shared Game Lobby</a>
-                        which includes a thorough writeup of the technical details.  In addition it's 
-                        open source and free to use to start games or multi user applications from.
-                        <br>
-                        Authentication, Firebase platform, UI, Online Persistance, and Cloud Functions are covered in detail.
+                        <ul>
+                            <li>Thorough writeup of the technical details</li>
+                            <li>Open source and free to use to start your own applications</li>
+                            <li>Created by the same developers as Unacog</li>
+                            <li>Authentication, Firestore, Cloud Functions and Hosting are covered in detail</li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -111,8 +112,8 @@
             <div class="side_block">
                 <p class="header_recent_document">Architecture</p>
                 <div class="coming-soon card" style="text-align:left;">
-                    <a href="/images/firebasecloud.svg" target="_blank"><img 
-                        src="/images/firebasecloud.svg" style="max-height:350px;" class="content_image"></a>
+                    <a href="/content/overview/firebasecloud.png" target="_blank"><img 
+                        src="/content/overview/firebasecloud.png" style="max-height:350px;" class="content_image"></a>
                     <br>
                     Firebase is used for realtime data and scale on demand hosting.  The API keys are contained on the server 
                     using Firebase Functions.  Session is the main document with 3 subcollections, tickets, assists and packets.
