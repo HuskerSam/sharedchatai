@@ -94,14 +94,21 @@
     <div class="container main_container">
         <div class="flex-lg-row flex_change_responsive">
             <div class="side_block">
-                <h1 class="header_recent_document">Using ChatGPT for a How To on Web Scrape</h1>
+                <h1 class="header_recent_document">Using ChatGPT Scrape the Web</h1>
                 <div class="coming-soon card" style="text-align:left;">
                     <p>
                         One of the most exciting aspects of AI technology is its potential to help us learn and
-                        accomplish tasks more efficiently. Today, I'd like to share a real-world application of how an
-                        AI language model, specifically ChatGPT, helped me accomplish a task that would traditionally
-                        require a fair amount of technical knowledge and effort: web scraping.
+                        accomplish tasks more efficiently. In this example, I wanted to share how I was
+                        able to generate a python script that will scrape into a csv file for any website you want with
+                        minor modifications. No coding skills required and template is at the bottom.
                     </p>
+                    <div class="text-center">
+                        <figure class="figure">
+                            <img class="figure-img img-fluid rounded shadow bg-dark-3"
+                                src="/images/webscrape_banner.png"
+                                alt="">
+                        </figure>
+                    </div>
                     <p>
                         Web scraping is a method used to extract large amounts of data from websites quickly. It can be
                         a bit tricky if you're not familiar with programming languages like Python. However, with a bit
@@ -171,7 +178,8 @@
                     </div>
                     <p>
                         I then
-                        provided the correct HTML elements that the script needed to select. With the corrected HTML elements, the AI model was able to provide a revised script.
+                        provided the correct HTML elements that the script needed to select. With the corrected HTML
+                        elements, the AI model was able to provide a revised script.
                     </p>
                     <div class="text-center">
                         <figure class="figure">
@@ -181,26 +189,28 @@
                         </figure>
                     </div>
                     <p>
-                        But I
-                        wanted to take it a step further: I needed to categorize the contacts based on their titles and
-                        export the data to a CSV file for easier manipulation.
+                        There's a couple ways to look at a website's html so you can copy the relevant elements. The
+                        most accessible way is to right click on the page and select "inspect" and then you can see the
+                        html elements. 
                     </p>
                     <div class="text-center">
                         <figure class="figure">
                             <img class="figure-img img-fluid rounded shadow bg-dark-3"
-                                src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fwebscrape%2Fwebscrape7.png?alt=media&token=a962ab0a-77d2-4996-9edf-bf97e77f273b"
+                                src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fwebscrape%2Fwebscrape44.png?alt=media&token=a962ab0a-77d2-4996-9edf-bf97e77f273b"
                                 alt="">
+                                <figcaption class="figure-caption">right click inspect to view html elements</figcaption>
                         </figure>
                     </div>
-                    <p>My message:<br><br>"I am using this list to create an email template. Detect if the title
-                        contains
-                        professor (variations like assistant or assiocaite are considered professors), if it does, give
-                        me another field called shortenTitle, and give them the title professor. if they have another
-                        title, we will refer to the original title field. I want to export this into a csv file."</p>
-                    <p>
-                        The AI model was able to adjust the
-                        script to include these additional requirements.
-                    </p>
+                    <p>Then use the selector tool to select the elements you want to scrape and copy the
+                        html element. It is best to only copy what the AI needs to select the data you want.</p>
+                    <div class="text-center">
+                        <figure class="figure">
+                            <img class="figure-img img-fluid rounded shadow bg-dark-3"
+                                src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fwebscrape%2Fwebscrape444.png?alt=media&token=a962ab0a-77d2-4996-9edf-bf97e77f273b"
+                                alt="">
+                            <figcaption class="figure-caption">copy the desired HTML</figcaption>
+                        </figure>
+                    </div>
                 </div>
             </div>
         </div>
@@ -209,12 +219,28 @@
                 <h3 class="header_recent_document">Key Insights from AI-assisted Web Scraping</h3>
                 <div class="coming-soon card" style="text-align:left;">
                     <p>
-                        This experience demonstrated to me the power and flexibility of AI. The ability to ask questions
-                        and iteratively refine the solution enabled me to accomplish a task that might have been quite
-                        challenging on my own.
-                    </p>
+                        So then I wanted to take it a step further: I needed to categorize the contacts based on their titles and
+                         export the data to a CSV file for easier manipulation.
+                     </p>
+                     <div class="text-center">
+                         <figure class="figure">
+                             <img class="figure-img img-fluid rounded shadow bg-dark-3"
+                                 src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fwebscrape%2Fwebscrape7.png?alt=media&token=a962ab0a-77d2-4996-9edf-bf97e77f273b"
+                                 alt="">
+                         </figure>
+                     </div>
+                     <p>My message:<br><br>"I am using this list to create an email template. Detect if the title
+                         contains
+                         professor (variations like assistant or assiocaite are considered professors), if it does, give
+                         me another field called shortenTitle, and give them the title professor. if they have another
+                         title, we will refer to the original title field. I want to export this into a csv file."</p>
+                     <p>
+                         The AI model was able to adjust the
+                         script to include these additional requirements.
+                     </p>
                     <p>
-                        The takeaways from this interaction are:
+                        This session highlights how AI can help us learn and adapt, even when we don't have all the
+                        information at hand. Here's a breakdown of what I learned:
                     </p>
                     <ul>
                         <li>
@@ -225,10 +251,12 @@
                             link and the correct HTML elements to look for were crucial in this case.
                         </li>
                         <li>
-                            <strong>Desired output:</strong> Determine the desired output format, such as CSV for compatibility with Excel or Google Sheets.
+                            <strong>Desired output:</strong> Determine the desired output format, such as CSV for
+                            compatibility with Excel or Google Sheets.
                         </li>
                         <li>
-                            <strong>Detailed requirements:</strong> Define any additional formatting rules, like shortening titles for specific purposes.
+                            <strong>Detailed requirements:</strong> Define any additional formatting rules, like
+                            shortening titles for specific purposes.
                         </li>
                     </ul>
                 </div>
@@ -240,7 +268,8 @@
                 <div class="coming-soon card" style="text-align:left;">
                     <p>
                         AI can be a powerful tool for learning and accomplishing tasks more efficiently.
-                        It's not just about automating tasks, but also about enhancing our learning process.  In fact I used AI to help me write this annotated prompt log to share my findings with you all.
+                        It's not just about automating tasks, but also about enhancing our learning process. In fact I
+                        used AI to help me write this annotated prompt log to share my findings with you all.
                     </p>
                     <div class="text-center">
                         <figure class="figure">
@@ -268,10 +297,6 @@
                         expecting a response back from the AI. The result? A ready-to-use template that requires only
                         the specific website and HTML elements you want to scrape.
                     </p>
-                    <p>
-                        If you want to leverage this resource, you will need to login and click below to clone the
-                        template. Once you have the template, simply enter the URL and HTML elements you want to scrape.
-                    </p>
                     <div class="text-center">
                         <figure class="figure">
                             <img class="figure-img img-fluid rounded shadow bg-dark-3"
@@ -280,8 +305,12 @@
                         </figure>
                     </div>
                     <p>
+                        If you want to leverage this resource, you will need to login and click below to clone the
+                        template. Once you have the template, simply enter the URL and HTML elements you want to scrape.
+                    </p>
+                    <p>
                         As a real-time collaboration platform, you can invite colleagues
-                        or anyone else you need to work with on the project. 
+                        or anyone else you need to work with on the project.
                     </p>
                 </div>
             </div>
