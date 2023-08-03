@@ -375,7 +375,6 @@
   top: 2px;
 }
 
-.app_panel .form-check-input.modal_open_new_document,
 .app_panel .form-check-input.docfield_archived_checkbox,
 .app_panel .form-check-input.docfield_include_user_names_checkbox {
   width: 24px;
@@ -383,8 +382,6 @@
   border-color: var(--secondary-color-2); 
 }
 
-
-.day_mode .app_panel .form-check-input.modal_open_new_document,
 .day_mode .app_panel .form-check-input.docfield_archived_checkbox,
 .day_mode .app_panel .form-check-input.docfield_include_user_names_checkbox {
   width: 24px;
@@ -624,4 +621,14 @@ label.btn {
   height: 50vh;
   flex: 1;
   width: 100%;
+}
+
+.create_modal_prompt_field {
+  width: 100%;
+  height: 5em;
+}
+
+.system_message_field {
+  width: 100%;
+  height: 5em;
 }

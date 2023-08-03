@@ -1,5 +1,6 @@
 import * as firebaseAdmin from "firebase-admin";
 import BaseClass from "./baseclass";
+import SessionAPI from "./sessionapi";
 import {
   FieldValue,
 } from "firebase-admin/firestore";
@@ -111,6 +112,9 @@ export default class GameAPI {
     let creditUsageLimit = 1000;
     if (req.body.creditUsageLimit) creditUsageLimit = req.body.creditUsageLimit;
 
+    let firstPrompt = "";
+    if (req.body.firstPrompt) firstPrompt = req.body.firstPrompt;
+
     const game: any = {};
     Object.assign(game, BaseClass.defaultChatDocumentOptions());
     Object.assign(game,
@@ -152,9 +156,22 @@ export default class GameAPI {
     };
     await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).set(game);
 
+    if (firstPrompt) {
+      const mockReq: any = {
+        headers: {
+          token: req.headers.token,
+        },
+        body: {
+          gameNumber,
+          message: firstPrompt,
+          includeTickets: [],
+        }
+      };
+      return SessionAPI.submitTicket(mockReq, res);
+    }
+
     return res.status(200).send({
       success: true,
-      game,
       gameNumber,
     });
   }

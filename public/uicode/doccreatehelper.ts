@@ -12,13 +12,13 @@ export default class DocCreateHelper {
   create_modal_note_field: any = null;
   creatingNewRecord = false;
   create_modal_title_field: any;
+  create_modal_prompt_field: any;
   system_message_field: any;
   document_usage_cap_field: any;
   create_modal_template_file: any;
   modal_create_template_tickets_button: any;
   parsed_file_status: any;
   parsed_file_name: any;
-  modal_open_new_document: any;
   createDocumentModal: any;
   add_date_as_label_button: any;
   insert_todaylabel_default_checkbox: any;
@@ -35,7 +35,7 @@ export default class DocCreateHelper {
     this.modalContainer.innerHTML = html;
     document.body.appendChild(this.modalContainer);
     this.modalContainer.children[0].addEventListener("shown.bs.modal", () => {
-      this.create_modal_title_field.focus();
+      this.create_modal_prompt_field.focus();
     });
 
     this.create_game_afterfeed_button = this.modalContainer.querySelector(".create_game_afterfeed_button");
@@ -43,7 +43,8 @@ export default class DocCreateHelper {
     this.create_game_afterfeed_button = this.modalContainer.querySelector(".create_game_afterfeed_button");
     this.createDocumentModal = this.modalContainer.querySelector("#createDocumentModal");
     this.create_modal_title_field = this.modalContainer.querySelector(".create_modal_title_field");
-    this.create_modal_title_field.addEventListener("keydown", (e: any) => {
+    this.create_modal_prompt_field = this.modalContainer.querySelector(".create_modal_prompt_field");
+    this.create_modal_prompt_field.addEventListener("keydown", (e: any) => {
       if (e.key === "Enter" && e.shiftKey === false) {
         e.preventDefault();
         e.stopPropagation();
@@ -56,7 +57,6 @@ export default class DocCreateHelper {
     this.modal_create_template_tickets_button.addEventListener("click", () => this.create_modal_template_file.click());
     this.parsed_file_status = this.modalContainer.querySelector(".parsed_file_status");
     this.parsed_file_name = this.modalContainer.querySelector(".parsed_file_name");
-    this.modal_open_new_document = this.modalContainer.querySelector(".modal_open_new_document");
     this.insert_todaylabel_default_checkbox = this.modalContainer.querySelector(".insert_todaylabel_default_checkbox");
     this.insert_todaylabel_default_checkbox.addEventListener("input", () => {
       const b = this.insert_todaylabel_default_checkbox.checked;
@@ -120,52 +120,53 @@ export default class DocCreateHelper {
                     <li class="nav-item" role="presentation">
                         <a class="nav-link active" id="basic_create_options" data-bs-toggle="tab"
                             href="#basic_create_options_view" role="tab" aria-controls="basic_create_options_view"
-                            aria-selected="false">Basic</a>
+                            aria-selected="false">Prompt</a>
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link" id="advanced_create_options" data-bs-toggle="tab"
                             href="#advanced_create_options_view" role="tab" aria-controls="advanced_create_options_view"
                             aria-selected="true">Advanced</a>
                     </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="bulk_create_options" data-bs-toggle="tab"
+                            href="#bulk_create_options_view" role="tab" aria-controls="bulk_create_options_view"
+                            aria-selected="true">Bulk</a>
+                    </li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane fade" id="basic_create_options_view" role="tabpanel"
-                        style="flex-direction:column;overflow:hidden;" aria-labelledby="basic_create_options">
-                    </div>
-                    <div>
-                        <label class="form-label">
-                            Title <span class="title_note"> - [Enter] to add</span>
-                        </label>
-                        <div class="form-check open_button_wrapper">
-                            <label class="form-check-label">
-                                <input class="form-check-input modal_open_new_document" checked type="checkbox"
-                                    value="">
-                                Open
-                            </label>
-                        </div>
-                        <br>
-                        <input type="text" class="form-control create_modal_title_field"
-                            placeholder="autofills if blank">
-                        <hr>
-                        <div style="position:relative;margin-top: -6px;">
-                            <button class="btn btn-secondary add_date_as_label_button">Add Today</button>
-                            <input class="form-check-input insert_todaylabel_default_checkbox" type="checkbox">
-                            <label class="form-label labels_label">Labels</label>
-                            <div style="text-align:center;margin-left: -3px;padding-right: 3px;">
-                              <select class="create_document_label_options" multiple="multiple"
-                                  style="width:100%"></select>
-                            </div>
-                        </div>
+                    <div class="tab-pane fade show active" id="basic_create_options_view" role="tabpanel"
+                        aria-labelledby="basic_create_options">
+                      <label class="form-label">
+                          First Prompt (Enter to run)
+                      </label>
+                      <br>
+                      <textarea class="form-control create_modal_prompt_field"
+                          placeholder="optional"></textarea>
+                      <div style="position:relative;margin-top: 12px;">
+                          <button class="btn btn-secondary add_date_as_label_button">Add Today</button>
+                          <input class="form-check-input insert_todaylabel_default_checkbox" type="checkbox">
+                          <label class="form-label labels_label">Labels</label>
+                          <div style="text-align:center;margin-left: -3px;padding-right: 3px;">
+                            <select class="create_document_label_options" multiple="multiple"
+                                style="width:100%"></select>
+                          </div>
+                      </div>
                     </div>
                     <div class="tab-pane fade" id="advanced_create_options_view" role="tabpanel"
-                        style="flex-direction:column;overflow:hidden;" aria-labelledby="advanced_create_options">
+                        aria-labelledby="advanced_create_options">
+                          <label class="form-label">
+                            Title <span class="title_note"></span>
+                          </label>
+                          <br>
+                          <input type="text" class="form-control create_modal_title_field"
+                              placeholder="fills with first prompt if blank">
                           <hr>
                           <label class="form-label">
                             System Message
                           </label>
                           <br>
-                          <input type="text" class="form-control system_message_field"
-                              placeholder="optional">
+                          <textarea class="form-control system_message_field"
+                              placeholder="optional"></textarea>
                           <br>
                           <div style="display:flex;flex-direction:row;">
                             <div>
@@ -194,6 +195,21 @@ export default class DocCreateHelper {
                           &nbsp;
                           <div class="parsed_file_name"></div>
                         </div>
+                    </div>
+                    <div class="tab-pane fade" id="bulk_create_options_view" role="tabpanel"
+                    aria-labelledby="bulk_create_options">
+                      <div class="create_import_file_description">
+                        <button class="btn btn-secondary modal_create_users_list_button">
+                            <i class="material-icons">upload_file</i>
+                            Users List
+                        </button>
+                        <input class="create_modal_users_file" style="display:none;" type="file"
+                            accept=".json,.csv">
+                        &nbsp;
+                        <div class="parsed_list_file_status"></div>
+                        &nbsp;
+                        <div class="parsed_list_file_name"></div>
+                      </div>
                     </div>
                 </div>
             </div>
@@ -225,6 +241,7 @@ export default class DocCreateHelper {
       label: this.scrapeLabels(),
       note: this.create_modal_note_field.value.trim(),
       title: this.create_modal_title_field.value.trim(),
+      firstPrompt: this.create_modal_prompt_field.value.trim(),
     };
 
     const systemMessage = this.system_message_field.value.trim();
@@ -262,13 +279,11 @@ export default class DocCreateHelper {
     if (importError) {
       alert("data import error");
     } else {
-      if (this.modal_open_new_document.checked) {
-        const a = document.createElement("a");
-        a.setAttribute("href", `/session/${json.gameNumber}`);
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      }
+      const a = document.createElement("a");
+      a.setAttribute("href", `/session/${json.gameNumber}`);
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     }
   }
   /** scrape labels from dom and return comma delimited list

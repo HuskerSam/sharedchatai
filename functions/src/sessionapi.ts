@@ -36,7 +36,7 @@ export default class SessionAPI {
         const reRunticket: any = req.body.reRunTicket;
         let message = req.body.message;
         if (message) {
-            if (message.length > 50000) message = message.substr(0, 50000);
+            if (message.length > 100000) message = message.substr(0, 100000);
         }
 
         if (!message && !reRunticket) {
@@ -248,6 +248,7 @@ export default class SessionAPI {
 
         return res.status(200).send({
             success: true,
+            gameNumber,
         });
         /* eslint-enable camelcase */
     }
