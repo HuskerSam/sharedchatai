@@ -1,5 +1,6 @@
 import BaseApp from "./baseapp.js";
 import ChatDocument from "./chatdocument.js";
+import Utility from "./utility.js";
 declare const firebase: any;
 declare const window: any;
 
@@ -17,13 +18,21 @@ export default class DocCreateHelper {
   document_usage_cap_field: any;
   create_modal_template_file: any;
   modal_create_template_tickets_button: any;
+  create_modal_users_file: any;
+  modal_create_users_list_button: any;
   parsed_file_status: any;
   parsed_file_name: any;
+  parsed_list_file_status: any;
+  parsed_list_file_name: any;
   createDocumentModal: any;
   add_date_as_label_button: any;
   insert_todaylabel_default_checkbox: any;
   advanced_create_options: any;
   basic_create_options: any;
+  template_create_options: any;
+  bulk_create_options: any;
+  preview_create_template: any;
+  preview_bulk_template: any;
 
   /**
    * @param { any } app BaseApp derived application instance
@@ -53,10 +62,16 @@ export default class DocCreateHelper {
     });
     this.system_message_field = this.modalContainer.querySelector(".system_message_field");
     this.document_usage_cap_field = this.modalContainer.querySelector(".document_usage_cap_field");
+    this.modal_create_users_list_button = this.modalContainer.querySelector(".modal_create_users_list_button");
+    this.create_modal_users_file = this.modalContainer.querySelector(".create_modal_users_file");
+    this.modal_create_users_list_button.addEventListener("click", () => this.create_modal_users_file.click());
     this.modal_create_template_tickets_button = this.modalContainer.querySelector(".modal_create_template_tickets_button");
     this.modal_create_template_tickets_button.addEventListener("click", () => this.create_modal_template_file.click());
     this.parsed_file_status = this.modalContainer.querySelector(".parsed_file_status");
     this.parsed_file_name = this.modalContainer.querySelector(".parsed_file_name");
+    this.parsed_list_file_status = this.modalContainer.querySelector(".parsed_list_file_status");
+    this.parsed_list_file_name = this.modalContainer.querySelector(".parsed_list_file_name");
+
     this.insert_todaylabel_default_checkbox = this.modalContainer.querySelector(".insert_todaylabel_default_checkbox");
     this.insert_todaylabel_default_checkbox.addEventListener("input", () => {
       const b = this.insert_todaylabel_default_checkbox.checked;
@@ -66,8 +81,12 @@ export default class DocCreateHelper {
 
     this.create_modal_template_file = this.modalContainer.querySelector(".create_modal_template_file");
     this.create_modal_template_file.addEventListener("change", () => this.updateParsedFileStatus());
+    this.create_modal_users_file = this.modalContainer.querySelector(".create_modal_users_file");
+    this.create_modal_users_file.addEventListener("change", () => this.updateUsersListFile());
     this.create_game_afterfeed_button.addEventListener("click", () => this.createNewGame());
 
+    this.preview_create_template = this.modalContainer.querySelector(".preview_create_template");
+    this.preview_bulk_template = this.modalContainer.querySelector(".preview_bulk_template");
     this.add_date_as_label_button = this.modalContainer.querySelector(".add_date_as_label_button");
 
     // this.add_date_as_label_button.innerHTML = this.getLocal8DigitDate();
@@ -79,6 +98,10 @@ export default class DocCreateHelper {
     this.advanced_create_options.addEventListener("click", () => this.app.saveProfileField("createDialogTabIndex", 1));
     this.basic_create_options = this.modalContainer.querySelector("#basic_create_options");
     this.basic_create_options.addEventListener("click", () => this.app.saveProfileField("createDialogTabIndex", 0));
+    this.template_create_options = this.modalContainer.querySelector("#template_create_options");
+    this.template_create_options.addEventListener("click", () => this.app.saveProfileField("createDialogTabIndex", 2));
+    this.bulk_create_options = this.modalContainer.querySelector("#bulk_create_options");
+    this.bulk_create_options.addEventListener("click", () => this.app.saveProfileField("createDialogTabIndex", 3));
 
     window.$(".create_document_label_options").select2({
       tags: true,
@@ -102,7 +125,7 @@ export default class DocCreateHelper {
   getModalTemplate(): string {
     return `<div class="modal fade" id="createDocumentModal" tabindex="-1" aria-labelledby="createDocumentModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content app_panel">
             <div class="modal-header" style="display:flex;">
                 <h5 class="modal-title" id="createDocumentModalLabel" style="flex:1;display:flex;">
@@ -125,7 +148,12 @@ export default class DocCreateHelper {
                     <li class="nav-item" role="presentation">
                         <a class="nav-link" id="advanced_create_options" data-bs-toggle="tab"
                             href="#advanced_create_options_view" role="tab" aria-controls="advanced_create_options_view"
-                            aria-selected="true">Advanced</a>
+                            aria-selected="true">Options</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="template_create_options" data-bs-toggle="tab"
+                            href="#template_create_options_view" role="tab" aria-controls="template_create_options_view"
+                            aria-selected="true">Template</a>
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link" id="bulk_create_options" data-bs-toggle="tab"
@@ -175,26 +203,31 @@ export default class DocCreateHelper {
                                 <input type="text" class="form-control document_usage_cap_field"
                                     placeholder="1k default">
                             </div>
-                            <div style="flex:1;overflow:hidden;padding-left: 12px;">
+                            <div style="flex:1;padding-left: 12px;">
                                 <label class="form-label">Owner Note</label>
                                 <br>
                                 <input type="text" style="width:100%;" class="form-control create_modal_note_field"
                                     placeholder="optional">
                             </div>
                         </div>
-                        <hr>
-                        <div class="create_import_file_description">
-                          <button class="btn btn-secondary modal_create_template_tickets_button">
-                              <i class="material-icons">upload_file</i>
-                              Import...
-                          </button>
-                          <input class="create_modal_template_file" style="display:none;" type="file"
-                              accept=".json,.csv">
-                          &nbsp;
-                          <div class="parsed_file_status"></div>
-                          &nbsp;
-                          <div class="parsed_file_name"></div>
-                        </div>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="template_create_options_view" role="tabpanel"
+                      aria-labelledby="template_create_options">
+                      <div class="create_import_file_description">
+                        <button class="btn btn-secondary modal_create_template_tickets_button">
+                            <i class="material-icons">upload_file</i>
+                            Import...
+                        </button>
+                        <input class="create_modal_template_file" style="display:none;" type="file"
+                            accept=".json,.csv">
+                        &nbsp;
+                        <div class="parsed_file_status"></div>
+                        &nbsp;
+                        <div class="parsed_file_name"></div>
+                        <br>
+                        <div class="preview_create_template"></div>
+                      </div>
                     </div>
                     <div class="tab-pane fade" id="bulk_create_options_view" role="tabpanel"
                     aria-labelledby="bulk_create_options">
@@ -209,6 +242,8 @@ export default class DocCreateHelper {
                         <div class="parsed_list_file_status"></div>
                         &nbsp;
                         <div class="parsed_list_file_name"></div>
+                        <br>
+                        <div class="preview_bulk_template"></div>
                       </div>
                     </div>
                 </div>
@@ -304,6 +339,13 @@ export default class DocCreateHelper {
   */
   show(label = "", forceAdvanced = false) {
     this.create_modal_note_field.value = "";
+    if (!forceAdvanced) {
+      this.create_modal_template_file.value = "";
+      this.updateParsedFileStatus();
+    }
+
+    this.create_modal_users_file.value = "";
+    this.updateUsersListFile();
 
     if (this.app.fireUser.isAnonymous) {
       alert("Anonymous can only join already created sessions");
@@ -329,9 +371,9 @@ export default class DocCreateHelper {
     if (this.app.profile.insertTodayAsLabel) this.addTodayAsLabel();
     if (label) this.addTodayAsLabel(label);
 
-    if (this.app.profile.createDialogTabIndex === 1 || forceAdvanced) {
-      this.advanced_create_options.click();
-    } else if (this.app.profile.createDialogTabIndex === 0) {
+    if (forceAdvanced) {
+      this.template_create_options.click();
+    } else {
       this.basic_create_options.click();
     }
 
@@ -374,13 +416,68 @@ export default class DocCreateHelper {
     let contentCount = "";
     if (importData.length > 0) {
       contentCount = importData.length + " rows";
+      let fileContent = "<table class=\"file_preview_table\">";
+      const keys = ["selected", "system", "prompt", "completion"];
+      fileContent += "<tr>";
+      fileContent += `<th>Row</th>`;
+      keys.forEach((key: string) => fileContent += `<th>${Utility.capFirst(key)}</th>`);
+      fileContent += "</tr>";
+
+      importData.forEach((row: any, index: number) => {
+        fileContent += "<tr>";
+        fileContent += `<th>${index + 1}</th>`;
+        keys.forEach((key: string) => {
+          let value = row[key];
+          if (value === undefined) value = "";
+          fileContent += `<td>${value}</td>`;
+        });
+        fileContent += "</tr>";
+      });
+
+      fileContent += `</table>`;
+
+      this.preview_create_template.innerHTML = fileContent;
     } else {
       importData.length = 0;
+      this.preview_create_template.innerHTML = "";
     }
     this.parsed_file_status.innerHTML = contentCount;
     let fileName = "";
     if (this.create_modal_template_file.files[0]) fileName = this.create_modal_template_file.files[0].name;
     this.parsed_file_name.innerHTML = fileName;
+    return importData;
+  }
+  /** */
+  async updateUsersListFile(): Promise<Array<any>> {
+    const importData = await ChatDocument.getImportDataFromDomFile(this.create_modal_users_file);
+    let contentCount = "";
+    if (importData.length > 0) {
+      contentCount = importData.length + " rows";
+      let fileContent = "<table class=\"file_preview_table\">";
+      const keys = ["name", "email"];
+      fileContent += "<tr>";
+      fileContent += `<th>Row</th>`;
+      keys.forEach((key: string) => fileContent += `<th>${Utility.capFirst(key)}</th>`);
+      fileContent += "</tr>";
+
+      importData.forEach((row: any, index: number) => {
+        fileContent += "<tr>";
+        fileContent += `<th>${index + 1}</th>`;
+        keys.forEach((key: string) => fileContent += `<td>${row[key]}</td>`);
+        fileContent += "</tr>";
+      });
+
+      fileContent += `</table>`;
+
+      this.preview_bulk_template.innerHTML = fileContent;
+    } else {
+      importData.length = 0;
+      this.preview_bulk_template.innerHTML = "";
+    }
+    this.parsed_list_file_status.innerHTML = contentCount;
+    let fileName = "";
+    if (this.create_modal_users_file.files[0]) fileName = this.create_modal_users_file.files[0].name;
+    this.parsed_list_file_name.innerHTML = fileName;
     return importData;
   }
   /** add todays yy/mm/dd as label
