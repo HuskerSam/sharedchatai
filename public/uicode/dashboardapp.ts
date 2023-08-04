@@ -27,7 +27,7 @@ export class DashboardApp extends BaseApp {
   menu_toggle_button: any = document.querySelector(".menu_toggle_button");
   show_create_modal: any = document.querySelector(".show_create_modal");
   news_tab_button: any = document.querySelector("#news_tab_button");
-  content_tab_button: any = document.querySelector("#content_tab_button");
+  about_tab_button: any = document.querySelector("#about_tab_button");
   dashboard_tab_button: any = document.querySelector("#dashboard_tab_button");
   news_tab_view: any = document.querySelector("#news_tab_view");
   credits_used: any = document.querySelector(".credits_used");
@@ -59,33 +59,27 @@ export class DashboardApp extends BaseApp {
       this.documentCreate.show(this.getCustomSelectedLabel());
     });
 
-    this.news_tab_button.addEventListener("click", () => {
-      this.saveProfileField("homePageTabIndex", 0);
-      document.body.classList.remove("sessions_tab");
-      document.body.classList.remove("about_tab");
-      setTimeout(() => document.body.classList.add("news_tab"), 50);
-    });
-    this.content_tab_button.addEventListener("click", () => {
-      this.saveProfileField("homePageTabIndex", 1);
-      document.body.classList.remove("sessions_tab");
-      document.body.classList.remove("news_tab");
-      setTimeout(() => document.body.classList.add("about_tab"), 50);
-    });
-    this.dashboard_tab_button.addEventListener("click", () => {
-      this.saveProfileField("homePageTabIndex", 2);
-      setTimeout(() => document.body.classList.add("sessions_tab"), 50);
-      document.body.classList.remove("news_tab");
-      document.body.classList.remove("about_tab");
-    });
+    this.news_tab_button.addEventListener("click", () => this.tabChangeHandler(0));
+    this.about_tab_button.addEventListener("click", () => this.tabChangeHandler(1));
+    this.dashboard_tab_button.addEventListener("click", () => this.tabChangeHandler(2));
 
-    if (location.hash === "#moreinfo") this.news_tab_button.click();
-    if (location.hash === "#about") this.content_tab_button.click();
+    if (location.hash === "#news_tab_view") this.news_tab_button.click();
+    if (location.hash === "#about_tab_view") this.about_tab_button.click();
 
     this.account_status_display.addEventListener("click", (e: any) => {
       e.preventDefault();
       e.stopPropagation();
       this.profileHelper.show(true);
     });
+  }
+  /**
+ * @param { number } tabIndex
+ * @param { boolean } save defaults to true
+ */
+  tabChangeHandler(tabIndex: number, save = true) {
+    if (save) this.saveProfileField("homePageTabIndex", tabIndex);
+    for (let c = 0, l = 10; c < l; c++) document.body.classList.remove("homepage_tab_selected_" + c);
+    document.body.classList.add("homepage_tab_selected_" + tabIndex);
   }
   /**
    * @return { string } label if custom, "" if not (all or unlabeled)
@@ -137,16 +131,20 @@ export class DashboardApp extends BaseApp {
     super.authUpdateStatusUI();
 
     if (this.uid) {
+      if (!this.checkTemplateURL) {
+        this.checkTemplateURL = true;
+        const templatePath = this.urlParams.get("templatepath");
+        const title = this.urlParams.get("title");
+        if (title) this.documentCreate.create_modal_title_field.value = title;
+        if (templatePath) {
+          window.history.pushState({}, document.title, "/");
+          this.showCreateDialog(templatePath);
+        }
+      }
+
       this.initGameFeeds();
       this.initRTDBPresence();
       this.initUsageWatch();
-    }
-    if (this.profile && !this.checkTemplateURL) {
-      this.checkTemplateURL = true;
-      const templatePath = this.urlParams.get("templatepath");
-      const title = this.urlParams.get("title");
-      if (title) this.documentCreate.create_modal_title_field.value = title;
-      if (templatePath) this.showCreateDialog(templatePath);
     }
   }
   /** */
@@ -169,15 +167,18 @@ export class DashboardApp extends BaseApp {
 
     if (this.gameFeedSubscription) this.gameFeedSubscription();
 
-    if (location.hash !== "#moreinfo"  && location.hash !== "#about") {
-      if (this.profile.homePageTabIndex === 0) {
+    if (location.hash !== "#news_tab_view" && location.hash !== "#about_tab_view") {
+      if (location.hash === "#dashboard_tab_view") {
+        this.dashboard_tab_button.click();
+      } else if (this.profile.homePageTabIndex === 0) {
         this.news_tab_button.click();
       } else if (this.profile.homePageTabIndex === 1) {
-        this.content_tab_button.click();
-      } else if (this.profile.homePageTabIndex === 2) {
+        this.about_tab_button.click();
+      } else {
         this.dashboard_tab_button.click();
       }
     }
+    window.history.replaceState({}, document.title, "/");
     document.body.classList.add("session_feed_inited");
     let firstLoad = true;
     this.gameFeedSubscription = firebase.firestore().collection(`Games`)
@@ -190,7 +191,7 @@ export class DashboardApp extends BaseApp {
           setTimeout(() => {
             this.updateUserPresence(true);
             document.body.classList.add("list_loaded");
-          } , 100);
+          }, 100);
         }
         this.updateSessionFeed(snapshot);
         firstLoad = false;
@@ -305,7 +306,7 @@ export class DashboardApp extends BaseApp {
         card.labelMenuContainer.innerHTML = this._getLabelsSubMenu(doc.data().label, sharedStatus);
         const labelMenuItems: any = card.labelMenuContainer.querySelectorAll("li");
         labelMenuItems.forEach((lbl: any) => {
-            lbl.addEventListener("click", (e: any) => this._handleMenuLabelClick(lbl, card, e, doc.id, sharedStatus));
+          lbl.addEventListener("click", (e: any) => this._handleMenuLabelClick(lbl, card, e, doc.id, sharedStatus));
         });
       }
       this.documentsLookup[doc.id] = doc.data();

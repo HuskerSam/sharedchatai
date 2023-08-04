@@ -1048,7 +1048,7 @@ ol li {
   flex: 1;
 }
 
-.homepage.sessions_tab .footer_container_div {
+.homepage.homepage_tab_selected_2 .footer_container_div {
   display: none;
 }
 
@@ -1066,11 +1066,11 @@ ol li {
   border-bottom-right-radius: 0;
 }
 
-.homepage.news_tab .footer_container_div {
+.homepage.homepage_tab_selected_0 .footer_container_div {
   opacity: 1;
 }
 
-.homepage.about_tab .footer_container_div {
+.homepage.homepage_tab_selected_1 .footer_container_div {
   opacity: 1;
 }
 
