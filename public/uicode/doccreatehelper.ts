@@ -37,6 +37,7 @@ export default class DocCreateHelper {
   default_template_button: any;
   bulk_email_template_field: any;
   bulk_email_subject_field: any;
+  bulk_send_email_button: any;
 
   /**
    * @param { any } app BaseApp derived application instance
@@ -129,7 +130,7 @@ export default class DocCreateHelper {
     document.body.classList.add("modal_tab_selected_" + tabIndex);
   }
   /** */
-  createBulkSessions() {
+  async createBulkSessions() {
     let body = this.bulk_email_template_field.value;
     let subject = this.bulk_email_subject_field.value;
 
@@ -144,28 +145,52 @@ export default class DocCreateHelper {
     }
     this.app.saveProfileField("bulkEmailBodyTemplate", body);
     this.app.saveProfileField("bulkEmailSubjectTemplate", subject);
-    
-    let emailBody = "";
-    let emailSubject = "";
-    const mergeObject = {
-      displayname: "",
-      sessionlink: "",
-      sessiontitle: "",
-      name: "name",
-      email: "email",
-    };
+
+    let bodyTemplate: any;
+    let subjectTemplate: any;
     try {
-      const bodyTemplate = window.Handlebars.compile(body);
-      const subjectTemplate = window.Handlebars.compile(body);
-      emailBody = bodyTemplate(mergeObject);
-      emailSubject = subjectTemplate(mergeObject);
+      bodyTemplate = window.Handlebars.compile(body);
+      subjectTemplate = window.Handlebars.compile(subject);
     } catch(err: any) {
       console.log(err);
       alert("Error compiling body or subject, check the console; send failed");
       return;
     }
 
-    console.log(emailBody, emailSubject);
+    const importData = await ChatDocument.getImportDataFromDomFile(this.create_modal_users_file);
+    importData.forEach((row: any, index: number) => {
+      let emailBody = "";
+      let emailSubject = "";
+      let name = row["name"];
+      if (!name) name = "";
+      let email = row["email"];
+      if (!email) email = "";
+      let sessiontitle = "";
+      let sessionlink = "";
+      const displayname = BaseApp.escapeHTML(this.app.userMetaFromDocument(this.app.uid).name);
+      const mergeObject = {
+        displayname,
+        sessionlink,
+        sessiontitle,
+        name,
+        email,
+      };
+  
+      if (!name && !email) {
+        alert("No name or email for row " + (index + 1).toString());
+      } else {
+        emailBody = bodyTemplate(mergeObject);
+        emailSubject = subjectTemplate(mergeObject);
+
+        const a = document.createElement("a");
+        console.log(emailBody);
+        a.setAttribute("href", `mailto:${email}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`);
+        a.setAttribute("target", "_blank");
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+    });
   }
   /** */
   setDefaultEmailTemplate() {
