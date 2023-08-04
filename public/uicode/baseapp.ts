@@ -158,7 +158,10 @@ export default class BaseApp {
       document.body.classList.add("app_signed_out");
       this.authUpdateStatusUI();
 
-      if (this.showLoginModal) this.login.show();
+      const templatePath = this.urlParams.get("templatepath");
+      if (this.showLoginModal || templatePath) {
+        this.login.show();
+      } 
     }
 
     document.body.classList.add("auth_inited");

@@ -130,7 +130,42 @@ export default class DocCreateHelper {
   }
   /** */
   createBulkSessions() {
+    let body = this.bulk_email_template_field.value;
+    let subject = this.bulk_email_subject_field.value;
 
+    if (!body) {
+      alert("Email template body required");
+      return;
+    }
+    
+    if (!subject) {
+      alert("Email subject body required");
+      return;
+    }
+    this.app.saveProfileField("bulkEmailBodyTemplate", body);
+    this.app.saveProfileField("bulkEmailSubjectTemplate", subject);
+    
+    let emailBody = "";
+    let emailSubject = "";
+    const mergeObject = {
+      displayname: "",
+      sessionlink: "",
+      sessiontitle: "",
+      name: "name",
+      email: "email",
+    };
+    try {
+      const bodyTemplate = window.Handlebars.compile(body);
+      const subjectTemplate = window.Handlebars.compile(body);
+      emailBody = bodyTemplate(mergeObject);
+      emailSubject = subjectTemplate(mergeObject);
+    } catch(err: any) {
+      console.log(err);
+      alert("Error compiling body or subject, check the console; send failed");
+      return;
+    }
+
+    console.log(emailBody, emailSubject);
   }
   /** */
   setDefaultEmailTemplate() {
@@ -287,6 +322,16 @@ export default class DocCreateHelper {
                         <br>
                         <div class="preview_bulk_template"></div>
                         <hr>
+                        <label class="form-check-label">
+                          <input class="form-check-input name_for_title_checkbox" checked type="checkbox" value="">
+                          Use Name for Title
+                        </label>  
+                        <br>
+                        <label class="form-check-label">
+                          <input class="form-check-input name_for_title_checkbox" checked type="checkbox" value="">
+                          Use Email for Owner's Note
+                        </label>  
+                        <hr>
                         <div style="display:flex;flex-direction:row">
                           <div style="flex:1">
                             <label class="form-label">
@@ -305,16 +350,6 @@ export default class DocCreateHelper {
                         </div>
                         <textarea class="form-control bulk_email_template_field"
                             placeholder="see help for template specifications"></textarea>
-                        <hr>
-                        <label class="form-check-label">
-                          <input class="form-check-input name_for_title_checkbox" checked type="checkbox" value="">
-                          Use Name for Title
-                        </label>  
-                        <br>
-                        <label class="form-check-label">
-                          <input class="form-check-input name_for_title_checkbox" checked type="checkbox" value="">
-                          Use Email for Owner's Note
-                        </label>  
                       </div>
                     </div>
                 </div>
@@ -422,8 +457,8 @@ export default class DocCreateHelper {
     this.create_modal_users_file.value = "";
     this.updateUsersListFile();
 
-    if (this.app.fireUser.isAnonymous) {
-      alert("Anonymous can only join already created sessions");
+    if (this.app.fireUser && this.app.fireUser.isAnonymous) {
+      alert("Anonymous can only join already created sessions (no create)");
       return;
     }
 
@@ -448,7 +483,7 @@ export default class DocCreateHelper {
 
     if (forceAdvanced) {
       this.template_create_options.click();
-      this.tabChangeHandler(3, false);
+      this.tabChangeHandler(2, false);
     } else {
       this.basic_create_options.click();
       this.tabChangeHandler(0, false);

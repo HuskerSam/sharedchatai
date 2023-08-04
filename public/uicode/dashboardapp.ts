@@ -141,7 +141,7 @@ export class DashboardApp extends BaseApp {
       this.initRTDBPresence();
       this.initUsageWatch();
     }
-    if (!this.checkTemplateURL) {
+    if (this.profile && !this.checkTemplateURL) {
       this.checkTemplateURL = true;
       const templatePath = this.urlParams.get("templatepath");
       const title = this.urlParams.get("title");
