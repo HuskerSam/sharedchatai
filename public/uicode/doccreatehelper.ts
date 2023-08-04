@@ -7,10 +7,11 @@ declare const window: any;
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
 export default class DocCreateHelper {
   app: any = null;
-  modal_close_button: any = null;
-  modalContainer: any = null;
-  create_game_afterfeed_button: any = null;
-  create_modal_note_field: any = null;
+  modal_close_button: any;
+  modalContainer: any;
+  create_game_afterfeed_button: any;
+  create_bulk_sessions_button: any;
+  create_modal_note_field: any;
   creatingNewRecord = false;
   create_modal_title_field: any;
   create_modal_prompt_field: any;
@@ -33,6 +34,9 @@ export default class DocCreateHelper {
   bulk_create_options: any;
   preview_create_template: any;
   preview_bulk_template: any;
+  default_template_button: any;
+  bulk_email_template_field: any;
+  bulk_email_subject_field: any;
 
   /**
    * @param { any } app BaseApp derived application instance
@@ -47,9 +51,7 @@ export default class DocCreateHelper {
       this.create_modal_prompt_field.focus();
     });
 
-    this.create_game_afterfeed_button = this.modalContainer.querySelector(".create_game_afterfeed_button");
     this.create_modal_note_field = this.modalContainer.querySelector(".create_modal_note_field");
-    this.create_game_afterfeed_button = this.modalContainer.querySelector(".create_game_afterfeed_button");
     this.createDocumentModal = this.modalContainer.querySelector("#createDocumentModal");
     this.create_modal_title_field = this.modalContainer.querySelector(".create_modal_title_field");
     this.create_modal_prompt_field = this.modalContainer.querySelector(".create_modal_prompt_field");
@@ -83,7 +85,11 @@ export default class DocCreateHelper {
     this.create_modal_template_file.addEventListener("change", () => this.updateParsedFileStatus());
     this.create_modal_users_file = this.modalContainer.querySelector(".create_modal_users_file");
     this.create_modal_users_file.addEventListener("change", () => this.updateUsersListFile());
+    this.create_game_afterfeed_button = this.modalContainer.querySelector(".create_game_afterfeed_button");
     this.create_game_afterfeed_button.addEventListener("click", () => this.createNewGame());
+
+    this.create_bulk_sessions_button = this.modalContainer.querySelector(".create_bulk_sessions_button");
+    this.create_bulk_sessions_button.addEventListener("click", () => this.createBulkSessions());
 
     this.preview_create_template = this.modalContainer.querySelector(".preview_create_template");
     this.preview_bulk_template = this.modalContainer.querySelector(".preview_bulk_template");
@@ -95,18 +101,52 @@ export default class DocCreateHelper {
     this.modal_close_button = this.modalContainer.querySelector(".modal_close_button");
 
     this.advanced_create_options = this.modalContainer.querySelector("#advanced_create_options");
-    this.advanced_create_options.addEventListener("click", () => this.app.saveProfileField("createDialogTabIndex", 1));
+    this.advanced_create_options.addEventListener("click", () => this.tabChangeHandler(1));
     this.basic_create_options = this.modalContainer.querySelector("#basic_create_options");
-    this.basic_create_options.addEventListener("click", () => this.app.saveProfileField("createDialogTabIndex", 0));
+    this.basic_create_options.addEventListener("click", () => this.tabChangeHandler(0));
     this.template_create_options = this.modalContainer.querySelector("#template_create_options");
-    this.template_create_options.addEventListener("click", () => this.app.saveProfileField("createDialogTabIndex", 2));
+    this.template_create_options.addEventListener("click", () => this.tabChangeHandler(2));
     this.bulk_create_options = this.modalContainer.querySelector("#bulk_create_options");
-    this.bulk_create_options.addEventListener("click", () => this.app.saveProfileField("createDialogTabIndex", 3));
+    this.bulk_create_options.addEventListener("click", () => this.tabChangeHandler(3));
 
     window.$(".create_document_label_options").select2({
       tags: true,
       placeHolder: "Add labels...",
     });
+
+    this.bulk_email_template_field = this.modalContainer.querySelector(".bulk_email_template_field");
+    this.bulk_email_subject_field = this.modalContainer.querySelector(".bulk_email_subject_field");
+    this.default_template_button = this.modalContainer.querySelector(".default_template_button");
+    this.default_template_button.addEventListener("click", () => this.setDefaultEmailTemplate());
+  }
+  /**
+   * @param { number } tabIndex
+   * @param { boolean } save defaults to true
+   */
+  tabChangeHandler(tabIndex: number, save = true) {
+    if (save) this.app.saveProfileField("createDialogTabIndex", tabIndex);
+    for (let c = 0, l = 10; c < l; c++) document.body.classList.remove("modal_tab_selected_" + c);
+    document.body.classList.add("modal_tab_selected_" + tabIndex);
+  }
+  /** */
+  createBulkSessions() {
+
+  }
+  /** */
+  setDefaultEmailTemplate() {
+    this.bulk_email_template_field.value = ChatDocument.bulkEmailBodyTemplate;
+    this.bulk_email_subject_field.value = ChatDocument.bulkEmailSubjectTemplate;
+  }
+  /** */
+  updateBulkEmailTemplate() {
+    let body = this.app.profile.bulkEmailBodyTemplate;
+    let subject = this.app.profile.bulkEmailSubjectTemplate;
+
+    if (!body) body = ChatDocument.bulkEmailBodyTemplate;
+    if (!subject) subject = ChatDocument.bulkEmailSubjectTemplate;
+
+    this.bulk_email_template_field.value = body;
+    this.bulk_email_subject_field.value = subject;
   }
   /**
    * @param { string } d isostring of a date, default today
@@ -226,6 +266,7 @@ export default class DocCreateHelper {
                         &nbsp;
                         <div class="parsed_file_name"></div>
                         <br>
+                        <br>
                         <div class="preview_create_template"></div>
                       </div>
                     </div>
@@ -243,7 +284,37 @@ export default class DocCreateHelper {
                         &nbsp;
                         <div class="parsed_list_file_name"></div>
                         <br>
+                        <br>
                         <div class="preview_bulk_template"></div>
+                        <hr>
+                        <div style="display:flex;flex-direction:row">
+                          <div style="flex:1">
+                            <label class="form-label">
+                              Email Template
+                            </label>
+                            <div class="subject_line_wrapper">
+                              <label class="form-label">
+                                Subject
+                              </label>
+                              <input class="form-control bulk_email_subject_field" type="text">
+                            </div>
+                          </div>
+                          <div>
+                            <button class="default_template_button btn btn-secondary">Default Template</button>
+                          </div>
+                        </div>
+                        <textarea class="form-control bulk_email_template_field"
+                            placeholder="see help for template specifications"></textarea>
+                        <hr>
+                        <label class="form-check-label">
+                          <input class="form-check-input name_for_title_checkbox" checked type="checkbox" value="">
+                          Use Name for Title
+                        </label>  
+                        <br>
+                        <label class="form-check-label">
+                          <input class="form-check-input name_for_title_checkbox" checked type="checkbox" value="">
+                          Use Email for Owner's Note
+                        </label>  
                       </div>
                     </div>
                 </div>
@@ -251,9 +322,13 @@ export default class DocCreateHelper {
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary modal_close_button" data-bs-dismiss="modal">
                     <i class="material-icons">cancel</i>
-                    Close
+                    Cancel
                 </button>
                 <div style="flex:1"></div>
+                <button type="button" class="btn btn-primary create_bulk_sessions_button">
+                    <i class="material-icons">email</i>
+                    Create and Send
+                </button>
                 <button type="button" class="btn btn-primary create_game_afterfeed_button">
                     <i class="material-icons">add</i>
                     Session
@@ -373,9 +448,13 @@ export default class DocCreateHelper {
 
     if (forceAdvanced) {
       this.template_create_options.click();
+      this.tabChangeHandler(3, false);
     } else {
       this.basic_create_options.click();
+      this.tabChangeHandler(0, false);
     }
+
+    this.updateBulkEmailTemplate();
 
     const modal = new window.bootstrap.Modal("#createDocumentModal", {});
     modal.show();
@@ -414,33 +493,29 @@ export default class DocCreateHelper {
   async updateParsedFileStatus(): Promise<Array<any>> {
     const importData = await ChatDocument.getImportDataFromDomFile(this.create_modal_template_file);
     let contentCount = "";
-    if (importData.length > 0) {
-      contentCount = importData.length + " rows";
-      let fileContent = "<table class=\"file_preview_table\">";
-      const keys = ["selected", "system", "prompt", "completion"];
+    contentCount = importData.length + " rows";
+    let fileContent = "<table class=\"file_preview_table\">";
+    const keys = ["selected", "system", "prompt", "completion"];
+    fileContent += "<tr>";
+    fileContent += `<th>Row</th>`;
+    keys.forEach((key: string) => fileContent += `<th>${Utility.capFirst(key)}</th>`);
+    fileContent += "</tr>";
+
+    importData.forEach((row: any, index: number) => {
       fileContent += "<tr>";
-      fileContent += `<th>Row</th>`;
-      keys.forEach((key: string) => fileContent += `<th>${Utility.capFirst(key)}</th>`);
-      fileContent += "</tr>";
-
-      importData.forEach((row: any, index: number) => {
-        fileContent += "<tr>";
-        fileContent += `<th>${index + 1}</th>`;
-        keys.forEach((key: string) => {
-          let value = row[key];
-          if (value === undefined) value = "";
-          fileContent += `<td>${value}</td>`;
-        });
-        fileContent += "</tr>";
+      fileContent += `<th>${index + 1}</th>`;
+      keys.forEach((key: string) => {
+        let value = row[key];
+        if (value === undefined) value = "";
+        fileContent += `<td>${value}</td>`;
       });
+      fileContent += "</tr>";
+    });
 
-      fileContent += `</table>`;
+    fileContent += `</table>`;
 
-      this.preview_create_template.innerHTML = fileContent;
-    } else {
-      importData.length = 0;
-      this.preview_create_template.innerHTML = "";
-    }
+    this.preview_create_template.innerHTML = fileContent;
+
     this.parsed_file_status.innerHTML = contentCount;
     let fileName = "";
     if (this.create_modal_template_file.files[0]) fileName = this.create_modal_template_file.files[0].name;
@@ -451,29 +526,25 @@ export default class DocCreateHelper {
   async updateUsersListFile(): Promise<Array<any>> {
     const importData = await ChatDocument.getImportDataFromDomFile(this.create_modal_users_file);
     let contentCount = "";
-    if (importData.length > 0) {
-      contentCount = importData.length + " rows";
-      let fileContent = "<table class=\"file_preview_table\">";
-      const keys = ["name", "email"];
+    contentCount = importData.length + " rows";
+    let fileContent = "<table class=\"file_preview_table\">";
+    const keys = ["name", "email"];
+    fileContent += "<tr>";
+    fileContent += `<th>Row</th>`;
+    keys.forEach((key: string) => fileContent += `<th>${Utility.capFirst(key)}</th>`);
+    fileContent += "</tr>";
+
+    importData.forEach((row: any, index: number) => {
       fileContent += "<tr>";
-      fileContent += `<th>Row</th>`;
-      keys.forEach((key: string) => fileContent += `<th>${Utility.capFirst(key)}</th>`);
+      fileContent += `<th>${index + 1}</th>`;
+      keys.forEach((key: string) => fileContent += `<td>${row[key]}</td>`);
       fileContent += "</tr>";
+    });
 
-      importData.forEach((row: any, index: number) => {
-        fileContent += "<tr>";
-        fileContent += `<th>${index + 1}</th>`;
-        keys.forEach((key: string) => fileContent += `<td>${row[key]}</td>`);
-        fileContent += "</tr>";
-      });
+    fileContent += `</table>`;
 
-      fileContent += `</table>`;
+    this.preview_bulk_template.innerHTML = fileContent;
 
-      this.preview_bulk_template.innerHTML = fileContent;
-    } else {
-      importData.length = 0;
-      this.preview_bulk_template.innerHTML = "";
-    }
     this.parsed_list_file_status.innerHTML = contentCount;
     let fileName = "";
     if (this.create_modal_users_file.files[0]) fileName = this.create_modal_users_file.files[0].name;

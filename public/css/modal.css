@@ -243,11 +243,13 @@
   border-radius: 6px;
 }
 
-.parsed_file_status {
+.parsed_file_status, 
+.parsed_list_file_status {
   display: inline-block;
 }
 
-.parsed_file_name {
+.parsed_file_name,
+.parsed_list_file_name {
   display: inline-block;
 }
 
@@ -406,7 +408,6 @@
 
 .dialog_header_icon i {
   position: relative;
-  top: 4px;
 }
 
 #userProfileModal .dialog_header_icon {
@@ -506,7 +507,6 @@
   position: relative;
   border-radius: 6px;
   flex: none;
-  top: 6px;
 }
 
 .dialog_header_member_name {
@@ -633,12 +633,52 @@ label.btn {
 .preview_bulk_template {
   width: 100%;
   height: 50vh;
-  overflow: scroll;
+  overflow: auto;
 }
+
+.preview_bulk_template {
+  height: 25vh;
+}
+
+.bulk_email_template_field {
+  height: 20vh;
+  margin-top: 8px;
+}
+
 .preview_create_template table,
 .preview_bulk_template table {
   width: 100%;
 }
+
+.preview_create_template tr td:nth-child(2) {
+  text-align: center;
+}
+
+.preview_create_template table th,
+.preview_bulk_template table th {
+  background-color: var(--background-accent-5);
+  /*
+  border-right: solid 1px var(--secondary-color-4);
+  border-top: solid 1px var(--secondary-color-4);
+  border-bottom: solid 1px var(--secondary-color-4);
+  */
+  border: solid 1px var(--secondary-color-4);
+  padding: 4px;
+  text-align: center;
+}
+
+.preview_create_template table td,
+.preview_bulk_template table td {
+  white-space: pre-wrap;
+  background-color: var(--background-accent);
+  /*
+  border-right: solid 1px var(--secondary-color-4);
+  border-bottom: solid 1px var(--secondary-color-4);
+  */
+  border: solid 1px var(--secondary-color-4);
+  padding: 4px;
+}
+
 .preview_create_template td {
   width: 33%;
 }
@@ -653,4 +693,30 @@ label.btn {
 
 .preview_bulk_template td {
   width: 50%;
+}
+
+.default_template_button {
+  margin-left: 8px;
+}
+
+.subject_line_wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.subject_line_wrapper .form-label {
+  align-self: center;
+  margin-right: 8px;
+}
+
+.create_bulk_sessions_button {
+  display: none;
+}
+
+.modal_tab_selected_3 .create_bulk_sessions_button {
+  display: inline-block;
+}
+
+.modal_tab_selected_3 .create_game_afterfeed_button {
+  display: none;
 }
