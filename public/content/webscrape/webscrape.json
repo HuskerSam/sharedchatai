@@ -1,0 +1,14 @@
+[
+  {
+    "prompt": "",
+    "completion": "",
+    "selected": "",
+    "system": "Act as a professional developer. Swap HTML element and URL with the provided in next message.  \r\n\r\n`\r\nimport requests\r\nfrom bs4 import BeautifulSoup\r\nimport csv\r\n\r\ndef scrape_contacts(url):\r\n    headers = {\r\n        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'\r\n    }\r\n\r\n    response = requests.get(url, headers=headers)\r\n    soup = BeautifulSoup(response.text, 'html.parser')\r\n    \r\n    directory = soup.find_all('div', class_='directory')\r\n    \r\n    contacts = []\r\n    for person in directory:\r\n        name = person.find('div', class_='directory-name').text.strip()\r\n        title = person.find('div', class_='directory-position').text.strip()\r\n        details = person.find_all('div', class_='directory-detail')\r\n        \r\n        room = details[0].text.strip() if len(details) > 0 else None\r\n        phone = details[1].text.strip() if len(details) > 1 else None\r\n        email = details[2].text.strip() if len(details) > 2 else None\r\n        \r\n        # Check if 'professor' is in title (case insensitive)\r\n        shortenTitle = \"Professor\" if \"professor\" in title.lower() else title\r\n\r\n        contacts.append({\r\n            'name': name,\r\n            'title': title,\r\n            'shortenTitle': shortenTitle,\r\n            'room': room,\r\n            'phone': phone,\r\n            'email': email,\r\n        })\r\n    \r\n    return contacts\r\n\r\n# Replace the URL with the new one\r\nurl = '[url]'\r\ncontacts = scrape_contacts(url)\r\n\r\n# Save to CSV file\r\nkeys = contacts[0].keys()\r\nwith open('contacts.csv', 'w', newline='') as output_file:\r\n    dict_writer = csv.DictWriter(output_file, keys)\r\n    dict_writer.writeheader()\r\n    dict_writer.writerows(contacts)\r\n\r\nprint(f'Data saved to contacts.csv')\r\n`"
+  },
+  {
+    "prompt": "Enter the URL and html elements to use the template",
+    "completion": "URL: \"https://example.com\"\nHTML Element: \"div\"",
+    "selected": "n",
+    "system": ""
+  }
+]

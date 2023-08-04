@@ -784,11 +784,6 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
         </a>
     </li>
     <li>
-        <a class="hover_yellow" href="/content/overview/">Technical Overview
-            - <span class="caption">Architecture, frameworks and APIs</span>
-        </a>
-    </li>
-    <li>
         <a class="hover_yellow" href="/content/teamtogether/">Learn Together
             - <span class="caption">Sessions and sharing for groups</span>
         </a>
@@ -799,9 +794,19 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
         </a>
     </li>
     <li>
-    <a class="hover_yellow" href="/content/sharingprompts/">Share Prompting Sessions
+    <a class="hover_yellow" href="/content/sharingprompts/">Share Chat Sessions
         - <span class="caption">Copy, import, export and share prompts</span>
     </a>
+    </li>
+    <li>
+    <a class="hover_yellow" href="/content/webscrape/">Scrape a Webpage
+        - <span class="caption">Scrape a website using this template</span>
+    </a>
+    </li>
+    <li>
+        <a class="hover_yellow" href="/content/overview/">Technical Overview
+            - <span class="caption">Architecture, frameworks and APIs</span>
+        </a>
     </li>
     <li>
       <br>
