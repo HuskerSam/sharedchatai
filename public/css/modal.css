@@ -742,16 +742,6 @@ label.btn {
   margin-right: 4px;
 }
 
-.subject_line_wrapper {
-  display: flex;
-  flex-direction: row;
-}
-
-.subject_line_wrapper .form-label {
-  align-self: center;
-  margin-right: 8px;
-}
-
 .modal_tab_selected_3 .create_game_afterfeed_button {
   display: none;
 }

@@ -377,18 +377,6 @@ export default class DocCreateHelper {
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="bulkCreateView1" role="tabpanel"
                                 style="flex-direction:column;" aria-labelledby="bulk_create_pill_1">
-                                <div style="display:flex;flex-direction:row;margin-bottom: 12px;">
-                                    <div style="flex:1;display:flex;">
-                                        <label class="form-label" style="margin-top:8px;margin-right:8px;">Label</label>
-                                        <input type="text" style="flex:1;"
-                                            class="form-control create_modal_batch_label_field" placeholder="required">
-                                    </div>
-                                    <div>
-                                        <button class="btn btn-secondary today_bulk_label_button">
-                                            <i class="material-icons">today</i>
-                                        </button>
-                                    </div>
-                                </div>
                                 <div class="upload_wrapper">
                                     <div>
                                         <button class="btn btn-secondary modal_create_users_list_button">
@@ -404,6 +392,43 @@ export default class DocCreateHelper {
                                     <div class="parsed_list_file_name"></div>
                                 </div>
                                 <div class="preview_bulk_template"></div>
+                            </div>
+                            <div class="tab-pane fade" id="bulkCreateView2" role="tabpanel"
+                                aria-labelledby="bulk_create_pill_2">
+                                <div style="display:flex;flex-direction:row;">
+                                    <div style="flex:1;display:flex;">
+                                        <label class="form-label" style="margin-top:8px;margin-right:8px;">Subject</label>
+                                        <div style="flex:1;">
+                                          <input type="text" style="width:100%;"
+                                              class="form-control bulk_email_subject_field" placeholder="required">
+                                        </div>
+                                    </div>                                    
+                                    <div>
+                                        <button class="default_template_button btn btn-secondary"><i
+                                                class="material-icons">restart_alt</i> <span class="mobile_hide">
+                                                Default</span></button>
+                                    </div>
+                                </div>
+                                <textarea class="form-control bulk_email_template_field" 
+                                  style="flex:1;margin-right:4px;margin-left:4px;width:calc(100% - 8px)"
+                                    placeholder="see help for template specifications"></textarea>
+                            </div>
+                            <div class="tab-pane fade" id="bulkCreateView3" role="tabpanel"
+                                aria-labelledby="bulk_create_pill_3">
+                                <div style="display:flex;flex-direction:row;margin-bottom: 12px;">
+                                    <div style="flex:1;display:flex;">
+                                        <label class="form-label" style="margin-top:8px;margin-right:8px;">Label</label>
+                                        <div style="flex:1;">
+                                          <input type="text" style="width:100%;"
+                                              class="form-control create_modal_batch_label_field" placeholder="required">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-secondary today_bulk_label_button">
+                                            <i class="material-icons">today</i>
+                                        </button>
+                                    </div>
+                                </div>                          
                                 <div>
                                     <label class="form-check-label" style="margin-right:12px;margin-left:4px;">
                                         <input class="form-check-input name_for_title_checkbox" checked type="checkbox"
@@ -416,37 +441,25 @@ export default class DocCreateHelper {
                                         Use Email for Owner's Note
                                     </label>
                                 </div>
-                            </div>
-                            <div class="tab-pane fade" id="bulkCreateView2" role="tabpanel"
-                                aria-labelledby="bulk_create_pill_2">
-                                <div style="display:flex;flex-direction:row;">
-                                    <div style="flex:1">
-                                        <div class="subject_line_wrapper">
-                                            <label class="form-label">
-                                                Subject
-                                            </label>
-                                            <input class="form-control bulk_email_subject_field" type="text">
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <button class="default_template_button btn btn-secondary"><i
-                                                class="material-icons">restart_alt</i> <span class="mobile_hide">
-                                                Default</span></button>
-                                    </div>
-                                </div>
-                                <textarea class="form-control bulk_email_template_field" style="flex:1"
-                                    placeholder="see help for template specifications"></textarea>
-                            </div>
-                            <div class="tab-pane fade" id="bulkCreateView3" role="tabpanel"
-                                aria-labelledby="bulk_create_pill_3">
-
-                                <div style="flex:1;background:var(--background-accent);width: 100%"></div>
-                                <div style="line-height: 4em;text-align:right">
+                                <div style="line-height: 4em;text-align: right;">
+                                    <label class="form-check-label" style="margin-right:12px;margin-left:4px;">
+                                        <input class="form-radio-input name_for_title_checkbox" type="radio"
+                                            value="" name="bulk_generate_type">
+                                        Download CSV
+                                    </label>
+                                    <label class="form-check-label">
+                                        <input class="form-radio-input name_for_title_checkbox" checked type="radio"
+                                            value="" name="bulk_generate_type">
+                                        Send Emails
+                                    </label>
+                                    &nbsp;
                                   <button type="button" class="btn btn-primary create_bulk_sessions_button">
-                                    <i class="material-icons">email</i>
-                                    Create and Send
+                                    <i class="material-icons">add</i>
+                                    Create Sessions
                                   </button>
                                 </div>
+                                <hr>
+                                <div style="flex:1;background:var(--background-accent);width: 100%"></div>
                             </div>
                         </div>
                     </div>
