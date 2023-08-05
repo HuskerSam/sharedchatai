@@ -246,6 +246,8 @@
 .upload_wrapper {
   display:flex;
   margin-bottom: 12px;
+  padding-top: 4px;
+  padding-left: 4px;
 }
 
 .parsed_file_name,
@@ -360,6 +362,8 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  padding-top: 12px;
+  margin-top: -12px;
 }
 
 .export_size {
@@ -376,6 +380,7 @@
 .add_date_as_label_button {
   align-self: center;
   float: right;
+  margin-right: 4px;
 }
 
 .app_panel .form-check-input.insert_todaylabel_default_checkbox {
@@ -734,6 +739,7 @@ label.btn {
 
 .default_template_button {
   margin-left: 8px;
+  margin-right: 4px;
 }
 
 .subject_line_wrapper {
@@ -752,6 +758,7 @@ label.btn {
 
 .today_bulk_label_button {
   margin-left: 12px;
+  margin-right: 4px;
 }
 
 .app_panel .accordion-button {
@@ -793,4 +800,16 @@ label.btn {
   flex: 1;
   display: flex;
   overflow: hidden;
+  padding-top: 12px;
+  margin-top: -12px;
+}
+
+.modal_create_users_list_button {
+  margin-left: 4px;
+}
+
+.system_message_field {
+  margin-left: 4px;
+  margin-right: 4px;
+  width: calc(100% - 8px);
 }

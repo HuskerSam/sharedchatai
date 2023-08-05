@@ -290,47 +290,52 @@ export default class DocCreateHelper {
                 <div class="tab-content" style="overflow:hidden;display:flex;height:95vh;">
                     <div class="tab-pane fade show active" id="basic_create_options_view" role="tabpanel"
                         aria-labelledby="basic_create_options">
-                        <label class="form-label">
-                            First Prompt (Enter to run)
-                        </label>
-                        <br>
-                        <textarea class="form-control create_modal_prompt_field" placeholder="optional"></textarea>
-                        <div style="position:relative;margin-top: 12px;">
-                            <button class="btn btn-secondary add_date_as_label_button">Add Today</button>
-                            <input class="form-check-input insert_todaylabel_default_checkbox" type="checkbox">
-                            <label class="form-label labels_label">Labels</label>
-                            <div style="text-align:center;margin-left: -3px;padding-right: 3px;width: 99.8%;">
-                                <select class="create_document_label_options" multiple="multiple"
-                                    style="width:100%"></select>
-                            </div>
+                        <div>
+                          <label class="form-label">
+                              First Prompt (Enter to run)
+                          </label>
                         </div>
+                        <textarea class="form-control create_modal_prompt_field" style="flex:1" placeholder="optional"></textarea>
+                        <div style="text-align:center;padding:12px;">How to get started</div>
                     </div>
                     <div class="tab-pane fade" id="advanced_create_options_view" role="tabpanel"
-                        aria-labelledby="advanced_create_options">
-                        <label class="form-label">
-                            Title <span class="title_note"></span>
-                        </label>
-                        <br>
-                        <input type="text" class="form-control create_modal_title_field"
-                            placeholder="fills with first prompt if blank">
+                        aria-labelledby="advanced_create_options" style="overflow-y:auto;overflow-x:hidden;">
+                        <div style="position:relative;">
+                          <button class="btn btn-secondary add_date_as_label_button">Add Today</button>
+                          <input class="form-check-input insert_todaylabel_default_checkbox" type="checkbox">
+                          <label class="form-label labels_label">Labels</label>
+                          <div style="text-align:center;margin-left: -6px;padding-right: 3px;width: 99.8%;">
+                              <select class="create_document_label_options" multiple="multiple"
+                                  style="width:100%;"></select>
+                          </div>
+                        </div>
+                        <hr>
+                        <div>
+                          <label class="form-label">
+                              Title <span class="title_note"></span>
+                          </label>
+                          <div style="padding-right: 4px;padding-left: 4px;">
+                            <input type="text" class="form-control create_modal_title_field"
+                                placeholder="fills with first prompt if blank">
+                          </div>
+                        </div>
                         <hr>
                         <label class="form-label">
                             System Message
                         </label>
-                        <br>
                         <textarea class="form-control system_message_field" placeholder="optional"></textarea>
-                        <br>
+                        <hr>
                         <div style="display:flex;flex-direction:row;">
                             <div>
                                 <label class="form-label">Usage Cap</label>
                                 <br>
                                 <input type="text" class="form-control document_usage_cap_field"
-                                    placeholder="1k default">
+                                    placeholder="1k default" style="margin-left: 4px;">
                             </div>
                             <div style="flex:1;padding-left: 12px;">
                                 <label class="form-label">Owner Note</label>
                                 <br>
-                                <input type="text" style="width:100%;" class="form-control create_modal_note_field"
+                                <input type="text" style="width:calc(100% - 4px);margin-right:4px;" class="form-control create_modal_note_field"
                                     placeholder="optional">
                             </div>
                         </div>
@@ -400,7 +405,7 @@ export default class DocCreateHelper {
                                 </div>
                                 <div class="preview_bulk_template"></div>
                                 <div>
-                                    <label class="form-check-label" style="margin-right:12px;">
+                                    <label class="form-check-label" style="margin-right:12px;margin-left:4px;">
                                         <input class="form-check-input name_for_title_checkbox" checked type="checkbox"
                                             value="">
                                         Use Name for Title
