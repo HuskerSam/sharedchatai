@@ -677,6 +677,7 @@ label.btn {
 .preview_create_template table,
 .preview_bulk_template table {
   width: 100%;
+  position: relative;
 }
 
 .preview_create_template tr td:nth-child(2) {
@@ -712,7 +713,14 @@ label.btn {
   width: 33%;
 }
 
-.preview_create_template th:nth-child(1) {
+.preview_create_template tr:first-child th,
+.preview_bulk_template tr:first-child th {
+  position: sticky;
+  top: 0;
+}
+
+.preview_create_template th:nth-child(1),
+.preview_bulk_template th:nth-child(1) {
   width: 20px;
 }
 
@@ -736,14 +744,6 @@ label.btn {
 .subject_line_wrapper .form-label {
   align-self: center;
   margin-right: 8px;
-}
-
-.create_bulk_sessions_button {
-  display: none;
-}
-
-.modal_tab_selected_3 .create_bulk_sessions_button {
-  display: inline-block;
 }
 
 .modal_tab_selected_3 .create_game_afterfeed_button {
@@ -792,4 +792,5 @@ label.btn {
 #bulk_create_options_view .tab-content {
   flex: 1;
   display: flex;
+  overflow: hidden;
 }

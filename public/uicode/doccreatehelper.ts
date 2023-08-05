@@ -40,6 +40,8 @@ export default class DocCreateHelper {
   bulk_send_email_button: any;
   bulkEmailBodyTemplate: any;
   bulkEmailSubjectTemplate: any;
+  today_bulk_label_button: any;
+  create_modal_batch_label_field: any;
 
   /**
    * @param { any } app BaseApp derived application instance
@@ -121,6 +123,15 @@ export default class DocCreateHelper {
     this.bulk_email_subject_field = this.modalContainer.querySelector(".bulk_email_subject_field");
     this.default_template_button = this.modalContainer.querySelector(".default_template_button");
     this.default_template_button.addEventListener("click", () => this.setDefaultEmailTemplate());
+
+    this.create_modal_batch_label_field = this.modalContainer.querySelector(".create_modal_batch_label_field");
+    this.today_bulk_label_button = this.modalContainer.querySelector(".today_bulk_label_button");
+    this.today_bulk_label_button.addEventListener("click", () => this.setTodayForBulkLabel());
+  }
+  /** */
+  setTodayForBulkLabel() {
+    const n = new Date();
+    this.create_modal_batch_label_field.value = BaseApp.shortShowDate(n) + " " + BaseApp.formatAMPM(n);
   }
   /**
    * @param { number } tabIndex
@@ -354,7 +365,7 @@ export default class DocCreateHelper {
                             </li>
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link" id="bulk_create_pill_3" data-bs-toggle="tab" href="#bulkCreateView3"
-                                    role="tab" aria-controls="bulkCreateView3" aria-selected="false">Send</a>
+                                    role="tab" aria-controls="bulkCreateView3" aria-selected="false">Finish</a>
                             </li>
                         </ul>
 
@@ -424,7 +435,13 @@ export default class DocCreateHelper {
                             <div class="tab-pane fade" id="bulkCreateView3" role="tabpanel"
                                 aria-labelledby="bulk_create_pill_3">
 
-                                <div style="flex:1;background:white;width: 100%"></div>
+                                <div style="flex:1;background:var(--background-accent);width: 100%"></div>
+                                <div style="line-height: 4em;text-align:right">
+                                  <button type="button" class="btn btn-primary create_bulk_sessions_button">
+                                    <i class="material-icons">email</i>
+                                    Create and Send
+                                  </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -436,10 +453,6 @@ export default class DocCreateHelper {
                     Cancel
                 </button>
                 <div style="flex:1"></div>
-                <button type="button" class="btn btn-primary create_bulk_sessions_button">
-                    <i class="material-icons">email</i>
-                    Create and Send
-                </button>
                 <button type="button" class="btn btn-primary create_game_afterfeed_button">
                     <i class="material-icons">add</i>
                     Session

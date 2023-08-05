@@ -304,10 +304,10 @@ export default class BaseApp {
   */
   showGmailStyleDate(dt: Date, amFormat = false): string {
     if (Date.now() - dt.getTime() < 24 * 60 * 60 * 1000) {
-      if (amFormat) return this.formatAMPM(dt);
+      if (amFormat) return BaseApp.formatAMPM(dt);
 
       // const tzoffset = (new Date()).getTimezoneOffset() * 60000;
-      let result = this.formatAMPM(dt);
+      let result = BaseApp.formatAMPM(dt);
       const pieces = result.split(":");
       result = pieces[0] + pieces[1].substring(2, 10);
       /*
@@ -327,7 +327,7 @@ export default class BaseApp {
    * @param { Date } date date to return format string
    * @return { string }
   */
-  formatAMPM(date: Date): string {
+  static formatAMPM(date: Date): string {
     let hours: any = date.getHours();
     let minutes: any = date.getMinutes();
     const ampm = hours >= 12 ? "pm" : "am";
@@ -349,7 +349,7 @@ export default class BaseApp {
    * @param { any } d Date(d) is parsed
    * @return { string } mm/dd/yy string value
    */
-  shortShowDate(d: any): string {
+  static shortShowDate(d: any): string {
     d = new Date(d);
     if (isNaN(d)) return "";
     const str = d.toISOString().substr(0, 10);
