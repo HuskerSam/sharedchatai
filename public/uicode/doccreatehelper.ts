@@ -42,6 +42,13 @@ export default class DocCreateHelper {
   bulkEmailSubjectTemplate: any;
   today_bulk_label_button: any;
   create_modal_batch_label_field: any;
+  name_for_title_checkbox: any;
+  use_email_for_owners_note: any;
+  downloadcsv_radio: any;
+  sendemails_radio: any;
+  bulk_batch_job_status: any;
+  bulkUsersImportData: Array<any> = [];
+  bulkRowsWithNoEmail = 0;
 
   /**
    * @param { any } app BaseApp derived application instance
@@ -127,11 +134,21 @@ export default class DocCreateHelper {
     this.create_modal_batch_label_field = this.modalContainer.querySelector(".create_modal_batch_label_field");
     this.today_bulk_label_button = this.modalContainer.querySelector(".today_bulk_label_button");
     this.today_bulk_label_button.addEventListener("click", () => this.setTodayForBulkLabel());
+
+    this.name_for_title_checkbox = this.modalContainer.querySelector(".name_for_title_checkbox");
+    this.use_email_for_owners_note = this.modalContainer.querySelector(".use_email_for_owners_note");
+
+    this.downloadcsv_radio = this.modalContainer.querySelector(".downloadcsv_radio");
+    this.sendemails_radio = this.modalContainer.querySelector(".sendemails_radio");
+    this.bulk_batch_job_status = this.modalContainer.querySelector(".bulk_batch_job_status");
   }
   /** */
   setTodayForBulkLabel() {
     const n = new Date();
     this.create_modal_batch_label_field.value = BaseApp.shortShowDate(n) + " " + BaseApp.formatAMPM(n);
+  }
+  updateBulkBatchStatus() {
+    this.bulk_batch_job_status.innerHTML = ``;
   }
   /**
    * @param { number } tabIndex
@@ -146,23 +163,38 @@ export default class DocCreateHelper {
   async createBulkSessions() {
     let body = this.bulk_email_template_field.value;
     let subject = this.bulk_email_subject_field.value;
+    let label = this.create_modal_batch_label_field.value;
+    const bulkNameForTitle = this.name_for_title_checkbox.checked;
+    const bulkEmailForNote = this.use_email_for_owners_note.checked;
+    const bulkDownloadCSV = this.downloadcsv_radio.checked;
+    const bulkSendEmails = this.sendemails_radio.checked;
 
     if (!body) {
       alert("Email template body required");
       return;
     }
-    
+
     if (!subject) {
       alert("Email subject body required");
       return;
     }
+
+    if (!label) {
+      alert("Label required");
+      return;
+    }
+
     this.app.saveProfileField("bulkEmailBodyTemplate", body);
     this.app.saveProfileField("bulkEmailSubjectTemplate", subject);
+    this.app.saveProfileField("bulkNameForTitle", bulkNameForTitle);
+    this.app.saveProfileField("bulkEmailForNote", bulkEmailForNote);
+    this.app.saveProfileField("bulkDownloadCSV", bulkDownloadCSV);
+    this.app.saveProfileField("bulkSendEmails", bulkSendEmails);
 
     try {
       this.bulkEmailBodyTemplate = window.Handlebars.compile(body);
       this.bulkEmailSubjectTemplate = window.Handlebars.compile(subject);
-    } catch(err: any) {
+    } catch (err: any) {
       console.log(err);
       alert("Error compiling body or subject, check the console; send failed");
       return;
@@ -436,19 +468,19 @@ export default class DocCreateHelper {
                                         Use Name for Title
                                     </label>
                                     <label class="form-check-label">
-                                        <input class="form-check-input name_for_title_checkbox" checked type="checkbox"
+                                        <input class="form-check-input use_email_for_owners_note" checked type="checkbox"
                                             value="">
                                         Use Email for Owner's Note
                                     </label>
                                 </div>
                                 <div style="line-height: 4em;text-align: right;">
                                     <label class="form-check-label" style="margin-right:12px;margin-left:4px;">
-                                        <input class="form-radio-input name_for_title_checkbox" type="radio"
+                                        <input class="form-radio-input downloadcsv_radio" type="radio"
                                             value="" name="bulk_generate_type">
                                         Download CSV
                                     </label>
                                     <label class="form-check-label">
-                                        <input class="form-radio-input name_for_title_checkbox" checked type="radio"
+                                        <input class="form-radio-input sendemails_radio" checked type="radio"
                                             value="" name="bulk_generate_type">
                                         Send Emails
                                     </label>
@@ -459,7 +491,7 @@ export default class DocCreateHelper {
                                   </button>
                                 </div>
                                 <hr>
-                                <div style="flex:1;background:var(--background-accent);width: 100%"></div>
+                                <div class="bulk_batch_job_status"></div>
                             </div>
                         </div>
                     </div>
@@ -598,6 +630,13 @@ export default class DocCreateHelper {
     if (this.app.profile.insertTodayAsLabel) this.addTodayAsLabel();
     if (label) this.addTodayAsLabel(label);
 
+    this.name_for_title_checkbox.checked = this.app.profile.bulkNameForTitle === true;
+    this.use_email_for_owners_note.checked = this.app.profile.bulkEmailForNote === true;
+
+    const downloadCSV = (this.app.profile.bulkDownloadCSV === true);
+    this.downloadcsv_radio.checked = downloadCSV;
+    this.sendemails_radio.checked = !downloadCSV;
+
     if (forceAdvanced) {
       this.template_create_options.click();
       this.tabChangeHandler(2, false);
@@ -607,6 +646,7 @@ export default class DocCreateHelper {
     }
 
     this.updateBulkEmailTemplate();
+    this.updateBulkBatchStatus();
 
     const modal = new window.bootstrap.Modal("#createDocumentModal", {});
     modal.show();
@@ -659,7 +699,7 @@ export default class DocCreateHelper {
       keys.forEach((key: string) => {
         let value = row[key];
         if (value === undefined) value = "";
-        fileContent += `<td>${value}</td>`;
+        fileContent += `<td>${BaseApp.escapeHTML(value)}</td>`;
       });
       fileContent += "</tr>";
     });
@@ -676,27 +716,43 @@ export default class DocCreateHelper {
   }
   /** */
   async updateUsersListFile(): Promise<Array<any>> {
+    this.bulkUsersImportData = [];
     const importData = await ChatDocument.getImportDataFromDomFile(this.create_modal_users_file);
-    let contentCount = "";
-    contentCount = importData.length + " rows";
     let fileContent = "<table class=\"file_preview_table\">";
-    const keys = ["name", "email"];
     fileContent += "<tr>";
     fileContent += `<th>Row</th>`;
-    keys.forEach((key: string) => fileContent += `<th>${Utility.capFirst(key)}</th>`);
+    fileContent += `<th>name</th><th>email</th>`;
     fileContent += "</tr>";
 
+    this.bulkRowsWithNoEmail = 0;
     importData.forEach((row: any, index: number) => {
-      fileContent += "<tr>";
-      fileContent += `<th>${index + 1}</th>`;
-      keys.forEach((key: string) => fileContent += `<td>${row[key]}</td>`);
-      fileContent += "</tr>";
+      const email = row["email"] ? row["email"] : "";
+      const name = row["name"] ? row["name"] : "";
+
+      let invalidEmail = "";
+      const validateResult = BaseApp.validateEmailList(email);
+      if (email && validateResult) {
+        this.bulkUsersImportData.push({
+          email: email,
+          name: name,
+        });
+        invalidEmail = "";
+      } else {
+        this.bulkRowsWithNoEmail++;
+        invalidEmail = "bulkInvalidEmail ";
+      }
+        fileContent += `<tr class="${invalidEmail}">`;
+        fileContent += `<th>${index + 1}</th>`;
+        fileContent += `<td>${BaseApp.escapeHTML(name)}</td><td>${BaseApp.escapeHTML(email)}</td>`;
+        fileContent += "</tr>";
     });
 
     fileContent += `</table>`;
 
     this.preview_bulk_template.innerHTML = fileContent;
-
+    let contentCount = "";
+    contentCount = (importData.length - this.bulkRowsWithNoEmail) + " / " + importData.length + " rows";
+    
     this.parsed_list_file_status.innerHTML = contentCount;
     let fileName = "";
     if (this.create_modal_users_file.files[0]) fileName = this.create_modal_users_file.files[0].name;

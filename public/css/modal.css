@@ -237,14 +237,14 @@
   display: block;
   min-height: 3em;
   color: var(--primary-color-2);
-  background: rgba(0,0,0,.3);
+  background: rgba(0, 0, 0, .3);
   padding: 5px;
   margin-right: 60px;
   border-radius: 6px;
 }
 
 .upload_wrapper {
-  display:flex;
+  display: flex;
   margin-bottom: 12px;
   padding-top: 4px;
   padding-left: 4px;
@@ -252,13 +252,13 @@
 
 .parsed_file_name,
 .parsed_list_file_name,
-.parsed_file_status, 
+.parsed_file_status,
 .parsed_list_file_status {
   margin-left: 12px;
   align-self: center;
 }
 
-.parsed_file_name, 
+.parsed_file_name,
 .parsed_list_file_name {
   flex: 1;
 }
@@ -386,7 +386,7 @@
 .app_panel .form-check-input.insert_todaylabel_default_checkbox {
   width: 24px;
   height: 24px;
-  border-color: var(--secondary-color-2); 
+  border-color: var(--secondary-color-2);
   margin-right: 12px;
   align-self: center;
   float: right;
@@ -398,14 +398,14 @@
 .app_panel .form-check-input.docfield_include_user_names_checkbox {
   width: 24px;
   height: 24px;
-  border-color: var(--secondary-color-2); 
+  border-color: var(--secondary-color-2);
 }
 
 .day_mode .app_panel .form-check-input.docfield_archived_checkbox,
 .day_mode .app_panel .form-check-input.docfield_include_user_names_checkbox {
   width: 24px;
   height: 24px;
-  border-color: var(--primary-color); 
+  border-color: var(--primary-color);
 }
 
 #editDocumentModal .tab-pane {
@@ -616,7 +616,8 @@ label.btn {
   border: none;
 }
 
-.day_mode .modal_document_title_display, .modal_document_system_message_display {
+.day_mode .modal_document_title_display,
+.modal_document_system_message_display {
   background: var(--background-accent-3);
 }
 
@@ -802,4 +803,17 @@ label.btn {
   margin-left: 4px;
   margin-right: 4px;
   width: calc(100% - 8px);
+}
+
+.bulk_batch_job_status {
+  flex: 1;
+  background: var(--background-accent);
+  width: 100%;
+  overflow: auto;
+  padding: 4px;
+  font-size: 1.25rem;
+}
+
+.bulkInvalidEmail {
+  color: var(--warning);
 }

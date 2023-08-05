@@ -161,7 +161,7 @@ export default class BaseApp {
       const templatePath = this.urlParams.get("templatepath");
       if (this.showLoginModal || templatePath) {
         this.login.show();
-      } 
+      }
     }
 
     document.body.classList.add("auth_inited");
@@ -367,7 +367,7 @@ export default class BaseApp {
 
     this.rtdbPresenceInited = true;
     this.userStatusDatabaseRef = firebase.database().ref("/OnlinePresence/" + this.uid);
-    
+
     firebase.database().ref(".info/connected").off();
     firebase.database().ref(".info/connected").on("value", (snapshot: any) => {
       if (snapshot.val() == false) return;
@@ -381,7 +381,7 @@ export default class BaseApp {
         this.documentStatusDatabaseRef.onDisconnect().set(null).then(() => {
           this.documentStatusDatabaseRef.set(true);
         });
-      }  
+      }
     });
   }
   /** disconnect online presence watch query from RTDB */
@@ -432,7 +432,7 @@ export default class BaseApp {
     if (!this.userPresenceStatus[this.uid]) {
       this.userPresenceStatus[this.uid] = true;
       this.userStatusDatabaseRef.set(this.isOnlineForDatabase);
-    } 
+    }
     document.querySelectorAll(".member_online_status")
       .forEach((div: any) => {
         const uid = div.dataset.uid;
@@ -440,9 +440,9 @@ export default class BaseApp {
 
         if (!noTimeout) {
           clearTimeout(this.memberUpdateTimeouts[relatedDocId + ":" + uid]);
-          this.memberUpdateTimeouts[relatedDocId + ":" + uid] = 
+          this.memberUpdateTimeouts[relatedDocId + ":" + uid] =
             setTimeout(() => this.__updateUserPresence(uid, div, relatedDocId), this.memberRefreshBufferTime);
-        } else { 
+        } else {
           document.body.classList.add("no_transition");
           this.__updateUserPresence(uid, div, relatedDocId);
           document.body.classList.remove("no_transition");
@@ -691,6 +691,19 @@ export default class BaseApp {
       );
     if (result) return true;
     return false;
+  }
+  /**
+ * @param {string } emailList email to test
+ * @return { boolean } true if valid email
+ */
+  static validateEmailList(emailList: string): boolean {
+    const emails = emailList.trim().split(",");
+    let invalidEmail = false;
+    emails.forEach((email: string) => {
+      if (!BaseApp.validateEmail(email)) invalidEmail = true;
+    });
+    if (invalidEmail) return false;
+    return true;
   }
   /**
    *
