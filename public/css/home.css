@@ -201,10 +201,6 @@ ul.recent_documents_list li a {
   padding-left: 12px;
 }
 
-.mobile_hide {
-  display: none;
-}
-
 @media (min-width: 992px) {
   .main_block {
     margin: 0.3em;
@@ -221,10 +217,6 @@ ul.recent_documents_list li a {
 
   .footer_container_div {
     margin: 0.3em;
-  }
-
-  .mobile_hide {
-    display: inline-block;
   }
 }
 

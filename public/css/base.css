@@ -122,8 +122,9 @@ a {
 .app_panel input:focus,
 .app_panel textarea:focus {
   background: var(--background-accent);
-  color: var(--primary-color-3)
+  color: var(--primary-color-3);
 }
+
 
 .app_panel {
   background: var(--background-accent-2);
@@ -551,6 +552,10 @@ button.btn-primary:active {
   top: 4px;
 }
 
+.mobile_hide {
+  display: none;
+}
+
 @media (min-width: 992px) {
   .menu_profile_user_image_span {
     float: none;
@@ -560,6 +565,9 @@ button.btn-primary:active {
   .menu_profile_user_name_span {
     position: relative;
     top: 4px;
+  }
+  .mobile_hide {
+    display: inline-block;
   }
 }
 
@@ -596,7 +604,7 @@ button.shared_status_withothers,
   z-index: 1000;
   top: 10px;
   color: var(--primary-color-2);
-  border-color: none;
+  border-color: transparent;
 }
 
 

@@ -288,7 +288,7 @@ export default class DocCreateHelper {
                             <button class="btn btn-secondary add_date_as_label_button">Add Today</button>
                             <input class="form-check-input insert_todaylabel_default_checkbox" type="checkbox">
                             <label class="form-label labels_label">Labels</label>
-                            <div style="text-align:center;margin-left: -3px;padding-right: 3px;">
+                            <div style="text-align:center;margin-left: -3px;padding-right: 3px;width: 99.8%;">
                                 <select class="create_document_label_options" multiple="multiple"
                                     style="width:100%"></select>
                             </div>
@@ -371,8 +371,7 @@ export default class DocCreateHelper {
                                     <div class="upload_wrapper">
                                       <div>
                                         <button class="btn btn-secondary modal_create_users_list_button">
-                                            <i class="material-icons">upload_file</i>
-                                            Users List
+                                            <i class="material-icons">upload_file</i> <span class="mobile_hide">Users List</span>
                                         </button>
                                       </div>
                                       <div>
@@ -402,17 +401,14 @@ export default class DocCreateHelper {
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#bulkCreateView2" aria-expanded="false"
                                         aria-controls="bulkCreateView2">
-                                        Email
+                                        Email Template
                                     </button>
                                 </h2>
                             </div>
-                            <div id="bulkCreateView2" class="accordion-collapse collapse"
+                            <div id="bulkCreateView2" class="accordion-collapse collapse" style="padding: .75rem;"
                               aria-labelledby="headingTwo" data-bs-parent="#bulkCreateAccordion">
-                              <div style="display:flex;flex-direction:row">
+                              <div style="display:flex;flex-direction:row;">
                                   <div style="flex:1">
-                                      <label class="form-label">
-                                          Email Template
-                                      </label>
                                       <div class="subject_line_wrapper">
                                           <label class="form-label">
                                               Subject
@@ -421,8 +417,7 @@ export default class DocCreateHelper {
                                       </div>
                                   </div>
                                   <div>
-                                      <button class="default_template_button btn btn-secondary">Default
-                                          Template</button>
+                                      <button class="default_template_button btn btn-secondary"><i class="material-icons">restart_alt</i> <span class="mobile_hide"> Default</span></button>
                                   </div>
                               </div>
                               <textarea class="form-control bulk_email_template_field" style="flex:1"
