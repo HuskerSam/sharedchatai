@@ -37,6 +37,9 @@ export default class DocCreateHelper {
   default_template_button: any;
   bulk_email_template_field: any;
   bulk_email_subject_field: any;
+  bulk_send_email_button: any;
+  bulkEmailBodyTemplate: any;
+  bulkEmailSubjectTemplate: any;
 
   /**
    * @param { any } app BaseApp derived application instance
@@ -129,7 +132,7 @@ export default class DocCreateHelper {
     document.body.classList.add("modal_tab_selected_" + tabIndex);
   }
   /** */
-  createBulkSessions() {
+  async createBulkSessions() {
     let body = this.bulk_email_template_field.value;
     let subject = this.bulk_email_subject_field.value;
 
@@ -144,28 +147,65 @@ export default class DocCreateHelper {
     }
     this.app.saveProfileField("bulkEmailBodyTemplate", body);
     this.app.saveProfileField("bulkEmailSubjectTemplate", subject);
-    
-    let emailBody = "";
-    let emailSubject = "";
-    const mergeObject = {
-      displayname: "",
-      sessionlink: "",
-      sessiontitle: "",
-      name: "name",
-      email: "email",
-    };
+
     try {
-      const bodyTemplate = window.Handlebars.compile(body);
-      const subjectTemplate = window.Handlebars.compile(body);
-      emailBody = bodyTemplate(mergeObject);
-      emailSubject = subjectTemplate(mergeObject);
+      this.bulkEmailBodyTemplate = window.Handlebars.compile(body);
+      this.bulkEmailSubjectTemplate = window.Handlebars.compile(subject);
     } catch(err: any) {
       console.log(err);
       alert("Error compiling body or subject, check the console; send failed");
       return;
     }
 
-    console.log(emailBody, emailSubject);
+    const importData = await ChatDocument.getImportDataFromDomFile(this.create_modal_users_file);
+    const promises: Array<any> = [];
+    importData.forEach((row: any, index: number) => {
+      promises.push(this._createBulkSessionAndEmail(row, index));
+    });
+
+    await Promise.all(promises);
+    alert("All rows process for bulk create");
+  }
+  /**
+   * @param {string } row
+   * @param { number } index
+   */
+  async _createBulkSessionAndEmail(row: any, index: number) {
+    let emailBody = "";
+    let emailSubject = "";
+    let name = row["name"];
+    if (!name) name = "";
+    let email = row["email"];
+    if (!email) email = "";
+    let sessiontitle = "";
+    let sessionlink = "";
+    const displayname = BaseApp.escapeHTML(this.app.userMetaFromDocument(this.app.uid).name);
+    const mergeObject = {
+      displayname,
+      sessionlink,
+      sessiontitle,
+      name,
+      email,
+    };
+
+    let title = "";
+    let note = email;
+    const result = await this.createNewGame(title, note, true);
+    console.log(result);
+    if (!name && !email) {
+      alert("No name or email for row " + (index + 1).toString());
+    } else {
+      emailBody = this.bulkEmailBodyTemplate(mergeObject);
+      emailSubject = this.bulkEmailSubjectTemplate(mergeObject);
+
+      const a = document.createElement("a");
+      console.log(emailBody);
+      a.setAttribute("href", `mailto:${email}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`);
+      a.setAttribute("target", "_blank");
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
   }
   /** */
   setDefaultEmailTemplate() {
@@ -239,39 +279,37 @@ export default class DocCreateHelper {
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="basic_create_options_view" role="tabpanel"
                         aria-labelledby="basic_create_options">
-                      <label class="form-label">
-                          First Prompt (Enter to run)
-                      </label>
-                      <br>
-                      <textarea class="form-control create_modal_prompt_field"
-                          placeholder="optional"></textarea>
-                      <div style="position:relative;margin-top: 12px;">
-                          <button class="btn btn-secondary add_date_as_label_button">Add Today</button>
-                          <input class="form-check-input insert_todaylabel_default_checkbox" type="checkbox">
-                          <label class="form-label labels_label">Labels</label>
-                          <div style="text-align:center;margin-left: -3px;padding-right: 3px;">
-                            <select class="create_document_label_options" multiple="multiple"
-                                style="width:100%"></select>
-                          </div>
-                      </div>
+                        <label class="form-label">
+                            First Prompt (Enter to run)
+                        </label>
+                        <br>
+                        <textarea class="form-control create_modal_prompt_field" placeholder="optional"></textarea>
+                        <div style="position:relative;margin-top: 12px;">
+                            <button class="btn btn-secondary add_date_as_label_button">Add Today</button>
+                            <input class="form-check-input insert_todaylabel_default_checkbox" type="checkbox">
+                            <label class="form-label labels_label">Labels</label>
+                            <div style="text-align:center;margin-left: -3px;padding-right: 3px;">
+                                <select class="create_document_label_options" multiple="multiple"
+                                    style="width:100%"></select>
+                            </div>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="advanced_create_options_view" role="tabpanel"
                         aria-labelledby="advanced_create_options">
-                          <label class="form-label">
+                        <label class="form-label">
                             Title <span class="title_note"></span>
-                          </label>
-                          <br>
-                          <input type="text" class="form-control create_modal_title_field"
-                              placeholder="fills with first prompt if blank">
-                          <hr>
-                          <label class="form-label">
+                        </label>
+                        <br>
+                        <input type="text" class="form-control create_modal_title_field"
+                            placeholder="fills with first prompt if blank">
+                        <hr>
+                        <label class="form-label">
                             System Message
-                          </label>
-                          <br>
-                          <textarea class="form-control system_message_field"
-                              placeholder="optional"></textarea>
-                          <br>
-                          <div style="display:flex;flex-direction:row;">
+                        </label>
+                        <br>
+                        <textarea class="form-control system_message_field" placeholder="optional"></textarea>
+                        <br>
+                        <div style="display:flex;flex-direction:row;">
                             <div>
                                 <label class="form-label">Usage Cap</label>
                                 <br>
@@ -286,16 +324,14 @@ export default class DocCreateHelper {
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="tab-pane fade" id="template_create_options_view" role="tabpanel"
-                      aria-labelledby="template_create_options">
-                      <div class="create_import_file_description">
+                        aria-labelledby="template_create_options">
                         <button class="btn btn-secondary modal_create_template_tickets_button">
                             <i class="material-icons">upload_file</i>
                             Import...
                         </button>
-                        <input class="create_modal_template_file" style="display:none;" type="file"
-                            accept=".json,.csv">
+                        <input class="create_modal_template_file" style="display:none;" type="file" accept=".json,.csv">
                         &nbsp;
                         <div class="parsed_file_status"></div>
                         &nbsp;
@@ -303,54 +339,102 @@ export default class DocCreateHelper {
                         <br>
                         <br>
                         <div class="preview_create_template"></div>
-                      </div>
                     </div>
                     <div class="tab-pane fade" id="bulk_create_options_view" role="tabpanel"
-                    aria-labelledby="bulk_create_options">
-                      <div class="create_import_file_description">
-                        <button class="btn btn-secondary modal_create_users_list_button">
-                            <i class="material-icons">upload_file</i>
-                            Users List
-                        </button>
-                        <input class="create_modal_users_file" style="display:none;" type="file"
-                            accept=".json,.csv">
-                        &nbsp;
-                        <div class="parsed_list_file_status"></div>
-                        &nbsp;
-                        <div class="parsed_list_file_name"></div>
-                        <br>
-                        <br>
-                        <div class="preview_bulk_template"></div>
-                        <hr>
-                        <label class="form-check-label">
-                          <input class="form-check-input name_for_title_checkbox" checked type="checkbox" value="">
-                          Use Name for Title
-                        </label>  
-                        <br>
-                        <label class="form-check-label">
-                          <input class="form-check-input name_for_title_checkbox" checked type="checkbox" value="">
-                          Use Email for Owner's Note
-                        </label>  
-                        <hr>
-                        <div style="display:flex;flex-direction:row">
-                          <div style="flex:1">
-                            <label class="form-label">
-                              Email Template
-                            </label>
-                            <div class="subject_line_wrapper">
-                              <label class="form-label">
-                                Subject
-                              </label>
-                              <input class="form-control bulk_email_subject_field" type="text">
+                        aria-labelledby="bulk_create_options">
+                        <div class="accordion" id="bulkCreateAccordion" style="flex:1;">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#bulkCreateView1" aria-expanded="true"
+                                        aria-controls="bulkCreateView1">
+                                        Upload Users List
+                                    </button>
+                                </h2>
+                                <div id="bulkCreateView1" class="accordion-collapse collapse show"
+                                    aria-labelledby="headingOne" data-bs-parent="#bulkCreateAccordion">
+                                    <div class="accordion-body">
+                                        <div style="display:flex;flex-direction:row;">
+                                            <label class="form-label">Batch Label</label>
+                                            <input type="text" style="flex:1"
+                                                class="form-control create_modal_batch_label_field"
+                                                placeholder="required">
+                                            <div>
+                                                <button class="btn btn-secondary">
+                                                    <i class="material-icons">today</i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-secondary modal_create_users_list_button">
+                                            <i class="material-icons">upload_file</i>
+                                            Users List
+                                        </button>
+                                        <input class="create_modal_users_file" style="display:none;" type="file"
+                                            accept=".json,.csv">
+                                        &nbsp;
+                                        <div class="parsed_list_file_status"></div>
+                                        &nbsp;
+                                        <div class="parsed_list_file_name"></div>
+                                        <br>
+                                        <br>
+                                        <label class="form-check-label">
+                                            <input class="form-check-input name_for_title_checkbox" checked
+                                                type="checkbox" value="">
+                                            Use Name for Title
+                                        </label>
+                                        <label class="form-check-label">
+                                            <input class="form-check-input name_for_title_checkbox" checked
+                                                type="checkbox" value="">
+                                            Use Email for Owner's Note
+                                        </label>
+                                        <div class="preview_bulk_template"></div>
+                                    </div>
+                                </div>
                             </div>
-                          </div>
-                          <div>
-                            <button class="default_template_button btn btn-secondary">Default Template</button>
-                          </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingTwo">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#bulkCreateView2" aria-expanded="false"
+                                        aria-controls="bulkCreateView2">
+                                        Email
+                                    </button>
+                                </h2>
+                                <div id="bulkCreateView2" class="accordion-collapse collapse"
+                                aria-labelledby="headingTwo" data-bs-parent="#bulkCreateAccordion">
+                                    <div style="display:flex;flex-direction:row">
+                                        <div style="flex:1">
+                                            <label class="form-label">
+                                                Email Template
+                                            </label>
+                                            <div class="subject_line_wrapper">
+                                                <label class="form-label">
+                                                    Subject
+                                                </label>
+                                                <input class="form-control bulk_email_subject_field" type="text">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <button class="default_template_button btn btn-secondary">Default
+                                                Template</button>
+                                        </div>
+                                    </div>
+                                    <textarea class="form-control bulk_email_template_field"
+                                        placeholder="see help for template specifications"></textarea>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#bulkCreateView3" aria-expanded="false"
+                                    aria-controls="bulkCreateView3">
+                                    Results
+                                </button>
+                            </h2>
+                            <div id="bulkCreateView3" class="accordion-collapse collapse"
+                            aria-labelledby="headingThree" data-bs-parent="#bulkCreateAccordion">
+                              <div style="min-height: 30vh;background:white;width: 100%"></div>
+                            </div>
                         </div>
-                        <textarea class="form-control bulk_email_template_field"
-                            placeholder="see help for template specifications"></textarea>
-                      </div>
                     </div>
                 </div>
             </div>
@@ -373,19 +457,25 @@ export default class DocCreateHelper {
     </div>
 </div>`;
   }
-  /** create new game api call */
-  async createNewGame() {
+  /** create new game api call
+   * @param { string } title
+   * @param { string } note
+   * @param { boolean } dontOpen false default
+  */
+  async createNewGame(title = "", note = "", dontOpen = false): Promise<any> {
     if (this.creatingNewRecord) return;
     if (!this.app.profile) return;
     this.creatingNewRecord = true;
+    if (!note) note = this.create_modal_note_field.value.trim();
+    if (!title) title = this.create_modal_title_field.value.trim();
 
     this.create_game_afterfeed_button.innerHTML = "Creating...";
     document.body.classList.add("creating_new_session");
     const body: any = {
       documentType: "chatSession",
       label: this.scrapeLabels(),
-      note: this.create_modal_note_field.value.trim(),
-      title: this.create_modal_title_field.value.trim(),
+      note,
+      title,
       firstPrompt: this.create_modal_prompt_field.value.trim(),
     };
 
@@ -424,12 +514,16 @@ export default class DocCreateHelper {
     if (importError) {
       alert("data import error");
     } else {
-      const a = document.createElement("a");
-      a.setAttribute("href", `/session/${json.gameNumber}`);
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      if (!dontOpen) {
+        const a = document.createElement("a");
+        a.setAttribute("href", `/session/${json.gameNumber}`);
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
     }
+    console.log(json);
+    return json;
   }
   /** scrape labels from dom and return comma delimited list
   * @return { string } comma delimited list
