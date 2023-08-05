@@ -772,6 +772,24 @@ label.btn {
   transition: none;
 }
 
-.app_panel .collasping {
+.app_panel .collapsing {
   transition: none;
+}
+
+.accordion-collapse.collapse {
+  visibility: hidden;
+}
+
+.accordion-collapse.collapse.show {
+  visibility: visible;
+}
+
+#createDocumentModal .tab-content>.active {
+  display: flex;
+  flex-direction: column;
+}
+
+#bulk_create_options_view .tab-content {
+  flex: 1;
+  display: flex;
 }

@@ -177,7 +177,7 @@ export default class ProfileHelper {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
+                    <ul class="nav nav-tabs mb-3" role="tablist">
                         <li class="nav-item" role="presentation">
                             <a class="nav-link active" id="profile_user_tab_button" data-bs-toggle="tab"
                                 href="#profile_user_tab_view" role="tab" aria-controls="profile_user_tab_view"

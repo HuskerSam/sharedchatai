@@ -238,8 +238,8 @@ export default class DocCreateHelper {
    * @return { string } html template as string
    */
   getModalTemplate(): string {
-    return `<div class="modal fade scrollable_modal" id="createDocumentModal" tabindex="-1" aria-labelledby="createDocumentModalLabel"
-    aria-hidden="true">
+    return `<div class="modal fade scrollable_modal" id="createDocumentModal" tabindex="-1"
+    aria-labelledby="createDocumentModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content app_panel">
             <div class="modal-header" style="display:flex;">
@@ -254,7 +254,7 @@ export default class DocCreateHelper {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="display:flex;flex-direction:column">
-                <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
+                <ul class="nav nav-tabs mb-3" role="tablist">
                     <li class="nav-item" role="presentation">
                         <a class="nav-link active" id="basic_create_options" data-bs-toggle="tab"
                             href="#basic_create_options_view" role="tab" aria-controls="basic_create_options_view"
@@ -327,117 +327,105 @@ export default class DocCreateHelper {
                     <div class="tab-pane fade" id="template_create_options_view" role="tabpanel"
                         aria-labelledby="template_create_options">
                         <div class="upload_wrapper">
-                          <div>
-                            <button class="btn btn-secondary modal_create_template_tickets_button">
-                                <i class="material-icons">upload_file</i>
-                                Import...
-                            </button>
-                          </div>
-                          <input class="create_modal_template_file" style="display:none;" type="file" accept=".json,.csv">                        
-                          <div class="parsed_file_status"></div>
-                          <div class="parsed_file_name"></div>
+                            <div>
+                                <button class="btn btn-secondary modal_create_template_tickets_button">
+                                    <i class="material-icons">upload_file</i>
+                                    Import...
+                                </button>
+                            </div>
+                            <input class="create_modal_template_file" style="display:none;" type="file"
+                                accept=".json,.csv">
+                            <div class="parsed_file_status"></div>
+                            <div class="parsed_file_name"></div>
                         </div>
                         <div class="preview_create_template"></div>
                     </div>
                     <div class="tab-pane fade" id="bulk_create_options_view" role="tabpanel"
                         aria-labelledby="bulk_create_options">
-                        <div class="accordion" id="bulkCreateAccordion" style="flex:1;display:flex;flex-direction:column">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingOne">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#bulkCreateView1" aria-expanded="true"
-                                        aria-controls="bulkCreateView1">
-                                        Upload Users List
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="bulkCreateView1" class="accordion-collapse collapse show"
-                                aria-labelledby="headingOne" data-bs-parent="#bulkCreateAccordion">
-                                <div class="accordion-body">
-                                    <div style="display:flex;flex-direction:row;margin-bottom: 12px;">
-                                        <div style="flex:1;display:flex;">
-                                            <label class="form-label"
-                                                style="margin-top:8px;margin-right:8px;">Label</label>
-                                            <input type="text" style="flex:1;"
-                                                class="form-control create_modal_batch_label_field"
-                                                placeholder="required">
-                                        </div>
-                                        <div>
-                                            <button class="btn btn-secondary today_bulk_label_button">
-                                                <i class="material-icons">today</i>
-                                            </button>
-                                        </div>
+                        <ul class="nav nav-pills" role="tablist" style="display:inline-flex;margin:auto;margin-bottom:12px">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link active" id="bulk_create_pill_1" data-bs-toggle="tab"
+                                    href="#bulkCreateView1" role="tab" aria-controls="bulkCreateView1"
+                                    aria-selected="true">Users</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="bulk_create_pill_2" data-bs-toggle="tab" href="#bulkCreateView2"
+                                    role="tab" aria-controls="bulkCreateView2" aria-selected="false">Email</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="bulk_create_pill_3" data-bs-toggle="tab" href="#bulkCreateView3"
+                                    role="tab" aria-controls="bulkCreateView3" aria-selected="false">Send</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="bulkCreateView1" role="tabpanel"
+                                style="flex-direction:column;" aria-labelledby="bulk_create_pill_1">
+                                <div style="display:flex;flex-direction:row;margin-bottom: 12px;">
+                                    <div style="flex:1;display:flex;">
+                                        <label class="form-label" style="margin-top:8px;margin-right:8px;">Label</label>
+                                        <input type="text" style="flex:1;"
+                                            class="form-control create_modal_batch_label_field" placeholder="required">
                                     </div>
-                                    <div class="upload_wrapper">
-                                      <div>
-                                        <button class="btn btn-secondary modal_create_users_list_button">
-                                            <i class="material-icons">upload_file</i> <span class="mobile_hide">Users List</span>
-                                        </button>
-                                      </div>
-                                      <div>
-                                        <input class="create_modal_users_file" style="display:none;" type="file"
-                                            accept=".json,.csv">
-                                      </div>
-                                      <div class="parsed_list_file_status"></div>
-                                      <div class="parsed_list_file_name"></div>
-                                    </div>
-                                    <div class="preview_bulk_template"></div>
                                     <div>
-                                      <label class="form-check-label" style="margin-right:12px;">
-                                          <input class="form-check-input name_for_title_checkbox" checked
-                                              type="checkbox" value="">
-                                          Use Name for Title
-                                      </label>
-                                      <label class="form-check-label">
-                                          <input class="form-check-input name_for_title_checkbox" checked
-                                              type="checkbox" value="">
-                                          Use Email for Owner's Note
-                                      </label>
+                                        <button class="btn btn-secondary today_bulk_label_button">
+                                            <i class="material-icons">today</i>
+                                        </button>
                                     </div>
                                 </div>
+                                <div class="upload_wrapper">
+                                    <div>
+                                        <button class="btn btn-secondary modal_create_users_list_button">
+                                            <i class="material-icons">upload_file</i> <span class="mobile_hide">Users
+                                                List</span>
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <input class="create_modal_users_file" style="display:none;" type="file"
+                                            accept=".json,.csv">
+                                    </div>
+                                    <div class="parsed_list_file_status"></div>
+                                    <div class="parsed_list_file_name"></div>
+                                </div>
+                                <div class="preview_bulk_template"></div>
+                                <div>
+                                    <label class="form-check-label" style="margin-right:12px;">
+                                        <input class="form-check-input name_for_title_checkbox" checked type="checkbox"
+                                            value="">
+                                        Use Name for Title
+                                    </label>
+                                    <label class="form-check-label">
+                                        <input class="form-check-input name_for_title_checkbox" checked type="checkbox"
+                                            value="">
+                                        Use Email for Owner's Note
+                                    </label>
+                                </div>
                             </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingTwo">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#bulkCreateView2" aria-expanded="false"
-                                        aria-controls="bulkCreateView2">
-                                        Email Template
-                                    </button>
-                                </h2>
+                            <div class="tab-pane fade" id="bulkCreateView2" role="tabpanel"
+                                aria-labelledby="bulk_create_pill_2">
+                                <div style="display:flex;flex-direction:row;">
+                                    <div style="flex:1">
+                                        <div class="subject_line_wrapper">
+                                            <label class="form-label">
+                                                Subject
+                                            </label>
+                                            <input class="form-control bulk_email_subject_field" type="text">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button class="default_template_button btn btn-secondary"><i
+                                                class="material-icons">restart_alt</i> <span class="mobile_hide">
+                                                Default</span></button>
+                                    </div>
+                                </div>
+                                <textarea class="form-control bulk_email_template_field" style="flex:1"
+                                    placeholder="see help for template specifications"></textarea>
                             </div>
-                            <div id="bulkCreateView2" class="accordion-collapse collapse" style="padding: .75rem;"
-                              aria-labelledby="headingTwo" data-bs-parent="#bulkCreateAccordion">
-                              <div style="display:flex;flex-direction:row;">
-                                  <div style="flex:1">
-                                      <div class="subject_line_wrapper">
-                                          <label class="form-label">
-                                              Subject
-                                          </label>
-                                          <input class="form-control bulk_email_subject_field" type="text">
-                                      </div>
-                                  </div>
-                                  <div>
-                                      <button class="default_template_button btn btn-secondary"><i class="material-icons">restart_alt</i> <span class="mobile_hide"> Default</span></button>
-                                  </div>
-                              </div>
-                              <textarea class="form-control bulk_email_template_field" style="flex:1"
-                                  placeholder="see help for template specifications"></textarea>
+                            <div class="tab-pane fade" id="bulkCreateView3" role="tabpanel"
+                                aria-labelledby="bulk_create_pill_3">
+
+                                <div style="flex:1;background:white;width: 100%"></div>
                             </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingThree">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#bulkCreateView3" aria-expanded="false"
-                                        aria-controls="bulkCreateView3">
-                                        Results
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="bulkCreateView3" class="accordion-collapse collapse"
-                              aria-labelledby="headingThree" data-bs-parent="#bulkCreateAccordion">
-                              <div class="accordion-body">
-                                  <div style="flex:1;background:white;width: 100%"></div>
-                              </div>
-                          </div>                            
                         </div>
                     </div>
                 </div>
