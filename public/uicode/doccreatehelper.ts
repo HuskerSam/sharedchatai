@@ -238,7 +238,7 @@ export default class DocCreateHelper {
    * @return { string } html template as string
    */
   getModalTemplate(): string {
-    return `<div class="modal fade" id="createDocumentModal" tabindex="-1" aria-labelledby="createDocumentModalLabel"
+    return `<div class="modal fade scrollable_modal" id="createDocumentModal" tabindex="-1" aria-labelledby="createDocumentModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content app_panel">
@@ -253,7 +253,7 @@ export default class DocCreateHelper {
                         class="material-icons">help_outline</i></a>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="display:flex;flex-direction:column">
                 <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
                     <li class="nav-item" role="presentation">
                         <a class="nav-link active" id="basic_create_options" data-bs-toggle="tab"
@@ -276,7 +276,7 @@ export default class DocCreateHelper {
                             aria-selected="true">Bulk</a>
                     </li>
                 </ul>
-                <div class="tab-content">
+                <div class="tab-content" style="overflow:hidden;display:flex;height:95vh;">
                     <div class="tab-pane fade show active" id="basic_create_options_view" role="tabpanel"
                         aria-labelledby="basic_create_options">
                         <label class="form-label">
@@ -324,25 +324,24 @@ export default class DocCreateHelper {
                             </div>
                         </div>
                     </div>
-
                     <div class="tab-pane fade" id="template_create_options_view" role="tabpanel"
                         aria-labelledby="template_create_options">
-                        <button class="btn btn-secondary modal_create_template_tickets_button">
-                            <i class="material-icons">upload_file</i>
-                            Import...
-                        </button>
-                        <input class="create_modal_template_file" style="display:none;" type="file" accept=".json,.csv">
-                        &nbsp;
-                        <div class="parsed_file_status"></div>
-                        &nbsp;
-                        <div class="parsed_file_name"></div>
-                        <br>
-                        <br>
+                        <div class="upload_wrapper">
+                          <div>
+                            <button class="btn btn-secondary modal_create_template_tickets_button">
+                                <i class="material-icons">upload_file</i>
+                                Import...
+                            </button>
+                          </div>
+                          <input class="create_modal_template_file" style="display:none;" type="file" accept=".json,.csv">                        
+                          <div class="parsed_file_status"></div>
+                          <div class="parsed_file_name"></div>
+                        </div>
                         <div class="preview_create_template"></div>
                     </div>
                     <div class="tab-pane fade" id="bulk_create_options_view" role="tabpanel"
                         aria-labelledby="bulk_create_options">
-                        <div class="accordion" id="bulkCreateAccordion" style="flex:1;">
+                        <div class="accordion" id="bulkCreateAccordion" style="flex:1;display:flex;flex-direction:column">
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="headingOne">
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse"
@@ -351,43 +350,50 @@ export default class DocCreateHelper {
                                         Upload Users List
                                     </button>
                                 </h2>
-                                <div id="bulkCreateView1" class="accordion-collapse collapse show"
-                                    aria-labelledby="headingOne" data-bs-parent="#bulkCreateAccordion">
-                                    <div class="accordion-body">
-                                        <div style="display:flex;flex-direction:row;">
-                                            <label class="form-label">Batch Label</label>
-                                            <input type="text" style="flex:1"
+                            </div>
+                            <div id="bulkCreateView1" class="accordion-collapse collapse show"
+                                aria-labelledby="headingOne" data-bs-parent="#bulkCreateAccordion">
+                                <div class="accordion-body">
+                                    <div style="display:flex;flex-direction:row;margin-bottom: 12px;">
+                                        <div style="flex:1;display:flex;">
+                                            <label class="form-label"
+                                                style="margin-top:8px;margin-right:8px;">Label</label>
+                                            <input type="text" style="flex:1;"
                                                 class="form-control create_modal_batch_label_field"
                                                 placeholder="required">
-                                            <div>
-                                                <button class="btn btn-secondary">
-                                                    <i class="material-icons">today</i>
-                                                </button>
-                                            </div>
                                         </div>
+                                        <div>
+                                            <button class="btn btn-secondary today_bulk_label_button">
+                                                <i class="material-icons">today</i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="upload_wrapper">
+                                      <div>
                                         <button class="btn btn-secondary modal_create_users_list_button">
                                             <i class="material-icons">upload_file</i>
                                             Users List
                                         </button>
+                                      </div>
+                                      <div>
                                         <input class="create_modal_users_file" style="display:none;" type="file"
                                             accept=".json,.csv">
-                                        &nbsp;
-                                        <div class="parsed_list_file_status"></div>
-                                        &nbsp;
-                                        <div class="parsed_list_file_name"></div>
-                                        <br>
-                                        <br>
-                                        <label class="form-check-label">
-                                            <input class="form-check-input name_for_title_checkbox" checked
-                                                type="checkbox" value="">
-                                            Use Name for Title
-                                        </label>
-                                        <label class="form-check-label">
-                                            <input class="form-check-input name_for_title_checkbox" checked
-                                                type="checkbox" value="">
-                                            Use Email for Owner's Note
-                                        </label>
-                                        <div class="preview_bulk_template"></div>
+                                      </div>
+                                      <div class="parsed_list_file_status"></div>
+                                      <div class="parsed_list_file_name"></div>
+                                    </div>
+                                    <div class="preview_bulk_template"></div>
+                                    <div>
+                                      <label class="form-check-label" style="margin-right:12px;">
+                                          <input class="form-check-input name_for_title_checkbox" checked
+                                              type="checkbox" value="">
+                                          Use Name for Title
+                                      </label>
+                                      <label class="form-check-label">
+                                          <input class="form-check-input name_for_title_checkbox" checked
+                                              type="checkbox" value="">
+                                          Use Email for Owner's Note
+                                      </label>
                                     </div>
                                 </div>
                             </div>
@@ -399,41 +405,44 @@ export default class DocCreateHelper {
                                         Email
                                     </button>
                                 </h2>
-                                <div id="bulkCreateView2" class="accordion-collapse collapse"
-                                aria-labelledby="headingTwo" data-bs-parent="#bulkCreateAccordion">
-                                    <div style="display:flex;flex-direction:row">
-                                        <div style="flex:1">
-                                            <label class="form-label">
-                                                Email Template
-                                            </label>
-                                            <div class="subject_line_wrapper">
-                                                <label class="form-label">
-                                                    Subject
-                                                </label>
-                                                <input class="form-control bulk_email_subject_field" type="text">
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <button class="default_template_button btn btn-secondary">Default
-                                                Template</button>
-                                        </div>
-                                    </div>
-                                    <textarea class="form-control bulk_email_template_field"
-                                        placeholder="see help for template specifications"></textarea>
-                                </div>
+                            </div>
+                            <div id="bulkCreateView2" class="accordion-collapse collapse"
+                              aria-labelledby="headingTwo" data-bs-parent="#bulkCreateAccordion">
+                              <div style="display:flex;flex-direction:row">
+                                  <div style="flex:1">
+                                      <label class="form-label">
+                                          Email Template
+                                      </label>
+                                      <div class="subject_line_wrapper">
+                                          <label class="form-label">
+                                              Subject
+                                          </label>
+                                          <input class="form-control bulk_email_subject_field" type="text">
+                                      </div>
+                                  </div>
+                                  <div>
+                                      <button class="default_template_button btn btn-secondary">Default
+                                          Template</button>
+                                  </div>
+                              </div>
+                              <textarea class="form-control bulk_email_template_field" style="flex:1"
+                                  placeholder="see help for template specifications"></textarea>
                             </div>
                             <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingThree">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#bulkCreateView3" aria-expanded="false"
-                                    aria-controls="bulkCreateView3">
-                                    Results
-                                </button>
-                            </h2>
-                            <div id="bulkCreateView3" class="accordion-collapse collapse"
-                            aria-labelledby="headingThree" data-bs-parent="#bulkCreateAccordion">
-                              <div style="min-height: 30vh;background:white;width: 100%"></div>
+                                <h2 class="accordion-header" id="headingThree">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#bulkCreateView3" aria-expanded="false"
+                                        aria-controls="bulkCreateView3">
+                                        Results
+                                    </button>
+                                </h2>
                             </div>
+                            <div id="bulkCreateView3" class="accordion-collapse collapse"
+                              aria-labelledby="headingThree" data-bs-parent="#bulkCreateAccordion">
+                              <div class="accordion-body">
+                                  <div style="flex:1;background:white;width: 100%"></div>
+                              </div>
+                          </div>                            
                         </div>
                     </div>
                 </div>
