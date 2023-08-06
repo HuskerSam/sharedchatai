@@ -42,13 +42,14 @@ export default class DocCreateHelper {
   bulkEmailSubjectTemplate: any;
   today_bulk_label_button: any;
   create_modal_batch_label_field: any;
-  name_for_title_checkbox: any;
-  use_email_for_owners_note: any;
   downloadcsv_radio: any;
   sendemails_radio: any;
   bulk_batch_job_status: any;
   bulkUsersImportData: Array<any> = [];
   bulkRowsWithNoEmail = 0;
+  bulkEmailTotalCount = 0;
+  bulk_user_list_status: any;
+  bulk_label_status: any;
 
   /**
    * @param { any } app BaseApp derived application instance
@@ -96,7 +97,10 @@ export default class DocCreateHelper {
     this.create_modal_template_file = this.modalContainer.querySelector(".create_modal_template_file");
     this.create_modal_template_file.addEventListener("change", () => this.updateParsedFileStatus());
     this.create_modal_users_file = this.modalContainer.querySelector(".create_modal_users_file");
-    this.create_modal_users_file.addEventListener("change", () => this.updateUsersListFile());
+    this.create_modal_users_file.addEventListener("change", async () => {
+      await this.updateUsersListFile();
+      this.updateBulkBatchStatus();
+    });
     this.create_game_afterfeed_button = this.modalContainer.querySelector(".create_game_afterfeed_button");
     this.create_game_afterfeed_button.addEventListener("click", () => this.createNewGame());
 
@@ -132,22 +136,35 @@ export default class DocCreateHelper {
     this.default_template_button.addEventListener("click", () => this.setDefaultEmailTemplate());
 
     this.create_modal_batch_label_field = this.modalContainer.querySelector(".create_modal_batch_label_field");
+    this.create_modal_batch_label_field.addEventListener("input", () => this.updateBulkBatchStatus());
     this.today_bulk_label_button = this.modalContainer.querySelector(".today_bulk_label_button");
     this.today_bulk_label_button.addEventListener("click", () => this.setTodayForBulkLabel());
-
-    this.name_for_title_checkbox = this.modalContainer.querySelector(".name_for_title_checkbox");
-    this.use_email_for_owners_note = this.modalContainer.querySelector(".use_email_for_owners_note");
 
     this.downloadcsv_radio = this.modalContainer.querySelector(".downloadcsv_radio");
     this.sendemails_radio = this.modalContainer.querySelector(".sendemails_radio");
     this.bulk_batch_job_status = this.modalContainer.querySelector(".bulk_batch_job_status");
+    this.bulk_user_list_status = this.modalContainer.querySelector(".bulk_user_list_status");
+    this.bulk_label_status = this.modalContainer.querySelector(".bulk_label_status");
   }
   /** */
   setTodayForBulkLabel() {
     const n = new Date();
     this.create_modal_batch_label_field.value = BaseApp.shortShowDate(n) + " " + BaseApp.formatAMPM(n);
+    this.updateBulkBatchStatus();
   }
   updateBulkBatchStatus() {
+    const rows = this.bulkUsersImportData;
+    const rowCount = rows.length;
+    const isRowCountValid = rowCount > 0;
+    const validClass = " bulk_item_valid";
+    const rowCountValidClass = isRowCountValid ? validClass : "";
+    this.bulk_user_list_status.innerHTML = `<span class="valid_bulk_item${rowCountValidClass}"></span>Sessions: ${rowCount}, ` +
+      `Emails: ${this.bulkEmailTotalCount}`;
+    let label = this.create_modal_batch_label_field.value.trim();
+    const isLabelValid = label !== "";
+    const labelValidClass = isLabelValid ? validClass : "";
+    if (!label) label = `<span class="no_label">none</span>`;
+    this.bulk_label_status.innerHTML = `<span class="valid_bulk_item${labelValidClass}"></span>Label:`;
     this.bulk_batch_job_status.innerHTML = ``;
   }
   /**
@@ -164,8 +181,6 @@ export default class DocCreateHelper {
     let body = this.bulk_email_template_field.value;
     let subject = this.bulk_email_subject_field.value;
     let label = this.create_modal_batch_label_field.value;
-    const bulkNameForTitle = this.name_for_title_checkbox.checked;
-    const bulkEmailForNote = this.use_email_for_owners_note.checked;
     const bulkDownloadCSV = this.downloadcsv_radio.checked;
     const bulkSendEmails = this.sendemails_radio.checked;
 
@@ -186,8 +201,6 @@ export default class DocCreateHelper {
 
     this.app.saveProfileField("bulkEmailBodyTemplate", body);
     this.app.saveProfileField("bulkEmailSubjectTemplate", subject);
-    this.app.saveProfileField("bulkNameForTitle", bulkNameForTitle);
-    this.app.saveProfileField("bulkEmailForNote", bulkEmailForNote);
     this.app.saveProfileField("bulkDownloadCSV", bulkDownloadCSV);
     this.app.saveProfileField("bulkSendEmails", bulkSendEmails);
 
@@ -311,7 +324,7 @@ export default class DocCreateHelper {
                     <li class="nav-item" role="presentation">
                         <a class="nav-link" id="template_create_options" data-bs-toggle="tab"
                             href="#template_create_options_view" role="tab" aria-controls="template_create_options_view"
-                            aria-selected="true">Template</a>
+                            aria-selected="true">Import</a>
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link" id="bulk_create_options" data-bs-toggle="tab"
@@ -378,13 +391,13 @@ export default class DocCreateHelper {
                             <div>
                                 <button class="btn btn-secondary modal_create_template_tickets_button">
                                     <i class="material-icons">upload_file</i>
-                                    Import...
+                                    Session Template
                                 </button>
                             </div>
                             <input class="create_modal_template_file" style="display:none;" type="file"
                                 accept=".json,.csv">
                             <div class="parsed_file_status"></div>
-                            <div class="parsed_file_name"></div>
+                            <div class="parsed_file_name" style="display:none;"></div>
                         </div>
                         <div class="preview_create_template"></div>
                     </div>
@@ -394,11 +407,11 @@ export default class DocCreateHelper {
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link active" id="bulk_create_pill_1" data-bs-toggle="tab"
                                     href="#bulkCreateView1" role="tab" aria-controls="bulkCreateView1"
-                                    aria-selected="true">Users</a>
+                                    aria-selected="true">Email List</a>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link" id="bulk_create_pill_2" data-bs-toggle="tab" href="#bulkCreateView2"
-                                    role="tab" aria-controls="bulkCreateView2" aria-selected="false">Email</a>
+                                    role="tab" aria-controls="bulkCreateView2" aria-selected="false">Email Template</a>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link" id="bulk_create_pill_3" data-bs-toggle="tab" href="#bulkCreateView3"
@@ -412,7 +425,7 @@ export default class DocCreateHelper {
                                 <div class="upload_wrapper">
                                     <div>
                                         <button class="btn btn-secondary modal_create_users_list_button">
-                                            <i class="material-icons">upload_file</i> <span class="mobile_hide">Users
+                                            <i class="material-icons">upload_file</i> <span>Users
                                                 List</span>
                                         </button>
                                     </div>
@@ -421,7 +434,7 @@ export default class DocCreateHelper {
                                             accept=".json,.csv">
                                     </div>
                                     <div class="parsed_list_file_status"></div>
-                                    <div class="parsed_list_file_name"></div>
+                                    <div class="parsed_list_file_name" style="display:none;"></div>
                                 </div>
                                 <div class="preview_bulk_template"></div>
                             </div>
@@ -449,7 +462,7 @@ export default class DocCreateHelper {
                                 aria-labelledby="bulk_create_pill_3">
                                 <div style="display:flex;flex-direction:row;margin-bottom: 12px;">
                                     <div style="flex:1;display:flex;">
-                                        <label class="form-label" style="margin-top:8px;margin-right:8px;">Label</label>
+                                        <div class="bulk_label_status"></div>
                                         <div style="flex:1;">
                                           <input type="text" style="width:100%;"
                                               class="form-control create_modal_batch_label_field" placeholder="required">
@@ -461,21 +474,12 @@ export default class DocCreateHelper {
                                         </button>
                                     </div>
                                 </div>                          
-                                <div>
+                                <div style="display:flex;flex-direction:row">
+                                  <div style="flex:1;">
+                                    <div class="bulk_user_list_status"></div>
+                                    <br>
                                     <label class="form-check-label" style="margin-right:12px;margin-left:4px;">
-                                        <input class="form-check-input name_for_title_checkbox" checked type="checkbox"
-                                            value="">
-                                        Use Name for Title
-                                    </label>
-                                    <label class="form-check-label">
-                                        <input class="form-check-input use_email_for_owners_note" checked type="checkbox"
-                                            value="">
-                                        Use Email for Owner's Note
-                                    </label>
-                                </div>
-                                <div style="line-height: 4em;text-align: right;">
-                                    <label class="form-check-label" style="margin-right:12px;margin-left:4px;">
-                                        <input class="form-radio-input downloadcsv_radio" type="radio"
+                                      <input class="form-radio-input downloadcsv_radio" type="radio"
                                             value="" name="bulk_generate_type">
                                         Download CSV
                                     </label>
@@ -484,13 +488,15 @@ export default class DocCreateHelper {
                                             value="" name="bulk_generate_type">
                                         Send Emails
                                     </label>
-                                    &nbsp;
-                                  <button type="button" class="btn btn-primary create_bulk_sessions_button">
-                                    <i class="material-icons">add</i>
-                                    Create Sessions
-                                  </button>
+                                  </div>
+                                  <div>
+                                    <button type="button" class="btn btn-primary create_bulk_sessions_button">
+                                      <i class="material-icons">add</i>
+                                      Create Sessions
+                                    </button>
+                                  </div>
                                 </div>
-                                <hr>
+
                                 <div class="bulk_batch_job_status"></div>
                             </div>
                         </div>
@@ -596,7 +602,7 @@ export default class DocCreateHelper {
    * @param { string } label optional label to add
    * @param { boolean } forceAdvanced true to show advanced tab (i.e. template preloaded)
   */
-  show(label = "", forceAdvanced = false) {
+  async show(label = "", forceAdvanced = false) {
     this.create_modal_note_field.value = "";
     if (!forceAdvanced) {
       this.create_modal_template_file.value = "";
@@ -604,7 +610,8 @@ export default class DocCreateHelper {
     }
 
     this.create_modal_users_file.value = "";
-    this.updateUsersListFile();
+    await this.updateUsersListFile();
+    this.updateBulkBatchStatus();
 
     if (this.app.fireUser && this.app.fireUser.isAnonymous) {
       alert("Anonymous can only join already created sessions (no create)");
@@ -629,9 +636,6 @@ export default class DocCreateHelper {
     this.insert_todaylabel_default_checkbox.checked = this.app.profile.insertTodayAsLabel === true;
     if (this.app.profile.insertTodayAsLabel) this.addTodayAsLabel();
     if (label) this.addTodayAsLabel(label);
-
-    this.name_for_title_checkbox.checked = this.app.profile.bulkNameForTitle === true;
-    this.use_email_for_owners_note.checked = this.app.profile.bulkEmailForNote === true;
 
     const downloadCSV = (this.app.profile.bulkDownloadCSV === true);
     this.downloadcsv_radio.checked = downloadCSV;
@@ -719,19 +723,20 @@ export default class DocCreateHelper {
     this.bulkUsersImportData = [];
     const importData = await ChatDocument.getImportDataFromDomFile(this.create_modal_users_file);
     let fileContent = "<table class=\"file_preview_table\">";
-    fileContent += "<tr>";
-    fileContent += `<th>Row</th>`;
-    fileContent += `<th>name</th><th>email</th>`;
-    fileContent += "</tr>";
+    fileContent += "<tr><th>row</th><th>name</th><th>email</th><th>title</th></tr>";
 
     this.bulkRowsWithNoEmail = 0;
+    this.bulkEmailTotalCount = 0;
     importData.forEach((row: any, index: number) => {
       const email = row["email"] ? row["email"] : "";
       const name = row["name"] ? row["name"] : "";
+      const title = row["title"] ? row["title"] : "";
 
       let invalidEmail = "";
       const validateResult = BaseApp.validateEmailList(email);
       if (email && validateResult) {
+        const emails = email.split(",");
+        this.bulkEmailTotalCount += emails.length;
         this.bulkUsersImportData.push({
           email: email,
           name: name,
@@ -743,7 +748,7 @@ export default class DocCreateHelper {
       }
         fileContent += `<tr class="${invalidEmail}">`;
         fileContent += `<th>${index + 1}</th>`;
-        fileContent += `<td>${BaseApp.escapeHTML(name)}</td><td>${BaseApp.escapeHTML(email)}</td>`;
+        fileContent += `<td>${BaseApp.escapeHTML(name)}</td><td>${BaseApp.escapeHTML(email)}</td><td>${BaseApp.escapeHTML(title)}</td>`;
         fileContent += "</tr>";
     });
 
@@ -751,7 +756,8 @@ export default class DocCreateHelper {
 
     this.preview_bulk_template.innerHTML = fileContent;
     let contentCount = "";
-    contentCount = (importData.length - this.bulkRowsWithNoEmail) + " / " + importData.length + " rows";
+    contentCount = (importData.length - this.bulkRowsWithNoEmail) + " / " + importData.length + " rows, " 
+      + this.bulkEmailTotalCount + " emails";
     
     this.parsed_list_file_status.innerHTML = contentCount;
     let fileName = "";

@@ -638,8 +638,10 @@ label.btn {
 }
 
 .create_modal_prompt_field {
-  width: 100%;
+  width: calc(100% - 8px);
   height: 5em;
+  margin-left: 4px;
+  margin-right: 4px;
 }
 
 .system_message_field {
@@ -805,15 +807,41 @@ label.btn {
   width: calc(100% - 8px);
 }
 
-.bulk_batch_job_status {
-  flex: 1;
+.bulk_batch_job_status,
+.bulk_user_list_status,
+.bulk_label_status {
   background: var(--background-accent);
-  width: 100%;
   overflow: auto;
   padding: 4px;
-  font-size: 1.25rem;
+  margin: 4px;
+  display: inline-block;
+  border-radius: 12px;
+  padding-right: 12px;
+  padding-left: 8px;
+}
+
+.bulk_batch_job_status {
+  flex: 1;
+  display: block;
 }
 
 .bulkInvalidEmail {
   color: var(--warning);
+}
+
+.valid_bulk_item {
+  width: .75em;
+  height: .75em;
+  background: transparent;
+  display: inline-block;
+  border-radius: 100%;
+  margin-right: 4px;
+}
+
+.bulk_item_valid.valid_bulk_item {
+  background: var(--impact-green);
+}
+
+.no_label {
+  font-style: italic;
 }
