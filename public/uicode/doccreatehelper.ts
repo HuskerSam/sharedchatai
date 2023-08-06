@@ -45,9 +45,11 @@ export default class DocCreateHelper {
   downloadcsv_radio: any;
   sendemails_radio: any;
   bulk_batch_job_status: any;
+  lastBulkBatchResults = "";
   bulkUsersImportData: Array<any> = [];
   bulkRowsWithNoEmail = 0;
   bulkEmailTotalCount = 0;
+  bulkStatusReady = false;
   bulk_user_list_status: any;
   bulk_label_status: any;
 
@@ -156,16 +158,20 @@ export default class DocCreateHelper {
     const rows = this.bulkUsersImportData;
     const rowCount = rows.length;
     const isRowCountValid = rowCount > 0;
-    const validClass = " bulk_item_valid";
-    const rowCountValidClass = isRowCountValid ? validClass : "";
-    this.bulk_user_list_status.innerHTML = `<span class="valid_bulk_item${rowCountValidClass}"></span>Sessions: ${rowCount}, ` +
+    this.bulk_user_list_status.innerHTML = `Sessions: ${rowCount}, ` +
       `Emails: ${this.bulkEmailTotalCount}`;
     let label = this.create_modal_batch_label_field.value.trim();
     const isLabelValid = label !== "";
-    const labelValidClass = isLabelValid ? validClass : "";
     if (!label) label = `<span class="no_label">none</span>`;
-    this.bulk_label_status.innerHTML = `<span class="valid_bulk_item${labelValidClass}"></span>Label:`;
-    this.bulk_batch_job_status.innerHTML = ``;
+    this.bulk_label_status.innerHTML = `Label:`;
+    if (isRowCountValid && isLabelValid) {
+      this.modalContainer.classList.add("bulk_create_sessions_ready");
+      this.bulkStatusReady = true;
+    } else {
+      this.modalContainer.classList.remove("bulk_create_sessions_ready");
+      this.bulkStatusReady = false;
+    }
+    this.bulk_batch_job_status.innerHTML = this.lastBulkBatchResults;
   }
   /**
    * @param { number } tabIndex
@@ -199,6 +205,11 @@ export default class DocCreateHelper {
       return;
     }
 
+    if (this.bulkEmailTotalCount === 0) {
+      alert("No email addresses to create sessions for.");
+      return;
+    }
+
     this.app.saveProfileField("bulkEmailBodyTemplate", body);
     this.app.saveProfileField("bulkEmailSubjectTemplate", subject);
     this.app.saveProfileField("bulkDownloadCSV", bulkDownloadCSV);
@@ -213,55 +224,101 @@ export default class DocCreateHelper {
       return;
     }
 
-    const importData = await ChatDocument.getImportDataFromDomFile(this.create_modal_users_file);
     const promises: Array<any> = [];
-    importData.forEach((row: any, index: number) => {
-      promises.push(this._createBulkSessionAndEmail(row, index));
+    this.bulkUsersImportData.forEach((row: any, index: number) => {
+      promises.push(this.createBulkSessionRows(row, index, label));
     });
 
-    await Promise.all(promises);
-    alert("All rows process for bulk create");
+    const bulkRows = await Promise.all(promises);
+    const emailRows = Array.prototype.concat.apply([], bulkRows);
+
+    let fileContent = "<table class=\"bulk_create_results\">";
+    const keys = ["email", "sessionId", "sessionLink", "title"];
+    fileContent += "<tr>";
+    fileContent += `<th>row</th>`;
+    keys.forEach((key: string) => fileContent += `<th>${key}</th>`);
+    fileContent += "</tr>";
+
+    emailRows.forEach((row: any, index: number) => {
+      fileContent += "<tr>";
+      fileContent += `<th>${index + 1}</th>`;
+      keys.forEach((key: string) => {
+        let value = row[key];
+        if (value === undefined) value = "";
+        fileContent += `<td>${BaseApp.escapeHTML(value)}</td>`;
+      });
+      fileContent += "</tr>";
+    });
+
+    fileContent += `</table>`;
+    this.lastBulkBatchResults = fileContent;
+
+    if (bulkSendEmails) {
+      bulkRows.forEach((row: any) => this._sendEmailForCSVRow(row));
+    } else {
+      // download csv
+    }
+    this.updateBulkBatchStatus();
+    if (this.app.document_label_filter) {
+      setTimeout(() => {
+        this.app.document_label_filter.value = label;
+        this.app.document_label_filter.dispatchEvent(new Event("input"));
+      }, 50);
+    }
   }
   /**
    * @param {string } row
    * @param { number } index
+   * @param { string } label extra label for bulk create
+   * @return { Promise<Array<any>> } csv rows
    */
-  async _createBulkSessionAndEmail(row: any, index: number) {
-    let emailBody = "";
-    let emailSubject = "";
+  async createBulkSessionRows(row: any, index: number, label = ""): Promise<Array<any>> {
     let name = row["name"];
     if (!name) name = "";
     let email = row["email"];
     if (!email) email = "";
-    let sessiontitle = "";
-    let sessionlink = "";
-    const displayname = BaseApp.escapeHTML(this.app.userMetaFromDocument(this.app.uid).name);
-    const mergeObject = {
-      displayname,
-      sessionlink,
-      sessiontitle,
-      name,
-      email,
-    };
-
-    let title = "";
+    let title = row["title"];
+    if (!title) title = "";
     let note = email;
-    const result = await this.createNewGame(title, note, true);
-    console.log(result);
-    if (!name && !email) {
-      alert("No name or email for row " + (index + 1).toString());
-    } else {
-      emailBody = this.bulkEmailBodyTemplate(mergeObject);
-      emailSubject = this.bulkEmailSubjectTemplate(mergeObject);
+    let labels = label;
+    if (row["label"]) labels = labels + "," + row["label"];
+    const result = await this.createNewGame(title, note, true, labels);
 
-      const a = document.createElement("a");
-      console.log(emailBody);
-      a.setAttribute("href", `mailto:${email}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`);
-      a.setAttribute("target", "_blank");
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }
+    let sessionTitle = title;
+    let sessionLink = location.origin + "/session/" + result.gameNumber;
+    const displayName = BaseApp.escapeHTML(this.app.userMetaFromDocument(this.app.uid).name);
+
+    const csvRows: Array<any> = [];
+    const emailList = email.split(",");
+    emailList.forEach((address: string) => {
+      const mergeObject: any = {
+        displayName,
+        title,
+        importedEmail: email,
+        ownerNote: note,
+        bulkLabel: label,
+        newLabels: labels,
+        sessionLink,
+        sessionTitle,
+        name,
+        email: address,
+        sessionId: result.gameNumber,
+      };
+      mergeObject.emailBody = this.bulkEmailBodyTemplate(mergeObject);
+      mergeObject.emailSubject = this.bulkEmailSubjectTemplate(mergeObject);
+
+      csvRows.push(mergeObject);
+    });
+
+    return csvRows;
+  }
+  _sendEmailForCSVRow(row: any) {
+    const a = document.createElement("a");
+    a.setAttribute("href", `mailto:${row.email}?subject=${encodeURIComponent(row.emailSubject)}&body=${encodeURIComponent(row.emailBody)}`);
+    a.setAttribute("target", "_blank");
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   }
   /** */
   setDefaultEmailTemplate() {
@@ -475,28 +532,30 @@ export default class DocCreateHelper {
                                     </div>
                                 </div>                          
                                 <div style="display:flex;flex-direction:row">
-                                  <div style="flex:1;">
-                                    <div class="bulk_user_list_status"></div>
-                                    <br>
-                                    <label class="form-check-label" style="margin-right:12px;margin-left:4px;">
+                                  <div class="bulk_user_list_status"></div>
+                                  <div style="flex:1"></div>
+                                  <div>
+                                    <label class="form-check-label csv_choice_label">
                                       <input class="form-radio-input downloadcsv_radio" type="radio"
                                             value="" name="bulk_generate_type">
-                                        Download CSV
+                                        CSV
                                     </label>
-                                    <label class="form-check-label">
+                                    <label class="form-check-label csv_choice_label">
                                         <input class="form-radio-input sendemails_radio" checked type="radio"
                                             value="" name="bulk_generate_type">
-                                        Send Emails
+                                        Emails
                                     </label>
-                                  </div>
-                                  <div>
-                                    <button type="button" class="btn btn-primary create_bulk_sessions_button">
-                                      <i class="material-icons">add</i>
-                                      Create Sessions
-                                    </button>
+                                    <br>
+                                    <br>
+                                    <div>
+                                      <button type="button" class="btn btn-primary create_bulk_sessions_button">
+                                        <i class="material-icons">add</i>
+                                        Create Sessions
+                                      </button>
+                                    </div>
                                   </div>
                                 </div>
-
+                                <hr>
                                 <div class="bulk_batch_job_status"></div>
                             </div>
                         </div>
@@ -521,10 +580,11 @@ export default class DocCreateHelper {
   /** create new game api call
    * @param { string } title
    * @param { string } note
-   * @param { boolean } dontOpen false default
+   * @param { boolean } bulkMode false default
+   * @param { string } bulkLabel label to add
   */
-  async createNewGame(title = "", note = "", dontOpen = false): Promise<any> {
-    if (this.creatingNewRecord) return;
+  async createNewGame(title = "", note = "", bulkMode = false, bulkLabel = ""): Promise<any> {
+    if (!bulkMode && this.creatingNewRecord) return;
     if (!this.app.profile) return;
     this.creatingNewRecord = true;
     if (!note) note = this.create_modal_note_field.value.trim();
@@ -532,9 +592,14 @@ export default class DocCreateHelper {
 
     this.create_game_afterfeed_button.innerHTML = "Creating...";
     document.body.classList.add("creating_new_session");
+    let label = this.scrapeLabels();
+    if (bulkLabel) {
+      if (label) label += ",";
+      label += bulkLabel;
+    }
     const body: any = {
       documentType: "chatSession",
-      label: this.scrapeLabels(),
+      label,
       note,
       title,
       firstPrompt: this.create_modal_prompt_field.value.trim(),
@@ -575,7 +640,7 @@ export default class DocCreateHelper {
     if (importError) {
       alert("data import error");
     } else {
-      if (!dontOpen) {
+      if (!bulkMode) {
         const a = document.createElement("a");
         a.setAttribute("href", `/session/${json.gameNumber}`);
         document.body.appendChild(a);
@@ -693,8 +758,8 @@ export default class DocCreateHelper {
     let fileContent = "<table class=\"file_preview_table\">";
     const keys = ["selected", "system", "prompt", "completion"];
     fileContent += "<tr>";
-    fileContent += `<th>Row</th>`;
-    keys.forEach((key: string) => fileContent += `<th>${Utility.capFirst(key)}</th>`);
+    fileContent += `<th>row</th>`;
+    keys.forEach((key: string) => fileContent += `<th>${key}</th>`);
     fileContent += "</tr>";
 
     importData.forEach((row: any, index: number) => {
@@ -747,20 +812,20 @@ export default class DocCreateHelper {
         this.bulkRowsWithNoEmail++;
         invalidEmail = "bulkInvalidEmail ";
       }
-        fileContent += `<tr class="${invalidEmail}">`;
-        fileContent += `<th>${index + 1}</th>`;
-        fileContent += `<td>${BaseApp.escapeHTML(name)}</td><td>${BaseApp.escapeHTML(email)}</td>`
-         + `<td>${BaseApp.escapeHTML(title)}</td><td>${BaseApp.escapeHTML(label)}</td>`;
-        fileContent += "</tr>";
+      fileContent += `<tr class="${invalidEmail}">`;
+      fileContent += `<th>${index + 1}</th>`;
+      fileContent += `<td>${BaseApp.escapeHTML(name)}</td><td>${BaseApp.escapeHTML(email)}</td>`
+        + `<td>${BaseApp.escapeHTML(title)}</td><td>${BaseApp.escapeHTML(label)}</td>`;
+      fileContent += "</tr>";
     });
 
     fileContent += `</table>`;
 
     this.preview_bulk_template.innerHTML = fileContent;
     let contentCount = "";
-    contentCount = (importData.length - this.bulkRowsWithNoEmail) + " / " + importData.length + " rows, " 
+    contentCount = (importData.length - this.bulkRowsWithNoEmail) + " / " + importData.length + " rows, "
       + this.bulkEmailTotalCount + " emails";
-    
+
     this.parsed_list_file_status.innerHTML = contentCount;
     let fileName = "";
     if (this.create_modal_users_file.files[0]) fileName = this.create_modal_users_file.files[0].name;

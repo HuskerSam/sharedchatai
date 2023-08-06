@@ -683,6 +683,7 @@ label.btn {
 }
 
 .preview_create_template table,
+.bulk_create_results table,
 .preview_bulk_template table {
   width: 100%;
   position: relative;
@@ -693,6 +694,7 @@ label.btn {
 }
 
 .preview_create_template table th,
+.bulk_create_results table th,
 .preview_bulk_template table th {
   background-color: var(--background-accent-5);
   /*
@@ -706,6 +708,7 @@ label.btn {
 }
 
 .preview_create_template table td,
+.bulk_create_results table td,
 .preview_bulk_template table td {
   white-space: pre-wrap;
   background-color: var(--background-accent);
@@ -722,12 +725,14 @@ label.btn {
 }
 
 .preview_create_template tr:first-child th,
+.bulk_create_results tr:first-child th,
 .preview_bulk_template tr:first-child th {
   position: sticky;
   top: 0;
 }
 
 .preview_create_template th:nth-child(1),
+.bulk_create_results th:nth-child(1),
 .preview_bulk_template th:nth-child(1) {
   width: 20px;
 }
@@ -807,17 +812,20 @@ label.btn {
   width: calc(100% - 8px);
 }
 
-.bulk_batch_job_status,
-.bulk_user_list_status,
-.bulk_label_status {
+
+
+.bulk_batch_job_status {
   background: var(--background-accent);
   overflow: auto;
   padding: 4px;
   margin: 4px;
-  display: inline-block;
-  border-radius: 12px;
-  padding-right: 12px;
-  padding-left: 8px;
+}
+
+.bulk_batch_job_status,
+.bulk_user_list_status,
+.bulk_label_status {
+  padding: 4px;
+  margin: 4px;
 }
 
 .bulk_batch_job_status {
@@ -829,19 +837,21 @@ label.btn {
   color: var(--warning);
 }
 
-.valid_bulk_item {
-  width: .75em;
-  height: .75em;
-  background: transparent;
-  display: inline-block;
-  border-radius: 100%;
-  margin-right: 4px;
-}
-
-.bulk_item_valid.valid_bulk_item {
-  background: var(--impact-green);
-}
-
 .no_label {
   font-style: italic;
+}
+
+.day_mode button.btn-primary.create_bulk_sessions_button {
+  background: none;
+  color: var(--highlight);
+}
+
+.day_mode .bulk_create_sessions_ready button.btn-primary.create_bulk_sessions_button {
+  background: var(--highlight);
+  color: var(--secondary-color);
+}
+
+.csv_choice_label {
+  font-size: 1.2em;
+  margin-left: 12px;
 }
