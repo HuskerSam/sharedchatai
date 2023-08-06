@@ -723,7 +723,7 @@ export default class DocCreateHelper {
     this.bulkUsersImportData = [];
     const importData = await ChatDocument.getImportDataFromDomFile(this.create_modal_users_file);
     let fileContent = "<table class=\"file_preview_table\">";
-    fileContent += "<tr><th>row</th><th>name</th><th>email</th><th>title</th></tr>";
+    fileContent += "<tr><th>row</th><th>name</th><th>email</th><th>title</th><th>label</th></tr>";
 
     this.bulkRowsWithNoEmail = 0;
     this.bulkEmailTotalCount = 0;
@@ -731,6 +731,7 @@ export default class DocCreateHelper {
       const email = row["email"] ? row["email"] : "";
       const name = row["name"] ? row["name"] : "";
       const title = row["title"] ? row["title"] : "";
+      const label = row["label"] ? row["label"] : "";
 
       let invalidEmail = "";
       const validateResult = BaseApp.validateEmailList(email);
@@ -748,7 +749,8 @@ export default class DocCreateHelper {
       }
         fileContent += `<tr class="${invalidEmail}">`;
         fileContent += `<th>${index + 1}</th>`;
-        fileContent += `<td>${BaseApp.escapeHTML(name)}</td><td>${BaseApp.escapeHTML(email)}</td><td>${BaseApp.escapeHTML(title)}</td>`;
+        fileContent += `<td>${BaseApp.escapeHTML(name)}</td><td>${BaseApp.escapeHTML(email)}</td>`
+         + `<td>${BaseApp.escapeHTML(title)}</td><td>${BaseApp.escapeHTML(label)}</td>`;
         fileContent += "</tr>";
     });
 
