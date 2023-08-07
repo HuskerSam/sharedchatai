@@ -6,9 +6,9 @@ declare const window: any;
 export default class ChatDocument {
   static bulkEmailSubjectTemplate = `{{displayname}} invited you to a Unacog Session`;
   static bulkEmailBodyTemplate = `Dear {{name}},
-  {{sessiontitle}}
+  {{title}}
 
-  Use this link to join - {{sessionlink}}
+  Use this link to join - {{link}}
   
   Session hosted by: {{displayname}}
   

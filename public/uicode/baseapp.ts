@@ -411,7 +411,11 @@ export default class BaseApp {
       });
     }
   }
-  /** */
+  /**
+   * @param { string } uid
+   * @param { any } div
+   * @param { string } relatedDocId
+   */
   __updateUserPresence(uid: string, div: any, relatedDocId: string) {
     let userDocStatus = this.userDocumentStatus[uid];
     if (!userDocStatus) userDocStatus = {};
@@ -495,13 +499,14 @@ export default class BaseApp {
     });
   }
   /** escape html
-   * @param { string } str  raw string to escape
+   * @param { any } str  raw string to escape
    * @return { string } escaped string
   */
-  static escapeHTML(str: string): string {
-    if (!str) str = "";
+  static escapeHTML(str: any): string {
+    if (str === undefined || str === null) str = "";
+    str = str.toString();
     return str.replace(/[&<>'"]/g,
-      (match) => {
+      (match: any) => {
         switch (match) {
           case "&": return "&amp;";
           case "<": return "&lt;";

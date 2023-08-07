@@ -1,6 +1,5 @@
 import BaseApp from "./baseapp.js";
 import ChatDocument from "./chatdocument.js";
-import Utility from "./utility.js";
 declare const firebase: any;
 declare const window: any;
 
@@ -52,6 +51,9 @@ export default class DocCreateHelper {
   bulkStatusReady = false;
   bulk_user_list_status: any;
   bulk_label_status: any;
+  bulk_copy_table_clipboard: any;
+  bulk_copy_csv_clipboard: any;
+  lastEmailRows: any = [];
 
   /**
    * @param { any } app BaseApp derived application instance
@@ -147,6 +149,29 @@ export default class DocCreateHelper {
     this.bulk_batch_job_status = this.modalContainer.querySelector(".bulk_batch_job_status");
     this.bulk_user_list_status = this.modalContainer.querySelector(".bulk_user_list_status");
     this.bulk_label_status = this.modalContainer.querySelector(".bulk_label_status");
+
+    this.bulk_copy_table_clipboard = this.modalContainer.querySelector(".bulk_copy_table_clipboard");
+    this.bulk_copy_table_clipboard.addEventListener("click", () => this.copyBulkResultsToClipboard(true));
+    this.bulk_copy_csv_clipboard = this.modalContainer.querySelector(".bulk_copy_csv_clipboard");
+    this.bulk_copy_csv_clipboard.addEventListener("click", () => this.copyBulkResultsToClipboard());
+  }
+  /**
+   * @param { boolean } isTable
+   */
+  copyBulkResultsToClipboard(isTable = false) {
+    if (isTable) {
+      navigator.clipboard.write([new ClipboardItem({
+        "text/plain": new Blob([this.bulk_batch_job_status.innerText], {
+            type: "text/plain",
+        }),
+        "text/html": new Blob([this.bulk_batch_job_status.innerHTML], {
+            type: "text/html",
+        }),
+    })]);
+    } else {
+      const csvText = window.Papa.unparse(this.lastEmailRows);
+      navigator.clipboard.writeText(csvText);
+    }
   }
   /** */
   setTodayForBulkLabel() {
@@ -154,6 +179,7 @@ export default class DocCreateHelper {
     this.create_modal_batch_label_field.value = BaseApp.shortShowDate(n) + " " + BaseApp.formatAMPM(n);
     this.updateBulkBatchStatus();
   }
+  /** */
   updateBulkBatchStatus() {
     const rows = this.bulkUsersImportData;
     const rowCount = rows.length;
@@ -184,9 +210,9 @@ export default class DocCreateHelper {
   }
   /** */
   async createBulkSessions() {
-    let body = this.bulk_email_template_field.value;
-    let subject = this.bulk_email_subject_field.value;
-    let label = this.create_modal_batch_label_field.value;
+    const body = this.bulk_email_template_field.value;
+    const subject = this.bulk_email_subject_field.value;
+    const label = this.create_modal_batch_label_field.value;
     const bulkDownloadCSV = this.downloadcsv_radio.checked;
     const bulkSendEmails = this.sendemails_radio.checked;
 
@@ -231,9 +257,11 @@ export default class DocCreateHelper {
 
     const bulkRows = await Promise.all(promises);
     const emailRows = Array.prototype.concat.apply([], bulkRows);
+    this.lastEmailRows = emailRows;
+    let keys = Object.keys(emailRows[0]);
+    keys = keys.sort();
 
     let fileContent = "<table class=\"bulk_create_results\">";
-    const keys = ["email", "sessionId", "sessionLink", "title"];
     fileContent += "<tr>";
     fileContent += `<th>row</th>`;
     keys.forEach((key: string) => fileContent += `<th>${key}</th>`);
@@ -279,13 +307,12 @@ export default class DocCreateHelper {
     if (!email) email = "";
     let title = row["title"];
     if (!title) title = "";
-    let note = email;
+    const note = email;
     let labels = label;
     if (row["label"]) labels = labels + "," + row["label"];
     const result = await this.createNewGame(title, note, true, labels);
 
-    let sessionTitle = title;
-    let sessionLink = location.origin + "/session/" + result.gameNumber;
+    const link = location.origin + "/session/" + result.gameNumber;
     const displayName = BaseApp.escapeHTML(this.app.userMetaFromDocument(this.app.uid).name);
 
     const csvRows: Array<any> = [];
@@ -298,11 +325,11 @@ export default class DocCreateHelper {
         ownerNote: note,
         bulkLabel: label,
         newLabels: labels,
-        sessionLink,
-        sessionTitle,
+        link,
         name,
         email: address,
-        sessionId: result.gameNumber,
+        id: result.gameNumber,
+        index,
       };
       mergeObject.emailBody = this.bulkEmailBodyTemplate(mergeObject);
       mergeObject.emailSubject = this.bulkEmailSubjectTemplate(mergeObject);
@@ -312,6 +339,10 @@ export default class DocCreateHelper {
 
     return csvRows;
   }
+  /**
+   *
+   * @param { any } row
+   */
   _sendEmailForCSVRow(row: any) {
     const a = document.createElement("a");
     a.setAttribute("href", `mailto:${row.email}?subject=${encodeURIComponent(row.emailSubject)}&body=${encodeURIComponent(row.emailBody)}`);
@@ -437,7 +468,8 @@ export default class DocCreateHelper {
                             <div style="flex:1;padding-left: 12px;">
                                 <label class="form-label">Owner Note</label>
                                 <br>
-                                <input type="text" style="width:calc(100% - 4px);margin-right:4px;" class="form-control create_modal_note_field"
+                                <input type="text" style="width:calc(100% - 4px);margin-right:4px;" 
+                                  class="form-control create_modal_note_field"
                                     placeholder="optional">
                             </div>
                         </div>
@@ -557,6 +589,12 @@ export default class DocCreateHelper {
                                 </div>
                                 <hr>
                                 <div class="bulk_batch_job_status"></div>
+                                <div style="line-height: 4em;text-align: right">
+                                  <button type="button" class="btn btn-secondary bulk_copy_table_clipboard"><i
+                                    class="material-icons">content_copy</i> Table</button>
+                                  <button type="button" class="btn btn-secondary bulk_copy_csv_clipboard"><i
+                                      class="material-icons">content_copy</i> CSV</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -814,8 +852,8 @@ export default class DocCreateHelper {
       }
       fileContent += `<tr class="${invalidEmail}">`;
       fileContent += `<th>${index + 1}</th>`;
-      fileContent += `<td>${BaseApp.escapeHTML(name)}</td><td>${BaseApp.escapeHTML(email)}</td>`
-        + `<td>${BaseApp.escapeHTML(title)}</td><td>${BaseApp.escapeHTML(label)}</td>`;
+      fileContent += `<td>${BaseApp.escapeHTML(name)}</td><td>${BaseApp.escapeHTML(email)}</td>` +
+        `<td>${BaseApp.escapeHTML(title)}</td><td>${BaseApp.escapeHTML(label)}</td>`;
       fileContent += "</tr>";
     });
 
@@ -823,8 +861,8 @@ export default class DocCreateHelper {
 
     this.preview_bulk_template.innerHTML = fileContent;
     let contentCount = "";
-    contentCount = (importData.length - this.bulkRowsWithNoEmail) + " / " + importData.length + " rows, "
-      + this.bulkEmailTotalCount + " emails";
+    contentCount = (importData.length - this.bulkRowsWithNoEmail) + " / " + importData.length + " rows, " +
+      this.bulkEmailTotalCount + " emails";
 
     this.parsed_list_file_status.innerHTML = contentCount;
     let fileName = "";

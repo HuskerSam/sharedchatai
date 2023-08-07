@@ -386,7 +386,6 @@
 .app_panel .form-check-input.insert_todaylabel_default_checkbox {
   width: 24px;
   height: 24px;
-  border-color: var(--secondary-color-2);
   margin-right: 12px;
   align-self: center;
   float: right;
