@@ -162,15 +162,28 @@ export default class DocCreateHelper {
     if (isTable) {
       navigator.clipboard.write([new ClipboardItem({
         "text/plain": new Blob([this.bulk_batch_job_status.innerText], {
-            type: "text/plain",
+          type: "text/plain",
         }),
         "text/html": new Blob([this.bulk_batch_job_status.innerHTML], {
-            type: "text/html",
+          type: "text/html",
         }),
-    })]);
+      })]);
     } else {
       const csvText = window.Papa.unparse(this.lastEmailRows);
-      navigator.clipboard.writeText(csvText);
+      const file = new File([csvText], "bulkResults.csv", {
+        type: "application/csv",
+      });
+
+      const link = document.createElement("a");
+      const url = URL.createObjectURL(file);
+
+      link.href = url;
+      link.download = file.name;
+      document.body.appendChild(link);
+      link.click();
+
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
     }
   }
   /** */
@@ -592,8 +605,9 @@ export default class DocCreateHelper {
                                 <div style="line-height: 4em;text-align: right">
                                   <button type="button" class="btn btn-secondary bulk_copy_table_clipboard"><i
                                     class="material-icons">content_copy</i> Table</button>
+                                  &nbsp;
                                   <button type="button" class="btn btn-secondary bulk_copy_csv_clipboard"><i
-                                      class="material-icons">content_copy</i> CSV</button>
+                                      class="material-icons">download</i> CSV</button>
                                 </div>
                             </div>
                         </div>

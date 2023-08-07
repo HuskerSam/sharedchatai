@@ -165,7 +165,7 @@ export default class GameAPI {
           gameNumber,
           message: firstPrompt,
           includeTickets: [],
-        }
+        },
       };
       return SessionAPI.submitTicket(mockReq, res);
     }
