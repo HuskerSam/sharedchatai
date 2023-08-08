@@ -30,7 +30,6 @@ export class DashboardApp extends BaseApp {
   about_tab_button: any = document.querySelector("#about_tab_button");
   dashboard_tab_button: any = document.querySelector("#dashboard_tab_button");
   news_tab_view: any = document.querySelector("#news_tab_view");
-  credits_used: any = document.querySelector(".credits_used");
   credits_left: any = document.querySelector(".credits_left");
   footer_container_div: any = null;
   account_status_display: any = document.querySelector(".account_status_display");
@@ -154,10 +153,9 @@ export class DashboardApp extends BaseApp {
 
     AccountHelper.accountInfoUpdate(this, (usageData: any) => {
       const monthlyUsed = Number(usageData.monthlyCreditUsage.replaceAll(",", ""));
-      this.credits_used.innerHTML = Math.round(monthlyUsed);
       const usageCap = usageData.currentMonthLimit;
       const creditsLeft = usageCap - monthlyUsed;
-      this.credits_left.innerHTML = Math.floor(creditsLeft);
+      this.credits_left.innerHTML = Math.floor(creditsLeft) + "<br><span>Credits</span>";
     });
   }
   /** init listening events on games store to populate feeds in realtime */
@@ -274,6 +272,7 @@ export class DashboardApp extends BaseApp {
         const countDom = card.querySelector(".session_ticket_count");
         let count: string = doc.data().totalTickets;
         if (!count) count = "0";
+        count = BaseApp.numberWithCommas(doc.data().creditUsage, 0);
         BaseApp.setHTML(countDom, count);
 
         const sharedStatus = ChatDocument.getDocumentSharedStatus(doc.data(), this.uid);

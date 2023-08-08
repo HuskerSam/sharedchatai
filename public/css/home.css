@@ -424,6 +424,8 @@ iframe {
   margin: auto;
   width: 3em;
   font-family: "MonospaceTTF";
+  white-space: nowrap;
+  font-size: .9em;
 }
 
 .unused_chatroom_title_placeholder {
@@ -1022,7 +1024,7 @@ ol li {
 .account_status_display {
   color: var(--primary-color);
   white-space: nowrap;
-  padding-top: 12px;
+  display: inline-flex;
   text-decoration: none;
 }
 
@@ -1030,21 +1032,22 @@ ol li {
   opacity: 0;
 }
 
-.credits_left,
-.credits_used {
+.credits_left {
   font-family: "MonospaceTTF";
   text-align: right;
   min-width: 3em;
-  font-size: .8em;
+  font-size: .9em;
+  padding-top: 7px;
   display: inline-block;
   white-space: nowrap;
+  align-self: center;
 }
 
-.credits_label {
-  text-align: left;
-  min-width: 3em;
+.credits_left span {
+  font-size: .75em;
   display: inline-block;
-  white-space: nowrap;
+  position: relative;
+  top: -6px;
 }
 
 .recent_content_flyers_ul_list {
