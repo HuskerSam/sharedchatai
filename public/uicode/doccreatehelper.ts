@@ -276,7 +276,7 @@ export default class DocCreateHelper {
 
     let fileContent = "<table class=\"bulk_create_results\">";
     fileContent += "<tr>";
-    fileContent += `<th>row</th>`;
+    fileContent += `<th>Row</th>`;
     keys.forEach((key: string) => fileContent += `<th>${key}</th>`);
     fileContent += "</tr>";
 
@@ -295,7 +295,7 @@ export default class DocCreateHelper {
     this.lastBulkBatchResults = fileContent;
 
     if (bulkSendEmails) {
-      bulkRows.forEach((row: any) => this._sendEmailForCSVRow(row));
+      emailRows.forEach((row: any) => this._sendEmailForCSVRow(row));
     } else {
       // download csv
     }
@@ -319,6 +319,7 @@ export default class DocCreateHelper {
     let email = row["email"];
     if (!email) email = "";
     let title = row["title"];
+    if (!title) title = this.create_modal_title_field.value;
     if (!title) title = "";
     const note = email;
     let labels = label;
@@ -358,6 +359,7 @@ export default class DocCreateHelper {
    */
   _sendEmailForCSVRow(row: any) {
     const a = document.createElement("a");
+    console.log(row);
     a.setAttribute("href", `mailto:${row.email}?subject=${encodeURIComponent(row.emailSubject)}&body=${encodeURIComponent(row.emailBody)}`);
     a.setAttribute("target", "_blank");
     document.body.appendChild(a);
@@ -411,7 +413,7 @@ export default class DocCreateHelper {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="display:flex;flex-direction:column">
-                <ul class="nav nav-tabs mb-3" role="tablist">
+                <ul class="nav nav-tabs mb-2" role="tablist">
                     <li class="nav-item" role="presentation">
                         <a class="nav-link active" id="basic_create_options" data-bs-toggle="tab"
                             href="#basic_create_options_view" role="tab" aria-controls="basic_create_options_view"
@@ -505,7 +507,7 @@ export default class DocCreateHelper {
                     </div>
                     <div class="tab-pane fade" id="bulk_create_options_view" role="tabpanel"
                         aria-labelledby="bulk_create_options">
-                        <ul class="nav nav-pills" role="tablist" style="display:inline-flex;margin:auto;margin-bottom:12px">
+                        <ul class="nav nav-pills bulk_create_pills_wrapper" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link active" id="bulk_create_pill_1" data-bs-toggle="tab"
                                     href="#bulkCreateView1" role="tab" aria-controls="bulkCreateView1"
@@ -856,8 +858,10 @@ export default class DocCreateHelper {
         const emails = email.split(",");
         this.bulkEmailTotalCount += emails.length;
         this.bulkUsersImportData.push({
-          email: email,
-          name: name,
+          email,
+          name,
+          title,
+          label
         });
         invalidEmail = "";
       } else {

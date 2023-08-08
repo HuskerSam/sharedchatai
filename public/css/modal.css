@@ -682,7 +682,7 @@ label.btn {
 }
 
 .preview_create_template table,
-.bulk_create_results table,
+.bulk_batch_job_status table,
 .preview_bulk_template table {
   width: 100%;
   position: relative;
@@ -693,7 +693,7 @@ label.btn {
 }
 
 .preview_create_template table th,
-.bulk_create_results table th,
+.bulk_batch_job_status table th,
 .preview_bulk_template table th {
   background-color: var(--background-accent-5);
   /*
@@ -704,10 +704,11 @@ label.btn {
   border: solid 1px var(--secondary-color-4);
   padding: 4px;
   text-align: center;
+  padding-right: 12px;
 }
 
 .preview_create_template table td,
-.bulk_create_results table td,
+.bulk_batch_job_status table td,
 .preview_bulk_template table td {
   white-space: pre-wrap;
   background-color: var(--background-accent);
@@ -717,6 +718,7 @@ label.btn {
   */
   border: solid 1px var(--secondary-color-4);
   padding: 4px;
+  padding-right: 12px;
 }
 
 .preview_create_template td {
@@ -724,14 +726,14 @@ label.btn {
 }
 
 .preview_create_template tr:first-child th,
-.bulk_create_results tr:first-child th,
+.bulk_batch_job_status tr:first-child th,
 .preview_bulk_template tr:first-child th {
   position: sticky;
-  top: 0;
+  top: -1px;
 }
 
 .preview_create_template th:nth-child(1),
-.bulk_create_results th:nth-child(1),
+.bulk_batch_job_status th:nth-child(1),
 .preview_bulk_template th:nth-child(1) {
   width: 20px;
 }
@@ -811,16 +813,11 @@ label.btn {
   width: calc(100% - 8px);
 }
 
-
-
 .bulk_batch_job_status {
   background: var(--background-accent);
   overflow: auto;
-  padding: 4px;
-  margin: 4px;
 }
 
-.bulk_batch_job_status,
 .bulk_user_list_status,
 .bulk_label_status {
   padding: 4px;
@@ -840,12 +837,13 @@ label.btn {
   font-style: italic;
 }
 
-.day_mode button.btn-primary.create_bulk_sessions_button {
+button.btn-primary.create_bulk_sessions_button {
   background: none;
   color: var(--highlight);
+  margin-right: 4px;
 }
 
-.day_mode .bulk_create_sessions_ready button.btn-primary.create_bulk_sessions_button {
+.bulk_create_sessions_ready button.btn-primary.create_bulk_sessions_button {
   background: var(--highlight);
   color: var(--secondary-color);
 }
@@ -853,4 +851,15 @@ label.btn {
 .csv_choice_label {
   font-size: 1.2em;
   margin-left: 12px;
+}
+
+.bulk_copy_csv_clipboard {
+  margin-right: 4px;
+}
+
+.bulk_create_pills_wrapper {
+  display: inline-flex;
+  margin: auto;
+  margin-bottom: 12px;
+  margin-top: 4px;
 }

@@ -4,18 +4,18 @@ declare const window: any;
 
 /** static functions for UI and api calls  */
 export default class ChatDocument {
-  static bulkEmailSubjectTemplate = `{{displayname}} invited you to a Unacog Session`;
+  static bulkEmailSubjectTemplate = `{{displayName}} invited you to a Unacog Session`;
   static bulkEmailBodyTemplate = `Dear {{name}},
-  {{title}}
+  {{title}} - {{bulkLabel}}
 
   Use this link to join - {{link}}
   
-  Session hosted by: {{displayname}}
+  Session hosted by: {{displayName}}
   
   feedback: promptplusai@gmail.com
 
 From
-{{displayname}}`;
+{{displayName}}`;
 
   /** import ticket to api
    * @param { string } documentId chat doc id
