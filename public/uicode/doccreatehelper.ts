@@ -16,6 +16,7 @@ export default class DocCreateHelper {
   create_modal_prompt_field: any;
   system_message_field: any;
   document_usage_cap_field: any;
+  bulk_create_usage_limit: any;
   create_modal_template_file: any;
   modal_create_template_tickets_button: any;
   create_modal_users_file: any;
@@ -81,6 +82,8 @@ export default class DocCreateHelper {
     });
     this.system_message_field = this.modalContainer.querySelector(".system_message_field");
     this.document_usage_cap_field = this.modalContainer.querySelector(".document_usage_cap_field");
+    this.document_usage_cap_field.addEventListener("input", () => this.updateBulkBatchStatus());
+    this.bulk_create_usage_limit = this.modalContainer.querySelector(".bulk_create_usage_limit");
     this.modal_create_users_list_button = this.modalContainer.querySelector(".modal_create_users_list_button");
     this.create_modal_users_file = this.modalContainer.querySelector(".create_modal_users_file");
     this.modal_create_users_list_button.addEventListener("click", () => this.create_modal_users_file.click());
@@ -211,6 +214,9 @@ export default class DocCreateHelper {
       this.bulkStatusReady = false;
     }
     this.bulk_batch_job_status.innerHTML = this.lastBulkBatchResults;
+    let usageCap = "1000";
+    if (this.document_usage_cap_field.value) usageCap = this.document_usage_cap_field.value;
+    this.bulk_create_usage_limit.innerHTML = "Usage Limit: " + usageCap;
   }
   /**
    * @param { number } tabIndex
@@ -580,6 +586,8 @@ export default class DocCreateHelper {
                                 </div>                          
                                 <div style="display:flex;flex-direction:row">
                                   <div class="bulk_user_list_status"></div>
+                                  <div style="flex:1"></div>
+                                  <div class="bulk_create_usage_limit"></div>
                                   <div style="flex:1"></div>
                                   <div>
                                     <label class="form-check-label csv_choice_label">

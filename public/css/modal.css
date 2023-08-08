@@ -818,6 +818,7 @@ label.btn {
   overflow: auto;
 }
 
+.bulk_create_usage_limit,
 .bulk_user_list_status,
 .bulk_label_status {
   padding: 4px;
