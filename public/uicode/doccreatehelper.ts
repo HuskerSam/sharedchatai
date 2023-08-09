@@ -336,7 +336,9 @@ export default class DocCreateHelper {
     const displayName = BaseApp.escapeHTML(this.app.userMetaFromDocument(this.app.uid).name);
 
     const csvRows: Array<any> = [];
-    const emailList = email.split(";");
+    let list = email.replaceAll("\n", "");
+    list = list.replaceAll("\r", "");
+    const emailList = list.split(";");
     emailList.forEach((address: string) => {
       const mergeObject: any = {
         displayName,

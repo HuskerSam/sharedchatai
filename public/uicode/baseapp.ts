@@ -702,6 +702,8 @@ export default class BaseApp {
  * @return { boolean } true if valid email
  */
   static validateEmailList(emailList: string): boolean {
+    emailList = emailList.replaceAll("\n", "");
+    emailList = emailList.replaceAll("\r", "");
     const emails = emailList.trim().split(";");
     let invalidEmail = false;
     emails.forEach((email: string) => {
