@@ -43,7 +43,7 @@ export default class AccountHelper {
             const dailyCreditUsage = BaseApp.numberWithCommas(runningTokens["credit_" + ymdFrag], 2);
 
             let currentMonthLimit = usageData.currentMonthLimit;
-            if (!currentMonthLimit) currentMonthLimit = 50000;
+            if (!currentMonthLimit) currentMonthLimit = 10000;
 
             callback({
                 allTimeTotalTokens,

@@ -712,6 +712,7 @@ export default class DocCreateHelper {
         document.body.removeChild(a);
       }
     }
+    this.create_game_afterfeed_button.innerHTML = "<i class=\"material-icons\">add</i> Session";
     console.log(json);
     return json;
   }
