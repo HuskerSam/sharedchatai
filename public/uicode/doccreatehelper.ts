@@ -303,7 +303,7 @@ export default class DocCreateHelper {
     if (bulkSendEmails) {
       emailRows.forEach((row: any) => this._sendEmailForCSVRow(row));
     } else {
-      // download csv
+      this.copyBulkResultsToClipboard();
     }
     this.updateBulkBatchStatus();
     if (this.app.document_label_filter) {
@@ -336,7 +336,7 @@ export default class DocCreateHelper {
     const displayName = BaseApp.escapeHTML(this.app.userMetaFromDocument(this.app.uid).name);
 
     const csvRows: Array<any> = [];
-    const emailList = email.split(",");
+    const emailList = email.split(";");
     emailList.forEach((address: string) => {
       const mergeObject: any = {
         displayName,
@@ -849,7 +849,7 @@ export default class DocCreateHelper {
   async updateUsersListFile(): Promise<Array<any>> {
     this.bulkUsersImportData = [];
     const importData = await ChatDocument.getImportDataFromDomFile(this.create_modal_users_file);
-    let fileContent = "<table class=\"file_preview_table\">";
+    let fileContent = "<table tabindex class=\"file_preview_table\">";
     fileContent += "<tr><th>row</th><th>name</th><th>email</th><th>title</th><th>label</th></tr>";
 
     this.bulkRowsWithNoEmail = 0;
@@ -863,7 +863,7 @@ export default class DocCreateHelper {
       let invalidEmail = "";
       const validateResult = BaseApp.validateEmailList(email);
       if (email && validateResult) {
-        const emails = email.split(",");
+        const emails = email.split(";");
         this.bulkEmailTotalCount += emails.length;
         this.bulkUsersImportData.push({
           email,

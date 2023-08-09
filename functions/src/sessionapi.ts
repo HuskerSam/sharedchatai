@@ -56,7 +56,7 @@ export default class SessionAPI {
         const userUsageQuery = await firebaseAdmin.firestore().doc(`Users/${sessionDocumentData.createUser}/internal/tokenUsage`).get();
         let userUsageData: any = userUsageQuery.data();
         if (!userUsageData) userUsageData = {};
-        const accountUsageLimit = BaseClass.getNumberOrDefault(userUsageData.currentMonthLimit, 50000);
+        const accountUsageLimit = BaseClass.getNumberOrDefault(userUsageData.currentMonthLimit, 10000);
         let runningTokens: any = userUsageData.runningTokens;
         if (!runningTokens) runningTokens = {};
         const monthlyUsage = BaseClass.getNumberOrDefault(runningTokens["credit_" + yearMonthFrag], 0);

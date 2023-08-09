@@ -702,7 +702,7 @@ export default class BaseApp {
  * @return { boolean } true if valid email
  */
   static validateEmailList(emailList: string): boolean {
-    const emails = emailList.trim().split(",");
+    const emails = emailList.trim().split(";");
     let invalidEmail = false;
     emails.forEach((email: string) => {
       if (!BaseApp.validateEmail(email)) invalidEmail = true;
