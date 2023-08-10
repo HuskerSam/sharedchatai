@@ -36,7 +36,7 @@ export default class SessionAPI {
         const reRunticket: any = req.body.reRunTicket;
         let message = req.body.message;
         if (message) {
-            if (message.length > 100000) message = message.substr(0, 100000);
+            if (message.length > 500000) message = message.substr(0, 500000);
         }
 
         if (!message && !reRunticket) {
@@ -56,7 +56,7 @@ export default class SessionAPI {
         const userUsageQuery = await firebaseAdmin.firestore().doc(`Users/${sessionDocumentData.createUser}/internal/tokenUsage`).get();
         let userUsageData: any = userUsageQuery.data();
         if (!userUsageData) userUsageData = {};
-        const accountUsageLimit = BaseClass.getNumberOrDefault(userUsageData.currentMonthLimit, 10000);
+        const accountUsageLimit = BaseClass.getNumberOrDefault(userUsageData.currentMonthLimit, 5000);
         let runningTokens: any = userUsageData.runningTokens;
         if (!runningTokens) runningTokens = {};
         const monthlyUsage = BaseClass.getNumberOrDefault(runningTokens["credit_" + yearMonthFrag], 0);
