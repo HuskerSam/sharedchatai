@@ -465,7 +465,7 @@ export class DashboardApp extends BaseApp {
     deleteBtn.addEventListener("click", async (e: any) => {
       e.stopPropagation();
       e.preventDefault();
-      await this.prepDocumentOptionsHelper(doc.id);
+      this.documentOptions.chatDocumentId = doc.id;
       const deleted = await this.documentOptions.deleteGame();
       if (deleted) card.remove();
     });
