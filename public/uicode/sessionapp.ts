@@ -334,7 +334,7 @@ export class SessionApp extends BaseApp {
       this.sliderChangeDebounceTimeout[sliderField] = setTimeout(() => {
         this.saveDocumentOption(this.documentId, sliderField, Number(sliderCtl.value));
         this.sliderChangeDebounceTimeout[sliderField] = null;
-      }, 125);
+      }, 500);
     }
   }
   /** setup data listener for user messages */
