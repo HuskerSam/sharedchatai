@@ -12,6 +12,7 @@ export default class BuyCreditsHelper {
   pay_for_credits: any;
   payment_view: any;
   product_view: any;
+  loading_view: any;
 
   /**
    * @param { any } app baseapp derived instance
@@ -26,10 +27,11 @@ export default class BuyCreditsHelper {
     this.purchase_amount_select = this.modalContainer.querySelector(".purchase_amount_select");
     this.payment_view = this.modalContainer.querySelector(".payment_view");
     this.product_view = this.modalContainer.querySelector(".product_view");
+    this.loading_view = this.modalContainer.querySelector(".loading_view");
     this.pay_for_credits = this.modalContainer.querySelector(".pay_for_credits");
     this.pay_for_credits.addEventListener("click", () => {
       this.product_view.style.display = "none";
-      this.payment_view.style.display = "block";
+      this.loading_view.style.display = "block";
       this.renderPaymentForm();
     });
   }
@@ -54,6 +56,16 @@ export default class BuyCreditsHelper {
               &nbsp;
               <button class="btn btn-primary pay_for_credits">Purchase Credits</button>
             </div>
+            <div class="loading_view" style="display: none;">
+              <br>
+              <br>
+              Loading...
+              <br>
+              <br>
+              <br>
+              <br>
+              <br>
+            </div>
             <div class="payment_view" style="display: none;">
               <div class="paymentdetails_wrapper popup_wrapper">
                 <h1>Payment details</h1>
@@ -72,8 +84,8 @@ export default class BuyCreditsHelper {
                     <label for="card-holder-name">Name on Card</label>
                     <input type="text" id="card-holder-name" name="card-holder-name" autocomplete="off" placeholder="card holder name" />
                     <br /><br />
-                    <button class="payment_details_cancel header_button">Cancel</button>
-                    <button value="submit" id="submit" class="btn header_button default_action_button">Pay</button>
+                    <button class="payment_details_cancel header_button btn btn-secondary">Cancel</button>
+                    <button value="submit" id="submit" class="btn header_button default_action_button btn btn-primary">Pay</button>
                   </form>
                 </div>
                 <br>
@@ -142,6 +154,9 @@ export default class BuyCreditsHelper {
       setTimeout(() => this._initPaypal(), 50);
       return;
     }
+
+    this.loading_view.style.display = "none";
+    this.payment_view.style.display = "block";
 
     window.paypal
       .Buttons({

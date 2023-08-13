@@ -899,6 +899,7 @@ button.btn-primary.create_bulk_sessions_button {
   font-size:17px;
   color:#3a3a3a;
   font-family:helvetica, tahoma, calibri, sans-serif;
+  overflow: hidden;
 }
 .card_field_50{
   width: 50%;
