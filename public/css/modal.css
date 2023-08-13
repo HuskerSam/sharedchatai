@@ -432,6 +432,7 @@
 
 #userProfileModal .dialog_header_icon i {
   top: 6px;
+  font-size: 20px;
 }
 
 #createDocumentModal .dialog_header_icon {
@@ -489,11 +490,6 @@
 .change_subscription {
   position: relative;
   top: -3px;
-}
-
-.summary_panel {
-  text-align: right;
-  display: inline-block;
 }
 
 .summary_panel .summary_column {

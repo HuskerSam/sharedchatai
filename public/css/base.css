@@ -241,8 +241,6 @@ a {
 .logged_in_status {
   text-align: left;
   white-space: nowrap;
-  height: 2em;
-  font-size: 20px;
   text-align: left;
   overflow: hidden;
 }

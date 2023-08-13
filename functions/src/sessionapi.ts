@@ -56,10 +56,7 @@ export default class SessionAPI {
         const userUsageQuery = await firebaseAdmin.firestore().doc(`Users/${sessionDocumentData.createUser}/internal/tokenUsage`).get();
         let userUsageData: any = userUsageQuery.data();
         if (!userUsageData) userUsageData = {};
-        const accountUsageLimit = BaseClass.getNumberOrDefault(userUsageData.currentMonthLimit, 5000);
-        let runningTokens: any = userUsageData.runningTokens;
-        if (!runningTokens) runningTokens = {};
-        const monthlyUsage = BaseClass.getNumberOrDefault(runningTokens["credit_" + yearMonthFrag], 0);
+        const availableCreditBalance = BaseClass.getNumberOrDefault(userUsageData.availableCreditBalance, 0);
 
         const userQ = await firebaseAdmin.firestore().doc(`Users/${sessionDocumentData.createUser}`).get();
         const ownerProfile = userQ.data();
@@ -151,8 +148,8 @@ export default class SessionAPI {
                 throw new Error("Submit Blocked: Document Usage Limit Reached");
             }
 
-            if (monthlyUsage > accountUsageLimit) {
-                throw new Error("Submit Blocked: Monthly Account Usage Limit Reached");
+            if (availableCreditBalance <= 1) {
+                throw new Error("Submit Blocked: Not enough credits for new prompts");
             }
         } catch (usageTestError) {
             usageLimitError = true;

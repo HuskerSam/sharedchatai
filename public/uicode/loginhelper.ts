@@ -7,7 +7,6 @@ export default class LoginHelper {
   login_email_anchor: any = null;
   anon_login_anchor: any = null;
   login_email: any = null;
-  modal_close_button: any = null;
   app: any = null;
   modalContainer: any = null;
   disableReload = false;
@@ -27,7 +26,6 @@ export default class LoginHelper {
     this.login_email_anchor = document.getElementById("login_email_anchor");
     this.anon_login_anchor = this.modalContainer.querySelector(".anon_login_anchor");
     this.login_email = this.modalContainer.querySelector(".login_email");
-    this.modal_close_button = this.modalContainer.querySelector(".modal_close_button");
     this.login_email.addEventListener("keydown", (e: any) => {
       if (e.key === "Enter") {
         e.preventDefault();
@@ -93,7 +91,7 @@ export default class LoginHelper {
               </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary modal_close_button" data-bs-dismiss="modal">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
             <i class="material-icons">cancel</i>
             Close
         </button>
@@ -133,7 +131,7 @@ export default class LoginHelper {
     window.localStorage.setItem("emailForSignIn", email);
     alert("Email Sent");
 
-    this.modal_close_button.click();
+    this.modal.hide();
   }
   /** */
   show() {

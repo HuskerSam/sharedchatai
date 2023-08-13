@@ -34,12 +34,13 @@ export default class ProfileHelper {
     prompts_row: any;
     total_row: any;
     credits_row: any;
-    monthly_tokens_usage: any;
     noAuthPage = false;
     nite_mode_input: any;
     account_tab_button: any;
-    monthly_limit: any;
+    available_balance: any;
     change_subscription: any;
+    tokenUsageUpdates = false;
+    modal: any = null;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -50,6 +51,8 @@ export default class ProfileHelper {
         this.modalContainer = document.createElement("div");
         this.modalContainer.innerHTML = html;
         document.body.appendChild(this.modalContainer);
+        this.modal = new window.bootstrap.Modal("#userProfileModal", {});
+        
         this.modalContainer.children[0].addEventListener("shown.bs.modal", () => {
             // this.profile_text_large_checkbox.focus();
         });
@@ -81,11 +84,11 @@ export default class ProfileHelper {
         this.prompts_row = document.querySelector(".prompts_row");
         this.total_row = document.querySelector(".total_row");
         this.credits_row = document.querySelector(".credits_row");
-        this.monthly_tokens_usage = document.querySelector(".monthly_tokens_usage");
-        this.monthly_limit = this.modalContainer.querySelector(".monthly_limit");
+        this.available_balance = this.modalContainer.querySelector(".available_balance");
         this.change_subscription = this.modalContainer.querySelector(".change_subscription");
         this.change_subscription.addEventListener("click", () => {
-            alert("Contact support in while in beta");
+            this.modal.hide();
+            this.app.buyCredits.show();
         });
 
         this.profile_text_large_checkbox = document.querySelector(".profile_text_large_checkbox");
@@ -272,17 +275,15 @@ export default class ProfileHelper {
                         </div>
                         <div class="tab-pane fade" id="profile_user_usage_view" role="tabpanel"
                             aria-labelledby="usage_labels_tab_button">
-                            Subscription Level: &nbsp;<span class="account_subscription_status">Pre Release</span>
-                            &nbsp;
-                            <button class="btn btn-secondary change_subscription">Change...</button>
-                            <br>
-                            <div class="summary_panel">
-                                Credits Used: <span class="summary_column monthly_tokens_usage">0</span>
-                                <br>
-                                Monthly Limit: <span class="summary_column monthly_limit">0</span>
+                            <div class="summary_panel" style="display:flex;flex-direction:row">
+                                <div style="flex:1">
+                                    Credits Available: <span class="summary_column available_balance">0</span>
+                                </div>
+                                <div>                        
+                                    <button class="btn btn-primary change_subscription">Buy Credits</button>
+                                </div>
                             </div>
-                            <hr>
-                            <div class="form-label">Token Usage History</div>
+                            <div class="form-label">Usage Stats</div>
                             <table class="chat_token_usage_display number">
                                 <tr>
                                     <th></th>
@@ -519,6 +520,8 @@ export default class ProfileHelper {
     }
     /** fetch and paint user token usage */
     async updateTokenUsage() {
+        if (this.tokenUsageUpdates) return;
+        this.tokenUsageUpdates = true;
         AccountHelper.accountInfoUpdate(this.app, (usageData: any) => {
             this.replies_row.innerHTML = `<th>Reply</th><td class="day_td">${usageData.dailyCompletionTokens}</td>` +
                 `<td class="monthly_td">${usageData.monthlyCompletionTokens}</td>` +
@@ -536,8 +539,7 @@ export default class ProfileHelper {
                 `<td class="monthly_td">${usageData.monthlyCreditUsage}</td>` +
                 `<td class="yearly_td">${usageData.yearlyCreditUsage}</td>` +
                 `<td class="all_time_td">${usageData.allTimeCreditUsage}</td>`;
-            this.monthly_tokens_usage.innerHTML = Math.round(usageData.nMonthlyCreditUsage);
-            this.monthly_limit.innerHTML = Math.round(usageData.currentMonthLimit);
+            this.available_balance.innerHTML = Math.round(usageData.availableCreditBalance);
         });
     }
     /** populate modal fields and show
@@ -586,9 +588,8 @@ export default class ProfileHelper {
 
         this.app.updateUserNamesImages();
         this.updateTokenUsage();
-        const modal = new window.bootstrap.Modal("#userProfileModal", {});
         if (showAccountTab) this.account_tab_button.click();
-        modal.show();
+        this.modal.show();
     }
     /** */
     async changeEmail() {

@@ -152,10 +152,8 @@ export class DashboardApp extends BaseApp {
     this.usageWatchInited = true;
 
     AccountHelper.accountInfoUpdate(this, (usageData: any) => {
-      const monthlyUsed = Number(usageData.monthlyCreditUsage.replaceAll(",", ""));
-      const usageCap = usageData.currentMonthLimit;
-      const creditsLeft = usageCap - monthlyUsed;
-      this.credits_left.innerHTML = Math.floor(creditsLeft) + "<br><span>Credits</span>";
+      const availableBalance = usageData.availableCreditBalance;
+      this.credits_left.innerHTML = Math.floor(availableBalance) + "<br><span>Credits</span>";
     });
   }
   /** init listening events on games store to populate feeds in realtime */

@@ -1,6 +1,7 @@
 import ProfileHelper from "./profilehelper.js";
 import LoginHelper from "./loginhelper.js";
 import DocCreateHelper from "./doccreatehelper.js";
+import BuyCreditsHelper from "./buycreditshelper.js";
 
 declare const firebase: any;
 declare const window: any;
@@ -38,6 +39,7 @@ export default class BaseApp {
   profileHelper = new ProfileHelper(this);
   login = new LoginHelper(this);
   documentCreate = new DocCreateHelper(this);
+  buyCredits = new BuyCreditsHelper(this);
   sessionDeleting = false;
   isSessionApp = false;
   documentId = "";
@@ -558,7 +560,7 @@ export default class BaseApp {
    * @param { number } decimalDigits number of decimals (toFixed()) -1 for ignore
    * @return { string } number with commas
    */
-  static numberWithCommas(x: number, decimalDigits = -1): string {
+  static numberWithCommas(x: number, decimalDigits = 0): string {
     if (isNaN(Number(x))) x = 0;
     const xString = (decimalDigits !== -1) ? x.toFixed(decimalDigits) : x.toString();
     return xString.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
