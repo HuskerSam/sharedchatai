@@ -44,42 +44,61 @@ export default class BuyCreditsHelper {
    * @return { string } template
    */
   getModalTemplate(): string {
-    return `<div class="modal fade " id="buyCreditsModal" tabindex="-1" aria-labelledby="buyCreditsModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
+    return `<div class="modal fade scrollable_modal" id="buyCreditsModal" tabindex="-1" aria-labelledby="buyCreditsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content app_panel">
             <div class="modal-header">
                 <h4 class="modal-title" id="buyCreditsModalLabel">Buy Credits</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <h3>Payment details</h3>
-                <select class="form-select purchase_amount_select"></select>
-                <br>
-                <div class="card_container">
-                    <form id="card-form">
-                        <label for="card-number">Card Number</label>
-                        <div id="card-number" class="card_field"></div>
-                        <div>
-                            <label for="expiration-date">Expiration Date</label>
-                            <div id="expiration-date" class="card_field"></div>
-                        </div>
-                        <div>
-                            <label for="cvv">CVV</label>
-                            <div id="cvv" class="card_field"></div>
-                        </div>
-                        <label for="card-holder-name">Name on Card</label>
-                        <input type="text" id="card-holder-name" name="card-holder-name" autocomplete="off"
-                            placeholder="card holder name" />
-                        <br /><br />
-                        <button class="payment_details_cancel header_button btn btn-secondary">Cancel</button>
-                        <button value="submit" id="submit"
-                            class="btn header_button default_action_button btn btn-primary">Pay</button>
-                    </form>
-                </div>
-                <br>
-                <div id="paypal-button-container" class="paypal-button-container"></div>
+            <div class="modal-body" style="display:flex;flex-direction:column">
+              <ul class="nav nav-tabs mb-2" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="new_payment_tab" data-bs-toggle="tab"
+                        href="#new_payment_tab_view" role="tab" aria-controls="new_payment_tab_view"
+                        aria-selected="false">New Payment</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="payment_history_tab" data-bs-toggle="tab"
+                        href="#payment_history_tab_view" role="tab" aria-controls="payment_history_tab_view"
+                        aria-selected="true">History</a>
+                </li>
+              </ul>
+              <div class="tab-content" style="overflow:hidden;display:flex;height:95vh;">
+                  <div class="tab-pane fade show active" id="new_payment_tab_view" role="tabpanel"
+                      aria-labelledby="new_payment_tab" style="overflow:auto;">
+                    <select class="form-select purchase_amount_select"></select>
+                    <br>
+                    <div class="card_container">
+                        <form id="card-form">
+                            <label for="card-number">Card Number</label>
+                            <div id="card-number" class="card_field"></div>
+                            <div>
+                                <label for="expiration-date">Expiration Date</label>
+                                <div id="expiration-date" class="card_field"></div>
+                            </div>
+                            <div>
+                                <label for="cvv">CVV</label>
+                                <div id="cvv" class="card_field"></div>
+                            </div>
+                            <label for="card-holder-name">Name on Card</label>
+                            <input type="text" id="card-holder-name" name="card-holder-name" autocomplete="off"
+                                placeholder="card holder name" />
+                            <br /><br />
+                            <button class="payment_details_cancel header_button btn btn-secondary">Cancel</button>
+                            <button value="submit" id="submit"
+                                class="btn header_button default_action_button btn btn-primary">Pay</button>
+                        </form>
+                    </div>
+                    <br>
+                    <div id="paypal-button-container" class="paypal-button-container"></div>
 
-                <div class="clear:both"></div>
+                    <div class="clear:both"></div>
+                  </div>
+                  <div class="tab-pane fade" id="payment_history_tab_view" role="tabpanel"
+                      aria-labelledby="payment_history_tab">
+                      Payment History
+                  </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
