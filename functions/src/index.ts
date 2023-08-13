@@ -7,6 +7,7 @@ const gameAPIApp = express();
 
 import GameAPI from "./gameapi";
 import SessionAPI from "./sessionapi";
+import PaymentAPI from "./payapi";
 
 gameAPIApp.set("views", path.join(__dirname, "views"));
 gameAPIApp.set("view engine", "ejs");
@@ -39,3 +40,6 @@ gameAPIApp.post("/session/message/delete", async (req, res) => SessionAPI.delete
 gameAPIApp.post("/session/message/include", async (req, res) => SessionAPI.updateTicketIncludeStatus(req, res));
 gameAPIApp.post("/session/message/import", async (req, res) => SessionAPI.importTicket(req, res));
 gameAPIApp.post("/session/message/editresponse", async (req, res) => SessionAPI.editTicketResponse(req, res));
+
+gameAPIApp.post("/payment/order", async (req, res) => PaymentAPI.getNewOrder(req, res));
+gameAPIApp.post("/payment/token", async (req, res) => PaymentAPI.getClientToken(req, res));

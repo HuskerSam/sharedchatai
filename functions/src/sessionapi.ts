@@ -194,7 +194,7 @@ export default class SessionAPI {
         const completion_tokens = aiResults.completion_tokens;
         const usage_credits = aiResults.usage_credits + creditRequestCharge;
         const aiResponse = aiResults.aiResponse;
-console.log(usage_credits);
+
         const promises = [
             firebaseAdmin.firestore().doc(`Games/${gameNumber}/assists/${ticketId}`).set(aiResponse),
             firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${ticketId}`).set({
