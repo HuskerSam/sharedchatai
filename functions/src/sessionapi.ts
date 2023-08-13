@@ -194,7 +194,7 @@ export default class SessionAPI {
         const completion_tokens = aiResults.completion_tokens;
         const usage_credits = aiResults.usage_credits + creditRequestCharge;
         const aiResponse = aiResults.aiResponse;
-
+console.log(usage_credits);
         const promises = [
             firebaseAdmin.firestore().doc(`Games/${gameNumber}/assists/${ticketId}`).set(aiResponse),
             firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${ticketId}`).set({
@@ -222,6 +222,7 @@ export default class SessionAPI {
                 promptTokens: FieldValue.increment(prompt_tokens),
                 completionTokens: FieldValue.increment(completion_tokens),
                 creditUsage: FieldValue.increment(usage_credits),
+                availableCreditBalance: FieldValue.increment(-1 * usage_credits),
                 runningTokens: {
                     ["total_" + yearFrag]: FieldValue.increment(total_tokens),
                     ["total_" + yearMonthFrag]: FieldValue.increment(total_tokens),
