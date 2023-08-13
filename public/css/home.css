@@ -385,12 +385,6 @@ ul.recent_documents_list li a {
   padding-bottom: 0;
 }
 
-iframe {
-  min-height: 40vh;
-  width: 90%;
-  margin: auto;
-}
-
 .document_name {
   flex: 1;
   text-align: left;

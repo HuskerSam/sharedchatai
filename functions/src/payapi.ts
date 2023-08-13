@@ -189,4 +189,19 @@ export default class PaymentAPI {
             success: false,
         });
     }
+    /**
+    * @param { any } req http request object
+    * @param { any } res http response object
+    */
+    static async postError(req: Request, res: Response) {
+        const localInstance = BaseClass.newLocalInstance();
+        await localInstance.init();
+
+        console.log(req.body);
+        await firebaseAdmin.firestore().doc(`PaypalErrors/${new Date().toISOString()}`).set(req.body);
+
+        return res.status(200).send({
+            success: true,
+        });
+    }
 }

@@ -2,6 +2,12 @@ declare const firebase: any;
 declare const window: any;
 import BaseApp from "./baseapp";
 
+const creditsForDollars: any = {
+  "5": 3000,
+  "25": 16000,
+  "100": 75000,
+};
+
 /** login dialog helper - displays automatically if not home page */
 export default class BuyCreditsHelper {
   app: BaseApp;
@@ -10,30 +16,29 @@ export default class BuyCreditsHelper {
   order: any = {};
   purchase_amount_select: any;
   pay_for_credits: any;
-  payment_view: any;
-  product_view: any;
-  loading_view: any;
+  amount_description: any;
+  payment_details_cancel: any;
+  paymentFormRendered = false;
 
   /**
    * @param { any } app baseapp derived instance
    */
   constructor(app: BaseApp) {
     this.app = app;
+
     const html = this.getModalTemplate();
     this.modalContainer = document.createElement("div");
     this.modalContainer.innerHTML = html;
     document.body.appendChild(this.modalContainer);
     this.modal = new window.bootstrap.Modal("#buyCreditsModal", {});
     this.purchase_amount_select = this.modalContainer.querySelector(".purchase_amount_select");
-    this.payment_view = this.modalContainer.querySelector(".payment_view");
-    this.product_view = this.modalContainer.querySelector(".product_view");
-    this.loading_view = this.modalContainer.querySelector(".loading_view");
-    this.pay_for_credits = this.modalContainer.querySelector(".pay_for_credits");
-    this.pay_for_credits.addEventListener("click", () => {
-      this.product_view.style.display = "none";
-      this.loading_view.style.display = "block";
-      this.renderPaymentForm();
+    let selectHTML = "";
+    const keys = Object.keys(creditsForDollars);
+    keys.forEach((key: string) => {
+      selectHTML += `<option value="${key}">$${key} for ${creditsForDollars[key]} Unacog Credits</option>`;
     });
+    this.purchase_amount_select.innerHTML = selectHTML;
+    this.purchase_amount_select.selectedIndex = 0;
   }
   /** get modal template
    * @return { string } template
@@ -41,69 +46,50 @@ export default class BuyCreditsHelper {
   getModalTemplate(): string {
     return `<div class="modal fade " id="buyCreditsModal" tabindex="-1" aria-labelledby="buyCreditsModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" id="buyCreditsModalLabel">Buy Credits</h4>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="product_view">
-              <select class="form-select purchase_amount_select">
-                <option value="5">$5 US</option>
-                <option value="25">$25 US</option>
-                <option value="100">$100 US</option>
-              </select> 
-              &nbsp;
-              <button class="btn btn-primary pay_for_credits">Purchase Credits</button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="buyCreditsModalLabel">Buy Credits</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="loading_view" style="display: none;">
-              <br>
-              <br>
-              Loading...
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-            </div>
-            <div class="payment_view" style="display: none;">
-              <div class="paymentdetails_wrapper popup_wrapper">
-                <h1>Payment details</h1>
+            <div class="modal-body">
+                <h3>Payment details</h3>
+                <select class="form-select purchase_amount_select"></select>
+                <br>
                 <div class="card_container">
-                  <form id="card-form">
-                    <label for="card-number">Card Number</label>
-                    <div id="card-number" class="card_field"></div>
-                    <div>
-                      <label for="expiration-date">Expiration Date</label>
-                      <div id="expiration-date" class="card_field"></div>
-                    </div>
-                    <div>
-                      <label for="cvv">CVV</label>
-                      <div id="cvv" class="card_field"></div>
-                    </div>
-                    <label for="card-holder-name">Name on Card</label>
-                    <input type="text" id="card-holder-name" name="card-holder-name" autocomplete="off" placeholder="card holder name" />
-                    <br /><br />
-                    <button class="payment_details_cancel header_button btn btn-secondary">Cancel</button>
-                    <button value="submit" id="submit" class="btn header_button default_action_button btn btn-primary">Pay</button>
-                  </form>
+                    <form id="card-form">
+                        <label for="card-number">Card Number</label>
+                        <div id="card-number" class="card_field"></div>
+                        <div>
+                            <label for="expiration-date">Expiration Date</label>
+                            <div id="expiration-date" class="card_field"></div>
+                        </div>
+                        <div>
+                            <label for="cvv">CVV</label>
+                            <div id="cvv" class="card_field"></div>
+                        </div>
+                        <label for="card-holder-name">Name on Card</label>
+                        <input type="text" id="card-holder-name" name="card-holder-name" autocomplete="off"
+                            placeholder="card holder name" />
+                        <br /><br />
+                        <button class="payment_details_cancel header_button btn btn-secondary">Cancel</button>
+                        <button value="submit" id="submit"
+                            class="btn header_button default_action_button btn btn-primary">Pay</button>
+                    </form>
                 </div>
                 <br>
                 <div id="paypal-button-container" class="paypal-button-container"></div>
-          
+
                 <div class="clear:both"></div>
-              </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="material-icons">cancel</i>
+                    Close
+                </button>
             </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-            <i class="material-icons">cancel</i>
-            Close
-        </button>
-        </div>
-      </div>
     </div>
-  </div>`;
+</div>`;
   }
   /** */
   async renderPaymentForm() {
@@ -154,9 +140,6 @@ export default class BuyCreditsHelper {
       setTimeout(() => this._initPaypal(), 50);
       return;
     }
-
-    this.loading_view.style.display = "none";
-    this.payment_view.style.display = "block";
 
     window.paypal
       .Buttons({
@@ -225,6 +208,7 @@ export default class BuyCreditsHelper {
     }
   }
   async getPayPalOrder() {
+    alert("Order creating");
     let purchaseAmount = this.purchase_amount_select.value;
     let details: any = {
       purchaseAmount,
@@ -290,14 +274,14 @@ export default class BuyCreditsHelper {
       exp: exp.value,
       cvv: cvv.value
     };
-    let f_result = await fetch(this.app.basePath + 'appAPI/postError', {
+    let f_result = await fetch(this.app.basePath + 'lobbyApi/payment/error', {
       method: 'POST',
       mode: 'cors',
       cache: 'no-cache',
       headers: {
         'Content-Type': 'application/json;charset=UTF-8'
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     });
     console.log(f_result);
     alert(alertMsg);
@@ -306,10 +290,18 @@ export default class BuyCreditsHelper {
   }
   cancelSignup(e: any) {
     e.preventDefault();
-    // this.setScreenClass('calcscreen');
+    this.modal.hide();
+
   }
   /** */
   show() {
+    if (!this.paymentFormRendered) {
+      this.paymentFormRendered = true;
+
+      this.renderPaymentForm();
+      this.payment_details_cancel = this.modalContainer.querySelector(".payment_details_cancel");
+      this.payment_details_cancel.addEventListener("click", (e: any) => this.cancelSignup(e));
+    }
     this.modal.show();
   }
 }
