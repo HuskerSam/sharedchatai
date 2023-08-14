@@ -44,3 +44,4 @@ gameAPIApp.post("/session/message/editresponse", async (req, res) => SessionAPI.
 gameAPIApp.post("/payment/order", async (req, res) => PaymentAPI.getNewOrder(req, res));
 gameAPIApp.post("/payment/token", async (req, res) => PaymentAPI.getClientToken(req, res));
 gameAPIApp.post("/payment/error", async (req, res) => PaymentAPI.postError(req, res));
+gameAPIApp.post("/payment/capture", async (req, res) => PaymentAPI.postPayment(req, res));

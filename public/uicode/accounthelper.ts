@@ -19,7 +19,7 @@ export default class AccountHelper {
             const ymdFrag = today.substring(0, 10);
             let runningTokens: any = {};
             if (usageData.runningTokens) runningTokens = usageData.runningTokens;
-console.log(usageData);
+
             const allTimeTotalTokens = BaseApp.numberWithCommas(usageData.totalTokens);
             const allTimePromptTokens = BaseApp.numberWithCommas(usageData.promptTokens);
             const allTimeCompletionTokens = BaseApp.numberWithCommas(usageData.completionTokens);

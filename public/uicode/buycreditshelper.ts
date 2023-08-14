@@ -1,4 +1,6 @@
+declare const firebase: any;
 declare const window: any;
+
 import BaseApp from "./baseapp";
 
 const creditsForDollars: any = {
@@ -18,6 +20,9 @@ export default class BuyCreditsHelper {
   amount_description: any;
   payment_details_cancel: any;
   paymentFormRendered = false;
+  paymentHistoryInited = false;
+  payments_history_view: any;
+  lastPaymentHistorySnapshot: any;
 
   /**
    * @param { any } app baseapp derived instance
@@ -38,6 +43,7 @@ export default class BuyCreditsHelper {
     });
     this.purchase_amount_select.innerHTML = selectHTML;
     this.purchase_amount_select.selectedIndex = 0;
+    this.payments_history_view = this.modalContainer.querySelector(".payments_history_view");
   }
   /** get modal template
    * @return { string } template
@@ -97,7 +103,7 @@ export default class BuyCreditsHelper {
                   </div>
                   <div class="tab-pane fade" id="payment_history_tab_view" role="tabpanel"
                       aria-labelledby="payment_history_tab">
-                      Payment History
+                      <div class="payments_history_view"></div>
                   </div>
             </div>
             <div class="modal-footer">
@@ -257,7 +263,7 @@ export default class BuyCreditsHelper {
       orderId: this.order.id,
     };
 
-    const fResult = await fetch(this.app.basePath + "appAPI/capturePayment", {
+    const fResult = await fetch(this.app.basePath + "lobbyApi/payment/capture", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -311,6 +317,35 @@ export default class BuyCreditsHelper {
     this.modal.hide();
   }
   /** */
+  initPaymentHistory() {
+    if (this.paymentHistoryInited) return;
+    this.paymentHistoryInited = true;
+
+    firebase.firestore().collection(`Users/${this.app.uid}/paymentHistory`)
+      .orderBy(`purchased`, "desc")
+      .limit(100)
+      .onSnapshot((snapshot: any) => this.updatePaymentHistory(snapshot));
+  }
+  /** paint payment document feed
+  * @param { any } snapshot firestore query data snapshot
+  */
+  updatePaymentHistory(snapshot: any = null) {
+    if (snapshot) this.lastPaymentHistorySnapshot = snapshot;
+    else if (this.lastPaymentHistorySnapshot) snapshot = this.lastPaymentHistorySnapshot;
+    else return;
+
+    let html = "";
+    this.lastPaymentHistorySnapshot.forEach((doc: any) => {
+        const data = doc.data();
+        const purchaseDate = this.app.showGmailStyleDate(new Date(data.purchaseDate));
+        const rowHTML = `<li>
+          ${purchaseDate} $${data.purchaseAmount} for ${data.creditsAmount}
+        </li>`;
+        html += rowHTML;
+    });
+    this.payments_history_view.innerHTML = html;
+  }
+  /** */
   show() {
     if (!this.paymentFormRendered) {
       this.paymentFormRendered = true;
@@ -319,6 +354,7 @@ export default class BuyCreditsHelper {
       this.payment_details_cancel = this.modalContainer.querySelector(".payment_details_cancel");
       this.payment_details_cancel.addEventListener("click", (e: any) => this.cancelSignup(e));
     }
+    this.initPaymentHistory();
     this.modal.show();
   }
 }

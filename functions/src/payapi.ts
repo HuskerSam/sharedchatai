@@ -204,4 +204,27 @@ export default class PaymentAPI {
             success: true,
         });
     }
+    /**
+    * @param { any } req http request object
+    * @param { any } res http response object
+    */
+    static async postPayment(req: Request, res: Response) {
+        const localInstance = BaseClass.newLocalInstance();
+        await localInstance.init();
+        let orderId = req.body.orderId;
+
+        try {
+            let paymentResult = await PaymentAPI.capturePayment(localInstance, orderId);
+
+            return res.status(200).send(paymentResult);
+        } catch (error) {
+            functions.logger.error(error, {
+                structuredData: true
+            });
+        }
+
+        return res.status(200).send({
+            success: false
+        });
+    }
 }
