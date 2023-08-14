@@ -118,12 +118,14 @@ export default class BuyCreditsHelper {
   }
   /** */
   async renderPaymentForm() {
+    const token = await firebase.auth().currentUser.getIdToken();
     const fResult = await fetch(this.app.basePath + "lobbyApi/payment/token", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        token,
       },
       body: "",
     });
@@ -224,7 +226,6 @@ export default class BuyCreditsHelper {
   }
   /** */
   async getPayPalOrder() {
-    alert("Order creating");
     const purchaseAmount = this.purchase_amount_select.value;
     const details: any = {
       purchaseAmount,
@@ -236,13 +237,14 @@ export default class BuyCreditsHelper {
       formBody.push(encodedKey + "=" + encodedValue);
     });
     const body = formBody.join("&");
-
+    const token = await firebase.auth().currentUser.getIdToken();
     const fResult = await fetch(this.app.basePath + "lobbyApi/payment/order", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        token,
       },
       body,
     });
@@ -262,19 +264,19 @@ export default class BuyCreditsHelper {
     const data = {
       orderId: this.order.id,
     };
-
+    const token = await firebase.auth().currentUser.getIdToken();
     const fResult = await fetch(this.app.basePath + "lobbyApi/payment/capture", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
       headers: {
         "Content-Type": "application/json;charset=UTF-8",
+        token,
       },
       body: JSON.stringify(data),
     });
     console.log(fResult);
-    // Show a success message or redirect
-    alert("Payment succeeded, adding credits...");
+    alert("Payment succeeded, credits added.");
 
     // this._createUserAccount();
   }
@@ -295,12 +297,14 @@ export default class BuyCreditsHelper {
       exp: exp.value,
       cvv: cvv.value,
     };
+    const token = await firebase.auth().currentUser.getIdToken();
     const fResult = await fetch(this.app.basePath + "lobbyApi/payment/error", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
       headers: {
         "Content-Type": "application/json;charset=UTF-8",
+        token,
       },
       body: JSON.stringify(data),
     });
@@ -322,7 +326,7 @@ export default class BuyCreditsHelper {
     this.paymentHistoryInited = true;
 
     firebase.firestore().collection(`Users/${this.app.uid}/paymentHistory`)
-      .orderBy(`purchased`, "desc")
+      .orderBy(`purchaseDate`, "desc")
       .limit(100)
       .onSnapshot((snapshot: any) => this.updatePaymentHistory(snapshot));
   }
@@ -337,9 +341,16 @@ export default class BuyCreditsHelper {
     let html = "";
     this.lastPaymentHistorySnapshot.forEach((doc: any) => {
         const data = doc.data();
+        let startB = data.startingBalance;
+        let endB = data.endingBalance;
+        if (startB === undefined) startB = 0;
+        if (endB === undefined) endB = 0;
+
         const purchaseDate = this.app.showGmailStyleDate(new Date(data.purchaseDate));
         const rowHTML = `<li>
-          ${purchaseDate} $${data.purchaseAmount} for ${data.creditsAmount}
+          ${purchaseDate} $${data.purchaseAmount} for ${data.credits} (${doc.id})
+          <br>
+          ${startB.toFixed()} => ${endB.toFixed()}
         </li>`;
         html += rowHTML;
     });

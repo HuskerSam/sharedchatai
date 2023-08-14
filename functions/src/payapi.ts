@@ -1,11 +1,20 @@
 import * as firebaseAdmin from "firebase-admin";
 import * as functions from "firebase-functions";
+import {
+    FieldValue,
+} from "firebase-admin/firestore";
 import BaseClass from "./baseclass";
 import fetch from "node-fetch";
 import type {
     Request,
     Response,
 } from "express";
+
+const creditsForDollars: any = {
+    "5": 3000,
+    "25": 16000,
+    "100": 75000,
+  };
 
 /** Handle PayPal API for payments to buy credits */
 export default class PaymentAPI {
@@ -74,13 +83,13 @@ export default class PaymentAPI {
     /**
      *
      * @param { any } localInstance
+     * @param { any } authResults
      * @param { string } purchaseAmount
      * @return { Promise<any> }
      */
-    static async createOrder(localInstance: any, purchaseAmount: string): Promise<any> {
+    static async createOrder(localInstance: any, authResults: any, purchaseAmount: string): Promise<any> {
         const base = localInstance.privateConfig.paypal_url;
 
-        console.log("purchaseAmount", purchaseAmount);
         const accessToken = await PaymentAPI.generateAccessToken(localInstance);
         const url = `${base}/v2/checkout/orders`;
         const body = {
@@ -103,18 +112,23 @@ export default class PaymentAPI {
         const data = await response.json();
         data.body = body;
         data.createdAt = new Date().toISOString();
+        data.purchaseDate = new Date().toISOString();
+        data.uid = authResults.uid;
+        data.purchaseAmount = purchaseAmount;
 
         await firebaseAdmin.firestore().doc(`PaypalOrders/${data.id}`).set(data);
+        await firebaseAdmin.firestore().doc(`Users/${data.uid}/paymentHistory/${data.id}`).set(data);
 
         return data;
     }
     /**
      *
      * @param { any } localInstance
+     * @param { any } authResults
      * @param { string } orderId
      * @return { Promise<any> }
      */
-    static async capturePayment(localInstance: any, orderId: string) {
+    static async capturePayment(localInstance: any, authResults: any, orderId: string) {
         const base = localInstance.privateConfig.paypal_url;
         const accessToken = await PaymentAPI.generateAccessToken(localInstance);
         const url = `${base}/v2/checkout/orders/${orderId}/capture`;
@@ -128,11 +142,38 @@ export default class PaymentAPI {
 
         const json = await response.json();
         const success = (json.status === "COMPLETED");
-        const resultData = {
+        const resultData: any = {
             success,
             captureResult: json,
         };
+
+        if (success) {
+            const origOrderQ = await firebaseAdmin.firestore().doc(`Users/${authResults.uid}/paymentHistory/${orderId}`).get();
+            const orderData: any = origOrderQ.data();
+            console.log(orderData);
+            const purchaseAmount = orderData.purchaseAmount;
+            resultData.credits = creditsForDollars[purchaseAmount];
+
+            if (!resultData.credits) {
+                throw new Error("No credits value found for purchase amount, contact support");
+            }
+
+            const usageQ = await firebaseAdmin.firestore().doc(`Users/${authResults.uid}/internal/tokenUsage`).get();
+            let usageData = usageQ.data();
+            if (!usageData) usageData = {};
+            resultData.startingBalance = BaseClass.getNumberOrDefault(usageData.availableCreditBalance, 0);
+            resultData.endingBalance = resultData.startingBalance + resultData.credits;
+            await firebaseAdmin.firestore().doc(`Users/${authResults.uid}/internal/tokenUsage`).set({
+                availableCreditBalance: FieldValue.increment(resultData.credits),
+            }, {
+                merge: true,
+            });
+        }
+
         await firebaseAdmin.firestore().doc(`PaypalOrders/${orderId}`).set(resultData, {
+            merge: true,
+        });
+        await firebaseAdmin.firestore().doc(`Users/${authResults.uid}/paymentHistory/${orderId}`).set(resultData, {
             merge: true,
         });
 
@@ -142,35 +183,16 @@ export default class PaymentAPI {
    * @param { any } req http request object
    * @param { any } res http response object
    */
-    static async testOverride(req: Request, res: Response) {
-        const localInstance = BaseClass.newLocalInstance();
-        await localInstance.init();
-
-        let code = req.query.code;
-        if (!code) code = "";
-
-        if (code !== localInstance.privateConfig.override_code) {
-            return res.status(200).send({
-                success: false,
-            });
-        }
-
-        return res.status(200).send({
-            success: true,
-        });
-    }
-    /**
-   * @param { any } req http request object
-   * @param { any } res http response object
-   */
     static async getNewOrder(req: Request, res: Response) {
+        const authResults = await BaseClass.validateCredentials(<string>req.headers.token);
+        if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
         const localInstance = BaseClass.newLocalInstance();
         await localInstance.init();
 
         const purchaseAmount = req.body.purchaseAmount;
 
         try {
-            const order = await PaymentAPI.createOrder(localInstance, purchaseAmount);
+            const order = await PaymentAPI.createOrder(localInstance, authResults, purchaseAmount);
             const clientToken = await PaymentAPI.generateClientToken(localInstance);
 
             return res.status(200).send({
@@ -209,12 +231,14 @@ export default class PaymentAPI {
     * @param { any } res http response object
     */
     static async postPayment(req: Request, res: Response) {
+        const authResults = await BaseClass.validateCredentials(<string>req.headers.token);
+        if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
         const localInstance = BaseClass.newLocalInstance();
         await localInstance.init();
         let orderId = req.body.orderId;
 
         try {
-            let paymentResult = await PaymentAPI.capturePayment(localInstance, orderId);
+            let paymentResult = await PaymentAPI.capturePayment(localInstance, authResults, orderId);
 
             return res.status(200).send(paymentResult);
         } catch (error) {
