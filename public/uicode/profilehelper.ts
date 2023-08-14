@@ -52,7 +52,7 @@ export default class ProfileHelper {
         this.modalContainer.innerHTML = html;
         document.body.appendChild(this.modalContainer);
         this.modal = new window.bootstrap.Modal("#userProfileModal", {});
-        
+
         this.modalContainer.children[0].addEventListener("shown.bs.modal", () => {
             // this.profile_text_large_checkbox.focus();
         });

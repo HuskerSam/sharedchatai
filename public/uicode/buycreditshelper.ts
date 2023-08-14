@@ -1,4 +1,3 @@
-declare const firebase: any;
 declare const window: any;
 import BaseApp from "./baseapp";
 
@@ -44,11 +43,12 @@ export default class BuyCreditsHelper {
    * @return { string } template
    */
   getModalTemplate(): string {
-    return `<div class="modal fade scrollable_modal" id="buyCreditsModal" tabindex="-1" aria-labelledby="buyCreditsModalLabel" aria-hidden="true">
+    return `<div class="modal fade scrollable_modal" id="buyCreditsModal" tabindex="-1" 
+      aria-labelledby="buyCreditsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content app_panel">
             <div class="modal-header">
-                <h4 class="modal-title" id="buyCreditsModalLabel">Buy Credits</h4>
+                <h4 class="modal-title" id="buyCreditsModalLabel">Buy Credits - Sandbox</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="display:flex;flex-direction:column">
@@ -112,46 +112,35 @@ export default class BuyCreditsHelper {
   }
   /** */
   async renderPaymentForm() {
-    //  this.status_area.innerHTML += 'writing doc to ' + path + '<br>';
-    let details: any = {};
-    let formBody = [];
-    for (let property in details) {
-      let encodedKey = encodeURIComponent(property);
-      let encodedValue = encodeURIComponent(details[property]);
-      formBody.push(encodedKey + "=" + encodedValue);
-    }
-    let body = formBody.join("&");
-
-    let f_result = await fetch(this.app.basePath + 'lobbyApi/payment/token', {
-      method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
+    const fResult = await fetch(this.app.basePath + "lobbyApi/payment/token", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
       },
-      body
+      body: "",
     });
-    let json = await f_result.json();
+    const json = await fResult.json();
     if (json.success) {
-      let client_token = json.client_token;
-      let client_id = json.client_id;
-      let paypalscript = document.getElementById('paypalscript');
-      if (paypalscript)
-        paypalscript.remove();
-      paypalscript = document.createElement('script');
-      paypalscript.setAttribute('src', `https://www.paypal.com/sdk/js?components=buttons,hosted-fields&client-id=${client_id}`);
-      paypalscript.setAttribute('data-client-token', `${client_token}`);
-      document.body.append(paypalscript);
+      const clientToken = json.client_token;
+      const clientId = json.client_id;
+      let paypalScript = document.getElementById("paypalscript");
+      if (paypalScript) paypalScript.remove();
+      paypalScript = document.createElement("script");
+      paypalScript.setAttribute("src", `https://www.paypal.com/sdk/js?components=buttons,hosted-fields&client-id=${clientId}`);
+      paypalScript.setAttribute("data-client-token", `${clientToken}`);
+      document.body.append(paypalScript);
       this._initPaypal();
 
       return true;
     }
-    //this.status_area.innerHTML += JSON.stringify(json);
 
     return false;
   }
   /** update UI to show payment submit started */
   setPaymentSubmitInProgress() {
+    return;
   }
   /** */
   _initPaypal() {
@@ -163,15 +152,16 @@ export default class BuyCreditsHelper {
     window.paypal
       .Buttons({
         // Sets up the transaction when a payment button is clicked
-        createOrder: async (data: any, actions: any) => {
-          if (!this.order)
+        createOrder: async (/* data: any, actions: any */) => {
+          if (!this.order) {
             await this.getPayPalOrder();
+          }
           this.setPaymentSubmitInProgress();
 
           return this.order.id;
         },
         // Finalize the transaction after payer approval
-        onApprove: (data: any, actions: any) => {
+        onApprove: (/* data: any, actions: any */) => {
           return this.payPalAccepted();
         },
       })
@@ -186,35 +176,35 @@ export default class BuyCreditsHelper {
           return this.getPayPalOrder();
         },
         styles: {
-          '.valid': {
-            color: 'green'
+          ".valid": {
+            color: "green",
           },
-          '.invalid': {
-            color: 'red'
-          }
+          ".invalid": {
+            color: "red",
+          },
         },
         fields: {
           number: {
             selector: "#card-number",
-            placeholder: "4111 1111 1111 1111"
+            placeholder: "4111 1111 1111 1111",
           },
           cvv: {
             selector: "#cvv",
-            placeholder: "123"
+            placeholder: "123",
           },
           expirationDate: {
             selector: "#expiration-date",
-            placeholder: "MM/YY"
-          }
-        }
+            placeholder: "MM/YY",
+          },
+        },
       }).then((cardFields: any) => {
         const holderName: any = document.getElementById("card-holder-name");
         document.querySelector("#card-form")?.addEventListener("submit", (event) => {
           event.preventDefault();
           cardFields
             .submit({
-              // Cardholder's first and last name
-              cardholderName: holderName.value
+              // Cardholder"s first and last name
+              cardholderName: holderName.value,
             })
             .then(() => this.payPalAccepted())
             .catch((err: any) => this.payPalError(err));
@@ -222,95 +212,103 @@ export default class BuyCreditsHelper {
       });
     } else {
       const cardForm: any = document.querySelector("#card-form");
-      // Hides card fields if the merchant isn't eligible
+      // Hides card fields if the merchant isn"t eligible
       cardForm.style.display = "none";
     }
   }
+  /** */
   async getPayPalOrder() {
     alert("Order creating");
-    let purchaseAmount = this.purchase_amount_select.value;
-    let details: any = {
+    const purchaseAmount = this.purchase_amount_select.value;
+    const details: any = {
       purchaseAmount,
     };
-    let formBody = [];
-    for (let property in details) {
-      let encodedKey = encodeURIComponent(property);
-      let encodedValue = encodeURIComponent(details[property]);
+    const formBody: any = [];
+    Object.keys(details).forEach((property: string) => {
+      const encodedKey = encodeURIComponent(property);
+      const encodedValue = encodeURIComponent(details[property]);
       formBody.push(encodedKey + "=" + encodedValue);
-    }
-    let body = formBody.join("&");
-
-    let f_result = await fetch(this.app.basePath + 'lobbyApi/payment/order', {
-      method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-      },
-      body
     });
-    let json = await f_result.json();
+    const body = formBody.join("&");
+
+    const fResult = await fetch(this.app.basePath + "lobbyApi/payment/order", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      },
+      body,
+    });
+    const json = await fResult.json();
     if (json.success) {
-      console.log('order created', json);
+      console.log("order created", json);
       this.order = json.order;
       return json.order.id;
     }
 
     return null;
   }
+  /** */
   async payPalAccepted() {
-    console.log('success', this.order.id);
+    console.log("success", this.order.id);
 
-    let data = {
-      orderId: this.order.id
+    const data = {
+      orderId: this.order.id,
     };
 
-    let f_result = await fetch(this.app.basePath + 'appAPI/capturePayment', {
-      method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
+    const fResult = await fetch(this.app.basePath + "appAPI/capturePayment", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
       headers: {
-        'Content-Type': 'application/json;charset=UTF-8'
+        "Content-Type": "application/json;charset=UTF-8",
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     });
-    console.log(f_result);
+    console.log(fResult);
     // Show a success message or redirect
     alert("Payment succeeded, adding credits...");
 
     // this._createUserAccount();
   }
+  /**
+   *
+   * @param { any } err
+   */
   async payPalError(err: any) {
     const holderName: any = document.getElementById("card-holder-name");
-    const exp: any = document.getElementById('expiration-date');
-    const cvv: any = document.getElementById('cvv');
+    const exp: any = document.getElementById("expiration-date");
+    const cvv: any = document.getElementById("cvv");
 
-    let alertMsg = "Payment could not be captured! " + JSON.stringify(err);
-    let data = {
-      type: 'payPal Decline',
+    const alertMsg = "Payment could not be captured! " + JSON.stringify(err);
+    const data = {
+      type: "payPal Decline",
       errorJSON: JSON.stringify(err),
       name: holderName.value,
       exp: exp.value,
-      cvv: cvv.value
+      cvv: cvv.value,
     };
-    let f_result = await fetch(this.app.basePath + 'lobbyApi/payment/error', {
-      method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
+    const fResult = await fetch(this.app.basePath + "lobbyApi/payment/error", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
       headers: {
-        'Content-Type': 'application/json;charset=UTF-8'
+        "Content-Type": "application/json;charset=UTF-8",
       },
       body: JSON.stringify(data),
     });
-    console.log(f_result);
+    console.log(fResult);
     alert(alertMsg);
 
-    console.log('Paypal Error', data);
+    console.log("Paypal Error", data);
   }
+  /**
+   * @param { any } e
+   */
   cancelSignup(e: any) {
     e.preventDefault();
     this.modal.hide();
-
   }
   /** */
   show() {

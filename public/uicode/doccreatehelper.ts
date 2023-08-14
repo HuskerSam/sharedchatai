@@ -872,7 +872,7 @@ export default class DocCreateHelper {
           email,
           name,
           title,
-          label
+          label,
         });
         invalidEmail = "";
       } else {

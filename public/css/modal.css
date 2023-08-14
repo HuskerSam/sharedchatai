@@ -861,17 +861,8 @@ button.btn-primary.create_bulk_sessions_button {
   margin-top: 4px;
 }
 
-
-
-
-
-
-
-
-
 .paypal-button-container {
   border-radius: 5px;
-  background-color: #FFFFFF;
   padding: 20px;
   max-width: 760px;
   width: 100%;
@@ -879,7 +870,6 @@ button.btn-primary.create_bulk_sessions_button {
 }
 .card_container {
   border-radius: 5px;
-  background-color: #FFFFFF;
   padding: 20px;
   max-width: 760px;
   width: 100%;
