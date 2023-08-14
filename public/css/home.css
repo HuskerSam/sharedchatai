@@ -865,8 +865,6 @@ ul.recent_documents_list li a {
 .day_mode .nav-pills .show>.nav-link {
   background-color: var(--secondary-color);
   color: var(--highlight);
-  border: none;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 1px -1px;
 }
 
 .sessions_list_loading_panel {
@@ -1049,9 +1047,10 @@ ol li {
   flex: 1;
 }
 
-.homepage.homepage_tab_selected_2 .footer_container_div {
+.homepage.homepage_tab_selected_1 .footer_container_div {
   display: none;
 }
+
 
 .footer_container_div {
   margin-bottom: 0;

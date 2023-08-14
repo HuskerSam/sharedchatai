@@ -27,7 +27,6 @@ export class DashboardApp extends BaseApp {
   menu_toggle_button: any = document.querySelector(".menu_toggle_button");
   show_create_modal: any = document.querySelector(".show_create_modal");
   news_tab_button: any = document.querySelector("#news_tab_button");
-  about_tab_button: any = document.querySelector("#about_tab_button");
   dashboard_tab_button: any = document.querySelector("#dashboard_tab_button");
   news_tab_view: any = document.querySelector("#news_tab_view");
   credits_left: any = document.querySelector(".credits_left");
@@ -59,11 +58,10 @@ export class DashboardApp extends BaseApp {
     });
 
     this.news_tab_button.addEventListener("click", () => this.tabChangeHandler(0));
-    this.about_tab_button.addEventListener("click", () => this.tabChangeHandler(1));
-    this.dashboard_tab_button.addEventListener("click", () => this.tabChangeHandler(2));
+    this.dashboard_tab_button.addEventListener("click", () => this.tabChangeHandler(1));
 
     if (location.hash === "#news_tab_view") this.news_tab_button.click();
-    if (location.hash === "#about_tab_view") this.about_tab_button.click();
+    if (location.hash === "#dashboard_tab_button") this.dashboard_tab_button.click();
 
     this.account_status_display.addEventListener("click", (e: any) => {
       e.preventDefault();
@@ -163,14 +161,12 @@ export class DashboardApp extends BaseApp {
 
     if (this.gameFeedSubscription) this.gameFeedSubscription();
 
-    if (location.hash !== "#news_tab_view" && location.hash !== "#about_tab_view") {
+    if (location.hash !== "#news_tab_view" ) {
       if (location.hash === "#dashboard_tab_view") {
         this.dashboard_tab_button.click();
       } else if (this.profile.homePageTabIndex === 0) {
         this.news_tab_button.click();
       } else if (this.profile.homePageTabIndex === 1) {
-        this.about_tab_button.click();
-      } else {
         this.dashboard_tab_button.click();
       }
     }

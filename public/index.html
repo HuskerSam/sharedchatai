@@ -80,17 +80,13 @@
             </li>
             <li style="flex:1">
                 <ul class="header_tabs nav nav-pills" role="tablist">
-                    <li class="nav-item signed_in_inline_block" role="presentation">
-                        <a class="nav-link" id="dashboard_tab_button" data-bs-toggle="tab" href="#dashboard_tab_view"
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link session_tab" id="dashboard_tab_button" data-bs-toggle="tab" href="#dashboard_tab_view"
                             role="tab" aria-controls="dashboard_tab_view" aria-selected="false">Sessions</a>
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link active" id="news_tab_button" data-bs-toggle="tab" href="#news_tab_view"
                             role="tab" aria-controls="news_tab_view" aria-selected="true">News</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="about_tab_button" data-bs-toggle="tab" href="#about_tab_view" role="tab"
-                            aria-controls="news_tab_view" aria-selected="true">About</a>
                     </li>
                 </ul>
             </li>
@@ -120,7 +116,7 @@
                     <div class="flex-lg-row flex_change_responsive news_top_row">
                         <div class="side_block app_panel">
                             <p class="header_recent_document display-6">
-                      Most Recent
+                                Most Recent
                             </p>
                             <div class="intro_card card">
                                 <div class="recent_content_flyers_ul_list"></div>
@@ -388,171 +384,37 @@
 
                 </div>
             </div>
-            <div class="tab-pane fade" id="about_tab_view" role="tabpanel" aria-labelledby="about_tab_button">
-                <div class="flex-lg-row flex_change_responsive">
-                    <div class="side_block app_panel">
-                        <h2 class="text-start">
-                            The Team
-                        </h2>
-                        <div class="intro_card card">
-                            <p>We're a dedicated development team based in Lincoln, Nebraska, United States. We
-                                specialize in
-                                Node, Typescript, Firebase, WebGL, and AI development.
-                            </p>
-                            <p> We're always on the lookout for exciting
-                                software development projects to spur our growth and are open to collaborative
-                                opportunities.
-                                Don't
-                                hesitate to get in touch with us. Please contact us at <a
-                                    href="mailto:support@unacog.com" target="_blank">support@unacog.com</a></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="video_wrapper">
-                    <a href="https://www.youtube.com/watch?v=9VMFh3eAFrE&t=4s" target="video">
-                        <img src="/images/walkthruoverlay.jpg">
-                    </a>
-                </div>
-                <div class="flex-lg-row flex_change_responsive">
-                    <div class="side_block app_panel">
-                        <h2 class="header_recent_document visually-hidden">Unacog</h2>
-                        <h3 class="text-start">Model Agnostic</h3>
-                        <div class="intro_card card mb-1">
-                            <p>Our platform is designed with flexibility at its core, allowing it to accommodate a
-                                variety of
-                                language models - from OpenAI to BARD, and beyond. As advancements are made in
-                                language learning models, both in capability and cost-efficiency, we're committed to
-                                providing
-                                access to these cutting-edge technologies. Currently, while we are focused on text
-                                generation
-                                tasks, our infrastructure is ready to embrace a broader range of AI-powered tasks in the
-                                future.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-lg-row flex_change_responsive">
-                    <div class="side_block app_panel">
-                        <h3 class="text-start">Typescript and Firebase</h3>
-                        <div class="intro_card card mb-1">
-                            <p class="mb-3">
-                                Our application takes inspiration from our real-time game lobby <a
-                                    href="https://github.com/HuskerSam/sharedgamelobby" target="_blank">
-                                    example project</a> and harnesses the combined power of Typescript, Node, and <a
-                                    href="https://firebase.google.com" target="_blank">Firebase</a> to offer an
-                                efficient and seamless user experience.
-                            </p>
-                            <ul>
-                                <li class="mb-2"><strong>User Authentication:</strong> Secure and reliable
-                                    user login system.
-                                </li>
-                                <li class="mb-2"><strong>Session Creation:</strong> The ability to create
-                                    new sessions with
-                                    customizable options.</li>
-                                <li class="mb-2"><strong>Session Joining:</strong> Seamlessly join existing
-                                    sessions in the
-                                    lobby.</li>
-                                <li class="mb-2"><strong>User Profiles:</strong> Personalize your experience
-                                    with adjustable
-                                    settings</li>
-                                <li class="mb-2"><strong>In-session Messaging:</strong> Facilitates
-                                    interaction by enabling
-                                    message exchanges with other participants.</li>
-                                <li class="mb-2"><strong>Real-time User Status Updates:</strong> Keep track
-                                    of user activity and
-                                    engagement with presence indicators.</li>
-                            </ul>
-                            <p> By structuring session and user
-                                data within Firestore documents, we ensure rapid indexing, retrieval, and consistent
-                                data
-                                handling. This robust and scalable approach, paired with Firebase's scale-on-demand
-                                hosting,
-                                offers personalized experiences, swift updates, and an integrated system that makes it
-                                an ideal
-                                choice for professionals.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-lg-row flex_change_responsive">
-                    <div class="main_block app_panel">
-                        <h3 class="mb-2 text-start">Build Philosophy</h3>
-                        <div class="intro_card card">
-                            <p>Central to our ethos is accessibility. Our app is meticulously crafted to ensure seamless
-                                access
-                                from any device, any screen size, as long as you have a web browser. No downloads, no
-                                lengthy
-                                sign-ups, just register using your email. Simple, hassle-free, and ready whenever you
-                                are.</p>
-                            <ul class="list-unstyled">
-                                <li class="mb-2"><strong>User-Centric:</strong> We design with our users in
-                                    mind, striving to
-                                    meet their
-                                    needs, exceed their expectations, and create a seamless, intuitive experience.</li>
-                                <li class="mb-2"><strong>Empowerment:</strong> We equip our users with the
-                                    tools and knowledge
-                                    to harness the
-                                    full power of AI collaboration, enabling them to accomplish tasks more efficiently
-                                    and
-                                    innovatively.</li>
-                                <li class="mb-2"><strong>Transparency:</strong> We believe in being clear
-                                    and open about how our
-                                    application
-                                    works. We aim to educate users on our processes, offering them maximum control and
-                                    understanding of their interactions.</li>
-                                <li class="mb-2"><strong>Innovation:</strong> We continuously improve,
-                                    adapt, and push
-                                    boundaries to offer
-                                    our users state-of-the-art functionality, staying at the forefront of AI technology.
-                                </li>
-                                <li class="mb-0"><strong>Collaboration:</strong> We facilitate and promote
-                                    teamwork, reflecting
-                                    our belief in
-                                    the combined power of collective intelligence and AI.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-lg-row flex_change_responsive">
-                    <div class="main_block app_panel">
-                        <h3 class="text-start">Bugs, Questions, or Contact</h3>
-                        <div class="intro_card card">
-                            <p>If you encounter any bugs, have questions, or simply want to get in touch, the best way
-                                to
-                                currently reach us is by <a href="mailto:support@unacog.com"
-                                    target="_blank">email</a>.
-                                We're here to help!</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="tab-pane fade" id="dashboard_tab_view" role="tabpanel" style="flex-direction:column;"
                 aria-labelledby="dashboard_tab_button">
-                <div class="filter_bar_wrapper">
-                    <div class="games_view_header_wrapper">
-                        <select class="document_label_filter form-select form-select-lg" style="font-size:1.25em;">
-                            <option>All Sessions</option>
-                        </select>
-                    </div>
-                    <div>
-                        <a class="nav-link show_create_modal homepage hover_yellow" href="create">
-                            <span class="mobile_custom_icon_label">
-                                <i class="material-icons add_icon impact_font_green"
-                                    style="font-size:44px;margin-top:-8px;margin-bottom:-8px;top:8px;">add</i>
-                            </span>
+                <div class="signed_in_inline_block">
+                    <div class="filter_bar_wrapper">
+                        <div class="games_view_header_wrapper">
+                            <select class="document_label_filter form-select form-select-lg" style="font-size:1.25em;">
+                                <option>All Sessions</option>
+                            </select>
+                        </div>
+                        <div>
+                            <a class="nav-link show_create_modal homepage hover_yellow" href="create">
+                                <span class="mobile_custom_icon_label">
+                                    <i class="material-icons add_icon impact_font_green"
+                                        style="font-size:44px;margin-top:-8px;margin-bottom:-8px;top:8px;">add</i>
+                                </span>
+                            </a>
+                        </div>
+                        <a class="account_status_display" href="showaccountinfo">
+                            <div class="credits_left"></div>
                         </a>
                     </div>
-                    <a class="account_status_display" href="showaccountinfo">
-                        <div class="credits_left"></div>
-                    </a>
-                </div>
-                <div class="game_lobby">
-                    <div class="games_view_wrapper">
-                        <div class="dashboard_documents_view"></div>
+                    <div class="game_lobby">
+                        <div class="games_view_wrapper">
+                            <div class="dashboard_documents_view"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="no_games_in_dashboard app_panel impact-font" style="font-size: 2em;">
-                    <br>
-                    Welcome to Unacog!
+
+                    <div class="no_games_in_dashboard app_panel impact-font" style="font-size: 2em;">
+                        <br>
+                        Welcome to Unacog! Create a chat session to get started.
+                    </div>
                 </div>
             </div>
         </div>
