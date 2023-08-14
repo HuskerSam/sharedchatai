@@ -808,7 +808,7 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
         link: "/content/editresponse/",
         title: "Edit Response",
         description: "new feature use case",
-        image: "/images/webscrape_banner.png",
+        image: "/images/editresponse_quirk.png",
       },
       {
         link: "/content/teamtogether/",
