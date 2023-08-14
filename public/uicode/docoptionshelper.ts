@@ -705,7 +705,7 @@ Use this link to join - https://unacog.com/session/${this.chatDocumentId}
 
 Session hosted by: ${ownerDescription}
 
-feedback: promptplusai@gmail.com`);
+feedback: support@unacog.com`);
         const emailTarget = (BaseApp.validateEmail(ownerNote) ? ownerNote : "");
         this.modal_send_email_button.setAttribute("href", `mailto:${emailTarget}?subject=${subject}&body=${body}`);
     }

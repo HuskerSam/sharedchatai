@@ -735,7 +735,7 @@ export default class BaseApp {
                     <p>
                         We are a dedicated team based in Lincoln, Nebraska, USA. We are actively pursuing software
                          development projects to fuel our growth. To collaborate with us, please reach out at <a
-                            href="mailto:promptplusai@gmail.com" target="_blank">promptplusai@gmail.com</a>
+                            href="mailto:support@unacog.com" target="_blank">support@unacog.com</a>
                     </p>
                 </div>
                 <div class="col-md-2 mb-md-0">
@@ -833,16 +833,12 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
             - <span class="caption">Architecture, frameworks and APIs</span>
         </a>
     </li>
-    <li>
-      <br>
-      <b>Coming Soon</b>
-    </li>
-    <li>
+    <li style="display:none;">
     <a hreftobe="/content/tokensandtokenizer/">Tokens, Tokenizers and Credits
         - <span class="caption inprogress">Breaking prompts into tokens</span>
     </a>
     </li>
-    <li>
+    <li style="display:none;">
     <a hreftobe="/content/promptsresponsestemplates/">Context and Templates
         - <span class="caption inprogress">Control your context for better responses</span>
     </a>

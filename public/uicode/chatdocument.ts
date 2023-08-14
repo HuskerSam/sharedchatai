@@ -12,7 +12,7 @@ export default class ChatDocument {
   
   Session hosted by: {{displayName}}
   
-  feedback: promptplusai@gmail.com
+  feedback: support@unacog.com
 
 From
 {{displayName}}`;
