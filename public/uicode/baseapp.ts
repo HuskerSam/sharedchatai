@@ -803,47 +803,57 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
   * @return { string } html footer
   */
   getFlyerListTemplate(contentPage: boolean): string {
-    let items = `<li>
-        <a class="hover_yellow" href="/content/editresponse/">Edit Response
-            - <span class="caption">new feature use case</span>
-        </a>
-    </li>
-    <li>
-        <a class="hover_yellow" href="/content/teamtogether/">Learn Together
-            - <span class="caption">Sessions and sharing for groups</span>
-        </a>
-    </li>
-    <li>
-        <a class="hover_yellow" href="/content/outputformatting/">Output Formatting
-            - <span class="caption">Formatting equations, code and markdown</span>
-        </a>
-    </li>
-    <li>
-    <a class="hover_yellow" href="/content/sharingprompts/">Share Chat Sessions
-        - <span class="caption">Copy, import, export and share prompts</span>
-    </a>
-    </li>
-    <li>
-    <a class="hover_yellow" href="/content/webscrape/">Scrape a Webpage
-        - <span class="caption">Scrape a website using this template</span>
-    </a>
-    </li>
-    <li>
-        <a class="hover_yellow" href="/content/overview/">Technical Overview
-            - <span class="caption">Architecture, frameworks and APIs</span>
-        </a>
-    </li>
-    <li style="display:none;">
-    <a hreftobe="/content/tokensandtokenizer/">Tokens, Tokenizers and Credits
-        - <span class="caption inprogress">Breaking prompts into tokens</span>
-    </a>
-    </li>
-    <li style="display:none;">
-    <a hreftobe="/content/promptsresponsestemplates/">Context and Templates
-        - <span class="caption inprogress">Control your context for better responses</span>
-    </a>
-    </li>`;
-
+    const newsList = [
+      {
+        link: "/content/editresponse/",
+        title: "Edit Response",
+        description: "new feature use case",
+        image: "/images/webscrape_banner.png",
+      },
+      {
+        link: "/content/teamtogether/",
+        title: "Learn Together",
+        description: "Sessions and sharing for groups",
+        image: "/images/learntogether.png",
+      },
+      {
+        link: "/content/outputformatting/",
+        title: "Output Formatting",
+        description: "Formatting equations, code and markdown",
+        image: "/content/outputformatting/outputformatting.png",
+      },
+      {
+        link: "/content/sharingprompts/",
+        title: "Share Chat Sessions",
+        description: "Copy, import, export and share prompts",
+        image: "/content/sharingprompts/shareprompts.png",
+      },
+      {
+        link: "/content/webscrape/",
+        title: "Scrape a Webpage",
+        description: "Scrape a website using this template",
+        image: "/images/webscrape_banner.png",
+      },
+      {
+        link: "/content/overview/",
+        title: "Technical Overview",
+        description: "Architecture, frameworks and APIs",
+        image: "/content/overview/firebasecloud.png",
+      },
+    ];
+    let items = "";
+    newsList.forEach((item: any) => {
+      items += `<a class="hover_yellow card" href="${item.link}">
+              <div>
+                <img src="${item.image}">
+              </div>
+              <div style="flex:1;">
+                <span class="title">${item.title}</span>
+                <br>
+                <span class="caption">${item.description}</span>
+              </div>
+            </a>`;
+    });
     if (contentPage) {
       items += ``;
     }

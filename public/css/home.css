@@ -1044,10 +1044,6 @@ ol li {
   top: -6px;
 }
 
-.recent_content_flyers_ul_list {
-  max-height: 50vh;
-}
-
 .home_page_tabs {
   display: flex;
   flex: 1;
@@ -1108,4 +1104,25 @@ ol li {
   .video_wrapper img {
     width: 60%;
   }
+}
+
+.recent_content_flyers_ul_list img {
+  max-width: 150px;
+  max-height: 150px;
+  margin: 4px;
+}
+
+.recent_content_flyers_ul_list {
+  max-height: 50vh;
+}
+
+.recent_content_flyers_ul_list a {
+  display: flex;
+  flex-direction: row;
+  margin-top: 8px;
+  text-decoration: none;
+}
+
+.recent_content_flyers_ul_list a .title {
+  text-decoration: underline;
 }
