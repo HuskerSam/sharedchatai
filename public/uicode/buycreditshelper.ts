@@ -326,6 +326,7 @@ export default class BuyCreditsHelper {
       body: JSON.stringify(data),
     });
     console.log("Paypal Error", data);
+    console.log("fResult", fResult);
     alert(alertMsg);
   }
   /**
