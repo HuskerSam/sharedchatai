@@ -1094,15 +1094,9 @@ ol li {
   .video_wrapper img {
     width: 70%;
   }
-  .session_cta {
-    height: 94vh;
-  }
-  .session_cta img {
-    width: 70px;
-  }
 }
 
-@media(min-width: 1400px) {
+@media (min-width: 1400px) {
   .video_wrapper img {
     width: 60%;
   }
@@ -1152,11 +1146,6 @@ ol li {
 
 .session_cta {
   height: 70vh;
-}
-
-.session_cta,
-.session_cta a.btn {
-  font-size: clamp(16px, 4.3vw, 36px);
 }
 
 .session_cta img {

@@ -809,50 +809,58 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
         title: "Edit Response",
         description: "new feature use case",
         image: "/images/editresponse_quirk.png",
+        date: "Aug-06",
       },
       {
         link: "/content/teamtogether/",
         title: "Learn Together",
         description: "Sessions and sharing for groups",
         image: "/images/learntogether.png",
+        date: "Aug-05",
       },
       {
         link: "/content/outputformatting/",
         title: "Output Formatting",
         description: "Formatting equations, code and markdown",
         image: "/content/outputformatting/outputformatting.png",
+        date: "Aug-03",
       },
       {
         link: "/content/sharingprompts/",
         title: "Share Chat Sessions",
         description: "Copy, import, export and share prompts",
         image: "/content/sharingprompts/shareprompts.png",
+        date: "July-30",
       },
       {
         link: "/content/webscrape/",
         title: "Scrape a Webpage",
         description: "Scrape a website using this template",
         image: "/images/webscrape_banner.png",
+        date: "July-15",
       },
       {
         link: "/content/overview/",
         title: "Technical Overview",
         description: "Architecture, frameworks and APIs",
         image: "/content/overview/firebasecloud.png",
+        date: "June-28",
       },
     ];
     let items = "";
     newsList.forEach((item: any) => {
-      items += `<a class="hover_yellow card" href="${item.link}">
-              <div style="flex:1;">
-                <span class="title">${item.title}</span>
-                <br>
-                <span class="caption">${item.description}</span>
-              </div>
+      items += `<li class="list-group-item"><a class="hover_yellow d-flex flex-column" href="${item.link}">
               <div>
-                <img src="${item.image}">
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1"><span class="title">${item.title}</span></h5>
+                    <small>${item.date}</small>
+                  </div>
               </div>
-            </a>`;
+              <div class="d-flex w-100 justify-content-between">
+              <span  class="caption">${item.description}</span>
+              <img src="${item.image}">
+              </div>
+            </a></li>`;
     });
     if (contentPage) {
       items += ``;
