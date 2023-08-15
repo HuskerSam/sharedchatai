@@ -1013,3 +1013,52 @@ button.btn-primary.create_bulk_sessions_button {
 .btn_small:hover {
   background-color: powderblue;
 }
+
+select.form-select.purchase_amount_select {
+  width: auto;
+  background-color: var(--secondary-color);
+  font-weight: bold;
+}
+
+.payment_history_card {
+  padding: 8px;
+}
+
+.header_button {
+  width: 6em;
+}
+
+.payment_date_div {
+  width: 10em;
+  display: inline-block;
+}
+
+.new_balance_display {
+  font-family: "MonospaceTTF";
+  font-weight: bold;
+  display: inline-block;
+}
+
+.error .processing_status_div {
+  color: red;
+}
+
+.complete .processing_status_div {
+  color: green;
+}
+
+.running .processing_status_div {
+  color: blue;
+}
+
+.new_balance_div {
+  display: none;
+}
+
+.complete .new_balance_div {
+  display: block;
+}
+
+.tab-pane {
+  width: 100%;
+}

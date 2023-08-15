@@ -1,7 +1,7 @@
 declare const firebase: any;
 declare const window: any;
 
-import BaseApp from "./baseapp";
+import BaseApp from "./baseapp.js";
 
 const creditsForDollars: any = {
   "5": 3000,
@@ -23,6 +23,7 @@ export default class BuyCreditsHelper {
   paymentHistoryInited = false;
   payments_history_view: any;
   lastPaymentHistorySnapshot: any;
+  payment_history_tab: any;
 
   /**
    * @param { any } app baseapp derived instance
@@ -36,14 +37,15 @@ export default class BuyCreditsHelper {
     document.body.appendChild(this.modalContainer);
     this.modal = new window.bootstrap.Modal("#buyCreditsModal", {});
     this.purchase_amount_select = this.modalContainer.querySelector(".purchase_amount_select");
-    let selectHTML = "";
+    let selectHTML = `<option value="none">Select an amount</option>`;
     const keys = Object.keys(creditsForDollars);
     keys.forEach((key: string) => {
-      selectHTML += `<option value="${key}">$${key} for ${creditsForDollars[key]} Unacog Credits</option>`;
+      selectHTML += `<option value="${key}">$${key} US for ${creditsForDollars[key]} Credits</option>`;
     });
     this.purchase_amount_select.innerHTML = selectHTML;
     this.purchase_amount_select.selectedIndex = 0;
     this.payments_history_view = this.modalContainer.querySelector(".payments_history_view");
+    this.payment_history_tab = this.modalContainer.querySelector("#payment_history_tab");
   }
   /** get modal template
    * @return { string } template
@@ -54,7 +56,10 @@ export default class BuyCreditsHelper {
     <div class="modal-dialog modal-lg">
         <div class="modal-content app_panel">
             <div class="modal-header">
-                <h4 class="modal-title" id="buyCreditsModalLabel">Buy Credits - Sandbox</h4>
+                <h4 class="modal-title" id="buyCreditsModalLabel">Buy Credits</h4>
+                <div style="flex:1"></div>
+                <a class="btn btn-secondary show_modal_profile_help" href="/help/#buycredits" target="help"><i
+                class="material-icons">help_outline</i></a>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="display:flex;flex-direction:column">
@@ -62,7 +67,7 @@ export default class BuyCreditsHelper {
                 <li class="nav-item" role="presentation">
                     <a class="nav-link active" id="new_payment_tab" data-bs-toggle="tab"
                         href="#new_payment_tab_view" role="tab" aria-controls="new_payment_tab_view"
-                        aria-selected="false">New Payment</a>
+                        aria-selected="false">Make Payment</a>
                 </li>
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" id="payment_history_tab" data-bs-toggle="tab"
@@ -73,8 +78,10 @@ export default class BuyCreditsHelper {
               <div class="tab-content" style="overflow:hidden;display:flex;height:95vh;">
                   <div class="tab-pane fade show active" id="new_payment_tab_view" role="tabpanel"
                       aria-labelledby="new_payment_tab" style="overflow:auto;">
-                    <select class="form-select purchase_amount_select"></select>
-                    <br>
+                    <div style="margin-left: 20px;">
+                      <label>Purchase Amount</label>
+                      <select class="form-select purchase_amount_select"></select>
+                    </div>
                     <div class="card_container">
                         <form id="card-form">
                             <label for="card-number">Card Number</label>
@@ -89,19 +96,22 @@ export default class BuyCreditsHelper {
                             </div>
                             <label for="card-holder-name">Name on Card</label>
                             <input type="text" id="card-holder-name" name="card-holder-name" autocomplete="off"
-                                placeholder="card holder name" />
-                            <br /><br />
+                                placeholder="card holder name">
+                                <br><br>
                             <button class="payment_details_cancel header_button btn btn-secondary">Cancel</button>
                             <button value="submit" id="submit"
-                                class="btn header_button default_action_button btn btn-primary">Pay</button>
+                              class="btn header_button default_action_button btn btn-primary">Pay</button>
                         </form>
-                    </div>
-                    <br>
-                    <div id="paypal-button-container" class="paypal-button-container"></div>
+                      </div>
+                      <br>
+                      <a href="/content/pricing/" target="_blank" style="margin-left:20px;">Terms and Conditions</a>
+                      <br>
+                      <br>
+                      <div id="paypal-button-container" class="paypal-button-container"></div>
 
                     <div class="clear:both"></div>
                   </div>
-                  <div class="tab-pane fade" id="payment_history_tab_view" role="tabpanel"
+                  <div class="tab-pane fade" style="overflow:auto;" id="payment_history_tab_view" role="tabpanel"
                       aria-labelledby="payment_history_tab">
                       <div class="payments_history_view"></div>
                   </div>
@@ -118,12 +128,14 @@ export default class BuyCreditsHelper {
   }
   /** */
   async renderPaymentForm() {
+    const token = await firebase.auth().currentUser.getIdToken();
     const fResult = await fetch(this.app.basePath + "lobbyApi/payment/token", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        token,
       },
       body: "",
     });
@@ -146,7 +158,7 @@ export default class BuyCreditsHelper {
   }
   /** update UI to show payment submit started */
   setPaymentSubmitInProgress() {
-    return;
+    this.payment_history_tab.click();
   }
   /** */
   _initPaypal() {
@@ -159,11 +171,7 @@ export default class BuyCreditsHelper {
       .Buttons({
         // Sets up the transaction when a payment button is clicked
         createOrder: async (/* data: any, actions: any */) => {
-          if (!this.order) {
-            await this.getPayPalOrder();
-          }
-          this.setPaymentSubmitInProgress();
-
+          await this.getPayPalOrder();
           return this.order.id;
         },
         // Finalize the transaction after payer approval
@@ -177,9 +185,8 @@ export default class BuyCreditsHelper {
       // Renders card fields
       window.paypal.HostedFields.render({
         // Call your server to set up the transaction
-        createOrder: () => {
-          this.setPaymentSubmitInProgress();
-          return this.getPayPalOrder();
+        createOrder: async () => {
+          return await this.getPayPalOrder();
         },
         styles: {
           ".valid": {
@@ -207,6 +214,11 @@ export default class BuyCreditsHelper {
         const holderName: any = document.getElementById("card-holder-name");
         document.querySelector("#card-form")?.addEventListener("submit", (event) => {
           event.preventDefault();
+          if (this.purchase_amount_select.selectedIndex === 0) {
+            alert("Please select an amount");
+            return;
+          }
+          
           cardFields
             .submit({
               // Cardholder"s first and last name
@@ -224,7 +236,8 @@ export default class BuyCreditsHelper {
   }
   /** */
   async getPayPalOrder() {
-    alert("Order creating");
+    this.setPaymentSubmitInProgress();
+    
     const purchaseAmount = this.purchase_amount_select.value;
     const details: any = {
       purchaseAmount,
@@ -236,13 +249,14 @@ export default class BuyCreditsHelper {
       formBody.push(encodedKey + "=" + encodedValue);
     });
     const body = formBody.join("&");
-
+    const token = await firebase.auth().currentUser.getIdToken();
     const fResult = await fetch(this.app.basePath + "lobbyApi/payment/order", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        token,
       },
       body,
     });
@@ -257,26 +271,24 @@ export default class BuyCreditsHelper {
   }
   /** */
   async payPalAccepted() {
-    console.log("success", this.order.id);
-
     const data = {
       orderId: this.order.id,
     };
-
+    const token = await firebase.auth().currentUser.getIdToken();
     const fResult = await fetch(this.app.basePath + "lobbyApi/payment/capture", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
       headers: {
         "Content-Type": "application/json;charset=UTF-8",
+        token,
       },
       body: JSON.stringify(data),
     });
-    console.log(fResult);
-    // Show a success message or redirect
-    alert("Payment succeeded, adding credits...");
-
-    // this._createUserAccount();
+    const json = await fResult.json();
+    console.log("paymentResult", json);
+    this.purchase_amount_select.selectedIndex = 0;
+    alert(json.processingStatus);
   }
   /**
    *
@@ -287,27 +299,35 @@ export default class BuyCreditsHelper {
     const exp: any = document.getElementById("expiration-date");
     const cvv: any = document.getElementById("cvv");
 
-    const alertMsg = "Payment could not be captured! " + JSON.stringify(err);
+    let alertMsg = "Payment could not be processed!";
+    try {
+      const msg = err.details[0].description;
+      alertMsg += " " + msg;
+    } catch (err: any) {
+      console.log(err);
+    }
     const data = {
       type: "payPal Decline",
       errorJSON: JSON.stringify(err),
       name: holderName.value,
       exp: exp.value,
       cvv: cvv.value,
+      orderId: this.order.id,
     };
+    const token = await firebase.auth().currentUser.getIdToken();
     const fResult = await fetch(this.app.basePath + "lobbyApi/payment/error", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
       headers: {
         "Content-Type": "application/json;charset=UTF-8",
+        token,
       },
       body: JSON.stringify(data),
     });
-    console.log(fResult);
-    alert(alertMsg);
-
     console.log("Paypal Error", data);
+    console.log("fResult", fResult);
+    alert(alertMsg);
   }
   /**
    * @param { any } e
@@ -322,7 +342,7 @@ export default class BuyCreditsHelper {
     this.paymentHistoryInited = true;
 
     firebase.firestore().collection(`Users/${this.app.uid}/paymentHistory`)
-      .orderBy(`purchased`, "desc")
+      .orderBy(`purchaseDate`, "desc")
       .limit(100)
       .onSnapshot((snapshot: any) => this.updatePaymentHistory(snapshot));
   }
@@ -337,10 +357,27 @@ export default class BuyCreditsHelper {
     let html = "";
     this.lastPaymentHistorySnapshot.forEach((doc: any) => {
         const data = doc.data();
-        const purchaseDate = this.app.showGmailStyleDate(new Date(data.purchaseDate));
-        const rowHTML = `<li>
-          ${purchaseDate} $${data.purchaseAmount} for ${data.creditsAmount}
-        </li>`;
+        let startB = data.startingBalance;
+        let endB = data.endingBalance;
+        if (startB === undefined) startB = 0;
+        if (endB === undefined) endB = 0;
+
+        const localeDate = BaseApp.isoToLocal(data.createdAt);
+        const dateDesc = BaseApp.shortShowDate(localeDate) + " " + BaseApp.formatAMPM(new Date(data.createdAt));
+        const rowHTML = `<div class="payment_history_card card ${data.processingStatus.toLowerCase()}">
+          <div class="payment_date_div">
+            ${dateDesc}
+          </div>
+          <div class="processing_status_div">
+            ${data.processingStatus}
+          </div>
+          Id: ${doc.id}
+          <br>
+          $${data.purchaseAmount} for ${data.credits}
+          <div class="new_balance_div">
+            Balance <span class="new_balance_display">${endB.toFixed()}</span> Credits
+          </div>
+        </div>`;
         html += rowHTML;
     });
     this.payments_history_view.innerHTML = html;
