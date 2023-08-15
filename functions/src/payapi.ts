@@ -14,7 +14,7 @@ const creditsForDollars: any = {
     "5": 3000,
     "25": 16000,
     "100": 75000,
-  };
+};
 
 /** Handle PayPal API for payments to buy credits */
 export default class PaymentAPI {
@@ -116,6 +116,7 @@ export default class PaymentAPI {
         data.uid = authResults.uid;
         data.purchaseAmount = purchaseAmount;
         data.processingStatus = "Running";
+        data.credits = creditsForDollars[purchaseAmount];
 
         await firebaseAdmin.firestore().doc(`PaypalOrders/${data.id}`).set(data);
         await firebaseAdmin.firestore().doc(`Users/${data.uid}/paymentHistory/${data.id}`).set(data);
@@ -141,14 +142,27 @@ export default class PaymentAPI {
             },
         });
 
+        let errorMessage = "Processing Error";
         const json = await response.json();
-        let success = (json.status === "COMPLETED");
+        let success = false;
+        if (json.status === "COMPLETED") {
+            if (json.purchase_units && json.purchase_units[0]) {
+                const purchase_unit = json.purchase_units[0];
+                if (purchase_unit.payments && purchase_unit.payments.captures &&
+                    purchase_unit.payments.captures[0]) {
+                    if (purchase_unit.payments.captures[0].status === "COMPLETED") {
+                        success = true;
+                    } else {
+                        errorMessage = purchase_unit.payments.captures[0].status;
+                        success = false;
+                    }
+                }
+            }
+        }
         const resultData: any = {
             success,
             captureResult: json,
         };
-        let errorMessage = "";
-        if (!success) errorMessage = "Processing Error";
 
         if (success) {
             const origOrderQ = await firebaseAdmin.firestore().doc(`Users/${authResults.uid}/paymentHistory/${orderId}`).get();
@@ -176,7 +190,7 @@ export default class PaymentAPI {
         }
 
         resultData.success = success;
-        resultData.errorMessage = errorMessage;
+        if (!success) resultData.errorMessage = errorMessage;
         resultData.processingStatus = success ? "Complete" : "Error";
 
         await firebaseAdmin.firestore().doc(`PaypalOrders/${orderId}`).set(resultData, {
@@ -244,20 +258,20 @@ export default class PaymentAPI {
         if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
         const localInstance = BaseClass.newLocalInstance();
         await localInstance.init();
-        let orderId = req.body.orderId;
+        const orderId = req.body.orderId;
 
         try {
-            let paymentResult = await PaymentAPI.capturePayment(localInstance, authResults, orderId);
+            const paymentResult = await PaymentAPI.capturePayment(localInstance, authResults, orderId);
 
             return res.status(200).send(paymentResult);
         } catch (error) {
             functions.logger.error(error, {
-                structuredData: true
+                structuredData: true,
             });
         }
 
         return res.status(200).send({
-            success: false
+            success: false,
         });
     }
 }

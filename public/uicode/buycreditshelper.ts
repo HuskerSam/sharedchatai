@@ -269,8 +269,6 @@ export default class BuyCreditsHelper {
   }
   /** */
   async payPalAccepted() {
-    console.log("success", this.order.id);
-
     const data = {
       orderId: this.order.id,
     };
@@ -285,10 +283,9 @@ export default class BuyCreditsHelper {
       },
       body: JSON.stringify(data),
     });
-    console.log(fResult);
-    alert("Payment succeeded, credits added.");
-
-    // this._createUserAccount();
+    const json = await fResult.json();
+    console.log("paymentResult", json);
+    alert(json.processingStatus);
   }
   /**
    *
@@ -358,16 +355,17 @@ export default class BuyCreditsHelper {
 
         const localeDate = BaseApp.isoToLocal(data.createdAt);
         const dateDesc = BaseApp.shortShowDate(localeDate) + " " + BaseApp.formatAMPM(new Date(data.createdAt));
-        const rowHTML = `<div class="payment_history_card card">
+        const rowHTML = `<div class="payment_history_card card ${data.processingStatus.toLowerCase()}">
           <div class="payment_date_div">
             ${dateDesc}
           </div>
-          ${data.processingStatus}
-          <br>
+          <div class="processing_status_div">
+            ${data.processingStatus}
+          </div>
           Id: ${doc.id}
           <br>
           $${data.purchaseAmount} for ${data.credits}
-          <div>
+          <div class="new_balance_div">
             Balance <span class="new_balance_display">${endB.toFixed()}</span> Credits
           </div>
         </div>`;

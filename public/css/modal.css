@@ -1038,3 +1038,23 @@ select.form-select.purchase_amount_select {
   font-weight: bold;
   display: inline-block;
 }
+
+.error .processing_status_div {
+  color: red;
+}
+
+.complete .processing_status_div {
+  color: green;
+}
+
+.running .processing_status_div {
+  color: blue;
+}
+
+.new_balance_div {
+  display: none;
+}
+
+.complete .new_balance_div {
+  display: block;
+}
