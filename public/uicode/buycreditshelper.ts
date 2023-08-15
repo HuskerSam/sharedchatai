@@ -37,7 +37,7 @@ export default class BuyCreditsHelper {
     document.body.appendChild(this.modalContainer);
     this.modal = new window.bootstrap.Modal("#buyCreditsModal", {});
     this.purchase_amount_select = this.modalContainer.querySelector(".purchase_amount_select");
-    let selectHTML = "";
+    let selectHTML = `<option value="none">Select an amount</option>`;
     const keys = Object.keys(creditsForDollars);
     keys.forEach((key: string) => {
       selectHTML += `<option value="${key}">$${key} US for ${creditsForDollars[key]} Credits</option>`;
@@ -171,11 +171,7 @@ export default class BuyCreditsHelper {
       .Buttons({
         // Sets up the transaction when a payment button is clicked
         createOrder: async (/* data: any, actions: any */) => {
-          if (!this.order) {
-            await this.getPayPalOrder();
-          }
-          this.setPaymentSubmitInProgress();
-
+          await this.getPayPalOrder();
           return this.order.id;
         },
         // Finalize the transaction after payer approval
@@ -189,9 +185,8 @@ export default class BuyCreditsHelper {
       // Renders card fields
       window.paypal.HostedFields.render({
         // Call your server to set up the transaction
-        createOrder: () => {
-          this.setPaymentSubmitInProgress();
-          return this.getPayPalOrder();
+        createOrder: async () => {
+          return await this.getPayPalOrder();
         },
         styles: {
           ".valid": {
@@ -219,6 +214,11 @@ export default class BuyCreditsHelper {
         const holderName: any = document.getElementById("card-holder-name");
         document.querySelector("#card-form")?.addEventListener("submit", (event) => {
           event.preventDefault();
+          if (this.purchase_amount_select.selectedIndex === 0) {
+            alert("Please select an amount");
+            return;
+          }
+          
           cardFields
             .submit({
               // Cardholder"s first and last name
@@ -236,6 +236,8 @@ export default class BuyCreditsHelper {
   }
   /** */
   async getPayPalOrder() {
+    this.setPaymentSubmitInProgress();
+    
     const purchaseAmount = this.purchase_amount_select.value;
     const details: any = {
       purchaseAmount,
@@ -285,6 +287,7 @@ export default class BuyCreditsHelper {
     });
     const json = await fResult.json();
     console.log("paymentResult", json);
+    this.purchase_amount_select.selectedIndex = 0;
     alert(json.processingStatus);
   }
   /**
@@ -296,13 +299,20 @@ export default class BuyCreditsHelper {
     const exp: any = document.getElementById("expiration-date");
     const cvv: any = document.getElementById("cvv");
 
-    const alertMsg = "Payment could not be captured! " + JSON.stringify(err);
+    let alertMsg = "Payment could not be processed!";
+    try {
+      const msg = err.details[0].description;
+      alertMsg += " " + msg;
+    } catch (err: any) {
+      console.log(err);
+    }
     const data = {
       type: "payPal Decline",
       errorJSON: JSON.stringify(err),
       name: holderName.value,
       exp: exp.value,
       cvv: cvv.value,
+      orderId: this.order.id,
     };
     const token = await firebase.auth().currentUser.getIdToken();
     const fResult = await fetch(this.app.basePath + "lobbyApi/payment/error", {
@@ -315,10 +325,8 @@ export default class BuyCreditsHelper {
       },
       body: JSON.stringify(data),
     });
-    console.log(fResult);
-    alert(alertMsg);
-
     console.log("Paypal Error", data);
+    alert(alertMsg);
   }
   /**
    * @param { any } e

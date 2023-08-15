@@ -147,13 +147,13 @@ export default class PaymentAPI {
         let success = false;
         if (json.status === "COMPLETED") {
             if (json.purchase_units && json.purchase_units[0]) {
-                const purchase_unit = json.purchase_units[0];
-                if (purchase_unit.payments && purchase_unit.payments.captures &&
-                    purchase_unit.payments.captures[0]) {
-                    if (purchase_unit.payments.captures[0].status === "COMPLETED") {
+                const purchaseUnit = json.purchase_units[0];
+                if (purchaseUnit.payments && purchaseUnit.payments.captures &&
+                    purchaseUnit.payments.captures[0]) {
+                    if (purchaseUnit.payments.captures[0].status === "COMPLETED") {
                         success = true;
                     } else {
-                        errorMessage = purchase_unit.payments.captures[0].status;
+                        errorMessage = purchaseUnit.payments.captures[0].status;
                         success = false;
                     }
                 }
@@ -239,12 +239,19 @@ export default class PaymentAPI {
     * @param { any } res http response object
     */
     static async postError(req: Request, res: Response) {
+        const authResults = await BaseClass.validateCredentials(<string>req.headers.token);
+        if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
         const localInstance = BaseClass.newLocalInstance();
         await localInstance.init();
+        const orderId = req.body.orderId;
 
-        console.log(req.body);
         await firebaseAdmin.firestore().doc(`PaypalErrors/${new Date().toISOString()}`).set(req.body);
 
+        await firebaseAdmin.firestore().doc(`Users/${authResults.uid}/paymentHistory/${orderId}`).set({
+            processingStatus: "Error",
+        }, {
+            merge: true,
+        });
         return res.status(200).send({
             success: true,
         });
