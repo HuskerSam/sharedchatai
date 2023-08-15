@@ -1013,3 +1013,28 @@ button.btn-primary.create_bulk_sessions_button {
 .btn_small:hover {
   background-color: powderblue;
 }
+
+select.form-select.purchase_amount_select {
+  width: auto;
+  background-color: var(--secondary-color);
+  font-weight: bold;
+}
+
+.payment_history_card {
+  padding: 8px;
+}
+
+.header_button {
+  width: 6em;
+}
+
+.payment_date_div {
+  width: 10em;
+  display: inline-block;
+}
+
+.new_balance_display {
+  font-family: "MonospaceTTF";
+  font-weight: bold;
+  display: inline-block;
+}

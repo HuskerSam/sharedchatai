@@ -1,7 +1,7 @@
 declare const firebase: any;
 declare const window: any;
 
-import BaseApp from "./baseapp";
+import BaseApp from "./baseapp.js";
 
 const creditsForDollars: any = {
   "5": 3000,
@@ -23,6 +23,7 @@ export default class BuyCreditsHelper {
   paymentHistoryInited = false;
   payments_history_view: any;
   lastPaymentHistorySnapshot: any;
+  payment_history_tab: any;
 
   /**
    * @param { any } app baseapp derived instance
@@ -39,11 +40,12 @@ export default class BuyCreditsHelper {
     let selectHTML = "";
     const keys = Object.keys(creditsForDollars);
     keys.forEach((key: string) => {
-      selectHTML += `<option value="${key}">$${key} for ${creditsForDollars[key]} Unacog Credits</option>`;
+      selectHTML += `<option value="${key}">$${key} US for ${creditsForDollars[key]} Credits</option>`;
     });
     this.purchase_amount_select.innerHTML = selectHTML;
     this.purchase_amount_select.selectedIndex = 0;
     this.payments_history_view = this.modalContainer.querySelector(".payments_history_view");
+    this.payment_history_tab = this.modalContainer.querySelector("#payment_history_tab");
   }
   /** get modal template
    * @return { string } template
@@ -54,7 +56,10 @@ export default class BuyCreditsHelper {
     <div class="modal-dialog modal-lg">
         <div class="modal-content app_panel">
             <div class="modal-header">
-                <h4 class="modal-title" id="buyCreditsModalLabel">Buy Credits - Sandbox</h4>
+                <h4 class="modal-title" id="buyCreditsModalLabel">Buy Credits</h4>
+                <div style="flex:1"></div>
+                <a class="btn btn-secondary show_modal_profile_help" href="/help/#buycredits" target="help"><i
+                class="material-icons">help_outline</i></a>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="display:flex;flex-direction:column">
@@ -62,7 +67,7 @@ export default class BuyCreditsHelper {
                 <li class="nav-item" role="presentation">
                     <a class="nav-link active" id="new_payment_tab" data-bs-toggle="tab"
                         href="#new_payment_tab_view" role="tab" aria-controls="new_payment_tab_view"
-                        aria-selected="false">New Payment</a>
+                        aria-selected="false">Make Payment</a>
                 </li>
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" id="payment_history_tab" data-bs-toggle="tab"
@@ -73,8 +78,10 @@ export default class BuyCreditsHelper {
               <div class="tab-content" style="overflow:hidden;display:flex;height:95vh;">
                   <div class="tab-pane fade show active" id="new_payment_tab_view" role="tabpanel"
                       aria-labelledby="new_payment_tab" style="overflow:auto;">
-                    <select class="form-select purchase_amount_select"></select>
-                    <br>
+                    <div style="margin-left: 20px;">
+                      <label>Purchase Amount</label>
+                      <select class="form-select purchase_amount_select"></select>
+                    </div>
                     <div class="card_container">
                         <form id="card-form">
                             <label for="card-number">Card Number</label>
@@ -89,19 +96,22 @@ export default class BuyCreditsHelper {
                             </div>
                             <label for="card-holder-name">Name on Card</label>
                             <input type="text" id="card-holder-name" name="card-holder-name" autocomplete="off"
-                                placeholder="card holder name" />
-                            <br /><br />
+                                placeholder="card holder name">
+                                <br><br>
                             <button class="payment_details_cancel header_button btn btn-secondary">Cancel</button>
                             <button value="submit" id="submit"
-                                class="btn header_button default_action_button btn btn-primary">Pay</button>
+                              class="btn header_button default_action_button btn btn-primary">Pay</button>
                         </form>
-                    </div>
-                    <br>
-                    <div id="paypal-button-container" class="paypal-button-container"></div>
+                      </div>
+                      <br>
+                      <a href="/content/pricing/" target="_blank" style="margin-left:20px;">Terms and Conditions</a>
+                      <br>
+                      <br>
+                      <div id="paypal-button-container" class="paypal-button-container"></div>
 
                     <div class="clear:both"></div>
                   </div>
-                  <div class="tab-pane fade" id="payment_history_tab_view" role="tabpanel"
+                  <div class="tab-pane fade" style="overflow:auto;" id="payment_history_tab_view" role="tabpanel"
                       aria-labelledby="payment_history_tab">
                       <div class="payments_history_view"></div>
                   </div>
@@ -148,7 +158,7 @@ export default class BuyCreditsHelper {
   }
   /** update UI to show payment submit started */
   setPaymentSubmitInProgress() {
-    return;
+    this.payment_history_tab.click();
   }
   /** */
   _initPaypal() {
@@ -346,12 +356,21 @@ export default class BuyCreditsHelper {
         if (startB === undefined) startB = 0;
         if (endB === undefined) endB = 0;
 
-        const purchaseDate = this.app.showGmailStyleDate(new Date(data.purchaseDate));
-        const rowHTML = `<li>
-          ${purchaseDate} $${data.purchaseAmount} for ${data.credits} (${doc.id})
+        const localeDate = BaseApp.isoToLocal(data.createdAt);
+        const dateDesc = BaseApp.shortShowDate(localeDate) + " " + BaseApp.formatAMPM(new Date(data.createdAt));
+        const rowHTML = `<div class="payment_history_card card">
+          <div class="payment_date_div">
+            ${dateDesc}
+          </div>
+          ${data.processingStatus}
           <br>
-          ${startB.toFixed()} => ${endB.toFixed()}
-        </li>`;
+          Id: ${doc.id}
+          <br>
+          $${data.purchaseAmount} for ${data.credits}
+          <div>
+            Balance <span class="new_balance_display">${endB.toFixed()}</span> Credits
+          </div>
+        </div>`;
         html += rowHTML;
     });
     this.payments_history_view.innerHTML = html;

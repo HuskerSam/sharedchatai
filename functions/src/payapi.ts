@@ -115,6 +115,7 @@ export default class PaymentAPI {
         data.purchaseDate = new Date().toISOString();
         data.uid = authResults.uid;
         data.purchaseAmount = purchaseAmount;
+        data.processingStatus = "Running";
 
         await firebaseAdmin.firestore().doc(`PaypalOrders/${data.id}`).set(data);
         await firebaseAdmin.firestore().doc(`Users/${data.uid}/paymentHistory/${data.id}`).set(data);
@@ -141,23 +142,27 @@ export default class PaymentAPI {
         });
 
         const json = await response.json();
-        const success = (json.status === "COMPLETED");
+        let success = (json.status === "COMPLETED");
         const resultData: any = {
             success,
             captureResult: json,
         };
+        let errorMessage = "";
+        if (!success) errorMessage = "Processing Error";
 
         if (success) {
             const origOrderQ = await firebaseAdmin.firestore().doc(`Users/${authResults.uid}/paymentHistory/${orderId}`).get();
             const orderData: any = origOrderQ.data();
-            console.log(orderData);
             const purchaseAmount = orderData.purchaseAmount;
             resultData.credits = creditsForDollars[purchaseAmount];
 
             if (!resultData.credits) {
-                throw new Error("No credits value found for purchase amount, contact support");
+                errorMessage = "No credits value found for purchase amount, contact support";
+                success = false;
             }
+        }
 
+        if (success) {
             const usageQ = await firebaseAdmin.firestore().doc(`Users/${authResults.uid}/internal/tokenUsage`).get();
             let usageData = usageQ.data();
             if (!usageData) usageData = {};
@@ -169,6 +174,10 @@ export default class PaymentAPI {
                 merge: true,
             });
         }
+
+        resultData.success = success;
+        resultData.errorMessage = errorMessage;
+        resultData.processingStatus = success ? "Complete" : "Error";
 
         await firebaseAdmin.firestore().doc(`PaypalOrders/${orderId}`).set(resultData, {
             merge: true,
