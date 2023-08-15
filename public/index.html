@@ -29,7 +29,6 @@
         content="Unacog is an online AI chat tool, enabling instant collaboration on any device. It equips you with a comprehensive set of features to optimize your interaction with advanced AI models. Login and start a session.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image:src" content="https://unacog.com/images/homepageogmeta.jpg">
-    <!-- Firebase links -->
 
     <!-- Firebase links -->
     <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-app.js"></script>
@@ -55,6 +54,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
+    <!-- swiper -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 
     <link href="//cdn-images.mailchimp.com/embedcode/classic-061523.css" rel="stylesheet" type="text/css">
 
@@ -81,8 +83,9 @@
             <li style="flex:1">
                 <ul class="header_tabs nav nav-pills" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link session_tab" id="dashboard_tab_button" data-bs-toggle="tab" href="#dashboard_tab_view"
-                            role="tab" aria-controls="dashboard_tab_view" aria-selected="false">Sessions</a>
+                        <a class="nav-link session_tab" id="dashboard_tab_button" data-bs-toggle="tab"
+                            href="#dashboard_tab_view" role="tab" aria-controls="dashboard_tab_view"
+                            aria-selected="false">Sessions</a>
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link active" id="news_tab_button" data-bs-toggle="tab" href="#news_tab_view"
@@ -93,10 +96,6 @@
             <li class="nav-item signed_in_options">
                 <a class="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
                     <span class="menu_profile_user_image_span member_profile_image hover_yellow"> </span>
-                </a>
-            </li>
-            <li class="nav-item signed_out_options">
-                <a class="signin_show_modal btn btn-primary px-4" href="login" type="button">Sign In
                 </a>
             </li>
             <li class="nav-item">
@@ -386,6 +385,19 @@
             </div>
             <div class="tab-pane fade" id="dashboard_tab_view" role="tabpanel" style="flex-direction:column;"
                 aria-labelledby="dashboard_tab_button">
+
+                <div class="signed_out_flex p-3 justify-content-center session_cta">
+                    <div class="d-flex flex-column flex-auto justify-content-center rounded card side_block p-3 p-lg-5">
+                        <div class="mb-2 mb-md-3"><img src="/images/logo64.png" alt=""></div>
+                        <div class="mb-3 mb-md-4 text-center">Welcome to Unacog</div>
+                        <div class="mb-3 mb-md-4 text-center">Login with email or Google to continue</div>
+                        <div class="d-flex flex-row justify-content-center">
+                            <a class="signin_show_modal btn btn-primary px-4" href="login" type="button">Login
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="signed_in_inline_block">
                     <div class="filter_bar_wrapper">
                         <div class="games_view_header_wrapper">
@@ -410,7 +422,6 @@
                             <div class="dashboard_documents_view"></div>
                         </div>
                     </div>
-
                     <div class="no_games_in_dashboard app_panel impact-font" style="font-size: 2em;">
                         <br>
                         Welcome to Unacog! Create a chat session to get started.
@@ -420,6 +431,20 @@
         </div>
         <div style="flex:1"></div>
     </div>
+
+
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+    <!-- Initialize Swiper -->
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+            pagination: {
+                el: ".swiper-pagination",
+            },
+        });
+    </script>
 </body>
 
 </html>

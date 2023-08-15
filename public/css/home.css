@@ -340,15 +340,15 @@ ul.recent_documents_list li a {
 }
 
 .navbar_logo {
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   background-size: contain;
   background-position: center center;
   display: inline-block;
   position: relative;
   background-repeat: no-repeat;
   background-image: url('/images/logo64.png');
-  top: 6px;
+  top: 2px;
 }
 
 .home_logo_mobile_only {
@@ -723,7 +723,7 @@ ul.recent_documents_list li a {
 }
 
 .navbar_wrapper {
-  height: 62px;
+  height: 66px;
   position: fixed;
   top: 0;
   z-index: 100;
@@ -865,6 +865,7 @@ ul.recent_documents_list li a {
 .day_mode .nav-pills .show>.nav-link {
   background-color: var(--secondary-color);
   color: var(--highlight);
+  line-height: initial;
 }
 
 .sessions_list_loading_panel {
@@ -1049,8 +1050,8 @@ ol li {
 
 .homepage.homepage_tab_selected_1 .footer_container_div {
   display: none;
+  opacity: 0;
 }
-
 
 .footer_container_div {
   margin-bottom: 0;
@@ -1067,10 +1068,6 @@ ol li {
 }
 
 .homepage.homepage_tab_selected_0 .footer_container_div {
-  opacity: 1;
-}
-
-.homepage.homepage_tab_selected_1 .footer_container_div {
   opacity: 1;
 }
 
@@ -1096,6 +1093,12 @@ ol li {
 @media(min-width: 1200px) {
   .video_wrapper img {
     width: 70%;
+  }
+  .session_cta {
+    height: 94vh;
+  }
+  .session_cta img {
+    width: 70px;
   }
 }
 
@@ -1124,4 +1127,39 @@ ol li {
 
 .recent_content_flyers_ul_list a .title {
   text-decoration: underline;
+}
+
+.swiper {
+  width: 100vh;
+  height: 60vh;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.session_cta {
+  height: 70vh;
+}
+
+.session_cta,
+.session_cta a.btn {
+  font-size: clamp(16px, 4.3vw, 36px);
+}
+
+.session_cta img {
+  width: 40px;
+  height: auto;
 }

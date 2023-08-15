@@ -251,18 +251,12 @@ a {
   font-size: 1.5em;
 }
 
-.signed_out_options {
+.signed_out_flex {
   display: none;
 }
 
-.app_signed_out .signed_out_options {
+.app_signed_out .signed_out_flex {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  align-self: center;
-  font-size: 1.25em;
-  max-width: 90%;
 }
 
 .app_signed_in .hide_if_signedin {
@@ -272,12 +266,6 @@ a {
 .google_logo {
   width: 20px;
   height: 20px;
-}
-
-@media (min-width: 768px) {
-  .app_signed_out .signed_out_options {
-    max-width: 630px;
-  }
 }
 
 .select2-container .selection {
@@ -852,7 +840,7 @@ a:hover {
 
 .day_mode .navbar_wrapper {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
-  border-bottom: 1px solid rgba(127, 127, 127, .2);
+  border-bottom: 1px solid rgba(127, 127, 127, .4);
 }
 
 tbody, td, tfoot, th, thead, tr {

@@ -741,7 +741,7 @@ export default class BaseApp {
                 <div class="col-md-2 mb-md-0">
                     <h5>Company</h5>
                     <ul class="nav flex-column" style="font-size: 1.2em;">
-                        <li class="nav-item mb-2"><a href="/#about_tab_view"
+                        <li class="nav-item mb-2"><a href="/content/about/"
                                 class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25
                                  link-underline-opacity-100-hover"
                                 >About</a></li>
@@ -844,13 +844,13 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
     let items = "";
     newsList.forEach((item: any) => {
       items += `<a class="hover_yellow card" href="${item.link}">
-              <div>
-                <img src="${item.image}">
-              </div>
               <div style="flex:1;">
                 <span class="title">${item.title}</span>
                 <br>
                 <span class="caption">${item.description}</span>
+              </div>
+              <div>
+                <img src="${item.image}">
               </div>
             </a>`;
     });
