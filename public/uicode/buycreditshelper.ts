@@ -464,6 +464,11 @@ export default class BuyCreditsHelper {
   }
   /** */
   show() {
+    if (this.app.fireUser && this.app.fireUser.isAnonymous) {
+      alert("Anonymous users can't buy credits");
+      return;
+    }
+
     if (!this.paymentFormRendered) {
       this.paymentFormRendered = true;
 
