@@ -216,10 +216,6 @@ export default class BuyCreditsHelper {
         onApprove: (/* data: any, actions: any */) => {
           return this.payPalAccepted();
         },
-        onInit: () => {
-        },
-        onClick: () => {
-        },
       })
       .render("#paypal-button-container");
 
@@ -303,7 +299,7 @@ export default class BuyCreditsHelper {
       this.order = json.order;
       return json.order.id;
     }
-    
+
     return null;
   }
   /** */
@@ -393,15 +389,15 @@ export default class BuyCreditsHelper {
 
     let html = "";
     this.lastPaymentHistorySnapshot.forEach((doc: any) => {
-        const data = doc.data();
-        let startB = data.startingBalance;
-        let endB = data.endingBalance;
-        if (startB === undefined) startB = 0;
-        if (endB === undefined) endB = 0;
+      const data = doc.data();
+      let startB = data.startingBalance;
+      let endB = data.endingBalance;
+      if (startB === undefined) startB = 0;
+      if (endB === undefined) endB = 0;
 
-        const localeDate = BaseApp.isoToLocal(data.createdAt);
-        const dateDesc = BaseApp.shortShowDate(localeDate) + " " + BaseApp.formatAMPM(new Date(data.createdAt));
-        const rowHTML = `<div class="payment_history_card card ${data.processingStatus.toLowerCase()}">
+      const localeDate = BaseApp.isoToLocal(data.createdAt);
+      const dateDesc = BaseApp.shortShowDate(localeDate) + " " + BaseApp.formatAMPM(new Date(data.createdAt));
+      const rowHTML = `<div class="payment_history_card card ${data.processingStatus.toLowerCase()}">
           <div class="payment_date_div">
             ${dateDesc}
           </div>
@@ -416,8 +412,8 @@ export default class BuyCreditsHelper {
             <button class="show_receipt btn btn-secondary" data-id="${doc.id}">Receipt</button>
           </div>
         </div>`;
-        html += rowHTML;
-        this.paymentHistory[doc.id] = doc.data();
+      html += rowHTML;
+      this.paymentHistory[doc.id] = doc.data();
     });
     this.payments_history_view.innerHTML = html;
     this.payments_history_view.querySelectorAll(".show_receipt").forEach(
@@ -426,7 +422,9 @@ export default class BuyCreditsHelper {
         this.previewReceipt(id);
       }));
   }
-  /** */
+  /**
+   * @param { string } id
+   */
   previewReceipt(id: string) {
     const data = this.paymentHistory[id];
     let startB = data.startingBalance;
@@ -435,7 +433,7 @@ export default class BuyCreditsHelper {
     if (endB === undefined) endB = 0;
     const localeDate = BaseApp.isoToLocal(data.createdAt);
     const dateDesc = BaseApp.shortShowDate(localeDate) + " " + BaseApp.formatAMPM(new Date(data.createdAt));
-    
+
     const html = `<!DOCTYPE html>
     <html>
         <head>
@@ -456,12 +454,13 @@ export default class BuyCreditsHelper {
       Ending Balance <span class="new_balance_display">${endB.toFixed()}</span> Credits
     </div>
   </div></body></html>`;
-    const winUrl = URL.createObjectURL(new Blob([html], { type: "text/html" }));   
+    const winUrl = URL.createObjectURL(new Blob([html], {
+      type: "text/html",
+    }));
     const left = (screen.width - 350) / 2;
     const top = (screen.height - 500) / 4;
-    console.log(left, top);
-    const win = window.open(winUrl, "Title", 
-        `resizable=yes,width=350,height=500,left=${left.toFixed()},top=${top.toFixed()}`);
+    window.open(winUrl, "Title",
+      `resizable=yes,width=350,height=500,left=${left.toFixed()},top=${top.toFixed()}`);
   }
   /** */
   show() {
