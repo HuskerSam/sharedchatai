@@ -401,17 +401,21 @@ export default class BuyCreditsHelper {
           <div class="payment_date_div">
             ${dateDesc}
           </div>
-          <div class="processing_status_div">
-            ${data.processingStatus}
+          <div>
+            <div class="processing_status_div">
+              ${data.processingStatus}
+            </div>
           </div>
           Id: ${doc.id}
           <br>
           $${data.purchaseAmount} for ${data.credits}
           <div class="new_balance_div">
             Balance <span class="new_balance_display">${endB.toFixed()}</span> Credits
-            <button class="show_receipt btn btn-secondary" data-id="${doc.id}">Receipt</button>
+            <br>
+            <button class="show_receipt btn btn-secondary" data-id="${doc.id}">View</button>
+            <button class="print_receipt btn btn-secondary" data-id="${doc.id}">Print</button>
           </div>
-        </div>`;
+        </div><hr>`;
       html += rowHTML;
       this.paymentHistory[doc.id] = doc.data();
     });
@@ -421,11 +425,17 @@ export default class BuyCreditsHelper {
         const id = btn.dataset.id;
         this.previewReceipt(id);
       }));
+    this.payments_history_view.querySelectorAll(".print_receipt").forEach(
+      (btn: any) => btn.addEventListener("click", () => {
+        const id = btn.dataset.id;
+        this.previewReceipt(id, true);
+      }));
   }
   /**
    * @param { string } id
+   * @param { boolean } print
    */
-  previewReceipt(id: string) {
+  previewReceipt(id: string, print = false) {
     const data = this.paymentHistory[id];
     let startB = data.startingBalance;
     let endB = data.endingBalance;
@@ -440,8 +450,17 @@ export default class BuyCreditsHelper {
             <title>Receipt for ${id}</title>
             <meta charset="utf-8">
         </head>
-        <body>
-        <div class="${data.processingStatus.toLowerCase()}">
+        <body style="text-align: center;">
+        <div style="text-align:center;width: 400px;display:inline-block;">
+            <img src="https://unacog.com/images/logo64.png" style="width:150px;">
+            <br><br>
+            Unacog AI
+            <br>
+            <a href="https://unacog.com" target="_blank">unacog.com</a>
+            <br><br> 
+            Credits Purchase
+          <br>
+        <div class="${data.processingStatus.toLowerCase()}" style="text-align:left;">
     <div class="payment_date_div">
       ${dateDesc}
     </div>
@@ -453,14 +472,31 @@ export default class BuyCreditsHelper {
     <br>
       Ending Balance <span class="new_balance_display">${endB.toFixed()}</span> Credits
     </div>
+    <br>
+    <a href="mailto:support@unacog.com" target="_blank">support@unacog.com</a>
+    <br>
+    <div style="text-align:left;">
+    <a href="https://unacog.com/content/terms" target="_blank">Terms:</a><br>
+    Thanks for purchasing credits for usage with Unacog AI, the credits are 
+    not redeemable for cash and do not decay in value with time.  Unacog is 
+    not responsible or liable for incorrect results.
+    </div>
+    <br>
+  </div>
   </div></body></html>`;
     const winUrl = URL.createObjectURL(new Blob([html], {
       type: "text/html",
     }));
-    const left = (screen.width - 350) / 2;
-    const top = (screen.height - 500) / 4;
-    window.open(winUrl, "Title",
-      `resizable=yes,width=350,height=500,left=${left.toFixed()},top=${top.toFixed()}`);
+    const width = 400;
+    const height = 500;
+    const left = (screen.width - width) / 2;
+    const top = (screen.height - height) / 4;
+    const win = window.open(winUrl, "Title",
+      `resizable=yes,left=${left.toFixed()},top=${top.toFixed()},width=${width},height=${height}`);
+    if (print) {
+      win.print();
+      //win.close();
+    }
   }
   /** */
   show() {
