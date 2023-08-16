@@ -302,14 +302,14 @@
   flex-grow: 1;
   overflow: hidden;
   align-self: center;
-  font-style: italic;
+  font-weight: bold;
   color: var(--primary-color);
 }
 
 .profile_display_image {
   flex-grow: 1;
-  width: 64px;
-  height: 64px;
+  width: 45px;
+  height: 45px;
   display: inline-block;
   background-repeat: no-repeat;
   background-position: center center;
@@ -317,7 +317,7 @@
   margin-right: 12px;
   border-radius: 6px;
   position: relative;
-  top: 26px;
+  top: 16px;
 }
 
 .profile_display_image_clear.btn.btn-secondary,
