@@ -115,7 +115,7 @@ export default class PaymentAPI {
         data.purchaseDate = new Date().toISOString();
         data.uid = authResults.uid;
         data.purchaseAmount = purchaseAmount;
-        data.processingStatus = "Running";
+        data.processingStatus = "Processing";
         data.credits = creditsForDollars[purchaseAmount];
 
         await firebaseAdmin.firestore().doc(`PaypalOrders/${data.id}`).set(data);

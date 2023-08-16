@@ -24,6 +24,10 @@ export default class BuyCreditsHelper {
   payments_history_view: any;
   lastPaymentHistorySnapshot: any;
   payment_history_tab: any;
+  card_container: any;
+  payment_form_wrapper: any;
+  cardHolderName: any;
+  paymentHistory: any = {};
 
   /**
    * @param { any } app baseapp derived instance
@@ -44,77 +48,98 @@ export default class BuyCreditsHelper {
     });
     this.purchase_amount_select.innerHTML = selectHTML;
     this.purchase_amount_select.selectedIndex = 0;
+    this.purchase_amount_select.addEventListener("input", () => {
+      if (this.purchase_amount_select.selectedIndex === 0) {
+        this.resetForm();
+      } else {
+        this.payment_form_wrapper.style.display = "block";
+      }
+    });
     this.payments_history_view = this.modalContainer.querySelector(".payments_history_view");
     this.payment_history_tab = this.modalContainer.querySelector("#payment_history_tab");
+    this.card_container = this.modalContainer.querySelector(".card_container");
+    this.payment_form_wrapper = this.modalContainer.querySelector(".payment_form_wrapper");
+    this.cardHolderName = document.getElementById("card-holder-name");
+    this.cardHolderName.addEventListener("keydown", (e: any) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    });
   }
   /** get modal template
    * @return { string } template
    */
   getModalTemplate(): string {
-    return `<div class="modal fade scrollable_modal" id="buyCreditsModal" tabindex="-1" 
-      aria-labelledby="buyCreditsModalLabel" aria-hidden="true">
+    return `<div class="modal fade scrollable_modal" id="buyCreditsModal" tabindex="-1" aria-labelledby="buyCreditsModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content app_panel">
             <div class="modal-header">
                 <h4 class="modal-title" id="buyCreditsModalLabel">Buy Credits</h4>
                 <div style="flex:1"></div>
                 <a class="btn btn-secondary show_modal_profile_help" href="/help/#buycredits" target="help"><i
-                class="material-icons">help_outline</i></a>
+                        class="material-icons">help_outline</i></a>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="display:flex;flex-direction:column">
-              <ul class="nav nav-tabs mb-2" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="new_payment_tab" data-bs-toggle="tab"
-                        href="#new_payment_tab_view" role="tab" aria-controls="new_payment_tab_view"
-                        aria-selected="false">Make Payment</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="payment_history_tab" data-bs-toggle="tab"
-                        href="#payment_history_tab_view" role="tab" aria-controls="payment_history_tab_view"
-                        aria-selected="true">History</a>
-                </li>
-              </ul>
-              <div class="tab-content" style="overflow:hidden;display:flex;height:95vh;">
-                  <div class="tab-pane fade show active" id="new_payment_tab_view" role="tabpanel"
-                      aria-labelledby="new_payment_tab" style="overflow:auto;">
-                    <div style="margin-left: 20px;">
-                      <label>Purchase Amount</label>
-                      <select class="form-select purchase_amount_select"></select>
-                    </div>
-                    <div class="card_container">
-                        <form id="card-form">
-                            <label for="card-number">Card Number</label>
-                            <div id="card-number" class="card_field"></div>
-                            <div>
-                                <label for="expiration-date">Expiration Date</label>
-                                <div id="expiration-date" class="card_field"></div>
+                <ul class="nav nav-tabs mb-2" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="new_payment_tab" data-bs-toggle="tab"
+                            href="#new_payment_tab_view" role="tab" aria-controls="new_payment_tab_view"
+                            aria-selected="false">New Purchase</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="payment_history_tab" data-bs-toggle="tab"
+                            href="#payment_history_tab_view" role="tab" aria-controls="payment_history_tab_view"
+                            aria-selected="true">History</a>
+                    </li>
+                </ul>
+                <div class="tab-content" style="overflow:hidden;display:flex;height:95vh;">
+                    <div class="tab-pane fade show active" id="new_payment_tab_view" role="tabpanel"
+                        aria-labelledby="new_payment_tab" style="overflow:auto;">
+                        <div style="margin-left: 20px;">
+                            <label>Purchase Amount</label>
+                            <select class="form-select purchase_amount_select"></select>
+                        </div>
+                        <div class="payment_form_wrapper" style="display:none;">
+                            <div class="card_container">
+                                <form id="card-form">
+                                    <label for="card-number">Card Number</label>
+                                    <div id="card-number" class="card_field"></div>
+                                    <div>
+                                        <label for="expiration-date">Expiration Date</label>
+                                        <div id="expiration-date" class="card_field"></div>
+                                    </div>
+                                    <div>
+                                        <label for="cvv">CVV</label>
+                                        <div id="cvv" class="card_field"></div>
+                                    </div>
+                                    <label for="card-holder-name">Name on Card</label>
+                                    <input type="text" id="card-holder-name" name="card-holder-name" autocomplete="off"
+                                        placeholder="card holder name">
+                                    <br><br>
+                                    <button
+                                        class="payment_details_cancel header_button btn btn-secondary">Cancel</button>
+                                    <button value="submit" id="submit"
+                                        class="btn header_button default_action_button btn btn-primary">Pay</button>
+                                </form>
                             </div>
-                            <div>
-                                <label for="cvv">CVV</label>
-                                <div id="cvv" class="card_field"></div>
-                            </div>
-                            <label for="card-holder-name">Name on Card</label>
-                            <input type="text" id="card-holder-name" name="card-holder-name" autocomplete="off"
-                                placeholder="card holder name">
-                                <br><br>
-                            <button class="payment_details_cancel header_button btn btn-secondary">Cancel</button>
-                            <button value="submit" id="submit"
-                              class="btn header_button default_action_button btn btn-primary">Pay</button>
-                        </form>
-                      </div>
-                      <br>
-                      <a href="/content/pricing/" target="_blank" style="margin-left:20px;">Terms and Conditions</a>
-                      <br>
-                      <br>
-                      <div id="paypal-button-container" class="paypal-button-container"></div>
+                            <br>
+                            <a href="/content/pricing/" target="_blank" style="margin-left:20px;">Terms and
+                                Conditions</a>
+                            <br>
+                            <br>
+                            <div id="paypal-button-container" class="paypal-button-container"></div>
 
-                    <div class="clear:both"></div>
-                  </div>
-                  <div class="tab-pane fade" style="overflow:auto;" id="payment_history_tab_view" role="tabpanel"
-                      aria-labelledby="payment_history_tab">
-                      <div class="payments_history_view"></div>
-                  </div>
+                            <div class="clear:both"></div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" style="overflow:auto;" id="payment_history_tab_view" role="tabpanel"
+                        aria-labelledby="payment_history_tab">
+                        <div class="payments_history_view"></div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -156,6 +181,11 @@ export default class BuyCreditsHelper {
 
     return false;
   }
+  /** */
+  resetForm() {
+    this.purchase_amount_select.selectedIndex = 0;
+    this.payment_form_wrapper.style.display = "none";
+  }
   /** update UI to show payment submit started */
   setPaymentSubmitInProgress() {
     this.payment_history_tab.click();
@@ -173,6 +203,14 @@ export default class BuyCreditsHelper {
         createOrder: async (/* data: any, actions: any */) => {
           await this.getPayPalOrder();
           return this.order.id;
+        },
+        onCancel: async (data: any) => {
+          this.resetForm();
+          this.payPalError(data);
+        },
+        onError: async (err: any) => {
+          console.log(err);
+          alert("Error");
         },
         // Finalize the transaction after payer approval
         onApprove: (/* data: any, actions: any */) => {
@@ -211,18 +249,13 @@ export default class BuyCreditsHelper {
           },
         },
       }).then((cardFields: any) => {
-        const holderName: any = document.getElementById("card-holder-name");
         document.querySelector("#card-form")?.addEventListener("submit", (event) => {
           event.preventDefault();
-          if (this.purchase_amount_select.selectedIndex === 0) {
-            alert("Please select an amount");
-            return;
-          }
-          
+
           cardFields
             .submit({
               // Cardholder"s first and last name
-              cardholderName: holderName.value,
+              cardholderName: this.cardHolderName.value,
             })
             .then(() => this.payPalAccepted())
             .catch((err: any) => this.payPalError(err));
@@ -236,12 +269,11 @@ export default class BuyCreditsHelper {
   }
   /** */
   async getPayPalOrder() {
-    this.setPaymentSubmitInProgress();
-    
     const purchaseAmount = this.purchase_amount_select.value;
     const details: any = {
       purchaseAmount,
     };
+    this.resetForm();
     const formBody: any = [];
     Object.keys(details).forEach((property: string) => {
       const encodedKey = encodeURIComponent(property);
@@ -260,6 +292,7 @@ export default class BuyCreditsHelper {
       },
       body,
     });
+    this.setPaymentSubmitInProgress();
     const json = await fResult.json();
     if (json.success) {
       console.log("order created", json);
@@ -287,7 +320,7 @@ export default class BuyCreditsHelper {
     });
     const json = await fResult.json();
     console.log("paymentResult", json);
-    this.purchase_amount_select.selectedIndex = 0;
+    this.resetForm();
     alert(json.processingStatus);
   }
   /**
@@ -356,34 +389,122 @@ export default class BuyCreditsHelper {
 
     let html = "";
     this.lastPaymentHistorySnapshot.forEach((doc: any) => {
-        const data = doc.data();
-        let startB = data.startingBalance;
-        let endB = data.endingBalance;
-        if (startB === undefined) startB = 0;
-        if (endB === undefined) endB = 0;
+      const data = doc.data();
+      let startB = data.startingBalance;
+      let endB = data.endingBalance;
+      if (startB === undefined) startB = 0;
+      if (endB === undefined) endB = 0;
 
-        const localeDate = BaseApp.isoToLocal(data.createdAt);
-        const dateDesc = BaseApp.shortShowDate(localeDate) + " " + BaseApp.formatAMPM(new Date(data.createdAt));
-        const rowHTML = `<div class="payment_history_card card ${data.processingStatus.toLowerCase()}">
+      const localeDate = BaseApp.isoToLocal(data.createdAt);
+      const dateDesc = BaseApp.shortShowDate(localeDate) + " " + BaseApp.formatAMPM(new Date(data.createdAt));
+      const rowHTML = `<div class="payment_history_card card ${data.processingStatus.toLowerCase()}">
           <div class="payment_date_div">
             ${dateDesc}
           </div>
-          <div class="processing_status_div">
-            ${data.processingStatus}
+          <div>
+            <div class="processing_status_div">
+              ${data.processingStatus}
+            </div>
           </div>
           Id: ${doc.id}
           <br>
           $${data.purchaseAmount} for ${data.credits}
           <div class="new_balance_div">
             Balance <span class="new_balance_display">${endB.toFixed()}</span> Credits
+            <br>
+            <button class="show_receipt btn btn-secondary" data-id="${doc.id}">View</button>
+            <button class="print_receipt btn btn-secondary" data-id="${doc.id}">Print</button>
           </div>
-        </div>`;
-        html += rowHTML;
+        </div><hr>`;
+      html += rowHTML;
+      this.paymentHistory[doc.id] = doc.data();
     });
     this.payments_history_view.innerHTML = html;
+    this.payments_history_view.querySelectorAll(".show_receipt").forEach(
+      (btn: any) => btn.addEventListener("click", () => {
+        const id = btn.dataset.id;
+        this.previewReceipt(id);
+      }));
+    this.payments_history_view.querySelectorAll(".print_receipt").forEach(
+      (btn: any) => btn.addEventListener("click", () => {
+        const id = btn.dataset.id;
+        this.previewReceipt(id, true);
+      }));
+  }
+  /**
+   * @param { string } id
+   * @param { boolean } print
+   */
+  previewReceipt(id: string, print = false) {
+    const data = this.paymentHistory[id];
+    let startB = data.startingBalance;
+    let endB = data.endingBalance;
+    if (startB === undefined) startB = 0;
+    if (endB === undefined) endB = 0;
+    const localeDate = BaseApp.isoToLocal(data.createdAt);
+    const dateDesc = BaseApp.shortShowDate(localeDate) + " " + BaseApp.formatAMPM(new Date(data.createdAt));
+
+    const html = `<!DOCTYPE html>
+    <html>
+        <head>
+            <title>Receipt for ${id}</title>
+            <meta charset="utf-8">
+        </head>
+        <body style="text-align: center;">
+        <div style="text-align:center;width: 400px;display:inline-block;">
+            <img src="https://unacog.com/images/logo64.png" style="width:150px;">
+            <br><br>
+            Unacog AI
+            <br>
+            <a href="https://unacog.com" target="_blank">unacog.com</a>
+            <br><br> 
+            Credits Purchase
+          <br>
+        <div class="${data.processingStatus.toLowerCase()}" style="text-align:left;">
+    <div class="payment_date_div">
+      ${dateDesc}
+    </div>
+    Id: ${id}
+    <br>
+    $${data.purchaseAmount} US Dollars
+    <br>
+    Unacog AI ${data.credits} Credits
+    <br>
+      Ending Balance <span class="new_balance_display">${endB.toFixed()}</span> Credits
+    </div>
+    <br>
+    <a href="mailto:support@unacog.com" target="_blank">support@unacog.com</a>
+    <br>
+    <div style="text-align:left;">
+    <a href="https://unacog.com/content/terms" target="_blank">Terms:</a><br>
+    Thanks for purchasing credits for usage with Unacog AI, the credits are 
+    not redeemable for cash and do not decay in value with time.  Unacog is 
+    not responsible or liable for incorrect results.
+    </div>
+    <br>
+  </div>
+  </div></body></html>`;
+    const winUrl = URL.createObjectURL(new Blob([html], {
+      type: "text/html",
+    }));
+    const width = 400;
+    const height = 500;
+    const left = (screen.width - width) / 2;
+    const top = (screen.height - height) / 4;
+    const win = window.open(winUrl, "Title",
+      `resizable=yes,left=${left.toFixed()},top=${top.toFixed()},width=${width},height=${height}`);
+    if (print) {
+      win.print();
+      //win.close();
+    }
   }
   /** */
   show() {
+    if (this.app.fireUser && this.app.fireUser.isAnonymous) {
+      alert("Anonymous users can't buy credits");
+      return;
+    }
+
     if (!this.paymentFormRendered) {
       this.paymentFormRendered = true;
 
