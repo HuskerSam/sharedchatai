@@ -24,6 +24,9 @@ export default class BuyCreditsHelper {
   payments_history_view: any;
   lastPaymentHistorySnapshot: any;
   payment_history_tab: any;
+  card_container: any;
+  payment_form_wrapper: any;
+  cardHolderName: any;
 
   /**
    * @param { any } app baseapp derived instance
@@ -44,77 +47,98 @@ export default class BuyCreditsHelper {
     });
     this.purchase_amount_select.innerHTML = selectHTML;
     this.purchase_amount_select.selectedIndex = 0;
+    this.purchase_amount_select.addEventListener("input", () => {
+      if (this.purchase_amount_select.selectedIndex === 0) {
+        this.resetForm();
+      } else {
+        this.payment_form_wrapper.style.display = "block";
+      }
+    });
     this.payments_history_view = this.modalContainer.querySelector(".payments_history_view");
     this.payment_history_tab = this.modalContainer.querySelector("#payment_history_tab");
+    this.card_container = this.modalContainer.querySelector(".card_container");
+    this.payment_form_wrapper = this.modalContainer.querySelector(".payment_form_wrapper");
+    this.cardHolderName = document.getElementById("card-holder-name");
+    this.cardHolderName.addEventListener("keydown", (e: any) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    });
   }
   /** get modal template
    * @return { string } template
    */
   getModalTemplate(): string {
-    return `<div class="modal fade scrollable_modal" id="buyCreditsModal" tabindex="-1" 
-      aria-labelledby="buyCreditsModalLabel" aria-hidden="true">
+    return `<div class="modal fade scrollable_modal" id="buyCreditsModal" tabindex="-1" aria-labelledby="buyCreditsModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content app_panel">
             <div class="modal-header">
                 <h4 class="modal-title" id="buyCreditsModalLabel">Buy Credits</h4>
                 <div style="flex:1"></div>
                 <a class="btn btn-secondary show_modal_profile_help" href="/help/#buycredits" target="help"><i
-                class="material-icons">help_outline</i></a>
+                        class="material-icons">help_outline</i></a>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="display:flex;flex-direction:column">
-              <ul class="nav nav-tabs mb-2" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="new_payment_tab" data-bs-toggle="tab"
-                        href="#new_payment_tab_view" role="tab" aria-controls="new_payment_tab_view"
-                        aria-selected="false">Make Payment</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="payment_history_tab" data-bs-toggle="tab"
-                        href="#payment_history_tab_view" role="tab" aria-controls="payment_history_tab_view"
-                        aria-selected="true">History</a>
-                </li>
-              </ul>
-              <div class="tab-content" style="overflow:hidden;display:flex;height:95vh;">
-                  <div class="tab-pane fade show active" id="new_payment_tab_view" role="tabpanel"
-                      aria-labelledby="new_payment_tab" style="overflow:auto;">
-                    <div style="margin-left: 20px;">
-                      <label>Purchase Amount</label>
-                      <select class="form-select purchase_amount_select"></select>
-                    </div>
-                    <div class="card_container">
-                        <form id="card-form">
-                            <label for="card-number">Card Number</label>
-                            <div id="card-number" class="card_field"></div>
-                            <div>
-                                <label for="expiration-date">Expiration Date</label>
-                                <div id="expiration-date" class="card_field"></div>
+                <ul class="nav nav-tabs mb-2" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="new_payment_tab" data-bs-toggle="tab"
+                            href="#new_payment_tab_view" role="tab" aria-controls="new_payment_tab_view"
+                            aria-selected="false">Make Payment</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="payment_history_tab" data-bs-toggle="tab"
+                            href="#payment_history_tab_view" role="tab" aria-controls="payment_history_tab_view"
+                            aria-selected="true">History</a>
+                    </li>
+                </ul>
+                <div class="tab-content" style="overflow:hidden;display:flex;height:95vh;">
+                    <div class="tab-pane fade show active" id="new_payment_tab_view" role="tabpanel"
+                        aria-labelledby="new_payment_tab" style="overflow:auto;">
+                        <div style="margin-left: 20px;">
+                            <label>Purchase Amount</label>
+                            <select class="form-select purchase_amount_select"></select>
+                        </div>
+                        <div class="payment_form_wrapper" style="display:none;">
+                            <div class="card_container">
+                                <form id="card-form">
+                                    <label for="card-number">Card Number</label>
+                                    <div id="card-number" class="card_field"></div>
+                                    <div>
+                                        <label for="expiration-date">Expiration Date</label>
+                                        <div id="expiration-date" class="card_field"></div>
+                                    </div>
+                                    <div>
+                                        <label for="cvv">CVV</label>
+                                        <div id="cvv" class="card_field"></div>
+                                    </div>
+                                    <label for="card-holder-name">Name on Card</label>
+                                    <input type="text" id="card-holder-name" name="card-holder-name" autocomplete="off"
+                                        placeholder="card holder name">
+                                    <br><br>
+                                    <button
+                                        class="payment_details_cancel header_button btn btn-secondary">Cancel</button>
+                                    <button value="submit" id="submit"
+                                        class="btn header_button default_action_button btn btn-primary">Pay</button>
+                                </form>
                             </div>
-                            <div>
-                                <label for="cvv">CVV</label>
-                                <div id="cvv" class="card_field"></div>
-                            </div>
-                            <label for="card-holder-name">Name on Card</label>
-                            <input type="text" id="card-holder-name" name="card-holder-name" autocomplete="off"
-                                placeholder="card holder name">
-                                <br><br>
-                            <button class="payment_details_cancel header_button btn btn-secondary">Cancel</button>
-                            <button value="submit" id="submit"
-                              class="btn header_button default_action_button btn btn-primary">Pay</button>
-                        </form>
-                      </div>
-                      <br>
-                      <a href="/content/pricing/" target="_blank" style="margin-left:20px;">Terms and Conditions</a>
-                      <br>
-                      <br>
-                      <div id="paypal-button-container" class="paypal-button-container"></div>
+                            <br>
+                            <a href="/content/pricing/" target="_blank" style="margin-left:20px;">Terms and
+                                Conditions</a>
+                            <br>
+                            <br>
+                            <div id="paypal-button-container" class="paypal-button-container"></div>
 
-                    <div class="clear:both"></div>
-                  </div>
-                  <div class="tab-pane fade" style="overflow:auto;" id="payment_history_tab_view" role="tabpanel"
-                      aria-labelledby="payment_history_tab">
-                      <div class="payments_history_view"></div>
-                  </div>
+                            <div class="clear:both"></div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" style="overflow:auto;" id="payment_history_tab_view" role="tabpanel"
+                        aria-labelledby="payment_history_tab">
+                        <div class="payments_history_view"></div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -156,6 +180,11 @@ export default class BuyCreditsHelper {
 
     return false;
   }
+  /** */
+  resetForm() {
+    this.purchase_amount_select.selectedIndex = 0;
+    this.payment_form_wrapper.style.display = "none";
+  }
   /** update UI to show payment submit started */
   setPaymentSubmitInProgress() {
     this.payment_history_tab.click();
@@ -174,9 +203,21 @@ export default class BuyCreditsHelper {
           await this.getPayPalOrder();
           return this.order.id;
         },
+        onCancel: async (data: any) => {
+          this.resetForm();
+          this.payPalError(data);
+        },
+        onError: async (err: any) => {
+          console.log(err);
+          alert("Error");
+        },
         // Finalize the transaction after payer approval
         onApprove: (/* data: any, actions: any */) => {
           return this.payPalAccepted();
+        },
+        onInit: () => {
+        },
+        onClick: () => {
         },
       })
       .render("#paypal-button-container");
@@ -211,18 +252,13 @@ export default class BuyCreditsHelper {
           },
         },
       }).then((cardFields: any) => {
-        const holderName: any = document.getElementById("card-holder-name");
         document.querySelector("#card-form")?.addEventListener("submit", (event) => {
           event.preventDefault();
-          if (this.purchase_amount_select.selectedIndex === 0) {
-            alert("Please select an amount");
-            return;
-          }
-          
+
           cardFields
             .submit({
               // Cardholder"s first and last name
-              cardholderName: holderName.value,
+              cardholderName: this.cardHolderName.value,
             })
             .then(() => this.payPalAccepted())
             .catch((err: any) => this.payPalError(err));
@@ -287,7 +323,7 @@ export default class BuyCreditsHelper {
     });
     const json = await fResult.json();
     console.log("paymentResult", json);
-    this.purchase_amount_select.selectedIndex = 0;
+    this.resetForm();
     alert(json.processingStatus);
   }
   /**
