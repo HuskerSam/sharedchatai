@@ -141,7 +141,7 @@ export default class ProfileHelper {
             placeHolder: "Configure default labels",
         });
         window.$(".label_profile_picker").on("change", () => this.saveProfileLabels());
-        const field: any = document.body.querySelector("#profile_user_labels_view .select2-search__field");
+        const field: any = document.body.querySelector("#profile_user_tab_view .select2-search__field");
         field.addEventListener("keydown", (event: any) => {
             if (event.key === ",") {
                 event.preventDefault();
@@ -189,7 +189,7 @@ export default class ProfileHelper {
                         <li class="nav-item" role="presentation">
                             <a class="nav-link" id="profile_labels_tab_button" data-bs-toggle="tab"
                                 href="#profile_user_labels_view" role="tab" aria-controls="profile_user_labels_view"
-                                aria-selected="false">Labels</a>
+                                aria-selected="false">Usage</a>
                         </li>
                         <li class="nav-item" role="presentation">
                             <a class="nav-link account_tab_button" id="usage_labels_tab_button" data-bs-toggle="tab"
@@ -201,7 +201,6 @@ export default class ProfileHelper {
                         <div class="tab-pane fade show active" id="profile_user_tab_view" role="tabpanel"
                             aria-labelledby="profile_user_tab_button">
                             <div>
-                                <h5>Edit Profile</h5>
                                 <div style="display:flex;flex-direction:row;width:100%;">
                                     <div class="profile_display_name member_profile_name"></div>
                                     <div>
@@ -216,7 +215,7 @@ export default class ProfileHelper {
                                         </button>
                                     </div>
                                 </div>
-                                <div style="line-height: 4em;margin-top:-18px">
+                                <div style="line-height: 3.5em;">
                                     <div class="profile_display_image member_profile_image"></div>
                                     <input type="file" class="file_upload_input" style="display:none;">
                                     <button class="profile_display_image_clear btn btn-secondary">
@@ -263,27 +262,14 @@ export default class ProfileHelper {
                                     Nite Mode
                                 </label>   
                             </div>
-                        </div>
-                        <div class="tab-pane fade" id="profile_user_labels_view" style="min-height:10em; role=" tabpanel"
-                            aria-labelledby="profile_labels_tab_button">
-    
+                            <hr style="margin-top:-8px;">
                             <label class="form-label">Default Labels - [Enter] to add</label>
                             <br>
                             <select class="label_profile_picker" multiple="multiple"
                                 style="width:95%;min-height:6em"></select>
-                            <br>
                         </div>
-                        <div class="tab-pane fade" id="profile_user_usage_view" role="tabpanel"
-                            aria-labelledby="usage_labels_tab_button">
-                            <div class="summary_panel" style="display:flex;flex-direction:row">
-                                <div style="flex:1">
-                                    Credits Available: <span class="summary_column available_balance">0</span>
-                                </div>
-                                <div>                        
-                                    <button class="btn btn-primary change_subscription">Buy Credits</button>
-                                </div>
-                            </div>
-                            <div class="form-label">Usage Stats</div>
+                        <div class="tab-pane fade" id="profile_user_labels_view" style="min-height:10em; role=" tabpanel"
+                            aria-labelledby="profile_labels_tab_button">
                             <table class="chat_token_usage_display number">
                                 <tr>
                                     <th></th>
@@ -297,6 +283,23 @@ export default class ProfileHelper {
                                 <tr class="total_row"></tr>
                                 <tr class="credits_row"></tr>
                             </table>
+
+                            <br>
+                        </div>
+                        <div class="tab-pane fade" id="profile_user_usage_view" role="tabpanel"
+                            aria-labelledby="usage_labels_tab_button">
+                            <div class="summary_panel" style="display:flex;flex-direction:row">
+                                <div style="flex:1">
+                                    Credits Available: <span class="summary_column available_balance">0</span>
+                                </div>
+                                <div>                        
+                                    <button class="btn btn-primary change_subscription">Buy Credits</button>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="">
+                                <a class="change_email_button btn btn-secondary">support@unacofg.com</a>        
+                            </div>
                             <hr>
                             <div class="change_email_panel">
                                 <input type="text" class="form-control profile_new_email" placeholder="New Email">
