@@ -1062,3 +1062,7 @@ select.form-select.purchase_amount_select {
 .tab-pane {
   width: 100%;
 }
+
+.show_receipt {
+  float: right;
+}

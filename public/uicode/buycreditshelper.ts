@@ -27,6 +27,7 @@ export default class BuyCreditsHelper {
   card_container: any;
   payment_form_wrapper: any;
   cardHolderName: any;
+  paymentHistory: any = {};
 
   /**
    * @param { any } app baseapp derived instance
@@ -86,7 +87,7 @@ export default class BuyCreditsHelper {
                     <li class="nav-item" role="presentation">
                         <a class="nav-link active" id="new_payment_tab" data-bs-toggle="tab"
                             href="#new_payment_tab_view" role="tab" aria-controls="new_payment_tab_view"
-                            aria-selected="false">Make Payment</a>
+                            aria-selected="false">New Purchase</a>
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link" id="payment_history_tab" data-bs-toggle="tab"
@@ -272,12 +273,11 @@ export default class BuyCreditsHelper {
   }
   /** */
   async getPayPalOrder() {
-    this.setPaymentSubmitInProgress();
-    
     const purchaseAmount = this.purchase_amount_select.value;
     const details: any = {
       purchaseAmount,
     };
+    this.resetForm();
     const formBody: any = [];
     Object.keys(details).forEach((property: string) => {
       const encodedKey = encodeURIComponent(property);
@@ -296,13 +296,14 @@ export default class BuyCreditsHelper {
       },
       body,
     });
+    this.setPaymentSubmitInProgress();
     const json = await fResult.json();
     if (json.success) {
       console.log("order created", json);
       this.order = json.order;
       return json.order.id;
     }
-
+    
     return null;
   }
   /** */
@@ -412,11 +413,55 @@ export default class BuyCreditsHelper {
           $${data.purchaseAmount} for ${data.credits}
           <div class="new_balance_div">
             Balance <span class="new_balance_display">${endB.toFixed()}</span> Credits
+            <button class="show_receipt btn btn-secondary" data-id="${doc.id}">Receipt</button>
           </div>
         </div>`;
         html += rowHTML;
+        this.paymentHistory[doc.id] = doc.data();
     });
     this.payments_history_view.innerHTML = html;
+    this.payments_history_view.querySelectorAll(".show_receipt").forEach(
+      (btn: any) => btn.addEventListener("click", () => {
+        const id = btn.dataset.id;
+        this.previewReceipt(id);
+      }));
+  }
+  /** */
+  previewReceipt(id: string) {
+    const data = this.paymentHistory[id];
+    let startB = data.startingBalance;
+    let endB = data.endingBalance;
+    if (startB === undefined) startB = 0;
+    if (endB === undefined) endB = 0;
+    const localeDate = BaseApp.isoToLocal(data.createdAt);
+    const dateDesc = BaseApp.shortShowDate(localeDate) + " " + BaseApp.formatAMPM(new Date(data.createdAt));
+    
+    const html = `<!DOCTYPE html>
+    <html>
+        <head>
+            <title>Receipt for ${id}</title>
+            <meta charset="utf-8">
+        </head>
+        <body>
+        <div class="${data.processingStatus.toLowerCase()}">
+    <div class="payment_date_div">
+      ${dateDesc}
+    </div>
+    Id: ${id}
+    <br>
+    $${data.purchaseAmount} US Dollars
+    <br>
+    Unacog AI ${data.credits} Credits
+    <br>
+      Ending Balance <span class="new_balance_display">${endB.toFixed()}</span> Credits
+    </div>
+  </div></body></html>`;
+    const winUrl = URL.createObjectURL(new Blob([html], { type: "text/html" }));   
+    const left = (screen.width - 350) / 2;
+    const top = (screen.height - 500) / 4;
+    console.log(left, top);
+    const win = window.open(winUrl, "Title", 
+        `resizable=yes,width=350,height=500,left=${left.toFixed()},top=${top.toFixed()}`);
   }
   /** */
   show() {
