@@ -74,7 +74,7 @@
 
 <body class="basic_page_wrapper homepage news_tab homepage_tab_selected_0">
     <nav class="navbar navbar-light navbar_wrapper">
-        <ul class="navbar-nav container-fluid d-flex flex-row justify-content-end justify-content-sm-between">
+        <ul class="navbar-nav container-fluid d-flex flex-row justify-content-end justify-content-sm-between container">
             <li class="home_logo_mobile_only">
                 <a class="navbar_brand" style="text-decoration: none;cursor: default;">
                     <span class="navbar_logo"></span>
@@ -84,7 +84,7 @@
                 <ul class="header_tabs nav nav-pills" role="tablist">
                     <li class="nav-item" role="presentation">
                         <a class="nav-link active" id="news_tab_button" data-bs-toggle="tab" href="#news_tab_view"
-                        role="tab" aria-controls="news_tab_view" aria-selected="true">News</a>
+                            role="tab" aria-controls="news_tab_view" aria-selected="true">News</a>
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link session_tab" id="dashboard_tab_button" data-bs-toggle="tab"
@@ -112,122 +112,134 @@
             <div class="tab-pane fade show active" id="news_tab_view" role="tabpanel" style="flex-direction:column;"
                 aria-labelledby="news_tab_button">
                 <div class="mt-3">
-                    <div class="flex-lg-row flex_change_responsive news_top_row">
-                        <div class="main_block app_panel">
-                            <h1 class="home_header">
-                                Most Recent
-                            </h1>
-                            <div class="intro_card">
-                                <ul class="recent_content_flyers_ul_list list-group"></ul>
-                            </div>
-                        </div>
+                    <!-- News section-->
+                    <h1 class="home_header">
+                        Most Recent
+                    </h1>
+                    <div class="flex-lg-row flex_change_responsive mb-3">
+                        <ul class="recent_content_flyers_ul_list list-group list-group-flush intro_card"></ul>
                     </div>
-                    <div class="flex-lg-row flex_change_responsive news_top_row">
-                        <div class="main_block app_panel models_api_panel">
-                            <h1 class="home_header">
-                                <span>Models</span>
-                            </h1>
-                            <div class="intro_card card" style="overflow: auto;">
-                                <h5 style="display:inline-block">
+
+
+
+                    <!-- Models section-->
+                    <div class="flex-lg-row flex_change_responsive">
+                        <div class="main_block intro_card card">
+                            <h5 style="display:inline-block">
                                 <a href="https://platform.openai.com/docs/models" target="_blank">
-                                        <img class="model_svg show_day_mode_inline_block" src="/images/openailite.svg"
-                                            style="width:120px;"><img class="model_svg show_nite_mode_inline_block"
-                                            src="/images/openai.svg" style="width:120px;"><i class="material-icons"
-                                            style="margin-left: 4px;position:relative;top: 8px;">open_in_new</i>
+                                    <img class="model_svg show_day_mode_inline_block" src="/images/openailite.svg"
+                                        style="width:120px;"><img class="model_svg show_nite_mode_inline_block"
+                                        src="/images/openai.svg" style="width:120px;"><i class="material-icons"
+                                        style="margin-left: 4px;position:relative;top: 8px;">open_in_new</i>
                                 </a>
                             </h5>
-                            <ul>
-                                <li><span class="supported_model">gpt-3.5-turbo</span> 4k</li>
-                                <li><span class="supported_model">gpt-3.5-turbo-16k</span></li>
-                                <li><span class="supported_model">gpt-4</span> 8k</li>
-                                <li><span class="upcoming_model">gpt-4-32k</span> (soon)</li>
+                            <ul class="list-group-flush list-group">
+                                <li class="list-group-item"><span class="supported_model">gpt-3.5-turbo</span> 4k</li>
+                                <li class="list-group-item"><span class="supported_model">gpt-3.5-turbo-16k</span></li>
+                                <li class="list-group-item"><span class="supported_model">gpt-4</span> 8k</li>
+                                <li class="list-group-item"><span class="upcoming_model">gpt-4-32k</span> (soon)</li>
                             </ul>
-                                <h5 style="display:inline-block">
+                        </div>
+                        <div class="main_block intro_card card">
+                            <h5 style="display:inline-block">
                                 <a href="https://developers.generativeai.google/api/rest/generativelanguage"
                                     target="_blank">
-                                        <img src="/images/palmapi.png" style="width:32px;"><img
-                                            class="model_svg show_day_mode_inline_block"
-                                            src="/images/palmapinamelite.png" style="margin-left:6px;width:95px;"><img
-                                            class="model_svg show_nite_mode_inline_block" src="/images/palmapiname.png"
-                                            style="margin-left:6px;width:95px;"><i class="material-icons"
-                                            style="margin-left: 4px;position:relative;top: 6px;">open_in_new</i>
+                                    <img src="/images/palmapi.png" style="width:32px;"><img
+                                        class="model_svg show_day_mode_inline_block" src="/images/palmapinamelite.png"
+                                        style="margin-left:6px;width:95px;"><img
+                                        class="model_svg show_nite_mode_inline_block" src="/images/palmapiname.png"
+                                        style="margin-left:6px;width:95px;"><i class="material-icons"
+                                        style="margin-left: 4px;position:relative;top: 6px;">open_in_new</i>
                                 </a>
                             </h5>
-                            <ul>
-                                    <li> <span class="supported_model">chat-bison-001</span> 9k</li>
-                                    <li> <span class="upcoming_model">med-bison-001</span> 36k (soon)</li>
-                                    <li> <span class="upcoming_model">med-bison-002</span> 144k (later)</li>
-                                    <li> <span class="upcoming_model">codechat-bison-001</span> 6k (soon)</li>
+                            <ul class="list-group-flush list-group">
+                                <li class="list-group-item"> <span class="supported_model">chat-bison-001</span> 9k</li>
+                                <li class="list-group-item"> <span class="upcoming_model">med-bison-001</span> 36k
+                                    (soon)</li>
+                                <li class="list-group-item"> <span class="upcoming_model">med-bison-002</span> 144k
+                                    (later)</li>
+                                <li class="list-group-item"> <span class="upcoming_model">codechat-bison-001</span> 6k
+                                    (soon)</li>
                             </ul>
-                                <h5 style="display:inline-block">
+                        </div>
+                        <div class="main_block intro_card card">
+                            <h5 style="display:inline-block">
                                 <a href="https://docs.anthropic.com/claude/reference/complete_post" target="_blank">
-                                        <img src="/images/anthropologic.png" style="width:32px;"><img
-                                            class="model_svg show_day_mode_inline_block"
-                                            src="/images/anthrofulllite.svg" style="margin-left:6px;width:120px;"><img
-                                            class="model_svg show_nite_mode_inline_block" src="/images/anthrofull.svg"
-                                            style="margin-left:6px;width:120px;"><i class="material-icons"
-                                            style="margin-left: 4px;position:relative;top: 6px;">open_in_new</i>
+                                    <img src="/images/anthropologic.png" style="width:32px;"><img
+                                        class="model_svg show_day_mode_inline_block" src="/images/anthrofulllite.svg"
+                                        style="margin-left:6px;width:120px;"><img
+                                        class="model_svg show_nite_mode_inline_block" src="/images/anthrofull.svg"
+                                        style="margin-left:6px;width:120px;"><i class="material-icons"
+                                        style="margin-left: 4px;position:relative;top: 6px;">open_in_new</i>
                                 </a>
                             </h5>
-                            <ul>
-                                <li><span class="upcoming_model">claude-2</span> 100k (soon)</li>
-                                <li><span class="upcoming_model">claude-instant-1</span> 100k (soon)</li>
+                            <ul class="list-group-flush list-group">
+                                <li class="list-group-item"><span class="upcoming_model">claude-2</span> 100k (soon)
+                                </li>
+                                <li class="list-group-item"><span class="upcoming_model">claude-instant-1</span> 100k
+                                    (soon)</li>
                             </ul>
-                            <h2>
-                                $ per 1k tokens</h2>
-                            <table class="price_table">
-                                <tr>
-                                    <th>Model</th>
-                                    <th>Input</th>
-                                    <th>Output</th>
-                                </tr>
-                                <tr>
-                                    <td>gpt-3.5-turbo</td>
-                                    <td>0.0015</td>
-                                    <td>0.002</td>
-                                </tr>
-                                <tr>
-                                    <td>claude-instant-1</td>
-                                    <td>0.00163</td>
-                                    <td>0.00551</td>
-                                </tr>
-                                <tr>
-                                    <td>gpt-3.5-turbo-16k</td>
-                                    <td>0.003</td>
-                                    <td>0.004</td>
-                                </tr>
-                                <tr>
-                                    <td>claude-2</td>
-                                    <td>0.01102</td>
-                                    <td>0.03268</td>
-                                </tr>
-                                <tr>
-                                    <td>chat-bison-001</td>
-                                    <td>0.02</td>
-                                    <td>0.04</td>
-                                </tr>
-                                <tr>
-                                    <td>gpt-4</td>
-                                    <td>0.03</td>
-                                    <td>0.06</td>
-                                </tr>
-                                <tr>
-                                    <td>gpt-4-32k</td>
-                                    <td>0.06</td>
-                                    <td>0.12</td>
-                                </tr>
-                            </table>
+                        </div>
+                    </div>
+                    <div class="flex-lg-row flex_change_responsive">
+                        <div class="main_block app_panel models_api_panel">
+                            <h1 class="home_header text-center">
+                                <span>LLM Cost by Model</span>
+                            </h1>
+                            <div class="intro_card card" style="overflow: auto; max-height: 40vh;">
+                                <table class="price_table">
+                                    <tr>
+                                        <th>Model</th>
+                                        <th>Input</th>
+                                        <th>Output</th>
+                                    </tr>
+                                    <tr>
+                                        <td>gpt-3.5-turbo</td>
+                                        <td>0.0015</td>
+                                        <td>0.002</td>
+                                    </tr>
+                                    <tr>
+                                        <td>claude-instant-1</td>
+                                        <td>0.00163</td>
+                                        <td>0.00551</td>
+                                    </tr>
+                                    <tr>
+                                        <td>gpt-3.5-turbo-16k</td>
+                                        <td>0.003</td>
+                                        <td>0.004</td>
+                                    </tr>
+                                    <tr>
+                                        <td>claude-2</td>
+                                        <td>0.01102</td>
+                                        <td>0.03268</td>
+                                    </tr>
+                                    <tr>
+                                        <td>chat-bison-001</td>
+                                        <td>0.02</td>
+                                        <td>0.04</td>
+                                    </tr>
+                                    <tr>
+                                        <td>gpt-4</td>
+                                        <td>0.03</td>
+                                        <td>0.06</td>
+                                    </tr>
+                                    <tr>
+                                        <td>gpt-4-32k</td>
+                                        <td>0.06</td>
+                                        <td>0.12</td>
+                                    </tr>
+                                </table>
+                            </div>
                             <div style="text-align:center;">
-                                A token is about 3/4 of a word
+                                $USD per 1k tokens. A token is about 3/4 of a word.
                                 <br>Tokens per credit varies accordingly
                             </div>
                         </div>
-                    </div>
                         <div class="main_block app_panel">
                             <h1 class="home_header">
                                 <span>Features</span>
                             </h1>
-                            <div class="card intro_card features_tips_panel" style="overflow: auto;">
+                            <div class="card intro_card features_tips_panel news_top_row" style="overflow: auto;">
                                 <ul>
                                     <li>
                                         <a href="/help/#system_message" class="hover_yellow" target="help">
@@ -369,18 +381,17 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="flex-lg-row flex_change_responsive">
-                        <div class="side_block app_panel discussion_list_panel">
+
+                        <div class="main_block app_panel discussion_list_panel">
                             <h1 class="home_header">
                                 <span>Examples</span>
                             </h1>
-                            <div class="intro_card card">
+                            <div class="intro_card card news_top_row">
                                 <ul class="template_list_wrapper recent_content_ul_list"></ul>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
             <div class="tab-pane fade" id="dashboard_tab_view" role="tabpanel" style="flex-direction:column;"
@@ -429,8 +440,9 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <div style="flex:1"></div>
+    <div style="flex:1"></div>
     </div>
 
 
@@ -439,13 +451,7 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 
     <!-- Initialize Swiper -->
-    <script>
-        var swiper = new Swiper(".mySwiper", {
-            pagination: {
-                el: ".swiper-pagination",
-            },
-        });
-    </script>
+
 </body>
 
 </html>

@@ -805,46 +805,46 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
   getFlyerListTemplate(contentPage: boolean): string {
     const newsList = [
       {
-        link: "/content/editresponse/",
-        title: "Edit Response",
-        description: "new feature use case",
-        image: "/images/editresponse_quirk.png",
-        date: "Aug-06",
-      },
-      {
         link: "/content/teamtogether/",
         title: "Learn Together",
         description: "Sessions and sharing for groups",
         image: "/images/learntogether.png",
-        date: "Aug-05",
+        date: "08-10-2023",
       },
       {
         link: "/content/outputformatting/",
         title: "Output Formatting",
         description: "Formatting equations, code and markdown",
         image: "/content/outputformatting/outputformatting.png",
-        date: "Aug-03",
+        date: "08-05-2023",
+      },
+      {
+        link: "/content/editresponse/",
+        title: "Edit Response",
+        description: "Edit response directly in chat",
+        image: "/images/editresponse_quirk.png",
+        date: "08-02-2023",
       },
       {
         link: "/content/sharingprompts/",
         title: "Share Chat Sessions",
         description: "Copy, import, export and share prompts",
         image: "/content/sharingprompts/shareprompts.png",
-        date: "July-30",
+        date: "07-30-2023",
       },
       {
         link: "/content/webscrape/",
         title: "Scrape a Webpage",
         description: "Scrape a website using this template",
         image: "/images/webscrape_banner.png",
-        date: "July-15",
+        date: "07-15-2023",
       },
       {
         link: "/content/overview/",
         title: "Technical Overview",
         description: "Architecture, frameworks and APIs",
         image: "/content/overview/firebasecloud.png",
-        date: "June-28",
+        date: "06-28-2023",
       },
     ];
     let items = "";
@@ -852,13 +852,13 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
       items += `<li class="list-group-item"><a class="hover_yellow d-flex flex-column" href="${item.link}">
               <div>
                   <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1"><span class="title">${item.title}</span></h5>
-                    <small>${item.date}</small>
+                  <h5 class="mb-1"><span class="title">${item.title}</span></h5>
+                    <small class="date">${item.date}</small>
                   </div>
               </div>
               <div class="d-flex w-100 justify-content-between">
-              <span  class="caption">${item.description}</span>
               <img src="${item.image}">
+              <span  class="caption">${item.description}</span>
               </div>
             </a></li>`;
     });

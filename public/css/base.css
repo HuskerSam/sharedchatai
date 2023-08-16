@@ -24,6 +24,7 @@
   --member-online-yellow: rgb(255, 255, 0); /* var(--member-online-yellow) */
   --impact-green: rgb(50, 255, 50); /* var(--impact-green) */  
   --prompt-message:  rgb(255, 255, 255); /*  var(--prompt-message) */
+  --options-tab-color: rgb(100, 100, 100);
 
   --prompt-assist: rgb(180, 255, 180);
   --highlight:  rgb(255, 255, 0); /*  var(--highlight */
@@ -82,8 +83,13 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
-  background: white;
+  background-color: white;
   min-height: 100vh;
+}
+
+html .nite_mode,
+body.nite_mode  {
+  background-color: var(--background-accent-4) ;
 }
 
 @font-face {
@@ -881,4 +887,10 @@ h5 {
 
 .nite_mode .show_nite_mode {
   display: block;
+}
+
+@media (max-width: 776px) {
+.container {
+    max-width: 100%;
+}
 }
