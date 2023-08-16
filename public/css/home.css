@@ -11,7 +11,7 @@ html {
 .main_block {
   background-color: var(--home-panel-background);
   border-radius: 6px;
-  padding: 1em;
+  padding: .5em;
   margin-bottom: .75em;
   flex: 1;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
@@ -22,7 +22,7 @@ html {
   flex-direction: column;
   background-color: var(--home-panel-background);
   border-radius: 6px;
-  padding: 1em;
+  padding: .5em;
   margin-bottom: .75em;
   flex: 2;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
@@ -52,6 +52,13 @@ html {
 
 .coming-soon strong {
   color: var(--highlight);
+}
+
+.home_header {
+  color: var(--primary-color);
+  text-align: left;
+  padding-left: 4px;
+  font-size: 18px;
 }
 
 .header_recent_document {
@@ -252,7 +259,7 @@ ul.recent_documents_list li a {
 }
 
 .intro_card {
-  padding: 8px;
+  padding: 6px;
   text-align: left;
   display: block;
   flex: 1;
@@ -360,7 +367,7 @@ ul.recent_documents_list li a {
   .home_logo_mobile_only {
     margin-left: 20px;
     display: inline-block;
-  }  
+  }
 }
 
 .home_logo_mobile_only a:hover {
@@ -844,9 +851,9 @@ ul.recent_documents_list li a {
 }
 
 @media(min-width: 450px) {
- .header_tabs {
-  font-size: 1.2em;
- }
+  .header_tabs {
+    font-size: 1.2em;
+  }
 }
 
 .nav-pills .nav-link {
@@ -932,7 +939,7 @@ ul.recent_documents_list li a {
 @media (max-width: 768px) {
   .price_table td {
     padding-right: 4px;
-  }
+}
 }
 
 .price_table tr td:nth-child(1) {
@@ -1084,13 +1091,13 @@ ol li {
   display: inline-block;
 }
 
-@media(min-width: 992px) {
+@media (min-width: 992px) {
   .video_wrapper img {
     width: 80%;
   }
 }
 
-@media(min-width: 1200px) {
+@media (min-width: 1200px) {
   .video_wrapper img {
     width: 70%;
   }
@@ -1103,13 +1110,18 @@ ol li {
 }
 
 .recent_content_flyers_ul_list img {
-  max-width: 150px;
-  max-height: 150px;
+  max-width: 75px;
+  height: auto;
   margin: 4px;
+  border-radius: 8px;
+
 }
 
 .recent_content_flyers_ul_list {
   max-height: 50vh;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
 }
 
 .recent_content_flyers_ul_list a {
@@ -1121,7 +1133,14 @@ ol li {
 
 .recent_content_flyers_ul_list a .title {
   text-decoration: underline;
+  font-size: 18px;
+  font-weight: 600;
 }
+
+.recent_content_flyers_ul_list .caption {
+  font-size: 14px;
+}
+
 
 .swiper {
   width: 100vh;
@@ -1146,6 +1165,7 @@ ol li {
 
 .session_cta {
   height: 70vh;
+  margin-top: 10vh;
 }
 
 .session_cta img {

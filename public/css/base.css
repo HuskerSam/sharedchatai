@@ -82,7 +82,7 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
-  background: var(--background-accent-4);
+  background: white;
   min-height: 100vh;
 }
 
