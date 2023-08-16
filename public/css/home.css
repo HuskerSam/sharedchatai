@@ -1103,7 +1103,11 @@ ol li {
 
 .recent_content_flyers_ul_list {
   max-height: 75vh;
-  border-radius: 2px;
+  border-radius: 8px;
+}
+
+.nite_mode .recent_content_flyers_ul_list {
+  background-color: var(--home-panel-background);
 }
 
 .recent_content_flyers_ul_list a {
@@ -1150,14 +1154,13 @@ ol li {
   border: none;
   border-radius: 8px;
   padding: .5em;
-  margin-bottom: .75em;
+  margin-bottom: .4em;
   border: solid 1px var(--options-tab-color);
-  background-color: var(--modal-background);
 }
 
 .nite_mode .recent_content_flyers_ul_list .list-group-item {
   background-color: var(--home-panel-background);
-  border: none;
+  border: solid 1px var(--options-tab-color);
 }
 
 
