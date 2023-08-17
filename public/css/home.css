@@ -833,7 +833,7 @@ ul.recent_documents_list li a {
   flex: 1;
   width: 100%;
   padding-left: 8px;
-  font-size: 1.1em;
+  font-size: .8em;
 }
 
 .header_tabs li {
@@ -841,23 +841,50 @@ ul.recent_documents_list li a {
   max-width: 5em;
 }
 
-@media(min-width: 450px) {
-  .header_tabs {
-    font-size: 1.2em;
-  }
+
+.header_tabs li a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; 
+}
+
+.tab_label {
+  display: none;
+  font-size: 1.1em;
+  position: relative;
+}
+
+.tab_label::before {
+  content: "";
+  position: absolute;
+  bottom: -2px; /* Adjust to position the underline */
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: var(--highlight); /* underline color */
+  opacity: 0; /* hidden initially */
+  width: 0%; /* initially no width */
+  transition: width 0.3s ease, opacity 0.3s ease;
+}
+
+.header_tabs li .material-icons {
+  font-size: 2.5em;
+  margin-bottom: 4px;
 }
 
 .nav-pills .nav-link {
-  color: var(--primary-color-2);
+  filter: grayscale(90%);
 }
 
-.navbar-light .nav-pills .nav-link.active,
-.nav-pills .nav-link.active,
-.nav-pills .show>.nav-link {
+.navbar-light .nav .nav-link.active,
+.nav .nav-link.active,
+.nav .show>.nav-link {
   background-color: transparent;
-  border: 1px solid var(--highlight);
   color: var(--highlight);
+  border-bottom: solid 1px var(--highlight);
 }
+
 
 .day_mode .nav-pills .nav-link.active,
 .day_mode .nav-pills .show>.nav-link {
@@ -865,6 +892,15 @@ ul.recent_documents_list li a {
   color: var(--highlight);
   line-height: initial;
 }
+
+/* Underline styles when its parent nav link is active */
+.nav .nav-link.active .tab_label::before,
+.nav .nav-link:hover .tab_label::before  {
+  width: 100%; /* Full width to show the underline */
+  opacity: 1; /* Fully visible */
+}
+
+
 
 .sessions_list_loading_panel {
   font-size: 2em;
@@ -896,13 +932,6 @@ ul.recent_documents_list li a {
   opacity: 1;
 }
 
-.nav-pills .nav-link {
-  text-decoration: underline;
-}
-
-.nav-pills .nav-link.active {
-  text-decoration: none;
-}
 
 .overflow_container {
   max-height: 50vh;
@@ -1223,8 +1252,26 @@ ol li {
 }
 
 
+@media(min-width: 450px) {
+
+}
+
+
 @media (min-width: 768px) {
- 
+  .tab_label {
+    display: block;
+  }
+  .header_tabs li .material-icons  {
+    margin-bottom: 0;
+    font-size: 1.5em;
+    text-decoration: none;
+  }
+  .navbar-light .nav .nav-link.active,
+  .nav .nav-link.active,
+  .nav .show>.nav-link {
+    border-bottom: none;
+  }
+
 }
 
 
