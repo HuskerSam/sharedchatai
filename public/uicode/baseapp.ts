@@ -852,7 +852,8 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
       items += `<li class="news_group_item hover_yellow"><a class="d-flex flex-column" href="${item.link}">
               <div>
                   <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1"><span class="title">${item.title}</span></h5>
+                  <h5 class="mb-1"><span class="title">${item.title}</span><i class="material-icons"
+                  style="margin-left: 4px;position:relative;top: 4px;font-size:0.9em;">open_in_new</i></h5>
                     <small class="date">${item.date}</small>
                   </div>
               </div>
