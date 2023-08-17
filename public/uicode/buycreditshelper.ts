@@ -464,7 +464,7 @@ export default class BuyCreditsHelper {
     </head>
     
     <body style="text-align: center;">
-        <div style="text-align:center;width: 400px;display:inline-block;">
+        <div style="text-align:center;width: 360px;display:inline-block;">
             <img src="https://unacog.com/images/logo64.png" style="width:150px;">
             <br><br>
             Unacog AI
@@ -515,7 +515,7 @@ export default class BuyCreditsHelper {
       type: "text/html",
     }));
     const width = 400;
-    const height = 500;
+    const height = 600;
     const left = (screen.width - width) / 2;
     const top = (screen.height - height) / 4;
     const win = window.open(winUrl, "Title",

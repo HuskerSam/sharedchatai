@@ -325,7 +325,7 @@ export default class ProfileHelper {
                             </div>
                             <hr>
                             <div class="">
-                                <a class="" href="mailto:support@unacog.com" target="_blank">support@unacofg.com</a>        
+                                <a class="" href="mailto:support@unacog.com" target="_blank">support@unacog.com</a>        
                             </div>
                         </div>
                     </div>
