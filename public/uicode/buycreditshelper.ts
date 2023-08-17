@@ -321,7 +321,7 @@ export default class BuyCreditsHelper {
     const json = await fResult.json();
     console.log("paymentResult", json);
     this.resetForm();
-    alert(json.processingStatus);
+    alert(json.processingStatus + " please check your updated balance.");
   }
   /**
    *
