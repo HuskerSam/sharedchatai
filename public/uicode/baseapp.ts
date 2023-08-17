@@ -727,7 +727,7 @@ export default class BaseApp {
  * @return { string } html
 */
   getFooterTemplate(): string {
-    return `<footer class="side_block m-0 pb-1 app_panel">
+    return `<footer class="side_block pb-1 app_panel">
             <div class="row">
                 <div class="mb-3 mb-md-0 text-center text-md-start" style="flex:1">
                     <h5><span>Una<span
@@ -805,39 +805,32 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
   getFlyerListTemplate(contentPage: boolean): string {
     const newsList = [
       {
-        link: "/content/teamtogether/",
-        title: "Learn Together",
-        description: "Sessions and sharing for groups",
-        image: "/images/learntogether.png",
-        date: "08-10-2023",
+        link: "/content/sharingprompts/",
+        title: "Share Chat Sessions",
+        description: "Copy, import, export and share prompts",
+        image: "/content/sharingprompts/shareprompts.png",
+        date: "08-13-2023",
       },
       {
         link: "/content/outputformatting/",
         title: "Output Formatting",
         description: "Formatting equations, code and markdown",
         image: "/content/outputformatting/outputformatting.png",
-        date: "08-05-2023",
+        date: "08-09-2023",
+      },
+      {
+        link: "/content/teamtogether/",
+        title: "Learn Together",
+        description: "Sessions and sharing for groups",
+        image: "/images/learntogether.png",
+        date: "08-06-2023",
       },
       {
         link: "/content/editresponse/",
         title: "Edit Response",
         description: "Edit response directly in chat",
         image: "/images/editresponse_quirk.png",
-        date: "08-02-2023",
-      },
-      {
-        link: "/content/sharingprompts/",
-        title: "Share Chat Sessions",
-        description: "Copy, import, export and share prompts",
-        image: "/content/sharingprompts/shareprompts.png",
-        date: "07-30-2023",
-      },
-      {
-        link: "/content/webscrape/",
-        title: "Scrape a Webpage",
-        description: "Scrape a website using this template",
-        image: "/images/webscrape_banner.png",
-        date: "07-15-2023",
+        date: "07-24-2023",
       },
       {
         link: "/content/overview/",
@@ -846,17 +839,24 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
         image: "/content/overview/firebasecloud.png",
         date: "06-28-2023",
       },
+      {
+        link: "/content/webscrape/",
+        title: "Scrape a Webpage",
+        description: "Scrape a website using this template",
+        image: "/images/webscrape_banner.png",
+        date: "07-15-2023",
+      },
     ];
     let items = "";
     newsList.forEach((item: any) => {
-      items += `<li class="list-group-item"><a class="hover_yellow d-flex flex-column" href="${item.link}">
+      items += `<li class="news_group_item hover_yellow"><a class="d-flex flex-column" href="${item.link}">
               <div>
                   <div class="d-flex w-100 justify-content-between">
                   <h5 class="mb-1"><span class="title">${item.title}</span></h5>
                     <small class="date">${item.date}</small>
                   </div>
               </div>
-              <div class="d-flex w-100 justify-content-between">
+              <div class="d-flex flex-column">
               <img src="${item.image}">
               <span  class="caption">${item.description}</span>
               </div>

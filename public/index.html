@@ -78,20 +78,23 @@
             <li class="home_logo_mobile_only">
                 <a class="navbar_brand" style="text-decoration: none;cursor: default;">
                     <span class="navbar_logo"></span>
+                    <span class="mobile_hide position-relative" style="top:-6px;">Una<span
+                            class="home_navbar_name_color"">cog</span></span>
                 </a>
             </li>
-            <li style="flex:1">
-                <ul class="header_tabs nav nav-pills" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link active" id="news_tab_button" data-bs-toggle="tab" href="#news_tab_view"
-                            role="tab" aria-controls="news_tab_view" aria-selected="true">News</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link session_tab" id="dashboard_tab_button" data-bs-toggle="tab"
-                            href="#dashboard_tab_view" role="tab" aria-controls="dashboard_tab_view"
-                            aria-selected="false">Sessions</a>
-                    </li>
-                </ul>
+            <li style=" flex:1">
+                            <ul class="header_tabs nav nav-pills" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link active" id="news_tab_button" data-bs-toggle="tab"
+                                        href="#news_tab_view" role="tab" aria-controls="news_tab_view"
+                                        aria-selected="true">News</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link session_tab" id="dashboard_tab_button" data-bs-toggle="tab"
+                                        href="#dashboard_tab_view" role="tab" aria-controls="dashboard_tab_view"
+                                        aria-selected="false">Sessions</a>
+                                </li>
+                            </ul>
             </li>
             <li class="nav-item signed_in_options">
                 <a class="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
@@ -113,285 +116,296 @@
                 aria-labelledby="news_tab_button">
                 <div class="mt-2">
                     <!-- News section-->
-                    <h1 class="home_header">
-                        Most Recent
-                    </h1>
-                    <div class="flex-lg-row flex_change_responsive mb-3">
-                        <ul class="recent_content_flyers_ul_list list-group list-group-flush intro_card"></ul>
+                    <div class="hero_news_container">
+                        <h2 class="border-bottom mb-3">Recent Articles</h2>
+                        <ul class="recent_content_flyers_ul_list flex-lg-row flex_change_responsive"></ul>
                     </div>
 
 
-
+<hr>
                     <!-- Models section-->
-                    <div class="flex-lg-row flex_change_responsive">
-                        <div class="main_block intro_card card">
-                            <h5 style="display:inline-block">
-                                <a href="https://platform.openai.com/docs/models" target="_blank">
-                                    <img class="model_svg show_day_mode_inline_block" src="/images/openailite.svg"
-                                        style="width:120px;"><img class="model_svg show_nite_mode_inline_block"
-                                        src="/images/openai.svg" style="width:120px;"><i class="material-icons"
-                                        style="margin-left: 4px;position:relative;top: 8px;">open_in_new</i>
-                                </a>
-                            </h5>
-                            <ul class="list-group-flush list-group">
-                                <li class="list-group-item"><span class="supported_model">gpt-3.5-turbo</span> 4k</li>
-                                <li class="list-group-item"><span class="supported_model">gpt-3.5-turbo-16k</span></li>
-                                <li class="list-group-item"><span class="supported_model">gpt-4</span> 8k</li>
-                                <li class="list-group-item"><span class="upcoming_model">gpt-4-32k</span> (soon)</li>
-                            </ul>
-                        </div>
-                        <div class="main_block intro_card card">
-                            <h5 style="display:inline-block">
-                                <a href="https://developers.generativeai.google/api/rest/generativelanguage"
-                                    target="_blank">
-                                    <img src="/images/palmapi.png" style="width:32px;"><img
-                                        class="model_svg show_day_mode_inline_block" src="/images/palmapinamelite.png"
-                                        style="margin-left:6px;width:95px;"><img
-                                        class="model_svg show_nite_mode_inline_block" src="/images/palmapiname.png"
-                                        style="margin-left:6px;width:95px;"><i class="material-icons"
-                                        style="margin-left: 4px;position:relative;top: 6px;">open_in_new</i>
-                                </a>
-                            </h5>
-                            <ul class="list-group-flush list-group">
-                                <li class="list-group-item"> <span class="supported_model">chat-bison-001</span> 9k</li>
-                                <li class="list-group-item"> <span class="upcoming_model">med-bison-001</span> 36k
-                                    (soon)</li>
-                                <li class="list-group-item"> <span class="upcoming_model">med-bison-002</span> 144k
-                                    (later)</li>
-                                <li class="list-group-item"> <span class="upcoming_model">codechat-bison-001</span> 6k
-                                    (soon)</li>
-                            </ul>
-                        </div>
-                        <div class="main_block intro_card card">
-                            <h5 style="display:inline-block">
-                                <a href="https://docs.anthropic.com/claude/reference/complete_post" target="_blank">
-                                    <img src="/images/anthropologic.png" style="width:32px;"><img
-                                        class="model_svg show_day_mode_inline_block" src="/images/anthrofulllite.svg"
-                                        style="margin-left:6px;width:120px;"><img
-                                        class="model_svg show_nite_mode_inline_block" src="/images/anthrofull.svg"
-                                        style="margin-left:6px;width:120px;"><i class="material-icons"
-                                        style="margin-left: 4px;position:relative;top: 6px;">open_in_new</i>
-                                </a>
-                            </h5>
-                            <ul class="list-group-flush list-group">
-                                <li class="list-group-item"><span class="upcoming_model">claude-2</span> 100k (soon)
-                                </li>
-                                <li class="list-group-item"><span class="upcoming_model">claude-instant-1</span> 100k
-                                    (soon)</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="flex-lg-row flex_change_responsive">
-                        <div class="main_block app_panel models_api_panel">
-                            <h1 class="home_header text-center">
-                                <span>LLM Cost by Model</span>
-                            </h1>
-                            <div class="intro_card card" style="overflow: auto; max-height: 40vh;">
-                                <table class="price_table">
-                                    <tr>
-                                        <th>Model</th>
-                                        <th>Input</th>
-                                        <th>Output</th>
-                                    </tr>
-                                    <tr>
-                                        <td>gpt-3.5-turbo</td>
-                                        <td>0.0015</td>
-                                        <td>0.002</td>
-                                    </tr>
-                                    <tr>
-                                        <td>claude-instant-1</td>
-                                        <td>0.00163</td>
-                                        <td>0.00551</td>
-                                    </tr>
-                                    <tr>
-                                        <td>gpt-3.5-turbo-16k</td>
-                                        <td>0.003</td>
-                                        <td>0.004</td>
-                                    </tr>
-                                    <tr>
-                                        <td>claude-2</td>
-                                        <td>0.01102</td>
-                                        <td>0.03268</td>
-                                    </tr>
-                                    <tr>
-                                        <td>chat-bison-001</td>
-                                        <td>0.02</td>
-                                        <td>0.04</td>
-                                    </tr>
-                                    <tr>
-                                        <td>gpt-4</td>
-                                        <td>0.03</td>
-                                        <td>0.06</td>
-                                    </tr>
-                                    <tr>
-                                        <td>gpt-4-32k</td>
-                                        <td>0.06</td>
-                                        <td>0.12</td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div style="text-align:center;">
-                                $USD per 1k tokens. A token is about 3/4 of a word.
-                                <br>Tokens per credit varies accordingly
-                            </div>
-                        </div>
-                        <div class="main_block app_panel">
-                            <h1 class="home_header">
-                                <span>Features</span>
-                            </h1>
-                            <div class="card intro_card features_tips_panel news_top_row" style="overflow: auto;">
-                                <ul>
-                                    <li>
-                                        <a href="/help/#system_message" class="hover_yellow" target="help">
-                                            <i class="material-icons" style="color:rgb(235, 235, 10)">lightbulb</i><span
-                                                class="link">Change models</span></a>
-                                        <span class="desc">
-                                            without losing context
-                                        </span>
+                    <div class="homepage_section">
+                        <h2 class="mb-3">Available Models</h2>
+                        <div class="flex-lg-row flex_change_responsive">
+                            <div class="main_block intro_card card">
+                                <h5 style="display:inline-block">
+                                    <a href="https://platform.openai.com/docs/models" target="_blank">
+                                        <img class="model_svg show_day_mode_inline_block" src="/images/openailite.svg"
+                                            style="width:120px;"><img class="model_svg show_nite_mode_inline_block"
+                                            src="/images/openai.svg" style="width:120px;"><i class="material-icons"
+                                            style="margin-left: 4px;position:relative;top: 8px;">open_in_new</i>
+                                    </a>
+                                </h5>
+                                <ul class="list-group-flush list-group">
+                                    <li class="list-group-item"><span class="supported_model">gpt-3.5-turbo</span> 4k
                                     </li>
-                                    <li>
-                                        <a href="/help/#system_message" class="hover_yellow" target="help">
-                                            <span class="gear_icon">
-                                                <svg xmlns="http://www.w3.org/2000/svg" height="24"
-                                                    viewBox="0 -960 960 960" width="24">
-                                                    <path fill="currentColor" d="m388-80-20-126q-19-7-40-19t-37-25l-118 54-93-164 108-79q-2-9-2.5-20.5T185-480q0-9
-                                                .5-20.5T188-521L80-600l93-164 118 54q16-13 37-25t40-18l20-127h184l20 126q19 7
-                                                  40.5 18.5T669-710l118-54 93 164-108 77q2 10 2.5 21.5t.5 21.5q0 10-.5 21t-2.5 21l108 78-93 164-118-54q-16 13-36.5
-                                                  25.5T592-206L572-80H388Zm92-270q54 0 92-38t38-92q0-54-38-92t-92-38q-54 0-92 38t-38 92q0
-                                                    54 38 92t92 38Zm0-60q-29 0-49.5-20.5T410-480q0-29 20.5-49.5T480-550q29 0 49.5 20.5T550-480q0
-                                                    29-20.5 49.5T480-410Zm0-70Zm-44 340h88l14-112q33-8 62.5-25t53.5-41l106 46 40-72-94-69q4-17
-                                                      6.5-33.5T715-480q0-17-2-33.5t-7-33.5l94-69-40-72-106 46q-23-26-52-43.5T538-708l-14-112h-88l-14
-                                                      112q-34 7-63.5 24T306-642l-106-46-40 72 94 69q-4 17-6.5 33.5T245-480q0 17 2.5 33.5T254-413l-94
-                                                        69 40 72 106-46q24 24 53.5 41t62.5 25l14 112Z" />
-                                                </svg></span><span class="link">System messages</span></a>
-                                        <span class="desc">
-                                            for specific results
-                                        </span>
+                                    <li class="list-group-item"><span class="supported_model">gpt-3.5-turbo-16k</span>
                                     </li>
-                                    <li>
-                                        <a href="/help/#auto_exclude" class="hover_yellow" target="help">
-                                            <i class="material-icons">query_stats</i><span class="link">Auto
-                                                exclude</span></a>
-                                        <span class="desc">
-                                            to manage request size
-                                        </span>
-                                    </li>
-                                    <li><a href="/help/#chat_features" class="hover_yellow" target="help">
-                                            <i class="material-icons">loop</i><span class="link">Rerun
-                                                Prompts</span></a>
-                                        <span class="desc">
-                                            to get different results
-                                        </span>
-                                    </li>
-                                    <li><a class="hover_yellow" href="/help/#users_info" target="help">
-                                            <i class="material-icons shared_status_withusers">link</i><span
-                                                class="link">Collaborate</span></a>
-                                        <span class="desc">
-                                            with friends and coworkers
-                                        </span>
-                                    </li>
-                                    <li><a class="hover_yellow" href="/help/#export_options" target="help">
-                                            <i class="material-icons">download</i><span class="link">Export
-                                                json</span></a>
-                                        <span class="desc">
-                                            templates to share sessions your team
-                                        </span>
-                                    </li>
-                                    <li><a class="hover_yellow" href="/help/#options" target="help">
-                                            <i class="material-icons">upload</i><span class="link">Import
-                                                templates</span></a>
-                                        <span class="desc">
-                                            from others to initialize your session
-                                        </span>
-                                    </li>
-                                    <li><a class="hover_yellow" href="/help/#options" target="help">
-                                            <i class="material-icons">content_copy</i><span class="link">Use the
-                                                clipboard</span></a>
-                                        <span class="desc">
-                                            to copy text or html to other applications
-                                        </span>
-                                    </li>
-                                    <li><a class="hover_yellow" href="/help/#help_sign_in" target="help">
-                                            <i class="material-icons shared_status_withothers">link</i><span
-                                                class="link">Anonymous
-                                                login</span></a>
-                                        <span class="desc">
-                                            available for external collaborators
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <a href="/help/#session_limit" class="hover_yellow" target="help">
-                                            <span class="gear_icon">
-                                                <svg xmlns="http://www.w3.org/2000/svg" height="24"
-                                                    viewBox="0 -960 960 960" width="24">
-                                                    <path fill="currentColor" d="m388-80-20-126q-19-7-40-19t-37-25l-118 54-93-164 108-79q-2-9-2.5-20.5T185-480q0-9
-                                                    .5-20.5T188-521L80-600l93-164 118 54q16-13 37-25t40-18l20-127h184l20 126q19 7
-                                                      40.5 18.5T669-710l118-54 93 164-108 77q2 10 2.5 21.5t.5 21.5q0 10-.5 21t-2.5 21l108 78-93 164-118-54q-16 13-36.5
-                                                      25.5T592-206L572-80H388Zm92-270q54 0 92-38t38-92q0-54-38-92t-92-38q-54 0-92 38t-38 92q0
-                                                        54 38 92t92 38Zm0-60q-29 0-49.5-20.5T410-480q0-29 20.5-49.5T480-550q29 0 49.5 20.5T550-480q0
-                                                        29-20.5 49.5T480-410Zm0-70Zm-44 340h88l14-112q33-8 62.5-25t53.5-41l106 46 40-72-94-69q4-17
-                                                          6.5-33.5T715-480q0-17-2-33.5t-7-33.5l94-69-40-72-106 46q-23-26-52-43.5T538-708l-14-112h-88l-14
-                                                          112q-34 7-63.5 24T306-642l-106-46-40 72 94 69q-4 17-6.5 33.5T245-480q0 17 2.5 33.5T254-413l-94
-                                                            69 40 72 106-46q24 24 53.5 41t62.5 25l14 112Z" />
-                                                </svg></span><span class="link">Session usage limit</span></a>
-                                        <span class="desc">
-                                            to protect your account from abuse
-                                        </span>
-                                    </li>
-                                    <li><a class="hover_yellow" href="/help/#help_sign_in" target="help">
-                                            <i class="material-icons">email</i><span class="link">Email
-                                                invitations</span></a>
-                                        <span class="desc">
-                                            for convenient session access
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <a class="hover_yellow" href="/help/#owner_labels" target="help">
-                                            <i class="material-icons">label</i><span class="link">Organize using
-                                                labels</span></a>
-                                        <span class="desc">
-                                            to categorize and find sessions quickly
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <a class="hover_yellow" href="/help/#temperature" target="help">
-                                            <i class="material-icons">thermostat</i><span class="link">Adjust
-                                                temperature</span></a>
-                                        <span class="desc">
-                                            for more creative or regular results
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <a class="hover_yellow" href="/help/#threshold" target="help">
-                                            <i class="material-icons">query_stats</i><span class="link">Manage
-                                                context</span></a>
-                                        <span class="desc">
-                                            to control quality and cost of responses
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <a class="hover_yellow" href="/help/#top_p" target="help">
-                                            <i class="material-icons">filter_list</i><span class="link">Throttle top
-                                                p</span></a>
-                                        <span class="desc">
-                                            for more response possibilities
-                                        </span>
+                                    <li class="list-group-item"><span class="supported_model">gpt-4</span> 8k</li>
+                                    <li class="list-group-item"><span class="upcoming_model">gpt-4-32k</span> (soon)
                                     </li>
                                 </ul>
                             </div>
+                            <div class="main_block intro_card card">
+                                <h5 style="display:inline-block">
+                                    <a href="https://developers.generativeai.google/api/rest/generativelanguage"
+                                        target="_blank">
+                                        <img src="/images/palmapi.png" style="width:32px;"><img
+                                            class="model_svg show_day_mode_inline_block"
+                                            src="/images/palmapinamelite.png" style="margin-left:6px;width:95px;"><img
+                                            class="model_svg show_nite_mode_inline_block" src="/images/palmapiname.png"
+                                            style="margin-left:6px;width:95px;"><i class="material-icons"
+                                            style="margin-left: 4px;position:relative;top: 6px;">open_in_new</i>
+                                    </a>
+                                </h5>
+                                <ul class="list-group-flush list-group">
+                                    <li class="list-group-item"> <span class="supported_model">chat-bison-001</span> 9k
+                                    </li>
+                                    <li class="list-group-item"> <span class="upcoming_model">med-bison-001</span> 36k
+                                        (soon)</li>
+                                    <li class="list-group-item"> <span class="upcoming_model">med-bison-002</span> 144k
+                                        (later)</li>
+                                    <li class="list-group-item"> <span class="upcoming_model">codechat-bison-001</span>
+                                        6k
+                                        (soon)</li>
+                                </ul>
+                            </div>
+                            <div class="main_block intro_card card">
+                                <h5 style="display:inline-block">
+                                    <a href="https://docs.anthropic.com/claude/reference/complete_post" target="_blank">
+                                        <img src="/images/anthropologic.png" style="width:32px;"><img
+                                            class="model_svg show_day_mode_inline_block"
+                                            src="/images/anthrofulllite.svg" style="margin-left:6px;width:120px;"><img
+                                            class="model_svg show_nite_mode_inline_block" src="/images/anthrofull.svg"
+                                            style="margin-left:6px;width:120px;"><i class="material-icons"
+                                            style="margin-left: 4px;position:relative;top: 6px;">open_in_new</i>
+                                    </a>
+                                </h5>
+                                <ul class="list-group-flush list-group">
+                                    <li class="list-group-item"><span class="upcoming_model">claude-2</span> 100k (soon)
+                                    </li>
+                                    <li class="list-group-item"><span class="upcoming_model">claude-instant-1</span>
+                                        100k
+                                        (soon)</li>
+                                </ul>
+                            </div>
                         </div>
+                        <p class="lead pt-3"><a href="/content/pricing">More on Pricing</a></p>
                     </div>
-                    <div class="flex-lg-row flex_change_responsive">
 
-                        <div class="main_block app_panel discussion_list_panel">
-                            <h1 class="home_header">
-                                <span>Examples</span>
-                            </h1>
-                            <div class="intro_card card news_top_row">
-                                <ul class="template_list_wrapper recent_content_ul_list"></ul>
+                    <hr>
+
+                    <!-- examples section-->
+                    <div class="homepage_section">
+                        <h2 class="mb-3">Features</h2>
+                        <div class="">
+                            <ul class=" flex-lg-row flex_change_responsive feature_group_list">
+                                <li class="feature_group_item card hover_yellow">
+                                    <a class="d-flex flex-column p-2" href="/help/#system_message" target="help">
+                                        <i class="material-icons" style="color:rgb(235, 235, 10)">lightbulb</i>
+                                        <h4 class="feature_name">
+                                            <span class="link">Change Models</span>
+                                        </h4>
+                                        <span class="desc">
+                                            in sessions without losing context
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="feature_group_item card hover_yellow">
+                                    <a class="d-flex flex-column p-2" href="/help/#system_message" target="help">
+                                        <span class="gear_icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960"
+                                                width="24">
+                                                <path fill="currentColor"
+                                                    d="m388-80-20-126q-19-7-40-19t-37-25l-118 54-93-164 108-79q-2-9-2.5-20.5T185-480q0-9 .5-20.5T188-521L80-600l93-164 118 54q16-13 37-25t40-18l20-127h184l20 126q19 7 40.5 18.5T669-710l118-54 93 164-108 77q2 10 2.5 21.5t.5 21.5q0 10-.5 21t-2.5 21l108 78-93 164-118-54q-16 13-36.5 25.5T592-206L572-80H388Zm92-270q54 0 92-38t38-92q0-54-38-92t-92-38q-54 0-92 38t-38 92q0 54 38 92t92 38Zm0-60q-29 0-49.5-20.5T410-480q0-29 20.5-49.5T480-550q29 0 49.5 20.5T550-480q0 29-20.5 49.5T480-410Zm0-70Zm-44 340h88l14-112q33-8 62.5-25t53.5-41l106 46 40-72-94-69q4-17 6.5-33.5T715-480q0-17-2-33.5t-7-33.5l94-69-40-72-106 46q-23-26-52-43.5T538-708l-14-112h-88l-14 112q-34 7-63.5 24T306-642l-106-46-40 72 94 69q-4 17-6.5 33.5T245-480q0 17 2.5 33.5T254-413l-94 69 40 72 106-46q24 24 53.5 41t62.5 25l14 112Z">
+                                                </path>
+                                            </svg>
+                                        </span>
+                                        <h4 class="feature_name">
+                                            <span class="link">System messages</span>
+                                        </h4>
+                                        <span class="desc">
+                                            for specific results
+                                        </span>
+                                    </a>
+                                </li>
+
+                                <li class="feature_group_item card hover_yellow">
+                                    <a class="d-flex flex-column p-2" href="/help/#auto_exclude" target="help">
+                                        <i class="material-icons">query_stats</i>
+                                        <h4 class="feature_name">
+                                            <span class="link">Auto exclude</span>
+                                        </h4>
+                                        <span class="desc">
+                                            to manage request size
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="feature_group_item card hover_yellow">
+                                    <a class="d-flex flex-column p-2" href="/help/#chat_features" target="help">
+                                        <i class="material-icons">loop</i>
+                                        <h4 class="feature_name">
+                                            <span class="link">Rerun Prompts</span>
+                                        </h4>
+                                        <span class="desc">
+                                            to get different results
+                                        </span>
+                                    </a>
+                                </li>
+
+                                <li class="feature_group_item card hover_yellow">
+                                    <a class="d-flex flex-column p-2" href="/help/#users_info" target="help">
+                                        <i class="material-icons shared_status_withusers">link</i>
+                                        <h4 class="feature_name">
+                                            <span class="link">Collaborate</span>
+                                        </h4>
+                                        <span class="desc">
+                                            with friends and coworkers
+                                        </span>
+                                    </a>
+                                </li>
+
+                                <li class="feature_group_item card hover_yellow">
+                                    <a class="d-flex flex-column p-2" href="/help/#export_options" target="help">
+                                        <i class="material-icons">download</i>
+                                        <h4 class="feature_name">
+                                            <span class="link">Export json</span>
+                                        </h4>
+                                        <span class="desc">
+                                            templates to share sessions your team
+                                        </span>
+                                    </a>
+                                </li>
+
+                                <li class="feature_group_item card hover_yellow">
+                                    <a class="d-flex flex-column p-2" href="/help/#options" target="help">
+                                        <i class="material-icons">upload</i>
+                                        <h4 class="feature_name">
+                                            <span class="link">Import templates</span>
+                                        </h4>
+                                        <span class="desc">
+                                            from others to initialize your session
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="feature_group_item card hover_yellow">
+                                    <a class="d-flex flex-column p-2" href="/help/#options" target="help">
+                                        <i class="material-icons">content_copy</i>
+                                        <h4 class="feature_name">
+                                            <span class="link">Use the clipboard</span>
+                                        </h4>
+                                        <span class="desc">
+                                            to copy text or html to other applications
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="feature_group_item card hover_yellow">
+                                    <a class="d-flex flex-column p-2" href="/help/#help_sign_in" target="help">
+                                        <i class="material-icons shared_status_withothers">link</i>
+                                        <h4 class="feature_name">
+                                            <span class="link">Anonymous login</span>
+                                        </h4>
+                                        <span class="desc">
+                                            available for external collaborators
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="feature_group_item card hover_yellow">
+                                    <a class="d-flex flex-column p-2" href="/help/#session_limit" target="help">
+                                        <span class="gear_icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960"
+                                                width="24">
+                                                <path fill="currentColor"
+                                                    d="m388-80-20-126q-19-7-40-19t-37-25l-118 54-93-164 108-79q-2-9-2.5-20.5T185-480q0-9 .5-20.5T188-521L80-600l93-164 118 54q16-13 37-25t40-18l20-127h184l20 126q19 7 40.5 18.5T669-710l118-54 93 164-108 77q2 10 2.5 21.5t.5 21.5q0 10-.5 21t-2.5 21l108 78-93 164-118-54q-16 13-36.5 25.5T592-206L572-80H388Zm92-270q54 0 92-38t38-92q0-54-38-92t-92-38q-54 0-92 38t-38 92q0 54 38 92t92 38Zm0-60q-29 0-49.5-20.5T410-480q0-29 20.5-49.5T480-550q29 0 49.5 20.5T550-480q0 29-20.5 49.5T480-410Zm0-70Zm-44 340h88l14-112q33-8 62.5-25t53.5-41l106 46 40-72-94-69q4-17 6.5-33.5T715-480q0-17-2-33.5t-7-33.5l94-69-40-72-106 46q-23-26-52-43.5T538-708l-14-112h-88l-14 112q-34 7-63.5 24T306-642l-106-46-40 72 94 69q-4 17-6.5 33.5T245-480q0 17 2.5 33.5T254-413l-94 69 40 72 106-46q24 24 53.5 41t62.5 25l14 112Z" />
+                                            </svg>
+                                        </span>
+                                        <h4 class="feature_name">
+                                            <span class="link">Session usage limit</span>
+                                        </h4>
+                                        <span class="desc">
+                                            to protect your account from abuse
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="feature_group_item card hover_yellow">
+                                    <a class="d-flex flex-column p-2" href="/help/#help_sign_in" target="help">
+                                        <i class="material-icons">email</i>
+                                        <h4 class="feature_name">
+                                            <span class="link">Email invitations</span>
+                                        </h4>
+                                        <span class="desc">
+                                            for convenient session access
+                                        </span>
+                                    </a>
+                                </li>
+
+                                <li class="feature_group_item card hover_yellow">
+                                    <a class="d-flex flex-column p-2" href="/help/#owner_labels" target="help">
+                                        <i class="material-icons">label</i>
+                                        <h4 class="feature_name">
+                                            <span class="link">Organize using labels</span>
+                                        </h4>
+                                        <span class="desc">
+                                            to categorize and find sessions quickly
+                                        </span>
+                                    </a>
+                                </li>
+
+                                <li class="feature_group_item card hover_yellow">
+                                    <a class="d-flex flex-column p-2" href="/help/#temperature" target="help">
+                                        <i class="material-icons">thermostat</i>
+                                        <h4 class="feature_name">
+                                            <span class="link">Adjust temperature</span>
+                                        </h4>
+                                        <span class="desc">
+                                            for more creative or regular results
+                                        </span>
+                                    </a>
+                                </li>
+
+                                <li class="feature_group_item card hover_yellow">
+                                    <a class="d-flex flex-column p-2" href="/help/#threshold" target="help">
+                                        <i class="material-icons">query_stats</i>
+                                        <h4 class="feature_name">
+                                            <span class="link">Manage context</span>
+                                        </h4>
+                                        <span class="desc">
+                                            to control quality and cost of responses
+                                        </span>
+                                    </a>
+                                </li>
+
+                                <li class="feature_group_item card hover_yellow">
+                                    <a class="d-flex flex-column p-2" href="/help/#top_p" target="help">
+                                        <i class="material-icons">filter_list</i>
+                                        <h4 class="feature_name">
+                                            <span class="link">Throttle top p</span>
+                                        </h4>
+                                        <span class="desc">
+                                            for more response possibilities
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <p class="lead pt-3"><a href="/help/">See Help Docs</a></p>
+                    </div>
+
+                    <hr>
+
+                    <!-- examples section-->
+                    <div class="homepage_section">
+                        <div class="flex-lg-row flex_change_responsive">
+                            <div class="main_block app_panel discussion_list_panel">
+                                <h2 class="mb-3">Examples</h2>
+                                <div class="intro_card card overflow_container">
+                                    <ul class="template_list_wrapper recent_content_ul_list"></ul>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <hr>
+
                 </div>
             </div>
             <div class="tab-pane fade" id="dashboard_tab_view" role="tabpanel" style="flex-direction:column;"
