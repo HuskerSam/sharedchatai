@@ -1132,7 +1132,7 @@ ol li {
 }
 
 .nite_mode .recent_content_flyers_ul_list {
-  background-color: var(--home-panel-background);
+  background-color: var(--background-accent-4);
 }
 
 .recent_content_flyers_ul_list a {
@@ -1229,7 +1229,7 @@ ol li {
 
 
 .nite_mode .feature_group_list {
-  background-color: var(--home-panel-background);
+  background-color: var(--background-accent-4);
 }
 
 .feature_group_list .feature_group_item a {
