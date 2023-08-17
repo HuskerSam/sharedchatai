@@ -1242,15 +1242,23 @@ ol li {
 }
 
 .feature_group_list .feature_group_item .feature_name {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 600;
   text-decoration: underline;
+  margin-top: auto;
+}
+
+.feature_group_list .feature_group_item .desc {
+  margin-bottom: auto;
 }
 
 .homepage_header {
   color: var(--primary-color);
 }
 
+.feature_group_list .feature_group_item .material-icons {
+  font-size: 1.75em;
+}
 
 @media(min-width: 450px) {
 
@@ -1271,7 +1279,10 @@ ol li {
   .nav .show>.nav-link {
     border-bottom: none;
   }
-
+  .feature_group_list .feature_group_item,
+  .feature_group_list .feature_group_item a {
+    width: 175px;
+}
 }
 
 
