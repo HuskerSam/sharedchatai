@@ -64,6 +64,8 @@ export default class AccountHelper {
                 dailyCreditUsage,
                 availableCreditBalance,
                 nMonthlyCreditUsage,
+                usageData,
+                runningTokens,
             });
           });
     }

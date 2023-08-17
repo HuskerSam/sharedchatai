@@ -41,6 +41,15 @@ export default class ProfileHelper {
     change_subscription: any;
     tokenUsageUpdates = false;
     modal: any = null;
+    usage_select_view: any;
+    usage_view_this_month: any;
+    usage_view_last_month: any;
+    usage_view_2_monthago: any;
+    currentMonth = new Date();
+    lastMonth = new Date();
+    lastMonth2 = new Date();
+    usageStatsTabInited = false;
+    usage_viewer: any;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -152,6 +161,12 @@ export default class ProfileHelper {
         this.nite_mode_input = document.querySelector(".nite_mode_input");
         this.nite_mode_input.addEventListener("input", () => this.app.toggleDayMode(this.nite_mode_input.checked));
         this.account_tab_button = document.querySelector(".account_tab_button");
+
+        this.usage_select_view = this.modalContainer.querySelector(".usage_select_view");
+        this.usage_view_this_month = this.modalContainer.querySelector(".usage_view_this_month");
+        this.usage_view_last_month = this.modalContainer.querySelector(".usage_view_last_month");
+        this.usage_view_2_monthago = this.modalContainer.querySelector(".usage_view_2_monthago");
+        this.usage_viewer = this.modalContainer.querySelector(".usage_viewer");
     }
     /** pick a random college logo for the profile image and save to firebase */
     async randomizeImage() {
@@ -268,23 +283,29 @@ export default class ProfileHelper {
                             <select class="label_profile_picker" multiple="multiple"
                                 style="width:95%;min-height:6em"></select>
                         </div>
-                        <div class="tab-pane fade" id="profile_user_labels_view" style="min-height:10em; role=" tabpanel"
+                        <div class="tab-pane fade" id="profile_user_labels_view" style="min-height:10em;" role="tabpanel"
                             aria-labelledby="profile_labels_tab_button">
-                            <table class="chat_token_usage_display number">
-                                <tr>
-                                    <th></th>
-                                    <th>Day</th>
-                                    <th>Month</th>
-                                    <th>Year</th>
-                                    <th>All Time</th>
-                                </tr>
-                                <tr class="replies_row"></tr>
-                                <tr class="prompts_row"></tr>
-                                <tr class="total_row"></tr>
-                                <tr class="credits_row"></tr>
-                            </table>
-
-                            <br>
+                            <select class="form-select usage_select_view"></select>
+                            <div class="usage_viewer">
+                                <div class="usage_view_summary">
+                                    <table class="chat_token_usage_display number">
+                                        <tr>
+                                            <th></th>
+                                            <th>Day</th>
+                                            <th>Month</th>
+                                            <th>Year</th>
+                                            <th>All Time</th>
+                                        </tr>
+                                        <tr class="replies_row"></tr>
+                                        <tr class="prompts_row"></tr>
+                                        <tr class="total_row"></tr>
+                                        <tr class="credits_row"></tr>
+                                    </table>
+                                </div>
+                                <div class="usage_view_this_month"></div>
+                                <div class="usage_view_last_month"></div>
+                                <div class="usage_view_2_monthago"></div>
+                            </div>
                         </div>
                         <div class="tab-pane fade" id="profile_user_usage_view" role="tabpanel"
                             aria-labelledby="usage_labels_tab_button">
@@ -297,13 +318,14 @@ export default class ProfileHelper {
                                 </div>
                             </div>
                             <hr>
-                            <div class="">
-                                <a class="change_email_button btn btn-secondary">support@unacofg.com</a>        
-                            </div>
-                            <hr>
+                            Refer to <a href="/help" target="_blank">help</a> before proceeding
                             <div class="change_email_panel">
                                 <input type="text" class="form-control profile_new_email" placeholder="New Email">
                                 <button class="change_email_button btn btn-secondary">Change Email</button>        
+                            </div>
+                            <hr>
+                            <div class="">
+                                <a class="" href="mailto:support@unacog.com" target="_blank">support@unacofg.com</a>        
                             </div>
                         </div>
                     </div>
@@ -543,7 +565,64 @@ export default class ProfileHelper {
                 `<td class="yearly_td">${usageData.yearlyCreditUsage}</td>` +
                 `<td class="all_time_td">${usageData.allTimeCreditUsage}</td>`;
             this.available_balance.innerHTML = Math.round(usageData.availableCreditBalance);
+
+            this.usage_view_this_month.innerHTML = this.getUsageTable(this.currentMonth, usageData.runningTokens);
+            this.usage_view_last_month.innerHTML = this.getUsageTable(this.lastMonth, usageData.runningTokens);
+            this.usage_view_2_monthago.innerHTML = this.getUsageTable(this.lastMonth2, usageData.runningTokens);
         });
+    }
+    /**
+     * @param { Date } d month/year
+     * @param { any } runningTokens server side stats 
+     * @return { string } html table rows
+     */
+    getUsageTable(d: Date, runningTokens: any): string {
+        let html = `<table class="number" style="width:100%;">
+        <tr>
+            <th></th>
+            <th>Credits</th>
+            <th>Tokens</th>
+            <th>Prompts</th>
+            <th>Responses</th>
+        </tr>`;
+        const start = 1;
+        const lastD = new Date(2008, d.getMonth() + 1, 0);
+        const last = lastD.getDate();
+
+        const iso = d.toISOString();
+        const yearMonthFrag = iso.substring(0, 7);
+
+        const mTotal = BaseApp.numberWithCommas(runningTokens["total_" + yearMonthFrag]);
+        const mPrompt = BaseApp.numberWithCommas(runningTokens["prompt_" + yearMonthFrag]);
+        const mCompletion = BaseApp.numberWithCommas(runningTokens["completion_" + yearMonthFrag]);
+        const mCredits = BaseApp.numberWithCommas(runningTokens["credit_" + yearMonthFrag]);
+        const mon = d.toLocaleString("en-us", {
+            month: "short",
+        });
+        html += `<tr><th>${mon}</th><td>${mCredits}</td><td>${mTotal}</td><td>${mPrompt}</td><td>${mCompletion}</td></tr>`;
+        let today = new Date().toISOString().substring(0, 10);
+        for (let c = start; c <= last; c++) {
+            const cD = new Date(d);
+            cD.setDate(c);
+            const iso = cD.toISOString();
+            const ymdFrag = iso.substring(0, 10);
+            let dTotal = BaseApp.numberWithCommas(runningTokens["total_" + ymdFrag]);
+            let dPrompt = BaseApp.numberWithCommas(runningTokens["prompt_" + ymdFrag]);
+            let dCompletion = BaseApp.numberWithCommas(runningTokens["completion_" + ymdFrag]);
+            let dCredits = BaseApp.numberWithCommas(runningTokens["credit_" + ymdFrag]);
+
+            if (ymdFrag > today) {
+                dTotal = "";
+                dPrompt = "";
+                dCompletion = "";
+                dCredits = "";
+            }
+
+            html += `<tr><th>${c}</th><td>${dCredits}</td><td>${dTotal}</td><td>${dPrompt}</td><td>${dCompletion}</td></tr>`;
+        }
+
+        html += `</table>`;
+        return html;
     }
     /** populate modal fields and show
      * @param { boolean } showAccountTab
@@ -589,10 +668,46 @@ export default class ProfileHelper {
         this.profile_display_name.setAttribute("uid", this.app.uid);
         this.nite_mode_input.checked = (this.app.themeIndex === 1);
 
+        this.updateUsageStatsTab();
         this.app.updateUserNamesImages();
         this.updateTokenUsage();
         if (showAccountTab) this.account_tab_button.click();
         this.modal.show();
+    }
+    /** */
+    updateUsageStatsTab() {
+        if (this.usageStatsTabInited) return;
+        this.usageStatsTabInited = true;
+
+        let selectHTML = `<option value="show_usage_summary">Summary</option>`;
+        this.currentMonth = new Date();
+        const currentMonthStr = this.currentMonth.toLocaleString("en-us", {
+            month: "short",
+            year: "numeric",
+        });
+        this.lastMonth = new Date();
+        this.lastMonth.setMonth(new Date().getMonth() - 1);
+        const lastMonthStr = this.lastMonth.toLocaleString("en-us", {
+            month: "short",
+            year: "numeric",
+        });
+        this.lastMonth2 = new Date();
+        this.lastMonth2.setMonth(new Date().getMonth() - 2);
+        const lastMonth2Str = this.lastMonth2.toLocaleString("en-us", {
+            month: "short",
+            year: "numeric",
+        });
+        selectHTML += `<option value="show_usage_this_month">${currentMonthStr}</option>`;
+        selectHTML += `<option value="show_usage_last_month">${lastMonthStr}</option>`;
+        selectHTML += `<option value="show_usage_last_month2">${lastMonth2Str}</option>`;
+        this.usage_select_view.innerHTML = selectHTML;
+        this.usage_select_view.selectedIndex = 0;
+        this.usage_select_view.addEventListener("input", () => this.updateUsageView());
+        this.updateUsageView();
+    }
+    /** */
+    updateUsageView() {
+        this.usage_viewer.setAttribute("class", this.usage_select_view.value);
     }
     /** */
     async changeEmail() {

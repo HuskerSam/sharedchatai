@@ -1077,3 +1077,26 @@ select.form-select.purchase_amount_select {
 .print_receipt {
   margin-right: 1em;
 }
+
+.usage_view_summary,
+.usage_view_this_month,
+.usage_view_last_month,
+.usage_view_2_monthago {
+  display: none;
+}
+
+.show_usage_summary .usage_view_summary {
+  display: block;
+}
+
+.show_usage_this_month .usage_view_this_month {
+  display: block;
+}
+
+.show_usage_last_month .usage_view_last_month {
+  display: block;
+}
+
+.show_usage_last_month2 .usage_view_2_monthago {
+  display: block;
+}
