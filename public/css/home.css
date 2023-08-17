@@ -1218,6 +1218,10 @@ ol li {
   text-decoration: underline;
 }
 
+.homepage_header {
+  color: var(--primary-color);
+}
+
 
 @media (min-width: 768px) {
  
