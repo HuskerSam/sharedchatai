@@ -406,12 +406,23 @@ export default class BuyCreditsHelper {
               ${data.processingStatus}
             </div>
           </div>
-          Id: ${doc.id}
+          ${doc.id}
           <br>
-          $${data.purchaseAmount} for ${data.credits}
           <div class="new_balance_div">
-            Balance <span class="new_balance_display">${endB.toFixed()}</span> Credits
-            <br>
+            <table class="number" style="width:90%">
+                <tr>
+                    <td>Purchase Amount</td>
+                    <td style="text-align:right;">$${data.purchaseAmount} US Dollars</td>
+                </tr>
+                <tr>
+                    <td>New Credits</td>
+                    <td style="text-align:right;">${data.credits} Credits</td>
+                </tr>
+                <tr>
+                    <td>Ending Balance</td>
+                    <td style="text-align:right;">${endB.toFixed()} Credits</td>
+                </tr>
+            </table>
             <button class="show_receipt btn btn-secondary" data-id="${doc.id}">View</button>
             <button class="print_receipt btn btn-secondary" data-id="${doc.id}">Print</button>
           </div>
@@ -469,7 +480,7 @@ export default class BuyCreditsHelper {
                 ${id}
                 <br>
                 <br>
-                <table class="number" style="width:100%">
+                <table class="number" style="width:90%">
                     <tr>
                         <td>Purchase Amount</td>
                         <td style="text-align:right;">$${data.purchaseAmount} US Dollars</td>
@@ -485,7 +496,7 @@ export default class BuyCreditsHelper {
                 </table>
             </div>
             <br>
-            Thanks for purchasing credits for usage with Unacog AI!
+            Thanks for your purchase!
             <br>
             <br>
             <div style="text-align:left;">
