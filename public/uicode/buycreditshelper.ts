@@ -446,44 +446,60 @@ export default class BuyCreditsHelper {
 
     const html = `<!DOCTYPE html>
     <html>
-        <head>
-            <title>Receipt for ${id}</title>
-            <meta charset="utf-8">
-        </head>
-        <body style="text-align: center;">
+    
+    <head>
+        <title>Receipt for ${id}</title>
+        <meta charset="utf-8">
+    </head>
+    
+    <body style="text-align: center;">
         <div style="text-align:center;width: 400px;display:inline-block;">
             <img src="https://unacog.com/images/logo64.png" style="width:150px;">
             <br><br>
             Unacog AI
             <br>
             <a href="https://unacog.com" target="_blank">unacog.com</a>
-            <br><br> 
+            <br><br>
             Credits Purchase
-          <br>
-        <div class="${data.processingStatus.toLowerCase()}" style="text-align:left;">
-    <div class="payment_date_div">
-      ${dateDesc}
-    </div>
-    Id: ${id}
-    <br>
-    $${data.purchaseAmount} US Dollars
-    <br>
-    Unacog AI ${data.credits} Credits
-    <br>
-      Ending Balance <span class="new_balance_display">${endB.toFixed()}</span> Credits
-    </div>
-    <br>
-    <a href="mailto:support@unacog.com" target="_blank">support@unacog.com</a>
-    <br>
-    <div style="text-align:left;">
-    <a href="https://unacog.com/content/terms" target="_blank">Terms:</a><br>
-    Thanks for purchasing credits for usage with Unacog AI, the credits are 
-    not redeemable for cash and do not decay in value with time.  Unacog is 
-    not responsible or liable for incorrect results.
-    </div>
-    <br>
-  </div>
-  </div></body></html>`;
+            <br>
+            <div class="${data.processingStatus.toLowerCase()}" style="text-align:left;">
+                <div class="payment_date_div">
+                    ${dateDesc}
+                </div>
+                ${id}
+                <br>
+                <br>
+                <table class="number" style="width:100%">
+                    <tr>
+                        <td>Purchase Amount</td>
+                        <td style="text-align:right;">$${data.purchaseAmount} US Dollars</td>
+                    </tr>
+                    <tr>
+                        <td>New Credits</td>
+                        <td style="text-align:right;">${data.credits} Credits</td>
+                    </tr>
+                    <tr>
+                        <td>Ending Balance</td>
+                        <td style="text-align:right;">${endB.toFixed()} Credits</td>
+                    </tr>
+                </table>
+            </div>
+            <br>
+            Thanks for purchasing credits for usage with Unacog AI!
+            <br>
+            <br>
+            <div style="text-align:left;">
+                <a href="https://unacog.com/content/terms" target="_blank">Terms:</a><br>
+                Credits do not decay in value with time and are not redeemable for cash. Unacog is
+                not responsible or liable for generated AI responses.
+            </div>
+            <br>
+            <br>
+            <a href="mailto:support@unacog.com" target="_blank">support@unacog.com</a>
+        </div>
+    </body>
+    
+    </html>`;
     const winUrl = URL.createObjectURL(new Blob([html], {
       type: "text/html",
     }));
