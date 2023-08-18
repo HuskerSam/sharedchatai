@@ -90,7 +90,7 @@ body {
 
 html .nite_mode,
 body.nite_mode  {
-  background-color: var(--background-accent-4) ;
+  background-color: var(--background-accent-5) ;
 }
 
 @font-face {
