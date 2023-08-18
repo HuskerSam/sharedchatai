@@ -800,6 +800,13 @@ export default class BaseApp {
   getFlyerListTemplate(contentPage: boolean): string {
     const newsList = [
       {
+        link: "/content/edustudy1/",
+        title: "Edu Use Case",
+        description: "Using LLMs as a Personal Tutor: AI tutors in EDU",
+        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fpresentations%2Fpersonal%20tutor%20edu%2F1.jpg?alt=media&token=49769202-ea50-4e59-8d42-06454bb9032b",
+        date: "08-15-2023",
+      },
+      {
         link: "/content/sharingprompts/",
         title: "Share Chat Sessions",
         description: "Copy, import, export and share prompts",
@@ -836,7 +843,7 @@ export default class BaseApp {
       },
       {
         link: "/content/edustudy/",
-        title: "Lesson Plans",
+        title: "Edu Use Case",
         description: "Make Your Lessons Come To Life With AI: Using Context to Streamline Course Material",
         image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fpresentations%2Flesson%20plans%20with%20ai%2F1.jpg?alt=media&token=b06c993a-ea05-4467-abcc-a6290e515f1a",
         date: "07-29-2023",
