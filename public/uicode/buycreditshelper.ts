@@ -500,7 +500,7 @@ export default class BuyCreditsHelper {
             <br>
             <br>
             <div style="text-align:left;">
-                <a href="https://unacog.com/content/terms" target="_blank">Terms:</a><br>
+                <a href="https://unacog.com/content/pricing/" target="_blank">Terms:</a><br>
                 Credits do not decay in value with time and are not redeemable for cash. Unacog is
                 not responsible or liable for generated AI responses.
             </div>
