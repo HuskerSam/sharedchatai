@@ -727,76 +727,71 @@ export default class BaseApp {
  * @return { string } html
 */
   getFooterTemplate(): string {
-    return `<footer class="side_block pb-1 app_panel">
-            <div class="row">
-                <div class="mb-3 mb-md-0 text-center text-md-start" style="flex:1">
-                    <h5><span>Una<span
-                    class="home_navbar_name_color"">cog</span></span></h5>
-                    <p>
-                        We are a dedicated team based in Lincoln, Nebraska, USA. We are actively pursuing software
-                         development projects to fuel our growth. To collaborate with us, please reach out at <a
-                            href="mailto:support@unacog.com" target="_blank">support@unacog.com</a>
-                    </p>
-                </div>
-                <div class="col-md-2 mb-md-0">
-                    <h5>Company</h5>
-                    <ul class="nav flex-column" style="font-size: 1.2em;">
-                        <li class="nav-item mb-2"><a href="/content/about/"
-                                class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25
-                                 link-underline-opacity-100-hover"
-                                >About</a></li>
-                        <li class="nav-item mb-2"><a href="/content/privacy/"
-                                class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25
-                                 link-underline-opacity-100-hover">Privacy</a></li>
-                        <li class="nav-item mb-2"><a
-                                class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25
-                                 link-underline-opacity-100-hover"
-                                href="/content/pricing/">Pricing</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <h5 class="mb-0">Newsletter Signup:</h5>
-                    <p class="my-1">Get tips, updates, news and more.</p>
-                    <div class="intro_card card">
-                        <div id="mc_embed_shell">
-                            <div id="mc_embed_signup">
-                                <form
-action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febcbb50595f9c46&amp;id=4abff76760&amp;f_id=00695ee1f0"
-                                    method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
-                                    class="validate m-2 mb-1" target="_self" novalidate="">
-                                    <div id="mc_embed_signup_scroll">
-                                        <div class="mc-field-group w-100"><label class="visually-hidden" for="mce-EMAIL">
-                                        Email Address</label><input
-                                                type="email" name="EMAIL" placeholder="Email Address" class="required email py-2"
-                                                 id="mce-EMAIL" required=""
-                                                value=""></div>
-                                        <div id="mce-responses" class="clear foot">
-                                            <div class="response" id="mce-error-response" style="display: none;"></div>
-                                            <div class="response" id="mce-success-response" style="display: none;"></div>
-                                        </div>
-                                        <div aria-hidden="true" style="position: absolute; left: -5000px;">
-                                            /* real people should not fill this in and expect good things - do not remove
-                                            this or risk form bot signups */
-                                            <input type="text" name="b_064c017e2febcbb50595f9c46_4abff76760" tabindex="-1"
-                                                value="">
-                                        </div>
-                                        <div class="optionalParent text-center">
-                                            <div class="clear foot d-inline-block">
-                                                <input type="submit" name="subscribe" id="mc-embedded-subscribe"
-                                                    class="button" value="Subscribe">
+    return `<footer class="app_panel main_block m-0">
+              <div class="container">
+                <div class="row">
+                    <div class="mb-3 mb-md-0 text-center text-md-start" style="flex:1">
+                        <h5><span>Una<span class="home_navbar_name_color"">cog</span></span></h5>
+                        <p>
+                            We are a dedicated team based in Lincoln, Nebraska, USA. We are actively pursuing software
+                            development projects to fuel our growth. To collaborate with us, please reach out at <a
+                                href=" mailto:support@unacog.com" target="_blank">support@unacog.com</a>
+                                    </p>
+                    </div>
+                    <div class="col-md-2 mb-md-0">
+                        <h5>Company</h5>
+                        <ul class="nav flex-column" style="font-size: 1.2em;">
+                            <li class="nav-item mb-2"><a href="/content/about/" class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25
+                                    link-underline-opacity-100-hover">About</a></li>
+                            <li class="nav-item mb-2"><a href="/content/privacy/" class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25
+                                    link-underline-opacity-100-hover">Privacy</a></li>
+                            <li class="nav-item mb-2"><a class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25
+                                    link-underline-opacity-100-hover" href="/content/pricing/">Pricing</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <h5 class="mb-0">Newsletter Signup:</h5>
+                        <p class="my-1">Get tips, updates, news and more.</p>
+                        <div class="intro_card card">
+                            <div id="mc_embed_shell">
+                                <div id="mc_embed_signup">
+                                    <form
+                                        action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febcbb50595f9c46&amp;id=4abff76760&amp;f_id=00695ee1f0"
+                                        method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
+                                        class="validate m-2 mb-1" target="_self" novalidate="">
+                                        <div id="mc_embed_signup_scroll">
+                                            <div class="mc-field-group w-100"><label class="visually-hidden" for="mce-EMAIL">
+                                                    Email Address</label><input type="email" name="EMAIL"
+                                                    placeholder="Email Address" class="required email py-2" id="mce-EMAIL"
+                                                    required="" value=""></div>
+                                            <div id="mce-responses" class="clear foot">
+                                                <div class="response" id="mce-error-response" style="display: none;"></div>
+                                                <div class="response" id="mce-success-response" style="display: none;"></div>
+                                            </div>
+                                            <div aria-hidden="true" style="position: absolute; left: -5000px;">
+                                                /* real people should not fill this in and expect good things - do not remove
+                                                this or risk form bot signups */
+                                                <input type="text" name="b_064c017e2febcbb50595f9c46_4abff76760" tabindex="-1"
+                                                    value="">
+                                            </div>
+                                            <div class="optionalParent text-center">
+                                                <div class="clear foot d-inline-block">
+                                                    <input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button"
+                                                        value="Subscribe">
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
+                  </div>
                 </div>
-            </div>
-            <div class="d-flex flex-column flex-sm-row justify-content-center py-2 border-top">
-                <p class="my-1"> © 2023, All Rights Reserved</p>
-            </div>
-        </footer>`;
+                <div class="d-flex flex-column flex-sm-row justify-content-center py-2 border-top">
+                    <p class="my-1"> © 2023, All Rights Reserved</p>
+                </div>
+            </footer>`;
   }
   /** get content list template
   * @param { boolean } contentPage return content list if true
@@ -873,31 +868,37 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
    * @return { string } html footer
    */
   getContentListTemplate(contentPage: boolean): string {
-    let items = `<li>
-        <a class="hover_yellow" href="/content/cuttlecard/">Cuttle part 1: Teach AI New Card Game
-            - <span class="caption">Using gpt-3.5-turbo to play Cuttle</span></a>
-    </li>
-    <li>
-        <a class="hover_yellow" href="/content/cuttlecard2/">Cuttle Part 2: AI Strategist
-            - <span class="caption">Using gpt-3.5-turbo to help with tips</span></a>
-    </li>
-    <li>
-        <a class="hover_yellow" href="/content/heartscardgame/">Hearts Card Game Prompts
-            - <span class="caption">gpt-3.5-turbo vs chat-bison-001</span>
-        </a>
-    </li>
-    <li>
-        <a class="hover_yellow" href="/content/yahtzee/">Keep score in Yahtzee
-            - <span class="caption">keep score for 2 players and roll dice</span>
-        </a>
-    </li>
-    <li>
-    <a class="hover_yellow" href="/content/nodalanalysis/">Nodal Analysis
-        - <span class="caption">gpt-3.5-turbo and chat-bison-001 are taken to task with a
-            circuit.</span>
-    </a>
-</li>
-`;
+    let items = ` <li>
+                      <a class="hover_yellow" href="/content/cuttlecard/">
+                          <strong class="title">Cuttle part 1</strong>
+                          <span class="caption">Teach AI New Card Game: gpt-3.5-turbo plays Cuttle</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a class="hover_yellow" href="/content/cuttlecard2/">
+                          <strong class="title">Cuttle Part 2</strong>
+                          <span class="caption">AI Strategist: Using gpt-3.5-turbo to help with tips</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a class="hover_yellow" href="/content/heartscardgame/">
+                          <strong class="title">Hearts Card Game Prompts</strong>
+                          <span class="caption">gpt-3.5-turbo vs chat-bison-001</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a class="hover_yellow" href="/content/yahtzee/">
+                          <strong class="title">Keep score in Yahtzee</strong>
+                          <span class="caption">Keep score for 2 players and roll dice</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a class="hover_yellow" href="/content/nodalanalysis/">
+                          <strong class="title">Nodal Analysis</strong>
+                          <span class="caption">gpt-3.5-turbo and chat-bison-001 tackle a circuit.</span>
+                      </a>
+                  </li>
+                  `;
     if (contentPage) {
       items += `    <li>
             <a class="hover_yellow" href="/content/ainarrative/">AI Narrative
