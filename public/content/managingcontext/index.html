@@ -20,7 +20,7 @@
     <meta property="og:title" content="Managing Context" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://unacog.com/content/overview/costtracking.png" />
-    <meta property="og:description" content="Controlling what is sent to the LLM to control costs and generate better results." />
+    <meta property="og:description" content="Control what the LLM sees to limit costs and generate better results" />
 
     <!-- Firebase links -->
     <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-app.js"></script>
@@ -94,26 +94,42 @@
     <div class="container main_container">
         <div class="flex-lg-row flex_change_responsive">
             <div class="side_block">
-                <p class="header_recent_document">Cost Tracking</p>
+                <p class="header_recent_document">LLM Context</p>
                 <div class="coming-soon card" style="text-align:left;">
                     <a href="/content/overview/costtracking.png" target="_blank"><img 
                         src="/content/overview/costtracking.png" style="max-height:350px;" class="content_image"></a>
                     <br>
-                    Account usage is tracking using a unit called a credit.  Credits 
-                    are directly bound to the cost of each API call.
-                    <br>
-                    Credits = [Token Count] * [Token Cost / 1000] + [1 per Request]
-                    <br>
-                    So a Tokens per Credit ~ 1000 / [Token Cost]
-                    <br>
-                    <br>
-                    Notes 
                     <ul>
                         <li>Output tokens are about twice the cost of input</li>
                         <li>Only the token count returned is used for output (not the max)</li>
-                        <li>1 credit per request for overhead</li>
                     </ul>
+                    Unacog allows you to control which previous responses are included with the new prompt.
+                    Each previous prompt included must include a response to be valid.
                     <br>
+                    <br>
+                    <b>System Message</b>
+                    <div>
+                        System message is similar to a prompt with no response, that's always included in the context 
+                        when submitting a new prompt.  The Anthropic Claude API doesn't include support for system message 
+                        so Unacog mimics this feature by including a system message always as the first prompt and brief response.
+                        System message is included in request tokens.  Refer to <a href="/content/pricing/">pricing</a> for costs 
+                        pertaining to each model.
+                    </div>
+                    Each previous prompt included must include a response to be valid.
+                    <br>
+                    <br>
+                    <b>Limit prompt history to control costs</b>
+                    <div>
+                        Unacog allows you to uncheck prompts to exclude them from being included in the LLM prompt requests - 
+                        but keeps them in the session feed for human reference.  This will limit the request token count 
+                        usually with no side effects if prompts are excluded that don't specifically effect the current prompt.
+                    </div>
+                    <br>
+                    <b>Response output that is consumable in your workflow</b>
+                    <div>
+                        Using system messages and controlling context by specifying the prompt history to be included with prompts 
+                        allows you to consistently control the LLM's output format, length and style.
+                    </div>
                 </div>
             </div>
         </div>

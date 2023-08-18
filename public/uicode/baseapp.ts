@@ -844,7 +844,7 @@ export default class BaseApp {
       {
         link: "/content/managingcontext/",
         title: "Managing Context",
-        description: "Controlling what is sent to the LLM to control costs and generate better results",
+        description: "Control what the LLM sees to limit costs and generate better results",
         image: "/content/overview/costtracking.png",
         date: "08-15-2023",
       },
