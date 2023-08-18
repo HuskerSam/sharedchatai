@@ -852,16 +852,12 @@ ul.recent_documents_list li a {
   content: "";
   position: absolute;
   bottom: -2px;
-  /* Adjust to position the underline */
   left: 0;
   right: 0;
   height: 1px;
   background-color: var(--highlight);
-  /* underline color */
   opacity: 0;
-  /* hidden initially */
   width: 0%;
-  /* initially no width */
   transition: width 0.3s ease, opacity 0.3s ease;
 }
 
@@ -890,13 +886,11 @@ ul.recent_documents_list li a {
   line-height: initial;
 }
 
-/* Underline styles when its parent nav link is active */
+
 .nav .nav-link.active .tab_label::before,
 .nav .nav-link:hover .tab_label::before {
   width: 100%;
-  /* Full width to show the underline */
   opacity: 1;
-  /* Fully visible */
 }
 
 
@@ -1138,8 +1132,7 @@ ol li {
 .recent_content_flyers_ul_list {
   max-height: 60vh;
   border-radius: 8px;
-  padding: 6px;
-  padding-top: 0;
+  padding: 8px;
   text-align: left;
   flex: 1;
   overflow: auto;
@@ -1187,6 +1180,7 @@ ol li {
   overflow: hidden;
   max-height: 200px;
 }
+
 
 .main_block .list-group-item,
 .recent_content_flyers_ul_list .news_group_item {
@@ -1264,7 +1258,6 @@ ol li {
 .feature_group_list .feature_group_item .feature_name {
   font-size: 22px;
   font-weight: 600;
-  text-decoration: underline;
   margin-bottom: auto;
   margin-top: auto;
 }
@@ -1286,7 +1279,23 @@ ol li {
   font-size: 1.75em;
 }
 
-@media(min-width: 450px) {}
+.disabled_link {
+  pointer-events: none;
+  cursor: default; 
+  color: gray; 
+  text-decoration: none; 
+}
+
+.help_coming_pill {
+  font-size: 0.5em;
+}
+
+@media(min-width: 450px) {
+  .feature_group_list .feature_group_item,
+  .feature_group_list .feature_group_item a {
+    width: 185px;
+  }
+}
 
 
 @media (min-width: 768px) {
@@ -1322,11 +1331,6 @@ ol li {
   .nav .show>.nav-link {
     border-bottom: none;
   }
-
-  .feature_group_list .feature_group_item,
-  .feature_group_list .feature_group_item a {
-    width: 175px;
-  }
 }
 
 
@@ -1361,6 +1365,10 @@ ol li {
 
   .hero_news_section {
     margin-bottom: .5em;
+  }
+  .feature_group_list .feature_group_item,
+  .feature_group_list .feature_group_item a {
+    width: 240px;
   }
 }
 
