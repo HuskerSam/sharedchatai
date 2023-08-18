@@ -830,7 +830,7 @@ export default class BaseApp {
       {
         link: "/content/overview/",
         title: "Technical Overview",
-        description: "Architecture, frameworks and APIs",
+        description: "Architecture, frameworks, APIs and passing data to LLM APIs",
         image: "/content/overview/firebasecloud.png",
         date: "06-28-2023",
       },
@@ -840,6 +840,13 @@ export default class BaseApp {
         description: "Scrape a website using this template",
         image: "/images/webscrape_banner.png",
         date: "07-15-2023",
+      },
+      {
+        link: "/content/managingcontext/",
+        title: "Managing Context",
+        description: "Controlling what is sent to the LLM to control costs and generate better results",
+        image: "/content/overview/costtracking.png",
+        date: "08-15-2023",
       },
     ];
     let items = "";

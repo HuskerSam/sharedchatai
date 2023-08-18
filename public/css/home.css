@@ -1129,8 +1129,10 @@ ol li {
 .recent_content_flyers_ul_list img {
   max-width: 50%;
   height: auto;
-  margin: 4px;
   border-radius: 8px;
+  margin: auto;
+  margin-top: 4px;
+  margin-bottom: 4px;
 }
 
 .recent_content_flyers_ul_list {

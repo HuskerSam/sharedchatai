@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Technical Overview - Unacog</title>
+    <title>Managing Context - Unacog</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link rel="shortcut icon" href="/images/logo64.png" />
@@ -16,11 +16,11 @@
     <meta name='msapplication-square310x310logo' content='https://unacog.com/images/logo64.png'>
     <link rel='apple-touch-icon' href='https://unacog.com/images/logo64.png'>
 
-    <meta property="og:url" content="https://unacog.com/content/overview/" />
-    <meta property="og:title" content="Technical Overview" />
+    <meta property="og:url" content="https://unacog.com/content/managingcontext/" />
+    <meta property="og:title" content="Managing Context" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://unacog.com/content/overview/firebasecloud.png" />
-    <meta property="og:description" content="Architecture, frameworks, APIs and passing data to LLM APIs" />
+    <meta property="og:image" content="https://unacog.com/content/overview/costtracking.png" />
+    <meta property="og:description" content="Controlling what is sent to the LLM to control costs and generate better results." />
 
     <!-- Firebase links -->
     <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-app.js"></script>
@@ -92,37 +92,6 @@
         </ul>
     </nav>
     <div class="container main_container">
-        <div class="flex-lg-row flex_change_responsive mt-3 mt-lg-2">
-            <div class="side_block">
-                <h1 class="header_recent_document">Technical Dig Deep</h1>
-                <div class="coming-soon card" style="text-align:left;">
-                    <div>
-                        The code was based off of <a href="https://github.com/HuskerSam/sharedgamelobby" target="_blank">Shared Game Lobby</a>
-                        <ul>
-                            <li>Thorough writeup of the technical details</li>
-                            <li>Open source and free to use to start your own applications</li>
-                            <li>Created by the same developers as Unacog</li>
-                            <li>Authentication, Firestore, Cloud Functions and Hosting are covered in detail</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="flex-lg-row flex_change_responsive">
-            <div class="side_block">
-                <p class="header_recent_document">Architecture</p>
-                <div class="coming-soon card" style="text-align:left;">
-                    <a href="/content/overview/firebasecloud.png" target="_blank"><img 
-                        src="/content/overview/firebasecloud.png" style="max-height:350px;" class="content_image"></a>
-                    <br>
-                    Firebase is used for realtime data and scale on demand hosting.  The API keys are contained on the server 
-                    using Firebase Functions.  Session is the main document with 3 subcollections, tickets, assists and packets.
-                    The packets are the data sent to the model API, assists are the resuls and tickets are the user prompts that 
-                    show the UI feed for a session. 
-                    <br>
-                </div>
-            </div>
-        </div>
         <div class="flex-lg-row flex_change_responsive">
             <div class="side_block">
                 <p class="header_recent_document">Cost Tracking</p>
