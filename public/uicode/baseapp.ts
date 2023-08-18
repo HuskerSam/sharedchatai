@@ -727,8 +727,8 @@ export default class BaseApp {
  * @return { string } html
 */
   getFooterTemplate(): string {
-    return `<footer class="app_panel main_block m-0">
-              <div class="container">
+    return `<div class="container">
+      <footer class="app_panel main_block m-0" style="border-radius:0;border-right:none;border-left:none;">
                 <div class="row">
                     <div class="mb-3 mb-md-0 text-center text-md-start" style="flex:1">
                         <h5><span>Una<span class="home_navbar_name_color"">cog</span></span></h5>
@@ -786,12 +786,12 @@ export default class BaseApp {
                             </div>
                         </div>
                     </div>
-                  </div>
                 </div>
                 <div class="d-flex flex-column flex-sm-row justify-content-center py-2 border-top">
                     <p class="my-1"> © 2023, All Rights Reserved</p>
                 </div>
-            </footer>`;
+            </footer>
+            </div>`;
   }
   /** get content list template
   * @param { boolean } contentPage return content list if true

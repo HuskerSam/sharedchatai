@@ -1115,8 +1115,9 @@ ol li {
   padding-bottom: 4em;
 }
 
+.example_section,
 .homepage_section {
-  padding: 4em 0;
+  padding: 4em 0 2em 0;
 }
 
 .recent_content_flyers_ul_list img {
