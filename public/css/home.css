@@ -1265,6 +1265,7 @@ ol li {
   font-size: 22px;
   font-weight: 600;
   text-decoration: underline;
+  margin-bottom: auto;
   margin-top: auto;
 }
 

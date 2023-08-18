@@ -800,25 +800,39 @@ export default class BaseApp {
   getFlyerListTemplate(contentPage: boolean): string {
     const newsList = [
       {
+        link: "/content/litreview/",
+        title: "Literature Review",
+        description: "Chatgpt and LLMs in Academia: Opportunities and Challenges",
+        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fpresentations%2Fgpt%20classroom%20challenges%20and%20possibilities%2F1.jpg?alt=media&token=d3f4ea33-4d9e-4d7f-9ae4-660477f57055",
+        date: "08-12-2023",
+      },
+      {
         link: "/content/sharingprompts/",
         title: "Share Chat Sessions",
         description: "Copy, import, export and share prompts",
         image: "/content/sharingprompts/shareprompts.png",
-        date: "08-13-2023",
+        date: "08-09-2023",
+      },
+      {
+        link: "/content/managingcontext/",
+        title: "Managing Context",
+        description: "Control what the LLM sees to limit costs and generate better results",
+        image: "/content/overview/costtracking.png",
+        date: "08-07-2023",
       },
       {
         link: "/content/outputformatting/",
         title: "Output Formatting",
         description: "Formatting equations, code and markdown",
         image: "/content/outputformatting/outputformatting.png",
-        date: "08-09-2023",
+        date: "08-03-2023",
       },
       {
         link: "/content/teamtogether/",
         title: "Learn Together",
         description: "Sessions and sharing for groups",
         image: "/images/learntogether.png",
-        date: "08-06-2023",
+        date: "08-01-2023",
       },
       {
         link: "/content/editresponse/",
@@ -839,14 +853,7 @@ export default class BaseApp {
         title: "Scrape a Webpage",
         description: "Scrape a website using this template",
         image: "/images/webscrape_banner.png",
-        date: "07-15-2023",
-      },
-      {
-        link: "/content/managingcontext/",
-        title: "Managing Context",
-        description: "Control what the LLM sees to limit costs and generate better results",
-        image: "/content/overview/costtracking.png",
-        date: "08-15-2023",
+        date: "06-18-2023",
       },
     ];
     let items = "";
