@@ -800,18 +800,18 @@ export default class BaseApp {
   getFlyerListTemplate(contentPage: boolean): string {
     const newsList = [
       {
-        link: "/content/litreview/",
-        title: "Literature Review",
-        description: "Chatgpt and LLMs in Academia: Opportunities and Challenges",
-        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fpresentations%2Fgpt%20classroom%20challenges%20and%20possibilities%2F1.jpg?alt=media&token=d3f4ea33-4d9e-4d7f-9ae4-660477f57055",
-        date: "08-12-2023",
-      },
-      {
         link: "/content/sharingprompts/",
         title: "Share Chat Sessions",
         description: "Copy, import, export and share prompts",
         image: "/content/sharingprompts/shareprompts.png",
-        date: "08-09-2023",
+        date: "08-13-2023",
+      },
+      {
+        link: "/content/litreview/",
+        title: "Literature Review",
+        description: "Chatgpt and LLMs in Academia: Opportunities and Challenges",
+        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fpresentations%2Fgpt%20classroom%20challenges%20and%20possibilities%2F1.jpg?alt=media&token=d3f4ea33-4d9e-4d7f-9ae4-660477f57055",
+        date: "08-10-2023",
       },
       {
         link: "/content/managingcontext/",
@@ -821,6 +821,13 @@ export default class BaseApp {
         date: "08-07-2023",
       },
       {
+        link: "/content/litreview1/",
+        title: "Literature Review",
+        description: "We Need to Talk About ChatGPT: The Future of AI and Higher Education",
+        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fpresentations%2Ffuture%20of%20higher%20education%2F1.jpg?alt=media&token=c0951f29-ddee-4d7a-84ad-46003a217704",
+        date: "08-05-2023",
+      },
+      {
         link: "/content/outputformatting/",
         title: "Output Formatting",
         description: "Formatting equations, code and markdown",
@@ -828,11 +835,18 @@ export default class BaseApp {
         date: "08-03-2023",
       },
       {
+        link: "/content/edustudy/",
+        title: "Lesson Plans",
+        description: "Make Your Lessons Come To Life With AI: Using Context to Streamline Course Material",
+        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fpresentations%2Flesson%20plans%20with%20ai%2F1.jpg?alt=media&token=b06c993a-ea05-4467-abcc-a6290e515f1a",
+        date: "07-29-2023",
+      },
+      {
         link: "/content/teamtogether/",
         title: "Learn Together",
         description: "Sessions and sharing for groups",
         image: "/images/learntogether.png",
-        date: "08-01-2023",
+        date: "07-29-2023",
       },
       {
         link: "/content/editresponse/",

@@ -31,11 +31,22 @@
     }
 }
 
+.content_section {
+    height: 70vh;
+    padding: 1em 0 2em 0;
+    align-content: center;
+    justify-content: center;
+}
+
+.content_header {
+    color: var(--primary-color);
+    font-size: 1.4em;
+}
 
 .swiper {
     margin: 1em auto;
     max-width: 100%;
-    height: 100%;
+    max-height: 100%;
   }
 
   .swiper-slide {
@@ -61,8 +72,9 @@
 
 
 @media (min-width: 768px) {
-
-    
+    .content_section {
+        height: 90vh;
+    }
 }
 
 
