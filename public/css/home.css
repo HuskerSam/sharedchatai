@@ -286,18 +286,6 @@ ul.recent_documents_list li a {
   display: flex;
 }
 
-@media (max-width: 991px) {
-  .main_container {
-    max-width: 90%;
-  }
-}
-
-@media (max-width: 768px) {
-  .main_container {
-    max-width: none;
-  }
-}
-
 #mc_embed_signup {
   clear: left;
   max-width: 600px;
@@ -1111,13 +1099,20 @@ ol li {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 1.5em 0;
-  padding-bottom: 4em;
+  padding-top: 4em;
+  padding-bottom: 6em;
 }
 
-.example_section,
 .homepage_section {
-  padding: 4em 0 2em 0;
+  padding: 4em 0;
+}
+
+.example_section {
+  padding-top: 4em;
+}
+
+.models_section {
+  background-color: var(--secondary-color-2);
 }
 
 .recent_content_flyers_ul_list img {

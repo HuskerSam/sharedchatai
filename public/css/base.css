@@ -58,6 +58,7 @@ body.day_mode {
   --secondary-color-2: rgb(245, 245, 245); 
   --secondary-color-3: rgb(225, 225, 225);
   --secondary-color-4: rgb(215, 215, 215);
+  --secondary-color-5: rgb(235, 235, 235);
 
   --impact-green:  rgb(0, 160, 0); /* var(--impact-green) */  
   --secondary-green: rgb(25, 100, 25); /* var(--secondary-green) */
