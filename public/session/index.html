@@ -92,6 +92,10 @@
 </head>
 
 <body class="archived_session">
+  <script>
+    if (localStorage.getItem("niteMode") !== "true") document.body.classList.add("day_mode");
+    else document.body.classList.add("nite_mode");
+  </script>
   <div class="session_page_wrapper">
     <nav class="navbar navbar-expand-lg navbar-light menu_nav_bar">
       <div class="menu_bar_doc_title_wrapper">

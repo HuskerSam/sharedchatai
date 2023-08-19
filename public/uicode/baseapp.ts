@@ -58,7 +58,6 @@ export default class BaseApp {
   content_list_container: any = document.querySelector(".recent_content_ul_list");
   flyer_list_container: any = document.querySelector(".recent_content_flyers_ul_list");
   themeIndex = 0;
-  highlightjstheme: any = document.querySelector("#highlightjstheme");
 
   /**
  * @param { boolean } contentPage content list trimmed on other pages and footer link change
@@ -96,7 +95,7 @@ export default class BaseApp {
       });
     }
 
-    this.initDayMode();
+    this.themeIndex = BaseApp.initDayMode();
     document.body.classList.add("body_loaded");
     this.load();
   }
@@ -953,30 +952,36 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
     }
     return items;
   }
-  /**  On page load, unless on help page, set the day mode based on user preference */
-  initDayMode() {
-    if (window.location.pathname === "/help/") return;
+  /**  On page load, unless on help page, set the day mode based on user preference
+   * @return { number } 1 for dark mode, 0 for day
+  */
+  static initDayMode(): number {
+    if (window.location.pathname === "/help/") return 1;
 
     const niteMode = localStorage.getItem("niteMode");
+    let themeIndex = 0;
+    const highlightjstheme: any = document.querySelector("#highlightjstheme");
     if (niteMode !== "true") {
-      this.themeIndex = 0;
+      themeIndex = 0;
       document.body.classList.add("day_mode");
       document.body.classList.remove("nite_mode");
-      if (this.highlightjstheme) {
-        this.highlightjstheme.setAttribute("href", "/css/stackoverflowlight.css");
-        this.highlightjstheme.remove();
-        document.body.append(this.highlightjstheme);
+      if (highlightjstheme) {
+        highlightjstheme.setAttribute("href", "/css/stackoverflowlight.css");
+        highlightjstheme.remove();
+        document.body.append(highlightjstheme);
       }
     } else {
-      this.themeIndex = 1;
+      themeIndex = 1;
       document.body.classList.remove("day_mode");
       document.body.classList.add("nite_mode");
-      if (this.highlightjstheme) {
-        this.highlightjstheme.setAttribute("href", "/css/androidstudio.css");
-        this.highlightjstheme.remove();
-        document.body.append(this.highlightjstheme);
+      if (highlightjstheme) {
+        highlightjstheme.setAttribute("href", "/css/androidstudio.css");
+        highlightjstheme.remove();
+        document.body.append(highlightjstheme);
       }
     }
+
+    return themeIndex;
   }
   /** Toggle night mode when the checkbox is changed
    * @param { boolean } niteMode true if nite mode
@@ -987,6 +992,6 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
     } else {
       localStorage.setItem("niteMode", "false");
     }
-    this.initDayMode();
+    this.themeIndex = BaseApp.initDayMode();
   }
 }
