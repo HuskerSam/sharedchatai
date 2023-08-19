@@ -179,7 +179,7 @@ export class DashboardApp extends BaseApp {
     let firstLoad = true;
     this.gameFeedSubscription = firebase.firestore().collection(`Games`)
       .orderBy(`members.${this.uid}`, "desc")
-      .limit(100)
+      .limit(500)
       .onSnapshot((snapshot: any) => {
         if (firstLoad) {
           this.refreshDocumentsLookup(snapshot);
@@ -533,7 +533,9 @@ export class DashboardApp extends BaseApp {
   */
   paintLabelSelect(firstLoad = false) {
     const labels = this.getLabelsList();
-    let html = "<option>All Sessions</option><option>Not Labelled</option>";
+    const ids = Object.keys(this.documentsLookup);
+    const sessionCount = ids.length;
+    let html = `<option value="All Sessions">${sessionCount} Sessions</option><option>No Label</option>`;
     const startingValue = this.document_label_filter.value;
 
     labels.forEach((label: string) => html += `<option>${label}</option>`);

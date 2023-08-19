@@ -465,14 +465,16 @@ ul.recent_documents_list li a {
   padding-top: 70px;
 }
 
-.show_clear_label_filter .document_label_filter.form-select {
+select.document_label_filter.form-select {
+  border: 1px solid var(--primary-color-4);
+  color: var(--primary-color);
+  font-size: 1.25em;
   background-color: var(--secondary-color);
-  border: solid 1px var(--primary-color-4);
 }
 
-.show_clear_label_filter .document_label_filter.form-select:hover,
-.show_clear_label_filter .document_label_filter.form-select:focus,
-.show_clear_label_filter .document_label_filter.form-select:active {
+select.document_label_filter.form-select:hover,
+select.document_label_filter.form-select:focus,
+select.document_label_filter.form-select:active {
   background-color: var(--background-accent-3);
 }
 

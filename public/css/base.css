@@ -330,22 +330,6 @@ select.form-select option {
   color: var(--primary-color-2);
 }
 
-select.document_label_filter.form-select {
-  border: 1px solid var(--primary-color-4);
-  color: var(--primary-color);
-  font-size: 1.25em;
-}
-
-select.document_label_filter.form-select:hover,
-select.document_label_filter.form-select:focus,
-select.document_label_filter.form-select:active {
-  background-color: var(--secondary-color);
-}
-
-.day_mode select.document_label_filter.form-select {
-  border: solid 1px var(--primary-color-4);
-}
-
 .app_panel .form-check-input {
   border-color: var(--primary-color-3);
 }
