@@ -749,6 +749,14 @@ table.number th {
   display: none;
 }
 
+.signed_in_visible {
+  visibility: hidden;
+}
+
+.app_signed_in .signed_in_visible {
+  visibility: visible;
+}
+
 .app_signed_in .signed_in_options {
   display: block;
 }
