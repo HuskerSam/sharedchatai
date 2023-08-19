@@ -465,14 +465,14 @@ ul.recent_documents_list li a {
 }
 
 .show_clear_label_filter .document_label_filter.form-select {
-  background-color: var(--background-accent-3);
+  background-color: var(--secondary-color);
   border: solid 1px var(--primary-color-4);
 }
 
 .show_clear_label_filter .document_label_filter.form-select:hover,
 .show_clear_label_filter .document_label_filter.form-select:focus,
 .show_clear_label_filter .document_label_filter.form-select:active {
-  background-color: var(--secondary-color);
+  background-color: var(--background-accent-3);
 }
 
 .games_view_header_wrapper {
@@ -904,6 +904,10 @@ ul.recent_documents_list li a {
   display: none;
 }
 
+.day_mode .filter_bar_wrapper {
+  background: var(--background-accent-5);
+}
+
 .filter_bar_wrapper {
   opacity: 0;
   text-align: left;
@@ -1046,10 +1050,10 @@ ol li {
 }
 
 .credits_left span {
-  font-size: .75em;
+  font-size: .9em;
   display: inline-block;
   position: relative;
-  top: -6px;
+  top: -2px;
 }
 
 .home_page_tabs {
