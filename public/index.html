@@ -81,12 +81,11 @@
             <li style="flex:1">
                 <ul class="header_tabs nav" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link active" id="news_tab_button" data-bs-toggle="tab"
+                        <a class="nav-link" id="news_tab_button" data-bs-toggle="tab"
                             href="#news_tab_view" role="tab" aria-controls="news_tab_view"
                             aria-selected="true"><span class="material-icons">
                                 feed
                                 </span><span class="tab_label">News</span></a>
-
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link session_tab" id="dashboard_tab_button" data-bs-toggle="tab"
@@ -111,6 +110,26 @@
                 </a>
             </li>
         </ul>
+        <div class="signed_in_inline_block container">
+            <div class="filter_bar_wrapper">
+                <div class="games_view_header_wrapper">
+                    <select class="document_label_filter form-select form-select-lg">
+                        <option>All Sessions</option>
+                    </select>
+                </div>
+                <div>
+                    <a class="nav-link show_create_modal homepage hover_yellow" href="create">
+                        <span class="mobile_custom_icon_label">
+                            <i class="material-icons add_icon impact_font_green"
+                                style="font-size:44px;margin-top:-8px;margin-bottom:-8px;top:8px;">add</i>
+                        </span>
+                    </a>
+                </div>
+                <a class="account_status_display" href="showaccountinfo">
+                    <div class="credits_left"></div>
+                </a>
+            </div>
+        </div>
     </nav>
     <div class="main_container homepage_content">
         <div class="tab-content home_page_tabs">
@@ -453,24 +472,6 @@
                 </div>
 
                 <div class="signed_in_inline_block" style="width:100%;">
-                    <div class="filter_bar_wrapper">
-                        <div class="games_view_header_wrapper">
-                            <select class="document_label_filter form-select form-select-lg" style="font-size:1.25em;">
-                                <option>All Sessions</option>
-                            </select>
-                        </div>
-                        <div>
-                            <a class="nav-link show_create_modal homepage hover_yellow" href="create">
-                                <span class="mobile_custom_icon_label">
-                                    <i class="material-icons add_icon impact_font_green"
-                                        style="font-size:44px;margin-top:-8px;margin-bottom:-8px;top:8px;">add</i>
-                                </span>
-                            </a>
-                        </div>
-                        <a class="account_status_display" href="showaccountinfo">
-                            <div class="credits_left"></div>
-                        </a>
-                    </div>
                     <div class="game_lobby">
                         <div class="games_view_wrapper">
                             <div class="dashboard_documents_view"></div>

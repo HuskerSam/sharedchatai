@@ -61,7 +61,7 @@ export class DashboardApp extends BaseApp {
     this.dashboard_tab_button.addEventListener("click", () => this.tabChangeHandler(1));
 
     if (location.hash === "#news_tab_view") this.news_tab_button.click();
-    if (location.hash === "#dashboard_tab_button") this.dashboard_tab_button.click();
+    if (location.hash === "#dashboard_tab_view") this.dashboard_tab_button.click();
 
     this.account_status_display.addEventListener("click", (e: any) => {
       e.preventDefault();
@@ -142,6 +142,10 @@ export class DashboardApp extends BaseApp {
       this.initGameFeeds();
       this.initRTDBPresence();
       this.initUsageWatch();
+    } else {
+      if (location.hash !== "#dashboard_tab_view") {
+        if (this.news_tab_button) this.news_tab_button.classList.add("active");
+      }
     }
   }
   /** */
