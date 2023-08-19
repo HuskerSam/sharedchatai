@@ -62,6 +62,10 @@
 </head>
 
 <body class="basic_page_wrapper">
+    <script>
+        if (localStorage.getItem("niteMode") !== "true") document.body.classList.add("day_mode");
+        else document.body.classList.add("nite_mode");
+    </script>
     <nav class="navbar navbar-light navbar_wrapper">
         <ul class="navbar-nav container-fluid d-flex flex-row justify-content-end justify-content-sm-between container">
             <li style="margin-left: 20px;">
