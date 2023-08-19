@@ -573,7 +573,7 @@ export default class ProfileHelper {
     }
     /**
      * @param { Date } d month/year
-     * @param { any } runningTokens server side stats 
+     * @param { any } runningTokens server side stats
      * @return { string } html table rows
      */
     getUsageTable(d: Date, runningTokens: any): string {
@@ -600,7 +600,7 @@ export default class ProfileHelper {
             month: "short",
         });
         html += `<tr><th>${mon}</th><td>${mCredits}</td><td>${mTotal}</td><td>${mPrompt}</td><td>${mCompletion}</td></tr>`;
-        let today = new Date().toISOString().substring(0, 10);
+        const today = new Date().toISOString().substring(0, 10);
         for (let c = start; c <= last; c++) {
             const cD = new Date(d);
             cD.setDate(c);

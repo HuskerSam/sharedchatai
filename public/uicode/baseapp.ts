@@ -741,11 +741,11 @@ export default class BaseApp {
                     <div class="col-md-2 mb-md-0">
                         <h5>Company</h5>
                         <ul class="nav flex-column" style="font-size: 1.2em;">
-                            <li class="nav-item mb-2"><a href="/content/about/" class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25
+<li class="nav-item mb-2"><a href="/content/about/" class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25
                                     link-underline-opacity-100-hover">About</a></li>
-                            <li class="nav-item mb-2"><a href="/content/privacy/" class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25
+<li class="nav-item mb-2"><a href="/content/privacy/" class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25
                                     link-underline-opacity-100-hover">Privacy</a></li>
-                            <li class="nav-item mb-2"><a class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25
+<li class="nav-item mb-2"><a class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25
                                     link-underline-opacity-100-hover" href="/content/pricing/">Pricing</a></li>
                         </ul>
                     </div>
@@ -756,7 +756,7 @@ export default class BaseApp {
                             <div id="mc_embed_shell">
                                 <div id="mc_embed_signup">
                                     <form
-                                        action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febcbb50595f9c46&amp;id=4abff76760&amp;f_id=00695ee1f0"
+action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febcbb50595f9c46&amp;id=4abff76760&amp;f_id=00695ee1f0"
                                         method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
                                         class="validate m-2 mb-1" target="_self" novalidate="">
                                         <div id="mc_embed_signup_scroll">
@@ -803,7 +803,8 @@ export default class BaseApp {
         link: "/content/edustudy1/",
         title: "Edu Use Case",
         description: "Using LLMs as a Personal Tutor: AI tutors in EDU",
-        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fpresentations%2Fpersonal%20tutor%20edu%2F1.jpg?alt=media&token=49769202-ea50-4e59-8d42-06454bb9032b",
+        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
+          "images%2Fpresentations%2Fpersonal%20tutor%20edu%2F1.jpg?alt=media&token=49769202-ea50-4e59-8d42-06454bb9032b",
         date: "08-15-2023",
       },
       {
@@ -817,7 +818,9 @@ export default class BaseApp {
         link: "/content/litreview/",
         title: "Literature Review",
         description: "Chatgpt and LLMs in Academia: Opportunities and Challenges",
-        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fpresentations%2Fgpt%20classroom%20challenges%20and%20possibilities%2F1.jpg?alt=media&token=d3f4ea33-4d9e-4d7f-9ae4-660477f57055",
+        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
+          "images%2Fpresentations%2Fgpt%20classroom%20challenges%20and%20possibilities%2F1.jpg" +
+          "?alt=media&token=d3f4ea33-4d9e-4d7f-9ae4-660477f57055",
         date: "08-10-2023",
       },
       {
@@ -831,7 +834,8 @@ export default class BaseApp {
         link: "/content/litreview1/",
         title: "Literature Review",
         description: "We Need to Talk About ChatGPT: The Future of AI and Higher Education",
-        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fpresentations%2Ffuture%20of%20higher%20education%2F1.jpg?alt=media&token=c0951f29-ddee-4d7a-84ad-46003a217704",
+        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
+          "images%2Fpresentations%2Ffuture%20of%20higher%20education%2F1.jpg?alt=media&token=c0951f29-ddee-4d7a-84ad-46003a217704",
         date: "08-05-2023",
       },
       {
@@ -845,7 +849,8 @@ export default class BaseApp {
         link: "/content/edustudy/",
         title: "Edu Use Case",
         description: "Make Your Lessons Come To Life With AI: Using Context to Streamline Course Material",
-        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fpresentations%2Flesson%20plans%20with%20ai%2F1.jpg?alt=media&token=b06c993a-ea05-4467-abcc-a6290e515f1a",
+        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
+          "images%2Fpresentations%2Flesson%20plans%20with%20ai%2F1.jpg?alt=media&token=b06c993a-ea05-4467-abcc-a6290e515f1a",
         date: "07-29-2023",
       },
       {

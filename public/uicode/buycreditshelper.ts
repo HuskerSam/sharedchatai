@@ -522,7 +522,6 @@ export default class BuyCreditsHelper {
       `resizable=yes,left=${left.toFixed()},top=${top.toFixed()},width=${width},height=${height}`);
     if (print) {
       win.print();
-      //win.close();
     }
   }
   /** */
