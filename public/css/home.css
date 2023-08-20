@@ -1422,3 +1422,10 @@ ol li {
     width: 32.3%;
   }
 }
+
+.anchor_row a {
+  margin-top: 4px;
+  padding-top: 8px;
+  padding-bottom: 12px;
+  display: inline-block;
+}
