@@ -744,12 +744,14 @@ table.number th {
   display: flex;
 }
 
+.navbar div.signed_in_inline_block.container,
 .signed_in_inline_block,
 .signed_in_inline_block,
 .signed_out_inline_block {
   display: none;
 }
 
+.app_signed_in .navbar div.signed_in_inline_block.container,
 .app_signed_in .signed_in_inline_block,
 .app_signed_out .signed_out_inline_block {
   display: inline-block;
