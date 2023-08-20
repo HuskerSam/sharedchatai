@@ -1133,13 +1133,13 @@ ol li {
 }
 
 .recent_content_flyers_ul_list img {
-  max-width: 50%;
+  max-width: 80%;
   height: auto;
   border-radius: 8px;
   margin: auto;
   margin-top: 4px;
   margin-bottom: 4px;
-  max-height: 12em;
+  max-height: 180px;
 }
 
 .recent_content_flyers_ul_list {
@@ -1188,9 +1188,9 @@ ol li {
 
 .recent_content_flyers_ul_list .caption {
   font-size: 16px;
-  text-overflow: ellipsis;
   overflow: hidden;
-  max-height: 200px;
+  display: block;
+  height: 3em;
 }
 
 
@@ -1391,11 +1391,6 @@ ol li {
 
   .recent_content_flyers_ul_list a .title {
     font-size: 28px;
-  }
-
-  .recent_content_flyers_ul_list img {
-    max-width: 60%;
-    height: auto;
   }
 
   .recent_content_flyers_ul_list .caption {
