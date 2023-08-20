@@ -468,7 +468,7 @@ ul.recent_documents_list li a {
 select.document_label_filter.form-select {
   border: 1px solid var(--primary-color-4);
   color: var(--primary-color);
-  font-size: 1.25em;
+  font-size: 18px;
   background-color: var(--secondary-color);
 }
 
@@ -838,7 +838,8 @@ select.document_label_filter.form-select:active {
   flex: 1;
   width: 100%;
   padding-left: 8px;
-  font-size: .8em;
+  font-size: 16px;
+  margin-bottom: -4px;
 }
 
 .header_tabs li {
@@ -928,7 +929,7 @@ select.document_label_filter.form-select:active {
   padding-right: 2px;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-  margin-top: -6px;
+  margin-top: 4px;
 }
 
 .list_loaded .filter_bar_wrapper {
@@ -1302,6 +1303,10 @@ ol li {
   font-size: 0.5em;
 }
 
+.homepage_logo_spacing {
+  top: -8px
+}
+
 @media(min-width: 450px) {
   .feature_group_list .feature_group_item,
   .feature_group_list .feature_group_item a {
@@ -1342,6 +1347,9 @@ ol li {
   .nav .nav-link.active,
   .nav .show>.nav-link {
     border-bottom: none;
+  }
+  .filter_bar_wrapper {
+    margin-top: -8px;
   }
 }
 
