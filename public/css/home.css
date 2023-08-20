@@ -729,6 +729,7 @@ select.document_label_filter.form-select:active {
   z-index: 100;
   width: 100%;
   font-size: 18px;
+  min-height: 66px;
 }
 
 .navbar_wrapper .navbar {
