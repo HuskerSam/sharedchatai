@@ -135,7 +135,7 @@ ul.recent_documents_list li a {
 
 .template_list_wrapper li a .title {
   display: block;
-  font-weight: bold; 
+  font-weight: bold;
   margin-bottom: 4px;
 }
 
@@ -629,6 +629,7 @@ select.document_label_filter.form-select:active {
 .nav-link.show_create_modal.homepage {
   display: inline-block;
   position: relative;
+  top: -4px;
 }
 
 .nav-link.dashboard_create_game_mobile.hover_yellow svg {
@@ -848,6 +849,8 @@ select.document_label_filter.form-select:active {
   padding-left: 8px;
   font-size: 16px;
   margin-bottom: -16px;
+  position: relative;
+  top: -4px;
 }
 
 
@@ -872,10 +875,11 @@ select.document_label_filter.form-select:active {
 @media (min-width: 768px) {
   .header_tabs {
     margin-bottom: -4px;
+    top: 0;
   }
-  
+
   .filter_bar_wrapper {
-    margin-top: -4px;
+    margin-top: -8px;
   }
 }
 
@@ -1124,7 +1128,7 @@ ol li {
   padding-bottom: 6em;
 }
 
-.example_section{
+.example_section {
   margin-bottom: 4em;
 }
 
@@ -1308,9 +1312,9 @@ ol li {
 
 .disabled_link {
   pointer-events: none;
-  cursor: default; 
-  color: gray; 
-  text-decoration: none; 
+  cursor: default;
+  color: gray;
+  text-decoration: none;
 }
 
 .help_coming_pill {
@@ -1322,6 +1326,7 @@ ol li {
 }
 
 @media(min-width: 450px) {
+
   .feature_group_list .feature_group_item,
   .feature_group_list .feature_group_item a {
     width: 185px;
@@ -1397,6 +1402,7 @@ ol li {
   .hero_news_section {
     margin-bottom: .5em;
   }
+
   .feature_group_list .feature_group_item,
   .feature_group_list .feature_group_item a {
     width: 240px;
