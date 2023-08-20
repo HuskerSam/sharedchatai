@@ -891,9 +891,13 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
                     <small class="date">${item.date}</small>
                   </div>
               </div>
-              <div class="d-flex flex-column">
-              <img src="${item.image}">
-              <span  class="caption">${item.description}</span>
+              <div class="d-flex flex-column" style="flex:1">
+                <div style="flex:1;text-align:center;display:flex;">
+                  <img src="${item.image}" style="align-self:center;">
+                </div>
+                <div style="text-align: center;">
+                  <span class="caption">${item.description}</span>
+                </div>
               </div>
             </a></li>`;
     });
