@@ -140,17 +140,17 @@
             <div class="tab-pane fade show active" id="news_tab_view" role="tabpanel" style="flex-direction:column;"
                 aria-labelledby="news_tab_button">
                 <div class="mt-2">
-                    <!-- News section-->
-                    <div class="hero_news_section">
-                        <div class="container">
-                            <h2 class="homepage_header">Recent Articles</h2>
-                            <ul class="recent_content_flyers_ul_list flex-lg-row flex_change_responsive"></ul>
-                        </div>
+                    <div class="anchor_row" style="padding-top:8px;font-size: 1.25em">
+                        <a href="#models">#models</a>
+                        &nbsp;<a href="#features">#features</a>
+                        &nbsp;<a href="#examples">#examples</a>
+                    </div>
+                    <div class="container">
+                        <ul class="recent_content_flyers_ul_list flex-lg-row flex_change_responsive"></ul>
                     </div>
 
-
                     <!-- Models section-->
-                    <div class="homepage_section models_section">
+                    <div id="models" class="homepage_section models_section">
                         <h2 class="homepage_header">Available Models</h2>
                         <div class="flex-lg-row flex_change_responsive container">
                             <div class="main_block intro_card card">
@@ -221,7 +221,7 @@
 
 
                     <!-- features section-->
-                    <div class="homepage_section feature_section">
+                    <div id="features" class="homepage_section feature_section">
                         <h2 class="homepage_header">Features</h2>
                         <div class="container">
                             <ul class=" flex-lg-row flex_change_responsive feature_group_list">
@@ -446,10 +446,10 @@
 
 
                     <!-- examples section-->
-                    <div class="example_section">
+                    <div id="examples" class="example_section">
                         <div class="flex-lg-row flex_change_responsive container">
                             <div class="main_block app_panel">
-                                <h5 class="ms-3 ms-md-0 text-md-center text-start">Annotated Prompt Logs</h5>
+                                <h5 class="ms-3 ms-md-0 text-md-center text-start">Example Sessions</h5>
                                 <div class="discussion_list_panel">
                                     <div class="intro_card card overflow_container">
                                         <ul class="template_list_wrapper recent_content_ul_list"></ul>

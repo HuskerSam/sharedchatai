@@ -1139,10 +1139,10 @@ ol li {
   margin: auto;
   margin-top: 4px;
   margin-bottom: 4px;
+  max-height: 12em;
 }
 
 .recent_content_flyers_ul_list {
-  max-height: 60vh;
   border-radius: 8px;
   padding: 8px;
   text-align: left;
@@ -1213,6 +1213,7 @@ ol li {
 .feature_group_list .feature_group_item a,
 .recent_content_flyers_ul_list .news_group_item a {
   padding: .5em;
+  height: 320px;
 }
 
 
@@ -1233,7 +1234,6 @@ ol li {
 
 .feature_group_list {
   font-size: 0.9em;
-  max-height: 60vh;
   border-radius: 8px;
   padding: 6px;
   padding-top: 0;

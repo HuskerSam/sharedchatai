@@ -32,7 +32,7 @@ export class DashboardApp extends BaseApp {
   credits_left: any = document.querySelector(".credits_left");
   footer_container_div: any = null;
   account_status_display: any = document.querySelector(".account_status_display");
-
+  navigateHandled = false;
   /** */
   constructor() {
     super(true, true);
@@ -68,6 +68,23 @@ export class DashboardApp extends BaseApp {
       e.stopPropagation();
       this.profileHelper.show(true);
     });
+  }
+  /** */
+  navigateAnchor() {
+    this.news_tab_button.click();
+    const tempHash = location.hash;
+    location.hash = "";
+    location.hash = tempHash;
+  }
+  /** */
+  handleNavigateHash() {
+    if (this.navigateHandled) return;
+    this.navigateHandled = true;
+    setTimeout(() => {
+      if (location.hash === "#models") this.navigateAnchor();
+      if (location.hash === "#features") this.navigateAnchor();
+      if (location.hash === "#examples") this.navigateAnchor(); 
+    }, 50);
   }
   /**
  * @param { number } tabIndex
@@ -142,10 +159,12 @@ export class DashboardApp extends BaseApp {
       this.initGameFeeds();
       this.initRTDBPresence();
       this.initUsageWatch();
+      this.handleNavigateHash();
     } else {
       if (location.hash !== "#dashboard_tab_view") {
         if (this.news_tab_button) this.news_tab_button.classList.add("active");
       }
+      this.handleNavigateHash(); 
     }
   }
   /** */
@@ -174,7 +193,7 @@ export class DashboardApp extends BaseApp {
         this.dashboard_tab_button.click();
       }
     }
-    window.history.replaceState({}, document.title, "/");
+    // window.history.replaceState({}, document.title, "/");
     document.body.classList.add("session_feed_inited");
     let firstLoad = true;
     this.gameFeedSubscription = firebase.firestore().collection(`Games`)
