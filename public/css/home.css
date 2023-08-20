@@ -487,8 +487,8 @@ select.document_label_filter.form-select:active {
   margin: 0px;
   margin-bottom: 12px;
   max-width: calc(100% - 86px);
-  padding-top: 12px;
   padding-left: 4px;
+  padding-top: 4px;
 }
 
 .documents_feed_loaded .games_view_header_wrapper {
@@ -625,6 +625,11 @@ select.document_label_filter.form-select:active {
   overflow: hidden;
 }
 
+.nav-link.show_create_modal.homepage {
+  display: inline-block;
+  position: relative;
+}
+
 .nav-link.dashboard_create_game_mobile.hover_yellow svg {
   top: -2px;
 }
@@ -723,7 +728,7 @@ select.document_label_filter.form-select:active {
 }
 
 .homepage_tab_selected_1 .navbar_wrapper {
-  height: auto;
+  height: 125px;
 }
 
 .navbar_wrapper .navbar {
@@ -923,6 +928,7 @@ select.document_label_filter.form-select:active {
   padding-right: 2px;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
+  margin-top: -6px;
 }
 
 .list_loaded .filter_bar_wrapper {
@@ -1046,7 +1052,6 @@ ol li {
   text-align: right;
   min-width: 3em;
   font-size: .9em;
-  padding-top: 7px;
   display: inline-block;
   white-space: nowrap;
   align-self: center;
