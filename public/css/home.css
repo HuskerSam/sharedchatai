@@ -470,7 +470,9 @@ select.document_label_filter.form-select {
   color: var(--primary-color);
   font-size: 18px;
   background-color: var(--secondary-color);
-  margin-bottom: -12px;
+  padding: 4px;
+  padding-left: 8px;
+  padding-right: 24px;
 }
 
 select.document_label_filter.form-select:hover,
@@ -722,22 +724,11 @@ select.document_label_filter.form-select:active {
 }
 
 .navbar_wrapper {
-  height: 66px;
   position: fixed;
   top: 0;
   z-index: 100;
   width: 100%;
   font-size: 18px;
-}
-
-.homepage_tab_selected_1 .navbar_wrapper {
-  height: 125px;
-}
-
-@media (min-width: 768px) {
-  .homepage_tab_selected_1 .navbar_wrapper {
-    height: 120px;
-  }
 }
 
 .navbar_wrapper .navbar {
