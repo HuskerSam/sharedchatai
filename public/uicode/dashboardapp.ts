@@ -558,8 +558,8 @@ export class DashboardApp extends BaseApp {
     ids.forEach((id: string) => {
       if (!this.documentsLookup[id].label) noLabelCount++;
     });
-    let html = `<option value="All Sessions">${sessionCount} Sessions</option>` +
-      `<option value="No Label">${noLabelCount} No Label</option>`;
+    let html = `<option value="All Sessions">Sessions (${sessionCount})</option>` +
+      `<option value="No Label">No Label (${noLabelCount})</option>`;
     const startingValue = this.document_label_filter.value;
 
     labels.forEach((label: string) => html += `<option>${label}</option>`);
