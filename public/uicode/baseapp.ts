@@ -799,6 +799,22 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
   getFlyerListTemplate(contentPage: boolean): string {
     const newsList = [
       {
+        link: "/content/howto/",
+        title: "How To",
+        description: "Crafting Effective Chatgpt Prompts",
+        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
+          "images%2Fpresentations%2Fcrafting%20effective%20prompts%20tips%2F1.jpg?alt=media&token=dc2f474a-2225-4c2b-bee6-79b6013f3af2",
+        date: "08-21-2023",
+      },
+      {
+        link: "/content/toplist/",
+        title: "Top List",
+        description: "Most Common Misconceptions about LLMs",
+        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
+          "images%2Fpresentations%2FDebunking%20AI%20Myths%2010%20Common%20Misconceptions%2F1.jpg?alt=media&token=faebb283-162b-4c51-97ac-3cd61313a222",
+        date: "08-18-2023",
+      },
+      {
         link: "/content/edustudy1/",
         title: "Edu Use Case",
         description: "Using LLMs as a Personal Tutor: AI tutors in EDU",

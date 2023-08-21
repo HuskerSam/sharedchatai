@@ -1111,13 +1111,8 @@ ol li {
   display: inline-block;
 }
 
-.hero_news_section {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding-top: 4em;
-  padding-bottom: 6em;
+.news_section {
+  padding-bottom: 2em;
 }
 
 .example_section {
@@ -1391,9 +1386,6 @@ ol li {
     flex-flow: column wrap;
   }
 
-  .hero_news_section {
-    margin-bottom: .5em;
-  }
 
   .feature_group_list .feature_group_item,
   .feature_group_list .feature_group_item a {
