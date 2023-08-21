@@ -624,6 +624,7 @@ label.btn {
 .change_email_panel {
   display: flex;
   flex-direction: row;
+  margin-top: 8px;
 }
 
 .change_email_button {
@@ -1104,4 +1105,10 @@ select.form-select.purchase_amount_select {
 
 .show_usage_last_month2 .usage_view_2_monthago {
   display: block;
+}
+
+.credits_balance {
+  margin-bottom: 8px;
+  padding-left: 12px;
+  font-family: "MonospaceTTF";
 }

@@ -2,6 +2,7 @@ declare const firebase: any;
 declare const window: any;
 
 import BaseApp from "./baseapp.js";
+import AccountHelper from "./accounthelper.js";
 
 const creditsForDollars: any = {
   "5": 3000,
@@ -28,6 +29,8 @@ export default class BuyCreditsHelper {
   payment_form_wrapper: any;
   cardHolderName: any;
   paymentHistory: any = {};
+  credits_balance: any;
+  tokenUsageUpdates = false;
 
   /**
    * @param { any } app baseapp derived instance
@@ -66,6 +69,7 @@ export default class BuyCreditsHelper {
         e.stopPropagation();
       }
     });
+    this.credits_balance = this.modalContainer.querySelector(".credits_balance");
   }
   /** get modal template
    * @return { string } template
@@ -83,6 +87,7 @@ export default class BuyCreditsHelper {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="display:flex;flex-direction:column">
+                <div class="credits_balance">Balance: </div>
                 <ul class="nav nav-tabs mb-2" role="tablist">
                     <li class="nav-item" role="presentation">
                         <a class="nav-link active" id="new_payment_tab" data-bs-toggle="tab"
@@ -539,6 +544,16 @@ export default class BuyCreditsHelper {
       this.payment_details_cancel.addEventListener("click", (e: any) => this.cancelSignup(e));
     }
     this.initPaymentHistory();
+    this.updateTokenUsage();
     this.modal.show();
+  }
+  /** fetch and paint user token usage */
+  async updateTokenUsage() {
+    if (this.tokenUsageUpdates) return;
+    this.tokenUsageUpdates = true;
+    AccountHelper.accountInfoUpdate(this.app, (usageData: any) => {
+      const availableBalance = usageData.availableCreditBalance;
+      this.credits_balance.innerHTML = `Balance: <b>${Math.floor(availableBalance)}</b> credits`;
+    });
   }
 }
