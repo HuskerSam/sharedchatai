@@ -811,7 +811,8 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
         title: "Top List",
         description: "Most Common Misconceptions about LLMs",
         image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
-          "images%2Fpresentations%2FDebunking%20AI%20Myths%2010%20Common%20Misconceptions%2F1.jpg?alt=media&token=faebb283-162b-4c51-97ac-3cd61313a222",
+          "images%2Fpresentations%2FDebunking%20AI%20Myths%2010%20Common%20Misconceptions%2F1.jpg" +
+          "?alt=media&token=faebb283-162b-4c51-97ac-3cd61313a222",
         date: "08-18-2023",
       },
       {

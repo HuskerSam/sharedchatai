@@ -83,7 +83,7 @@ export class DashboardApp extends BaseApp {
     setTimeout(() => {
       if (location.hash === "#models") this.navigateAnchor();
       if (location.hash === "#features") this.navigateAnchor();
-      if (location.hash === "#examples") this.navigateAnchor(); 
+      if (location.hash === "#examples") this.navigateAnchor();
     }, 50);
   }
   /**
@@ -164,7 +164,7 @@ export class DashboardApp extends BaseApp {
       if (location.hash !== "#dashboard_tab_view") {
         if (this.news_tab_button) this.news_tab_button.classList.add("active");
       }
-      this.handleNavigateHash(); 
+      this.handleNavigateHash();
     }
   }
   /** */
