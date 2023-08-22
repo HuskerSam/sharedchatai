@@ -195,6 +195,14 @@ export default class ProfileHelper {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <div class="summary_panel" style="display:flex;flex-direction:row">
+                        <div style="flex:1">
+                            Credits Available: <span class="summary_column available_balance">0</span>
+                        </div>
+                        <div>                        
+                            <button class="btn btn-primary change_subscription">Buy Credits</button>
+                        </div>
+                    </div>
                     <ul class="nav nav-tabs mb-3" role="tablist">
                         <li class="nav-item" role="presentation">
                             <a class="nav-link active" id="profile_user_tab_button" data-bs-toggle="tab"
@@ -309,15 +317,6 @@ export default class ProfileHelper {
                         </div>
                         <div class="tab-pane fade" id="profile_user_usage_view" role="tabpanel"
                             aria-labelledby="usage_labels_tab_button">
-                            <div class="summary_panel" style="display:flex;flex-direction:row">
-                                <div style="flex:1">
-                                    Credits Available: <span class="summary_column available_balance">0</span>
-                                </div>
-                                <div>                        
-                                    <button class="btn btn-primary change_subscription">Buy Credits</button>
-                                </div>
-                            </div>
-                            <hr>
                             Refer to <a href="/help" target="_blank">help</a> before proceeding
                             <div class="change_email_panel">
                                 <input type="text" class="form-control profile_new_email" placeholder="New Email">
