@@ -1139,13 +1139,13 @@ ol li {
 }
 
 .recent_content_flyers_ul_list img {
-  max-width: 80%;
+  max-width: 100%;
   height: auto;
   border-radius: 8px;
   margin: auto;
   margin-top: 4px;
   margin-bottom: 4px;
-  max-height: 180px;
+  max-height: 220px;
 }
 
 .recent_content_flyers_ul_list {
@@ -1169,7 +1169,6 @@ ol li {
 .recent_content_flyers_ul_list a {
   display: flex;
   flex-direction: row;
-  margin-top: 8px;
   text-decoration: none;
   height: 100%;
   width: 100%;
@@ -1195,8 +1194,8 @@ ol li {
 .recent_content_flyers_ul_list .caption {
   font-size: 16px;
   overflow: hidden;
-  display: block;
   height: 3em;
+  text-align: left;
 }
 
 
@@ -1220,6 +1219,8 @@ ol li {
 .recent_content_flyers_ul_list .news_group_item a {
   padding: .5em;
   height: 320px;
+  padding-top: 0;
+  padding-bottom: 8px;
 }
 
 
@@ -1362,20 +1363,8 @@ ol li {
     width: 80%;
   }
 
-  .recent_content_flyers_ul_list a .title {
-    font-size: 24px;
-  }
-
-  .recent_content_flyers_ul_list .caption {
-    font-size: 22px;
-  }
-
   .recent_content_flyers_ul_list .news_group_item {
     margin: .3em;
-  }
-
-  .recent_content_flyers_ul_list .news_group_item a {
-    padding: .75em;
   }
 
   .recent_content_flyers_ul_list li {
@@ -1396,18 +1385,6 @@ ol li {
 @media (min-width: 1200px) {
   .video_wrapper img {
     width: 70%;
-  }
-
-  .recent_content_flyers_ul_list a .title {
-    font-size: 28px;
-  }
-
-  .recent_content_flyers_ul_list .caption {
-    font-size: 22px;
-  }
-
-  .recent_content_flyers_ul_list .news_group_item a {
-    padding: 1em;
   }
 
   .recent_content_flyers_ul_list .date {

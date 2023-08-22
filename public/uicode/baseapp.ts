@@ -909,20 +909,16 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
     let items = "";
     newsList.forEach((item: any) => {
       items += `<li class="news_group_item hover_yellow"><a class="d-flex flex-column" href="${item.link}">
-              <div>
-                  <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1"><span class="title">${item.title}</span><i class="material-icons"
-                  style="margin-left: 4px;position:relative;top: 4px;font-size:0.9em;">open_in_new</i></h5>
-                    <small class="date">${item.date}</small>
-                  </div>
-              </div>
               <div class="d-flex flex-column" style="flex:1">
                 <div style="flex:1;text-align:center;display:flex;">
                   <img src="${item.image}" style="align-self:center;">
                 </div>
-                <div style="text-align: center;">
-                  <span class="caption">${item.description}</span>
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1"><span class="title">${item.title}</span><i class="material-icons"
+                    style="margin-left: 4px;position:relative;top: 4px;font-size:0.9em;">open_in_new</i></h5>
+                  <small class="date">${item.date}</small>
                 </div>
+                <div class="caption">${item.description}</div>
               </div>
             </a></li>`;
     });
