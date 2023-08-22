@@ -64,11 +64,6 @@ export default class LoginHelper {
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-        <div style="text-align: left;">
-        You are currently accessing our pre-release version which is free to use. 
-       Please note that this is subject to change in the future.
-        <hr>
-      </div>
             <h5 class="mt-1">Email Login</h5>
               <div class="input-group mb-3">
                 <input type="text" name="email" class="form-control login_email mx-1" placeholder="Email">
@@ -80,14 +75,11 @@ export default class LoginHelper {
                 Log in with Google &nbsp;<img class="google_logo" src="/images/google_signin.png"></button>
               </div>
               <hr>
-              <div style="text-align:center">
-               Recommended for viewing only. Anonymous user data typically only retained for 7 days. Access lost upon sign out.
-              </div>
               <div style="text-align:center;line-height: 3em;">
                 <button class="anon_login_anchor btn btn-primary">Log in Anonymously</button>
               </div>
               <div style="text-align:center">
-               Upgrade by entering Email in Profile Settings<br>
+               Viewing only. Upgrade to full account entering Email in Profile Settings<br>
               </div>
         </div>
         <div class="modal-footer">

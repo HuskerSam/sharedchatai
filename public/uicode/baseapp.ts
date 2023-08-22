@@ -799,6 +799,14 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
   getFlyerListTemplate(contentPage: boolean): string {
     const newsList = [
       {
+        link: "/content/credits/",
+        title: "Cost Info",
+        description: "Unacog Credits Explained",
+        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
+          "images%2Fpresentations%2Fcredits%20system%2F1.jpg?alt=media&token=e5fc4982-3401-4f33-8123-f8f7a2bdacc1",
+        date: "08-22-2023",
+      },
+      {
         link: "/content/howto/",
         title: "How To",
         description: "Crafting Effective Chatgpt Prompts",
