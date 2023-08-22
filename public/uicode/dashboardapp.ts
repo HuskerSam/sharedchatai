@@ -86,12 +86,14 @@ export class DashboardApp extends BaseApp {
       e.stopPropagation();
       document.documentElement.scrollTop = 0;
       document.body.scrollTop = 0;
+      history.pushState("", document.title, window.location.pathname +
+        window.location.search);
     });
   }
   /** */
   navigateAnchor() {
-    this.news_tab_button.click();
     const tempHash = location.hash;
+    this.news_tab_button.click();
     location.hash = "";
     location.hash = tempHash;
   }
@@ -119,6 +121,10 @@ export class DashboardApp extends BaseApp {
     document.body.style.scrollBehavior = "auto";
     document.body.scrollTop = 0;
     document.body.style.scrollBehavior = "";
+    if (save) {
+      history.pushState("", document.title, window.location.pathname +
+        window.location.search);
+    }
   }
   /**
    * @return { string } label if custom, "" if not (all or unlabeled)
@@ -213,7 +219,7 @@ export class DashboardApp extends BaseApp {
       if (location.hash === "#sessions") {
         this.dashboard_tab_button.click();
       } else if (this.profile.homePageTabIndex === 0) {
-        this.news_tab_button.click();
+        this.tabChangeHandler(0, false);
       } else if (this.profile.homePageTabIndex === 1) {
         this.dashboard_tab_button.click();
       }
