@@ -104,6 +104,12 @@ export class DashboardApp extends BaseApp {
     if (save) this.saveProfileField("homePageTabIndex", tabIndex);
     for (let c = 0, l = 10; c < l; c++) document.body.classList.remove("homepage_tab_selected_" + c);
     document.body.classList.add("homepage_tab_selected_" + tabIndex);
+    document.documentElement.style.scrollBehavior = "auto";
+    document.documentElement.scrollTop = 0;
+    document.documentElement.style.scrollBehavior = "";
+    document.body.style.scrollBehavior = "auto";
+    document.body.scrollTop = 0;
+    document.body.style.scrollBehavior = "";
   }
   /**
    * @return { string } label if custom, "" if not (all or unlabeled)
