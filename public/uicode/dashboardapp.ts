@@ -33,6 +33,8 @@ export class DashboardApp extends BaseApp {
   footer_container_div: any = null;
   account_status_display: any = document.querySelector(".account_status_display");
   navigateHandled = false;
+  homepage_logo_scrollup: any = document.querySelector(".homepage_logo_scrollup");
+
   /** */
   constructor() {
     super(true, true);
@@ -77,6 +79,13 @@ export class DashboardApp extends BaseApp {
         document.body.classList.remove("not_scrolled_top");
         document.body.classList.add("scrolled_top");
       }
+    });
+
+    this.homepage_logo_scrollup.addEventListener("click", (e: any) => {
+      e.preventDefault();
+      e.stopPropagation();
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
     });
   }
   /** */
