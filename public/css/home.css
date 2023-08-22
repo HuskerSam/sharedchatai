@@ -1355,6 +1355,11 @@ ol li {
   .nav .show>.nav-link {
     border-bottom: none;
   }
+
+  .recent_content_flyers_ul_list .news_group_item a {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
 }
 
 
@@ -1375,7 +1380,6 @@ ol li {
     flex-flow: column wrap;
   }
 
-
   .feature_group_list .feature_group_item,
   .feature_group_list .feature_group_item a {
     width: 240px;
@@ -1385,12 +1389,6 @@ ol li {
 @media (min-width: 1200px) {
   .video_wrapper img {
     width: 70%;
-  }
-
-  .recent_content_flyers_ul_list .date {
-    font-size: 16px;
-    position: relative;
-    top: 8px;
   }
 }
 
