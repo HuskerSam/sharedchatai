@@ -68,6 +68,16 @@ export class DashboardApp extends BaseApp {
       e.stopPropagation();
       this.profileHelper.show(true);
     });
+
+    window.addEventListener('scroll', function() {
+      if (document.documentElement.scrollTop > 0 || document.body.scrollTop > 0) {
+        document.body.classList.add("not_scrolled_top");
+        document.body.classList.remove("scrolled_top");
+      } else {
+        document.body.classList.remove("not_scrolled_top");
+        document.body.classList.add("scrolled_top");
+      }
+    });
   }
   /** */
   navigateAnchor() {
