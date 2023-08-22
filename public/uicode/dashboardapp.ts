@@ -34,7 +34,7 @@ export class DashboardApp extends BaseApp {
   account_status_display: any = document.querySelector(".account_status_display");
   navigateHandled = false;
   homepage_logo_scrollup: any = document.querySelector(".homepage_logo_scrollup");
-
+  originalHash = location.hash;
   /** */
   constructor() {
     super(true, true);
@@ -62,8 +62,8 @@ export class DashboardApp extends BaseApp {
     this.news_tab_button.addEventListener("click", () => this.tabChangeHandler(0));
     this.dashboard_tab_button.addEventListener("click", () => this.tabChangeHandler(1));
 
-    if (location.hash === "#news") this.news_tab_button.click();
-    if (location.hash === "#sessions") this.dashboard_tab_button.click();
+    if (this.originalHash === "#news") this.news_tab_button.click();
+    if (this.originalHash === "#sessions") this.dashboard_tab_button.click();
 
     this.account_status_display.addEventListener("click", (e: any) => {
       e.preventDefault();
@@ -92,19 +92,18 @@ export class DashboardApp extends BaseApp {
   }
   /** */
   navigateAnchor() {
-    const tempHash = location.hash;
     this.news_tab_button.click();
     location.hash = "";
-    location.hash = tempHash;
+    location.hash = this.originalHash;
   }
   /** */
   handleNavigateHash() {
     if (this.navigateHandled) return;
     this.navigateHandled = true;
     setTimeout(() => {
-      if (location.hash === "#models") this.navigateAnchor();
-      if (location.hash === "#features") this.navigateAnchor();
-      if (location.hash === "#examples") this.navigateAnchor();
+      if (this.originalHash === "#models") this.navigateAnchor();
+      if (this.originalHash === "#features") this.navigateAnchor();
+      if (this.originalHash === "#examples") this.navigateAnchor();
     }, 50);
   }
   /**
@@ -192,7 +191,7 @@ export class DashboardApp extends BaseApp {
       this.initUsageWatch();
       this.handleNavigateHash();
     } else {
-      if (location.hash !== "#sessions") {
+      if (this.originalHash !== "#sessions") {
         if (this.news_tab_button) this.news_tab_button.classList.add("active");
       }
       this.handleNavigateHash();
@@ -215,10 +214,10 @@ export class DashboardApp extends BaseApp {
 
     if (this.gameFeedSubscription) this.gameFeedSubscription();
 
-    if (location.hash !== "#news" ) {
-      if (location.hash === "#sessions") {
+    if (this.originalHash !== "#news" ) {
+      if (this.originalHash === "#sessions") {
         this.dashboard_tab_button.click();
-      } else if (this.profile.homePageTabIndex === 0) {
+      } else if (this.profile.homePageTabIndex === 0) { 
         this.news_tab_button.click();
       } else if (this.profile.homePageTabIndex === 1) {
         this.dashboard_tab_button.click();
