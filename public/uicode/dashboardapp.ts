@@ -219,7 +219,7 @@ export class DashboardApp extends BaseApp {
       if (location.hash === "#sessions") {
         this.dashboard_tab_button.click();
       } else if (this.profile.homePageTabIndex === 0) {
-        this.tabChangeHandler(0, false);
+        this.news_tab_button.click();
       } else if (this.profile.homePageTabIndex === 1) {
         this.dashboard_tab_button.click();
       }
