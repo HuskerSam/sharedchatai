@@ -80,29 +80,34 @@
                     <span class="navbar_logo"></span>
                     <span class="mobile_hide position-relative homepage_logo_spacing">Una<span
                             class="home_navbar_name_color"">cog</span></span>
-                    <div class="scroll_to_top_icon">
-                        <span class="material-icons-outlined">
-                            arrow_upward
-                        </span>
-                    </div>
+                    <div class=" scroll_to_top_icon">
+                            <span class="material-icons-outlined">
+                                arrow_upward
+                            </span>
+                            </div>
                 </a>
             </li>
             <li class="logo_offset_spacer_mobile"></li>
             <li style="flex:1">
                 <ul class="header_tabs nav" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="news_tab_button" data-bs-toggle="tab"
-                            href="#news" role="tab" aria-controls="news"
-                            aria-selected="true"><span class="material-icons">
-                                feed
-                                </span><span class="tab_label">News</span></a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link session_tab" id="dashboard_tab_button" data-bs-toggle="tab"
-                            href="#sessions" role="tab" aria-controls="sessions"
-                            aria-selected="false"><span class="material-icons">
+                        <a class="nav-link session_tab" id="dashboard_tab_button" data-bs-toggle="tab" href="#sessions"
+                            role="tab" aria-controls="sessions" aria-selected="false"><span class="material-icons">
                                 folder
                             </span><span class="tab_label">Sessions</span></a>
+
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="news_tab_button" data-bs-toggle="tab" href="#news" role="tab"
+                            aria-controls="news" aria-selected="true"><span class="material-icons">
+                                newspaper
+                            </span><span class="tab_label">News</span></a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="about_tab_button" data-bs-toggle="tab" href="#about" role="tab"
+                            aria-controls="about" aria-selected="false"><span class="material-icons">
+                                description
+                            </span><span class="tab_label">About</span></a>
 
                     </li>
                 </ul>
@@ -146,321 +151,93 @@
         <div class="tab-content home_page_tabs">
             <div class="tab-pane fade show active" id="news" role="tabpanel" style="flex-direction:column;"
                 aria-labelledby="news_tab_button">
-                <div class="mt-2">
-                    <div class="anchor_row" style="padding-top:8px;font-size: 1.25em">
-                        <a href="#models">#models</a>
-                        &nbsp;<a href="#features">#features</a>
-                        &nbsp;<a href="#examples">#examples</a>
-                    </div>
-                    <div class="container news_section">
-                        <ul class="recent_content_flyers_ul_list flex-lg-row flex_change_responsive"></ul>
-                    </div>
 
-                    <!-- Models section-->
-                    <div id="models" class="homepage_section models_section">
-                        <h2 class="homepage_header">Available Models</h2>
-                        <div class="flex-lg-row flex_change_responsive container">
-                            <div class="main_block intro_card card">
-                                <h5 style="display:inline-block">
-                                    <a href="https://platform.openai.com/docs/models" target="_blank">
-                                        <img class="model_svg show_day_mode_inline_block" src="/images/openailite.svg"
-                                            style="width:120px;"><img class="model_svg show_nite_mode_inline_block"
-                                            src="/images/openai.svg" style="width:120px;"><i class="material-icons"
-                                            style="margin-left: 4px;position:relative;top: 8px;">open_in_new</i>
-                                    </a>
-                                </h5>
-                                <ul class="list-group-flush list-group">
-                                    <li class="list-group-item"><span class="supported_model">gpt-3.5-turbo</span> 4k
-                                    </li>
-                                    <li class="list-group-item"><span class="supported_model">gpt-3.5-turbo-16k</span>
-                                    </li>
-                                    <li class="list-group-item"><span class="supported_model">gpt-4</span> 8k</li>
-                                    <li class="list-group-item"><span class="upcoming_model">gpt-4-32k</span> (soon)
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="main_block intro_card card">
-                                <h5 style="display:inline-block">
-                                    <a href="https://developers.generativeai.google/api/rest/generativelanguage"
-                                        target="_blank">
-                                        <img src="/images/palmapi.png" style="width:32px;"><img
-                                            class="model_svg show_day_mode_inline_block"
-                                            src="/images/palmapinamelite.png" style="margin-left:6px;width:95px;"><img
-                                            class="model_svg show_nite_mode_inline_block" src="/images/palmapiname.png"
-                                            style="margin-left:6px;width:95px;"><i class="material-icons"
-                                            style="margin-left: 4px;position:relative;top: 6px;">open_in_new</i>
-                                    </a>
-                                </h5>
-                                <ul class="list-group-flush list-group">
-                                    <li class="list-group-item"> <span class="supported_model">chat-bison-001</span> 9k
-                                    </li>
-                                    <li class="list-group-item"> <span class="upcoming_model">med-bison-001</span> 36k
-                                        (soon)</li>
-                                    <li class="list-group-item"> <span class="upcoming_model">med-bison-002</span> 144k
-                                        (later)</li>
-                                    <li class="list-group-item"> <span class="upcoming_model">codechat-bison-001</span>
-                                        6k
-                                        (soon)</li>
-                                </ul>
-                            </div>
-                            <div class="main_block intro_card card">
-                                <h5 style="display:inline-block">
-                                    <a href="https://docs.anthropic.com/claude/reference/complete_post" target="_blank">
-                                        <img src="/images/anthropologic.png" style="width:32px;"><img
-                                            class="model_svg show_day_mode_inline_block"
-                                            src="/images/anthrofulllite.svg" style="margin-left:6px;width:120px;"><img
-                                            class="model_svg show_nite_mode_inline_block" src="/images/anthrofull.svg"
-                                            style="margin-left:6px;width:120px;"><i class="material-icons"
-                                            style="margin-left: 4px;position:relative;top: 6px;">open_in_new</i>
-                                    </a>
-                                </h5>
-                                <ul class="list-group-flush list-group">
-                                    <li class="list-group-item"><span class="upcoming_model">claude-2</span> 100k (soon)
-                                    </li>
-                                    <li class="list-group-item"><span class="upcoming_model">claude-instant-1</span>
-                                        100k
-                                        (soon)</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <p class="lead"><a href="/content/pricing">More on Pricing</a></p>
-                    </div>
+                <div class="anchor_row" style="padding-top:8px;font-size: 1.25em">
+                    <a href="#models">#models</a>
+                    &nbsp;<a href="#examples">#examples</a>
+                </div>
+                <div class="container news_section">
+                    <ul class="recent_content_flyers_ul_list flex-lg-row flex_change_responsive"></ul>
+                </div>
 
-
-                    <!-- features section-->
-                    <div id="features" class="homepage_section feature_section">
-                        <h2 class="homepage_header">Features</h2>
-                        <div class="container">
-                            <ul class=" flex-lg-row flex_change_responsive feature_group_list">
-                                <li class="feature_group_item card hover_yellow">
-                                    <a class="d-flex flex-column p-2" href="/help/#system_message" target="help">
-                                        <i class="material-icons">lightbulb</i>
-                                        <h4 class="feature_name">
-                                            <span class="link">Swap Models</span>
-                                        </h4>
-                                        <span class="desc">
-                                            while in the same session
-                                        </span>
-                                    </a>
+                <!-- Models section-->
+                <div id="models" class="homepage_section models_section homepage_section_background">
+                    <h2 class="homepage_header">Available Models</h2>
+                    <div class="flex-lg-row flex_change_responsive container">
+                        <div class="main_block intro_card card">
+                            <h5 style="display:inline-block">
+                                <a href="https://platform.openai.com/docs/models" target="_blank">
+                                    <img class="model_svg show_day_mode_inline_block" src="/images/openailite.svg"
+                                        style="width:120px;"><img class="model_svg show_nite_mode_inline_block"
+                                        src="/images/openai.svg" style="width:120px;"><i class="material-icons"
+                                        style="margin-left: 4px;position:relative;top: 8px;">open_in_new</i>
+                                </a>
+                            </h5>
+                            <ul class="list-group-flush list-group">
+                                <li class="list-group-item"><span class="supported_model">gpt-3.5-turbo</span> 4k
                                 </li>
-                                <li class="feature_group_item card hover_yellow">
-                                    <a class="d-flex flex-column p-2" href="/help/#system_message" target="help">
-                                        <span class="material-icons-outlined">
-                                            message
-                                        </span>
-                                        <h4 class="feature_name">
-                                            <span class="link">System Msg</span>
-                                        </h4>
-                                        <span class="desc">
-                                           to maintain context throughout
-                                        </span>
-                                    </a>
+                                <li class="list-group-item"><span class="supported_model">gpt-3.5-turbo-16k</span>
                                 </li>
-                                <li class="feature_group_item card hover_yellow">
-                                    <a class="d-flex flex-column p-2" href="/help/#auto_exclude" target="help">
-                                        <span class="material-icons-outlined">auto_fix_high</span>
-                                        <h4 class="feature_name">
-                                            <span class="link">Auto exclude</span>
-                                        </h4>
-                                        <span class="desc">
-                                            to manage request sizes automatically
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="feature_group_item card hover_yellow">
-                                    <a class="d-flex flex-column p-2" href="/help/#chat_features" target="help">
-                                        <i class="material-icons">loop</i>
-                                        <h4 class="feature_name">
-                                            <span class="link">Rerun Prompts</span>
-                                        </h4>
-                                        <span class="desc">
-                                           to get different results with same prompt
-                                        </span>
-                                    </a>
-                                </li>
-
-                                <li class="feature_group_item card hover_yellow">
-                                    <a class="d-flex flex-column p-2" href="/help/#users_info" target="help">
-                                        <i class="material-icons">link</i>
-                                        <h4 class="feature_name">
-                                            <span class="link">Share Link</span>
-                                        </h4>
-                                        <span class="desc">
-                                            to collaborate with others quickly
-                                        </span>
-                                    </a>
-                                </li>
-
-                                <li class="feature_group_item card hover_yellow">
-                                    <a class="d-flex flex-column p-2" href="/help/#export_options" target="help">
-                                        <i class="material-icons">download</i>
-                                        <h4 class="feature_name">
-                                            <span class="link">Export json</span>
-                                        </h4>
-                                        <span class="desc">
-                                            to share templates
-                                        </span>
-                                    </a>
-                                </li>
-
-                                <li class="feature_group_item card hover_yellow">
-                                    <a class="d-flex flex-column p-2" href="/help/#options" target="help">
-                                        <i class="material-icons">upload</i>
-                                        <h4 class="feature_name">
-                                            <span class="link">Import Template</span>
-                                        </h4>
-                                        <span class="desc">
-                                            to start with groundwork
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="feature_group_item card hover_yellow">
-                                    <a class="d-flex flex-column p-2" href="/help/#options" target="help">
-                                        <i class="material-icons">content_copy</i>
-                                        <h4 class="feature_name">
-                                            <span class="link">Use clipboard</span>
-                                        </h4>
-                                        <span class="desc">
-                                            to copy text/html to other apps
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="feature_group_item card hover_yellow">
-                                    <a class="d-flex flex-column p-2" href="/help/#help_sign_in" target="help">
-                                        <span class="material-icons">
-                                            supervised_user_circle
-                                        </span>
-                                        <h4 class="feature_name">
-                                            <span class="link">Anonymous login</span>
-                                        </h4>
-                                        <span class="desc">
-                                            to share with external collaborators
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="feature_group_item card hover_yellow">
-                                    <a class="d-flex flex-column p-2" href="/help/#session_limit" target="help">
-                                        <span class="material-icons">
-                                            settings
-                                        </span>
-                                        <h4 class="feature_name">
-                                            <span class="link">Use Session Limit</span>
-                                        </h4>
-                                        <span class="desc">
-                                            to protect your account from misuse
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="feature_group_item card hover_yellow">
-                                    <a class="d-flex flex-column p-2" href="/help/#help_sign_in" target="help">
-                                        <i class="material-icons">email</i>
-                                        <h4 class="feature_name">
-                                            <span class="link">Email invitations</span>
-                                        </h4>
-                                        <span class="desc">
-                                            for convenient session access
-                                        </span>
-                                    </a>
-                                </li>
-
-                                <li class="feature_group_item card hover_yellow">
-                                    <a class="d-flex flex-column p-2" href="/help/#owner_labels" target="help">
-                                        <i class="material-icons">label</i>
-                                        <h4 class="feature_name">
-                                            <span class="link">Organize using labels</span>
-                                        </h4>
-                                        <span class="desc">
-                                            to categorize and find sessions quickly
-                                        </span>
-                                    </a>
-                                </li>
-
-                                <li class="feature_group_item card hover_yellow">
-                                    <a class="d-flex flex-column p-2" href="/help/#temperature" target="help">
-                                        <i class="material-icons">thermostat</i>
-                                        <h4 class="feature_name">
-                                            <span class="link">Adjust temperature</span>
-                                        </h4>
-                                        <span class="desc">
-                                            for more creative or regular results
-                                        </span>
-                                    </a>
-                                </li>
-
-                                <li class="feature_group_item card hover_yellow">
-                                    <a class="d-flex flex-column p-2" href="/help/#threshold" target="help">
-                                        <i class="material-icons">query_stats</i>
-                                        <h4 class="feature_name">
-                                            <span class="link">Manage context</span>
-                                        </h4>
-                                        <span class="desc">
-                                            to control quality and cost of responses
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="feature_group_item card disabled_link">
-                                    <a class="d-flex flex-column p-2">
-                                        <span class="material-icons">touch_app</span>
-                                        <h4 class="feature_name">
-                                            <span class="link">Bulk Create</span>
-                                        </h4>
-                                        <span class="desc">
-                                           for quick creation
-                                        </span>
-                                        <span class="help_coming_pill badge rounded-pill bg-info text-dark">Help Coming</span>
-                                    </a>
-                                </li>
-                                <li class="feature_group_item card disabled_link">
-                                    <a class="d-flex flex-column p-2">
-                                        <span class="material-icons">assignment</span>
-                                        <h4 class="feature_name">
-                                            <span class="link">Bulk Email</span>
-                                        </h4>
-                                        <span class="desc">
-                                           for quick assignment
-                                        </span>
-                                        <span class="help_coming_pill badge rounded-pill bg-info text-dark">Help Coming</span>
-                                    </a>
-                                </li>
-                                <li class="feature_group_item card disabled_link">
-                                    <a class="d-flex flex-column p-2">
-                                        <span class="material-icons">print</span>
-                                        <h4 class="feature_name">
-                                            <span class="link">Print Receipt</span>
-                                        </h4>
-                                        <span class="desc">
-                                            to manage request sizes automatically
-                                        </span>
-                                        <span class="help_coming_pill badge rounded-pill bg-info text-dark">Help Coming</span>
-                                    </a>
-                                </li>
-                                <li class="feature_group_item card disabled_link">
-                                    <a class="d-flex flex-column p-2">
-                                        <span class="material-icons">data_usage</span>
-                                        <h4 class="feature_name">
-                                            <span class="link">Usage Stats</span>
-                                        </h4>
-                                        <span class="desc">
-                                            view stats like monthly usage per day
-                                        </span>
-                                        <span class="help_coming_pill badge rounded-pill bg-info text-dark">Help Coming</span>
-                                    </a>
+                                <li class="list-group-item"><span class="supported_model">gpt-4</span> 8k</li>
+                                <li class="list-group-item"><span class="upcoming_model">gpt-4-32k</span> (soon)
                                 </li>
                             </ul>
                         </div>
-                        <p class="lead"><a href="/help/">See Help Docs</a></p>
+                        <div class="main_block intro_card card">
+                            <h5 style="display:inline-block">
+                                <a href="https://developers.generativeai.google/api/rest/generativelanguage"
+                                    target="_blank">
+                                    <img src="/images/palmapi.png" style="width:32px;"><img
+                                        class="model_svg show_day_mode_inline_block" src="/images/palmapinamelite.png"
+                                        style="margin-left:6px;width:95px;"><img
+                                        class="model_svg show_nite_mode_inline_block" src="/images/palmapiname.png"
+                                        style="margin-left:6px;width:95px;"><i class="material-icons"
+                                        style="margin-left: 4px;position:relative;top: 6px;">open_in_new</i>
+                                </a>
+                            </h5>
+                            <ul class="list-group-flush list-group">
+                                <li class="list-group-item"> <span class="supported_model">chat-bison-001</span> 9k
+                                </li>
+                                <li class="list-group-item"> <span class="upcoming_model">med-bison-001</span> 36k
+                                    (soon)</li>
+                                <li class="list-group-item"> <span class="upcoming_model">med-bison-002</span> 144k
+                                    (later)</li>
+                                <li class="list-group-item"> <span class="upcoming_model">codechat-bison-001</span>
+                                    6k
+                                    (soon)</li>
+                            </ul>
+                        </div>
+                        <div class="main_block intro_card card">
+                            <h5 style="display:inline-block">
+                                <a href="https://docs.anthropic.com/claude/reference/complete_post" target="_blank">
+                                    <img src="/images/anthropologic.png" style="width:32px;"><img
+                                        class="model_svg show_day_mode_inline_block" src="/images/anthrofulllite.svg"
+                                        style="margin-left:6px;width:120px;"><img
+                                        class="model_svg show_nite_mode_inline_block" src="/images/anthrofull.svg"
+                                        style="margin-left:6px;width:120px;"><i class="material-icons"
+                                        style="margin-left: 4px;position:relative;top: 6px;">open_in_new</i>
+                                </a>
+                            </h5>
+                            <ul class="list-group-flush list-group">
+                                <li class="list-group-item"><span class="upcoming_model">claude-2</span> 100k (soon)
+                                </li>
+                                <li class="list-group-item"><span class="upcoming_model">claude-instant-1</span>
+                                    100k
+                                    (soon)</li>
+                            </ul>
+                        </div>
                     </div>
+                    <p class="lead"><a href="/content/pricing">More on Pricing</a></p>
+                </div>
 
-
-                    <!-- examples section-->
-                    <div id="examples" class="example_section">
-                        <div class="flex-lg-row flex_change_responsive container">
-                            <div class="main_block app_panel">
-                                <h5 class="ms-3 ms-md-0 text-md-center text-start">Example Sessions</h5>
-                                <div class="discussion_list_panel">
-                                    <div class="intro_card card overflow_container">
-                                        <ul class="template_list_wrapper recent_content_ul_list"></ul>
-                                    </div>
+                <!-- examples section-->
+                <div id="examples" class="example_section">
+                    <div class="flex-lg-row flex_change_responsive container">
+                        <div class="main_block app_panel">
+                            <h5 class="ms-3 ms-md-0 text-md-center text-start">Example Sessions</h5>
+                            <div class="discussion_list_panel">
+                                <div class="intro_card card overflow_container">
+                                    <ul class="template_list_wrapper recent_content_ul_list"></ul>
                                 </div>
                             </div>
                         </div>
@@ -469,36 +246,353 @@
             </div>
             <div class="tab-pane fade" id="sessions" role="tabpanel" style="flex-direction:column;"
                 aria-labelledby="dashboard_tab_button">
-            <div class="container">
-                <div class="signed_out_flex p-3 justify-content-center session_cta ">
-                    <div class="d-flex flex-column flex-auto justify-content-center rounded card side_block p-3 p-lg-5">
-                        <div class="mb-2"><img src="/images/logo64.png" alt=""></div>
-                        <div class="mb-3 text-center">Welcome to Unacog</div>
-                        <div class="mb-3 text-center">Login with email or Google to continue</div>
-                        <div class="d-flex flex-row justify-content-center">
-                            <a class="signin_show_modal btn btn-primary px-4" href="login" type="button">Login
-                            </a>
+                <div class="container">
+                    <div class="signed_out_flex p-3 justify-content-center session_cta ">
+                        <div
+                            class="d-flex flex-column flex-auto justify-content-center rounded card side_block p-3 p-lg-5">
+                            <div class="mb-2"><img src="/images/logo64.png" alt=""></div>
+                            <div class="mb-3 text-center">Welcome to Unacog</div>
+                            <div class="mb-3 text-center">Login with email or Google to continue</div>
+                            <div class="d-flex flex-row justify-content-center">
+                                <a class="signin_show_modal btn btn-primary px-4" href="login" type="button">Login
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="signed_in_inline_block" style="width:100%;">
+                        <div class="game_lobby">
+                            <div class="games_view_wrapper">
+                                <div class="dashboard_documents_view"></div>
+                            </div>
+                        </div>
+                        <div class="no_games_in_dashboard app_panel impact-font" style="font-size: 2em;">
+                            <br>
+                            Welcome to Unacog! Create a chat session to get started.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="about" role="tabpanel" style="flex-direction:column;"
+                aria-labelledby="about">
+
+                <!-- about hero section-->
+                <div class="px-4 text-center homepage_about_hero_section">
+                    <!-- about hero top section-->
+                    <div class="container pt-5">
+                        <h1 class="display-3 fw-bold">Meet Unacog</h1>
+                        <div class="col-lg-8 mx-auto">
+                            <p class="about_hero_subheader mb-4">A real-time, collaborative hub for advanced Language
+                                Learning Models (LLMs), offering a unique multi-user, multi-model chat experience.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- about value section-->
+                <div class="px-4 text-center homepage_about_section">
+                    <div class="container pt-5">
+                        <div class="row g-4 row-cols-1 row-cols-lg-3 text-start">
+                            <div class="col d-flex flex-column">
+                                <img class="about_value_image show_day_mode_inline_block" src="/images/about_collab.png" alt="">
+                                <img class="about_value_image show_nite_mode_inline_block" src="/images/about_collab_nite.png" alt="">
+                                <h3 class="about_value_header">Collaborative</h3>
+                                <p></p>
+                                <p class="about_value_desc">Easily collaborate by simply sharing a link. Bring teams together and brainstorm in
+                                    real-time. Use bulk create and more.</p>
+                                </p>
+                                <p></p>
+                            </div>
+                            <div class="col d-flex flex-column">
+                                <img class="about_value_image show_day_mode_inline_block" src="/images/about_model.png" alt="">
+                                <img class="about_value_image show_nite_mode_inline_block" src="/images/about_model_nite.png" alt="">
+                                <h3 class="about_value_header">Multi-Model</h3>
+                                <p></p>
+                                <p class="about_value_desc">Seamlessly switch between various LLM models. Fine-tune your experience with advanced
+                                    parameters, such as temperature.</p>
+                                <p></p>
+                            </div>
+                            <div class="col d-flex flex-column">
+                                <img class="about_value_image show_day_mode_inline_block" src="/images/about_credit.png" alt="">
+                                <img class="about_value_image show_nite_mode_inline_block" src="/images/about_credit_nite.png" alt="">
+                                <h3 class="about_value_header">Credit-Based</h3>
+                                <p></p>
+                                <p class="about_value_desc">Subscription-free: only pay for what you use, with credits that
+                                    never expire and grant you access to a growing LLM library.</p>
+                                <p></p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="signed_in_inline_block" style="width:100%;">
-                    <div class="game_lobby">
-                        <div class="games_view_wrapper">
-                            <div class="dashboard_documents_view"></div>
+                <div class="px-4 text-center homepage_section_background">
+                    <div class="container py-5">
+                        <div class="row g-4">
+                            <div class="col mt-md-0">
+                                <img class="model_svg show_day_mode_inline_block" src="/images/openailite.svg"
+                                style="width:120px;"><img class="model_svg show_nite_mode_inline_block"
+                                src="/images/openai.svg" style="width:120px;">
+                            </div>
+                            <div class="col mt-md-0">
+                                <img src="/images/palmapi.png" style="width:32px;"><img
+                                class="model_svg show_day_mode_inline_block" src="/images/palmapinamelite.png"
+                                style="margin-left:6px;width:95px;"><img
+                                class="model_svg show_nite_mode_inline_block" src="/images/palmapiname.png"
+                                style="margin-left:6px;width:95px;">
+                            </div>
+                            <div class="col mt-md-0">
+                                <img src="/images/anthropologic.png" style="width:32px;"><img
+                                class="model_svg show_day_mode_inline_block" src="/images/anthrofulllite.svg"
+                                style="margin-left:6px;width:120px;"><img
+                                class="model_svg show_nite_mode_inline_block" src="/images/anthrofull.svg"
+                                style="margin-left:6px;width:120px;">
+                            </div>
                         </div>
                     </div>
-                    <div class="no_games_in_dashboard app_panel impact-font" style="font-size: 2em;">
-                        <br>
-                        Welcome to Unacog! Create a chat session to get started.
+                </div>
+
+
+                
+
+                <!-- features section-->
+                <div id="features" class="homepage_section feature_section">
+                    <h2 class="homepage_header">Features</h2>
+                    <div class="container">
+                        <ul class=" flex-lg-row flex_change_responsive feature_group_list">
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#system_message" target="help">
+                                    <i class="material-icons">lightbulb</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Swap Models</span>
+                                    </h4>
+                                    <span class="desc">
+                                        while in the same session
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#system_message" target="help">
+                                    <span class="material-icons-outlined">
+                                        message
+                                    </span>
+                                    <h4 class="feature_name">
+                                        <span class="link">System Msg</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to maintain context throughout
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#auto_exclude" target="help">
+                                    <span class="material-icons-outlined">auto_fix_high</span>
+                                    <h4 class="feature_name">
+                                        <span class="link">Auto exclude</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to manage request sizes automatically
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#chat_features" target="help">
+                                    <i class="material-icons">loop</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Rerun Prompts</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to get different results with same prompt
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#users_info" target="help">
+                                    <i class="material-icons">link</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Share Link</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to collaborate with others quickly
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#export_options" target="help">
+                                    <i class="material-icons">download</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Export json</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to share templates
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#options" target="help">
+                                    <i class="material-icons">upload</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Import Template</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to start with groundwork
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#options" target="help">
+                                    <i class="material-icons">content_copy</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Use clipboard</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to copy text/html to other apps
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#help_sign_in" target="help">
+                                    <span class="material-icons">
+                                        supervised_user_circle
+                                    </span>
+                                    <h4 class="feature_name">
+                                        <span class="link">Anonymous login</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to share with external collaborators
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#session_limit" target="help">
+                                    <span class="material-icons">
+                                        settings
+                                    </span>
+                                    <h4 class="feature_name">
+                                        <span class="link">Use Session Limit</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to protect your account from misuse
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#help_sign_in" target="help">
+                                    <i class="material-icons">email</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Email invitations</span>
+                                    </h4>
+                                    <span class="desc">
+                                        for convenient session access
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#owner_labels" target="help">
+                                    <i class="material-icons">label</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Organize using labels</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to categorize and find sessions quickly
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#temperature" target="help">
+                                    <i class="material-icons">thermostat</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Adjust temperature</span>
+                                    </h4>
+                                    <span class="desc">
+                                        for more creative or regular results
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#threshold" target="help">
+                                    <i class="material-icons">query_stats</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Manage context</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to control quality and cost of responses
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card disabled_link">
+                                <a class="d-flex flex-column p-2">
+                                    <span class="material-icons">touch_app</span>
+                                    <h4 class="feature_name">
+                                        <span class="link">Bulk Create</span>
+                                    </h4>
+                                    <span class="desc">
+                                        for quick creation
+                                    </span>
+                                    <span class="help_coming_pill badge rounded-pill bg-info text-dark">Help
+                                        Coming</span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card disabled_link">
+                                <a class="d-flex flex-column p-2">
+                                    <span class="material-icons">assignment</span>
+                                    <h4 class="feature_name">
+                                        <span class="link">Bulk Email</span>
+                                    </h4>
+                                    <span class="desc">
+                                        for quick assignment
+                                    </span>
+                                    <span class="help_coming_pill badge rounded-pill bg-info text-dark">Help
+                                        Coming</span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card disabled_link">
+                                <a class="d-flex flex-column p-2">
+                                    <span class="material-icons">print</span>
+                                    <h4 class="feature_name">
+                                        <span class="link">Print Receipt</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to manage request sizes automatically
+                                    </span>
+                                    <span class="help_coming_pill badge rounded-pill bg-info text-dark">Help
+                                        Coming</span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card disabled_link">
+                                <a class="d-flex flex-column p-2">
+                                    <span class="material-icons">data_usage</span>
+                                    <h4 class="feature_name">
+                                        <span class="link">Usage Stats</span>
+                                    </h4>
+                                    <span class="desc">
+                                        view stats like monthly usage per day
+                                    </span>
+                                    <span class="help_coming_pill badge rounded-pill bg-info text-dark">Help
+                                        Coming</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <p class="lead"><a href="/help/">See Help Docs</a></p>
+                </div>
+
+                <!-- pricing section-->
+                <div class="px-4 text-center homepage_about_section">
+                    <div class="container pt-5">
+
                     </div>
                 </div>
-            </div>
+
             </div>
         </div>
-    </div>
 
-    <div style="flex:1"></div>
+        <div style="flex:1"></div>
     </div>
 
 

@@ -706,7 +706,7 @@ select.document_label_filter.form-select:active {
   padding-bottom: 3px;
   margin-top: -3px;
   margin-bottom: -3px;
-  border-radius: 8px;
+  border-radius: 6px;
 }
 
 .btn.btn-secondary.dropdown-toggle.dashboard_menu_toggle {
@@ -908,8 +908,14 @@ select.document_label_filter.form-select:active {
 }
 
 .header_tabs li .material-icons {
-  font-size: 2.5em;
+  font-size: 2em;
   margin-bottom: 4px;
+}
+
+@media (min-width: 350px) {
+  .header_tabs li .material-icons {
+    font-size: 2.5em;
+  }
 }
 
 .nav-pills .nav-link {
@@ -1119,29 +1125,29 @@ ol li {
   margin-bottom: 4em;
 }
 
+.homepage_about_section {
+  padding: 4em 0;
+  color: var(--primary-color);
+}
+
 .homepage_section,
 .example_section {
   padding: 4em 0;
 }
 
-.example_section {
-  background-color: var(--background-accent-3);
-}
-
-.day_mode .models_section,
-.day_mode .example_section {
+.day_mode .homepage_section_background {
   background-color: var(--secondary-color-2);
 }
 
-.nite_mode .models_section,
-.nite_mode .example_section {
+
+.nite_mode .homepage_section_background {
   background-color: var(--background-accent-4);
 }
 
 .recent_content_flyers_ul_list img {
   max-width: 100%;
   height: auto;
-  border-radius: 8px;
+  border-radius: 6px;
   margin: auto;
   margin-top: 4px;
   margin-bottom: 4px;
@@ -1149,7 +1155,7 @@ ol li {
 }
 
 .recent_content_flyers_ul_list {
-  border-radius: 8px;
+  border-radius: 6px;
   padding: 8px;
   text-align: left;
   flex: 1;
@@ -1210,7 +1216,7 @@ ol li {
 .feature_group_list .feature_group_item,
 .recent_content_flyers_ul_list .news_group_item {
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   margin: .2em 0;
   border: solid 1px var(--options-tab-color);
 }
@@ -1241,7 +1247,7 @@ ol li {
 
 .feature_group_list {
   font-size: 0.9em;
-  border-radius: 8px;
+  border-radius: 6px;
   padding: 6px;
   padding-top: 0;
   text-align: left;
@@ -1424,7 +1430,7 @@ ol li {
   }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 576px) {
   .logo_offset_spacer_mobile {
     display: none;
   }
@@ -1452,4 +1458,43 @@ ol li {
     top: -4px;
     font-size: 20px;
   }  
+}
+
+.about_value_image {
+    width: 100%;
+    height: 175px; 
+    object-fit: contain; 
+    margin-bottom: 2.5em; 
+    margin-left: auto; 
+    margin-right: auto;
+}
+
+@media(min-width: 992px) {
+  .about_value_image {
+    height: 125px; 
+  }
+}
+
+.homepage_about_hero_section {
+  padding-top: 6em;
+  padding-bottom: 2em;
+}
+
+.about_hero_subheader {
+  font-size: 1.5em;
+}
+
+.about_value_header {
+  font-size: 1.75em;
+  letter-spacing: -.0225em;
+  line-height: 125%;
+}
+
+.about_value_desc {
+  font-size: 1em;
+}
+
+.homepage_about_hero_section .display-3, 
+.homepage_about_hero_section p {
+  color: var(--primary-color);
 }
