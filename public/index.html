@@ -136,7 +136,7 @@
                 <div>
                     <a class="nav-link show_create_modal homepage hover_yellow" href="create">
                         <span class="mobile_custom_icon_label">
-                            <i class="material-icons add_icon impact_font_green"
+                            <i class="material-icons add_icon"
                                 style="font-size:40px;margin-top:-8px;margin-bottom:-8px;top:8px;">add</i>
                         </span>
                     </a>
@@ -247,18 +247,30 @@
             <div class="tab-pane fade" id="sessions" role="tabpanel" style="flex-direction:column;"
                 aria-labelledby="dashboard_tab_button">
                 <div class="container">
-                    <div class="signed_out_flex p-3 justify-content-center session_cta ">
+                    <div class="signed_out_flex p-3 justify-content-center session_cta">
                         <div
-                            class="d-flex flex-column flex-auto justify-content-center rounded card side_block p-3 p-lg-5">
-                            <div class="mb-2"><img src="/images/logo64.png" alt=""></div>
-                            <div class="mb-3 text-center">Welcome to Unacog</div>
-                            <div class="mb-3 text-center">Login with email or Google to continue</div>
-                            <div class="d-flex flex-row justify-content-center">
-                                <a class="signin_show_modal btn btn-primary px-4" href="login" type="button">Login
-                                </a>
+                            class="d-flex flex-column flex-auto justify-content-center rounded card side_block px-3 pt-3 px-lg-5 pt-lg-5">
+                            <div class="text-center mb-4">
+                                <img src="/images/logo64.png" alt="">
+                            </div>
+                            <div class="text-center mb-4">
+                                <p class="lead mb-2">Starting Your Own Session?</p>
+                                <p class="desc">Login and purchase credits to kickstart your session.</p>
+                            </div>
+                            <div class="mb-1 text-center">
+                                <p class="lead mb-2">Joining a Shared Session?</p>
+                                <p class="desc">Login to access the session. </p>
+                            </div>
+                            <div class="d-flex flex-row justify-content-center pt-4 mb-4">
+                                <a class="signin_show_modal btn btn-primary btn-lg px-4" href="login" type="button">Login</a>
+                            </div>
+                            <div class="text-center mt-4">
+                                <p class="alert alert-warning"><small>Session credit usage is
+                                    covered by the sharer</small></p>
                             </div>
                         </div>
                     </div>
+
 
                     <div class="signed_in_inline_block" style="width:100%;">
                         <div class="game_lobby">
@@ -282,8 +294,9 @@
                     <div class="container py-5">
                         <h1 class="display-4 fw-bold">Welcome to Unacog</h1>
                         <div class="col-lg-8 mx-auto">
-                            <p class="about_hero_subheader mb-4">Your gateway to collaborating on advanced Language
-                                Learning Models (LLMs): a real-time, multi-user, multi-model chat experience. Reach out for partnership opportunities.
+                            <p class="about_hero_subheader mb-4">Your gateway to advanced Language
+                                Learning Models (LLMs) collaboration: a real-time, multi-user, multi-model chat
+                                experience. Reach out for partnership opportunities.
                             </p>
                         </div>
                         <a class="btn btn-primary btn-lg" type="button" href="#contact">Contact Us</a>
@@ -362,7 +375,7 @@
                 </div>
 
                 <!-- features section-->
-                <div id="features" class="homepage_section feature_section">
+                <div id="features" class="homepage_section">
                     <h2 class="homepage_header">Features</h2>
                     <div class="container">
                         <ul class=" flex-lg-row flex_change_responsive feature_group_list">
@@ -588,7 +601,14 @@
                     </div>
                     <p class="lead"><a href="/help/">See Help Docs</a></p>
                 </div>
-
+                <div class="homepage_section">
+                    <div class="video_wrapper">
+                        <a href="https://www.youtube.com/watch?v=9VMFh3eAFrE&t=4s" target="video">
+                            <img src="/images/walkthruoverlay.jpg">
+                        </a>
+                    </div>
+                    <caption>Unacog v1. - 06/20/2023</caption>
+                </div>
                 <!-- team section-->
                 <div class="container">
                     <div class="main_block app_panel m-md-5 mt-md-0 mb-md-3">
@@ -607,7 +627,8 @@
                                 hesitate to get in touch with us. Please contact us at <a
                                     href="mailto:support@unacog.com" target="_blank">support@unacog.com</a></p>
                             <h4>Bugs, Questions, or Contact</h4>
-                            <p>We're here to help! <br>If you encounter any bugs, have questions, or want to get in touch,
+                            <p>We're here to help! <br>If you encounter any bugs, have questions, or want to get in
+                                touch,
                                 the best way to
                                 currently reach us is by <a href="mailto:support@unacog.com" target="_blank">email
                                     at Support@unacog.com</a>.</p>

@@ -114,8 +114,8 @@
             <div class="side_block">
                 <p class="header_recent_document">Overview</p>
                 <div class="coming-soon" style="text-align:left;">
-                    <p><span class="impact_font_green">Can GPT-3.5 Turbo learn to play a new game?</span></p>
-                    <ul class="impact_font_change">
+                    <p>Can GPT-3.5 Turbo learn to play a new game?</p>
+                    <ul>
                         <li>GPT-3.5-Turbo can grasp the basics of a new game, albeit strong with challenges</li>
                         <li>The model struggles with prioritizing given rules over its pre-existing training data</li>
                         <li>The handling of tasks like card dealing is not really possible</li>
@@ -133,7 +133,7 @@
             <div class="side_block">
                 <p class="header_recent_document">Teaching AI a new card game with system message</p>
                 <div class="coming-soon" style="text-align:left;">
-                    <ul class="impact_font_green">
+                    <ul >
                         <li>Give all rules to AI about game in system message</li>
                         <li>Refine system message when AI fumbles on a rule</li>
                     </ul>
@@ -167,7 +167,7 @@ unique effect to one specific card. This means your other cards (not the Queen, 
 are protected against Twos (either effect), Nines, and Jacks 
 ...</div>
                         </div>
-                        <p class="impact_font_change mb-3 mt-1">System messages were refined as the AI made mistakes.
+                        <p class=" mb-3 mt-1">System messages were refined as the AI made mistakes.
                             Even so, the AI still struggled with the rules and could not comprehend certain parts of the
                             rule set.
                             Unsure if this is due to the AI or the rule set being too complex for the AI to understand,
@@ -179,7 +179,7 @@ are protected against Twos (either effect), Nines, and Jacks
                 <div class="side_block">
                     <p class="header_recent_document">Playing through the Game</p>
                     <div class="coming-soon" style="text-align:left;">
-                        <ul class="impact_font_green">
+                        <ul>
                             <li>Game situation presented, GPT-3.5-turbo chooses next action</li>
                             <li>Dealing/card acquisition was handled manually</li>
                             <li>Adjustments was necessary for AI to produce legal moves</li>
@@ -191,7 +191,7 @@ are protected against Twos (either effect), Nines, and Jacks
                             <figcaption class="figure-caption text-center">Screenshot of a game of Cuttle
                             </figcaption>
                         </figure>
-                        <p class="impact_font_change mb-3 mt-1"> Cuttle.cards - was the rule set I used for this game.
+                        <p class=" mb-3 mt-1"> Cuttle.cards - was the rule set I used for this game.
                             The website was used to simulate a game and had chatgpt play the game's AI using my hand.
                         </p>
                         <h3 class="mt-4">Prompt Log:</h3>
@@ -211,7 +211,7 @@ It is your turn.</div>
                             <br>
                             <div class="assist">I will draw a card from the draw pile.</div>
                         </div>
-                        <p class="impact_font_change mb-3 mt-1">After some tinkering to the system message and prompt,
+                        <p class=" mb-3 mt-1">After some tinkering to the system message and prompt,
                             chat was able to play a valid first move.
                             It was important to give it a choice of actions: draw or play a card for points, scuttle or
                             as an action. It was quickly discovered that the AI wanted to hallucinate cards so card
@@ -228,7 +228,7 @@ It is your turn.</div>
 from accumulating points and gives me the opportunity to potentially scuttle your other
 point cards in the future.</div>
                         </div>
-                        <p class="impact_font_change mb-3 mt-1">The AI tends to overwrite the rules given in the system
+                        <p class=" mb-3 mt-1">The AI tends to overwrite the rules given in the system
                             message with its own training data. It constantly tried to use the King to scuttle despite
                             the rules we provided (from online community) stating otherwise</p>
                         <hr>
@@ -252,7 +252,7 @@ scuttle your point card because it had a lower point value than my K♣️, allo
 gain more points and get closer to reaching the goal of 21 points.
                             </div>
                         </div>
-                        <p class="impact_font_change mb-3 mt-1">By unselecting illegal moves and changing the rules in
+                        <p class=" mb-3 mt-1">By unselecting illegal moves and changing the rules in
                             system message, the AI was able to play through a whole game. </p>
                         <hr>
                         <div class="prompt_log_display">
@@ -264,7 +264,7 @@ gain more points and get closer to reaching the goal of 21 points.
 In that case, I will play the King (K♥️) as an action card to reduce the number of points needed to win. Since I already have 15 points, playing the King will allow me to win the game immediately, as the requirement is now reduced to 5 points.
                             </div>
                         </div>
-                        <p class="impact_font_change">The AI did not detect the end state. This may be due to the
+                        <p class="">The AI did not detect the end state. This may be due to the
                             overwriting error described above wherein the AI was trained to use the King as a scuttle
                             card.
                             This can be confirmed by prompting the AI to see what it knows about the rules of Cuttle
@@ -278,9 +278,9 @@ In that case, I will play the King (K♥️) as an action card to reduce the num
                 <div class="side_block text-start">
                     <h3 class="mt-4">Concluding Thoughts</h3>
                     <div class="p-3">
-                        <p class="impact_font_change"> We learned that it is very hard for gpt-3.5-turbo play a game
+                        <p class=""> We learned that it is very hard for gpt-3.5-turbo play a game
                             with a new set of rules. </p>
-                        <p class="impact_font_change">To investigate this further, two follow up sessions were
+                        <p class="">To investigate this further, two follow up sessions were
                             conducted.
                             See <a href="/content/cuttlecard2/">part 2</a>. In part 2, we see if it can
                             instead be used as a AI strategist or announcer.
