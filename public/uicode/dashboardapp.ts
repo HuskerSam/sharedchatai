@@ -28,6 +28,7 @@ export class DashboardApp extends BaseApp {
   show_create_modal: any = document.querySelector(".show_create_modal");
   news_tab_button: any = document.querySelector("#news_tab_button");
   dashboard_tab_button: any = document.querySelector("#dashboard_tab_button");
+  about_tab_button: any = document.querySelector("#about_tab_button");
   news: any = document.querySelector("#news");
   credits_left: any = document.querySelector(".credits_left");
   footer_container_div: any = null;
@@ -61,9 +62,11 @@ export class DashboardApp extends BaseApp {
 
     this.news_tab_button.addEventListener("click", () => this.tabChangeHandler(0));
     this.dashboard_tab_button.addEventListener("click", () => this.tabChangeHandler(1));
+    this.about_tab_button.addEventListener("click", () => this.tabChangeHandler(2));
 
     if (this.originalHash === "#news") this.news_tab_button.click();
     if (this.originalHash === "#sessions") this.dashboard_tab_button.click();
+    if (this.originalHash === "#about") this.about_tab_button.click();
 
     this.account_status_display.addEventListener("click", (e: any) => {
       e.preventDefault();
@@ -221,6 +224,10 @@ export class DashboardApp extends BaseApp {
         this.news_tab_button.click();
       } else if (this.profile.homePageTabIndex === 1) {
         this.dashboard_tab_button.click();
+      } else if (this.profile.homePageTabIndex === 2) {
+        this.about_tab_button.click();
+      } else { 
+        this.news_tab_button.click();
       }
     }
     // window.history.replaceState({}, document.title, "/");

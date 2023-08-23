@@ -1100,7 +1100,8 @@ ol li {
   opacity: 0;
 }
 
-.homepage.homepage_tab_selected_0 .footer_container_div {
+.homepage.homepage_tab_selected_0 .footer_container_div,
+.homepage.homepage_tab_selected_2 .footer_container_div {
   opacity: 1;
 }
 
@@ -1119,10 +1120,6 @@ ol li {
 
 .news_section {
   padding-bottom: 2em;
-}
-
-.example_section {
-  margin-bottom: 4em;
 }
 
 .homepage_about_section {
@@ -1325,6 +1322,19 @@ ol li {
   .feature_group_list .feature_group_item a {
     width: 185px;
   }
+  .recent_content_flyers_ul_list li {
+    width: 47%;
+  }
+  .recent_content_flyers_ul_list {
+    flex-flow: row wrap;
+  }
+  .recent_content_flyers_ul_list .news_group_item a {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+  .recent_content_flyers_ul_list .news_group_item {
+    margin: .3em;
+  }
 }
 
 
@@ -1361,11 +1371,6 @@ ol li {
   .nav .show>.nav-link {
     border-bottom: none;
   }
-
-  .recent_content_flyers_ul_list .news_group_item a {
-    padding-left: 1em;
-    padding-right: 1em;
-  }
 }
 
 
@@ -1374,16 +1379,8 @@ ol li {
     width: 80%;
   }
 
-  .recent_content_flyers_ul_list .news_group_item {
-    margin: .3em;
-  }
-
   .recent_content_flyers_ul_list li {
-    width: 48.5%;
-  }
-
-  .recent_content_flyers_ul_list {
-    flex-flow: column wrap;
+    width: 31.4%;
   }
 
   .feature_group_list .feature_group_item,
@@ -1404,7 +1401,7 @@ ol li {
   }
 
   .recent_content_flyers_ul_list li {
-    width: 32.3%;
+    width: 24%;
   }
 }
 
@@ -1476,8 +1473,7 @@ ol li {
 }
 
 .homepage_about_hero_section {
-  padding-top: 6em;
-  padding-bottom: 2em;
+  padding: 6em 0;
 }
 
 .about_hero_subheader {
@@ -1494,7 +1490,7 @@ ol li {
   font-size: 1em;
 }
 
-.homepage_about_hero_section .display-3, 
+.homepage_about_hero_section .display-4, 
 .homepage_about_hero_section p {
   color: var(--primary-color);
 }
