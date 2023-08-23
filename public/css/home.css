@@ -1104,7 +1104,7 @@ ol li {
 }
 
 .video_wrapper img {
-  border-radius: 12px;
+  border-radius: 6px;
   width: 85%;
   display: inline-block;
 }
@@ -1428,7 +1428,7 @@ ol li {
 
 @media (min-width: 992px) {
   .video_wrapper img {
-    width: 78%;
+    width: 70%;
   }
 
   .recent_content_flyers_ul_list li {
@@ -1438,13 +1438,13 @@ ol li {
 
 @media (min-width: 1200px) {
   .video_wrapper img {
-    width: 70%;
+    width: 60%;
   }
 }
 
 @media (min-width: 1400px) {
   .video_wrapper img {
-    width: 60%;
+    width: 55%;
   }
 
   .recent_content_flyers_ul_list li {
