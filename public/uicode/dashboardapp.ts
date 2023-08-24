@@ -217,7 +217,7 @@ export class DashboardApp extends BaseApp {
 
     if (this.gameFeedSubscription) this.gameFeedSubscription();
 
-    if (this.originalHash !== "#news" ) {
+    if (this.originalHash !== "#news" && this.originalHash !== "#about") {
       if (this.originalHash === "#sessions") {
         this.dashboard_tab_button.click();
       } else if (this.profile.homePageTabIndex === 0) { 
