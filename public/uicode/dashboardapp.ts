@@ -227,7 +227,7 @@ export class DashboardApp extends BaseApp {
       } else if (this.profile.homePageTabIndex === 2) {
         this.about_tab_button.click();
       } else { 
-        this.news_tab_button.click();
+        this.dashboard_tab_button.click();
       }
     }
     // window.history.replaceState({}, document.title, "/");
