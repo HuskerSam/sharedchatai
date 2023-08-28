@@ -1,6 +1,7 @@
 import BaseApp from "./baseapp.js";
 import DocOptionsHelper from "./docoptionshelper.js";
 import ChatDocument from "./chatdocument.js";
+import SharedWithBackend from "./sharedwithbackend.js";
 
 declare const firebase: any;
 declare const window: any;
@@ -302,7 +303,7 @@ export class SessionApp extends BaseApp {
   /** get model meta using session document.model
    * @return { any } meta for model */
   get modelMeta(): any {
-    return ChatDocument.getModelMeta(this.sessionDocumentData.model);
+    return SharedWithBackend.getModelMeta(this.sessionDocumentData.model);
   }
   /** update temperature label and save to api
    * @param { boolean } saveToAPI true to save slider value to api

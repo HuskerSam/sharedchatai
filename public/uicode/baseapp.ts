@@ -622,6 +622,9 @@ export default class BaseApp {
     if (fieldKey === "archived") {
       updatePacket.archived = data.archived;
     }
+    if (fieldKey === "model_lock") {
+      updatePacket.model_lock = data.model_lock;
+    }
 
     const token = await firebase.auth().currentUser.getIdToken();
     const fResult = await fetch(this.basePath + "lobbyApi/games/owner/options", {

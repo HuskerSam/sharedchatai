@@ -53,6 +53,7 @@ export default class DocOptionsHelper {
     options_tab_button: any;
     owner_tab_button: any;
     isOwner = false;
+    options_model_lock: any;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -181,6 +182,14 @@ export default class DocOptionsHelper {
         this.options_tab_button.addEventListener("click", () => this.app.saveProfileField("optionsDialogTabIndex", 1));
         this.owner_tab_button = this.modalContainer.querySelector("#owner_tab_button");
         this.owner_tab_button.addEventListener("click", () => this.app.saveProfileField("optionsDialogTabIndex", 2));
+
+        this.options_model_lock = this.modalContainer.querySelector(".options_model_lock");
+        this.options_model_lock.addEventListener("input", () => this.updateModelLockStatus());
+    }
+    /** */
+    async updateModelLockStatus() {
+        this.docData.model_lock = this.options_model_lock.checked;
+        this.app.saveDocumentOwnerOption(this.chatDocumentId, "model_lock", this.docData);
     }
     /** */
     async cloneDocument() {
@@ -441,6 +450,11 @@ export default class DocOptionsHelper {
                             <label class="form-label">Labels</label>
                             <select class="edit_options_document_labels" multiple="multiple" style="width:95%"></select>
                             <hr>
+                            <label class="form-check-label options_model_lock_wrapper">
+                                <input class="form-check-input options_model_lock" type="checkbox" value="">
+                                Lock LLM Model from changes
+                            </label>   
+                            <hr>
                             <label class="form-label">Owner Note</label>
                             <br>
                             <button class="btn btn-secondary prompt_for_new_note" 
@@ -511,8 +525,11 @@ export default class DocOptionsHelper {
             if (text) labels.push(text);
         });
 
-        this.docData.label = labels.join(",");
-        this.app.saveDocumentOwnerOption(this.chatDocumentId, "label", this.docData);
+        const newLabel = labels.join(",");
+        if (newLabel !== this.docData.label) {
+            this.docData.label = newLabel;
+            this.app.saveDocumentOwnerOption(this.chatDocumentId, "label", this.docData);
+        }
     }
     /** delete game api call
      * @return { Promise<boolean> } true if deleted
@@ -708,6 +725,8 @@ Session hosted by: ${ownerDescription}
 feedback: support@unacog.com`);
         const emailTarget = (BaseApp.validateEmail(ownerNote) ? ownerNote : "");
         this.modal_send_email_button.setAttribute("href", `mailto:${emailTarget}?subject=${subject}&body=${body}`);
+
+        this.options_model_lock.checked = this.docData.model_lock;
     }
     /** populate modal fields and show
      * @param { string } chatDocumentId firestore doc id
