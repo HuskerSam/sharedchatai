@@ -622,7 +622,14 @@ select.document_label_filter.form-select:active {
 .nav-link.show_create_modal.homepage {
   display: inline-block;
   position: relative;
-  top: -4px;
+  top: 2px;
+}
+
+.show_create_modal i {
+  font-size: 36px;
+  margin-top: -8px;
+  margin-bottom: -8px;
+  top: 8px;
 }
 
 .nav-link.dashboard_create_game_mobile.hover_yellow svg {
@@ -1268,11 +1275,11 @@ ol li {
 
 
 .day_mode .session_cta .side_block {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .nite_mode .session_cta .side_block {
-  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); 
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
 }
 
 .session_cta .lead {
@@ -1301,7 +1308,7 @@ ol li {
 }
 
 @media (min-width:992px) {
-  .feature_group_list{
+  .feature_group_list {
     width: 90%;
     margin: auto;
   }
@@ -1374,16 +1381,20 @@ ol li {
   .feature_group_list .feature_group_item a {
     width: 175px;
   }
+
   .recent_content_flyers_ul_list li {
     width: 47%;
   }
+
   .recent_content_flyers_ul_list {
     flex-flow: row wrap;
   }
+
   .recent_content_flyers_ul_list .news_group_item a {
     padding-left: 1em;
     padding-right: 1em;
   }
+
   .recent_content_flyers_ul_list .news_group_item {
     margin: .3em;
   }
@@ -1486,7 +1497,7 @@ ol li {
 }
 
 .scroll_to_top_icon span {
-  font-size: 20px; 
+  font-size: 20px;
   position: relative;
   top: -4px;
 }
@@ -1501,21 +1512,21 @@ ol li {
     left: -16px;
     top: -4px;
     font-size: 20px;
-  }  
+  }
 }
 
 .about_value_image {
-    width: 100%;
-    height: 175px; 
-    object-fit: contain; 
-    margin-bottom: 2.5em; 
-    margin-left: auto; 
-    margin-right: auto;
+  width: 100%;
+  height: 175px;
+  object-fit: contain;
+  margin-bottom: 2.5em;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media(min-width: 992px) {
   .about_value_image {
-    height: 125px; 
+    height: 125px;
   }
 }
 
@@ -1537,7 +1548,7 @@ ol li {
   font-size: 1em;
 }
 
-.homepage_about_hero_section .display-4, 
+.homepage_about_hero_section .display-4,
 .homepage_about_hero_section p {
   color: var(--primary-color);
 }

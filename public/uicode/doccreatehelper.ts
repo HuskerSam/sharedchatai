@@ -55,6 +55,8 @@ export default class DocCreateHelper {
   bulk_copy_table_clipboard: any;
   bulk_copy_csv_clipboard: any;
   lastEmailRows: any = [];
+  create_dialog_model: any;
+  create_model_lock: any;
 
   /**
    * @param { any } app BaseApp derived application instance
@@ -157,6 +159,9 @@ export default class DocCreateHelper {
     this.bulk_copy_table_clipboard.addEventListener("click", () => this.copyBulkResultsToClipboard(true));
     this.bulk_copy_csv_clipboard = this.modalContainer.querySelector(".bulk_copy_csv_clipboard");
     this.bulk_copy_csv_clipboard.addEventListener("click", () => this.copyBulkResultsToClipboard());
+
+    this.create_dialog_model = this.modalContainer.querySelector(".create_dialog_model");
+    this.create_model_lock = this.modalContainer.querySelector(".create_model_lock");
   }
   /**
    * @param { boolean } isTable
@@ -481,6 +486,23 @@ export default class DocCreateHelper {
                         </label>
                         <textarea class="form-control system_message_field" placeholder="optional"></textarea>
                         <hr>
+                        <div>
+                          <label class="form-label">
+                            LLM Model
+                          </label>
+                          <br>
+                          <select class="form-select create_dialog_model" aria-label="chatGPTEngine Selection">
+                            <option>gpt-4</option>
+                            <option selected>gpt-3.5-turbo</option>
+                            <option>gpt-3.5-turbo-16k</option>
+                            <option>chat-bison-001</option>
+                          </select>
+                          <label class="form-check-label create_model_lock_wrapper">
+                            <input class="form-check-input create_model_lock" type="checkbox" value="">
+                            Lock Model
+                          </label>   
+                        </div>
+                        <hr>
                         <div style="display:flex;flex-direction:row;">
                             <div>
                                 <label class="form-label">Usage Cap</label>
@@ -653,6 +675,8 @@ export default class DocCreateHelper {
     this.creatingNewRecord = true;
     if (!note) note = this.create_modal_note_field.value.trim();
     if (!title) title = this.create_modal_title_field.value.trim();
+    const model =  this.create_dialog_model.value;
+    const modelLock = this.create_model_lock.checked;
 
     this.create_game_afterfeed_button.innerHTML = "Creating...";
     document.body.classList.add("creating_new_session");
@@ -666,6 +690,8 @@ export default class DocCreateHelper {
       label,
       note,
       title,
+      model,
+      model_lock: modelLock,
       firstPrompt: this.create_modal_prompt_field.value.trim(),
     };
 

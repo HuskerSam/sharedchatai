@@ -327,6 +327,11 @@ From
       defaultCompletion = 2000;
       completionMax = 4000;
     }
+    if (name === "gpt-4") {
+      contextualLimit = 8192;
+      defaultCompletion = 1000;
+      completionMax = 4000;
+    }
     if (name === "chat-bison-001") {
       contextualLimit = 8192;
       defaultCompletion = 1000;

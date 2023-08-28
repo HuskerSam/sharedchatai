@@ -115,6 +115,9 @@ export default class GameAPI {
     let firstPrompt = "";
     if (req.body.firstPrompt) firstPrompt = req.body.firstPrompt;
 
+    const model = req.body.model;
+    const model_lock = req.body.model_lock;
+
     const game: any = {};
     Object.assign(game, BaseClass.defaultChatDocumentOptions());
     Object.assign(game,
@@ -132,6 +135,8 @@ export default class GameAPI {
         note,
         title,
         systemMessage,
+        model,
+        model_lock,
       });
     if (req.body.visibility) game.visibility = req.body.visibility;
     game.publicStatus = GameAPI._publicStatus(game);
@@ -296,6 +301,7 @@ export default class GameAPI {
 
     const fieldsFilter = [
       "model",
+      "model_lock",
       "max_tokens",
       "temperature",
       "top_p",
