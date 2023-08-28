@@ -675,7 +675,7 @@ export default class DocCreateHelper {
     this.creatingNewRecord = true;
     if (!note) note = this.create_modal_note_field.value.trim();
     if (!title) title = this.create_modal_title_field.value.trim();
-    const model =  this.create_dialog_model.value;
+    const model = this.create_dialog_model.value;
     const modelLock = this.create_model_lock.checked;
 
     this.create_game_afterfeed_button.innerHTML = "Creating...";

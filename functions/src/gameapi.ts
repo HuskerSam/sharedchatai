@@ -117,7 +117,7 @@ export default class GameAPI {
     if (req.body.firstPrompt) firstPrompt = req.body.firstPrompt;
 
     const model = req.body.model;
-    const model_lock = req.body.model_lock;
+    const modelLock = req.body.model_lock;
 
     const game: any = {};
     Object.assign(game, BaseClass.defaultChatDocumentOptions());
@@ -137,13 +137,10 @@ export default class GameAPI {
         title,
         systemMessage,
         model,
-        model_lock,
+        model_lock: modelLock,
       });
-      console.log(game);
      const modelDefaults = ChatDocument.getModelMeta(model);
      Object.assign(game, modelDefaults.defaults);
-     console.log("g2", game);
-     console.log("m", modelDefaults.defaults);
 
     if (req.body.visibility) game.visibility = req.body.visibility;
     game.publicStatus = GameAPI._publicStatus(game);
