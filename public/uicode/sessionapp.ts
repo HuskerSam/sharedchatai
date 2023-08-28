@@ -163,6 +163,11 @@ export class SessionApp extends BaseApp {
       this.docfield_top_k, this.top_k_slider_label, "Top K: "));
 
     this.docfield_model.addEventListener("input", () => {
+      if (this.sessionDocumentData.model_lock) {
+        alert("The model is locked - the owner can change this in Session Options.");
+        this.docfield_model.value = this.sessionDocumentData.model;
+        return;
+      }
       this.saveDocumentOption(this.documentId, "model", this.docfield_model.value);
       this.sessionDocumentData.model = this.docfield_model.value;
       this.resetEngineDefaults();
