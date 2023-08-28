@@ -1552,3 +1552,7 @@ ol li {
 .homepage_about_hero_section p {
   color: var(--primary-color);
 }
+
+p.alert.alert-warning:not(.signed_in_anonymous) {
+  display: none;
+}
