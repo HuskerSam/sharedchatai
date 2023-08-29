@@ -908,6 +908,13 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
         image: "/images/webscrape_banner.png",
         date: "06-18-2023",
       },
+      {
+        link: "/content/vidwalkthrough/",
+        title: "Feature Walkthrough",
+        description: "Beta Release - Feature Walkthrough",
+        image: "/images/walkthruoverlay.jpg",
+        date: "05-25-2023",
+      },
     ];
     let items = "";
     newsList.forEach((item: any) => {
