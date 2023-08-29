@@ -1197,7 +1197,6 @@ li.mb-1 button.btn.btn-toggle:before {
   display: none;
   flex-direction: column;
   overflow: hidden;
-  background: var(--background-accent-5);
   color: var(--primary-color-3);
   height: 100%;
   top: 0;
@@ -1207,11 +1206,16 @@ li.mb-1 button.btn.btn-toggle:before {
   width: calc(320px + 2%);
   padding-left: 1%;
   padding-right: 1%;
-  box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
+}
+
+.nite_mode .left_panel_view {
+  background: var(--background-accent-5);
+  border-right: solid 1px rgba(255, 255, 255, 0.1);
 }
 
 .day_mode .left_panel_view {
-  background: var(--background-accent-5);
+  background: var(--background-accent-1);
+  border-right: solid 1px rgba(0, 0, 0, 0.1);
 }
 
 .mobile_layout_mode .left_panel_view {
