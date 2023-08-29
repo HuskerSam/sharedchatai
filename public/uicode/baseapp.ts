@@ -909,7 +909,7 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
         date: "06-18-2023",
       },
       {
-        link: "/content/vidwalkthrough/",
+        link: "https://www.youtube.com/watch?v=9VMFh3eAFrE&t=4s",
         title: "Feature Walkthrough",
         description: "Beta Release - Feature Walkthrough",
         image: "/images/walkthruoverlay.jpg",
