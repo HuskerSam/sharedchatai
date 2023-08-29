@@ -910,7 +910,7 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
       },
       {
         link: "https://www.youtube.com/watch?v=9VMFh3eAFrE&t=4s",
-        title: "Feature Walkthrough",
+        title: "App Walkthrough",
         description: "Beta Release - Feature Walkthrough",
         image: "/images/walkthruoverlay.jpg",
         date: "05-25-2023",
