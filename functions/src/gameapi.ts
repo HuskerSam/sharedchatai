@@ -1,6 +1,7 @@
 import * as firebaseAdmin from "firebase-admin";
 import BaseClass from "./baseclass";
 import SessionAPI from "./sessionapi";
+import ChatDocument from "./uicode/sharedwithbackend";
 import {
   FieldValue,
 } from "firebase-admin/firestore";
@@ -116,7 +117,7 @@ export default class GameAPI {
     if (req.body.firstPrompt) firstPrompt = req.body.firstPrompt;
 
     const model = req.body.model;
-    const model_lock = req.body.model_lock;
+    const modelLock = req.body.model_lock;
 
     const game: any = {};
     Object.assign(game, BaseClass.defaultChatDocumentOptions());
@@ -136,8 +137,11 @@ export default class GameAPI {
         title,
         systemMessage,
         model,
-        model_lock,
+        model_lock: modelLock,
       });
+     const modelDefaults = ChatDocument.getModelMeta(model);
+     Object.assign(game, modelDefaults.defaults);
+
     if (req.body.visibility) game.visibility = req.body.visibility;
     game.publicStatus = GameAPI._publicStatus(game);
 
@@ -262,7 +266,9 @@ export default class GameAPI {
     if (req.body.title !== undefined) {
       updatePacket.title = req.body.title;
     }
-
+    if (req.body.model_lock !== undefined) {
+      updatePacket.model_lock = req.body.model_lock;
+    }
     updatePacket.publicStatus = GameAPI._publicStatus(sessionDocumentData);
 
     await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).set(updatePacket, {

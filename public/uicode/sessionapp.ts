@@ -1,6 +1,7 @@
 import BaseApp from "./baseapp.js";
 import DocOptionsHelper from "./docoptionshelper.js";
 import ChatDocument from "./chatdocument.js";
+import SharedWithBackend from "./sharedwithbackend.js";
 
 declare const firebase: any;
 declare const window: any;
@@ -162,6 +163,11 @@ export class SessionApp extends BaseApp {
       this.docfield_top_k, this.top_k_slider_label, "Top K: "));
 
     this.docfield_model.addEventListener("input", () => {
+      if (this.sessionDocumentData.model_lock) {
+        alert("The model is locked - the owner can change this in Session Options.");
+        this.docfield_model.value = this.sessionDocumentData.model;
+        return;
+      }
       this.saveDocumentOption(this.documentId, "model", this.docfield_model.value);
       this.sessionDocumentData.model = this.docfield_model.value;
       this.resetEngineDefaults();
@@ -302,7 +308,7 @@ export class SessionApp extends BaseApp {
   /** get model meta using session document.model
    * @return { any } meta for model */
   get modelMeta(): any {
-    return ChatDocument.getModelMeta(this.sessionDocumentData.model);
+    return SharedWithBackend.getModelMeta(this.sessionDocumentData.model);
   }
   /** update temperature label and save to api
    * @param { boolean } saveToAPI true to save slider value to api

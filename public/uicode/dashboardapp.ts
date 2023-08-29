@@ -74,7 +74,7 @@ export class DashboardApp extends BaseApp {
       this.profileHelper.show(true);
     });
 
-    window.addEventListener('scroll', function() {
+    window.addEventListener("scroll", function() {
       if (document.documentElement.scrollTop > 0 || document.body.scrollTop > 0) {
         document.body.classList.add("not_scrolled_top");
         document.body.classList.remove("scrolled_top");
@@ -220,13 +220,13 @@ export class DashboardApp extends BaseApp {
     if (this.originalHash !== "#news" && this.originalHash !== "#about") {
       if (this.originalHash === "#sessions") {
         this.dashboard_tab_button.click();
-      } else if (this.profile.homePageTabIndex === 0) { 
+      } else if (this.profile.homePageTabIndex === 0) {
         this.news_tab_button.click();
       } else if (this.profile.homePageTabIndex === 1) {
         this.dashboard_tab_button.click();
       } else if (this.profile.homePageTabIndex === 2) {
         this.about_tab_button.click();
-      } else { 
+      } else {
         this.dashboard_tab_button.click();
       }
     }
