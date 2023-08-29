@@ -137,4 +137,10 @@ export default class SharedWithBackend {
       defaults,
     };
   }
+  /**
+   * @return { any }
+  */
+  getModels(): any {
+    return models;
+  }
 }
