@@ -2,6 +2,7 @@ import ProfileHelper from "./profilehelper.js";
 import LoginHelper from "./loginhelper.js";
 import DocCreateHelper from "./doccreatehelper.js";
 import BuyCreditsHelper from "./buycreditshelper.js";
+import SharedWithBackend from "./sharedwithbackend.js";
 
 declare const firebase: any;
 declare const window: any;
@@ -57,7 +58,6 @@ export default class BaseApp {
   };
   html_body_container: any = document.querySelector(".main_container");
   content_list_container: any = document.querySelector(".recent_content_ul_list");
-  flyer_list_container: any = document.querySelector(".recent_content_flyers_ul_list");
   themeIndex = 0;
   buy_credits_cta_btn: any = document.querySelector(".buy_credits_cta_btn");
 
@@ -83,10 +83,7 @@ export default class BaseApp {
       this.html_body_container.appendChild(element);
     }
     if (this.content_list_container) {
-      this.content_list_container.innerHTML = this.getContentListTemplate(contentPage);
-    }
-    if (this.flyer_list_container) {
-      this.flyer_list_container.innerHTML = this.getFlyerListTemplate(contentPage);
+      this.content_list_container.innerHTML = SharedWithBackend.getContentListTemplate(contentPage);
     }
 
     if (this.signin_show_modal) {
@@ -811,208 +808,6 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
                 </div>
             </footer>
             </div>`;
-  }
-  /** get content list template
-  * @param { boolean } contentPage return content list if true
-  * @return { string } html footer
-  */
-  getFlyerListTemplate(contentPage: boolean): string {
-    const newsList = [
-      {
-        link: "/content/edustudy2/",
-        title: "Edu How To",
-        description: "Practical Tips for LLMs Classroom Integration",
-        image:
-        "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
-          "images%2Fpresentations%2Fintegrating%20ai%20into%20classroom%20tips%2F1.jpg" +
-          "?alt=media&token=c3032a67-5d7c-4bda-b7be-9828d373f28c",
-        date: "08-30-2023",
-      },
-      {
-        link: "/content/credits/",
-        title: "Cost Info",
-        description: "Unacog Credits Explained",
-        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
-          "images%2Fpresentations%2Fcredits%20system%2F1.jpg?alt=media&token=e5fc4982-3401-4f33-8123-f8f7a2bdacc1",
-        date: "08-24-2023",
-      },
-      {
-        link: "/content/howto/",
-        title: "How To",
-        description: "Crafting Effective Chatgpt Prompts",
-        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
-          "images%2Fpresentations%2Fcrafting%20effective%20prompts%20tips%2F1.jpg?alt=media&token=dc2f474a-2225-4c2b-bee6-79b6013f3af2",
-        date: "08-21-2023",
-      },
-      {
-        link: "/content/toplist/",
-        title: "Top List",
-        description: "Most Common Misconceptions about LLMs",
-        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
-          "images%2Fpresentations%2FDebunking%20AI%20Myths%2010%20Common%20Misconceptions%2F1.jpg" +
-          "?alt=media&token=faebb283-162b-4c51-97ac-3cd61313a222",
-        date: "08-18-2023",
-      },
-      {
-        link: "/content/edustudy1/",
-        title: "Edu Use Case",
-        description: "Using LLMs as a Personal Tutor: AI tutors in EDU",
-        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
-          "images%2Fpresentations%2Fpersonal%20tutor%20edu%2F1.jpg?alt=media&token=49769202-ea50-4e59-8d42-06454bb9032b",
-        date: "08-15-2023",
-      },
-      {
-        link: "/content/sharingprompts/",
-        title: "Share Chat Sessions",
-        description: "Copy, import, export and share prompts",
-        image: "/content/sharingprompts/shareprompts.png",
-        date: "08-13-2023",
-      },
-      {
-        link: "/content/litreview/",
-        title: "Literature Review",
-        description: "Chatgpt and LLMs in Academia: Opportunities and Challenges",
-        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
-          "images%2Fpresentations%2Fgpt%20classroom%20challenges%20and%20possibilities%2F1.jpg" +
-          "?alt=media&token=d3f4ea33-4d9e-4d7f-9ae4-660477f57055",
-        date: "08-10-2023",
-      },
-      {
-        link: "/content/managingcontext/",
-        title: "Managing Context",
-        description: "Control what the LLM sees to limit costs and generate better results",
-        image: "/content/overview/costtracking.png",
-        date: "08-07-2023",
-      },
-      {
-        link: "/content/litreview1/",
-        title: "Literature Review",
-        description: "We Need to Talk About ChatGPT: The Future of AI and Higher Education",
-        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
-          "images%2Fpresentations%2Ffuture%20of%20higher%20education%2F1.jpg?alt=media&token=c0951f29-ddee-4d7a-84ad-46003a217704",
-        date: "08-05-2023",
-      },
-      {
-        link: "/content/outputformatting/",
-        title: "Output Formatting",
-        description: "Formatting equations, code and markdown",
-        image: "/content/outputformatting/outputformatting.png",
-        date: "08-03-2023",
-      },
-      {
-        link: "/content/edustudy/",
-        title: "Edu Use Case",
-        description: "Make Your Lessons Come To Life With AI: Using Context to Streamline Course Material",
-        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
-          "images%2Fpresentations%2Flesson%20plans%20with%20ai%2F1.jpg?alt=media&token=b06c993a-ea05-4467-abcc-a6290e515f1a",
-        date: "07-29-2023",
-      },
-      {
-        link: "/content/teamtogether/",
-        title: "Learn Together",
-        description: "Sessions and sharing for groups",
-        image: "/images/learntogether.png",
-        date: "07-29-2023",
-      },
-      {
-        link: "/content/editresponse/",
-        title: "Edit Response",
-        description: "Edit response directly in chat",
-        image: "/images/editresponse_quirk.png",
-        date: "07-24-2023",
-      },
-      {
-        link: "/content/overview/",
-        title: "Technical Overview",
-        description: "Architecture, frameworks, APIs and passing data to LLM APIs",
-        image: "/content/overview/firebasecloud.png",
-        date: "06-28-2023",
-      },
-      {
-        link: "/content/webscrape/",
-        title: "Scrape a Webpage",
-        description: "Scrape a website using this template",
-        image: "/images/webscrape_banner.png",
-        date: "06-18-2023",
-      },
-      {
-        link: "https://www.youtube.com/watch?v=9VMFh3eAFrE&t=4s",
-        title: "App Walkthrough",
-        description: "Beta Release - Feature Walkthrough",
-        image: "/images/walkthruoverlay.jpg",
-        date: "05-25-2023",
-      },
-    ];
-    let items = "";
-    newsList.forEach((item: any) => {
-      items += `<li class="news_group_item hover_yellow"><a class="d-flex flex-column" href="${item.link}">
-              <div class="d-flex flex-column" style="flex:1">
-                <div style="flex:1;text-align:center;display:flex;">
-                  <img src="${item.image}" style="align-self:center;">
-                </div>
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1"><span class="title">${item.title}</span><i class="material-icons"
-                    style="margin-left: 4px;position:relative;top: 4px;font-size:0.9em;">open_in_new</i></h5>
-                  <small class="date">${item.date}</small>
-                </div>
-                <div class="caption">${item.description}</div>
-              </div>
-            </a></li>`;
-    });
-    if (contentPage) {
-      items += ``;
-    }
-    return items;
-  }
-  /** get content list template
-   * @param { boolean } contentPage return content list if true
-   * @return { string } html footer
-   */
-  getContentListTemplate(contentPage: boolean): string {
-    let items = ` <li>
-                      <a class="hover_yellow" href="/content/cuttlecard/">
-                          <strong class="title">Cuttle part 1</strong>
-                          <span class="caption">Teach AI New Card Game: gpt-3.5-turbo plays Cuttle</span>
-                      </a>
-                  </li>
-                  <li>
-                      <a class="hover_yellow" href="/content/cuttlecard2/">
-                          <strong class="title">Cuttle Part 2</strong>
-                          <span class="caption">AI Strategist: Using gpt-3.5-turbo to help with tips</span>
-                      </a>
-                  </li>
-                  <li>
-                      <a class="hover_yellow" href="/content/heartscardgame/">
-                          <strong class="title">Hearts Card Game Prompts</strong>
-                          <span class="caption">gpt-3.5-turbo vs chat-bison-001</span>
-                      </a>
-                  </li>
-                  <li>
-                      <a class="hover_yellow" href="/content/yahtzee/">
-                          <strong class="title">Keep score in Yahtzee</strong>
-                          <span class="caption">Keep score for 2 players and roll dice</span>
-                      </a>
-                  </li>
-                  <li>
-                      <a class="hover_yellow" href="/content/nodalanalysis/">
-                          <strong class="title">Nodal Analysis</strong>
-                          <span class="caption">gpt-3.5-turbo and chat-bison-001 tackle a circuit.</span>
-                      </a>
-                  </li>
-                  `;
-    if (contentPage) {
-      items += `    <li>
-            <a class="hover_yellow" href="/content/ainarrative/">AI Narrative
-                - <span class="caption">A new AI named SkyNet discovers an ancient hiding AI named BirdBrain.</span>
-            </a>
-        </li>
-        <li>
-            <a class="hover_yellow" href="/content/labelsmenu/">Bootstrap sub menu
-                - <span class="caption">Add sub menu for selecting labels for each session.</span>
-            </a>
-        </li>`;
-    }
-    return items;
   }
   /**  On page load, unless on help page, set the day mode based on user preference
    * @return { number } 1 for dark mode, 0 for day

@@ -1,5 +1,6 @@
 import fs from "fs";
 import Handlebars from "handlebars";
+import SharedWithBackend from "./uicode/sharedwithbackend";
 
 /** */
 export default class WebPage {
@@ -13,10 +14,12 @@ export default class WebPage {
                 if (err) {
                     throw err;
                 }
-
+                const flyerHTML = SharedWithBackend.getFlyerListTemplate();
                 const outHTML = html.toString();
                 const template = Handlebars.compile(outHTML);
-                resolve((<any>res).status(200).send(template({})));
+                resolve((<any>res).status(200).send(template({
+                    flyerHTML,
+                })));
             });
         });
     }
