@@ -195,6 +195,7 @@ a {
 }
 
 .card {
+  border-radius: 6px;
   background-color: rgb(10, 10, 10);
 }
 
