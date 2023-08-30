@@ -344,5 +344,5 @@ export default class SharedWithBackend {
           </li>`;
       }
       return items;
-    }  
+    }
 }
