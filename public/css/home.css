@@ -1089,6 +1089,16 @@ ol li {
   opacity: 0;
 }
 
+.homepage.homepage_tab_selected_1 .signin_cta_navbar {
+  display: none;
+}
+
+.homepage.homepage_tab_selected_0 .signin_cta_navbar,
+.homepage.homepage_tab_selected_0 .signin_cta_navbar {
+  display: block;
+}
+
+
 .footer_container_div {
   margin-bottom: 0;
 }

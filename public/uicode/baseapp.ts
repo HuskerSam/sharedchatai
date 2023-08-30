@@ -15,6 +15,7 @@ export default class BaseApp {
   basePath = `https://us-central1-${this.projectId}.cloudfunctions.net/`;
   urlParams = new URLSearchParams(window.location.search);
   signin_show_modal: any = document.querySelector(".signin_show_modal");
+  signin_cta_navbar: any = document.querySelector(".signin_cta_navbar");
   muted = false;
   uid: any = null;
   profile: any = null;
@@ -90,6 +91,13 @@ export default class BaseApp {
 
     if (this.signin_show_modal) {
       this.signin_show_modal.addEventListener("click", (e: any) => {
+        e.stopPropagation();
+        e.preventDefault();
+        this.login.show();
+      });
+    }
+    if (this.signin_cta_navbar) {
+      this.signin_cta_navbar.addEventListener("click", (e: any) => {
         e.stopPropagation();
         e.preventDefault();
         this.login.show();
