@@ -822,7 +822,7 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
         link: "/content/edustudy2/",
         title: "Edu How To",
         description: "Practical Tips for LLMs Classroom Integration",
-        image: 
+        image:
         "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
           "images%2Fpresentations%2Fintegrating%20ai%20into%20classroom%20tips%2F1.jpg" +
           "?alt=media&token=c3032a67-5d7c-4bda-b7be-9828d373f28c",

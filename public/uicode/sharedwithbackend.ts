@@ -12,7 +12,7 @@ const models: any = {
     "top_p": 1,
     "top_k": 40,
     "presence_penalty": 0,
-    "frequency_penalty": 0
+    "frequency_penalty": 0,
   },
   "gpt-3.5-turbo-16k": {
     "active": 1,
@@ -27,7 +27,7 @@ const models: any = {
     "top_p": 1,
     "top_k": 40,
     "presence_penalty": 0,
-    "frequency_penalty": 0
+    "frequency_penalty": 0,
   },
   "gpt-4": {
     "active": 1,
@@ -42,7 +42,7 @@ const models: any = {
     "top_p": 1,
     "top_k": 40,
     "presence_penalty": 0,
-    "frequency_penalty": 0
+    "frequency_penalty": 0,
   },
   "gpt-4-32k": {
     "active": 0,
@@ -57,7 +57,7 @@ const models: any = {
     "top_p": 1,
     "top_k": 40,
     "presence_penalty": 0,
-    "frequency_penalty": 0
+    "frequency_penalty": 0,
   },
   "chat-bison-001": {
     "active": 1,
@@ -72,7 +72,7 @@ const models: any = {
     "top_p": 1,
     "top_k": 40,
     "presence_penalty": 0,
-    "frequency_penalty": 0
+    "frequency_penalty": 0,
   },
   "claude-instant-1": {
     "active": 0,
@@ -87,7 +87,7 @@ const models: any = {
     "top_p": 1,
     "top_k": 40,
     "presence_penalty": 0,
-    "frequency_penalty": 0
+    "frequency_penalty": 0,
   },
   "claude-2": {
     "active": 0,
@@ -102,8 +102,8 @@ const models: any = {
     "top_p": 1,
     "top_k": 40,
     "presence_penalty": 0,
-    "frequency_penalty": 0
-  }
+    "frequency_penalty": 0,
+  },
 };
 
 /** static functions for UI and api calls  */
