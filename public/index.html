@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Unacog AI</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="shortcut icon" href="/images/logo64.png" />
+    <meta name='mobile-web-app-capable' content='yes'>
+    <meta name='apple-mobile-web-app-capable' content='yes'>
+    <meta name='apple-mobile-web-app-status-bar-style' content='black'>
+
+    <link rel='icon' sizes='192x192' href='https://unacog.com/images/logo64.png'>
+    <link rel='apple-touch-icon' href='https://unacog.com/images/logo64.png'>
+    <meta name='msapplication-square310x310logo' content='https://unacog.com/images/logo64.png'>
+    <link rel='apple-touch-icon' href='https://unacog.com/images/logo64.png'>
+
+    <meta property="og:url" content="https://unacog.com" />
+    <meta property="og:title" content="Unacog AI Application" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://unacog.com/images/homepageogmeta.jpg" />
+    <meta property="og:description"
+        content="Unacog is an online AI chat tool, enabling instant collaboration on any device. It equips you with a comprehensive set of features to optimize your interaction with advanced AI models." />
+
+    <meta name="twitter:site" content="https://unacog.com">
+    <meta name="twitter:title" content="Unacog About">
+    <meta name="twitter:description"
+        content="Unacog is an online AI chat tool, enabling instant collaboration on any device. It equips you with a comprehensive set of features to optimize your interaction with advanced AI models. Login and start a session.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image:src" content="https://unacog.com/images/homepageogmeta.jpg">
+
+    <!-- Firebase links -->
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-firestore.js"></script>
+    <script src="/__/firebase/init.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+    <link href="//cdn-images.mailchimp.com/embedcode/classic-061523.css" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/modal.css" />
+    <link rel="stylesheet" href="/css/home.css" />
+    <script>
+        window.addEventListener("load", async (event) => {
+            let module = await import("/models/dashboardapp.js");
+
+            window.StaticPageApp = new module.DashboardApp();
+        });
+    </script>
+</head>
+
+<body class="basic_page_wrapper homepage news_tab homepage_tab_selected_0">
+    <script>
+        if (localStorage.getItem("niteMode") !== "true") document.body.classList.add("day_mode");
+        else document.body.classList.add("nite_mode");
+    </script>
+    <nav class="navbar navbar-light navbar_wrapper">
+        <ul class="navbar-nav d-flex flex-row justify-content-end justify-content-sm-between container">
+            <li class="home_logo_mobile_only">
+                <a class="navbar_brand homepage_logo_scrollup" href="#" style="text-decoration: none;">
+                    <span class="navbar_logo"></span>
+                    <span class="mobile_hide position-relative homepage_logo_spacing">Una<span
+                            class="home_navbar_name_color"">cog</span></span>
+                    <div class=" scroll_to_top_icon">
+                            <span class="material-icons-outlined">
+                                arrow_upward
+                            </span>
+                            </div>
+                </a>
+            </li>
+            <li class="logo_offset_spacer_mobile mobile_hide"></li>
+            <li style="flex:1">
+                <ul class="header_tabs nav" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link session_tab" id="dashboard_tab_button" data-bs-toggle="tab" href="#sessions"
+                            role="tab" aria-controls="sessions" aria-selected="false"><span class="material-icons">
+                                folder
+                            </span><span class="tab_label">Sessions</span></a>
+
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="news_tab_button" data-bs-toggle="tab" href="#news" role="tab"
+                            aria-controls="news" aria-selected="true"><span class="material-icons">
+                                newspaper
+                            </span><span class="tab_label">News</span></a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="about_tab_button" data-bs-toggle="tab" href="#about" role="tab"
+                            aria-controls="about" aria-selected="false"><span class="material-icons">
+                                description
+                            </span><span class="tab_label">About</span></a>
+
+                    </li>
+                </ul>
+            </li>
+            <li class="logo_offset_spacer mobile_hide"></li>
+            <li class="nav-item">
+                <a class="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
+                    <span class="menu_profile_user_image_span member_profile_image hover_yellow"> </span>
+                </a>
+            </li>
+            <li class="nav-item hide_if_signedin mobile_hide">
+                <a class="signin_cta_navbar hover_yellow btn btn-primary" href="login" type="button"><span
+                        class="mobile_hide">Login</span><span class="mobile_show"><i class="material-icons"
+                            style="position: relative;top: 3px;">login</i></span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="showhomepage_help nav-link hover_yellow" href="/help/" target="help">
+                    <span class="mobile_custom_icon_label">
+                        <i class="material-icons">help_outline</i>
+                    </span>
+                </a>
+            </li>
+        </ul>
+        <div class="signed_in_inline_block container">
+            <div class="filter_bar_wrapper">
+                <div class="games_view_header_wrapper">
+                    <select class="document_label_filter form-select">
+                        <option>All Sessions</option>
+                    </select>
+                </div>
+                <div>
+                    <a class="nav-link show_create_modal homepage hover_yellow" href="create">
+                        <span class="mobile_custom_icon_label">
+                            <i class="material-icons add_icon">add</i>
+                        </span>
+                    </a>
+                </div>
+                <a class="account_status_display" href="showaccountinfo">
+                    <div class="credits_left"></div>
+                </a>
+            </div>
+        </div>
+    </nav>
+    <div class="main_container homepage_content">
+        <div class="tab-content home_page_tabs">
+            <div class="tab-pane fade show active" id="news" role="tabpanel" style="flex-direction:column;"
+                aria-labelledby="news_tab_button">
+
+                <div class="anchor_row" style="padding-top:8px;font-size: 1.25em">
+                    <a href="#models">#models</a>
+                    &nbsp;<a href="#features">#features</a>
+                    &nbsp;<a href="#examples">#examples</a>
+                </div>
+                <div class="container news_section">
+                    <ul class="recent_content_flyers_ul_list flex-lg-row flex_change_responsive"></ul>
+                </div>
+
+                <!-- Models section-->
+                <div id="models" class="homepage_section models_section homepage_section_background">
+                    <h2 class="homepage_header">Available Models</h2>
+                    <div class="flex-lg-row flex_change_responsive container">
+                        <div class="main_block intro_card card">
+                            <h5 style="display:inline-block">
+                                <a href="https://platform.openai.com/docs/models" target="_blank">
+                                    <img class="model_svg show_day_mode_inline_block" src="/images/openailite.svg"
+                                        style="width:120px;"><img class="model_svg show_nite_mode_inline_block"
+                                        src="/images/openai.svg" style="width:120px;"><i class="material-icons"
+                                        style="margin-left: 4px;position:relative;top: 8px;">open_in_new</i>
+                                </a>
+                            </h5>
+                            <ul class="list-group-flush list-group">
+                                <li class="list-group-item"><span class="supported_model">gpt-3.5-turbo</span> 4k
+                                </li>
+                                <li class="list-group-item"><span class="supported_model">gpt-3.5-turbo-16k</span>
+                                </li>
+                                <li class="list-group-item"><span class="supported_model">gpt-4</span> 8k</li>
+                                <li class="list-group-item"><span class="upcoming_model">gpt-4-32k</span> (soon)
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="main_block intro_card card">
+                            <h5 style="display:inline-block">
+                                <a href="https://developers.generativeai.google/api/rest/generativelanguage"
+                                    target="_blank">
+                                    <img src="/images/palmapi.png" style="width:32px;"><img
+                                        class="model_svg show_day_mode_inline_block" src="/images/palmapinamelite.png"
+                                        style="margin-left:6px;width:95px;"><img
+                                        class="model_svg show_nite_mode_inline_block" src="/images/palmapiname.png"
+                                        style="margin-left:6px;width:95px;"><i class="material-icons"
+                                        style="margin-left: 4px;position:relative;top: 6px;">open_in_new</i>
+                                </a>
+                            </h5>
+                            <ul class="list-group-flush list-group">
+                                <li class="list-group-item"> <span class="supported_model">chat-bison-001</span> 9k
+                                </li>
+                                <li class="list-group-item"> <span class="upcoming_model">med-bison-001</span> 36k
+                                    (soon)</li>
+                                <li class="list-group-item"> <span class="upcoming_model">med-bison-002</span> 144k
+                                    (later)</li>
+                                <li class="list-group-item"> <span class="upcoming_model">codechat-bison-001</span>
+                                    6k
+                                    (soon)</li>
+                            </ul>
+                        </div>
+                        <div class="main_block intro_card card">
+                            <h5 style="display:inline-block">
+                                <a href="https://docs.anthropic.com/claude/reference/complete_post" target="_blank">
+                                    <img src="/images/anthropologic.png" style="width:32px;"><img
+                                        class="model_svg show_day_mode_inline_block" src="/images/anthrofulllite.svg"
+                                        style="margin-left:6px;width:120px;"><img
+                                        class="model_svg show_nite_mode_inline_block" src="/images/anthrofull.svg"
+                                        style="margin-left:6px;width:120px;"><i class="material-icons"
+                                        style="margin-left: 4px;position:relative;top: 6px;">open_in_new</i>
+                                </a>
+                            </h5>
+                            <ul class="list-group-flush list-group">
+                                <li class="list-group-item"><span class="upcoming_model">claude-2</span> 100k (soon)
+                                </li>
+                                <li class="list-group-item"><span class="upcoming_model">claude-instant-1</span>
+                                    100k
+                                    (soon)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="lead"><a href="/content/pricing">More on Pricing</a></p>
+                </div>
+
+                <!-- features section-->
+                <div id="features" class="homepage_section">
+                    <h2 class="homepage_header">Features</h2>
+                    <div class="container">
+                        <ul class=" flex-lg-row flex_change_responsive feature_group_list">
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#system_message" target="help">
+                                    <i class="material-icons">lightbulb</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Swap Models</span>
+                                    </h4>
+                                    <span class="desc">
+                                        while in the same session
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#system_message" target="help">
+                                    <span class="material-icons-outlined">
+                                        message
+                                    </span>
+                                    <h4 class="feature_name">
+                                        <span class="link">System Msg</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to maintain context throughout
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#auto_exclude" target="help">
+                                    <span class="material-icons-outlined">auto_fix_high</span>
+                                    <h4 class="feature_name">
+                                        <span class="link">Auto exclude</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to manage request sizes automatically
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#chat_features" target="help">
+                                    <i class="material-icons">loop</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Rerun Prompts</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to get different results with same prompt
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#users_info" target="help">
+                                    <i class="material-icons">link</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Share Link</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to collaborate with others quickly
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#export_options" target="help">
+                                    <i class="material-icons">download</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Export json</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to share templates
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#upload_data_sessions" target="help">
+                                    <i class="material-icons">upload</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Import Template</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to start with groundwork
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#options" target="help">
+                                    <i class="material-icons">content_copy</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Use clipboard</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to copy text/html to other apps
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#help_sign_in" target="help">
+                                    <span class="material-icons">
+                                        supervised_user_circle
+                                    </span>
+                                    <h4 class="feature_name">
+                                        <span class="link">Anonymous login</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to share with external collaborators
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#session_limit" target="help">
+                                    <span class="material-icons">
+                                        settings
+                                    </span>
+                                    <h4 class="feature_name">
+                                        <span class="link">Use Session Limit</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to protect your account from misuse
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#owner_labels" target="help">
+                                    <i class="material-icons">label</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Organize using labels</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to categorize and find sessions quickly
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#temperature" target="help">
+                                    <i class="material-icons">thermostat</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Adjust temperature</span>
+                                    </h4>
+                                    <span class="desc">
+                                        for more creative or regular results
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#threshold" target="help">
+                                    <i class="material-icons">query_stats</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Manage context</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to control quality and cost of responses
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card disabled_link">
+                                <a class="d-flex flex-column p-2">
+                                    <span class="material-icons">touch_app</span>
+                                    <h4 class="feature_name">
+                                        <span class="link">Bulk Create</span>
+                                    </h4>
+                                    <span class="desc">
+                                        for quick creation
+                                    </span>
+                                    <span class="help_coming_pill badge rounded-pill bg-info text-dark">Help
+                                        Coming</span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card disabled_link">
+                                <a class="d-flex flex-column p-2">
+                                    <span class="material-icons">assignment</span>
+                                    <h4 class="feature_name">
+                                        <span class="link">Bulk Email</span>
+                                    </h4>
+                                    <span class="desc">
+                                        for quick assignment
+                                    </span>
+                                    <span class="help_coming_pill badge rounded-pill bg-info text-dark">Help
+                                        Coming</span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card disabled_link">
+                                <a class="d-flex flex-column p-2">
+                                    <span class="material-icons">print</span>
+                                    <h4 class="feature_name">
+                                        <span class="link">Print Receipt</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to manage request sizes automatically
+                                    </span>
+                                    <span class="help_coming_pill badge rounded-pill bg-info text-dark">Help
+                                        Coming</span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card disabled_link">
+                                <a class="d-flex flex-column p-2">
+                                    <span class="material-icons">data_usage</span>
+                                    <h4 class="feature_name">
+                                        <span class="link">Usage Stats</span>
+                                    </h4>
+                                    <span class="desc">
+                                        view stats like monthly usage per day
+                                    </span>
+                                    <span class="help_coming_pill badge rounded-pill bg-info text-dark">Help
+                                        Coming</span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2">
+                                    <i class="material-icons">email</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Email invitations</span>
+                                    </h4>
+                                    <span class="desc">
+                                        for convenient session access
+                                    </span>
+                                    <span class="help_coming_pill badge rounded-pill bg-info text-dark">Help
+                                        Coming</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <p class="lead"><a href="/help/">See Help Docs</a></p>
+                </div>
+
+                <!-- examples section-->
+                <div id="examples" class="example_section">
+                    <div class="flex-lg-row flex_change_responsive container">
+                        <div class="main_block app_panel">
+                            <h5 class="ms-3 ms-md-0 text-md-center text-start">Example Sessions</h5>
+                            <div class="discussion_list_panel">
+                                <div class="intro_card card overflow_container">
+                                    <ul class="template_list_wrapper recent_content_ul_list"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="sessions" role="tabpanel" style="flex-direction:column;"
+                aria-labelledby="dashboard_tab_button">
+                <div class="container">
+                    <div class="signed_out_flex p-3 justify-content-center session_cta">
+                        <div
+                            class="d-flex flex-column flex-auto justify-content-center rounded card side_block px-4 pt-4">
+                            <div class="mb-4 text-center">
+                                <img src="/images/logo64.png" alt="">
+                            </div>
+                            <div class="text-center mb-4">
+                                <p class="lead mb-2">Starting a Session?</p>
+                                <p class="desc">Login and purchase credits to begin.</p>
+                            </div>
+                            <div class="mb-1 text-center">
+                                <p class="lead mb-2">Joining a Shared Session?</p>
+                                <p class="desc">Login to access the session.</p>
+                            </div>
+                            <div class="d-flex flex-row justify-content-center pt-4 my-4">
+                                <a class="signin_show_modal btn btn-primary btn-md px-4 btn-lg" href="login"
+                                    type="button">Login</a>
+                            </div>
+                            <div class="text-center mt-4">
+                                <p class="alert alert-warning border"><small>Usage is
+                                        paid by the session owner.</small></p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="signed_in_inline_block" style="width:100%;">
+                        <div class="game_lobby">
+                            <div class="games_view_wrapper">
+                                <div class="dashboard_documents_view"></div>
+                            </div>
+                        </div>
+                        <div class="no_games_in_dashboard app_panel justify-content-center session_cta">
+                            <div
+                                class="d-flex flex-column flex-auto justify-content-center rounded card side_block px-4 pt-4">
+                                <div class="text-center">
+                                    <p class="lead mb-4">Work on Context Together</p>
+                                    <p class="desc">To get started, you need to purchase <a
+                                            href="/content/pricing/">Unacog credits</a> which can be found in profile
+                                        options or by clicking below.
+                                    </p>
+                                </div>
+                                <div class="d-flex flex-row justify-content-center pt-4 mb-3">
+                                    <a class="btn btn-primary btn-md px-4 btn-md buy_credits_cta_btn" href="#"
+                                        type="button">Buy Credits</a>
+                                </div>
+                                <div class="text-center mt-4">
+                                    <p class="alert alert-warning border">
+                                        <small>
+                                            Usage is paid by the session owner. The default limit per session is current
+                                            set to 1,000 and can change be changed in document options.
+                                        </small>
+                                    </p>
+                                    <p class="alert alert-danger border signed_in_anonymous"><small>Anonymous users to
+                                            verify their account to purchase credits
+                                            and create sessions. This can be done by providing an email in profile
+                                            options or re-logging with your credentials.</small></p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="about" role="tabpanel" style="flex-direction:column;"
+                aria-labelledby="about">
+
+                <!-- about hero section-->
+                <section class="px-4 text-center homepage_about_hero_section homepage_section_background">
+                    <div class="container py-5">
+                        <h1 class="display-4 fw-bold">Welcome to Unacog</h1>
+                        <div class="col-lg-8 mx-auto">
+                            <p class="about_hero_subheader mb-4">
+                                Your gateway to advanced Large Language Models (LLMs) collaboration: a real-time
+                                multi-user, multi-model chat experience.
+                            </p>
+                        </div>
+                        <a class="btn btn-primary btn-lg" type="button" href="#contact">Contact Us</a>
+                    </div>
+                </section>
+
+                <!-- about models  section-->
+                <section class="px-4 text-center">
+                    <div class="container py-5">
+                        <div class="row g-4">
+                            <div class="col mt-md-0">
+                                <img class="model_svg show_day_mode_inline_block" src="/images/openailite.svg"
+                                    style="width:100px;"><img class="model_svg show_nite_mode_inline_block"
+                                    src="/images/openai.svg" style="width:100px;">
+                            </div>
+                            <div class="col mt-md-0">
+                                <img src="/images/palmapi.png" style="width:32px;"><img
+                                    class="model_svg show_day_mode_inline_block" src="/images/palmapinamelite.png"
+                                    style="margin-left:6px;width:95px;"><img
+                                    class="model_svg show_nite_mode_inline_block" src="/images/palmapiname.png"
+                                    style="margin-left:6px;width:95px;">
+                            </div>
+                            <div class="col mt-md-0">
+                                <img src="/images/anthropologic.png" style="width:32px;"><img
+                                    class="model_svg show_day_mode_inline_block" src="/images/anthrofulllite.svg"
+                                    style="margin-left:6px;width:100px;"><img
+                                    class="model_svg show_nite_mode_inline_block" src="/images/anthrofull.svg"
+                                    style="margin-left:6px;width:100px;">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- about value section-->
+                <section class="text-center homepage_about_section homepage_section_background">
+                    <div class="container">
+                        <div class="row g-4 row-cols-1 row-cols-lg-3 text-start">
+                            <div class="col d-flex flex-column">
+                                <img class="about_value_image show_day_mode_inline_block" src="/images/about_collab.png"
+                                    alt="">
+                                <img class="about_value_image show_nite_mode_inline_block"
+                                    src="/images/about_collab_nite.png" alt="">
+                                <h3 class="about_value_header">Collaborative</h3>
+                                <p></p>
+                                <p class="about_value_desc">Collaborate is as easy as sharing a link. Bring teams
+                                    together to brainstorm in real-time or use templates to work async.</p>
+                                </p>
+                                <p></p>
+                            </div>
+                            <div class="col d-flex flex-column">
+                                <img class="about_value_image show_day_mode_inline_block" src="/images/about_model.png"
+                                    alt="">
+                                <img class="about_value_image show_nite_mode_inline_block"
+                                    src="/images/about_model_nite.png" alt="">
+                                <h3 class="about_value_header">Multi-Model</h3>
+                                <p></p>
+                                <p class="about_value_desc">Seamlessly switch between various LLM models. Fine-tune your
+                                    experience with advanced
+                                    parameters, such as temperature.</p>
+                                <p></p>
+                            </div>
+                            <div class="col d-flex flex-column">
+                                <img class="about_value_image show_day_mode_inline_block" src="/images/about_credit.png"
+                                    alt="">
+                                <img class="about_value_image show_nite_mode_inline_block"
+                                    src="/images/about_credit_nite.png" alt="">
+                                <h3 class="about_value_header">Credit-Based</h3>
+                                <p></p>
+                                <p class="about_value_desc">Subscription-free: only pay for what you use, with credits
+                                    that
+                                    never expire and grant you access to a growing LLM library.</p>
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="homepage_section">
+                    <div class="video_wrapper">
+                        <a href="https://www.youtube.com/watch?v=9VMFh3eAFrE&t=4s" target="video">
+                            <img src="/images/walkthruoverlay.jpg">
+                        </a>
+                    </div>
+                    <caption>Unacog v1. - 05/25/2023</caption>
+                </div>
+
+                <!-- team section-->
+                <div class="mt-3" id="contact">
+                    <div class="container px-md-5">
+                        <div class="main_block app_panel m-md-5 mt-md-0 mb-md-3">
+                            <h3>
+                                Bugs, Questions, or Contact
+                            </h3>
+                            <div class="intro_card card text-center">
+                                <p>We're here to help! If you encounter any bugs, have questions, or want to get in
+                                    touch,
+                                    the best way to
+                                    currently reach us is by <a href="mailto:support@unacog.com" target="_blank">email
+                                        at Support@unacog.com</a>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div style="flex:1"></div>
+    </div>
+
+
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+    <!-- Initialize Swiper -->
+
+</body>
+
+</html>
