@@ -819,12 +819,22 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
   getFlyerListTemplate(contentPage: boolean): string {
     const newsList = [
       {
+        link: "/content/edustudy2/",
+        title: "Edu How To",
+        description: "Practical Tips for LLMs Classroom Integration",
+        image: 
+        "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
+          "images%2Fpresentations%2Fintegrating%20ai%20into%20classroom%20tips%2F1.jpg" +
+          "?alt=media&token=c3032a67-5d7c-4bda-b7be-9828d373f28c",
+        date: "08-30-2023",
+      },
+      {
         link: "/content/credits/",
         title: "Cost Info",
         description: "Unacog Credits Explained",
         image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
           "images%2Fpresentations%2Fcredits%20system%2F1.jpg?alt=media&token=e5fc4982-3401-4f33-8123-f8f7a2bdacc1",
-        date: "08-22-2023",
+        date: "08-24-2023",
       },
       {
         link: "/content/howto/",
