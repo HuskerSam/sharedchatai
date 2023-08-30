@@ -580,7 +580,7 @@ button.btn-primary:active {
 }
 
 .mobile_show {
-  display: inline-block;
+  display: block;
 }
 
 @media (min-width: 992px) {
