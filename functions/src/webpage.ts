@@ -1,10 +1,15 @@
 import fs from "fs";
 import Handlebars from "handlebars";
 
+/** */
 export default class WebPage {
+    /** http endpoint for generating homepage
+    * @param { any } req http request object
+    * @param { any } res http response object
+    */
     static async homeHTML(req: any, res: any): Promise<any> {
         return new Promise((resolve: any) => {
-            fs.readFile('./html/home.html', async (err: any, html: any) => {
+            fs.readFile("./html/home.html", async (err: any, html: any) => {
                 if (err) {
                     throw err;
                 }
