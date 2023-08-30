@@ -13,6 +13,7 @@ import {
 import {
     encode,
 } from "gpt-3-encoder";
+import SharedWithBackend from "./uicode/sharedwithbackend";
 
 const creditRequestCharge = 1;
 
@@ -194,7 +195,7 @@ export default class SessionAPI {
         const completion_tokens = aiResults.completion_tokens;
         const usage_credits = aiResults.usage_credits + creditRequestCharge;
         const aiResponse = aiResults.aiResponse;
-
+console.log(usage_credits);
         const promises = [
             firebaseAdmin.firestore().doc(`Games/${gameNumber}/assists/${ticketId}`).set(aiResponse),
             firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${ticketId}`).set({
@@ -677,54 +678,15 @@ export default class SessionAPI {
      * @return { any } input and output $ cost per 1k tokens
     */
     static modelCreditMultiplier(model: string): any {
-        if (model === "gpt-3.5-turbo") {
+        const modelMeta = SharedWithBackend.getModelMeta(model);
+        if (!modelMeta) {
+            console.log("model not found for billing");
             return {
-                input: 0.0015,
-                output: 0.002,
+                input: 0,
+                output: 0,
             };
         }
-        if (model === "gpt-3.5-turbo-16k") {
-            return {
-                input: 0.003,
-                output: 0.004,
-            };
-        }
-        if (model === "gpt-4") {
-            return {
-                input: 0.03,
-                output: 0.06,
-            };
-        }
-        if (model === "gpt-4-32k") {
-            return {
-                input: 0.06,
-                output: 0.12,
-            };
-        }
-        if (model === "chat-bison-001") {
-            return {
-                input: 0.03,
-                output: 0.06,
-            };
-        }
-        if (model === "claude-instant-1") {
-            return {
-                input: 0.00163,
-                output: 0.00551,
-            };
-        }
-        if (model === "claude-2") {
-            return {
-                input: 0.01102,
-                output: 0.03268,
-            };
-        }
-        console.log("model not found for billing");
-
-        return {
-            input: 0,
-            output: 0,
-        };
+        return modelMeta;
     }
     /** submit ticket to AI engine and store response in /games/{gameid}/assists/{ticketid}
      * @param { any } packet message details
