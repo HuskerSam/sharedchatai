@@ -58,6 +58,7 @@ export default class BaseApp {
   content_list_container: any = document.querySelector(".recent_content_ul_list");
   flyer_list_container: any = document.querySelector(".recent_content_flyers_ul_list");
   themeIndex = 0;
+  buy_credits_cta_btn: any = document.querySelector(".buy_credits_cta_btn");
 
   /**
  * @param { boolean } contentPage content list trimmed on other pages and footer link change
@@ -98,6 +99,14 @@ export default class BaseApp {
     this.themeIndex = BaseApp.initDayMode();
     document.body.classList.add("body_loaded");
     this.load();
+
+
+    if (this.buy_credits_cta_btn) {
+      this.buy_credits_cta_btn.addEventListener("click", (e: any) => {
+        e.preventDefault();
+        this.buyCredits.show();
+      });
+    }
   }
   /** asynchronous loads - data setup  */
   async load() {
