@@ -1,0 +1,21 @@
+{
+  "name": "Unacog",
+  "short_name": "Unacog",
+  "theme_color": "#888888",
+  "background_color": "#aa7777",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/images/logo64.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "/images/logo64.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ]
+}

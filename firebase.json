@@ -18,6 +18,10 @@
       {
         "source": "/session/**",
         "destination": "/session/index.html"
+      },
+      {
+        "source": "/",
+        "function": "homePage"
       }
     ],
     "headers": [

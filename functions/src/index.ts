@@ -8,6 +8,7 @@ const gameAPIApp = express();
 import GameAPI from "./gameapi";
 import SessionAPI from "./sessionapi";
 import PaymentAPI from "./payapi";
+import WebPage from "./webpage";
 
 gameAPIApp.set("views", path.join(__dirname, "views"));
 gameAPIApp.set("view engine", "ejs");
@@ -17,16 +18,21 @@ const runtimeOpts: functions.RuntimeOptions = {
     timeoutSeconds: 300,
     memory: "128MB",
     minInstances: 2,
-  };
+};
+const homeOpts: functions.RuntimeOptions = {
+    timeoutSeconds: 60,
+    memory: "128MB",
+    minInstances: 2,
+};
 
 gameAPIApp.use(cors({
     origin: true,
 }));
 
 export const lobbyApi = functions.runWith(runtimeOpts).https.onRequest(gameAPIApp);
-
 export const updateDisplayNames = functions.firestore
     .document("Users/{uid}").onWrite(async (change, context) => GameAPI.updateUserMetaData(change, context));
+export const homePage = functions.runWith(homeOpts).https.onRequest(WebPage.homeHTML);
 
 gameAPIApp.post("/games/create", async (req, res) => GameAPI.create(req, res));
 gameAPIApp.post("/games/delete", async (req, res) => GameAPI.delete(req, res));
