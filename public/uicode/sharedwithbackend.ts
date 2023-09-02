@@ -375,7 +375,7 @@ export default class SharedWithBackend {
               <td>${SharedWithBackend.numberWithCommas(ratio3)}</td>
               <td>${SharedWithBackend.numberWithCommas(ratio4)}</td>
               <td>${SharedWithBackend.numberWithCommas(ratio5)}</td>
-              </tr>`
+              </tr>`;
     });
 
     return html;

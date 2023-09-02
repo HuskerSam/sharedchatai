@@ -44,7 +44,7 @@ export default class WebPage {
             <td>${model}</td>
             <td>${models[model].input}</td>
             <td>${models[model].output}</td>
-            </tr>`
+            </tr>`;
         });
 
         return html;

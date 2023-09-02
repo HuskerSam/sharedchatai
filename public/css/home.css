@@ -1620,3 +1620,7 @@ body.app_signed_in p.alert.alert-danger.signed_in_anonymous {
 .auth_inited.app_signed_out .not_logged_in {
   display: block;
 }
+
+.recommended {
+  font-weight: bold;
+}

@@ -651,7 +651,7 @@
                     <div class="bulk_credits_wrapper">
                         <div style="margin-left: 10em;">
                             <label class="form-label bulk_calc_label">Tokens Per Project</label>
-                            <input class="bulk_tokens_count bulk_calc_input" type="text" value="4000">
+                            <input class="bulk_tokens_count bulk_calc_input" type="text" value="10000">
                             <br>
                             <label class="form-label bulk_calc_label">Project Count</label>
                             <input class="bulk_project_count bulk_calc_input" type="text" value="25">
@@ -670,9 +670,21 @@
                         </div>
                         <table class="bulk_credits_table price_table">
                         </table>
+                        <div class="recommended">gpt-3.5-turbo recommended as best value.</div>
                     </div>
                     <div class="power_user_wrapper">
-                        POWER
+                        <div style="margin-left: 10em;">
+                            <label class="form-label bulk_calc_label">Tokens Per Project</label>
+                            <input class="bulk_tokens_count power_user_calc_input" type="text" value="20000">
+                            <br>
+                            <label class="form-label bulk_calc_label">Project Count</label>
+                            <input class="bulk_project_count power_user_calc_input" type="text" value="50">
+                            <br>
+                            <label class="form-label bulk_calc_label">Total Tokens</label>
+                            <span class="power_user_calc_total_tokens"></span>
+                        </div>
+                        <table class="power_user_credits_table price_table">
+                        </table>                        
                     </div>
                     <div class="model_prices_wrapper">
                         <table class="price_table">

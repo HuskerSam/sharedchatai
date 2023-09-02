@@ -86,7 +86,7 @@ export class DashboardApp extends BaseApp {
       this.profileHelper.show(true);
     });
 
-    window.addEventListener("scroll", function () {
+    window.addEventListener("scroll", () => {
       if (document.documentElement.scrollTop > 0 || document.body.scrollTop > 0) {
         document.body.classList.add("not_scrolled_top");
         document.body.classList.remove("scrolled_top");
@@ -110,7 +110,7 @@ export class DashboardApp extends BaseApp {
     this.bulk_project_count.addEventListener("input", () => this.updateBulkCalculatorDisplay());
     this.bulk_tokens_count.addEventListener("input", () => this.updateBulkCalculatorDisplay());
     this.tokens_per_credit_ratio.addEventListener("input", () => this.updateBulkCalculatorDisplay());
-  
+
     this.updateBulkCalculatorDisplay();
   }
   /** */
@@ -119,7 +119,7 @@ export class DashboardApp extends BaseApp {
     this.power_user_wrapper.style.display = "none";
     this.model_prices_wrapper.style.display = "none";
     this.tokens_per_credit.style.display = "none";
-    (<any>this)[this.pricing_type_display.value].style.display = "block";
+    (<any> this)[this.pricing_type_display.value].style.display = "block";
   }
   /** */
   updateBulkCalculatorDisplay() {
@@ -136,12 +136,13 @@ export class DashboardApp extends BaseApp {
       const costRatio = 1 / ((ratio * models[model].input + models[model].output) / (1 + ratio));
       const credits = tokensNeeded / costRatio;
       const cost = credits / 1000 / 0.75;
-      html += `<tr>
+      const recommended = (model === "gpt-3.5-turbo") ? "class=\"recommended\"" : "";
+      html += `<tr ${recommended}>
       <td>${model}</td>
       <td>${BaseApp.numberWithCommas(costRatio)}</td>
       <td>${BaseApp.numberWithCommas(credits)}</td>
       <td>$${BaseApp.numberWithCommas(Math.ceil(cost))}</td>
-      </tr>`
+      </tr>`;
     });
     this.bulk_credits_table.innerHTML = html;
   }
