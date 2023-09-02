@@ -305,10 +305,6 @@ a {
   display: flex;
 }
 
-.app_signed_in .hide_if_signedin {
-  display: none;
-}
-
 .google_logo {
   width: 20px;
   height: 20px;
