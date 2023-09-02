@@ -2,6 +2,7 @@ import BaseApp from "./baseapp.js";
 import DocOptionsHelper from "./docoptionshelper.js";
 import ChatDocument from "./chatdocument.js";
 import AccountHelper from "./accounthelper.js";
+import SharedWithBackend from "./sharedwithbackend.js";
 
 declare const firebase: any;
 
@@ -36,6 +37,17 @@ export class DashboardApp extends BaseApp {
   navigateHandled = false;
   homepage_logo_scrollup: any = document.querySelector(".homepage_logo_scrollup");
   originalHash = location.hash;
+  pricing_type_display: any = document.querySelector(".pricing_type_display");
+  bulk_credits_wrapper: any = document.querySelector(".bulk_credits_wrapper");
+  power_user_wrapper: any = document.querySelector(".power_user_wrapper");
+  model_prices_wrapper: any = document.querySelector(".model_prices_wrapper");
+  tokens_per_credit: any = document.querySelector(".tokens_per_credit");
+  bulk_credits_table: any = document.querySelector(".bulk_credits_table");
+  bulk_project_count: any = document.querySelector(".bulk_project_count");
+  bulk_tokens_count: any = document.querySelector(".bulk_tokens_count");
+  tokens_per_credit_ratio: any = document.querySelector(".tokens_per_credit_ratio");
+  bulk_calc_total_tokens: any = document.querySelector(".bulk_calc_total_tokens");
+
   /** */
   constructor() {
     super(true, true);
@@ -74,7 +86,7 @@ export class DashboardApp extends BaseApp {
       this.profileHelper.show(true);
     });
 
-    window.addEventListener("scroll", function() {
+    window.addEventListener("scroll", function () {
       if (document.documentElement.scrollTop > 0 || document.body.scrollTop > 0) {
         document.body.classList.add("not_scrolled_top");
         document.body.classList.remove("scrolled_top");
@@ -92,6 +104,46 @@ export class DashboardApp extends BaseApp {
       history.pushState("", document.title, window.location.pathname +
         window.location.search);
     });
+    this.pricing_type_display.addEventListener("click", () => this.updateSelectedPricing());
+    this.updateSelectedPricing();
+
+    this.bulk_project_count.addEventListener("input", () => this.updateBulkCalculatorDisplay());
+    this.bulk_tokens_count.addEventListener("input", () => this.updateBulkCalculatorDisplay());
+    this.tokens_per_credit_ratio.addEventListener("input", () => this.updateBulkCalculatorDisplay());
+  
+    this.updateBulkCalculatorDisplay();
+  }
+  /** */
+  updateSelectedPricing() {
+    this.bulk_credits_wrapper.style.display = "none";
+    this.power_user_wrapper.style.display = "none";
+    this.model_prices_wrapper.style.display = "none";
+    this.tokens_per_credit.style.display = "none";
+    (<any>this)[this.pricing_type_display.value].style.display = "block";
+  }
+  /** */
+  updateBulkCalculatorDisplay() {
+    let html = "";
+    html += `<tr><th>Model</th><th>Tokens/Credit</th><th>Credits</th><th>Cost*</th></tr>`;
+    const models = SharedWithBackend.getModels();
+    const modelNames = Object.keys(models);
+    const perProject = Number(this.bulk_tokens_count.value);
+    const projectCount = Number(this.bulk_project_count.value);
+    const ratio = Number(this.tokens_per_credit_ratio.value);
+    const tokensNeeded = perProject * projectCount;
+    this.bulk_calc_total_tokens.innerHTML = tokensNeeded;
+    modelNames.forEach((model: string) => {
+      const costRatio = 1 / ((ratio * models[model].input + models[model].output) / (1 + ratio));
+      const credits = tokensNeeded / costRatio;
+      const cost = credits / 1000 / 0.75;
+      html += `<tr>
+      <td>${model}</td>
+      <td>${BaseApp.numberWithCommas(costRatio)}</td>
+      <td>${BaseApp.numberWithCommas(credits)}</td>
+      <td>$${BaseApp.numberWithCommas(Math.ceil(cost))}</td>
+      </tr>`
+    });
+    this.bulk_credits_table.innerHTML = html;
   }
   /** */
   navigateAnchor() {

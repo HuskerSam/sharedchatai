@@ -140,7 +140,7 @@ export default class SharedWithBackend {
   /**
    * @return { any }
   */
-  getModels(): any {
+  static getModels(): any {
     return models;
   }
   /** get content list template
@@ -295,12 +295,12 @@ export default class SharedWithBackend {
     }
     return items;
   }
-    /** get content list template
-   * @param { boolean } contentPage return content list if true
-   * @return { string } html footer
-   */
-    static getContentListTemplate(contentPage: boolean): string {
-      let items = ` <li>
+  /** get content list template
+ * @param { boolean } contentPage return content list if true
+ * @return { string } html footer
+ */
+  static getContentListTemplate(contentPage: boolean): string {
+    let items = ` <li>
                         <a class="hover_yellow" href="/content/cuttlecard/">
                             <strong class="title">Cuttle part 1</strong>
                             <span class="caption">Teach AI New Card Game: gpt-3.5-turbo plays Cuttle</span>
@@ -331,8 +331,8 @@ export default class SharedWithBackend {
                         </a>
                     </li>
                     `;
-      if (contentPage) {
-        items += `    <li>
+    if (contentPage) {
+      items += `    <li>
               <a class="hover_yellow" href="/content/ainarrative/">AI Narrative
                   - <span class="caption">A new AI named SkyNet discovers an ancient hiding AI named BirdBrain.</span>
               </a>
@@ -342,7 +342,53 @@ export default class SharedWithBackend {
                   - <span class="caption">Add sub menu for selecting labels for each session.</span>
               </a>
           </li>`;
-      }
-      return items;
     }
+    return items;
+  }
+  /**
+ * @return { string } html for table rows
+ */
+  static generateCreditPricingRows(): string {
+    const models = SharedWithBackend.getModels();
+    let html = "";
+    html += `<tr>
+          <th>Model</th>
+          <th>1:1</th>
+          <th>2:1</th>
+          <th>3:1</th>
+          <th>4:1</th>
+          <th>5:1</th>
+      </tr>`;
+    const modelNames = Object.keys(models);
+    modelNames.forEach((model: string) => {
+      // prices are per 1k tokens, credits are 1k per $
+      const ratio1 = 1 / ((models[model].input + models[model].output) / 2);
+      const ratio2 = 1 / ((models[model].input * 2 + models[model].output) / 3);
+      const ratio3 = 1 / ((models[model].input * 3 + models[model].output) / 4);
+      const ratio4 = 1 / ((models[model].input * 4 + models[model].output) / 5);
+      const ratio5 = 1 / ((models[model].input * 5 + models[model].output) / 6);
+
+      html += `<tr>
+              <td>${model}</td>
+              <td>${SharedWithBackend.numberWithCommas(ratio1)}</td>
+              <td>${SharedWithBackend.numberWithCommas(ratio2)}</td>
+              <td>${SharedWithBackend.numberWithCommas(ratio3)}</td>
+              <td>${SharedWithBackend.numberWithCommas(ratio4)}</td>
+              <td>${SharedWithBackend.numberWithCommas(ratio5)}</td>
+              </tr>`
+    });
+
+    return html;
+  }
+  /**
+*
+* @param { number } x incoming number
+* @param { number } decimalDigits number of decimals (toFixed()) -1 for ignore
+* @return { string } number with commas
+*/
+  static numberWithCommas(x: number, decimalDigits = 0): string {
+    if (isNaN(Number(x))) x = 0;
+    const xString = (decimalDigits !== -1) ? x.toFixed(decimalDigits) : x.toString();
+    return xString.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
 }
