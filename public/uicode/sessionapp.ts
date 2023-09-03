@@ -854,6 +854,7 @@ export class SessionApp extends BaseApp {
     const cardWrapper = document.createElement("div");
     const classes = gameOwnerClass + ownerClass + tempTicketClass + oldTicketClass;
     const cardClass = `mt-1 game_message_list_item${classes} ticket_running`;
+    const includeInContext = data.includeInMessage === true ? " checked" : "";
     const cardHTML =
       `<div class="${cardClass}" ticketid="${ticketId}">
       <span class="tokens_prompt"></span>
@@ -879,7 +880,7 @@ export class SessionApp extends BaseApp {
           </div>
           <div>
             <input class="form-check-input ticket_item_include_checkbox" 
-              type="checkbox" ticketid="${ticketId}" checked value="">
+              type="checkbox" ticketid="${ticketId}" ${includeInContext} value="">
           </div>
       </div>
       <div class="ticket_header_section">
@@ -980,12 +981,14 @@ export class SessionApp extends BaseApp {
     this.ticket_content_input.value = "";
     this.autoSizeTextArea();
 
+    const includeInMessage = this.sessionDocumentData.includePromptsInContext;
     const tempTicket = {
       uid: this.uid,
       message,
       isGameOwner: this.uid === this.sessionDocumentData.createUser,
       gameNumber: this.documentId,
       submitted: new Date().toISOString(),
+      includeInMessage,
     };
 
     const tempCard = this.getTicketCardDom(new Date().toISOString(), tempTicket, true);
@@ -1003,6 +1006,7 @@ export class SessionApp extends BaseApp {
       gameNumber: this.documentId,
       message,
       includeTickets,
+      includeInMessage,
     };
     const token = await firebase.auth().currentUser.getIdToken();
     const fResult = await fetch(this.basePath + "lobbyApi/session/message", {

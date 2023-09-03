@@ -26,7 +26,6 @@ export default class DocOptionsHelper {
     noLabelSave = false;
     lastReportData: any;
     modal_send_email_button: any;
-
     export_data_popup_preview: any;
     export_size: any;
     download_export_button: any;
@@ -54,6 +53,7 @@ export default class DocOptionsHelper {
     owner_tab_button: any;
     isOwner = false;
     options_model_lock: any;
+    docfield_include_prompts_in_context: any;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -185,6 +185,13 @@ export default class DocOptionsHelper {
 
         this.options_model_lock = this.modalContainer.querySelector(".options_model_lock");
         this.options_model_lock.addEventListener("input", () => this.updateModelLockStatus());
+
+        this.docfield_include_prompts_in_context = this.modalContainer.querySelector(".docfield_include_prompts_in_context");
+        this.docfield_include_prompts_in_context.addEventListener("input", () => this.updateIncludePrompts());
+    }
+    /** */
+    async updateIncludePrompts() {
+        this.app.saveDocumentOption(this.chatDocumentId, "includePromptsInContext", this.docfield_include_prompts_in_context.checked);
     }
     /** */
     async updateModelLockStatus() {
@@ -375,7 +382,7 @@ export default class DocOptionsHelper {
                             </div>
                         </div>
                         <div class="tab-pane fade show active" id="options_tab_view" role="tabpanel"
-                            aria-labelledby="options_tab_button">
+                            aria-labelledby="options_tab_button" style="padding-left:4px;">
                             <div style="padding-bottom: 8px;">
                                 <label class="form-label">Title</label>
                                 <br>
@@ -438,6 +445,11 @@ export default class DocOptionsHelper {
                             <hr>
                             <div>
                                 <div class="form-check">
+                                    <label class="form-check-label">
+                                    <input class="form-check-input docfield_include_prompts_in_context" type="checkbox" value="">
+                                        Include prompts in context
+                                    </label>
+                                    <br>
                                     <label class="form-check-label">
                                         <input class="form-check-input docfield_include_user_names_checkbox" type="checkbox" value="">
                                         Include user id in prompts
@@ -707,6 +719,8 @@ export default class DocOptionsHelper {
         this.shared_usage_limit_div.innerHTML = sharedLimit;
         this.docfield_archived_checkbox.checked = this.docData.archived;
         this.docfield_include_user_names_checkbox.checked = this.docData.includeUserNames;
+        this.docfield_include_prompts_in_context.checked = this.docData.includePromptsInContext;
+
         this.shared_archived_status_wrapper.innerHTML = this.docData.archived ? "Archived" : "Active";
 
         const ownerNote = (this.docData.createUser === this.app.uid) ? this.docData.note : "";

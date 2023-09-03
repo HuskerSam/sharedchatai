@@ -116,6 +116,9 @@ export default class GameAPI {
     let firstPrompt = "";
     if (req.body.firstPrompt) firstPrompt = req.body.firstPrompt;
 
+    let includePromptsInContext = true;
+    if (req.body.includePromptsInContext !== undefined) includePromptsInContext = req.body.includePromptsInContext;
+
     const model = req.body.model;
     const modelLock = req.body.model_lock;
 
@@ -138,6 +141,7 @@ export default class GameAPI {
         systemMessage,
         model,
         model_lock: modelLock,
+        includePromptsInContext,
       });
      const modelDefaults = ChatDocument.getModelMeta(model);
      Object.assign(game, modelDefaults.defaults);
@@ -317,6 +321,7 @@ export default class GameAPI {
       "title",
       "systemMessage",
       "includeUserNames",
+      "includePromptsInContext",
     ];
     const updatePacket: any = {};
     fieldsFilter.forEach((field: string) => {

@@ -57,6 +57,7 @@ export default class DocCreateHelper {
   lastEmailRows: any = [];
   create_dialog_model: any;
   create_model_lock: any;
+  create_include_prompts_in_context: any;
 
   /**
    * @param { any } app BaseApp derived application instance
@@ -162,6 +163,7 @@ export default class DocCreateHelper {
 
     this.create_dialog_model = this.modalContainer.querySelector(".create_dialog_model");
     this.create_model_lock = this.modalContainer.querySelector(".create_model_lock");
+    this.create_include_prompts_in_context = this.modalContainer.querySelector(".create_include_prompts_in_context");
   }
   /**
    * @param { boolean } isTable
@@ -502,6 +504,10 @@ export default class DocCreateHelper {
                             Lock Model
                           </label>   
                         </div>
+                        <label class="form-check-label" style="padding-left:4px;">
+                          <input class="form-check-input create_include_prompts_in_context" checked type="checkbox" value="">
+                              Include prompts in context
+                        </label>
                         <hr>
                         <div style="display:flex;flex-direction:row;">
                             <div>
@@ -677,6 +683,7 @@ export default class DocCreateHelper {
     if (!title) title = this.create_modal_title_field.value.trim();
     const model = this.create_dialog_model.value;
     const modelLock = this.create_model_lock.checked;
+    const includePromptsInContext = this.create_include_prompts_in_context.checked;
 
     this.create_game_afterfeed_button.innerHTML = "Creating...";
     document.body.classList.add("creating_new_session");
@@ -691,6 +698,7 @@ export default class DocCreateHelper {
       note,
       title,
       model,
+      includePromptsInContext,
       model_lock: modelLock,
       firstPrompt: this.create_modal_prompt_field.value.trim(),
     };

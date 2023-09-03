@@ -103,6 +103,7 @@ export default class SessionAPI {
             });
             await firebaseAdmin.firestore().doc(`Games/${ticket.gameNumber}/assists/${reRunticket}`).delete();
         } else {
+            const includeInMessage = req.body.includeInMessage === true;
             ticket = {
                 createUser: uid,
                 uid,
@@ -114,7 +115,7 @@ export default class SessionAPI {
                 memberName,
                 memberImage,
                 max_tokens,
-                includeInMessage: true,
+                includeInMessage,
             };
             const addResult: any = await firebaseAdmin.firestore().collection(`Games/${gameNumber}/tickets`).add(ticket);
             ticketId = addResult.id;
