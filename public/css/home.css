@@ -1597,6 +1597,7 @@ body.app_signed_in p.alert.alert-danger.signed_in_anonymous {
 
 .bulk_calc_input {
   width: 5em;
+  display: inline-block;
 }
 
 .pricing_calculator_wrapper {

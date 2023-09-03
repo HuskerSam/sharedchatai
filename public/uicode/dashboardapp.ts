@@ -47,7 +47,13 @@ export class DashboardApp extends BaseApp {
   bulk_tokens_count: any = document.querySelector(".bulk_tokens_count");
   tokens_per_credit_ratio: any = document.querySelector(".tokens_per_credit_ratio");
   bulk_calc_total_tokens: any = document.querySelector(".bulk_calc_total_tokens");
-
+  primary_model_select: any = document.querySelector(".primary_model_select");
+  secondary_model_select: any = document.querySelector(".secondary_model_select");
+  power_tokens_count: any = document.querySelector(".power_tokens_count");
+  power_project_count: any = document.querySelector(".power_project_count");
+  power_user_calc_total_tokens: any = document.querySelector(".power_user_calc_total_tokens");
+  primary_usage_level: any = document.querySelector(".primary_usage_level");
+  power_user_credits_table: any = document.querySelector(".power_user_credits_table");
   /** */
   constructor() {
     super(true, true);
@@ -112,6 +118,57 @@ export class DashboardApp extends BaseApp {
     this.tokens_per_credit_ratio.addEventListener("input", () => this.updateBulkCalculatorDisplay());
 
     this.updateBulkCalculatorDisplay();
+
+    this.primary_model_select.addEventListener("input", () => this.updatePowerUserCalculator());
+    this.secondary_model_select.addEventListener("input", () => this.updatePowerUserCalculator());
+    this.power_tokens_count.addEventListener("input", () => this.updatePowerUserCalculator());
+    this.power_project_count.addEventListener("input", () => this.updatePowerUserCalculator());
+    this.primary_usage_level.addEventListener("input", () => this.updatePowerUserCalculator());
+    this.initPowerUserCalcSelects();
+    this.updatePowerUserCalculator();
+  }
+  /** */
+  updatePowerUserCalculator() {
+    const perProject = Number(this.power_tokens_count.value);
+    const projectCount = Number(this.power_project_count.value);
+    const tokensNeeded = perProject * projectCount;
+    this.power_user_calc_total_tokens.innerHTML = tokensNeeded;
+    const primaryModel = this.primary_model_select.value;
+    const secondaryModel = this.secondary_model_select.value;
+    const primaryMeta = SharedWithBackend.getModelMeta(primaryModel);
+    const secondaryMeta = SharedWithBackend.getModelMeta(secondaryModel);
+    let modelRatio = Number(this.primary_usage_level.value);
+    if (isNaN(modelRatio)) modelRatio = 0;
+    if (modelRatio < 0) modelRatio = 0;
+    if (modelRatio > 100) modelRatio = 100;
+
+    let html = `<tr><th>Ratio</th><th>Credits</th><th>Cost*</th></tr>`;
+
+    for (let ratio = 1; ratio <= 5; ratio++) {
+      const primaryRatio = 1 / ((ratio * primaryMeta.input + primaryMeta.output) / (1 + ratio));
+      const secondaryRatio = 1 / ((ratio * secondaryMeta.input + secondaryMeta.output) / (1 + ratio));
+      const primaryTokens = modelRatio * tokensNeeded / 100;
+      const secondaryTokens = (100 - modelRatio) * tokensNeeded / 100;
+      const credits = primaryTokens / primaryRatio + secondaryTokens / secondaryRatio;
+      const cost = credits / 1000 / 0.75;
+
+      html += `<tr><td>${ratio}:1</td><td>${BaseApp.numberWithCommas(credits)}</td><td>${BaseApp.numberWithCommas(Math.ceil(cost))}</td></tr>`;
+    }
+
+    this.power_user_credits_table.innerHTML = html;
+  }
+  /** */
+  initPowerUserCalcSelects() {
+    const models = SharedWithBackend.getModels();
+    const modelNames = Object.keys(models);
+    let html = "";
+    modelNames.forEach((model: string) => {
+      html += `<option>${model}</option>`;
+    });
+
+    this.primary_model_select.innerHTML = html;
+    this.secondary_model_select.innerHTML = html;
+    this.secondary_model_select.selectedIndex = 2;
   }
   /** */
   updateSelectedPricing() {
