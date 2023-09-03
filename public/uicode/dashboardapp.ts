@@ -152,7 +152,8 @@ export class DashboardApp extends BaseApp {
       const credits = primaryTokens / primaryRatio + secondaryTokens / secondaryRatio;
       const cost = credits / 1000 / 0.75;
 
-      html += `<tr><td>${ratio}:1</td><td>${BaseApp.numberWithCommas(credits)}</td><td>${BaseApp.numberWithCommas(Math.ceil(cost))}</td></tr>`;
+      html += `<tr><td>${ratio}:1</td><td>${BaseApp.numberWithCommas(credits)}</td>
+        <td>${BaseApp.numberWithCommas(Math.ceil(cost))}</td></tr>`;
     }
 
     this.power_user_credits_table.innerHTML = html;
