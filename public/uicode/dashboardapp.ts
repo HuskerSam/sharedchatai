@@ -54,6 +54,7 @@ export class DashboardApp extends BaseApp {
   power_user_calc_total_tokens: any = document.querySelector(".power_user_calc_total_tokens");
   primary_usage_level: any = document.querySelector(".primary_usage_level");
   power_user_credits_table: any = document.querySelector(".power_user_credits_table");
+  buy_credits_pricing: any = document.querySelector(".buy_credits_pricing");
   /** */
   constructor() {
     super(true, true);
@@ -126,6 +127,7 @@ export class DashboardApp extends BaseApp {
     this.primary_usage_level.addEventListener("input", () => this.updatePowerUserCalculator());
     this.initPowerUserCalcSelects();
     this.updatePowerUserCalculator();
+    this.buy_credits_pricing.addEventListener("click", () => this.buyCredits.show());
   }
   /** */
   updatePowerUserCalculator() {

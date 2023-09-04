@@ -1625,3 +1625,7 @@ body.app_signed_in p.alert.alert-danger.signed_in_anonymous {
 .recommended {
   font-weight: bold;
 }
+
+.calc_description {
+  color: var(--highlight);
+}

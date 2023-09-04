@@ -234,7 +234,6 @@
                             </ul>
                         </div>
                     </div>
-                    <p class="lead"><a href="/content/pricing">More on Pricing</a></p>
                 </div>
 
                 <!-- features section-->
@@ -338,7 +337,7 @@
                             <li class="feature_group_item card hover_yellow">
                                 <a class="d-flex flex-column p-2" href="/help/#help_sign_in" target="help">
                                     <span class="material-icons">
-                                        supervised_user_circle 
+                                        supervised_user_circle
                                     </span>
                                     <h4 class="feature_name">
                                         <span class="link">Anonymous login</span>
@@ -463,7 +462,7 @@
                             </li>
                         </ul>
                     </div>
-                    <p class="lead"><a href="/help/">See Help Docs</a></p>
+                    <p class="lead"><a href="/help/">Unacog Documentation</a></p>
                 </div>
 
                 <!-- examples section-->
@@ -636,85 +635,121 @@
                     </div>
                 </section>
 
-                <div class="pricing_calculator_wrapper container">
+                <div class="pricing_calculator_wrapper container homepage_section" " id=" pricingcalculator">
+                    <h1 style="width:100%;text-align: center;">Cost Calculator</h1>
                     <br>
-                    <div style="margin-left: 10em;">
-                        <label class="form-label bulk_calc_label">Pricing</label>
-                        <select class="pricing_type_display form-select bulk_calc_input" style="width:auto;display:inline-block">
+                    <div style="text-align:center">
+                        <select class="pricing_type_display form-select bulk_calc_input"
+                            style="width:auto;display:inline-block;font-size:1.5em;">
                             <option selected value="bulk_credits_wrapper">Bulk Credits</option>
                             <option value="power_user_wrapper">Power User</option>
                             <option value="model_prices_wrapper">Model Prices</option>
                             <option value="tokens_per_credit">Tokens Per Credit</option>
                         </select>
                     </div>
-                    <hr>
+                    <br>
                     <div class="bulk_credits_wrapper">
-                        <div style="margin-left: 10em;">
-                            <label class="form-label bulk_calc_label">Tokens Per Project</label>
-                            <input class="bulk_tokens_count bulk_calc_input" type="text" value="10000">
+                        <div style="text-align:center">
+                            <div class="calc_description">
+                                This calculator is for a team leader or professor to determine the cost
+                                of multiple projects.
+                            </div>
                             <br>
-                            <label class="form-label bulk_calc_label">Project Count</label>
-                            <input class="bulk_project_count bulk_calc_input" type="text" value="25">
+                            <div style="display: inline-block;text-align: left;">
+                                <label class="form-label bulk_calc_label">Tokens Per Project</label>
+                                <input class="bulk_tokens_count bulk_calc_input" type="text" value="10000">
+                                <br>
+                                <label class="form-label bulk_calc_label">Project Count</label>
+                                <input class="bulk_project_count bulk_calc_input" type="text" value="25">
+                                <br>
+                                <label class="form-label bulk_calc_label">Input:Output Ratio</label>
+                                <select class="tokens_per_credit_ratio form-select"
+                                    style="width:auto;display:inline-block">
+                                    <option value="1">1:1</option>
+                                    <option selected value="2">2:1</option>
+                                    <option value="3">3:1</option>
+                                    <option value="4">4:1</option>
+                                    <option value="5">5:1</option>
+                                </select>
+                                Output costs more
+                                <br>
+                                <label class="form-label bulk_calc_label">Total Tokens</label>
+                                <span class="bulk_calc_total_tokens" style="padding:4px;display:inline-block"></span>
+                            </div>
                             <br>
-                            <label class="form-label bulk_calc_label">Input:Output Ratio</label>
-                            <select class="tokens_per_credit_ratio form-select" style="width:auto;display:inline-block">
-                                <option value="1">1:1</option>
-                                <option selected value="2">2:1</option>
-                                <option value="3">3:1</option>
-                                <option value="4">4:1</option>
-                                <option value="5">5:1</option>
-                            </select>
                             <br>
-                            <label class="form-label bulk_calc_label">Total Tokens</label>
-                            <span class="bulk_calc_total_tokens"></span>
+                            <div style="max-width:45em;display:inline-block;width:100%;">
+                                <table class="bulk_credits_table price_table">
+                                </table>
+                            </div>
+                            <div class="recommended"> &nbsp; gpt-3.5-turbo recommended as best value</div>
+                            <div> &nbsp; * Cost based on purchasing credits in $100 amounts</div>
                         </div>
-                        <table class="bulk_credits_table price_table">
-                        </table>
-                        <div class="recommended">gpt-3.5-turbo recommended as best value.</div>
                     </div>
                     <div class="power_user_wrapper">
-                        <div style="margin-left: 10em;">
-                            <label class="form-label bulk_calc_label">Tokens Per Project</label>
-                            <input class="power_tokens_count power_user_calc_input" type="text" value="20000">
+                        <div style="text-align:center">
+                            <div class="calc_description">
+                                For mixing models to build context cheaper but still get the
+                                best quality final results.
+                            </div>
                             <br>
-                            <label class="form-label bulk_calc_label">Project Count</label>
-                            <input class="power_project_count power_user_calc_input" type="text" value="50">
+                            <div style="display: inline-block;text-align: left;">
+                                <label class="form-label bulk_calc_label">Tokens Per Project</label>
+                                <input class="power_tokens_count power_user_calc_input" type="text" value="20000">
+                                <br>
+                                <label class="form-label bulk_calc_label">Project Count</label>
+                                <input class="power_project_count power_user_calc_input" type="text" value="50">
+                                <br>
+                                <label class="form-label bulk_calc_label">Total Tokens</label>
+                                <span class="power_user_calc_total_tokens"></span>
+                                <br>
+                                <label class="form-label bulk_calc_label">Primary Model</label>
+                                <select class="form-select primary_model_select"
+                                    style="width:auto;display:inline-block"></select>
+                                <br>
+                                <label class="form-label bulk_calc_label">Secondary Model</label>
+                                <select class="form-select secondary_model_select"
+                                    style="width:auto;display:inline-block"></select>
+                                <br>
+                                <label class="form-label bulk_calc_label">Primary Usage</label>
+                                <input type="number" min="0" max="100"
+                                    class="form-control primary_usage_level bulk_calc_input" value="80">
+                                %
+                            </div>
                             <br>
-                            <label class="form-label bulk_calc_label">Total Tokens</label>
-                            <span class="power_user_calc_total_tokens"></span>
                             <br>
-                            <label class="form-label bulk_calc_label">Primary Model</label>
-                            <select class="form-select primary_model_select" style="width:auto;display:inline-block"></select>
-                            <br>
-                            <label class="form-label bulk_calc_label">Secondary Model</label>
-                            <select class="form-select secondary_model_select" style="width:auto;display:inline-block"></select>
-                            <br>
-                            <label class="form-label bulk_calc_label">Primary Usage</label>
-                            <input type="number" min="0" max="100" class="form-control primary_usage_level bulk_calc_input" value="80">
-                            %
+                            <div style="max-width:45em;display:inline-block;width:100%;">
+                                <table class="power_user_credits_table price_table">
+                                </table>
+                            </div>
                         </div>
-                        <table class="power_user_credits_table price_table">
-                        </table>                        
                     </div>
-                    <div class="model_prices_wrapper">
-                        <table class="price_table">
-                            {{{rawPrices}}}
-                        </table>
+                    <div class="model_prices_wrapper" style="text-align:center">
+                        <div class="calc_description">
+                            Wholesale cost, these are directly from the API vendors.
+                        </div>
+                        <br>
+                        <div style="max-width:45em;display:inline-block;width:100%;">
+                            <table class="price_table">
+                                {{{rawPrices}}}
+                            </table>
+                        </div>
                     </div>
-                    <div class="tokens_per_credit">
-                        <table class="price_table">
-                            {{{tokensPerCredit}}}
-                        </table>
+                    <div class="tokens_per_credit" style="text-align:center">
+                        <div class="calc_description">
+                            Number of tokens per Unacog credit based on the API cost.
+                        </div>
+                        <br>
+                        <div style="max-width:45em;display:inline-block;width:100%;">
+                            <table class="price_table">
+                                {{{tokensPerCredit}}}
+                            </table>
+                        </div>
                     </div>
-                </div>
-
-                <div class="homepage_section">
-                    <div class="video_wrapper">
-                        <a href="https://www.youtube.com/watch?v=9VMFh3eAFrE&t=4s" target="video">
-                            <img src="/images/walkthruoverlay.jpg">
-                        </a>
+                    <br>
+                    <div style="text-align:center;font-size:1.5em;">
+                        <button class="btn btn-primary buy_credits_pricing" type="button">Buy Credits</button>
                     </div>
-                    <caption>Unacog v1. - 05/25/2023</caption>
                 </div>
 
                 <!-- team section-->
@@ -740,13 +775,6 @@
 
         <div style="flex:1"></div>
     </div>
-
-
-
-    <!-- Swiper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-
-    <!-- Initialize Swiper -->
 
 </body>
 
