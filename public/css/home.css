@@ -980,6 +980,10 @@ select.document_label_filter.form-select:active {
   text-align: right;
 }
 
+.price_table tbody {
+  font-size: 1em;
+}
+
 .token-info {
   text-align: center;
   margin-top: 20px;
@@ -1040,7 +1044,8 @@ h3.cta_panel {
 }
 
 h3,
-ol li {
+ol li,
+.display-4 {
   color: var(--primary-color);
 }
 
@@ -1613,6 +1618,7 @@ body.app_signed_in p.alert.alert-danger.signed_in_anonymous {
 .bulk_calc_input {
   width: 5em;
   display: inline-block;
+  border: solid 1px var(--primary-color);
 }
 
 .pricing_calculator_wrapper {
