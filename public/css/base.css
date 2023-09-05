@@ -783,6 +783,18 @@ table.number th {
   visibility: visible;
 }
 
+.signed_in_list_item {
+  display: none;
+}
+
+.auth_inited .spacer_not_authed {
+  display: none;
+}
+
+.app_signed_in .signed_in_list_item {
+  display: list-item;
+}
+
 .app_signed_in .signed_in_options {
   display: block;
 }
