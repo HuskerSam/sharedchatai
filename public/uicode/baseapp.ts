@@ -749,7 +749,8 @@ export default class BaseApp {
                     <div class="mb-3 mb-md-0 text-center text-md-start" style="flex:1">
                         <h5><span>Una<span class="home_navbar_name_color"">cog</span></span></h5>
                         <p>
-                            We're here to help! If you encounter any bugs or have questions, the best way to currently reach us is by <a href="mailto:support@unacog.com"
+                            We're here to help! If you encounter any bugs or have questions, the best way to 
+                            currently reach us is by <a href="mailto:support@unacog.com"
                             target="_blank">email at Support@unacog.com</a>.
                         </p>
                     </div>
