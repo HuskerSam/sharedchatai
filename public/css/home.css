@@ -1131,14 +1131,15 @@ ol li {
   padding-bottom: 2em;
 }
 
-.homepage_about_section {
-  padding: 8em 0;
+.homepage_gif_section {
+  padding: 1em 0;
   color: var(--primary-color);
 }
 
 .homepage_section,
 .example_section {
   padding: 8em 0;
+  color: var(--primary-color);
 }
 
 .day_mode .homepage_section_background {
@@ -1628,4 +1629,11 @@ body.app_signed_in p.alert.alert-danger.signed_in_anonymous {
 
 .calc_description {
   color: var(--highlight);
+}
+
+.feature_callout {
+  border-radius: 8px;
+  color: rgb(0,0,0);
+  word-wrap: break-word;
+  background-color: rgb(255, 222, 89);
 }
