@@ -92,6 +92,13 @@
             <li style="flex:1">
                 <ul class="header_tabs nav" role="tablist">
                     <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="about_tab_button" data-bs-toggle="tab" href="#about" role="tab"
+                            aria-controls="about" aria-selected="false"><span class="material-icons">
+                                info_outline
+                            </span><span class="tab_label">About</span></a>
+
+                    </li>
+                    <li class="nav-item" role="presentation">
                         <a class="nav-link session_tab" id="dashboard_tab_button" data-bs-toggle="tab" href="#sessions"
                             role="tab" aria-controls="sessions" aria-selected="false"><span class="material-icons">
                                 source
@@ -103,13 +110,6 @@
                             aria-controls="news" aria-selected="true"><span class="material-icons">
                                 campaign
                             </span><span class="tab_label">News</span></a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="about_tab_button" data-bs-toggle="tab" href="#about" role="tab"
-                            aria-controls="about" aria-selected="false"><span class="material-icons">
-                                info_outline
-                            </span><span class="tab_label">About</span></a>
-
                     </li>
                 </ul>
             </li>
@@ -677,7 +677,7 @@
                                 <div class="col-lg-6 p-lg-3 text-center">
                                     <h2 class="display-5">Create & Share Templates
                                     </h2>
-                                    <p class="fs-6">Reuse the context you build as unique spaces.</p>
+                                    <p class="fs-6">Reuse your context as unique spaces and more.</p>
                                 </div>
                                 <div class="col-lg-6 shadow rounded">
                                     <img src="/images/templates.gif" alt="gif of collaborative features"
@@ -702,7 +702,7 @@
                             </div>
                         </div>
                     </section>
-                    <section class="pricing_calculator_wrapper homepage_section" id="pricingcalculator">
+                    <section class="pricing_calculator_wrapper homepage_section homepage_section_background" id="pricingcalculator">
                         <div class="container">
                             <h1 style="width:100%;text-align: center;">Cost Calculator</h1>
                             <br>
@@ -824,7 +824,7 @@
                     </section>
 
 
-                    <section class="homepage_gif_section homepage_section_background" id="contact">
+                    <section class="homepage_gif_section" id="contact">
                         <div class="container">
                             <div class="row justify-content-center">
                                 <div class="col-12 col-lg-8 px-md-5 py-md-5">
@@ -834,7 +834,7 @@
                                             <p>We are a dedicated team based in Lincoln, Nebraska, USA. Please reach out at <a
                                               href=" mailto:support@unacog.com" target="_blank">support@unacog.com</a></p>
                                         </div>
-                                        <div class="card-body pt-0 text-start" style="display:none">
+                                        <div class="card-body pt-0 text-start homepage_section_background" style="display:none">
                                             <form action="">
                                                 <div class="mb-4">
                                                     <label class="mb-2 fw-bold" for="name">Your Name</label>
