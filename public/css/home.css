@@ -1128,10 +1128,20 @@ ol li {
 }
 
 .homepage_hero_section {
-  height: 90vh;
   display: flex;
-    align-content: center;
-    flex-wrap: wrap;
+  align-content: center;
+  flex-wrap: wrap;
+}
+
+.homepage_hero_section .row {
+  min-height: 85vh;
+}
+
+
+@media (min-width: 992px) {
+  .homepage_hero_section .row {
+    min-height: 95vh;
+  }
 }
 
 .news_section {
