@@ -1544,10 +1544,6 @@ ol li {
   }
 }
 
-.homepage_about_hero_section {
-  padding: 6em 0;
-}
-
 .about_hero_subheader {
   font-size: 1.5em;
 }
@@ -1560,11 +1556,6 @@ ol li {
 
 .about_value_desc {
   font-size: 1em;
-}
-
-.homepage_about_hero_section .display-4,
-.homepage_about_hero_section p {
-  color: var(--primary-color);
 }
 
 /* Default, for visibility on all states */
