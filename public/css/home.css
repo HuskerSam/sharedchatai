@@ -1127,13 +1127,26 @@ ol li {
   display: inline-block;
 }
 
+.homepage_hero_section {
+  height: 90vh;
+  display: flex;
+    align-content: center;
+    flex-wrap: wrap;
+}
+
 .news_section {
   padding-bottom: 2em;
 }
 
 .homepage_gif_section {
-  padding: 1em 0;
+  padding: 3em 0;
   color: var(--primary-color);
+}
+
+@media (min-width: 992px) {
+  .homepage_gif_section {
+    padding: .5em 0;
+  }
 }
 
 .homepage_section,
