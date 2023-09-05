@@ -1132,13 +1132,13 @@ ol li {
 }
 
 .homepage_about_section {
-  padding: 4em 0;
+  padding: 8em 0;
   color: var(--primary-color);
 }
 
 .homepage_section,
 .example_section {
-  padding: 4em 0;
+  padding: 8em 0;
 }
 
 .day_mode .homepage_section_background {

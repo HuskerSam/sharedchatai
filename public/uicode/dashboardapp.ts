@@ -208,7 +208,7 @@ export class DashboardApp extends BaseApp {
   }
   /** */
   navigateAnchor() {
-    this.news_tab_button.click();
+    this.about_tab_button.click();
     location.hash = "";
     location.hash = this.originalHash;
   }
@@ -308,7 +308,7 @@ export class DashboardApp extends BaseApp {
       this.handleNavigateHash();
     } else {
       if (this.originalHash !== "#sessions") {
-        if (this.news_tab_button) this.news_tab_button.classList.add("active");
+        if (this.about_tab_button) this.about_tab_button.classList.add("active");
       }
       this.handleNavigateHash();
     }
