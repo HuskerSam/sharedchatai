@@ -1091,7 +1091,7 @@ ol li {
 }
 
 .homepage.homepage_tab_selected_1 .signin_cta_navbar {
-  display: none;
+  visibility: hidden;
 }
 
 .homepage.homepage_tab_selected_0 .signin_cta_navbar,
