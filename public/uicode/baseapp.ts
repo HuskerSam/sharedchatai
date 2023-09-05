@@ -744,15 +744,14 @@ export default class BaseApp {
 */
   getFooterTemplate(): string {
     return `<div class="container">
-      <footer class="app_panel main_block m-0" style="border-radius:0;border-right:none;border-left:none;">
+      <footer class="app_panel main_block">
                 <div class="row">
                     <div class="mb-3 mb-md-0 text-center text-md-start" style="flex:1">
                         <h5><span>Una<span class="home_navbar_name_color"">cog</span></span></h5>
                         <p>
-                            We are a dedicated team based in Lincoln, Nebraska, USA. We are actively pursuing software
-                            development projects to fuel our growth. To collaborate with us, please reach out at <a
-                                href=" mailto:support@unacog.com" target="_blank">support@unacog.com</a>
-                                    </p>
+                            We're here to help! If you encounter any bugs or have questions, the best way to currently reach us is by <a href="mailto:support@unacog.com"
+                            target="_blank">email at Support@unacog.com</a>.
+                        </p>
                     </div>
                     <div class="col-md-2 mb-md-0">
                         <h5>Company</h5>
