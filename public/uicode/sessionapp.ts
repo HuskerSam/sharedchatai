@@ -627,7 +627,10 @@ export class SessionApp extends BaseApp {
     this._updateGameMembersList();
     if (scrollToBottom) this.scrollTicketListBottom();
   }
-  /** */
+  /**
+   * @param { string } ticketId
+   * @param { any } bookmarkButton dom ele
+  */
   async saveBookmark(ticketId: string, bookmarkButton: any) {
     const bookmark = bookmarkButton.selectedIndex;
     const body = {
@@ -1293,7 +1296,7 @@ export class SessionApp extends BaseApp {
         if (!memberRunningsTickets[ticketData.uid]) memberRunningsTickets[ticketData.uid] = 0;
         let bookmarks: any = ticketData.bookmarks;
         if (!bookmarks) bookmarks = {};
-        let bookmarkMembers = Object.keys(bookmarks);
+        const bookmarkMembers = Object.keys(bookmarks);
         bookmarkMembers.forEach((member: string) => {
           if (!memberBookmarks[member]) memberBookmarks[member] = {};
           memberBookmarks[member][id] = bookmarks[member];
@@ -1344,18 +1347,20 @@ export class SessionApp extends BaseApp {
     this.updateUserPresence();
     this.updateBookmarkLists(memberBookmarks);
   }
-  /** */
+  /**
+   * @param { any } memberBookmarks
+  */
   updateBookmarkLists(memberBookmarks: any) {
     if (!this.sessionDocumentData) return;
     let members: any = {};
     if (this.sessionDocumentData.members) members = this.sessionDocumentData.members;
-    let membersList = Object.keys(members);
+    const membersList = Object.keys(members);
 
     membersList.forEach((member: string) => {
       let bookmarksHTML = "";
       let bookmarks = memberBookmarks[member];
       if (!bookmarks) bookmarks = {};
-      let ticketIds = Object.keys(bookmarks);
+      const ticketIds = Object.keys(bookmarks);
       ticketIds.sort((a: string, b: string): number => {
         if (bookmarks[a] > bookmarks[b]) return 1;
         if (bookmarks[a] < bookmarks[b]) return -1;
@@ -1363,7 +1368,8 @@ export class SessionApp extends BaseApp {
       });
       const l = Math.min(5, ticketIds.length);
       for (let c = 0; c < l; c++) {
-        bookmarksHTML += `<button class="btn btn-secondary user_bookmark_link" bookmarkticketid="${ticketIds[c]}">${bookmarks[ticketIds[c]]}</button>`;
+        bookmarksHTML += `<button class="btn btn-secondary user_bookmark_link" 
+          bookmarkticketid="${ticketIds[c]}">${bookmarks[ticketIds[c]]}</button>`;
       }
       const bookmarksWrapper = this.members_list.querySelector(`div[memberbookmarksid="${member}"]`);
       bookmarksWrapper.innerHTML = bookmarksHTML;

@@ -114,6 +114,10 @@ html {
   background-color: var(--background-accent-3);
 }
 
+.nite_mode .navigated.game_message_list_item {
+  background-color: var(--secondary-color);
+}
+
 .game_message_list_item hr {
   margin-bottom: -12px;
 }
