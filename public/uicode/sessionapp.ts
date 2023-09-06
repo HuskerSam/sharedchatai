@@ -565,7 +565,7 @@ export class SessionApp extends BaseApp {
 
               const bookmarkNumber = document.createElement("select");
               bookmarkNumber.setAttribute("class", "form-select bookmark_number_select_card");
-              const html = `<option>#</option><option>1</option><option>2</option>
+              const html = `<option value="0">#</option><option>1</option><option>2</option>
               <option>3</option><option>4</option><option>5</option>`;
               bookmarkNumber.innerHTML = html;
               assistSection.appendChild(bookmarkNumber);
@@ -1366,10 +1366,12 @@ export class SessionApp extends BaseApp {
         if (bookmarks[a] < bookmarks[b]) return -1;
         return 0;
       });
-      const l = Math.min(5, ticketIds.length);
+      const l = ticketIds.length;
       for (let c = 0; c < l; c++) {
-        bookmarksHTML += `<button class="btn btn-secondary user_bookmark_link" 
-          bookmarkticketid="${ticketIds[c]}">${bookmarks[ticketIds[c]]}</button>`;
+        if (bookmarks[ticketIds[c]] > 0) {
+          bookmarksHTML += `<button class="btn btn-secondary user_bookmark_link" 
+            bookmarkticketid="${ticketIds[c]}">${bookmarks[ticketIds[c]]}</button>`;
+        }
       }
       const bookmarksWrapper = this.members_list.querySelector(`div[memberbookmarksid="${member}"]`);
       bookmarksWrapper.innerHTML = bookmarksHTML;
