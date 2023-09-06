@@ -566,7 +566,8 @@ export class SessionApp extends BaseApp {
               const bookmarkNumber = document.createElement("select");
               bookmarkNumber.setAttribute("class", "form-select bookmark_number_select_card");
               const html = `<option value="0">#</option><option>1</option><option>2</option>
-              <option>3</option><option>4</option><option>5</option>`;
+              <option>3</option><option>4</option><option>5</option>
+              <option>6</option><option>7</option><option>8</option><option>9</option>`;
               bookmarkNumber.innerHTML = html;
               assistSection.appendChild(bookmarkNumber);
               bookmarkNumber.addEventListener("input", () => this.saveBookmark(ticketId, bookmarkNumber));
