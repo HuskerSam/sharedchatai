@@ -563,6 +563,21 @@ export class SessionApp extends BaseApp {
                 setTimeout(() => btn.innerHTML = buttonText, 1200);
               });
 
+              const bookmarkNumber = document.createElement("select");
+              bookmarkNumber.setAttribute("class", "form-select bookmark_number_select_card");
+              const html = `<option>#</option><option>1</option><option>2</option>
+              <option>3</option><option>4</option><option>5</option>`;
+              bookmarkNumber.innerHTML = html;
+              assistSection.appendChild(bookmarkNumber);
+              bookmarkNumber.addEventListener("input", () => this.saveBookmark(ticketId, bookmarkNumber));
+              let bookmarks = ticketData.bookmarks;
+              if (!bookmarks) bookmarks = {};
+              if (bookmarks[this.uid]) {
+                let value = bookmarks[this.uid];
+                if (!value) value = "";
+                bookmarkNumber.value = value.toString();
+              }
+
               const continueButton = document.createElement("button");
               continueButton.setAttribute("class", "continue_previous_response btn btn-primary");
               continueButton.innerHTML = `Continue`;
@@ -611,6 +626,31 @@ export class SessionApp extends BaseApp {
     this.updatePromptTokenStatus();
     this._updateGameMembersList();
     if (scrollToBottom) this.scrollTicketListBottom();
+  }
+  /** */
+  async saveBookmark(ticketId: string, bookmarkButton: any) {
+    const bookmark = bookmarkButton.selectedIndex;
+    const body = {
+      sessionId: this.documentId,
+      ticketId: ticketId.toString(),
+      bookmark,
+    };
+    const token = await firebase.auth().currentUser.getIdToken();
+    const fResult = await fetch(this.basePath + "lobbyApi/session/message/bookmark", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      headers: {
+        "Content-Type": "application/json",
+        token,
+      },
+      body: JSON.stringify(body),
+    });
+    const json = await fResult.json();
+    if (!json.success) {
+      console.log("ticket update bookmark", json);
+      alert(json.errorMessage);
+    }
   }
   /** tests if dom scroll is at bottom
    * @param { any } ele element to test

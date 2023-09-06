@@ -762,7 +762,6 @@ pre code {
   display: none;
   position: absolute;
   bottom: 0px;
-  right: 44px;
   z-index: 1;
 }
 
@@ -770,7 +769,16 @@ pre code {
   display: inline-block;
   position: absolute;
   bottom: 0px;
+  right: 182px;
+}
+
+.form-select.bookmark_number_select_card {
+  display: inline-block;
+  position: absolute;
+  bottom: 0px;
   right: 110px;
+  width: auto;
+  border-color: transparent;
 }
 
 

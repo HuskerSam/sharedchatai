@@ -14,7 +14,10 @@ import {
     encode,
 } from "gpt-3-encoder";
 import SharedWithBackend from "./uicode/sharedwithbackend";
-
+import type {
+    Request,
+    Response,
+} from "express";
 const creditRequestCharge = 1;
 
 /** Match game specific turn logic wrapped in a transaction */
@@ -866,6 +869,31 @@ console.log(usage_credits);
                     edited: true,
                     uid: uid,
                 }],
+            },
+        });
+
+        return res.status(200).send({
+            success: true,
+        });
+    }
+    /**
+     * @param { Request } req http request object
+     * @param { Response } res http response object
+    */
+    static async updateTicketBookmark(req: Request, res: Response) {
+        const authResults = await BaseClass.validateCredentials(<string>req.headers.token);
+        if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
+
+        const uid = authResults.uid;
+        const localInstance = BaseClass.newLocalInstance();
+        await localInstance.init();
+
+        const sessionId = req.body.sessionId;
+        const ticketId = req.body.ticketId;
+        const bookmark = BaseClass.getNumberOrDefault(req.body.bookmark, 0);
+        await firebaseAdmin.firestore().doc(`Games/${sessionId}/tickets/${ticketId}`).update({
+            bookmarks: {
+                [uid]: bookmark,
             },
         });
 

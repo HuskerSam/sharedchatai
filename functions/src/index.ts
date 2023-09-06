@@ -46,6 +46,7 @@ gameAPIApp.post("/session/message/delete", async (req, res) => SessionAPI.delete
 gameAPIApp.post("/session/message/include", async (req, res) => SessionAPI.updateTicketIncludeStatus(req, res));
 gameAPIApp.post("/session/message/import", async (req, res) => SessionAPI.importTicket(req, res));
 gameAPIApp.post("/session/message/editresponse", async (req, res) => SessionAPI.editTicketResponse(req, res));
+gameAPIApp.post("/session/message/bookmark", async (req, res) => SessionAPI.updateTicketBookmark(req, res));
 
 gameAPIApp.post("/payment/order", async (req, res) => PaymentAPI.getNewOrder(req, res));
 gameAPIApp.post("/payment/token", async (req, res) => PaymentAPI.getClientToken(req, res));
