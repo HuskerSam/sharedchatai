@@ -1344,7 +1344,7 @@ export class SessionApp extends BaseApp {
       BaseApp.setHTML(this.members_list, html);
     }
     this.updateUserNamesImages();
-    this.updateUserPresence();
+    this.updateUserPresence(true);
     this.updateBookmarkLists(memberBookmarks);
   }
   /**
