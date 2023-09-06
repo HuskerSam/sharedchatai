@@ -1270,9 +1270,14 @@ export class SessionApp extends BaseApp {
   /** paint game members list */
   _updateGameMembersList() {
     let html = "";
+    const ticketList = Object.keys(this.ticketsLookup);
+    const memberTicketCounts: any = {};
+    const memberSelectedCounts: any = {};
+    const memberRunningsTickets: any = {};
+    const memberBookmarks: any = {};
+
     if (this.sessionDocumentData) {
       let members: any = {};
-
       if (this.sessionDocumentData.members) members = this.sessionDocumentData.members;
       let membersList = Object.keys(members);
       membersList = membersList.sort((a: string, b: string) => {
@@ -1281,16 +1286,18 @@ export class SessionApp extends BaseApp {
         return 0;
       });
 
-      const ticketList = Object.keys(this.ticketsLookup);
-      const memberTicketCounts: any = {};
-      const memberSelectedCounts: any = {};
-      const memberRunningsTickets: any = {};
-
       ticketList.forEach((id: any) => {
         const ticketData: any = this.ticketsLookup[id];
         if (!memberTicketCounts[ticketData.uid]) memberTicketCounts[ticketData.uid] = 0;
         if (!memberSelectedCounts[ticketData.uid]) memberSelectedCounts[ticketData.uid] = 0;
         if (!memberRunningsTickets[ticketData.uid]) memberRunningsTickets[ticketData.uid] = 0;
+        let bookmarks: any = ticketData.bookmarks;
+        if (!bookmarks) bookmarks = {};
+        let bookmarkMembers = Object.keys(bookmarks);
+        bookmarkMembers.forEach((member: string) => {
+          if (!memberBookmarks[member]) memberBookmarks[member] = {};
+          memberBookmarks[member][id] = bookmarks[member];
+        });
 
         memberTicketCounts[ticketData.uid]++;
         if (ticketData.includeInMessage) memberSelectedCounts[ticketData.uid]++;
@@ -1324,6 +1331,7 @@ export class SessionApp extends BaseApp {
               <div class="member_list_time_since members_feed_profile_lastactivity">${timeSince}</div>
             </div>
           </div>
+          <div class="members_feed_bookmarks_wrapper" memberbookmarksid="${member}"></div>
         </li>`;
       });
     }
@@ -1334,6 +1342,46 @@ export class SessionApp extends BaseApp {
     }
     this.updateUserNamesImages();
     this.updateUserPresence();
+    this.updateBookmarkLists(memberBookmarks);
+  }
+  /** */
+  updateBookmarkLists(memberBookmarks: any) {
+    if (!this.sessionDocumentData) return;
+    let members: any = {};
+    if (this.sessionDocumentData.members) members = this.sessionDocumentData.members;
+    let membersList = Object.keys(members);
+
+    membersList.forEach((member: string) => {
+      let bookmarksHTML = "";
+      let bookmarks = memberBookmarks[member];
+      if (!bookmarks) bookmarks = {};
+      let ticketIds = Object.keys(bookmarks);
+      ticketIds.sort((a: string, b: string): number => {
+        if (bookmarks[a] > bookmarks[b]) return 1;
+        if (bookmarks[a] < bookmarks[b]) return -1;
+        return 0;
+      });
+      const l = Math.min(5, ticketIds.length);
+      for (let c = 0; c < l; c++) {
+        bookmarksHTML += `<button class="btn btn-secondary user_bookmark_link" bookmarkticketid="${ticketIds[c]}">${bookmarks[ticketIds[c]]}</button>`;
+      }
+      const bookmarksWrapper = this.members_list.querySelector(`div[memberbookmarksid="${member}"]`);
+      bookmarksWrapper.innerHTML = bookmarksHTML;
+
+      const btns: any = bookmarksWrapper.querySelectorAll(".user_bookmark_link");
+      btns.forEach((btn: any) => btn.addEventListener("click", () => {
+        const ticketid = btn.getAttribute("bookmarkticketid");
+        const card: any = this.tickets_list.querySelector(`div[ticketid="${ticketid}"]`);
+        card.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+        card.classList.add("navigated");
+        setTimeout(() => {
+          card.classList.remove("navigated");
+        }, 500);
+      }));
+    });
   }
   /** paint user editable game options
   */

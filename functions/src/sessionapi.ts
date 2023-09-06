@@ -891,10 +891,12 @@ console.log(usage_credits);
         const sessionId = req.body.sessionId;
         const ticketId = req.body.ticketId;
         const bookmark = BaseClass.getNumberOrDefault(req.body.bookmark, 0);
-        await firebaseAdmin.firestore().doc(`Games/${sessionId}/tickets/${ticketId}`).update({
+        await firebaseAdmin.firestore().doc(`Games/${sessionId}/tickets/${ticketId}`).set({
             bookmarks: {
                 [uid]: bookmark,
             },
+        }, {
+            merge: true,
         });
 
         return res.status(200).send({

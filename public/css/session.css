@@ -107,6 +107,11 @@ html {
 .game_message_list_item {
   overflow: hidden;
   padding-bottom: 16px;
+  transition: background-color 1s;
+}
+
+.navigated.game_message_list_item {
+  background-color: var(--background-accent-3);
 }
 
 .game_message_list_item hr {
@@ -1308,4 +1313,15 @@ li.mb-1 button.btn.btn-toggle:before {
   .assist_section > div {
     margin-right: 6%;
   }
+}
+
+.members_feed_bookmarks_wrapper {
+  padding: 4px;
+  padding-left: 18px;
+}
+
+.user_bookmark_link {
+  max-width: 2.5em;
+  overflow: hidden;
+  margin-left: 8px;
 }
