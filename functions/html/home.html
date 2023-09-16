@@ -167,9 +167,8 @@
                 <div class="container news_section">
                     <ul class="recent_content_flyers_ul_list flex-lg-row flex_change_responsive">{{{flyerHTML}}}</ul>
                 </div>
-
                 <!-- Models section-->
-                <div id="models" class="homepage_section models_section homepage_section_background">
+                <section id="models" class="homepage_section homepage_section_background">
                     <h2 class="homepage_header">Available Models</h2>
                     <div class="flex-lg-row flex_change_responsive container">
                         <div class="main_block intro_card card">
@@ -235,10 +234,9 @@
                             </ul>
                         </div>
                     </div>
-                </div>
-
+                </section>
                 <!-- features section-->
-                <div id="features" class="homepage_section">
+                <section id="features" class="homepage_section">
                     <h2 class="homepage_header">Features</h2>
                     <div class="container">
                         <ul class=" flex-lg-row flex_change_responsive feature_group_list">
@@ -464,10 +462,11 @@
                         </ul>
                     </div>
                     <p class="lead"><a href="/help/">Unacog Documentation</a></p>
-                </div>
+                </section>
+
 
                 <!-- examples section-->
-                <div id="examples" class="example_section">
+                <div id="examples" class="">
                     <div class="flex-lg-row flex_change_responsive container">
                         <div class="main_block app_panel">
                             <h5 class="ms-3 ms-md-0 text-md-center text-start">Example Sessions</h5>
@@ -570,9 +569,11 @@
                         <div class="container py-5">
                             <div class="row g-4">
                                 <div class="col mt-md-0">
-                                    <img class="model_svg show_day_mode_inline_block" src="/images/openailite.svg"
-                                        style="width:100px;"><img class="model_svg show_nite_mode_inline_block"
-                                        src="/images/openai.svg" style="width:100px;">
+                                    <img src="/images/openai-cir.png" style="width:32px;"><img
+                                        class="model_svg show_day_mode_inline_block" src="/images/openai-name-day.png"
+                                        style="margin-left:6px;width:95px;"><img
+                                        class="model_svg show_nite_mode_inline_block" src="/images/openai-name-nite.png"
+                                        style="margin-left:6px;width:95px;">
                                 </div>
                                 <div class="col mt-md-0">
                                     <img src="/images/palmapi.png" style="width:32px;"><img
@@ -597,23 +598,18 @@
                         <div class="container">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <h2 class="display-4">The Unacog Difference</h2>
                                     <img src="/images/unacog_screen.png" alt="Application Image" class="img-fluid mt-4">
                                     <div class="row pt-5">
                                         <div class="col-md-3 col-6">
-                                            <span><i class="material-icons">handshake</i></span>
                                             <h4 class="feature_callout">Collaborative</h4>
                                         </div>
                                         <div class="col-md-3 col-6">
-                                            <span><i class="material-icons">switch_access_shortcut</i></span>
                                             <h4 class="feature_callout">Multi-Model</h4>
                                         </div>
                                         <div class="col-md-3 col-6 mt-4 mt-md-0">
-                                            <span><i class="material-icons">settings_input_component</i></span>
                                             <h4 class="feature_callout">Feature-rich</h4>
                                         </div>
                                         <div class="col-md-3 col-6 mt-4 mt-md-0">
-                                            <span><i class="material-icons">toll</i></span>
                                             <h4 class="feature_callout">Credit-based</h4>
                                         </div>
                                     </div>
@@ -646,13 +642,13 @@
                                     <p class="fs-6">Create the perfect context for your use case.</p>
                                 </div>
                                 <div class="col-lg-6 order-lg-0 shadow-sm rounded">
-                                    <img src="/images/context.gif" alt="gif of collaborative features"
+                                    <img src="/images/context.gif" alt="gif of features to manage context"
                                         class="img-fluid rounded">
                                 </div>
                             </div>
                         </div>
                     </section>
-                    <section class="homepage_section homepage_section_background">
+                    <section class="homepage_section homepage_section_background ">
                         <div class="container">
                             <div class="row align-items-center">
                                 <div class="col-lg-6 p-lg-3 text-center mb-3 mb-lg-0">
@@ -663,17 +659,13 @@
                                     <a href="#pricingcalculator" class="btn btn-primary btn-lg">Cost Calculator</a>
                                 </div>
                                 <div class="col-lg-6">
-                                    <a href="https://unacog.com/content/credits/"
-                                        class="d-flex flex-column justify-content-center align-content-center"
-                                        style="flex-flow: wrap;">
-                                        <img src="/images/unacog_pricing.png" alt="gif of collaborative features"
-                                            class="img-fluid rounded w-50">
-                                        <caption class="text-center">A look at the cost of a Prompt</caption>
-                                    </a>
+                                    <img src="/images/credits.gif" alt="gif of explaining unacog credits"
+                                    class="img-fluid rounded">
                                 </div>
                             </div>
                         </div>
                     </section>
+
                     <section class="homepage_gif_section pt-5">
                         <div class="container">
                             <div class="row align-items-center">
@@ -683,13 +675,12 @@
                                     <p class="fs-6">Reuse your context as unique spaces and more.</p>
                                 </div>
                                 <div class="col-lg-6 shadow-sm rounded">
-                                    <img src="/images/templates.gif" alt="gif of collaborative features"
+                                    <img src="/images/templates.gif" alt="gif showing how to reuse context as templates"
                                         class="img-fluid rounded">
                                 </div>
                             </div>
                         </div>
                     </section>
-
                     <section class="homepage_gif_section pb-5">
                         <div class="container">
                             <div class="row align-items-center">
@@ -699,12 +690,13 @@
                                     <p class="fs-6">With features to streamline your workflow.</p>
                                 </div>
                                 <div class="col-lg-6 order-lg-0 shadow-sm rounded">
-                                    <img src="/images/dashprofile.gif" alt="gif of collaborative features"
+                                    <img src="/images/dashprofile.gif" alt="gif showing dashboard and profile options"
                                         class="img-fluid rounded">
                                 </div>
                             </div>
                         </div>
                     </section>
+    
                     <section class="pricing_calculator_wrapper homepage_section homepage_section_background"
                         id="pricingcalculator">
                         <div class="container">
@@ -824,29 +816,46 @@
                                 </div>
                             </div>
                             <hr>
-                            <div class="col align-items-center">
+                            <div class="col align-items-center" style="display:none;">
                                 <div class="py-3" style="text-align:center;font-size:1.5em;">
                                     <button class="btn btn-primary btn-lg buy_credits_pricing" type="button">Buy
                                         Credits</button>
                                 </div>
-                                <div class="shadow-sm rounded">
-                                    <img src="/images/credits.gif" alt="gif of collaborative features"
-                                        class="img-fluid rounded">
-                                </div>
                             </div>
-                            <hr>
                         </div>
                     </section>
-                    <section class="homepage_gif_section" id="contact">
+                    <section class="homepage_section ">
+                        <div class="container">
+                            <div class="row align-items-center">
+                                <div class="col-lg-6 p-lg-3 text-center mb-3 mb-lg-0">
+                                    <h2 class="display-5">Most Flexible Way to Prompt
+                                    </h2>
+                                    <p class="fs-5">Collaborate in real-time with many LLMs with no subscription needed</p>
+                                    <a href="#pricingcalculator" class="btn btn-primary btn-lg">Cost Calculator</a>
+                                </div>
+                                <div class="col-lg-6">
+                                    <a href="https://unacog.com/content/credits/"
+                                        class="d-flex flex-sm-column justify-content-center align-content-center"
+                                        style="flex-flow: wrap;">
+                                        <img src="/images/unacog_pricing.png" alt="gif of collaborative features"
+                                            class="img-fluid rounded w-50">
+                                        <caption class="text-center">A look at the cost of a Prompt</caption>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="homepage_gif_section homepage_section_background" id="contact">
                         <div class="container">
                             <div class="row justify-content-center">
                                 <div class="col-12 col-lg-8 px-md-5 py-md-5">
                                     <div class="card border-0 p-2 p-md-3 p-lg-5">
                                         <div class="border-0 text-center py-3 px-4">
                                             <h2>Need to Talk?</h2>
-                                            <p>We are a dedicated team based in Lincoln, Nebraska, USA. Please reach out
-                                                at <a href=" mailto:support@unacog.com"
-                                                    target="_blank">support@unacog.com</a></p>
+                                            <p> We're here to help! If you encounter any bugs or have questions, the best way to 
+                                                currently reach us is by <a href="mailto:support@unacog.com"
+                                                target="_blank">email at Support@unacog.com</a>.</p>
                                         </div>
                                         <div class="card-body pt-0 text-start homepage_section_background"
                                             style="display:none">

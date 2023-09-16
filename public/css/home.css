@@ -1164,8 +1164,7 @@ ol li,
   }
 }
 
-.homepage_section,
-.example_section {
+.homepage_section {
   padding: 8em 0;
   color: var(--primary-color);
 }
@@ -1566,7 +1565,7 @@ ol li,
   margin-right: auto;
 }
 
-@media(min-width: 992px) {
+@media (min-width: 992px) {
   .about_value_image {
     height: 125px;
   }
@@ -1657,3 +1656,19 @@ body.app_signed_in p.alert.alert-danger.signed_in_anonymous {
   word-wrap: break-word;
   background-color: rgb(255, 222, 89);
 }
+
+.credits_gif img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin: auto;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+@media (min-width: 992px) {
+  .credits_gif img {
+    width: 50%;
+  }
+}
+  
