@@ -67,12 +67,14 @@ export default class WebPage {
         let rowsXML = "";
 
         SharedWithBackend.getNews().forEach((item: any) => {
-            rowsXML += `<url>
+            if (item.link.substring(0, 4) !== "http") {
+                rowsXML += `<url>
             <loc>https://unacog.com${item.link}</loc>
             <changefreq>daily</changefreq>
             <priority>1</priority>
         </url>
         `;
+            }
         });
 
         return `<?xml version="1.0" encoding="utf-8"?>
