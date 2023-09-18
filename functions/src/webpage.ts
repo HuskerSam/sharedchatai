@@ -49,4 +49,43 @@ export default class WebPage {
 
         return html;
     }
+    /** http endpoint for generating sitemap
+    * @param { any } req http request object
+    * @param { any } res http response object
+    */
+    static async generateSiteXMLMap(req: any, res: any): Promise<any> {
+        res.set("Access-Control-Allow-Origin", "*");
+        if (req.method === "GET") {
+            const html = await WebPage.getSiteMap();
+            res.set("Content-Type", "text/xml");
+            return res.status(200).send(html);
+        }
+        return res.send("GET Only");
+    }
+    /** */
+    static async getSiteMap() {
+        let rowsXML = "";
+
+        SharedWithBackend.getNews().forEach((item: any) => {
+            rowsXML += `<url>
+            <loc>https://unacog.com${item.link}</loc>
+            <changefreq>daily</changefreq>
+            <priority>1</priority>
+        </url>
+        `;
+        });
+
+        return `<?xml version="1.0" encoding="utf-8"?>
+  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+      <url>
+          <loc>https://unacog.com</loc>
+          <lastmod>${new Date().toISOString().substring(0, 10)}</lastmod>
+          <changefreq>daily</changefreq>
+          <priority>1</priority>
+      </url>
+      ${rowsXML}
+  </urlset>`;
+    }
 }

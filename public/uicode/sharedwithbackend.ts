@@ -1,3 +1,129 @@
+const newsList = [
+  {
+    link: "/content/edustudy2/",
+    title: "Edu How To",
+    description: "Practical Tips for LLMs Classroom Integration",
+    image:
+      "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
+      "images%2Fpresentations%2Fintegrating%20ai%20into%20classroom%20tips%2F1.jpg" +
+      "?alt=media&token=c3032a67-5d7c-4bda-b7be-9828d373f28c",
+    date: "08-30-2023",
+  },
+  {
+    link: "/content/credits/",
+    title: "Cost Info",
+    description: "Unacog Credits Explained",
+    image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
+      "images%2Fpresentations%2Fcredits%20system%2F1.jpg?alt=media&token=e5fc4982-3401-4f33-8123-f8f7a2bdacc1",
+    date: "08-24-2023",
+  },
+  {
+    link: "/content/howto/",
+    title: "How To",
+    description: "Crafting Effective Chatgpt Prompts",
+    image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
+      "images%2Fpresentations%2Fcrafting%20effective%20prompts%20tips%2F1.jpg?alt=media&token=dc2f474a-2225-4c2b-bee6-79b6013f3af2",
+    date: "08-21-2023",
+  },
+  {
+    link: "/content/toplist/",
+    title: "Top List",
+    description: "Most Common Misconceptions about LLMs",
+    image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
+      "images%2Fpresentations%2FDebunking%20AI%20Myths%2010%20Common%20Misconceptions%2F1.jpg" +
+      "?alt=media&token=faebb283-162b-4c51-97ac-3cd61313a222",
+    date: "08-18-2023",
+  },
+  {
+    link: "/content/edustudy1/",
+    title: "Edu Use Case",
+    description: "Using LLMs as a Personal Tutor: AI tutors in EDU",
+    image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
+      "images%2Fpresentations%2Fpersonal%20tutor%20edu%2F1.jpg?alt=media&token=49769202-ea50-4e59-8d42-06454bb9032b",
+    date: "08-15-2023",
+  },
+  {
+    link: "/content/sharingprompts/",
+    title: "Share Chat Sessions",
+    description: "Copy, import, export and share prompts",
+    image: "/content/sharingprompts/shareprompts.png",
+    date: "08-13-2023",
+  },
+  {
+    link: "/content/litreview/",
+    title: "Literature Review",
+    description: "Chatgpt and LLMs in Academia: Opportunities and Challenges",
+    image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
+      "images%2Fpresentations%2Fgpt%20classroom%20challenges%20and%20possibilities%2F1.jpg" +
+      "?alt=media&token=d3f4ea33-4d9e-4d7f-9ae4-660477f57055",
+    date: "08-10-2023",
+  },
+  {
+    link: "/content/managingcontext/",
+    title: "Managing Context",
+    description: "Control what the LLM sees to limit costs and generate better results",
+    image: "/content/overview/costtracking.png",
+    date: "08-07-2023",
+  },
+  {
+    link: "/content/litreview1/",
+    title: "Literature Review",
+    description: "We Need to Talk About ChatGPT: The Future of AI and Higher Education",
+    image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
+      "images%2Fpresentations%2Ffuture%20of%20higher%20education%2F1.jpg?alt=media&token=c0951f29-ddee-4d7a-84ad-46003a217704",
+    date: "08-05-2023",
+  },
+  {
+    link: "/content/outputformatting/",
+    title: "Output Formatting",
+    description: "Formatting equations, code and markdown",
+    image: "/content/outputformatting/outputformatting.png",
+    date: "08-03-2023",
+  },
+  {
+    link: "/content/edustudy/",
+    title: "Edu Use Case",
+    description: "Make Your Lessons Come To Life With AI: Using Context to Streamline Course Material",
+    image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
+      "images%2Fpresentations%2Flesson%20plans%20with%20ai%2F1.jpg?alt=media&token=b06c993a-ea05-4467-abcc-a6290e515f1a",
+    date: "07-29-2023",
+  },
+  {
+    link: "/content/teamtogether/",
+    title: "Learn Together",
+    description: "Sessions and sharing for groups",
+    image: "/images/learntogether.png",
+    date: "07-29-2023",
+  },
+  {
+    link: "/content/editresponse/",
+    title: "Edit Response",
+    description: "Edit response directly in chat",
+    image: "/images/editresponse_quirk.png",
+    date: "07-24-2023",
+  },
+  {
+    link: "/content/overview/",
+    title: "Technical Overview",
+    description: "Architecture, frameworks, APIs and passing data to LLM APIs",
+    image: "/content/overview/firebasecloud.png",
+    date: "06-28-2023",
+  },
+  {
+    link: "/content/webscrape/",
+    title: "Scrape a Webpage",
+    description: "Scrape a website using this template",
+    image: "/images/webscrape_banner.png",
+    date: "06-18-2023",
+  },
+  {
+    link: "https://www.youtube.com/watch?v=9VMFh3eAFrE&t=4s",
+    title: "App Walkthrough",
+    description: "Beta Release - Feature Walkthrough",
+    image: "/images/walkthruoverlay.jpg",
+    date: "05-25-2023",
+  },
+];
 const models: any = {
   "gpt-3.5-turbo": {
     "active": 1,
@@ -143,137 +269,17 @@ export default class SharedWithBackend {
   static getModels(): any {
     return models;
   }
+  /**
+ * @return { any }
+*/
+  static getNews(): any {
+    return newsList;
+  }
   /** get content list template
 * @param { boolean } contentPage return content list if true
 * @return { string } html footer
 */
   static getFlyerListTemplate(contentPage = false): string {
-    const newsList = [
-      {
-        link: "/content/edustudy2/",
-        title: "Edu How To",
-        description: "Practical Tips for LLMs Classroom Integration",
-        image:
-          "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
-          "images%2Fpresentations%2Fintegrating%20ai%20into%20classroom%20tips%2F1.jpg" +
-          "?alt=media&token=c3032a67-5d7c-4bda-b7be-9828d373f28c",
-        date: "08-30-2023",
-      },
-      {
-        link: "/content/credits/",
-        title: "Cost Info",
-        description: "Unacog Credits Explained",
-        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
-          "images%2Fpresentations%2Fcredits%20system%2F1.jpg?alt=media&token=e5fc4982-3401-4f33-8123-f8f7a2bdacc1",
-        date: "08-24-2023",
-      },
-      {
-        link: "/content/howto/",
-        title: "How To",
-        description: "Crafting Effective Chatgpt Prompts",
-        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
-          "images%2Fpresentations%2Fcrafting%20effective%20prompts%20tips%2F1.jpg?alt=media&token=dc2f474a-2225-4c2b-bee6-79b6013f3af2",
-        date: "08-21-2023",
-      },
-      {
-        link: "/content/toplist/",
-        title: "Top List",
-        description: "Most Common Misconceptions about LLMs",
-        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
-          "images%2Fpresentations%2FDebunking%20AI%20Myths%2010%20Common%20Misconceptions%2F1.jpg" +
-          "?alt=media&token=faebb283-162b-4c51-97ac-3cd61313a222",
-        date: "08-18-2023",
-      },
-      {
-        link: "/content/edustudy1/",
-        title: "Edu Use Case",
-        description: "Using LLMs as a Personal Tutor: AI tutors in EDU",
-        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
-          "images%2Fpresentations%2Fpersonal%20tutor%20edu%2F1.jpg?alt=media&token=49769202-ea50-4e59-8d42-06454bb9032b",
-        date: "08-15-2023",
-      },
-      {
-        link: "/content/sharingprompts/",
-        title: "Share Chat Sessions",
-        description: "Copy, import, export and share prompts",
-        image: "/content/sharingprompts/shareprompts.png",
-        date: "08-13-2023",
-      },
-      {
-        link: "/content/litreview/",
-        title: "Literature Review",
-        description: "Chatgpt and LLMs in Academia: Opportunities and Challenges",
-        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
-          "images%2Fpresentations%2Fgpt%20classroom%20challenges%20and%20possibilities%2F1.jpg" +
-          "?alt=media&token=d3f4ea33-4d9e-4d7f-9ae4-660477f57055",
-        date: "08-10-2023",
-      },
-      {
-        link: "/content/managingcontext/",
-        title: "Managing Context",
-        description: "Control what the LLM sees to limit costs and generate better results",
-        image: "/content/overview/costtracking.png",
-        date: "08-07-2023",
-      },
-      {
-        link: "/content/litreview1/",
-        title: "Literature Review",
-        description: "We Need to Talk About ChatGPT: The Future of AI and Higher Education",
-        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
-          "images%2Fpresentations%2Ffuture%20of%20higher%20education%2F1.jpg?alt=media&token=c0951f29-ddee-4d7a-84ad-46003a217704",
-        date: "08-05-2023",
-      },
-      {
-        link: "/content/outputformatting/",
-        title: "Output Formatting",
-        description: "Formatting equations, code and markdown",
-        image: "/content/outputformatting/outputformatting.png",
-        date: "08-03-2023",
-      },
-      {
-        link: "/content/edustudy/",
-        title: "Edu Use Case",
-        description: "Make Your Lessons Come To Life With AI: Using Context to Streamline Course Material",
-        image: "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/" +
-          "images%2Fpresentations%2Flesson%20plans%20with%20ai%2F1.jpg?alt=media&token=b06c993a-ea05-4467-abcc-a6290e515f1a",
-        date: "07-29-2023",
-      },
-      {
-        link: "/content/teamtogether/",
-        title: "Learn Together",
-        description: "Sessions and sharing for groups",
-        image: "/images/learntogether.png",
-        date: "07-29-2023",
-      },
-      {
-        link: "/content/editresponse/",
-        title: "Edit Response",
-        description: "Edit response directly in chat",
-        image: "/images/editresponse_quirk.png",
-        date: "07-24-2023",
-      },
-      {
-        link: "/content/overview/",
-        title: "Technical Overview",
-        description: "Architecture, frameworks, APIs and passing data to LLM APIs",
-        image: "/content/overview/firebasecloud.png",
-        date: "06-28-2023",
-      },
-      {
-        link: "/content/webscrape/",
-        title: "Scrape a Webpage",
-        description: "Scrape a website using this template",
-        image: "/images/webscrape_banner.png",
-        date: "06-18-2023",
-      },
-      {
-        link: "https://www.youtube.com/watch?v=9VMFh3eAFrE&t=4s",
-        title: "App Walkthrough",
-        description: "Beta Release - Feature Walkthrough",
-        image: "/images/walkthruoverlay.jpg",
-        date: "05-25-2023",
-      },
-    ];
     let items = "";
     newsList.forEach((item: any) => {
       items += `<li class="news_group_item hover_yellow"><a class="d-flex flex-column" href="${item.link}">
