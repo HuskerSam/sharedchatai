@@ -1,0 +1,1188 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unacog AI</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="shortcut icon" href="/images/logo64.png">
+    <meta name='mobile-web-app-capable' content='yes'>
+    <meta name='apple-mobile-web-app-capable' content='yes'>
+    <meta name='apple-mobile-web-app-status-bar-style' content='black'>
+    <meta name="description" content="Unacog is an online AI chat tool, enabling instant collaboration on any device. It equips you with a comprehensive set of features to optimize your interaction with advanced AI models.">
+
+    <link rel='icon' sizes='192x192' href='https://unacog.com/images/logo64.png'>
+    <link rel='apple-touch-icon' href='https://unacog.com/images/logo64.png'>
+    <meta name='msapplication-square310x310logo' content='https://unacog.com/images/logo64.png'>
+    <link rel='apple-touch-icon' href='https://unacog.com/images/logo64.png'>
+
+    <link rel="manifest" href="/manifest.json">
+    <meta property="og:url" content="https://unacog.com">
+    <meta property="og:title" content="Unacog AI Application">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://unacog.com/images/homepageogmeta.jpg">
+    <meta property="og:description"
+        content="Unacog is an online AI chat tool, enabling instant collaboration on any device. It equips you with a comprehensive set of features to optimize your interaction with advanced AI models.">
+
+    <meta name="twitter:site" content="https://unacog.com">
+    <meta name="twitter:title" content="Unacog About">
+    <meta name="twitter:description"
+        content="Unacog is an online AI chat tool, enabling instant collaboration on any device. It equips you with a comprehensive set of features to optimize your interaction with advanced AI models. Login and start a session.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image:src" content="https://unacog.com/images/homepageogmeta.jpg">
+
+    <!-- Firebase links -->
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-firestore.js"></script>
+    <script src="/__/firebase/init.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+    <link href="//cdn-images.mailchimp.com/embedcode/classic-061523.css" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/modal.css">
+    <link rel="stylesheet" href="/css/home.css">
+    <script>
+        window.addEventListener("load", async (event) => {
+            let module = await import("/models/dashboardapp.js");
+
+            window.StaticPageApp = new module.DashboardApp();
+        });
+    </script>
+</head>
+
+<body class="basic_page_wrapper homepage news_tab homepage_tab_selected_0">
+    <script>
+        if (localStorage.getItem("niteMode") !== "true") document.body.classList.add("day_mode");
+        else document.body.classList.add("nite_mode");
+    </script>
+    <nav class="navbar navbar-light navbar_wrapper">
+        <ul class="navbar-nav d-flex flex-row justify-content-end justify-content-sm-between container">
+            <li class="home_logo_mobile_only">
+                <a class="navbar_brand homepage_logo_scrollup" href="#" style="text-decoration: none;">
+                    <span class="navbar_logo"></span>
+                    <div class="mobile_hide position-relative homepage_logo_spacing">Una<span
+                            class="home_navbar_name_color">cog</span></div>
+                    <div class=" scroll_to_top_icon">
+                            <span class="material-icons-outlined">
+                                arrow_upward
+                            </span>
+                            </div>
+                </a>
+            </li>
+            <li class="logo_offset_spacer_mobile mobile_hide"></li>
+            <li style="flex:1">
+                <ul class="header_tabs nav" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="about_tab_button" data-bs-toggle="tab" href="#about" role="tab"
+                            aria-controls="about" aria-selected="false"><span class="material-icons">
+                                info_outline
+                            </span><span class="tab_label">About</span></a>
+
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link session_tab" id="dashboard_tab_button" data-bs-toggle="tab" href="#sessions"
+                            role="tab" aria-controls="sessions" aria-selected="false"><span class="material-icons">
+                                source
+                            </span><span class="tab_label">Sessions</span></a>
+
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="news_tab_button" data-bs-toggle="tab" href="#news" role="tab"
+                            aria-controls="news" aria-selected="true"><span class="material-icons">
+                                campaign
+                            </span><span class="tab_label">News</span></a>
+                    </li>
+                </ul>
+            </li>
+            <li class="logo_offset_spacer mobile_hide"></li>
+            <li class="nav-item signed_in_list_item">
+                <a class="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
+                    <span class="menu_profile_user_image_span member_profile_image hover_yellow"> </span>
+                </a>
+            </li>
+            <li class="nav-item mobile_hide signed_out_list_item">
+                <button class="signin_cta_navbar hover_yellow btn btn-primary" type="button"><span
+                        class="mobile_hide">Login</span><span class="mobile_show"><i class="material-icons"
+                            style="position: relative;top: 3px;">login</i></span>
+                        </button>
+            </li>
+            <li class="spacer_not_authed" style="width:65px"></li>
+            <li class="nav-item">
+                <a class="showhomepage_help nav-link hover_yellow" href="/help/" target="help">
+                    <span class="mobile_custom_icon_label">
+                        <i class="material-icons">help_outline</i>
+                    </span>
+                </a>
+            </li>
+        </ul>
+        <div class="signed_in_inline_block container">
+            <div class="filter_bar_wrapper">
+                <div class="games_view_header_wrapper">
+                    <select class="document_label_filter form-select">
+                        <option>All Sessions</option>
+                    </select>
+                </div>
+                <div>
+                    <a class="nav-link show_create_modal homepage hover_yellow" href="create">
+                        <span class="mobile_custom_icon_label">
+                            <i class="material-icons add_icon">add</i>
+                        </span>
+                    </a>
+                </div>
+                <a class="account_status_display" href="showaccountinfo">
+                    <div class="credits_left"></div>
+                </a>
+            </div>
+        </div>
+    </nav>
+    <div class="main_container homepage_content">
+        <div class="tab-content home_page_tabs">
+            <div class="tab-pane fade" id="news" role="tabpanel" style="flex-direction:column;"
+                aria-labelledby="news_tab_button">
+
+                <div class="anchor_row" style="padding-top:8px;font-size: 1.25em">
+                    <a href="#models">#models</a>
+                    &nbsp;<a href="#features">#features</a>
+                    &nbsp;<a href="#examples">#examples</a>
+                </div>
+                <div class="container news_section">
+                    <ul class="recent_content_flyers_ul_list flex-lg-row flex_change_responsive"><li class="news_group_item hover_yellow"><a class="d-flex flex-column" href="/content/edustudy2/">
+                <div class="d-flex flex-column" style="flex:1">
+                  <div style="flex:1;text-align:center;display:flex;">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fpresentations%2Fintegrating%20ai%20into%20classroom%20tips%2F1.jpg?alt=media&token=c3032a67-5d7c-4bda-b7be-9828d373f28c" alt="Edu How To" style="align-self:center;">
+                  </div>
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1"><span class="title">Edu How To</span><i class="material-icons"
+                      style="margin-left: 4px;position:relative;top: 4px;font-size:0.9em;">open_in_new</i></h5>
+                    <small class="date">08-30-2023</small>
+                  </div>
+                  <div class="caption">Practical Tips for LLMs Classroom Integration</div>
+                </div>
+              </a></li><li class="news_group_item hover_yellow"><a class="d-flex flex-column" href="/content/credits/">
+                <div class="d-flex flex-column" style="flex:1">
+                  <div style="flex:1;text-align:center;display:flex;">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fpresentations%2Fcredits%20system%2F1.jpg?alt=media&token=e5fc4982-3401-4f33-8123-f8f7a2bdacc1" alt="Cost Info" style="align-self:center;">
+                  </div>
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1"><span class="title">Cost Info</span><i class="material-icons"
+                      style="margin-left: 4px;position:relative;top: 4px;font-size:0.9em;">open_in_new</i></h5>
+                    <small class="date">08-24-2023</small>
+                  </div>
+                  <div class="caption">Unacog Credits Explained</div>
+                </div>
+              </a></li><li class="news_group_item hover_yellow"><a class="d-flex flex-column" href="/content/howto/">
+                <div class="d-flex flex-column" style="flex:1">
+                  <div style="flex:1;text-align:center;display:flex;">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fpresentations%2Fcrafting%20effective%20prompts%20tips%2F1.jpg?alt=media&token=dc2f474a-2225-4c2b-bee6-79b6013f3af2" alt="How To" style="align-self:center;">
+                  </div>
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1"><span class="title">How To</span><i class="material-icons"
+                      style="margin-left: 4px;position:relative;top: 4px;font-size:0.9em;">open_in_new</i></h5>
+                    <small class="date">08-21-2023</small>
+                  </div>
+                  <div class="caption">Crafting Effective Chatgpt Prompts</div>
+                </div>
+              </a></li><li class="news_group_item hover_yellow"><a class="d-flex flex-column" href="/content/toplist/">
+                <div class="d-flex flex-column" style="flex:1">
+                  <div style="flex:1;text-align:center;display:flex;">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fpresentations%2FDebunking%20AI%20Myths%2010%20Common%20Misconceptions%2F1.jpg?alt=media&token=faebb283-162b-4c51-97ac-3cd61313a222" alt="Top List" style="align-self:center;">
+                  </div>
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1"><span class="title">Top List</span><i class="material-icons"
+                      style="margin-left: 4px;position:relative;top: 4px;font-size:0.9em;">open_in_new</i></h5>
+                    <small class="date">08-18-2023</small>
+                  </div>
+                  <div class="caption">Most Common Misconceptions about LLMs</div>
+                </div>
+              </a></li><li class="news_group_item hover_yellow"><a class="d-flex flex-column" href="/content/edustudy1/">
+                <div class="d-flex flex-column" style="flex:1">
+                  <div style="flex:1;text-align:center;display:flex;">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fpresentations%2Fpersonal%20tutor%20edu%2F1.jpg?alt=media&token=49769202-ea50-4e59-8d42-06454bb9032b" alt="Edu Use Case" style="align-self:center;">
+                  </div>
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1"><span class="title">Edu Use Case</span><i class="material-icons"
+                      style="margin-left: 4px;position:relative;top: 4px;font-size:0.9em;">open_in_new</i></h5>
+                    <small class="date">08-15-2023</small>
+                  </div>
+                  <div class="caption">Using LLMs as a Personal Tutor: AI tutors in EDU</div>
+                </div>
+              </a></li><li class="news_group_item hover_yellow"><a class="d-flex flex-column" href="/content/sharingprompts/">
+                <div class="d-flex flex-column" style="flex:1">
+                  <div style="flex:1;text-align:center;display:flex;">
+                    <img src="/content/sharingprompts/shareprompts.png" alt="Share Chat Sessions" style="align-self:center;">
+                  </div>
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1"><span class="title">Share Chat Sessions</span><i class="material-icons"
+                      style="margin-left: 4px;position:relative;top: 4px;font-size:0.9em;">open_in_new</i></h5>
+                    <small class="date">08-13-2023</small>
+                  </div>
+                  <div class="caption">Copy, import, export and share prompts</div>
+                </div>
+              </a></li><li class="news_group_item hover_yellow"><a class="d-flex flex-column" href="/content/litreview/">
+                <div class="d-flex flex-column" style="flex:1">
+                  <div style="flex:1;text-align:center;display:flex;">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fpresentations%2Fgpt%20classroom%20challenges%20and%20possibilities%2F1.jpg?alt=media&token=d3f4ea33-4d9e-4d7f-9ae4-660477f57055" alt="Literature Review" style="align-self:center;">
+                  </div>
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1"><span class="title">Literature Review</span><i class="material-icons"
+                      style="margin-left: 4px;position:relative;top: 4px;font-size:0.9em;">open_in_new</i></h5>
+                    <small class="date">08-10-2023</small>
+                  </div>
+                  <div class="caption">Chatgpt and LLMs in Academia: Opportunities and Challenges</div>
+                </div>
+              </a></li><li class="news_group_item hover_yellow"><a class="d-flex flex-column" href="/content/managingcontext/">
+                <div class="d-flex flex-column" style="flex:1">
+                  <div style="flex:1;text-align:center;display:flex;">
+                    <img src="/content/overview/costtracking.png" alt="Managing Context" style="align-self:center;">
+                  </div>
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1"><span class="title">Managing Context</span><i class="material-icons"
+                      style="margin-left: 4px;position:relative;top: 4px;font-size:0.9em;">open_in_new</i></h5>
+                    <small class="date">08-07-2023</small>
+                  </div>
+                  <div class="caption">Control what the LLM sees to limit costs and generate better results</div>
+                </div>
+              </a></li><li class="news_group_item hover_yellow"><a class="d-flex flex-column" href="/content/litreview1/">
+                <div class="d-flex flex-column" style="flex:1">
+                  <div style="flex:1;text-align:center;display:flex;">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fpresentations%2Ffuture%20of%20higher%20education%2F1.jpg?alt=media&token=c0951f29-ddee-4d7a-84ad-46003a217704" alt="Literature Review" style="align-self:center;">
+                  </div>
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1"><span class="title">Literature Review</span><i class="material-icons"
+                      style="margin-left: 4px;position:relative;top: 4px;font-size:0.9em;">open_in_new</i></h5>
+                    <small class="date">08-05-2023</small>
+                  </div>
+                  <div class="caption">We Need to Talk About ChatGPT: The Future of AI and Higher Education</div>
+                </div>
+              </a></li><li class="news_group_item hover_yellow"><a class="d-flex flex-column" href="/content/outputformatting/">
+                <div class="d-flex flex-column" style="flex:1">
+                  <div style="flex:1;text-align:center;display:flex;">
+                    <img src="/content/outputformatting/outputformatting.png" alt="Output Formatting" style="align-self:center;">
+                  </div>
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1"><span class="title">Output Formatting</span><i class="material-icons"
+                      style="margin-left: 4px;position:relative;top: 4px;font-size:0.9em;">open_in_new</i></h5>
+                    <small class="date">08-03-2023</small>
+                  </div>
+                  <div class="caption">Formatting equations, code and markdown</div>
+                </div>
+              </a></li><li class="news_group_item hover_yellow"><a class="d-flex flex-column" href="/content/edustudy/">
+                <div class="d-flex flex-column" style="flex:1">
+                  <div style="flex:1;text-align:center;display:flex;">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fpresentations%2Flesson%20plans%20with%20ai%2F1.jpg?alt=media&token=b06c993a-ea05-4467-abcc-a6290e515f1a" alt="Edu Use Case" style="align-self:center;">
+                  </div>
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1"><span class="title">Edu Use Case</span><i class="material-icons"
+                      style="margin-left: 4px;position:relative;top: 4px;font-size:0.9em;">open_in_new</i></h5>
+                    <small class="date">07-29-2023</small>
+                  </div>
+                  <div class="caption">Make Your Lessons Come To Life With AI: Using Context to Streamline Course Material</div>
+                </div>
+              </a></li><li class="news_group_item hover_yellow"><a class="d-flex flex-column" href="/content/teamtogether/">
+                <div class="d-flex flex-column" style="flex:1">
+                  <div style="flex:1;text-align:center;display:flex;">
+                    <img src="/images/learntogether.png" alt="Learn Together" style="align-self:center;">
+                  </div>
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1"><span class="title">Learn Together</span><i class="material-icons"
+                      style="margin-left: 4px;position:relative;top: 4px;font-size:0.9em;">open_in_new</i></h5>
+                    <small class="date">07-29-2023</small>
+                  </div>
+                  <div class="caption">Sessions and sharing for groups</div>
+                </div>
+              </a></li><li class="news_group_item hover_yellow"><a class="d-flex flex-column" href="/content/editresponse/">
+                <div class="d-flex flex-column" style="flex:1">
+                  <div style="flex:1;text-align:center;display:flex;">
+                    <img src="/images/editresponse_quirk.png" alt="Edit Response" style="align-self:center;">
+                  </div>
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1"><span class="title">Edit Response</span><i class="material-icons"
+                      style="margin-left: 4px;position:relative;top: 4px;font-size:0.9em;">open_in_new</i></h5>
+                    <small class="date">07-24-2023</small>
+                  </div>
+                  <div class="caption">Edit response directly in chat</div>
+                </div>
+              </a></li><li class="news_group_item hover_yellow"><a class="d-flex flex-column" href="/content/overview/">
+                <div class="d-flex flex-column" style="flex:1">
+                  <div style="flex:1;text-align:center;display:flex;">
+                    <img src="/content/overview/firebasecloud.png" alt="Technical Overview" style="align-self:center;">
+                  </div>
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1"><span class="title">Technical Overview</span><i class="material-icons"
+                      style="margin-left: 4px;position:relative;top: 4px;font-size:0.9em;">open_in_new</i></h5>
+                    <small class="date">06-28-2023</small>
+                  </div>
+                  <div class="caption">Architecture, frameworks, APIs and passing data to LLM APIs</div>
+                </div>
+              </a></li><li class="news_group_item hover_yellow"><a class="d-flex flex-column" href="/content/webscrape/">
+                <div class="d-flex flex-column" style="flex:1">
+                  <div style="flex:1;text-align:center;display:flex;">
+                    <img src="/images/webscrape_banner.png" alt="Scrape a Webpage" style="align-self:center;">
+                  </div>
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1"><span class="title">Scrape a Webpage</span><i class="material-icons"
+                      style="margin-left: 4px;position:relative;top: 4px;font-size:0.9em;">open_in_new</i></h5>
+                    <small class="date">06-18-2023</small>
+                  </div>
+                  <div class="caption">Scrape a website using this template</div>
+                </div>
+              </a></li><li class="news_group_item hover_yellow"><a class="d-flex flex-column" href="https://www.youtube.com/watch?v=9VMFh3eAFrE&t=4s">
+                <div class="d-flex flex-column" style="flex:1">
+                  <div style="flex:1;text-align:center;display:flex;">
+                    <img src="/images/walkthruoverlay.jpg" alt="App Walkthrough" style="align-self:center;">
+                  </div>
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1"><span class="title">App Walkthrough</span><i class="material-icons"
+                      style="margin-left: 4px;position:relative;top: 4px;font-size:0.9em;">open_in_new</i></h5>
+                    <small class="date">05-25-2023</small>
+                  </div>
+                  <div class="caption">Beta Release - Feature Walkthrough</div>
+                </div>
+              </a></li></ul>
+                </div>
+                <!-- Models section-->
+                <section id="models" class="homepage_section homepage_section_background">
+                    <h2 class="homepage_header">Available Models</h2>
+                    <div class="flex-lg-row flex_change_responsive container">
+                        <div class="main_block intro_card card">
+                            <h5 style="display:inline-block">
+                                <a href="https://platform.openai.com/docs/models" target="_blank">
+                                    <img class="model_svg show_day_mode_inline_block" alt="OpenAI logo" src="/images/openailite.svg"
+                                        style="width:120px;"><img class="model_svg show_nite_mode_inline_block" alt="OpenAI logo"
+                                        src="/images/openai.svg" style="width:120px;"><i class="material-icons"
+                                        style="margin-left: 4px;position:relative;top: 8px;">open_in_new</i>
+                                </a>
+                            </h5>
+                            <ul class="list-group-flush list-group">
+                                <li class="list-group-item"><span class="supported_model">gpt-3.5-turbo</span> 4k
+                                </li>
+                                <li class="list-group-item"><span class="supported_model">gpt-3.5-turbo-16k</span>
+                                </li>
+                                <li class="list-group-item"><span class="supported_model">gpt-4</span> 8k</li>
+                                <li class="list-group-item"><span class="upcoming_model">gpt-4-32k</span> (soon)
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="main_block intro_card card">
+                            <h5 style="display:inline-block">
+                                <a href="https://developers.generativeai.google/api/rest/generativelanguage"
+                                    target="_blank">
+                                    <img src="/images/palmapi.png" alt="PaLM logo" style="width:32px;"><img alt="PaLM logo"
+                                        class="model_svg show_day_mode_inline_block" src="/images/palmapinamelite.png"
+                                        style="margin-left:6px;width:95px;"><img alt="PaLM name"
+                                        class="model_svg show_nite_mode_inline_block" src="/images/palmapiname.png"
+                                        style="margin-left:6px;width:95px;"><i class="material-icons"
+                                        style="margin-left: 4px;position:relative;top: 6px;">open_in_new</i>
+                                </a>
+                            </h5>
+                            <ul class="list-group-flush list-group">
+                                <li class="list-group-item"> <span class="supported_model">chat-bison-001</span> 9k
+                                </li>
+                                <li class="list-group-item"> <span class="upcoming_model">med-bison-001</span> 36k
+                                    (soon)</li>
+                                <li class="list-group-item"> <span class="upcoming_model">med-bison-002</span> 144k
+                                    (later)</li>
+                                <li class="list-group-item"> <span class="upcoming_model">codechat-bison-001</span>
+                                    6k
+                                    (soon)</li>
+                            </ul>
+                        </div>
+                        <div class="main_block intro_card card">
+                            <h5 style="display:inline-block">
+                                <a href="https://docs.anthropic.com/claude/reference/complete_post" target="_blank">
+                                    <img src="/images/anthropologic.png" style="width:32px;" alt="Anthropic logo"><img
+                                        class="model_svg show_day_mode_inline_block" src="/images/anthrofulllite.svg" alt="Anthropic logo lite"
+                                        style="margin-left:6px;width:120px;"><img
+                                        class="model_svg show_nite_mode_inline_block" src="/images/anthrofull.svg" alt="Anthropic logo dark"
+                                        style="margin-left:6px;width:120px;"><i class="material-icons"
+                                        style="margin-left: 4px;position:relative;top: 6px;">open_in_new</i>
+                                </a>
+                            </h5>
+                            <ul class="list-group-flush list-group">
+                                <li class="list-group-item"><span class="upcoming_model">claude-2</span> 100k (soon)
+                                </li>
+                                <li class="list-group-item"><span class="upcoming_model">claude-instant-1</span>
+                                    100k
+                                    (soon)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                <!-- features section-->
+                <section id="features" class="homepage_section">
+                    <h2 class="homepage_header">Features</h2>
+                    <div class="container">
+                        <ul class=" flex-lg-row flex_change_responsive feature_group_list">
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#system_message" target="help">
+                                    <i class="material-icons">lightbulb</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Swap Models</span>
+                                    </h4>
+                                    <span class="desc">
+                                        while in the same session
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#system_message" target="help">
+                                    <span class="material-icons-outlined">
+                                        message
+                                    </span>
+                                    <h4 class="feature_name">
+                                        <span class="link">System Msg</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to maintain context throughout
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#auto_exclude" target="help">
+                                    <span class="material-icons-outlined">auto_fix_high</span>
+                                    <h4 class="feature_name">
+                                        <span class="link">Auto exclude</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to manage request sizes automatically
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#chat_features" target="help">
+                                    <i class="material-icons">loop</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Rerun Prompts</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to get different results with same prompt
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#users_info" target="help">
+                                    <i class="material-icons">link</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Share Link</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to collaborate with others quickly
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#export_options" target="help">
+                                    <i class="material-icons">download</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Export json</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to share templates
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#upload_data_sessions" target="help">
+                                    <i class="material-icons">upload</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Import Template</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to start with groundwork
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#options" target="help">
+                                    <i class="material-icons">content_copy</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Use clipboard</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to copy text/html to other apps
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#help_sign_in" target="help">
+                                    <span class="material-icons">
+                                        supervised_user_circle
+                                    </span>
+                                    <h4 class="feature_name">
+                                        <span class="link">Anonymous login</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to share with external collaborators
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#session_limit" target="help">
+                                    <span class="material-icons">
+                                        settings
+                                    </span>
+                                    <h4 class="feature_name">
+                                        <span class="link">Use Session Limit</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to protect your account from misuse
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#owner_labels" target="help">
+                                    <i class="material-icons">label</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Organize using labels</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to categorize and find sessions quickly
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#temperature" target="help">
+                                    <i class="material-icons">thermostat</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Adjust temperature</span>
+                                    </h4>
+                                    <span class="desc">
+                                        for more creative or regular results
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2" href="/help/#threshold" target="help">
+                                    <i class="material-icons">query_stats</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Manage context</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to control quality and cost of responses
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card disabled_link">
+                                <a class="d-flex flex-column p-2">
+                                    <span class="material-icons">touch_app</span>
+                                    <h4 class="feature_name">
+                                        <span class="link">Bulk Create</span>
+                                    </h4>
+                                    <span class="desc">
+                                        for quick creation
+                                    </span>
+                                    <span class="help_coming_pill badge rounded-pill bg-info text-dark">Help
+                                        Coming</span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card disabled_link">
+                                <a class="d-flex flex-column p-2">
+                                    <span class="material-icons">assignment</span>
+                                    <h4 class="feature_name">
+                                        <span class="link">Bulk Email</span>
+                                    </h4>
+                                    <span class="desc">
+                                        for quick assignment
+                                    </span>
+                                    <span class="help_coming_pill badge rounded-pill bg-info text-dark">Help
+                                        Coming</span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card disabled_link">
+                                <a class="d-flex flex-column p-2">
+                                    <span class="material-icons">print</span>
+                                    <h4 class="feature_name">
+                                        <span class="link">Print Receipt</span>
+                                    </h4>
+                                    <span class="desc">
+                                        to manage request sizes automatically
+                                    </span>
+                                    <span class="help_coming_pill badge rounded-pill bg-info text-dark">Help
+                                        Coming</span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card disabled_link">
+                                <a class="d-flex flex-column p-2">
+                                    <span class="material-icons">data_usage</span>
+                                    <h4 class="feature_name">
+                                        <span class="link">Usage Stats</span>
+                                    </h4>
+                                    <span class="desc">
+                                        view stats like monthly usage per day
+                                    </span>
+                                    <span class="help_coming_pill badge rounded-pill bg-info text-dark">Help
+                                        Coming</span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow">
+                                <a class="d-flex flex-column p-2">
+                                    <i class="material-icons">email</i>
+                                    <h4 class="feature_name">
+                                        <span class="link">Email invitations</span>
+                                    </h4>
+                                    <span class="desc">
+                                        for convenient session access
+                                    </span>
+                                    <span class="help_coming_pill badge rounded-pill bg-info text-dark">Help
+                                        Coming</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <p class="lead"><a href="/help/">Unacog Documentation</a></p>
+                </section>
+
+
+                <!-- examples section-->
+                <div id="examples">
+                    <div class="flex-lg-row flex_change_responsive container">
+                        <div class="main_block app_panel">
+                            <h5 class="ms-3 ms-md-0 text-md-center text-start">Example Sessions</h5>
+                            <div class="discussion_list_panel">
+                                <div class="intro_card card overflow_container">
+                                    <ul class="template_list_wrapper recent_content_ul_list"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="sessions" role="tabpanel" style="flex-direction:column;"
+                aria-labelledby="dashboard_tab_button">
+                <div class="container">
+                    <div class="signed_out_flex p-3 justify-content-center session_cta">
+                        <div
+                            class="d-flex flex-column flex-auto justify-content-center rounded card side_block px-4 pt-4">
+                            <div class="mb-4 text-center">
+                                <img src="/images/logo64.png" alt="Unacog logo">
+                            </div>
+                            <div class="text-center mb-4">
+                                <p class="lead mb-2">Starting a Session?</p>
+                                <p class="desc">Login and purchase credits to begin.</p>
+                            </div>
+                            <div class="mb-1 text-center">
+                                <p class="lead mb-2">Joining a Shared Session?</p>
+                                <p class="desc">Login to access the session.</p>
+                            </div>
+                            <div class="d-flex flex-row justify-content-center pt-4 my-4">
+                                <button class="signin_show_modal btn btn-primary btn-md px-4 btn-lg"
+                                    type="button">Login</button>
+                            </div>
+                            <div class="text-center mt-4">
+                                <p class="alert alert-warning border"><small>Usage is
+                                        paid by the session owner.</small></p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="signed_in_inline_block" style="width:100%;">
+                        <div class="game_lobby">
+                            <div class="games_view_wrapper">
+                                <div class="dashboard_documents_view"></div>
+                            </div>
+                        </div>
+                        <div class="no_games_in_dashboard app_panel justify-content-center session_cta">
+                            <div
+                                class="d-flex flex-column flex-auto justify-content-center rounded card side_block px-4 pt-4">
+                                <div class="text-center">
+                                    <p class="lead mb-4">Work on Context Together</p>
+                                    <p class="desc">To get started, you need to purchase <a
+                                            href="/content/pricing/">Unacog credits</a> which can be found in profile
+                                        options or by clicking below.
+                                    </p>
+                                </div>
+                                <div class="d-flex flex-row justify-content-center pt-4 mb-3">
+                                    <button class="btn btn-primary btn-md px-4 btn-md buy_credits_cta_btn"
+                                        type="button">Buy Credits</button>
+                                </div>
+                                <div class="text-center mt-4">
+                                    <p class="alert alert-warning border">
+                                        <small>
+                                            Usage is paid by the session owner. The default limit per session is current
+                                            set to 1,000 and can change be changed in document options.
+                                        </small>
+                                    </p>
+                                    <p class="alert alert-danger border signed_in_anonymous"><small>Anonymous users to
+                                            verify their account to purchase credits
+                                            and create sessions. This can be done by providing an email in profile
+                                            options or re-logging with your credentials.</small></p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade show active" id="about" role="tabpanel" style="flex-direction:column;"
+                aria-labelledby="about">
+
+                <div class="homepage_container">
+                    <!-- about hero section-->
+                    <section class="text-center homepage_hero_section">
+                        <div class="container">
+                            <div class="row align-items-center">
+                                <div class="col-lg-5">
+                                    <h1 class="display-4 p-md-3 text-md-start">Your Hub for Collaborative LLM
+                                        Experiences
+                                    </h1>
+                                </div>
+                                <div class="col-lg-7">
+                                    <img src="/images/bulk.gif" alt="Bulk users upload" class="img-fluid rounded shadow">
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="px-md-4 text-center">
+                        <div class="container py-5">
+                            <div class="row g-4">
+                                <div class="col mt-md-0">
+                                    <img src="/images/openai-cir.png" alt="OpenAI logo" style="width:32px;"><img
+                                        class="model_svg show_day_mode_inline_block" src="/images/openai-name-day.png" alt="OpenAI day logo"
+                                        style="margin-left:6px;width:95px;"><img
+                                        class="model_svg show_nite_mode_inline_block" src="/images/openai-name-nite.png" alt="OpenAI nite logo"
+                                        style="margin-left:6px;width:95px;">
+                                </div>
+                                <div class="col mt-md-0">
+                                    <img src="/images/palmapi.png" alt="PaLM logo" style="width:32px;"><img
+                                        class="model_svg show_day_mode_inline_block" src="/images/palmapinamelite.png" alt="PaLM API day logo"
+                                        style="margin-left:6px;width:95px;"><img
+                                        class="model_svg show_nite_mode_inline_block" src="/images/palmapiname.png" alt="PaLM API nite logo"
+                                        style="margin-left:6px;width:95px;">
+                                </div>
+                                <div class="col mt-md-0">
+                                    <img src="/images/anthropologic.png" alt="Anthropic logo" style="width:32px;"><img alt="Anthropic day logo"
+                                        class="model_svg show_day_mode_inline_block" src="/images/anthrofulllite.svg"
+                                        style="margin-left:6px;width:100px;"><img alt="Anthropic nite logo"
+                                        class="model_svg show_nite_mode_inline_block" src="/images/anthrofull.svg"
+                                        style="margin-left:6px;width:100px;">
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- intro unacog-->
+                    <section class="homepage_section homepage_section_background">
+                        <div class="container">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <img src="/images/unacog_screen.png" alt="Application Image" class="img-fluid mt-4">
+                                    <div class="row pt-5">
+                                        <div class="col-md-3 col-6">
+                                            <h4 class="feature_callout">Collaborative</h4>
+                                        </div>
+                                        <div class="col-md-3 col-6">
+                                            <h4 class="feature_callout">Multi-Model</h4>
+                                        </div>
+                                        <div class="col-md-3 col-6 mt-4 mt-md-0">
+                                            <h4 class="feature_callout">Feature-rich</h4>
+                                        </div>
+                                        <div class="col-md-3 col-6 mt-4 mt-md-0">
+                                            <h4 class="feature_callout">Credit-based</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="homepage_gif_section pt-5">
+                        <div class="container">
+                            <div class="row align-items-center">
+                                <div class="col-lg-6 p-lg-3 text-center">
+                                    <h2 class="display-6">Collaborate in Real-time
+                                    </h2>
+                                    <p class="fs-6">Learn to prompt by working together.</p>
+                                </div>
+                                <div class="col-lg-6 shadow-sm rounded">
+                                    <img src="/images/collab.gif" alt="gif of collaborative features"
+                                        class="img-fluid rounded">
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="homepage_gif_section pb-5">
+                        <div class="container">
+                            <div class="row align-items-center">
+                                <div class="col-lg-6 p-lg-3 text-center order-lg-1">
+                                    <h2 class="display-6">With Better Context Management
+                                    </h2>
+                                    <p class="fs-6">Create the perfect context for your use case.</p>
+                                </div>
+                                <div class="col-lg-6 order-lg-0 shadow-sm rounded">
+                                    <img src="/images/context.gif" alt="gif of features to manage context"
+                                        class="img-fluid rounded">
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="homepage_section homepage_section_background ">
+                        <div class="container">
+                            <div class="row align-items-center">
+                                <div class="col-lg-6 p-lg-3 text-center mb-3 mb-lg-0">
+                                    <h2 class="display-5">Unacog Credits
+                                    </h2>
+                                    <p class="fs-5">Only pay for what you use, with credits that never expire and grant
+                                        you access to a growing LLM library.</p>
+                                    <a href="#pricingcalculator" class="btn btn-primary btn-lg">Cost Calculator</a>
+                                </div>
+                                <div class="col-lg-6">
+                                    <img src="/images/credits.gif" alt="gif of explaining unacog credits"
+                                    class="img-fluid rounded">
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="homepage_gif_section pt-5">
+                        <div class="container">
+                            <div class="row align-items-center">
+                                <div class="col-lg-6 p-lg-3 text-center">
+                                    <h2 class="display-6">Create & Share Templates
+                                    </h2>
+                                    <p class="fs-6">Reuse your context as unique spaces and more.</p>
+                                </div>
+                                <div class="col-lg-6 shadow-sm rounded">
+                                    <img src="/images/templates.gif" alt="gif showing how to reuse context as templates"
+                                        class="img-fluid rounded">
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="homepage_gif_section pb-5">
+                        <div class="container">
+                            <div class="row align-items-center">
+                                <div class="col-lg-6 p-lg-3 text-center order-lg-1">
+                                    <h2 class="display-6">Organize & Customize
+                                    </h2>
+                                    <p class="fs-6">With features to streamline your workflow.</p>
+                                </div>
+                                <div class="col-lg-6 order-lg-0 shadow-sm rounded">
+                                    <img src="/images/dashprofile.gif" alt="gif showing dashboard and profile options"
+                                        class="img-fluid rounded">
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+    
+                    <section class="pricing_calculator_wrapper homepage_section homepage_section_background"
+                        id="pricingcalculator">
+                        <div class="container">
+                            <div class="text-center">
+                                <h2 class="display-5">Cost Calculator</h2>
+                                <hr>
+                                <div class="pb-3">
+                                    <select class="pricing_type_display form-select bulk_calc_input fs-5"
+                                        style="width:auto;display:inline-block">
+                                        <option selected value="bulk_credits_wrapper">Bulk Credits</option>
+                                        <option value="power_user_wrapper">Power User</option>
+                                        <option value="model_prices_wrapper">Model Prices</option>
+                                        <option value="tokens_per_credit">Tokens Per Credit</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="bulk_credits_wrapper text-center">
+                                <div class="calc_description pb-3">
+                                    This calculator is for a team leader or professor to determine the cost
+                                    of multiple projects.
+                                </div>
+                                <div>
+                                    <div style="display: inline-block" class="text-start card p-2 mb-4 shadow-sm">
+                                        <label class="form-label bulk_calc_label">Tokens Per Project</label>
+                                        <input class="bulk_tokens_count bulk_calc_input" type="text" value="10000">
+                                        <br>
+                                        <label class="form-label bulk_calc_label">Project Count</label>
+                                        <input class="bulk_project_count bulk_calc_input" type="text" value="25">
+                                        <br>
+                                        <label class="form-label bulk_calc_label">Input:Output Ratio</label>
+                                        <select class="tokens_per_credit_ratio form-select"
+                                            style="width:auto;display:inline-block">
+                                            <option value="1">1:1</option>
+                                            <option selected value="2">2:1</option>
+                                            <option value="3">3:1</option>
+                                            <option value="4">4:1</option>
+                                            <option value="5">5:1</option>
+                                        </select>
+                                        <hr>
+                                        <label class="form-label bulk_calc_label">Total Tokens</label>
+                                        <span class="bulk_calc_total_tokens"
+                                            style="padding:4px;display:inline-block"></span>
+                                    </div>
+                                    <br>
+                                    <div>
+                                        <div class="card shadow-sm">
+                                            <table class="bulk_credits_table price_table">
+                                            </table>
+                                        </div>
+                                        <div class="recommended"> &nbsp; gpt-3.5-turbo recommended as best value</div>
+                                        <div> &nbsp; * Cost based on purchasing credits in $100 amounts</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="power_user_wrapper text-center">
+                                <div class="calc_description pb-3">
+                                    For mixing models to build context cheaper but still get the
+                                    best quality final results.
+                                </div>
+                                <div>
+                                    <div style="display: inline-block" class="card p-2 mb-4 text-start shadow-sm">
+                                        <label class="form-label bulk_calc_label">Tokens Per Project</label>
+                                        <input class="power_tokens_count power_user_calc_input" type="text"
+                                            value="20000">
+                                        <br>
+                                        <label class="form-label bulk_calc_label">Project Count</label>
+                                        <input class="power_project_count power_user_calc_input" type="text" value="50">
+                                        <br>
+                                        <label class="form-label bulk_calc_label">Total Tokens</label>
+                                        <span class="power_user_calc_total_tokens"></span>
+                                        <br>
+                                        <label class="form-label bulk_calc_label">Primary Model</label>
+                                        <select class="form-select primary_model_select"
+                                            style="width:auto;display:inline-block"></select>
+                                        <br>
+                                        <label class="form-label bulk_calc_label">Secondary Model</label>
+                                        <select class="form-select secondary_model_select"
+                                            style="width:auto;display:inline-block"></select>
+                                        <br>
+                                        <label class="form-label bulk_calc_label">Primary Usage</label>
+                                        <input type="number" min="0" max="100"
+                                            class="form-control primary_usage_level bulk_calc_input" value="80">
+                                        %
+                                    </div>
+                                    <br>
+                                    <div style="max-width:45em;display:inline-block;width:100%;">
+                                        <div class="card shadow-sm">
+                                            <table class="power_user_credits_table price_table">
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="model_prices_wrapper" style="text-align:center">
+                                <div class="calc_description pb-3">
+                                    Wholesale cost, these are directly from the API vendors.
+                                </div>
+                                <div style="max-width:45em;display:inline-block;width:100%;">
+                                    <div class="card shadow-sm">
+                                        <table class="price_table">
+                                            <tr>
+        <th>Model</th>
+        <th>Input</th>
+        <th>Output</th>
+    </tr><tr>
+            <td>gpt-3.5-turbo</td>
+            <td>0.0015</td>
+            <td>0.002</td>
+            </tr><tr>
+            <td>gpt-3.5-turbo-16k</td>
+            <td>0.003</td>
+            <td>0.004</td>
+            </tr><tr>
+            <td>gpt-4</td>
+            <td>0.03</td>
+            <td>0.06</td>
+            </tr><tr>
+            <td>gpt-4-32k</td>
+            <td>0.06</td>
+            <td>0.12</td>
+            </tr><tr>
+            <td>chat-bison-001</td>
+            <td>0.015</td>
+            <td>0.03</td>
+            </tr><tr>
+            <td>claude-instant-1</td>
+            <td>0.00163</td>
+            <td>0.00551</td>
+            </tr><tr>
+            <td>claude-2</td>
+            <td>0.01102</td>
+            <td>0.03268</td>
+            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tokens_per_credit" style="text-align:center">
+                                <div class="calc_description pb-3">
+                                    Number of tokens per Unacog credit based on the API cost.
+                                </div>
+                                <div style="max-width:45em;display:inline-block;width:100%;">
+                                    <div class="card shadow-sm">
+                                        <table class="price_table">
+                                            <tr>
+          <th>Model</th>
+          <th>1:1</th>
+          <th>2:1</th>
+          <th>3:1</th>
+          <th>4:1</th>
+          <th>5:1</th>
+      </tr><tr>
+              <td>gpt-3.5-turbo</td>
+              <td>571</td>
+              <td>600</td>
+              <td>615</td>
+              <td>625</td>
+              <td>632</td>
+              </tr><tr>
+              <td>gpt-3.5-turbo-16k</td>
+              <td>286</td>
+              <td>300</td>
+              <td>308</td>
+              <td>313</td>
+              <td>316</td>
+              </tr><tr>
+              <td>gpt-4</td>
+              <td>22</td>
+              <td>25</td>
+              <td>27</td>
+              <td>28</td>
+              <td>29</td>
+              </tr><tr>
+              <td>gpt-4-32k</td>
+              <td>11</td>
+              <td>13</td>
+              <td>13</td>
+              <td>14</td>
+              <td>14</td>
+              </tr><tr>
+              <td>chat-bison-001</td>
+              <td>44</td>
+              <td>50</td>
+              <td>53</td>
+              <td>56</td>
+              <td>57</td>
+              </tr><tr>
+              <td>claude-instant-1</td>
+              <td>280</td>
+              <td>342</td>
+              <td>385</td>
+              <td>416</td>
+              <td>439</td>
+              </tr><tr>
+              <td>claude-2</td>
+              <td>46</td>
+              <td>55</td>
+              <td>61</td>
+              <td>65</td>
+              <td>68</td>
+              </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="col align-items-center" style="display:none;">
+                                <div class="py-3" style="text-align:center;font-size:1.5em;">
+                                    <button class="btn btn-primary btn-lg buy_credits_pricing" type="button">Buy
+                                        Credits</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="homepage_section ">
+                        <div class="container">
+                            <div class="row align-items-center">
+                                <div class="col-lg-6 p-lg-3 text-center mb-3 mb-lg-0">
+                                    <h2 class="display-5">Most Flexible Way to Prompt
+                                    </h2>
+                                    <p class="fs-5">Collaborate in real-time with many LLMs with no subscription needed</p>
+                                    <a href="https://unacog.com/content/credits/" class="btn btn-primary btn-lg">Learn More</a>
+                                </div>
+                                <div class="col-lg-6">
+                                    <a href="https://unacog.com/content/credits/"
+                                        class="d-flex flex-sm-column justify-content-center align-content-center"
+                                        style="flex-flow: wrap;">
+                                        <img src="/images/unacog_pricing.png" class="img-fluid rounded w-50" alt="Unacog pricing">
+                                        <span class="text-center">A look at the cost of a Prompt</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="homepage_gif_section" id="contact">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-12 col-lg-8 px-md-5 py-md-5">
+                                    <div class="card border-0 p-2 p-md-3 p-lg-5 homepage_section_background">
+                                        <div class="border-0 text-center py-3 px-4">
+                                            <h2>Need to Talk?</h2>
+                                            <p> We're here to help! If you encounter any bugs or have questions, the best way to 
+                                                currently reach us is by email at <a href="mailto:support@unacog.com"
+                                                target="_blank">Support@unacog.com</a>.</p>
+                                        </div>
+                                        <div class="card-body pt-0 text-start homepage_section_background"
+                                            style="display:none">
+                                            <form>
+                                                <div class="mb-4">
+                                                    <label class="mb-2 fw-bold" for="name">Your Name</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text" id="basic-addon3">
+                                                            <i class="material-icons">person</i></span>
+                                                        <input type="text" class="form-control" placeholder="Name"
+                                                            id="name" required>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-4">
+                                                    <label class="mb-2 fw-bold" for="email">Your Email</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text" id="basic-addon4"><i
+                                                                class="material-icons">email</i></span>
+                                                        <input type="email" class="form-control"
+                                                            placeholder="example@company.com" id="email" required>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-4">
+                                                    <label class="mb-2 fw-bold" for="message">Your Message</label>
+                                                    <textarea placeholder="Your message" class="form-control"
+                                                        id="message" rows="4" required></textarea>
+
+                                                </div>
+                                                <div class="d-grid">
+                                                    <button type="submit" class="btn btn-primary">Send
+                                                        message</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="flex:1"></div>
+</body>
+
+</html>
