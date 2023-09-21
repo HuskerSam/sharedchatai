@@ -307,8 +307,8 @@ export class DashboardApp extends BaseApp {
       this.initUsageWatch();
       this.handleNavigateHash();
     } else {
-      if (this.originalHash !== "#sessions") {
-        if (this.about_tab_button) this.about_tab_button.classList.add("active");
+      if (this.originalHash === "") {
+       if (this.about_tab_button) this.about_tab_button.classList.add("active");
       }
       this.handleNavigateHash();
     }
