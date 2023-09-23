@@ -9,6 +9,7 @@ import GameAPI from "./gameapi";
 import SessionAPI from "./sessionapi";
 import PaymentAPI from "./payapi";
 import WebPage from "./webpage";
+import EmbeddingAPI from "./embeddingapi";
 
 gameAPIApp.set("views", path.join(__dirname, "views"));
 gameAPIApp.set("view engine", "ejs");
@@ -57,3 +58,5 @@ gameAPIApp.post("/payment/order", async (req, res) => PaymentAPI.getNewOrder(req
 gameAPIApp.post("/payment/token", async (req, res) => PaymentAPI.getClientToken(req, res));
 gameAPIApp.post("/payment/error", async (req, res) => PaymentAPI.postError(req, res));
 gameAPIApp.post("/payment/capture", async (req, res) => PaymentAPI.postPayment(req, res));
+
+gameAPIApp.post("/embedding/scrapeurls", async (req, res) => EmbeddingAPI.scrapeURLs(req, res));

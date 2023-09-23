@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Embeddings</title>
+    <link rel="shortcut icon" href="/images/logo64.png" />
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-firestore.js"></script>
+    <script src="/__/firebase/init.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <style>
+        label {
+            font-weight: bold;
+            display: block;
+        }
+    </style>
+    <script>
+        window.addEventListener("load", async (event) => {
+            document.querySelector(".batch_id").value = new Date().toISOString().substring(0, 16).replace("T", " ");
+            document.querySelector(".scrape_urls_btn").addEventListener("click", () => scrapeURLs());
+        });
+
+        async function scrapeURLs() {
+            const urls = document.querySelector(".urls_to_scrape").value;
+            const batchId = document.querySelector(".batch_id").value;
+            window.StaticPageApp.embedURLContent(urls, batchId);
+        }
+
+    </script>
+    <script>
+        window.addEventListener("load", async (event) => {
+            let module = await import("/models/staticpageapp.js");
+
+            window.StaticPageApp = new module.StaticPageApp();
+        });
+    </script>
+</head>
+
+<body>
+    <div style="padding: 20px;"">
+        <h2>Embeddings</h2>
+        <label>Scrape URLs (1 per line)</label>
+        <textarea class="urls_to_scrape" rows="6">https://www.usda.gov/peoples-garden/gardening-advice</textarea>
+        <br>
+        <br>
+        <label>Batch ID</label>
+        <input class="batch_id" type="text">
+        <br>
+        <br>
+        <button class="scrape_urls_btn btn btn-primary">Scrape URLs</button>
+    </div>
+</body>
+
+</html>

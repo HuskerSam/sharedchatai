@@ -8,9 +8,11 @@ export class StaticPageApp extends BaseApp {
     help_show_modal: any = document.querySelector(".help_show_modal");
     sign_out_homepage: any = document.querySelector(".sign_out_homepage");
     recent_documents_list: any = document.querySelector(".recent_documents_list");
+    scrape_urls_btn: any = document.querySelector(".scrape_urls_btn");
     lastDocumentsSnapshot: any = null;
     recentDocumentFeedRegistered = false;
     recentDocumentsSubscription: any = null;
+    embeddingRunning = false;
 
     /**
      * @param { boolean } contentPage true if content page for all items
@@ -121,5 +123,47 @@ export class StaticPageApp extends BaseApp {
                 setTimeout(() => sidebarCollapse.classList.add("bounce"), 50);
             });
         }
+    }
+    /** scrape URLs for embedding
+     * @param { string } urls from a textarea - \n separates
+     * @param { string } batchId grouping key
+    */
+    async embedURLContent(urls: string, batchId: string) {
+        if (!firebase.auth().currentUser) {
+            alert("login on homepage to use this");
+            return;
+        }
+        if (this.embeddingRunning) {
+            alert("already running");
+            return;
+        }
+
+        this.scrape_urls_btn.innerHTML = "Embedding...";
+        this.embeddingRunning = true;
+        const body = {
+            urls,
+            batchId,
+        };
+
+        const token = await firebase.auth().currentUser.getIdToken();
+        const fResult = await fetch(this.basePath + "lobbyApi/embedding/scrapeurls", {
+          method: "POST",
+          mode: "cors",
+          cache: "no-cache",
+          headers: {
+            "Content-Type": "application/json",
+            token,
+          },
+          body: JSON.stringify(body),
+        });
+
+
+        // if (this.verboseLog) {
+          const json = await fResult.json();
+          console.log("scrapped html", json.html);
+        // }
+
+        this.embeddingRunning = false;
+        this.scrape_urls_btn.innerHTML = "Scrape Urls";
     }
 }
