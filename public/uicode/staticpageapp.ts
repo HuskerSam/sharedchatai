@@ -12,6 +12,7 @@ export class StaticPageApp extends BaseApp {
     run_prompt: any = document.querySelector(".run_prompt");
     delete_index: any = document.querySelector(".delete_index");
     results_div: any = document.querySelector(".results_div");
+    results_table: any = document.querySelector(".results_table");
     lastDocumentsSnapshot: any = null;
     recentDocumentFeedRegistered = false;
     recentDocumentsSubscription: any = null;
@@ -171,7 +172,7 @@ export class StaticPageApp extends BaseApp {
         if (json.success === false) {
             alert(json.errorMessage);
         }
-        
+
         this.embeddingRunning = false;
         this.scrape_urls_btn.innerHTML = "Scrape Urls";
     }
@@ -188,6 +189,9 @@ export class StaticPageApp extends BaseApp {
             alert("already running");
             return;
         }
+
+        this.results_table.innerHTML = "";
+        this.results_div.innerHTML = "";
 
         this.run_prompt.innerHTML = "Processing...";
         this.vectorQueryRunning = true;
@@ -211,7 +215,19 @@ export class StaticPageApp extends BaseApp {
         const json = await fResult.json();
         console.log("query response", json);
 
-        this.results_div.innerHTML = JSON.stringify(json, null, "\t");
+        const resultRows = json.queryResponse.matches;
+        let tableRowsHtml = "<tr><th>URL</th><th>Text</th></tr>";
+        let primedPrompt = "";
+        resultRows.forEach((row: any) => {
+            const text = row.metadata.text;
+            const url = row.metadata.url;
+            tableRowsHtml += `<tr><td>${url}</td><td>${text}</td></tr>`;
+            primedPrompt += "Question: " + query +
+                "\n\nAnswer: " + text + "\n\n";
+        });
+        primedPrompt += "Question: " + query;
+        this.results_table.innerHTML = tableRowsHtml;
+        this.results_div.innerHTML = primedPrompt;
 
         this.vectorQueryRunning = false;
         this.run_prompt.innerHTML = "Run Query";
