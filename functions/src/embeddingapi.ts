@@ -9,9 +9,6 @@ import fetch from "cross-fetch";
 import {
     Pinecone,
 } from "@pinecone-database/pinecone";
-import {
-    v4 as uuidv4,
-} from "uuid";
 
 /** handle scraping webpages and embedding contents in pinecone */
 export default class EmbeddingAPI {
@@ -29,7 +26,7 @@ export default class EmbeddingAPI {
 
         const urls = req.body.urls;
         const batchId = req.body.batchId.toString().trim();
-        if (!batchId.trim) BaseClass.respondError(res, "index name required");
+        if (!batchId.trim()) BaseClass.respondError(res, "index name required");
         const chatGptKey = localInstance.privateConfig.chatGPTKey;
         const pineconeKey = localInstance.privateConfig.pinecone;
 
@@ -38,23 +35,17 @@ export default class EmbeddingAPI {
             environment: "gcp-starter",
         });
         const indexList = await pinecone.listIndexes();
-        let createIndex = true;
-        indexList.forEach((i: any) => {
-            if (i.name === batchId) createIndex = false;
-        })
-
-        if (createIndex) {
+        if (!EmbeddingAPI.testIfIndexExists(indexList, batchId)) {
             await pinecone.createIndex({
                 name: batchId,
                 dimension: 1536,
                 metric: "cosine",
                 waitUntilReady: true,
             });
-        }    
+        }
         const pIndex = pinecone.index(batchId);
 
         const list = urls.split("\n");
-        console.log(list);
         const promises: any = [];
         list.forEach((url: string) => {
             if (url.trim()) {
@@ -89,6 +80,7 @@ export default class EmbeddingAPI {
 
             text = text.substring(0, 30000);
             if (!text) return false;
+
             const response = await fetch(`https://api.openai.com/v1/embeddings`, {
                 method: "POST",
                 headers: {
@@ -115,11 +107,12 @@ export default class EmbeddingAPI {
                 });
 
             const pEmbedding = {
-                id: uuidv4(),
                 metadata: {
                     text,
+                    url,
                 },
                 values: embedding,
+                id: safeUrl,
             };
 
             await pIndex.upsert([
@@ -130,5 +123,105 @@ export default class EmbeddingAPI {
         }
 
         return false;
+    }
+    /**
+   * @param { Request } req http request object
+   * @param { Response } res http response object
+   */
+    static async processQuery(req: Request, res: Response) {
+        const authResults = await BaseClass.validateCredentials(<string>req.headers.token);
+        if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
+
+        // const uid = authResults.uid;
+        const localInstance = BaseClass.newLocalInstance();
+        await localInstance.init();
+
+        const query = req.body.query.trim();
+
+        if (!query) return BaseClass.respondError(res, "Query prompt required");
+        const batchId = req.body.batchId.toString().trim();
+        if (!batchId.trim()) BaseClass.respondError(res, "Index name required");
+        const chatGptKey = localInstance.privateConfig.chatGPTKey;
+
+        const response = await fetch(`https://api.openai.com/v1/embeddings`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + chatGptKey,
+            },
+            body: JSON.stringify({
+                "input": query,
+                "model": "text-embedding-ada-002",
+            }),
+        });
+        const json = await response.json();
+
+        const vectorQuery = json['data'][0]['embedding'];
+        const pineconeKey = localInstance.privateConfig.pinecone;
+        const pinecone = new Pinecone({
+            apiKey: pineconeKey,
+            environment: "gcp-starter",
+        });
+        const indexList = await pinecone.listIndexes();
+        if (!EmbeddingAPI.testIfIndexExists(indexList, batchId)) {
+            return BaseClass.respondError(res, "Index not found or not ready");
+        }
+        const pIndex = pinecone.index(batchId);
+
+        const opts = {
+            topK: 3,
+            vector: vectorQuery,
+            includeMetadata: true,
+        };
+        const queryResponse = await pIndex.query(opts);
+
+        res.send({
+            success: true,
+            queryResponse,
+        });
+    }
+    /**
+    * @param { Request } req http request object
+    * @param { Response } res http response object
+    */
+    static async deleteIndex(req: Request, res: Response) {
+        const authResults = await BaseClass.validateCredentials(<string>req.headers.token);
+        if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
+
+        // const uid = authResults.uid;
+        const localInstance = BaseClass.newLocalInstance();
+        await localInstance.init();
+
+        const batchId = req.body.batchId.toString().trim();
+        if (!batchId.trim()) BaseClass.respondError(res, "index name required");
+
+        const pineconeKey = localInstance.privateConfig.pinecone;
+        const pinecone = new Pinecone({
+            apiKey: pineconeKey,
+            environment: "gcp-starter",
+        });
+        const indexList = await pinecone.listIndexes();
+        if (!EmbeddingAPI.testIfIndexExists(indexList, batchId)) {
+            return BaseClass.respondError(res, "Index not found or not ready");
+        }
+
+        await pinecone.deleteIndex(batchId);
+
+        res.send({
+            success: true,
+        });
+    }
+    /**
+     * @param { Array<any> } indexList
+     * @param { string } indexName
+     * @return { boolean }
+    */
+    static testIfIndexExists(indexList: Array<any>, indexName: string): boolean {
+        let exists = false;
+        indexList.forEach((i: any) => {
+            if (i.name === indexName) exists = true;
+        });
+
+        return exists;
     }
 }

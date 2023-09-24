@@ -65,3 +65,5 @@ gameAPIApp.post("/payment/error", async (req, res) => PaymentAPI.postError(req, 
 gameAPIApp.post("/payment/capture", async (req, res) => PaymentAPI.postPayment(req, res));
 
 embeddingAPIApp.post("/scrapeurls", async (req, res) => EmbeddingAPI.scrapeURLs(req, res));
+embeddingAPIApp.post("/processquery", async (req, res) => EmbeddingAPI.processQuery(req, res));
+embeddingAPIApp.post("/deleteindex", async (req, res) => EmbeddingAPI.deleteIndex(req, res));

@@ -30,6 +30,8 @@
     <script>
         window.addEventListener("load", async (event) => {
             document.querySelector(".scrape_urls_btn").addEventListener("click", () => scrapeURLs());
+            document.querySelector(".run_prompt").addEventListener("click", () => runPrompt());
+            document.querySelector(".delete_index").addEventListener("click", () => deleteIndex());
         });
 
         async function scrapeURLs() {
@@ -38,11 +40,20 @@
             window.StaticPageApp.embedURLContent(urls, batchId);
         }
 
+        async function runPrompt() {
+            const prompt = document.querySelector(".prompt_area").value;
+            const batchId = document.querySelector(".batch_id").value;
+            window.StaticPageApp.queryEmbeddings(prompt, batchId);
+        }
+        
+        async function deleteIndex() {
+            const batchId = document.querySelector(".batch_id").value;
+            window.StaticPageApp.deleteIndex(batchId);
+        }
     </script>
     <script>
         window.addEventListener("load", async (event) => {
             let module = await import("/models/staticpageapp.js");
-
             window.StaticPageApp = new module.StaticPageApp();
         });
     </script>
@@ -51,6 +62,9 @@
 <body>
     <div style="padding: 20px;"">
         <h2>Embeddings</h2>
+        <label>Index Name</label>
+        <input class="batch_id" type="text" value="usda">
+        <hr>
         <label>Scrape URLs (1 per line)</label>
         <textarea style="width:90%" class="urls_to_scrape" rows="6">https://www.usda.gov/peoples-garden/gardening-advice
 https://www.nal.usda.gov/plant-production-gardening/vegetable-gardening
@@ -60,12 +74,20 @@ https://www.nrcs.usda.gov/conservation-basics/natural-resource-concerns/plants
         </textarea>
         <br>
         <br>
-        <label>Index Name</label>
-        <input class="batch_id" type="text" value="usda">
-        <br>
-        <br>
         <button class="scrape_urls_btn btn btn-primary">Scrape URLs</button>
+        <hr>
+        <label>Prompt</label>
+        <textarea class="prompt_area" style="width:20em;max-width: 90%;" rows="6">How do I save seeds from my garden for next year?</textarea>
+        <br>
+        <br>
+        <button class="run_prompt btn btn-primary">Run Prompt</button>
+        <br>
+        <br>
+        <label>Results</label>
+        <div class="results_div" style="min-height:5em;padding:10px;white-space:pre-wrap"></div>
+        <hr>
+        <br>
+        <button class="delete_index btn btn-primary">Delete Batch (Pinecone Index)</button>
     </div>
 </body>
-
 </html>

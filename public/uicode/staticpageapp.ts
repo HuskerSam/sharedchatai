@@ -9,10 +9,15 @@ export class StaticPageApp extends BaseApp {
     sign_out_homepage: any = document.querySelector(".sign_out_homepage");
     recent_documents_list: any = document.querySelector(".recent_documents_list");
     scrape_urls_btn: any = document.querySelector(".scrape_urls_btn");
+    run_prompt: any = document.querySelector(".run_prompt");
+    delete_index: any = document.querySelector(".delete_index");
+    results_div: any = document.querySelector(".results_div");
     lastDocumentsSnapshot: any = null;
     recentDocumentFeedRegistered = false;
     recentDocumentsSubscription: any = null;
     embeddingRunning = false;
+    vectorQueryRunning = false;
+    indexDeleteRunning = false;
 
     /**
      * @param { boolean } contentPage true if content page for all items
@@ -147,23 +152,109 @@ export class StaticPageApp extends BaseApp {
 
         const token = await firebase.auth().currentUser.getIdToken();
         const fResult = await fetch(this.basePath + "embeddingApi/scrapeurls", {
-          method: "POST",
-          mode: "cors",
-          cache: "no-cache",
-          headers: {
-            "Content-Type": "application/json",
-            token,
-          },
-          body: JSON.stringify(body),
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            headers: {
+                "Content-Type": "application/json",
+                token,
+            },
+            body: JSON.stringify(body),
         });
 
 
         // if (this.verboseLog) {
-          const json = await fResult.json();
-          console.log("scrapped html", json.html);
+        const json = await fResult.json();
+        console.log("scrapped html", json.html);
         // }
 
+        if (json.success === false) {
+            alert(json.errorMessage);
+        }
+        
         this.embeddingRunning = false;
         this.scrape_urls_btn.innerHTML = "Scrape Urls";
+    }
+    /** query matching vector documents
+     * @param { string } query
+     * @param { string } batchId grouping key
+    */
+    async queryEmbeddings(query: string, batchId: string) {
+        if (!firebase.auth().currentUser) {
+            alert("login on homepage to use this");
+            return;
+        }
+        if (this.vectorQueryRunning) {
+            alert("already running");
+            return;
+        }
+
+        this.run_prompt.innerHTML = "Processing...";
+        this.vectorQueryRunning = true;
+        const body = {
+            query,
+            batchId,
+        };
+
+        const token = await firebase.auth().currentUser.getIdToken();
+        const fResult = await fetch(this.basePath + "embeddingApi/processquery", {
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            headers: {
+                "Content-Type": "application/json",
+                token,
+            },
+            body: JSON.stringify(body),
+        });
+
+        const json = await fResult.json();
+        console.log("query response", json);
+
+        this.results_div.innerHTML = JSON.stringify(json, null, "\t");
+
+        this.vectorQueryRunning = false;
+        this.run_prompt.innerHTML = "Run Query";
+    }
+    /** delete index
+     * @param { string } batchId grouping key
+    */
+    async deleteIndex(batchId: string) {
+        if (!firebase.auth().currentUser) {
+            alert("login on homepage to use this");
+            return;
+        }
+        if (this.indexDeleteRunning) {
+            alert("already running");
+            return;
+        }
+
+        this.delete_index.innerHTML = "Deleting...";
+        this.indexDeleteRunning = true;
+        const body = {
+            batchId,
+        };
+
+        const token = await firebase.auth().currentUser.getIdToken();
+        const fResult = await fetch(this.basePath + "embeddingApi/deleteindex", {
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            headers: {
+                "Content-Type": "application/json",
+                token,
+            },
+            body: JSON.stringify(body),
+        });
+
+        const json = await fResult.json();
+        console.log("query response", json);
+
+        this.indexDeleteRunning = false;
+        this.delete_index.innerHTML = "Delete Batch (Pinecone Index)";
+
+        if (json.success === false) {
+            alert(json.errorMessage);
+        }
     }
 }
