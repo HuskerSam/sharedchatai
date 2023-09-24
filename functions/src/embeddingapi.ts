@@ -38,22 +38,28 @@ export default class EmbeddingAPI {
             environment: "gcp-starter",
         });
         const indexList = await pinecone.listIndexes();
-        if (indexList.indexOf({
-            name: batchId,
-        }) === -1) {
+        let createIndex = true;
+        indexList.forEach((i: any) => {
+            if (i.name === batchId) createIndex = false;
+        })
+
+        if (createIndex) {
             await pinecone.createIndex({
                 name: batchId,
                 dimension: 1536,
                 metric: "cosine",
                 waitUntilReady: true,
             });
-        }
+        }    
         const pIndex = pinecone.index(batchId);
 
         const list = urls.split("\n");
+        console.log(list);
         const promises: any = [];
         list.forEach((url: string) => {
-            promises.push(EmbeddingAPI.scrapeURLAndSaveHTML(url, batchId, chatGptKey, pIndex));
+            if (url.trim()) {
+                promises.push(EmbeddingAPI.scrapeURLAndSaveHTML(url, batchId, chatGptKey, pIndex));
+            }
         });
         await Promise.all(promises);
         res.send({

@@ -2,8 +2,8 @@ import * as functions from "firebase-functions";
 import * as firebaseAdmin from "firebase-admin";
 import express from "express";
 import cors from "cors";
-import path from "path";
 const gameAPIApp = express();
+const embeddingAPIApp = express();
 
 import GameAPI from "./gameapi";
 import SessionAPI from "./sessionapi";
@@ -11,13 +11,14 @@ import PaymentAPI from "./payapi";
 import WebPage from "./webpage";
 import EmbeddingAPI from "./embeddingapi";
 
-gameAPIApp.set("views", path.join(__dirname, "views"));
-gameAPIApp.set("view engine", "ejs");
-
 firebaseAdmin.initializeApp();
 const runtimeOpts: functions.RuntimeOptions = {
     timeoutSeconds: 300,
     memory: "128MB",
+};
+const heavyOpts: functions.RuntimeOptions = {
+    timeoutSeconds: 300,
+    memory: "1GB",
 };
 const homeOpts: functions.RuntimeOptions = {
     timeoutSeconds: 60,
@@ -30,11 +31,15 @@ const sitemapOpts: functions.RuntimeOptions = {
     memory: "128MB",
 };
 
+embeddingAPIApp.use(cors({
+    origin: true,
+}));
 gameAPIApp.use(cors({
     origin: true,
 }));
 
 export const lobbyApi = functions.runWith(runtimeOpts).https.onRequest(gameAPIApp);
+export const embeddingApi = functions.runWith(heavyOpts).https.onRequest(embeddingAPIApp);
 export const updateDisplayNames = functions.firestore
     .document("Users/{uid}").onWrite(async (change, context) => GameAPI.updateUserMetaData(change, context));
 export const homePage = functions.runWith(homeOpts).https.onRequest(WebPage.homeHTML);
@@ -59,4 +64,4 @@ gameAPIApp.post("/payment/token", async (req, res) => PaymentAPI.getClientToken(
 gameAPIApp.post("/payment/error", async (req, res) => PaymentAPI.postError(req, res));
 gameAPIApp.post("/payment/capture", async (req, res) => PaymentAPI.postPayment(req, res));
 
-gameAPIApp.post("/embedding/scrapeurls", async (req, res) => EmbeddingAPI.scrapeURLs(req, res));
+embeddingAPIApp.post("/scrapeurls", async (req, res) => EmbeddingAPI.scrapeURLs(req, res));

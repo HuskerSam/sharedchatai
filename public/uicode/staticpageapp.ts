@@ -146,7 +146,7 @@ export class StaticPageApp extends BaseApp {
         };
 
         const token = await firebase.auth().currentUser.getIdToken();
-        const fResult = await fetch(this.basePath + "lobbyApi/embedding/scrapeurls", {
+        const fResult = await fetch(this.basePath + "embeddingApi/scrapeurls", {
           method: "POST",
           mode: "cors",
           cache: "no-cache",
