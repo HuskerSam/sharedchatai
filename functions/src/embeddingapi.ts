@@ -1,8 +1,4 @@
 import * as firebaseAdmin from "firebase-admin";
-import * as functions from "firebase-functions";
-import {
-    FieldValue,
-} from "firebase-admin/firestore";
 import BaseClass from "./baseclass";
 import type {
     Request,
@@ -10,6 +6,12 @@ import type {
 } from "express";
 import * as cheerio from "cheerio";
 import fetch from "cross-fetch";
+import {
+    Pinecone,
+} from "@pinecone-database/pinecone";
+import {
+    v4 as uuidv4,
+} from "uuid";
 
 /** handle scraping webpages and embedding contents in pinecone */
 export default class EmbeddingAPI {
@@ -25,21 +27,47 @@ export default class EmbeddingAPI {
         const localInstance = BaseClass.newLocalInstance();
         await localInstance.init();
 
-        const url = req.body.urls;
-        const batchId = req.body.batchId;
-        if (!batchId) BaseClass.respondError(res, "Batch Id required");
+        const urls = req.body.urls;
+        const batchId = req.body.batchId.toString().trim();
+        if (!batchId.trim) BaseClass.respondError(res, "index name required");
         const chatGptKey = localInstance.privateConfig.chatGPTKey;
-        const success = await EmbeddingAPI.scrapeURLAndSaveHTML(url, batchId, chatGptKey); 
+        const pineconeKey = localInstance.privateConfig.pinecone;
+
+        const pinecone = new Pinecone({
+            apiKey: pineconeKey,
+            environment: "gcp-starter",
+        });
+        const indexList = await pinecone.listIndexes();
+        if (indexList.indexOf({
+            name: batchId,
+        }) === -1) {
+            await pinecone.createIndex({
+                name: batchId,
+                dimension: 1536,
+                metric: "cosine",
+                waitUntilReady: true,
+            });
+        }
+        const pIndex = pinecone.index(batchId);
+
+        const list = urls.split("\n");
+        const promises: any = [];
+        list.forEach((url: string) => {
+            promises.push(EmbeddingAPI.scrapeURLAndSaveHTML(url, batchId, chatGptKey, pIndex));
+        });
+        await Promise.all(promises);
         res.send({
-            success,
+            success: true,
         });
     }
     /**
      * @param { string } url
      * @param { string } batchId
+     * @param { string } chatGptKey
+     * @param { any } pIndex
      * @return { boolean } true if url fetched and text saved
     */
-    static async scrapeURLAndSaveHTML(url: string, batchId: string, chatGptKey: string) {
+    static async scrapeURLAndSaveHTML(url: string, batchId: string, chatGptKey: string, pIndex: any) {
         const result = await fetch(url);
         const html = await result.text();
         const safeUrl = encodeURIComponent(url);
@@ -79,17 +107,22 @@ export default class EmbeddingAPI {
                     elementCount,
                     embedding,
                 });
+
+            const pEmbedding = {
+                id: uuidv4(),
+                metadata: {
+                    text,
+                },
+                values: embedding,
+            };
+
+            await pIndex.upsert([
+                pEmbedding,
+            ]);
+
             return true;
         }
 
         return false;
-    }
-    /**
-* @param { Request } req http request object
-* @param { Response } res http response object
-*/
-    static async storeBlobs(req: Request, res: Response) {
-        const localInstance = BaseClass.newLocalInstance();
-        await localInstance.init();
     }
 }

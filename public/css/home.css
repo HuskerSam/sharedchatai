@@ -1417,6 +1417,10 @@ ol li,
   display: inline-block;
 }
 
+.homepage_logo_spacing.mobile_hide {
+  display: none;
+}
+
 @media(min-width: 450px) {
 
   .feature_group_list .feature_group_item,

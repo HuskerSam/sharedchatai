@@ -29,7 +29,6 @@
     </style>
     <script>
         window.addEventListener("load", async (event) => {
-            document.querySelector(".batch_id").value = new Date().toISOString().substring(0, 16).replace("T", " ");
             document.querySelector(".scrape_urls_btn").addEventListener("click", () => scrapeURLs());
         });
 
@@ -56,7 +55,7 @@
         <textarea class="urls_to_scrape" rows="6">https://www.usda.gov/peoples-garden/gardening-advice</textarea>
         <br>
         <br>
-        <label>Batch ID</label>
+        <label>Index Name</label>
         <input class="batch_id" type="text">
         <br>
         <br>
