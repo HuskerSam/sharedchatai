@@ -1021,7 +1021,8 @@ export class SessionApp extends BaseApp {
         }
       }
     }
-    if (message.length > 10000) message = message.substr(0, 10000);
+    if (message.length > 500000) message = message.substring(0, 500000);
+
     this.ticket_content_input.value = "";
     this.autoSizeTextArea();
 

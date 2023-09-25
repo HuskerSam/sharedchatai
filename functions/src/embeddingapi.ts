@@ -78,7 +78,7 @@ export default class EmbeddingAPI {
                 elementCount++;
             });
 
-            text = text.substring(0, 30000);
+            text = text.substring(0, 100000);
             if (!text) return false;
 
             const response = await fetch(`https://api.openai.com/v1/embeddings`, {
