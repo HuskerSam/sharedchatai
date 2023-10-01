@@ -54,6 +54,7 @@ export default class DocOptionsHelper {
     isOwner = false;
     options_model_lock: any;
     docfield_include_prompts_in_context: any;
+    save_pinecone_settings: any;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -188,6 +189,13 @@ export default class DocOptionsHelper {
 
         this.docfield_include_prompts_in_context = this.modalContainer.querySelector(".docfield_include_prompts_in_context");
         this.docfield_include_prompts_in_context.addEventListener("input", () => this.updateIncludePrompts());
+
+        this.save_pinecone_settings = this.modalContainer.querySelector(".save_pinecone_settings");
+        this.save_pinecone_settings.addEventListener("input", () => this.savePineconeSettings());
+    }
+    /** */
+    async savePineconeSettings() {
+
     }
     /** */
     async updateIncludePrompts() {
@@ -502,6 +510,37 @@ export default class DocOptionsHelper {
                                     <td class="doc_credit_usage"></td>
                                 </tr>
                             </table>
+                            <hr style="clear:both;">
+                            <div>
+                                <table class="pinecone_inputs_table">
+                                    <tr>
+                                        <td>Pinecone Key</td>
+                                        <td><input class="pinecone_secret_input form-control" type="text">
+                                    </tr>
+                                    <tr>
+                                        <td>Environment</td>
+                                        <td><input class="pinecone_top_k_input form-control" type="text"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pinecone Index</td>
+                                        <td><input class="pinecone_index_input form-control" type="text"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Top K</td>
+                                        <td><input class="pinecone_top_k_input form-control" type="text"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>External Secret</td>
+                                        <td><input class="pinecone_external_secret_input form-control" type="text"></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td style="text-align:right">
+                                            <button class="btn btn-primary save_pinecone_settings">Save Pinecone</button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -1154,3 +1154,16 @@ select.form-select.purchase_amount_select {
   border-width: 1px;
   opacity: 1;
 }
+
+.pinecone_inputs_table {
+  width: 100%;
+}
+
+.pinecone_inputs_table tr td:nth-child(2){
+  width: 90%;
+  padding: 2px;
+}
+
+.pinecone_inputs_table tr td:nth-child(1){
+  padding-right: 8px;
+}
