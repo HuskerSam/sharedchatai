@@ -6,6 +6,9 @@ import BaseApp from "./baseapp.js"; // only for escapeHTML
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
 export default class DocOptionsHelper {
     app: any = null;
+    documentData: any = null;
+    isOwner = false;
+    chatDocumentId = "";
 
     exportFormat = "Text";
     owner_note_display_div: any = null;
@@ -13,7 +16,6 @@ export default class DocOptionsHelper {
     modalContainer: any = null;
     modal_document_title_display: any;
     modal_document_system_message_display: any;
-    documentData: any = null;
     docfield_archived_checkbox: any = null;
     docfield_include_user_names_checkbox: any = null;
     shared_archived_status_wrapper: any = null;
@@ -21,7 +23,6 @@ export default class DocOptionsHelper {
     copy_export_clipboard: any = null;
     session_header_link_button: any;
     wrapperClass = "";
-    chatDocumentId = "";
     prompt_for_new_note: any;
     noLabelSave = false;
     lastReportData: any;
@@ -51,10 +52,9 @@ export default class DocOptionsHelper {
     export_tab_button: any;
     options_tab_button: any;
     owner_tab_button: any;
-    isOwner = false;
     options_model_lock: any;
     docfield_include_prompts_in_context: any;
-    save_pinecone_settings: any;
+    show_embeddings_popup: any;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -190,12 +190,13 @@ export default class DocOptionsHelper {
         this.docfield_include_prompts_in_context = this.modalContainer.querySelector(".docfield_include_prompts_in_context");
         this.docfield_include_prompts_in_context.addEventListener("input", () => this.updateIncludePrompts());
 
-        this.save_pinecone_settings = this.modalContainer.querySelector(".save_pinecone_settings");
-        this.save_pinecone_settings.addEventListener("input", () => this.savePineconeSettings());
+        this.show_embeddings_popup = this.modalContainer.querySelector(".show_embeddings_popup");
+        this.show_embeddings_popup.addEventListener("click", () => this.showEmbeddingsPopup());
     }
     /** */
-    async savePineconeSettings() {
-
+    async showEmbeddingsPopup() {
+        this.modal_close_button.click();
+        this.app.pineconeHelper.show(this.chatDocumentId, this.docData);
     }
     /** */
     async updateIncludePrompts() {
@@ -511,36 +512,10 @@ export default class DocOptionsHelper {
                                 </tr>
                             </table>
                             <hr style="clear:both;">
-                            <div>
-                                <table class="pinecone_inputs_table">
-                                    <tr>
-                                        <td>Pinecone Key</td>
-                                        <td><input class="pinecone_secret_input form-control" type="text">
-                                    </tr>
-                                    <tr>
-                                        <td>Environment</td>
-                                        <td><input class="pinecone_top_k_input form-control" type="text"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Pinecone Index</td>
-                                        <td><input class="pinecone_index_input form-control" type="text"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Top K</td>
-                                        <td><input class="pinecone_top_k_input form-control" type="text"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>External Secret</td>
-                                        <td><input class="pinecone_external_secret_input form-control" type="text"></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td style="text-align:right">
-                                            <button class="btn btn-primary save_pinecone_settings">Save Pinecone</button>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
+                            <button class="btn btn-secondary show_embeddings_popup">
+                                Embedding Settings
+                            </button>
+                            <br>
                         </div>
                     </div>
                 </div>

@@ -274,6 +274,19 @@ export default class GameAPI {
     if (req.body.model_lock !== undefined) {
       updatePacket.model_lock = req.body.model_lock;
     }
+    if (req.body.pineconeSecret !== undefined) {
+      updatePacket.pineconeSecret = req.body.pineconeSecret;
+    }
+    if (req.body.pineconeEnvironment !== undefined) {
+      updatePacket.pineconeEnvironment = req.body.pineconeEnvironment;
+    }
+    if (req.body.pineconeTopK !== undefined) {
+      updatePacket.pineconeTopK = req.body.pineconeTopK;
+    }
+    if (req.body.pineconeIndex !== undefined) {
+      updatePacket.pineconeIndex = req.body.pineconeIndex;
+    }
+
     updatePacket.publicStatus = GameAPI._publicStatus(sessionDocumentData);
 
     await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).set(updatePacket, {

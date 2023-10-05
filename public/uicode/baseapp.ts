@@ -3,6 +3,7 @@ import LoginHelper from "./loginhelper.js";
 import DocCreateHelper from "./doccreatehelper.js";
 import BuyCreditsHelper from "./buycreditshelper.js";
 import SharedWithBackend from "./sharedwithbackend.js";
+import PineconeHelper from "./embeddinghelper.js";
 
 declare const firebase: any;
 declare const window: any;
@@ -42,6 +43,7 @@ export default class BaseApp {
   login = new LoginHelper(this);
   documentCreate = new DocCreateHelper(this);
   buyCredits = new BuyCreditsHelper(this);
+  pineconeHelper = new PineconeHelper(this);
   sessionDeleting = false;
   isSessionApp = false;
   documentId = "";
@@ -638,6 +640,18 @@ export default class BaseApp {
     }
     if (fieldKey === "model_lock") {
       updatePacket.model_lock = data.model_lock;
+    }
+    if (fieldKey === "pineconeSecret") {
+      updatePacket.pineconeSecret = data.pineconeSecret;
+    }    
+    if (fieldKey === "pineconeEnvironment") {
+      updatePacket.pineconeEnvironment = data.pineconeEnvironment;
+    }    
+    if (fieldKey === "pineconeTopK") {
+      updatePacket.pineconeTopK = data.pineconeTopK;
+    }    
+    if (fieldKey === "pineconeIndex") {
+      updatePacket.pineconeIndex = data.pineconeIndex;
     }
 
     const token = await firebase.auth().currentUser.getIdToken();
