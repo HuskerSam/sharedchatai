@@ -241,6 +241,8 @@
   padding: 5px;
   margin-right: 60px;
   border-radius: 6px;
+  max-height: 40vh;
+  overflow: auto;
 }
 
 .upload_wrapper {

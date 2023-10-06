@@ -18,6 +18,7 @@ export default class DocOptionsHelper {
     modal_document_system_message_display: any;
     docfield_archived_checkbox: any = null;
     docfield_include_user_names_checkbox: any = null;
+    docfield_enable_embedding_checkbox: any = null;
     shared_archived_status_wrapper: any = null;
     shared_usage_limit_div: any = null;
     copy_export_clipboard: any = null;
@@ -84,6 +85,8 @@ export default class DocOptionsHelper {
         this.docfield_archived_checkbox.addEventListener("input", () => this.updateArchivedStatus());
         this.docfield_include_user_names_checkbox = this.modalContainer.querySelector(".docfield_include_user_names_checkbox");
         this.docfield_include_user_names_checkbox.addEventListener("input", () => this.updateUserNamesStatus());
+        this.docfield_enable_embedding_checkbox = this.modalContainer.querySelector(".docfield_enable_embedding_checkbox");
+        this.docfield_enable_embedding_checkbox.addEventListener("input", () => this.updateEnableEmbeddingStatus());
 
         this.shared_archived_status_wrapper = this.modalContainer.querySelector(".shared_archived_status_wrapper");
         this.shared_usage_limit_div = this.modalContainer.querySelector(".shared_usage_limit_div");
@@ -323,6 +326,11 @@ export default class DocOptionsHelper {
             this.docfield_include_user_names_checkbox.checked);
     }
     /** */
+    updateEnableEmbeddingStatus() {
+        this.app.saveDocumentOption(this.chatDocumentId, "enableEmbedding",
+        this.docfield_enable_embedding_checkbox.checked);
+    }
+    /** */
     updateArchivedStatus() {
         this.docData.archived = this.docfield_archived_checkbox.checked;
         this.app.saveDocumentOwnerOption(this.chatDocumentId, "archived", this.docData);
@@ -463,8 +471,27 @@ export default class DocOptionsHelper {
                                         <input class="form-check-input docfield_include_user_names_checkbox" type="checkbox" value="">
                                         Include user id in prompts
                                     </label>
-                                    <br>
+                                    <br>                                    
                                 </div>                            
+                            </div>
+                            <hr>
+                            <div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input docfield_enable_embedding_checkbox" type="checkbox" value="">
+                                        Enable embedding
+                                    </label>
+                                </div>
+                                <div style="display:flex;flex-direction:row">
+                                    <div class="embedding_status_display" style="flex:1">
+                                        No settings configured
+                                    </div>
+                                    <div class="owner_only">
+                                        <button class="btn btn-secondary show_embeddings_popup">
+                                            Embedding Settings
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="owner_tab_view" role="tabpanel" aria-labelledby="owner_tab_button">
@@ -511,11 +538,6 @@ export default class DocOptionsHelper {
                                     <td class="doc_credit_usage"></td>
                                 </tr>
                             </table>
-                            <hr style="clear:both;">
-                            <button class="btn btn-secondary show_embeddings_popup">
-                                Embedding Settings
-                            </button>
-                            <br>
                         </div>
                     </div>
                 </div>
@@ -734,6 +756,7 @@ export default class DocOptionsHelper {
         this.docfield_archived_checkbox.checked = this.docData.archived;
         this.docfield_include_user_names_checkbox.checked = this.docData.includeUserNames;
         this.docfield_include_prompts_in_context.checked = this.docData.includePromptsInContext;
+        this.docfield_enable_embedding_checkbox.checked = this.docData.enableEmbedding;
 
         this.shared_archived_status_wrapper.innerHTML = this.docData.archived ? "Archived" : "Active";
 

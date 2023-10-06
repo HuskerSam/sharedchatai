@@ -336,6 +336,7 @@ export default class GameAPI {
       "systemMessage",
       "includeUserNames",
       "includePromptsInContext",
+      "enableEmbedding",
     ];
     const updatePacket: any = {};
     fieldsFilter.forEach((field: string) => {

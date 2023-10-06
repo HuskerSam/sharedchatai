@@ -11,8 +11,6 @@ export default class PineconeHelper {
   modalContainer: any = null;
   modal: any = null;
   modal_close_button: any = null;
-  save_pinecone_settings: any;
-  pinecone_secret_input: any;
   pinecone_environment_input: any;
   pinecone_top_k_input: any;
   pinecone_index_input: any;
@@ -32,17 +30,12 @@ export default class PineconeHelper {
     modal?.addEventListener("hidden.bs.modal", () => {
     });
 
-    this.save_pinecone_settings = this.modalContainer.querySelector(".save_pinecone_settings");
-    this.save_pinecone_settings.addEventListener("click", () => this.savePineconeSettings());
-
-    this.pinecone_secret_input = this.modalContainer.querySelector(".pinecone_secret_input");
     this.pinecone_environment_input = this.modalContainer.querySelector(".pinecone_environment_input");
     this.pinecone_top_k_input = this.modalContainer.querySelector(".pinecone_top_k_input");
     this.pinecone_index_input = this.modalContainer.querySelector(".pinecone_index_input");
   }
   /** */
   async savePineconeSettings() {
-    this.documentData.pineconeSecret = this.pinecone_secret_input.value;
     this.documentData.pineconeEnvironment = this.pinecone_environment_input.value;
     this.documentData.pineconeTopK = this.pinecone_top_k_input.value;
     this.documentData.pineconeIndex = this.pinecone_index_input.value;
@@ -69,44 +62,64 @@ export default class PineconeHelper {
           <div>
               <table class="pinecone_inputs_table">
                   <tr>
-                      <td>Pinecone Key</td>
-                      <td><input class="pinecone_secret_input form-control" type="text">
+                    <td>Pinecone Index</td>
+                    <td class="pinecone_index_input"></td>
+                    <td>
+                      <button class="btn btn-secondary prompt_for_new_pinecone_index">
+                      <i class="material-icons">edit</i></button>
+                    </td>
                   </tr>
                   <tr>
                       <td>Environment</td>
-                      <td><input class="pinecone_environment_input form-control" type="text"></td>
-                  </tr>
-                  <tr>
-                      <td>Pinecone Index</td>
-                      <td><input class="pinecone_index_input form-control" type="text"></td>
+                      <td class="pinecone_environment_input"></td>
+                      <td>
+                        <button class="btn btn-secondary prompt_for_new_pinecone_environment">
+                        <i class="material-icons">edit</i></button>
+                      </td>
                   </tr>
                   <tr>
                       <td>Top K</td>
-                      <td><input class="pinecone_top_k_input form-control" type="text"></td>
-                  </tr>
-                  <tr>
-                      <td>External Secret</td>
-                      <td></td>
-                  </tr>
-                  <tr>
-                      <td></td>
-                      <td style="text-align:right">
-                          
+                      <td class="pinecone_top_k_input"></td>
+                      <td>
+                        <button class="btn btn-secondary prompt_for_new_pinecone_top_k">
+                        <i class="material-icons">edit</i></button>
                       </td>
                   </tr>
               </table>
+              <hr>
+              <table class="pinecone_inputs_table">
+              <tr>
+                <td>Pinecone Key</td>
+                    <td>No secret configured</td>
+                </tr>
+                <tr>
+                  <td colspan="2" style="text-align:right;">
+                    <button class="btn btn-secondary btn_clear_pinecone_secret">Clear</button>
+                    <button class="btn btn-secondary btn_set_pinecone_secret">Set</button>
+                  </td>
+              </tr>
+              </table>
+              <hr>
+              <table class="pinecone_inputs_table">
+                  <tr>
+                    <td>Embedding API Secret</td>
+                      <td class="embedding_api_secret_input">No secret configured</td>
+                  </tr>
+                  <tr>
+                      <td colspan="2" style="text-align:right;">
+                        <button class="btn btn-secondary btn_clear_external_secret">Clear</button>
+                        <button class="btn btn-secondary btn_view_external_secret">View</button>
+                        <button class="btn btn-secondary btn_generate_external_secret">Generate</button>
+                      </td>
+                  </tr>
+               </table>
           </div>
         </div>
         <div class="modal-footer">
-
             <button type="button" class="btn btn-secondary modal_close_button" data-bs-dismiss="modal">
               <i class="material-icons">cancel</i>
               Close
           </button>
-          <button type="button" class="btn btn-primary save_pinecone_settings">
-          <i class="material-icons">save</i>
-          Save
-        </button>
         </div>
       </div>
     </div>
@@ -119,7 +132,6 @@ export default class PineconeHelper {
     this.isOwner = doc.createUser === this.app.uid;
     this.modal = new window.bootstrap.Modal("#embeddingSettingsModal", {});
 
-    this.pinecone_secret_input.value = this.documentData.pineconeSecret ? this.documentData.pineconeSecret : "";
     this.pinecone_environment_input.value = this.documentData.pineconeEnvironment ? this.documentData.pineconeSecret : "";
     this.pinecone_top_k_input.value = this.documentData.pineconeTopK ? this.documentData.pineconeTopK : "";
     this.pinecone_index_input.value = this.documentData.pineconeIndex ? this.documentData.pineconeIndex : "";
