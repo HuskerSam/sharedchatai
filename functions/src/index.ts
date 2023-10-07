@@ -51,6 +51,8 @@ gameAPIApp.post("/games/join", async (req, res) => GameAPI.join(req, res));
 gameAPIApp.post("/games/leave", async (req, res) => GameAPI.leave(req, res));
 gameAPIApp.post("/games/options", async (req, res) => GameAPI.options(req, res));
 gameAPIApp.post("/games/owner/options", async (req, res) => GameAPI.ownerOptions(req, res));
+gameAPIApp.post("/games/owner/viewprivate", async (req, res) => GameAPI.viewOwnerOnlyData(req, res));
+gameAPIApp.post("/games/owner/updateprivate", async (req, res) => GameAPI.setOwnerOnlyData(req, res));
 
 gameAPIApp.post("/session/message", async (req, res) => SessionAPI.submitTicket(req, res));
 gameAPIApp.post("/session/message/delete", async (req, res) => SessionAPI.deleteTicket(req, res));

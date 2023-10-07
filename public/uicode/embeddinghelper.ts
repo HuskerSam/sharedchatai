@@ -1,3 +1,4 @@
+import ChatDocument from "./chatdocument.js";
 declare const firebase: any;
 declare const window: any;
 
@@ -11,9 +12,13 @@ export default class PineconeHelper {
   modalContainer: any = null;
   modal: any = null;
   modal_close_button: any = null;
-  pinecone_environment_input: any;
-  pinecone_top_k_input: any;
-  pinecone_index_input: any;
+  prompt_for_new_pinecone_index: any;
+  prompt_for_new_pinecone_environment: any;
+  prompt_for_new_pinecone_top_k: any;
+  pineconeFields = [
+    "",
+  ];
+  ownerOnlyData: any = {};
 
   /**
    * @param { any } app baseapp derived instance
@@ -30,22 +35,26 @@ export default class PineconeHelper {
     modal?.addEventListener("hidden.bs.modal", () => {
     });
 
-    this.pinecone_environment_input = this.modalContainer.querySelector(".pinecone_environment_input");
-    this.pinecone_top_k_input = this.modalContainer.querySelector(".pinecone_top_k_input");
-    this.pinecone_index_input = this.modalContainer.querySelector(".pinecone_index_input");
+    this.prompt_for_new_pinecone_index = this.modalContainer.querySelector(".prompt_for_new_pinecone_index");
+    this.prompt_for_new_pinecone_index.addEventListener("click", () => this.setPineconeField("pineconeIndex"));
+
+    this.prompt_for_new_pinecone_environment = this.modalContainer.querySelector(".prompt_for_new_pinecone_environment");
+    this.prompt_for_new_pinecone_environment.addEventListener("click", () => this.setPineconeField("pineconeEnvironment"));
+    
+    this.prompt_for_new_pinecone_top_k = this.modalContainer.querySelector(".prompt_for_new_pinecone_top_k");
+    this.prompt_for_new_pinecone_top_k.addEventListener("click", () => this.setPineconeField("pineconeEnvironment"));
   }
   /** */
-  async savePineconeSettings() {
-    this.documentData.pineconeEnvironment = this.pinecone_environment_input.value;
-    this.documentData.pineconeTopK = this.pinecone_top_k_input.value;
-    this.documentData.pineconeIndex = this.pinecone_index_input.value;
-
-    this.app.saveDocumentOwnerOption(this.chatDocumentId, "pineconeSecret", this.documentData);
-    this.app.saveDocumentOwnerOption(this.chatDocumentId, "pineconeEnvironment", this.documentData);
-    this.app.saveDocumentOwnerOption(this.chatDocumentId, "pineconeTopK", this.documentData);
-    this.app.saveDocumentOwnerOption(this.chatDocumentId, "pineconeIndex", this.documentData);
-
-    this.modal_close_button.click();
+  async setPineconeField(field: string) {
+    let value = this.ownerOnlyData[field];
+    if (value === undefined) value = "";
+    let newValue = prompt("Value for " + field, value);
+    if (newValue !== null) {
+      newValue = newValue.trim();
+      newValue = newValue.substring(0, 5000);
+      await ChatDocument.setOwnerOnlyField(this.chatDocumentId, this.app.basePath, field, newValue);
+      await this.updateDisplayData();
+    }
   }
   /** get modal template
    * @return { string } template
@@ -63,7 +72,7 @@ export default class PineconeHelper {
               <table class="pinecone_inputs_table">
                   <tr>
                     <td>Pinecone Index</td>
-                    <td class="pinecone_index_input"></td>
+                    <td class="pineconeIndex_display"></td>
                     <td>
                       <button class="btn btn-secondary prompt_for_new_pinecone_index">
                       <i class="material-icons">edit</i></button>
@@ -85,31 +94,31 @@ export default class PineconeHelper {
                         <i class="material-icons">edit</i></button>
                       </td>
                   </tr>
-              </table>
-              <hr>
-              <table class="pinecone_inputs_table">
               <tr>
                 <td>Pinecone Key</td>
-                    <td>No secret configured</td>
-                </tr>
-                <tr>
-                  <td colspan="2" style="text-align:right;">
-                    <button class="btn btn-secondary btn_clear_pinecone_secret">Clear</button>
-                    <button class="btn btn-secondary btn_set_pinecone_secret">Set</button>
+                    <td>None</td>
+                  <td style="white-space:nowrap">
+                    <button class="btn btn-secondary btn_clear_pinecone_secret">
+                      <i class="material-icons">delete</i>
+                    </button>
+                    <button class="btn btn-secondary btn_set_pinecone_secret">
+                      <i class="material-icons">edit</i></button>
+                    </button>
                   </td>
               </tr>
-              </table>
-              <hr>
-              <table class="pinecone_inputs_table">
                   <tr>
-                    <td>Embedding API Secret</td>
-                      <td class="embedding_api_secret_input">No secret configured</td>
-                  </tr>
-                  <tr>
-                      <td colspan="2" style="text-align:right;">
-                        <button class="btn btn-secondary btn_clear_external_secret">Clear</button>
-                        <button class="btn btn-secondary btn_view_external_secret">View</button>
-                        <button class="btn btn-secondary btn_generate_external_secret">Generate</button>
+                    <td>API Secret</td>
+                      <td class="embedding_api_secret_input">None</td>
+                      <td style="white-space:nowrap">
+                      <button class="btn btn-secondary btn_view_external_secret">
+                        <i class="material-icons">visibility</i>
+                      </button>
+                        <button class="btn btn-secondary btn_clear_external_secret">
+                          <i class="material-icons">delete</i>
+                        </button>
+                        <button class="btn btn-secondary btn_generate_external_secret">
+                          <i class="material-icons">casino</i>
+                        </button>
                       </td>
                   </tr>
                </table>
@@ -126,16 +135,21 @@ export default class PineconeHelper {
   </div>`;
   }
   /** */
-  show(chatDocumentId: string, doc: any) {
+  async updateDisplayData() {
+    this.ownerOnlyData = await ChatDocument.fetchOwnerOnlyData(this.chatDocumentId, this.app.basePath);
+
+    let pIndex = this.ownerOnlyData.pineconeIndex;
+    if (pIndex === undefined) pIndex = "";
+    this.modalContainer.querySelector(".pineconeIndex_display").innerHTML = pIndex;
+  }
+  /** */
+  async show(chatDocumentId: string, doc: any) {
     this.chatDocumentId = chatDocumentId;
     this.documentData = doc;
     this.isOwner = doc.createUser === this.app.uid;
     this.modal = new window.bootstrap.Modal("#embeddingSettingsModal", {});
 
-    this.pinecone_environment_input.value = this.documentData.pineconeEnvironment ? this.documentData.pineconeSecret : "";
-    this.pinecone_top_k_input.value = this.documentData.pineconeTopK ? this.documentData.pineconeTopK : "";
-    this.pinecone_index_input.value = this.documentData.pineconeIndex ? this.documentData.pineconeIndex : "";
-
+    this.updateDisplayData();
     this.modal.show();
   }
 }

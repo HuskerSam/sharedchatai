@@ -311,4 +311,57 @@ From
       return "";
     }
   }
+  /** */
+  static async fetchOwnerOnlyData(sessionId: string, basePath: string): Promise<any> {
+    const body = {
+      gameNumber: sessionId,
+    };
+    const token = await firebase.auth().currentUser.getIdToken();
+    const fResult = await fetch(basePath + "lobbyApi/games/owner/viewprivate", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      headers: {
+        "Content-Type": "application/json",
+        token,
+      },
+      body: JSON.stringify(body),
+    });
+    const json = await fResult.json();
+    if (!json.success) {
+      console.log("message post error", json);
+      return {};
+    }
+
+    let data = json.ownerData;
+    if (!data) data = {};
+    return data;
+  }
+  /** */
+  static async setOwnerOnlyField(sessionId: string, basePath: string, field: string, value: string): Promise<boolean> {
+    const body = {
+      gameNumber: sessionId,
+      updatePacket: {
+        [field]: value,
+      },
+    };
+    const token = await firebase.auth().currentUser.getIdToken();
+    const fResult = await fetch(basePath + "lobbyApi/games/owner/updateprivate", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      headers: {
+        "Content-Type": "application/json",
+        token,
+      },
+      body: JSON.stringify(body),
+    });
+    const json = await fResult.json();
+    if (!json.success) {
+      console.log("field update error", json);
+      return false;
+    }
+
+    return true;
+  }
 }

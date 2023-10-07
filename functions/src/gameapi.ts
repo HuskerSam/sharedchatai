@@ -143,8 +143,8 @@ export default class GameAPI {
         model_lock: modelLock,
         includePromptsInContext,
       });
-     const modelDefaults = ChatDocument.getModelMeta(model);
-     Object.assign(game, modelDefaults.defaults);
+    const modelDefaults = ChatDocument.getModelMeta(model);
+    Object.assign(game, modelDefaults.defaults);
 
     if (req.body.visibility) game.visibility = req.body.visibility;
     game.publicStatus = GameAPI._publicStatus(game);
@@ -351,6 +351,81 @@ export default class GameAPI {
     updatePacket.publicStatus = GameAPI._publicStatus(sessionDocumentData);
 
     await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).set(updatePacket, {
+      merge: true,
+    });
+
+    return res.status(200).send({
+      success: true,
+    });
+  }
+  /** http endpoint for getting embedding/pinecone data
+   * @param { any } req http request object
+   * @param { any } res http response object
+   */
+  static async viewOwnerOnlyData(req: any, res: any) {
+    const authResults = await BaseClass.validateCredentials(req.headers.token);
+    if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
+
+    const uid = authResults.uid;
+    const gameNumber = req.body.gameNumber;
+
+    const localInstance = BaseClass.newLocalInstance();
+    await localInstance.init();
+
+    const gameQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).get();
+    const sessionDocumentData = gameQuery.data();
+    if (!sessionDocumentData) {
+      return BaseClass.respondError(res, "Game not found");
+    }
+
+    const userQ = await firebaseAdmin.firestore().doc(`Users/${uid}`).get();
+    const profile = userQ.data();
+    if (!profile) {
+      return BaseClass.respondError(res, "User not found");
+    }
+    if (uid !== sessionDocumentData.createUser) {
+      return BaseClass.respondError(res, "Must be owner to view owner only information");
+    }
+
+    const ownerDataQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}/ownerPrivate/data`).get();
+    let ownerData = ownerDataQuery.data();
+    if (!ownerData) ownerData = {};
+    return res.status(200).send({
+      success: true,
+      ownerData,
+    });
+  }
+  /** http endpoint for setting embedding/pinecone data
+   * send up a updatePacket in the body to merge
+   * @param { any } req http request object
+   * @param { any } res http response object
+   */
+  static async setOwnerOnlyData(req: any, res: any) {
+    const authResults = await BaseClass.validateCredentials(req.headers.token);
+    if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
+
+    const uid = authResults.uid;
+    const gameNumber = req.body.gameNumber;
+
+    const localInstance = BaseClass.newLocalInstance();
+    await localInstance.init();
+
+    const gameQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).get();
+    const sessionDocumentData = gameQuery.data();
+    if (!sessionDocumentData) {
+      return BaseClass.respondError(res, "Game not found");
+    }
+
+    const userQ = await firebaseAdmin.firestore().doc(`Users/${uid}`).get();
+    const profile = userQ.data();
+    if (!profile) {
+      return BaseClass.respondError(res, "User not found");
+    }
+    if (uid !== sessionDocumentData.createUser) {
+      return BaseClass.respondError(res, "Must be owner to view owner only information");
+    }
+
+    await firebaseAdmin.firestore().doc(`Games/${gameNumber}/ownerPrivate/data`).set(req.body.updatePacket, {
       merge: true,
     });
 
