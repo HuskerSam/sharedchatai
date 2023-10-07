@@ -1,5 +1,4 @@
 import ChatDocument from "./chatdocument.js";
-declare const firebase: any;
 declare const window: any;
 
 /** login dialog helper - displays automatically if not home page */
@@ -31,20 +30,19 @@ export default class PineconeHelper {
     document.body.appendChild(this.modalContainer);
 
     this.modal_close_button = this.modalContainer.querySelector(".modal_close_button");
-    const modal: any = document.getElementById("embeddingSettingsModal");
-    modal?.addEventListener("hidden.bs.modal", () => {
-    });
 
     this.prompt_for_new_pinecone_index = this.modalContainer.querySelector(".prompt_for_new_pinecone_index");
     this.prompt_for_new_pinecone_index.addEventListener("click", () => this.setPineconeField("pineconeIndex"));
 
     this.prompt_for_new_pinecone_environment = this.modalContainer.querySelector(".prompt_for_new_pinecone_environment");
     this.prompt_for_new_pinecone_environment.addEventListener("click", () => this.setPineconeField("pineconeEnvironment"));
-    
+
     this.prompt_for_new_pinecone_top_k = this.modalContainer.querySelector(".prompt_for_new_pinecone_top_k");
     this.prompt_for_new_pinecone_top_k.addEventListener("click", () => this.setPineconeField("pineconeEnvironment"));
   }
-  /** */
+  /**
+   * @param { string } field
+   */
   async setPineconeField(field: string) {
     let value = this.ownerOnlyData[field];
     if (value === undefined) value = "";
@@ -142,7 +140,10 @@ export default class PineconeHelper {
     if (pIndex === undefined) pIndex = "";
     this.modalContainer.querySelector(".pineconeIndex_display").innerHTML = pIndex;
   }
-  /** */
+  /**
+   * @param { string } chatDocumentId
+   * @param { any } doc
+   */
   async show(chatDocumentId: string, doc: any) {
     this.chatDocumentId = chatDocumentId;
     this.documentData = doc;

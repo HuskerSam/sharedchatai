@@ -311,7 +311,11 @@ From
       return "";
     }
   }
-  /** */
+  /**
+   * @param { string } sessionId
+   * @param { string } basePath
+   * @return { Promise<any> }
+   */
   static async fetchOwnerOnlyData(sessionId: string, basePath: string): Promise<any> {
     const body = {
       gameNumber: sessionId,
@@ -337,7 +341,13 @@ From
     if (!data) data = {};
     return data;
   }
-  /** */
+  /**
+   * @param { string } sessionId
+   * @param { string } basePath
+   * @param { string } field
+   * @param { string } value
+   * @return { Promise<boolean> }
+   */
   static async setOwnerOnlyField(sessionId: string, basePath: string, field: string, value: string): Promise<boolean> {
     const body = {
       gameNumber: sessionId,
