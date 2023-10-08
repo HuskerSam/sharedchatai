@@ -653,6 +653,9 @@ export default class BaseApp {
     if (fieldKey === "pineconeIndex") {
       updatePacket.pineconeIndex = data.pineconeIndex;
     }
+    if (fieldKey === "externalSessionAPIKey") {
+      updatePacket.externalSessionAPIKey = data.externalSessionAPIKey;
+    }
 
     const token = await firebase.auth().currentUser.getIdToken();
     const fResult = await fetch(this.basePath + "lobbyApi/games/owner/options", {
@@ -864,5 +867,11 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
       localStorage.setItem("niteMode", "false");
     }
     this.themeIndex = BaseApp.initDayMode();
+  }
+  /** */
+  uuidv4() {
+    return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (c: any) =>
+      (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
   }
 }

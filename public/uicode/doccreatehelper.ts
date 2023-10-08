@@ -459,7 +459,7 @@ export default class DocCreateHelper {
                           </label>
                         </div>
                         <textarea class="form-control create_modal_prompt_field" style="flex:1" placeholder="optional"></textarea>
-                        <div style="text-align:center;padding:12px;">How to get started</div>
+                        <div style="text-align:center;padding:12px;display:none">How to get started</div>
                     </div>
                     <div class="tab-pane fade" id="advanced_create_options_view" role="tabpanel"
                         aria-labelledby="advanced_create_options" style="overflow-y:auto;overflow-x:hidden;">

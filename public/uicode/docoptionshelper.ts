@@ -476,15 +476,13 @@ export default class DocOptionsHelper {
                             </div>
                             <hr>
                             <div>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input class="form-check-input docfield_enable_embedding_checkbox" type="checkbox" value="">
-                                        Enable embedding
-                                    </label>
-                                </div>
+
                                 <div style="display:flex;flex-direction:row">
-                                    <div class="embedding_status_display" style="flex:1">
-                                        No settings configured
+                                    <div class="form-check" style="flex:1">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input docfield_enable_embedding_checkbox" type="checkbox" value="">
+                                            Enable embedding
+                                        </label>
                                     </div>
                                     <div class="owner_only">
                                         <button class="btn btn-secondary show_embeddings_popup">
