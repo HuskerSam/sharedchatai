@@ -212,6 +212,7 @@ export default class GameAPI {
       await sessionDocumentDataRef.delete();
       await GameAPI.deleteCollection(firebaseAdmin.firestore(), `Games/${gameNumber}/messages`, 50);
       await GameAPI.deleteCollection(firebaseAdmin.firestore(), `Games/${gameNumber}/tickets`, 50);
+      await GameAPI.deleteCollection(firebaseAdmin.firestore(), `Games/${gameNumber}/augmented`, 50);
       await GameAPI.deleteCollection(firebaseAdmin.firestore(), `Games/${gameNumber}/assists`, 50);
       await GameAPI.deleteCollection(firebaseAdmin.firestore(), `Games/${gameNumber}/packets`, 50);
       success = true;

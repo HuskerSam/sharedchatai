@@ -774,11 +774,25 @@ pre code {
   z-index: 1;
 }
 
+.show_ticket_embedding_info {
+  display: none;
+  position: absolute;
+  bottom: 0px;
+  z-index: 1;
+}
+
 .completion_max_tokens_reached .continue_previous_response {
   display: inline-block;
   position: absolute;
   bottom: 0px;
   right: 182px;
+}
+
+.docs_embedded_in_prompt .show_ticket_embedding_info {
+  display: inline-block;
+  position: absolute;
+  bottom: 0px;
+  left: 8px;
 }
 
 .form-select.bookmark_number_select_card {
@@ -1328,4 +1342,21 @@ li.mb-1 button.btn.btn-toggle:before {
   max-width: 2.5em;
   overflow: hidden;
   margin-left: 8px;
+}
+
+.embedding_details_section {
+  display: none;
+  text-align: left;
+}
+
+.show_embedding_details_section .embedding_details_section {
+  display: block;
+}
+
+.ticket_embedding_details_table {
+  width: 100%;
+}
+
+.ticket_embedding_details_table td, .ticket_embedding_details_table th {
+  white-space: nowrap;
 }

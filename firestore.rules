@@ -13,6 +13,10 @@ service cloud.firestore {
       allow read: if true;
     }
 
+    match /Games/{id}/augmented/{mid} {
+      allow read: if true;
+    }
+
     match /Games/{id}/assists/{mid} {
       allow read: if true;
     }

@@ -434,6 +434,8 @@ export class SessionApp extends BaseApp {
         completionSpan.innerHTML = "";
 
         const lastSubmit: any = card.querySelector(`.last_submit_time`);
+
+        card.classList.remove("docs_embedded_in_prompt");
         if (ticketRunning) {
           BaseApp.setHTML(assistSection, `<div class="pending_message">Prompt sent to model for processing...</div>`);
           card.classList.add("ticket_running");
@@ -536,6 +538,10 @@ export class SessionApp extends BaseApp {
                 });
               });
 
+              if (ticketData.embeddedQuery) {
+                card.classList.add("docs_embedded_in_prompt");
+              }
+
               const editBtn = document.createElement("button");
               editBtn.setAttribute("ticketid", ticketId);
               editBtn.setAttribute("class", "edit_response_block_button btn btn-secondary");
@@ -585,6 +591,12 @@ export class SessionApp extends BaseApp {
               assistSection.appendChild(continueButton);
               continueButton.addEventListener("click", () => this.sendTicketToAPI(true, "Continue Previous"));
 
+              const embeddingButton = document.createElement("button");
+              embeddingButton.setAttribute("class", "show_ticket_embedding_info btn btn-primary");
+              embeddingButton.innerHTML = `E`;
+              assistSection.appendChild(embeddingButton);
+              embeddingButton.addEventListener("click", () => this.showEmbeddingSection(ticketId, ticketData, card));
+
               let totalTokens = 0;
               let promptTokens = 0;
               let completionTokens = 0;
@@ -627,6 +639,44 @@ export class SessionApp extends BaseApp {
     this.updatePromptTokenStatus();
     this._updateGameMembersList();
     if (scrollToBottom) this.scrollTicketListBottom();
+  }
+  /**
+   * @param { string } ticketId
+   * @param { any } ticketData
+   * @param { any } card
+  */
+  async showEmbeddingSection(ticketId: string, ticketData: any, card: any) {
+    const tbl = card.querySelector(".ticket_embedding_details_table");
+      let html = "<tr><th>Score</th><th>Title</th><th style=\"width:90%\">Link</th><th>Raw</th></tr>";
+      const detailsQuery = await this.getTicketEmbeddingDetails(ticketId);
+      const matches = detailsQuery.embeddingResult.matches;
+
+      matches.forEach((match: any) => {
+        const details = match.metadata;
+        let title = details.text;
+        if (!title) title = "";
+        title = title.substring(0, 100);
+        let url = details.url;
+        if (!url) url = "";
+        html += `<tr>
+          <td>${match.score}</td>
+          <td>${title}</td>
+          <td>${url}</td>
+          <td><button class="copy_embedded_prompt_to_clipboard btn btn-secondary"><i class="material-icons">content_copy</i></button></td>
+        </tr>`;
+      });
+      tbl.innerHTML = html;
+      card.classList.toggle("show_embedding_details_section");
+  }
+  /**
+   * @param { string } ticketId
+   * @return { Promise<any> }
+   */
+  async getTicketEmbeddingDetails(ticketId: string): Promise<any> {
+    const query = await firebase.firestore().doc(`Games/${this.documentId}/augmented/${ticketId}`).get();
+    let data = query.data();
+    if (!data) data = {};
+    return data;
   }
   /**
    * @param { string } ticketId
@@ -934,6 +984,15 @@ export class SessionApp extends BaseApp {
       <div class="assist_section_wrapper">
           <div class="tokens_completion"></div>
           <div class="assist_section"><div class="pending_message">Prompt sent to model for processing...</div></div>
+      </div>
+      <div class="embedding_details_section">
+        Top K: <span class="ticket_embedding_topk"></span><br>
+        Max Tokens: <span class="ticket_embedding_max_tokens"></span><br>
+        Similar Filter: <span class="ticket_embedding_similar_score"></span><br>
+        Sources Included: <span class="ticket_embedding_docs_included"></span><br>
+        Full Prompt: <button class="copy_embedded_prompt_to_clipboard btn btn-secondary">
+          <i class="material-icons">content_copy</i></button><br>
+        <table class="ticket_embedding_details_table"></table>
       </div>
       <hr>
   </div>`;
