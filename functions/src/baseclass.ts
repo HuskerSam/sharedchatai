@@ -182,14 +182,18 @@ export default class BaseClass {
         return match;
       });
   }
-  /** */
-  static removeUndefined(o: any) {
-    let stack = [o], i: any;
+  /**
+   * @param { any } o
+   * @return { any }
+   */
+  static removeUndefined(o: any): any {
+    const stack = [o];
+    let i: any;
     while (stack.length) {
       Object.entries(i = stack.pop()).forEach(([k, v]) => {
         if (v === undefined) delete i[k];
         if (v instanceof Object) stack.push(v);
-      })
+      });
     }
     return o;
   }

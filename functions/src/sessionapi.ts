@@ -19,12 +19,23 @@ import type {
     Response,
 } from "express";
 import EmbeddingAPI from "./embeddingapi";
-import { get_encoding } from "tiktoken";
+import {
+    get_encoding as getEncoding,
+} from "tiktoken";
 const creditRequestCharge = 1;
 
 /** Match game specific turn logic wrapped in a transaction */
 export default class SessionAPI {
-    /** */
+    /**
+     * @param { string } query
+     * @param { number } maxTokens
+     * @param { number } topK
+     * @param { string } chatGptKey
+     * @param { string } pineconeKey
+     * @param { string } pineconeEnvironment
+     * @param { string } pineconeIndex
+     * @return { Promise<any> }
+     */
     static async processEmbedding(query: string, maxTokens: number, topK: number, chatGptKey: string,
         pineconeKey: string, pineconeEnvironment: string, pineconeIndex: string): Promise<any> {
         const encodingResult = await EmbeddingAPI.encodeEmbedding(query, chatGptKey);
@@ -33,7 +44,7 @@ export default class SessionAPI {
                 success: false,
                 error: encodingResult.error,
                 errorMessage: encodingResult.error.errorMessage,
-            }
+            };
         }
         const encodingTokens = encodingResult.fullResult.usage.total_tokens;
         const messageVectors = encodingResult.vectorResult;
@@ -44,12 +55,12 @@ export default class SessionAPI {
             return {
                 success: false,
                 errorMessage: pineconeQueryResults,
-            }
+            };
         }
         const matches = pineconeQueryResults.queryResponse.matches;
         let tokensIncluded = 0;
-        let textAnswers = [];
-        const enc = get_encoding("cl100k_base");
+        const textAnswers = [];
+        const enc = getEncoding("cl100k_base");
         for (let c = 0, l = matches.length; c < l; c++) {
             const text = matches[c].metadata.text;
             const tokens = enc.encode(text);
@@ -245,10 +256,6 @@ export default class SessionAPI {
             const embeddedQuery = embeddingResult.promptText;
 
             embeddingResult = BaseClass.removeUndefined(embeddingResult);
-            embeddingResult.matches.forEach((match: any) => {
-                Object
-                match.spare
-            });
 
             console.log("set embedded query");
             ticket.embeddedQuery = embeddedQuery;

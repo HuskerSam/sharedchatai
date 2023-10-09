@@ -179,7 +179,11 @@ export default class EmbeddingAPI {
             queryResponse,
         });
     }
-    /** */
+    /**
+     * @param { string } data
+     * @param { string } chatGptKey
+     * @return { Promise<any> }
+     */
     static async encodeEmbedding(data: string, chatGptKey: string): Promise<any> {
         let vectorResult = null;
         let success = true;
@@ -212,7 +216,14 @@ export default class EmbeddingAPI {
             error,
         };
     }
-    /** */
+    /**
+     * @param { any } pineconeVectorData
+     * @param { string } pineconeKey
+     * @param { string } pineconeEnvironment
+     * @param { string } pineconeTopK
+     * @param { string } pineconeIndex
+     * @return { Promise<any> }
+     */
     static async queryPineconeDocuments(pineconeVectorData: any, pineconeKey: string, pineconeEnvironment: string,
         pineconeTopK: number, pineconeIndex: string): Promise<any> {
         let queryResponse = null;
@@ -241,13 +252,13 @@ export default class EmbeddingAPI {
                 success: false,
                 error: e,
                 errorMessage: e.message,
-            }
+            };
         }
 
         return {
             success: true,
             queryResponse,
-        }
+        };
     }
     /**
     * @param { Request } req http request object
