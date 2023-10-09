@@ -25,6 +25,7 @@
     "google-auth-library": "^8.9.0",
     "gpt-3-encoder": "^1.1.4",
     "handlebars": "^4.7.8",
+    "tiktoken": "^1.0.10",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

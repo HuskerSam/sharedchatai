@@ -18,9 +18,7 @@ export default class PineconeHelper {
   btn_clear_pinecone_secret: any;
   btn_generate_external_secret: any;
   btn_clear_external_secret: any;
-  pineconeFields = [
-    "",
-  ];
+  prompt_for_new_pinecone_max_tokens: any;
   ownerOnlyData: any = {};
 
   /**
@@ -44,11 +42,14 @@ export default class PineconeHelper {
     this.prompt_for_new_pinecone_top_k = this.modalContainer.querySelector(".prompt_for_new_pinecone_top_k");
     this.prompt_for_new_pinecone_top_k.addEventListener("click", () => this.setPineconeField("pineconeTopK"));
 
+    this.prompt_for_new_pinecone_max_tokens = this.modalContainer.querySelector(".prompt_for_new_pinecone_max_tokens");
+    this.prompt_for_new_pinecone_max_tokens.addEventListener("click", () => this.setPineconeField("pineconeMaxTokens"));
+
     this.btn_set_pinecone_secret = this.modalContainer.querySelector(".btn_set_pinecone_secret");
-    this.btn_set_pinecone_secret.addEventListener("click", () => this.setPineconeField("pineconeSecret"));
+    this.btn_set_pinecone_secret.addEventListener("click", () => this.setPineconeField("pineconeKey"));
 
     this.btn_clear_pinecone_secret = this.modalContainer.querySelector(".btn_clear_pinecone_secret");
-    this.btn_clear_pinecone_secret.addEventListener("click", () => this.setPineconeField("pineconeSecret", true));
+    this.btn_clear_pinecone_secret.addEventListener("click", () => this.setPineconeField("pineconeKey", true));
 
     this.btn_generate_external_secret = this.modalContainer.querySelector(".btn_generate_external_secret");
     this.btn_generate_external_secret.addEventListener("click", () => this.setExternalSecret());
@@ -56,7 +57,7 @@ export default class PineconeHelper {
     this.btn_clear_external_secret = this.modalContainer.querySelector(".btn_clear_external_secret");
     this.btn_clear_external_secret.addEventListener("click", () => this.setExternalSecret(true));
   }
-  /** 
+  /**
    * @param { boolean } clear
   */
   async setExternalSecret(clear = false) {
@@ -72,7 +73,7 @@ export default class PineconeHelper {
   async setPineconeField(field: string, clear = false) {
     let value = this.ownerOnlyData[field];
     if (value === undefined) value = "";
-    if (field === "pineconeSecret") value = "";
+    if (field === "pineconeKey") value = "";
     let newValue: any = "";
     let cancel = false;
 
@@ -82,8 +83,8 @@ export default class PineconeHelper {
         newValue = newValue.trim();
         newValue = newValue.substring(0, 5000);
 
-        if (field === "pineconeSecret" && newValue === "") {
-          alert("Please provide a value for pineconeSecret");
+        if (field === "pineconeKey" && newValue === "") {
+          alert("Please provide a value for pineconeKey");
           cancel = true;
         }
       } else {
@@ -134,9 +135,17 @@ export default class PineconeHelper {
                         <i class="material-icons">edit</i></button>
                       </td>
                   </tr>
+                  <tr>
+                      <td>Max Tokens</td>
+                      <td class="pineconeMaxTokens_display"></td>
+                      <td>
+                        <button class="btn btn-secondary prompt_for_new_pinecone_max_tokens">
+                        <i class="material-icons">edit</i></button>
+                      </td>
+                  </tr>
               <tr>
                 <td>Pinecone Key</td>
-                  <td class="pineconeSecret_display"></td>
+                  <td class="pineconeKey_display"></td>
                   <td style="white-space:nowrap">
                     <button class="btn btn-secondary btn_clear_pinecone_secret">
                       <i class="material-icons">delete</i>
@@ -184,11 +193,15 @@ export default class PineconeHelper {
     this.modalContainer.querySelector(".pineconeEnvironment_display").innerHTML = pEnv;
 
     let topK = this.ownerOnlyData.pineconeTopK;
-    if (topK === undefined) topK = "";
+    if (topK === undefined) topK = "3";
     this.modalContainer.querySelector(".pineconeTopK_display").innerHTML = topK;
 
-    const pSecret = this.ownerOnlyData.pineconeSecret ? "Loaded" : "None";
-    this.modalContainer.querySelector(".pineconeSecret_display").innerHTML = pSecret;
+    let pineconeMaxTokens = this.ownerOnlyData.pineconeMaxTokens;
+    if (pineconeMaxTokens === undefined) pineconeMaxTokens = "2000";
+    this.modalContainer.querySelector(".pineconeMaxTokens_display").innerHTML = pineconeMaxTokens;
+
+    const pSecret = this.ownerOnlyData.pineconeKey ? "Loaded" : "None";
+    this.modalContainer.querySelector(".pineconeKey_display").innerHTML = pSecret;
 
     let externalKey = this.ownerOnlyData.externalSessionAPIKey;
     if (externalKey === undefined) externalKey = "";

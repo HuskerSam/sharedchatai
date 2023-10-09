@@ -335,11 +335,11 @@ ul.recent_documents_list li a:active {
   border-radius: 5px;
   z-index: 100;
   padding: 2px 8px;
-  background-color: rgba(180, 180, 180, .1);
+  background-color: rgba(50, 50, 50);
 }
 
 .day_mode .recent_documents_list .activity_date {
-  background-color: rgba(32, 33, 35, .1);
+  background-color: rgba(230, 230, 230);
 }
 
 .sidebar_tree_recent_title {

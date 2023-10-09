@@ -142,7 +142,6 @@ export default class EmbeddingAPI {
         const batchId = req.body.batchId.toString().trim();
         if (!batchId.trim()) BaseClass.respondError(res, "Index name required");
         const chatGptKey = localInstance.privateConfig.chatGPTKey;
-
         const response = await fetch(`https://api.openai.com/v1/embeddings`, {
             method: "POST",
             headers: {
@@ -179,6 +178,76 @@ export default class EmbeddingAPI {
             success: true,
             queryResponse,
         });
+    }
+    /** */
+    static async encodeEmbedding(data: string, chatGptKey: string): Promise<any> {
+        let vectorResult = null;
+        let success = true;
+        let error = null;
+        let fullResult: any = {};
+        try {
+            const response = await fetch(`https://api.openai.com/v1/embeddings`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + chatGptKey,
+                },
+                body: JSON.stringify({
+                    "input": data,
+                    "model": "text-embedding-ada-002",
+                }),
+            });
+            fullResult = await response.json();
+
+            vectorResult = fullResult["data"][0]["embedding"];
+        } catch (err: any) {
+            success = false;
+            error = err;
+        }
+
+        return {
+            success,
+            fullResult,
+            vectorResult,
+            error,
+        };
+    }
+    /** */
+    static async queryPineconeDocuments(pineconeVectorData: any, pineconeKey: string, pineconeEnvironment: string,
+        pineconeTopK: number, pineconeIndex: string): Promise<any> {
+        let queryResponse = null;
+        try {
+            const pinecone = new Pinecone({
+                apiKey: pineconeKey,
+                environment: pineconeEnvironment,
+            });
+            const indexList = await pinecone.listIndexes();
+            if (!EmbeddingAPI.testIfIndexExists(indexList, pineconeIndex)) {
+                return {
+                    success: false,
+                    errorMessage: "Pinecone Index not found or not ready",
+                };
+            }
+            const pIndex = pinecone.index(pineconeIndex);
+
+            const opts = {
+                topK: pineconeTopK,
+                vector: pineconeVectorData,
+                includeMetadata: true,
+            };
+            queryResponse = await pIndex.query(opts);
+        } catch (e: any) {
+            return {
+                success: false,
+                error: e,
+                errorMessage: e.message,
+            }
+        }
+
+        return {
+            success: true,
+            queryResponse,
+        }
     }
     /**
     * @param { Request } req http request object

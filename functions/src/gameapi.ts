@@ -274,8 +274,8 @@ export default class GameAPI {
     if (req.body.model_lock !== undefined) {
       updatePacket.model_lock = req.body.model_lock;
     }
-    if (req.body.pineconeSecret !== undefined) {
-      updatePacket.pineconeSecret = req.body.pineconeSecret;
+    if (req.body.pineconeKey !== undefined) {
+      updatePacket.pineconeKey = req.body.pineconeKey;
     }
     if (req.body.pineconeEnvironment !== undefined) {
       updatePacket.pineconeEnvironment = req.body.pineconeEnvironment;

@@ -18,10 +18,72 @@ import type {
     Request,
     Response,
 } from "express";
+import EmbeddingAPI from "./embeddingapi";
+import { get_encoding } from "tiktoken";
 const creditRequestCharge = 1;
 
 /** Match game specific turn logic wrapped in a transaction */
 export default class SessionAPI {
+    /** */
+    static async processEmbedding(query: string, maxTokens: number, topK: number, chatGptKey: string,
+        pineconeKey: string, pineconeEnvironment: string, pineconeIndex: string): Promise<any> {
+        const encodingResult = await EmbeddingAPI.encodeEmbedding(query, chatGptKey);
+        if (!encodingResult.success) {
+            return {
+                success: false,
+                error: encodingResult.error,
+                errorMessage: encodingResult.error.errorMessage,
+            }
+        }
+        const encodingTokens = encodingResult.fullResult.usage.total_tokens;
+        const messageVectors = encodingResult.vectorResult;
+        console.log("pinecone query run", query);
+        const pineconeQueryResults = await EmbeddingAPI.queryPineconeDocuments(messageVectors, pineconeKey, pineconeEnvironment,
+            topK, pineconeIndex);
+        if (!pineconeQueryResults.success) {
+            return {
+                success: false,
+                errorMessage: pineconeQueryResults,
+            }
+        }
+        const matches = pineconeQueryResults.queryResponse.matches;
+        let tokensIncluded = 0;
+        let textAnswers = [];
+        const enc = get_encoding("cl100k_base");
+        for (let c = 0, l = matches.length; c < l; c++) {
+            const text = matches[c].metadata.text;
+            const tokens = enc.encode(text);
+            tokensIncluded += tokens.length;
+            if (tokensIncluded > maxTokens) {
+                if (c === 0) {
+                    console.log(tokens);
+                    const clippedTokens = tokens.slice(0, maxTokens);
+                    const clippedText = enc.decode(clippedTokens);
+                    textAnswers.push(clippedText);
+                }
+
+                break;
+            } else {
+                textAnswers.push(text);
+            }
+        }
+
+        let promptText = "";
+        textAnswers.forEach((answer: string) => {
+            answer = answer.replaceAll("\n\n", "\n");
+            answer = answer.replaceAll("\n\n", "\n");
+            answer = answer.replaceAll("\n\n", "\n");
+            promptText += `Question: ${query}\n\nAnswer:${answer}\n\n`;
+        });
+        promptText += `Question: ${query}`;
+        return {
+            success: true,
+            matches,
+            encodingTokens,
+            textAnswers,
+            promptText,
+        };
+    }
     /** http endpoint for user posting message to table chat
    * @param { any } req http request object
    * @param { any } res http response object
@@ -50,6 +112,8 @@ export default class SessionAPI {
 
         const localInstance = BaseClass.newLocalInstance();
         await localInstance.init();
+        const chatGptKey = localInstance.privateConfig.chatGPTKey;
+        const bardKey = localInstance.privateConfig.googleAIKey;
 
         const gameQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).get();
         const sessionDocumentData = gameQuery.data();
@@ -71,8 +135,6 @@ export default class SessionAPI {
         /* eslint-disable camelcase */
         const defaults = BaseClass.defaultChatDocumentOptions();
         const max_tokens = BaseClass.getNumberOrDefault(sessionDocumentData.max_tokens, defaults.max_tokens);
-        const chatGptKey = localInstance.privateConfig.chatGPTKey;
-        const bardKey = localInstance.privateConfig.googleAIKey;
 
         const memberImage = sessionDocumentData.memberImages[uid] ? sessionDocumentData.memberImages[uid] : "";
         const memberName = sessionDocumentData.memberNames[uid] ? sessionDocumentData.memberNames[uid] : "";
@@ -159,6 +221,61 @@ export default class SessionAPI {
         } catch (usageTestError) {
             usageLimitError = true;
             usageErrorObject = usageTestError;
+        }
+
+        if (sessionDocumentData.enableEmbedding) {
+            const messageQuery = ticket.message;
+
+            const ownerPrivateQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}/ownerPrivate/data`).get();
+            let privateData: any = ownerPrivateQuery.data();
+            if (!privateData) privateData = {};
+
+            const topK = BaseClass.getNumberOrDefault(privateData.pineconeTopK, 3);
+            const maxTokens = BaseClass.getNumberOrDefault(privateData.pineconeMaxTokens, 2000);
+            const pineconeKey: any = privateData.pineconeKey;
+            const pineconeIndex: any = privateData.pineconeIndex;
+            const pineconeEnvironment: any = privateData.pineconeEnvironment;
+
+            if (!pineconeKey || !pineconeIndex || !pineconeEnvironment) {
+                return BaseClass.respondError(res, "Pinecone must have index, key and environment configured when embedding is enabled");
+            }
+            let embeddingResult: any = await SessionAPI.processEmbedding(messageQuery, maxTokens, topK,
+                chatGptKey, pineconeKey, pineconeEnvironment, pineconeIndex);
+
+            const embeddedQuery = embeddingResult.promptText;
+
+            embeddingResult = BaseClass.removeUndefined(embeddingResult);
+            embeddingResult.matches.forEach((match: any) => {
+                Object
+                match.spare
+            });
+
+            console.log("set embedded query");
+            ticket.embeddedQuery = embeddedQuery;
+            await Promise.all([
+                firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${ticketId}`).set({
+                    embeddedQuery,
+                }, {
+                    merge: true,
+                }),
+                firebaseAdmin.firestore().doc(`Games/${gameNumber}/augmented/${ticketId}`).set({
+                    embeddedQuery,
+                    embeddingResult,
+                }, {
+                    merge: true,
+                }),
+            ]);
+        } else {
+            console.log("embedding disabled");
+            if (ticket.embeddedQuery) {
+                console.log("clear embedded query");
+                ticket.embeddedQuery = null;
+                await firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${ticketId}`).set({
+                    embeddedQuery: null,
+                }, {
+                    merge: true,
+                });
+            }
         }
 
         let aiResults: any = {};
@@ -402,9 +519,11 @@ export default class SessionAPI {
                 }
             }
         });
+        let rawMessage = ticket.message;
+        if (ticket.embeddedQuery) rawMessage = ticket.embeddedQuery;
         messages.push({
             role: "user",
-            content: ticket.message,
+            content: rawMessage,
             name: ticket.uid,
         });
         promptTokens += encode(ticket.message).length;
@@ -495,9 +614,11 @@ export default class SessionAPI {
             }
         });
 
+        let rawMessage = ticket.message;
+        if (ticket.embeddedQuery) rawMessage = ticket.embeddedQuery;
         const message: any = {
             role: "user",
-            content: ticket.message,
+            content: rawMessage,
         };
         if (includeUsers) message.name = uidIndexes.indexOf(ticket.uid).toString();
 
