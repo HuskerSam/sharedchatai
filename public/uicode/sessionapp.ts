@@ -441,6 +441,7 @@ export class SessionApp extends BaseApp {
           card.classList.add("ticket_running");
           lastSubmit.dataset.showseconds = "1";
           this.ticketIsPending = true;
+          card.classList.remove("show_embedding_details_section");
         } else {
           if (assistData.success) {
             if (assistData.assist.error) {
@@ -647,19 +648,23 @@ export class SessionApp extends BaseApp {
   */
   async showEmbeddingSection(ticketId: string, ticketData: any, card: any) {
     const tbl = card.querySelector(".ticket_embedding_details_table");
-      let html = "<tr><th>Score</th><th>Title</th><th style=\"width:90%\">Link</th><th>Raw</th></tr>";
+      let html = "<tr><th></th><th>Score</th><th>Title</th><th style=\"width:90%\">Link</th><th>Raw</th></tr>";
       const detailsQuery = await this.getTicketEmbeddingDetails(ticketId);
       const matches = detailsQuery.embeddingResult.matches;
+      const matchesIncluded = detailsQuery.embeddingResult.matchesIncluded;
 
-      matches.forEach((match: any) => {
+      matches.forEach((match: any, index: number) => {
         const details = match.metadata;
         let title = details.text;
         if (!title) title = "";
         title = title.substring(0, 100);
         let url = details.url;
         if (!url) url = "";
+        const included = matchesIncluded.indexOf(index) !== -1 ? "✔️" : "";
+
         html += `<tr>
-          <td>${match.score}</td>
+          <td>${included}</td>
+          <td>${match.score.toFixed(3)}</td>
           <td>${title}</td>
           <td>${url}</td>
           <td><button class="copy_embedded_prompt_to_clipboard btn btn-secondary"><i class="material-icons">content_copy</i></button></td>

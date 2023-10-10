@@ -34,10 +34,11 @@ export default class SessionAPI {
      * @param { string } pineconeKey
      * @param { string } pineconeEnvironment
      * @param { string } pineconeIndex
+     * @param { number } pineconeThreshold
      * @return { Promise<any> }
      */
     static async processEmbedding(query: string, maxTokens: number, topK: number, chatGptKey: string,
-        pineconeKey: string, pineconeEnvironment: string, pineconeIndex: string): Promise<any> {
+        pineconeKey: string, pineconeEnvironment: string, pineconeIndex: string, pineconeThreshold: number): Promise<any> {
         const encodingResult = await EmbeddingAPI.encodeEmbedding(query, chatGptKey);
         if (!encodingResult.success) {
             return {
@@ -60,22 +61,28 @@ export default class SessionAPI {
         const matches = pineconeQueryResults.queryResponse.matches;
         let tokensIncluded = 0;
         const textAnswers = [];
+        const matchesIncluded = [];
         const enc = getEncoding("cl100k_base");
         for (let c = 0, l = matches.length; c < l; c++) {
-            const text = matches[c].metadata.text;
-            const tokens = enc.encode(text);
-            tokensIncluded += tokens.length;
-            if (tokensIncluded > maxTokens) {
-                if (c === 0) {
-                    console.log(tokens);
-                    const clippedTokens = tokens.slice(0, maxTokens);
-                    const clippedText = enc.decode(clippedTokens);
-                    textAnswers.push(clippedText);
-                }
+            if (matches[c].score >= pineconeThreshold) {
+                const text = matches[c].metadata.text;
+                const tokens = enc.encode(text);
+                tokensIncluded += tokens.length;
+                if (tokensIncluded > maxTokens) {
+                    if (c === 0) {
+                        const clippedTokens = tokens.slice(0, maxTokens);
+                        const clippedText = enc.decode(clippedTokens);
+                        textAnswers.push(clippedText);
+                        matchesIncluded.push(c);
+                    }
 
-                break;
+                    break;
+                } else {
+                    textAnswers.push(text);
+                    matchesIncluded.push(c);
+                }
             } else {
-                textAnswers.push(text);
+                break;
             }
         }
 
@@ -90,9 +97,12 @@ export default class SessionAPI {
         return {
             success: true,
             matches,
+            matchesIncluded,
             encodingTokens,
             textAnswers,
             promptText,
+            topK,
+            maxTokens,
         };
     }
     /** http endpoint for user posting message to table chat
@@ -243,15 +253,16 @@ export default class SessionAPI {
 
             const topK = BaseClass.getNumberOrDefault(privateData.pineconeTopK, 3);
             const maxTokens = BaseClass.getNumberOrDefault(privateData.pineconeMaxTokens, 2000);
-            const pineconeKey: any = privateData.pineconeKey;
-            const pineconeIndex: any = privateData.pineconeIndex;
-            const pineconeEnvironment: any = privateData.pineconeEnvironment;
+            const pineconeKey = String(privateData.pineconeKey);
+            const pineconeIndex = String(privateData.pineconeIndex);
+            const pineconeEnvironment = String(privateData.pineconeEnvironment);
+            const pineconeThreshold = BaseClass.getNumberOrDefault(privateData.pineconeThreshold, 0);
 
             if (!pineconeKey || !pineconeIndex || !pineconeEnvironment) {
                 return BaseClass.respondError(res, "Pinecone must have index, key and environment configured when embedding is enabled");
             }
             let embeddingResult: any = await SessionAPI.processEmbedding(messageQuery, maxTokens, topK,
-                chatGptKey, pineconeKey, pineconeEnvironment, pineconeIndex);
+                chatGptKey, pineconeKey, pineconeEnvironment, pineconeIndex, pineconeThreshold);
 
             const embeddedQuery = embeddingResult.promptText;
 

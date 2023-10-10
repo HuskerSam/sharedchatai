@@ -19,6 +19,7 @@ export default class PineconeHelper {
   btn_generate_external_secret: any;
   btn_clear_external_secret: any;
   prompt_for_new_pinecone_max_tokens: any;
+  prompt_for_new_pinecone_threshold: any;
   ownerOnlyData: any = {};
 
   /**
@@ -56,6 +57,9 @@ export default class PineconeHelper {
 
     this.btn_clear_external_secret = this.modalContainer.querySelector(".btn_clear_external_secret");
     this.btn_clear_external_secret.addEventListener("click", () => this.setExternalSecret(true));
+
+    this.prompt_for_new_pinecone_threshold = this.modalContainer.querySelector(".prompt_for_new_pinecone_threshold");
+    this.prompt_for_new_pinecone_threshold.addEventListener("click", () => this.setPineconeField("pineconeThreshold"));
   }
   /**
    * @param { boolean } clear
@@ -143,6 +147,14 @@ export default class PineconeHelper {
                         <i class="material-icons">edit</i></button>
                       </td>
                   </tr>
+                  <tr>
+                      <td>Threshold (0-1)</td>
+                      <td class="pineconeThreshold_display"></td>
+                      <td>
+                        <button class="btn btn-secondary prompt_for_new_pinecone_threshold">
+                        <i class="material-icons">edit</i></button>
+                      </td>
+                  </tr>
               <tr>
                 <td>Pinecone Key</td>
                   <td class="pineconeKey_display"></td>
@@ -199,6 +211,10 @@ export default class PineconeHelper {
     let pineconeMaxTokens = this.ownerOnlyData.pineconeMaxTokens;
     if (pineconeMaxTokens === undefined) pineconeMaxTokens = "2000";
     this.modalContainer.querySelector(".pineconeMaxTokens_display").innerHTML = pineconeMaxTokens;
+
+    let pineconeThreshold = this.ownerOnlyData.pineconeThreshold;
+    if (pineconeThreshold === undefined) pineconeThreshold = "0";
+    this.modalContainer.querySelector(".pineconeThreshold_display").innerHTML = pineconeThreshold;
 
     const pSecret = this.ownerOnlyData.pineconeKey ? "Loaded" : "None";
     this.modalContainer.querySelector(".pineconeKey_display").innerHTML = pSecret;
