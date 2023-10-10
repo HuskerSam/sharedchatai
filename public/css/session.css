@@ -413,6 +413,7 @@ pre code {
 }
 
 .copy_response_block_button i,
+.show_ticket_embedding_info i,
 .edit_response_block_button i {
   position: relative;
   top: 2px;
@@ -777,6 +778,7 @@ pre code {
 .show_ticket_embedding_info {
   display: none;
   position: absolute;
+  background: none;
   bottom: 0px;
   z-index: 1;
 }
@@ -792,7 +794,7 @@ pre code {
   display: inline-block;
   position: absolute;
   bottom: 0px;
-  left: 8px;
+  left: 0px;
 }
 
 .form-select.bookmark_number_select_card {
@@ -1355,8 +1357,39 @@ li.mb-1 button.btn.btn-toggle:before {
 
 .ticket_embedding_details_table {
   width: 100%;
+  display: inline-block;
+  font-size: 1.25em;
+}
+
+.ticket_embedding_settings_table {
+  font-size: 1.25em;
+  display: inline-block;
 }
 
 .ticket_embedding_details_table td, .ticket_embedding_details_table th {
   white-space: nowrap;
+  overflow: hidden;
+}
+
+.ticket_embedding_settings_table tr td {
+  text-align: left;
+  font-family: "MonospaceTTF";
+  width: 100px;
+}
+
+.ticket_embedding_settings_table tr th {
+  padding-right: 8px;
+  white-space: nowrap;
+  text-align: right;
+  width: 100px;
+}
+
+.copy_embedded_prompt_to_clipboard i  {
+  position: relative;
+  top: 2px;
+  font-size: 16px;
+}
+
+.copy_embedded_prompt_to_clipboard {
+  margin-bottom: 8px;
 }

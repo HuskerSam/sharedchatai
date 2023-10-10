@@ -6,7 +6,7 @@ import SharedWithBackend from "./sharedwithbackend.js";
 declare const firebase: any;
 declare const window: any;
 
-/** Guess app class */
+/** Session app class */
 export class SessionApp extends BaseApp {
   isSessionApp = true;
   maxTokenPreviewChars = 30;
@@ -593,8 +593,8 @@ export class SessionApp extends BaseApp {
               continueButton.addEventListener("click", () => this.sendTicketToAPI(true, "Continue Previous"));
 
               const embeddingButton = document.createElement("button");
-              embeddingButton.setAttribute("class", "show_ticket_embedding_info btn btn-primary");
-              embeddingButton.innerHTML = `E`;
+              embeddingButton.setAttribute("class", "show_ticket_embedding_info btn btn-secondary");
+              embeddingButton.innerHTML = `<i class="material-icons-outlined">dataset_linked</i>`;
               assistSection.appendChild(embeddingButton);
               embeddingButton.addEventListener("click", () => this.showEmbeddingSection(ticketId, ticketData, card));
 
@@ -652,6 +652,11 @@ export class SessionApp extends BaseApp {
       const detailsQuery = await this.getTicketEmbeddingDetails(ticketId);
       const matches = detailsQuery.embeddingResult.matches;
       const matchesIncluded = detailsQuery.embeddingResult.matchesIncluded;
+
+      card.querySelector(".ticket_embedding_topk").innerHTML = String(detailsQuery.embeddingResult.topK);
+      card.querySelector(".ticket_embedding_max_tokens").innerHTML = String(detailsQuery.embeddingResult.maxTokens);
+      card.querySelector(".ticket_embedding_similar_score").innerHTML = String(detailsQuery.embeddingResult.pineconeThreshold);
+      card.querySelector(".ticket_embedding_docs_included").innerHTML = matchesIncluded.length.toString();
 
       matches.forEach((match: any, index: number) => {
         const details = match.metadata;
@@ -991,12 +996,29 @@ export class SessionApp extends BaseApp {
           <div class="assist_section"><div class="pending_message">Prompt sent to model for processing...</div></div>
       </div>
       <div class="embedding_details_section">
-        Top K: <span class="ticket_embedding_topk"></span><br>
-        Max Tokens: <span class="ticket_embedding_max_tokens"></span><br>
-        Similar Filter: <span class="ticket_embedding_similar_score"></span><br>
-        Sources Included: <span class="ticket_embedding_docs_included"></span><br>
-        Full Prompt: <button class="copy_embedded_prompt_to_clipboard btn btn-secondary">
-          <i class="material-icons">content_copy</i></button><br>
+        <div style="text-align: center;padding-top: 8px;">
+          <button class="copy_embedded_prompt_to_clipboard btn btn-primary">
+            <i class="material-icons">content_copy</i> Copy Full Prompt</button>
+          <br>
+          <table class="ticket_embedding_settings_table">
+            <tr>
+              <th>Top K</th>
+              <td class="ticket_embedding_topk"></td>
+            </tr>
+            <tr>
+              <th>Max Tokens</th>
+              <td class="ticket_embedding_max_tokens"></td>
+            </tr>
+            <tr>
+              <th>Similar Filter</th>
+              <td class="ticket_embedding_similar_score"></td>
+            </tr>
+            <tr>
+              <th>Sources Included</th>
+              <td class="ticket_embedding_docs_included"></td>
+            </tr>
+          </table>
+        </div>
         <table class="ticket_embedding_details_table"></table>
       </div>
       <hr>

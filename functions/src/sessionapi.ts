@@ -101,6 +101,7 @@ export default class SessionAPI {
             encodingTokens,
             textAnswers,
             promptText,
+            pineconeThreshold,
             topK,
             maxTokens,
         };
