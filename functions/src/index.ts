@@ -23,7 +23,6 @@ const heavyOpts: functions.RuntimeOptions = {
 const homeOpts: functions.RuntimeOptions = {
     timeoutSeconds: 60,
     memory: "512MB",
-    minInstances: 1,
 };
 
 const sitemapOpts: functions.RuntimeOptions = {
