@@ -14,7 +14,7 @@ import EmbeddingAPI from "./embeddingapi";
 firebaseAdmin.initializeApp();
 const runtimeOpts: functions.RuntimeOptions = {
     timeoutSeconds: 300,
-    memory: "128MB",
+    memory: "512MB",
 };
 const heavyOpts: functions.RuntimeOptions = {
     timeoutSeconds: 300,
@@ -22,13 +22,13 @@ const heavyOpts: functions.RuntimeOptions = {
 };
 const homeOpts: functions.RuntimeOptions = {
     timeoutSeconds: 60,
-    memory: "128MB",
+    memory: "512MB",
     minInstances: 1,
 };
 
 const sitemapOpts: functions.RuntimeOptions = {
     timeoutSeconds: 60,
-    memory: "128MB",
+    memory: "512MB",
 };
 
 embeddingAPIApp.use(cors({
