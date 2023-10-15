@@ -1,279 +1,78 @@
 
-<!-- why us section-->
-<section class="homepage_section" id="why-choose">
-    <div class="container why_us_container">
-        <div class="row">
-            <div class="col-lg-4 feature-item">
-                <i class="material-icons big-icon">group</i>
-                <h3>Real-time Collaboration</h3>
-                <p>Share sessions with ease, collaborate in real-time, and harness collective
-                    intelligence.</p>
-            </div>
-            <div class="col-lg-4 feature-item">
-                <i class="material-icons big-icon">settings</i>
-                <h3>Advanced Parameters</h3>
-                <p>Take control with advanced parameters, ensuring tailored outputs that meet your
-                    needs.</p>
-            </div>
-            <div class="col-lg-4 feature-item">
-                <i class="material-icons big-icon">swap_horiz</i>
-                <h3>Unprecedented Flexibility</h3>
-                <p>Swap models seamlessly, import/export sessions, and clone for efficient reuse.</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-4 feature-item">
-                <i class="material-icons big-icon">message</i>
-                <h3>Prompt Management</h3>
-                <p>Rerun prompts, edit responses, and manage prompts with ease for optimal outcomes.</p>
-            </div>
-            <div class="col-lg-4 feature-item">
-                <i class="material-icons big-icon">login</i>
-                <h3>Easy Login</h3>
-                <p>Login hassle-free with Google credentials, email, or anonymously for viewing.</p>
-            </div>
-            <div class="col-lg-4 feature-item">
-                <i class="material-icons big-icon">label</i>
-                <h3>Organize & Manage</h3>
-                <p>Use labels for better organization and leave notes for effective management.</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-4 feature-item">
-                <i class="material-icons big-icon">layers</i>
-                <h3>Unique Features</h3>
-                <p>Experience bulk creation, email tools, and more that set Unacog apart.</p>
-            </div>
-        </div>
-    </div>
-</section>
+To create a to-do list using JavaScript with an edit and delete button, you can follow these steps:
 
+Create an HTML file and add the following code:
+HTML
+<!DOCTYPE html>
+<html>
+<head>
+  <title>To-Do List</title>
+</head>
+<body>
+  <h1>To-Do List</h1>
+  <input type="text" id="todo-input" placeholder="Enter a to-do item">
+  <button type="button" id="add-button">Add</button>
+  <ul id="todo-list"></ul>
+</body>
+<script>
+  // Create an empty to-do list array
+const todoList = [];
 
-<!-- Build Philosophy Section -->
-<section class="bg-light py-5">
-    <div class="container">
-        <!-- Header -->
-        <div class="row mb-4">
-            <div class="col text-center">
-                <h2>Our Build Philosophy</h2>
-                <p>Central to our ethos is accessibility. Our app is meticulously crafted to ensure
-                    seamless access from any device, any screen size, as long as you have a web browser.
-                    No downloads, no lengthy sign-ups, just register using your email. Simple,
-                    hassle-free, and ready whenever you are.</p>
-            </div>
-        </div>
+// Add an event listener to the add button
+document.getElementById('add-button').addEventListener('click', function() {
+  // Add the to-do item to the array
+  const todoItem = document.getElementById('todo-input').value;
+  todoList.push(todoItem);
 
-        <!-- List of Values -->
-        <div class="row">
-            <!-- User-Centric -->
-            <div class="col-md-4 mb-3">
-                <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center">
-                    <i class="material-icons text-primary fs-3 mb-2 mb-md-0 me-md-3 align-self-center">group</i>
-                    <div>
-                        <h4>User-Centric</h4>
-                        <p>We prioritize user needs, ensuring a seamless and intuitive experience.</p>
-                    </div>
-                </div>
-            </div>
+  // Clear the to-do input field
+  document.getElementById('todo-input').value = '';
 
-            <!-- Empowerment -->
-            <div class="col-md-4 mb-3">
-                <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center">
-                    <i class="material-icons text-primary fs-3 mb-2 mb-md-0 me-md-3 align-self-center">bolt</i>
-                    <div>
-                        <h4>Empowerment</h4>
-                        <p>We give users powerful AI collaboration tools for efficient, innovative
-                            tasks.</p>
-                    </div>
-                </div>
-            </div>
+  // Render the to-do list
+  renderTodoList();
+});
 
-            <!-- Transparency -->
-            <div class="col-md-4 mb-3">
-                <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center">
-                    <i
-                        class="material-icons text-primary text-center fs-3 mb-2 mb-md-0 me-md-3 align-self-center">visibility</i>
-                    <div>
-                        <h4>Transparency</h4>
-                        <p>We maintain clarity about our app's functions, ensuring users have full
-                            understanding and control.</p>
-                    </div>
-                </div>
-            </div>
+// Render the to-do list
+function renderTodoList() {
+  // Clear the to-do list element
+  document.getElementById('todo-list').innerHTML = '';
 
-            <!-- Innovation -->
-            <div class="col-md-4 mt-4 mb-3">
-                <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center">
-                    <i class="material-icons text-primary fs-3 mb-2 mb-md-0 me-md-3 align-self-center">lightbulb</i>
-                    <div>
-                        <h4>Innovation</h4>
-                        <p>We constantly adapt, pushing AI technology's boundaries.</p>
-                    </div>
-                </div>
-            </div>
+  // Iterate over the to-do list array and create a list item for each item
+  for (let i = 0; i < todoList.length; i++) {
+    const todoItem = todoList[i];
 
-            <!-- Collaboration -->
-            <div class="col-md-4 mt-4 mb-3">
-                <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center">
-                    <i class="material-icons text-primary fs-3 mb-2 mb-md-0 me-md-3 align-self-center">handshake</i>
-                    <div>
-                        <h4>Collaboration</h4>
-                        <p>We champion teamwork, merging collective intelligence with AI.</p>
-                    </div>
-                </div>
-            </div>
+    // Create a list item element
+    const listItem = document.createElement('li');
 
+    // Set the list item text to the to-do item
+    listItem.textContent = todoItem;
 
+    // Create an edit button element
+    const editButton = document.createElement('button');
+    editButton.textContent = 'Edit';
+    editButton.addEventListener('click', function() {
+      // Make the to-do item editable
+      listItem.contentEditable = true;
+    });
 
+    // Create a delete button element
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete';
+    deleteButton.addEventListener('click', function() {
+      // Remove the to-do item from the array
+      todoList.splice(i, 1);
 
-        </div>
-    </div>
-</section>
+      // Render the to-do list
+      renderTodoList();
+    });
 
+    // Append the edit and delete buttons to the list item
+    listItem.appendChild(editButton);
+    listItem.appendChild(deleteButton);
 
-              
-                    <!-- pricing section-->
-                    <section class="homepage_section homepage_section_background">
-                        <div class="container">
-                            <div class="text-center pb-4">
-                                <h2 class="display-4">Unacog Credits
-                                </h2>
-                                <p class="fs-5">Only pay for what you use, with credits that never
-                                    expire and grant you access to a growing LLM library.</p>
-                            </div>
-                            <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-                                <div class="col">
-                                    <div class="card mb-4 rounded-3 shadow-sm">
-                                        <div class="card-header py-3">
-                                            <h4 class="my-0 fw-normal">$5</h4>
-                                        </div>
-                                        <div class="card-body">
-                                            <h1 class="card-title pricing-card-title">3,000<small
-                                                    class="text-muted fw-light"><br>Credits</small></h1>
-                                            <ul class="list-unstyled mt-3 mb-4">
-                                                <li>All feature access</li>
-                                                <li>Test & Explore</li>
-                                                <li>Low Commitment</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="card mb-4 rounded-3 shadow-sm">
-                                        <div class="card-header py-3">
-                                            <h4 class="my-0 fw-normal">$25</h4>
-                                        </div>
-                                        <div class="card-body">
-                                            <h1 class="card-title pricing-card-title">16,000<small
-                                                    class="text-muted fw-light"><br>Credits</small></h1>
-                                            <ul class="list-unstyled mt-3 mb-4">
-                                                <li>Explore Extensively</li>
-                                                <li>Value & Variety</li>
-                                                <li>🪙 1,000 Bonus Credits</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="card mb-4 rounded-3 shadow-sm">
-                                        <div class="card-header py-3">
-                                            <h4 class="my-0 fw-normal">$100</h4>
-                                        </div>
-                                        <div class="card-body">
-                                            <h1 class="card-title pricing-card-title">75,000<small
-                                                    class="text-muted fw-light"><br>Credits</small></h1>
-                                            <ul class="list-unstyled mt-3 mb-4">
-                                                <li>Experiment Freely</li>
-                                                <li>Use Professionally</li>
-                                                <li>🪙 15,000 Bonus Credits</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-
-.why_us_container .row {
-    justify-content: center;
+    // Append the list item to the to-do list element
+    document.getElementById('todo-list').appendChild(listItem);
+  }
 }
 
-.feature-item {
-    text-align: center;
-    padding: 1.5rem;
-    border: 1px solid var(--primary-color-4);
-    border-radius: 6px;
-    transition: transform .2s; 
-}
-
-.feature-item:hover {
-    transform: scale(1.01);
-}
-
-.feature-item h3 {
-    margin-top: 1em;
-    margin-bottom: 1em;
-    font-size: 1.25em;
-    font-weight: 600;
-    text-transform: uppercase;
-}
-
-.feature-item p {
-    font-size: 1rem;
-    color: var(--options-tab-color);
-}
-
-.big-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    color: var(--highlight);
-}
-
-
-<div class="homepage_section homepage_section_background">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12 col-lg-8 px-md-5 py-md-5">
-                <div class="card border-0 p-2 p-md-3 p-lg-5">
-                    <div class="border-0 text-center py-3 px-4">
-                        <h2>Want to work with us?</h2>
-                        <p>We're open to collaborate. Let's know what'd you like to talk about.</p>
-                    </div>
-                    <div class="card-body pt-0 text-start">
-                        <form action="">
-                            <div class="mb-4">
-                                <label class="mb-2 fw-bold" for="name">Your Name</label>
-                                <div class="input-group">
-                                    <span class="input-group-text" id="basic-addon3">
-                                        <i class="material-icons">person</i></span>
-                                    <input type="text" class="form-control"
-                                        placeholder="e.g. Jordan Smith" id="name" required="">
-                                </div>
-                            </div>
-                            <div class="mb-4">
-                                <label class="mb-2 fw-bold" for="email">Your Email</label>
-                                <div class="input-group">
-                                    <span class="input-group-text" id="basic-addon4"><i
-                                            class="material-icons">email</i></span>
-                                    <input type="email" class="form-control"
-                                        placeholder="example@company.com" id="email" required="">
-                                </div>
-                            </div>
-                            <div class="mb-4">
-                                <label class="mb-2 fw-bold" for="message">Your Message</label>
-                                <textarea placeholder="Your message" class="form-control" id="message"
-                                    rows="4" required=""></textarea>
-
-                            </div>
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Send
-                                    message</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+</script>
+</html>

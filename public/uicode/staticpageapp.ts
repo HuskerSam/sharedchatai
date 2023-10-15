@@ -179,8 +179,9 @@ export class StaticPageApp extends BaseApp {
     /** query matching vector documents
      * @param { string } query
      * @param { string } batchId grouping key
+     * @param { string } pineconeKey
     */
-    async queryEmbeddings(query: string, batchId: string) {
+    async queryEmbeddings(query: string, batchId: string, pineconeKey: string) {
         if (!firebase.auth().currentUser) {
             alert("login on homepage to use this");
             return;
@@ -198,6 +199,7 @@ export class StaticPageApp extends BaseApp {
         const body = {
             query,
             batchId,
+            pineconeKey,
         };
 
         const token = await firebase.auth().currentUser.getIdToken();

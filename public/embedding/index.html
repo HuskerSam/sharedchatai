@@ -47,7 +47,8 @@
         async function runPrompt() {
             const prompt = document.querySelector(".prompt_area").value;
             const batchId = document.querySelector(".batch_id").value;
-            window.StaticPageApp.queryEmbeddings(prompt, batchId);
+            const pineconeKey = document.querySelector(".pinecone_key").value;
+            window.StaticPageApp.queryEmbeddings(prompt, batchId, pineconeKey);
         }
         
         async function deleteIndex() {
@@ -70,6 +71,10 @@
         <input class="batch_id" type="text" value="usda">
         &nbsp; &nbsp;
         <button class="delete_index btn btn-primary">Delete Pinecone Index</button>
+        <br><br>
+        <label>Pinecone Key</label>
+        <input class="pinecone_key" type="text" value="0c0df79a-cc2c-4efd-9835-fdaeb66df843">
+        &nbsp; &nbsp;
         <hr>
         <label>Scrape URLs (1 per line)</label>
         <textarea style="width:90%" class="urls_to_scrape" rows="6">https://www.usda.gov/peoples-garden/gardening-advice

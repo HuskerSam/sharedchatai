@@ -156,7 +156,7 @@ export default class EmbeddingAPI {
         const json = await response.json();
 
         const vectorQuery = json["data"][0]["embedding"];
-        const pineconeKey = localInstance.privateConfig.pinecone;
+        const pineconeKey = req.body.pineconeKey;
         const pinecone = new Pinecone({
             apiKey: pineconeKey,
             environment: "gcp-starter",
