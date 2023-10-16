@@ -279,7 +279,7 @@ export default class EmbeddingAPI {
 
         const pineconeKey = req.body.pineconeKey;
         const pineconeEnvironment = req.body.pineconeEnvironment;
-        
+
         const pinecone = new Pinecone({
             apiKey: pineconeKey,
             environment: pineconeEnvironment,

@@ -681,7 +681,8 @@ export class SessionApp extends BaseApp {
           <td>${match.score.toFixed(3)}</td>
           <td>${title}</td>
           <td>${url}</td>
-          <td><button class="copy_embedded_prompt_to_clipboard btn btn-secondary" data-index="${index}"><i class="material-icons">content_copy</i></button></td>
+          <td><button class="copy_embedded_prompt_to_clipboard btn btn-secondary" 
+          data-index="${index}"><i class="material-icons">content_copy</i></button></td>
         </tr>`;
     });
     tbl.innerHTML = html;
