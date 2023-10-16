@@ -885,6 +885,10 @@ a:hover {
   border-color: var(--secondary-color-1);
 }
 
+.btn.btn-secondary.show_ticket_embedding_info {
+  border-color: transparent;
+}
+
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
   color: var(--primary-color);
   margin-right: 4px;
