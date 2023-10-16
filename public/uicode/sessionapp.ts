@@ -647,36 +647,53 @@ export class SessionApp extends BaseApp {
    * @param { any } card
   */
   async showEmbeddingSection(ticketId: string, ticketData: any, card: any) {
+    const copyBtn = card.querySelector(".copy_embedded_prompt_to_clipboard");
+    copyBtn.addEventListener("click", () => {
+      const text = detailsQuery.embeddingResult.promptText;
+      navigator.clipboard.writeText(text);
+      const buttonText = `<i class="material-icons">content_copy</i>`;
+      copyBtn.innerHTML = `<i class="material-icons copy_green">done</i>` + buttonText;
+      setTimeout(() => copyBtn.innerHTML = buttonText, 1200);
+    });
+
     const tbl = card.querySelector(".ticket_embedding_details_table");
-      let html = "<tr><th></th><th>Score</th><th>Title</th><th style=\"width:90%\">Link</th><th>Raw</th></tr>";
-      const detailsQuery = await this.getTicketEmbeddingDetails(ticketId);
-      const matches = detailsQuery.embeddingResult.matches;
-      const matchesIncluded = detailsQuery.embeddingResult.matchesIncluded;
+    let html = "<tr><th></th><th>Score</th><th>Title</th><th style=\"width:90%\">Link</th><th>Raw</th></tr>";
+    const detailsQuery = await this.getTicketEmbeddingDetails(ticketId);
+    const matches = detailsQuery.embeddingResult.matches;
+    const matchesIncluded = detailsQuery.embeddingResult.matchesIncluded;
 
-      card.querySelector(".ticket_embedding_topk").innerHTML = String(detailsQuery.embeddingResult.topK);
-      card.querySelector(".ticket_embedding_max_tokens").innerHTML = String(detailsQuery.embeddingResult.maxTokens);
-      card.querySelector(".ticket_embedding_similar_score").innerHTML = String(detailsQuery.embeddingResult.pineconeThreshold);
-      card.querySelector(".ticket_embedding_docs_included").innerHTML = matchesIncluded.length.toString();
+    card.querySelector(".ticket_embedding_topk").innerHTML = String(detailsQuery.embeddingResult.topK);
+    card.querySelector(".ticket_embedding_max_tokens").innerHTML = String(detailsQuery.embeddingResult.maxTokens);
+    card.querySelector(".ticket_embedding_similar_score").innerHTML = String(detailsQuery.embeddingResult.pineconeThreshold);
+    card.querySelector(".ticket_embedding_docs_included").innerHTML = matchesIncluded.length.toString();
 
-      matches.forEach((match: any, index: number) => {
-        const details = match.metadata;
-        let title = details.text;
-        if (!title) title = "";
-        title = title.substring(0, 100);
-        let url = details.url;
-        if (!url) url = "";
-        const included = matchesIncluded.indexOf(index) !== -1 ? "✔️" : "";
+    matches.forEach((match: any, index: number) => {
+      const details = match.metadata;
+      let title = details.text;
+      if (!title) title = "";
+      title = title.substring(0, 100);
+      let url = details.url;
+      if (!url) url = "";
+      const included = matchesIncluded.indexOf(index) !== -1 ? "✔️" : "";
 
-        html += `<tr>
+      html += `<tr>
           <td>${included}</td>
           <td>${match.score.toFixed(3)}</td>
           <td>${title}</td>
           <td>${url}</td>
-          <td><button class="copy_embedded_prompt_to_clipboard btn btn-secondary"><i class="material-icons">content_copy</i></button></td>
+          <td><button class="copy_embedded_prompt_to_clipboard btn btn-secondary" data-index="${index}"><i class="material-icons">content_copy</i></button></td>
         </tr>`;
-      });
-      tbl.innerHTML = html;
-      card.classList.toggle("show_embedding_details_section");
+    });
+    tbl.innerHTML = html;
+    card.classList.toggle("show_embedding_details_section");
+    tbl.querySelectorAll(".copy_embedded_prompt_to_clipboard").forEach((btn: any) =>
+      btn.addEventListener("click", () => {
+        const text = matches[btn.dataset.index].metadata.text;
+        navigator.clipboard.writeText(text);
+        const buttonText = `<i class="material-icons">content_copy</i>`;
+        btn.innerHTML = `<i class="material-icons copy_green">done</i>` + buttonText;
+        setTimeout(() => btn.innerHTML = buttonText, 1200);
+      }));
   }
   /**
    * @param { string } ticketId
