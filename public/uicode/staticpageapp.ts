@@ -133,8 +133,10 @@ export class StaticPageApp extends BaseApp {
     /** scrape URLs for embedding
      * @param { string } urls from a textarea - \n separates
      * @param { string } batchId grouping key
+     * @param { string } pineconeKey
+     * @param { string } pineconeEnvironment
     */
-    async embedURLContent(urls: string, batchId: string) {
+    async embedURLContent(urls: string, batchId: string, pineconeKey: string, pineconeEnvironment: string) {
         if (!firebase.auth().currentUser) {
             alert("login on homepage to use this");
             return;
@@ -149,6 +151,8 @@ export class StaticPageApp extends BaseApp {
         const body = {
             urls,
             batchId,
+            pineconeKey,
+            pineconeEnvironment,
         };
 
         const token = await firebase.auth().currentUser.getIdToken();
@@ -180,8 +184,9 @@ export class StaticPageApp extends BaseApp {
      * @param { string } query
      * @param { string } batchId grouping key
      * @param { string } pineconeKey
+     * @param { string } pineconeEnvironment
     */
-    async queryEmbeddings(query: string, batchId: string, pineconeKey: string) {
+    async queryEmbeddings(query: string, batchId: string, pineconeKey: string, pineconeEnvironment: string) {
         if (!firebase.auth().currentUser) {
             alert("login on homepage to use this");
             return;
@@ -200,6 +205,7 @@ export class StaticPageApp extends BaseApp {
             query,
             batchId,
             pineconeKey,
+            pineconeEnvironment,
         };
 
         const token = await firebase.auth().currentUser.getIdToken();
@@ -236,8 +242,10 @@ export class StaticPageApp extends BaseApp {
     }
     /** delete index
      * @param { string } batchId grouping key
+     * @param { string } pineconeKey
+     * @param { string } pineconeEnvironment
     */
-    async deleteIndex(batchId: string) {
+    async deleteIndex(batchId: string, pineconeKey: string, pineconeEnvironment: string) {
         if (!firebase.auth().currentUser) {
             alert("login on homepage to use this");
             return;
@@ -251,6 +259,8 @@ export class StaticPageApp extends BaseApp {
         this.indexDeleteRunning = true;
         const body = {
             batchId,
+            pineconeEnvironment,
+            pineconeKey,
         };
 
         const token = await firebase.auth().currentUser.getIdToken();

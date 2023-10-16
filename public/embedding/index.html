@@ -41,19 +41,24 @@
         async function scrapeURLs() {
             const urls = document.querySelector(".urls_to_scrape").value;
             const batchId = document.querySelector(".batch_id").value;
-            window.StaticPageApp.embedURLContent(urls, batchId);
+            const pineconeKey = document.querySelector(".pinecone_key").value;
+            const pineconeEnvironment = document.querySelector(".pinecone_environment").value;
+            window.StaticPageApp.embedURLContent(urls, batchId, pineconeKey, pineconeEnvironment);
         }
 
         async function runPrompt() {
             const prompt = document.querySelector(".prompt_area").value;
             const batchId = document.querySelector(".batch_id").value;
             const pineconeKey = document.querySelector(".pinecone_key").value;
-            window.StaticPageApp.queryEmbeddings(prompt, batchId, pineconeKey);
+            const pineconeEnvironment = document.querySelector(".pinecone_environment").value;
+            window.StaticPageApp.queryEmbeddings(prompt, batchId, pineconeKey, pineconeEnvironment);
         }
-        
+
         async function deleteIndex() {
             const batchId = document.querySelector(".batch_id").value;
-            window.StaticPageApp.deleteIndex(batchId);
+            const pineconeKey = document.querySelector(".pinecone_key").value;
+            const pineconeEnvironment = document.querySelector(".pinecone_environment").value;
+            window.StaticPageApp.deleteIndex(batchId, pineconeKey, pineconeEnvironment);
         }
     </script>
     <script>
@@ -74,7 +79,9 @@
         <br><br>
         <label>Pinecone Key</label>
         <input class="pinecone_key" type="text" value="0c0df79a-cc2c-4efd-9835-fdaeb66df843">
-        &nbsp; &nbsp;
+        <br><br>
+        <label>Pinecone Environment</label>
+        <input class="pinecone_environment" type="text" value="gcp-starter">
         <hr>
         <label>Scrape URLs (1 per line)</label>
         <textarea style="width:90%" class="urls_to_scrape" rows="6">https://www.usda.gov/peoples-garden/gardening-advice

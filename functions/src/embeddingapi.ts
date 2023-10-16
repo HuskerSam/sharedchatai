@@ -28,11 +28,12 @@ export default class EmbeddingAPI {
         const batchId = req.body.batchId.toString().trim();
         if (!batchId.trim()) BaseClass.respondError(res, "index name required");
         const chatGptKey = localInstance.privateConfig.chatGPTKey;
-        const pineconeKey = localInstance.privateConfig.pinecone;
+        const pineconeKey = req.body.pineconeKey;
+        const pineconeEnvironment = req.body.pineconeEnvironment;
 
         const pinecone = new Pinecone({
             apiKey: pineconeKey,
-            environment: "gcp-starter",
+            environment: pineconeEnvironment,
         });
         const indexList = await pinecone.listIndexes();
         if (!EmbeddingAPI.testIfIndexExists(indexList, batchId)) {
@@ -157,9 +158,10 @@ export default class EmbeddingAPI {
 
         const vectorQuery = json["data"][0]["embedding"];
         const pineconeKey = req.body.pineconeKey;
+        const pineconeEnvironment = req.body.pineconeEnvironment;
         const pinecone = new Pinecone({
             apiKey: pineconeKey,
-            environment: "gcp-starter",
+            environment: pineconeEnvironment,
         });
         const indexList = await pinecone.listIndexes();
         if (!EmbeddingAPI.testIfIndexExists(indexList, batchId)) {
@@ -275,10 +277,12 @@ export default class EmbeddingAPI {
         const batchId = req.body.batchId.toString().trim();
         if (!batchId.trim()) BaseClass.respondError(res, "index name required");
 
-        const pineconeKey = localInstance.privateConfig.pinecone;
+        const pineconeKey = req.body.pineconeKey;
+        const pineconeEnvironment = req.body.pineconeEnvironment;
+        
         const pinecone = new Pinecone({
             apiKey: pineconeKey,
-            environment: "gcp-starter",
+            environment: pineconeEnvironment,
         });
         const indexList = await pinecone.listIndexes();
         if (!EmbeddingAPI.testIfIndexExists(indexList, batchId)) {
