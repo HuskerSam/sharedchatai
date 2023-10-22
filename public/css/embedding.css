@@ -10,21 +10,22 @@ label {
   flex: 1;
 }
 
-.preview_embedding_documents_list {
+.styled_csv_table {
   width: 100%;
   flex: 1;
   overflow: auto;
   border: solid 1px var(--secondary-color-4);
   margin-bottom: 12px;
   max-height: 50vh;
+  min-height: 10vh;
 }
 
-.preview_embedding_documents_list table {
+.styled_csv_table table {
   width: 100%;
   position: relative;
 }
 
-.preview_embedding_documents_list table th {
+.styled_csv_table table th {
   background-color: var(--background-accent-5);
   /*
   border-right: solid 1px var(--secondary-color-4);
@@ -37,7 +38,7 @@ label {
   padding-right: 12px;
 }
 
-.preview_embedding_documents_list table td  {
+.styled_csv_table table td  {
   white-space: pre-wrap;
   background-color: var(--background-accent);
   /*
@@ -49,19 +50,19 @@ label {
   padding-right: 12px;
 }
 
-.preview_embedding_documents_list tr:first-child th {
+.styled_csv_table tr:first-child th {
   position: sticky;
   top: -1px;
 }
 
-.preview_embedding_documents_list th:nth-child(1) {
+.styled_csv_table th:nth-child(1) {
   width: 20px;
 }
 
-.preview_embedding_documents_list td:nth-child(2) {
+.styled_csv_table td:nth-child(2) {
   width: 20px;
 }
 
-.preview_embedding_documents_list td {
+.styled_csv_table td {
   width: 25%;
 }

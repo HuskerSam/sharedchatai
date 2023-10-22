@@ -1,13 +1,14 @@
 import BaseApp from "./baseapp.js";
 import ChatDocument from "./chatdocument.js";
 declare const firebase: any;
+declare const window: any;
 
 /** Guess app class */
 export class EmbeddingApp extends BaseApp {
     show_profile_modal: any = document.querySelector(".show_profile_modal");
     help_show_modal: any = document.querySelector(".help_show_modal");
     sign_out_homepage: any = document.querySelector(".sign_out_homepage");
-    scrape_urls_btn: any = document.querySelector(".scrape_urls_btn");
+    upload_embedding_documents_btn: any = document.querySelector(".upload_embedding_documents_btn");
     copy_results_to_clipboard: any = document.querySelector(".copy_results_to_clipboard");
     run_prompt: any = document.querySelector(".run_prompt");
     delete_index: any = document.querySelector(".delete_index");
@@ -22,6 +23,11 @@ export class EmbeddingApp extends BaseApp {
     embedding_list_file_dom: any = document.querySelector(".embedding_list_file_dom");
     upload_document_list_button: any = document.querySelector(".upload_document_list_button");
     preview_embedding_documents_list: any = document.querySelector(".preview_embedding_documents_list");
+    upsert_results_display_table: any = document.querySelector(".upsert_results_display_table");
+    download_csv_results_btn: any = document.querySelector(".download_csv_results_btn");
+    download_json_results_btn: any = document.querySelector(".download_json_results_btn");
+    fileListToUpload: Array<any> = [];
+    upsertFileResults: Array<any> = [];
     embeddingRunning = false;
     vectorQueryRunning = false;
     indexDeleteRunning = false;
@@ -32,14 +38,13 @@ export class EmbeddingApp extends BaseApp {
         this.showLoginModal = true;
         this.profileHelper.noAuthPage = false;
 
-        this.scrape_urls_btn.addEventListener("click", () => this.embedURLContent());
+        this.upload_embedding_documents_btn.addEventListener("click", () => this.embedURLContent());
         this.run_prompt.addEventListener("click", () => this.queryEmbeddings());
         this.delete_index.addEventListener("click", () => this.deleteIndex());
         this.copy_results_to_clipboard.addEventListener("click", () => {
             const data = this.results_div.innerHTML;
             navigator.clipboard.writeText(data);
         });
-
 
         if (this.show_profile_modal) {
             this.show_profile_modal.addEventListener("click", (event: any) => {
@@ -53,6 +58,45 @@ export class EmbeddingApp extends BaseApp {
         this.upload_document_list_button.addEventListener("click", () => this.embedding_list_file_dom.click());
         this.embedding_list_file_dom.addEventListener("change", () => this.updateParsedEmbeddingListFileStatus());
         this.updateParsedEmbeddingListFileStatus();
+        this.updateUpsertResultsTable();
+
+        this.download_csv_results_btn.addEventListener("click", () => this.downloadResultsFile(true));
+        this.download_json_results_btn.addEventListener("click", () => this.downloadResultsFile());
+    }
+    /**
+     * @param { boolean } csv
+    */
+    downloadResultsFile(csv = false) {
+        if (!this.upsertFileResults || this.upsertFileResults.length === 0) {
+            alert("no results to download");
+            return;
+        }
+        let type = "application/csv";
+        let resultText = "";
+        let fileName = "";
+        if (csv) {
+            fileName = "upsertResults.csv";
+            resultText = window.Papa.unparse(this.upsertFileResults);
+        } else {
+            type = "application/json";
+            fileName = "upsertResults.json";
+            resultText = JSON.stringify(this.upsertFileResults, null, "  ");
+        }
+
+        const file = new File([resultText], fileName, {
+            type,
+        });
+
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(file);
+
+        link.href = url;
+        link.download = file.name;
+        document.body.appendChild(link);
+        link.click();
+
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
     }
     /**
      * @return { any }
@@ -82,15 +126,15 @@ export class EmbeddingApp extends BaseApp {
     /** */
     async embedURLContent() {
         const data = this.scrapeData();
-        await this._embedURLContent(data.urls, data.batchId, data.pineconeKey, data.pineconeEnvironment);
+        await this._embedURLContent(this.fileListToUpload, data.batchId, data.pineconeKey, data.pineconeEnvironment);
     }
     /** scrape URLs for embedding
-     * @param { string } urls from a textarea - \n separates
+     * @param { Array<any> } fileList
      * @param { string } batchId grouping key
      * @param { string } pineconeKey
      * @param { string } pineconeEnvironment
     */
-    async _embedURLContent(urls: string, batchId: string, pineconeKey: string, pineconeEnvironment: string) {
+    async _embedURLContent(fileList: Array<any>, batchId: string, pineconeKey: string, pineconeEnvironment: string) {
         if (!firebase.auth().currentUser) {
             alert("login on homepage to use this");
             return;
@@ -100,10 +144,10 @@ export class EmbeddingApp extends BaseApp {
             return;
         }
 
-        this.scrape_urls_btn.innerHTML = "Embedding...";
+        this.upload_embedding_documents_btn.innerHTML = "Embedding...";
         this.embeddingRunning = true;
         const body = {
-            urls,
+            fileList,
             batchId,
             pineconeKey,
             pineconeEnvironment,
@@ -121,18 +165,12 @@ export class EmbeddingApp extends BaseApp {
             body: JSON.stringify(body),
         });
 
-
-        // if (this.verboseLog) {
         const json = await fResult.json();
-        console.log("scrapped html", json.html);
-        // }
-
-        if (json.success === false) {
-            alert(json.errorMessage);
-        }
+        this.upsertFileResults = json.fileUploadResults;
+        this.updateUpsertResultsTable();
 
         this.embeddingRunning = false;
-        this.scrape_urls_btn.innerHTML = "Scrape Urls";
+        this.upload_embedding_documents_btn.innerHTML = "Upsert Documents";
     }
     /** */
     async queryEmbeddings() {
@@ -261,15 +299,19 @@ export class EmbeddingApp extends BaseApp {
         keys.forEach((key: string) => fileContent += `<th>${key}</th>`);
         fileContent += "</tr>";
 
+        this.fileListToUpload = [];
         importData.forEach((row: any, index: number) => {
           fileContent += "<tr>";
           fileContent += `<th>${index + 1}</th>`;
+          const newRow: any = {};
           keys.forEach((key: string) => {
             let value = row[key];
             if (value === undefined) value = "";
             fileContent += `<td>${BaseApp.escapeHTML(value)}</td>`;
+            newRow[key] = value;
           });
           fileContent += "</tr>";
+          this.fileListToUpload.push(newRow);
         });
 
         fileContent += `</table>`;
@@ -281,5 +323,31 @@ export class EmbeddingApp extends BaseApp {
         if (this.embedding_list_file_dom.files[0]) fileName = this.embedding_list_file_dom.files[0].name;
         this.document_list_file_name.innerHTML = fileName;
         return importData;
+      }
+    /** */
+    async updateUpsertResultsTable() {
+        let fileContent = "<table class=\"file_preview_table\">";
+        const keys = ["id", "url", "title", "textSize", "errorMessage"];
+        fileContent += "<tr>";
+        fileContent += `<th>row</th>`;
+        keys.forEach((key: string) => fileContent += `<th>${key}</th>`);
+        fileContent += "</tr>";
+
+        this.upsertFileResults.forEach((row: any, index: number) => {
+          fileContent += "<tr>";
+          fileContent += `<th>${index + 1}</th>`;
+          const newRow: any = {};
+          keys.forEach((key: string) => {
+            let value = row[key];
+            if (value === undefined) value = "";
+            fileContent += `<td>${BaseApp.escapeHTML(value)}</td>`;
+            newRow[key] = value;
+          });
+          fileContent += "</tr>";
+        });
+
+        fileContent += `</table>`;
+
+        this.upsert_results_display_table.innerHTML = fileContent;
       }
 }

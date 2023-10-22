@@ -24,7 +24,7 @@ export default class EmbeddingAPI {
         const localInstance = BaseClass.newLocalInstance();
         await localInstance.init();
 
-        const urls = req.body.urls;
+        const fileList = req.body.fileList;
         const batchId = req.body.batchId.toString().trim();
         if (!batchId.trim()) BaseClass.respondError(res, "index name required");
         const chatGptKey = localInstance.privateConfig.chatGPTKey;
@@ -46,84 +46,134 @@ export default class EmbeddingAPI {
         }
         const pIndex = pinecone.index(batchId);
 
-        const list = urls.split("\n");
         const promises: any = [];
-        list.forEach((url: string) => {
-            if (url.trim()) {
-                promises.push(EmbeddingAPI.scrapeURLAndSaveHTML(url, batchId, chatGptKey, pIndex));
-            }
+        fileList.forEach((fileDesc: any) => {
+            promises.push(EmbeddingAPI.upsertFileData(fileDesc, batchId, chatGptKey, pIndex));
         });
-        await Promise.all(promises);
+
+        const fileUploadResults = await Promise.all(promises);
         res.send({
+            fileUploadResults,
             success: true,
         });
     }
     /**
      * @param { string } url
+     */
+    static async _scrapeURL(url: string): Promise<any> {
+        const result = await fetch(url);
+        const html = await result.text();
+        let text = "";
+        let title = "";
+        if (html) {
+            const cheerioQuery = cheerio.load(html);
+            cheerioQuery("h1, h2, h3, h4, h5, p").each((index: number, element: any) => {
+                const t = cheerioQuery(element).text();
+                if (t) text += t + "\n";
+            });
+            text = text.trim().substring(0, 100000);
+
+            cheerioQuery("title").each((index: number, element: any) => {
+                title = cheerioQuery(element).text();
+            });
+        }
+
+        return {
+            html,
+            text,
+            title,
+        };
+    }
+    /**
+     * @param { any } fileDesc
      * @param { string } batchId
      * @param { string } chatGptKey
      * @param { any } pIndex
-     * @return { boolean } true if url fetched and text saved
+     * @return { any } success: true - otherwise errorMessage: string is in map
     */
-    static async scrapeURLAndSaveHTML(url: string, batchId: string, chatGptKey: string, pIndex: any) {
-        const result = await fetch(url);
-        const html = await result.text();
-        const safeUrl = encodeURIComponent(url);
-
-        if (html) {
-            const cheerioQuery = cheerio.load(html);
-            let text = "";
-            let elementCount = 0;
-            cheerioQuery("h1, h2, h3, h4, h5, p").each((index, element) => {
-                text += cheerioQuery(element).text() + "\n";
-                elementCount++;
-            });
-
-            text = text.substring(0, 100000);
-            if (!text) return false;
-
-            const response = await fetch(`https://api.openai.com/v1/embeddings`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + chatGptKey,
-                },
-                body: JSON.stringify({
-                    "input": text,
-                    "model": "text-embedding-ada-002",
-                }),
-            });
-
-            const json = await response.json();
-            const embedding = json.data[0].embedding;
-
-            const textSize = text.length;
-            await firebaseAdmin.firestore().doc(`Embeddings/${batchId}/html/${safeUrl}`)
-                .set({
-                    html,
-                    text,
-                    textSize,
-                    elementCount,
-                    embedding,
-                });
-
-            const pEmbedding = {
-                metadata: {
-                    text,
-                    url,
-                },
-                values: embedding,
-                id: safeUrl,
+    static async upsertFileData(fileDesc: any, batchId: string, chatGptKey: string, pIndex: any) {
+        let id = fileDesc.id;
+        if (id === "") id = encodeURIComponent(fileDesc.url);
+        if (id === "") {
+            return {
+                success: false,
+                errorMessage: "id or url required",
             };
-
-            await pIndex.upsert([
-                pEmbedding,
-            ]);
-
-            return true;
+        }
+        const url = fileDesc.url;
+        let text = fileDesc.text;
+        let title = "";
+        let html = "";
+        if (!text && url !== "") {
+            const scrapeResult = await EmbeddingAPI._scrapeURL(fileDesc.url);
+            text = scrapeResult.text;
+            if (!text) {
+                return {
+                    success: false,
+                    errorMessage: "url scrape failed to return data",
+                };
+            }
+            title = scrapeResult.title;
+            html = scrapeResult.html;
+        } else {
+            return {
+                success: false,
+                errorMessage: "text or url required",
+            };
         }
 
-        return false;
+        if (title === "") title = fileDesc.title;
+        if (title === "") title = url.substring(0, 100);
+        if (title === "") title = text.substring(0, 100);
+
+        const response = await fetch(`https://api.openai.com/v1/embeddings`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + chatGptKey,
+            },
+            body: JSON.stringify({
+                "input": text,
+                "model": "text-embedding-ada-002",
+            }),
+        });
+
+        const json = await response.json();
+        const embedding = json.data[0].embedding;
+
+        const textSize = text.length;
+        await firebaseAdmin.firestore().doc(`Embeddings/${batchId}/html/${id}`)
+            .set({
+                html,
+                text,
+                title,
+                textSize,
+                embedding,
+            });
+
+        const pEmbedding = {
+            metadata: {
+                text,
+                url,
+                title,
+            },
+            values: embedding,
+            id: id,
+        };
+
+        await pIndex.upsert([
+            pEmbedding,
+        ]);
+
+        return {
+            success: true,
+            id,
+            url,
+            text,
+            html,
+            title,
+            textSize,
+        };
     }
     /**
    * @param { Request } req http request object

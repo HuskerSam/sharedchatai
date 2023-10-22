@@ -93,7 +93,7 @@
                     <div class="document_list_file_status"></div>
                     <div class="document_list_file_name" style="display:none;"></div>
                 </div>
-                <div class="preview_embedding_documents_list"></div>
+                <div class="preview_embedding_documents_list styled_csv_table"></div>
                 <label>exclude</label> - (optional) enter 1 or y or x to exclude this line from upload
                 <br>
                 <label>url</label> - serves as the link in UI, location to scrape (optional) and id
@@ -107,6 +107,22 @@
                 <label>text</label> - (optional) no scrape use this text
                 <br>
                 <label>prefix</label> - (optional) prefix meta text for scrape or text
+                <br><br>
+                If you want to remove files, delete the index, uploading will upsert documents using url as unique id, or id if supplied
+            </div>
+            <hr>
+            <h2>Encode data and upload to Pinecone</h2>
+            <br>
+            <button class="upload_embedding_documents_btn btn btn-primary">Upsert Document List</button>
+            <br>
+            - wait 20-30 seconds after upserting items before trying to query them
+            <br>
+            <br>
+            <div class="upsert_results_display_table styled_csv_table"></div>
+            <div style="text-align: right;">
+                <button class="btn btn-primary download_csv_results_btn">CSV Results</button>
+                &nbsp;
+                <button class="btn btn-primary download_json_results_btn">JSON Results</button>
             </div>
             <hr>
             <h2>Configure Pinecone Settings</h2>
@@ -114,18 +130,14 @@
             <input class="batch_id" type="text" value="usda">
             &nbsp; &nbsp;
             <button class="delete_index btn btn-primary"><i class="material-icons">delete</i></button>
+            <br>
+            Delete index to remove all documents from pinecone storage
             <br><br>
             <label>Pinecone Key</label>
             <input class="pinecone_key" type="text" value="0c0df79a-cc2c-4efd-9835-fdaeb66df843">
             <br><br>
             <label>Pinecone Environment</label>
             <input class="pinecone_environment" type="text" value="gcp-starter">
-            <hr>
-            <h2>Encode data and upload to Pinecone</h2>
-            <br>
-            <button class="scrape_urls_btn btn btn-primary">Scrape URLs</button>
-            <br>
-            - wait 20-30 seconds after upserting items before trying to query them
             <hr>
             <h2>Test Pinecone Queries</h2>
             <label>Prompt</label>
