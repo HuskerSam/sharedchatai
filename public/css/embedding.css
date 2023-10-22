@@ -9,3 +9,59 @@ label {
   align-self: center;
   flex: 1;
 }
+
+.preview_embedding_documents_list {
+  width: 100%;
+  flex: 1;
+  overflow: auto;
+  border: solid 1px var(--secondary-color-4);
+  margin-bottom: 12px;
+  max-height: 50vh;
+}
+
+.preview_embedding_documents_list table {
+  width: 100%;
+  position: relative;
+}
+
+.preview_embedding_documents_list table th {
+  background-color: var(--background-accent-5);
+  /*
+  border-right: solid 1px var(--secondary-color-4);
+  border-top: solid 1px var(--secondary-color-4);
+  border-bottom: solid 1px var(--secondary-color-4);
+  */
+  border: solid 1px var(--secondary-color-4);
+  padding: 4px;
+  text-align: center;
+  padding-right: 12px;
+}
+
+.preview_embedding_documents_list table td  {
+  white-space: pre-wrap;
+  background-color: var(--background-accent);
+  /*
+  border-right: solid 1px var(--secondary-color-4);
+  border-bottom: solid 1px var(--secondary-color-4);
+  */
+  border: solid 1px var(--secondary-color-4);
+  padding: 4px;
+  padding-right: 12px;
+}
+
+.preview_embedding_documents_list tr:first-child th {
+  position: sticky;
+  top: -1px;
+}
+
+.preview_embedding_documents_list th:nth-child(1) {
+  width: 20px;
+}
+
+.preview_embedding_documents_list td:nth-child(2) {
+  width: 20px;
+}
+
+.preview_embedding_documents_list td {
+  width: 25%;
+}

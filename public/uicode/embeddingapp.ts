@@ -1,5 +1,5 @@
 import BaseApp from "./baseapp.js";
-
+import ChatDocument from "./chatdocument.js";
 declare const firebase: any;
 
 /** Guess app class */
@@ -21,6 +21,7 @@ export class EmbeddingApp extends BaseApp {
     document_list_file_name: any = document.querySelector(".document_list_file_name");
     embedding_list_file_dom: any = document.querySelector(".embedding_list_file_dom");
     upload_document_list_button: any = document.querySelector(".upload_document_list_button");
+    preview_embedding_documents_list: any = document.querySelector(".preview_embedding_documents_list");
     embeddingRunning = false;
     vectorQueryRunning = false;
     indexDeleteRunning = false;
@@ -49,9 +50,13 @@ export class EmbeddingApp extends BaseApp {
             });
         }
 
-        this.upload_document_list_button.addEventListener("click", () => this.embedding_list_file_dom.click());    
+        this.upload_document_list_button.addEventListener("click", () => this.embedding_list_file_dom.click());
+        this.embedding_list_file_dom.addEventListener("change", () => this.updateParsedEmbeddingListFileStatus());
+        this.updateParsedEmbeddingListFileStatus();
     }
-    /** */
+    /**
+     * @return { any }
+    */
     scrapeData(): any {
         const batchId = this.batch_id.value;
         const pineconeKey = this.pinecone_key.value;
@@ -69,8 +74,10 @@ export class EmbeddingApp extends BaseApp {
     /** override event that happens after authentication resolution */
     authUpdateStatusUI(): void {
         super.authUpdateStatusUI();
+        /*
         if (this.profile) {
         }
+        */
     }
     /** */
     async embedURLContent() {
@@ -193,7 +200,7 @@ export class EmbeddingApp extends BaseApp {
         this.run_prompt.innerHTML = "Run Query";
     }
     /** */
-    async deleteIndex() {  
+    async deleteIndex() {
         const data = this.scrapeData();
         await this._deleteIndex(data.batchId, data.pineconeKey, data.pineconeEnvironment);
     }
@@ -242,4 +249,37 @@ export class EmbeddingApp extends BaseApp {
             alert(json.errorMessage);
         }
     }
+    /** */
+    async updateParsedEmbeddingListFileStatus(): Promise<Array<any>> {
+        const importData = await ChatDocument.getImportDataFromDomFile(this.embedding_list_file_dom);
+        let contentCount = "";
+        contentCount = importData.length + " rows";
+        let fileContent = "<table class=\"file_preview_table\">";
+        const keys = ["exclude", "url", "id", "title", "options", "text", "prefix"];
+        fileContent += "<tr>";
+        fileContent += `<th>row</th>`;
+        keys.forEach((key: string) => fileContent += `<th>${key}</th>`);
+        fileContent += "</tr>";
+
+        importData.forEach((row: any, index: number) => {
+          fileContent += "<tr>";
+          fileContent += `<th>${index + 1}</th>`;
+          keys.forEach((key: string) => {
+            let value = row[key];
+            if (value === undefined) value = "";
+            fileContent += `<td>${BaseApp.escapeHTML(value)}</td>`;
+          });
+          fileContent += "</tr>";
+        });
+
+        fileContent += `</table>`;
+
+        this.preview_embedding_documents_list.innerHTML = fileContent;
+
+        this.document_list_file_status.innerHTML = contentCount;
+        let fileName = "";
+        if (this.embedding_list_file_dom.files[0]) fileName = this.embedding_list_file_dom.files[0].name;
+        this.document_list_file_name.innerHTML = fileName;
+        return importData;
+      }
 }
