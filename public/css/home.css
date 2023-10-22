@@ -1555,7 +1555,7 @@ ol li,
 @media(min-width: 992px) {
   .scroll_to_top_icon span {
     position: relative;
-    left: -16px;
+    left: 0px;
     top: -4px;
     font-size: 20px;
   }

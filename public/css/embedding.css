@@ -1,0 +1,11 @@
+label {
+    font-weight: bold;
+    display: block;
+}
+
+.document_list_file_name,
+.document_list_file_status {
+  margin-left: 12px;
+  align-self: center;
+  flex: 1;
+}
