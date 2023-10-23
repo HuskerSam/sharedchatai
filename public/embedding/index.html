@@ -142,20 +142,28 @@
             </div>
             <div class="tab-pane fade" id="options_embedding_tab_view" role="tabpanel"
                 aria-labelledby="options_embedding_tab_btn">
-                <h2>Configure Pinecone Settings</h2>
-                <label>Index Name</label>
-                <input class="batch_id" type="text" value="usda">
-                &nbsp; &nbsp;
-                <button class="delete_index btn btn-primary"><i class="material-icons">delete</i></button>
-                <br>
-                Delete index to remove all documents from pinecone storage
-                <br><br>
-                <label>Pinecone Key</label>
-                <input class="pinecone_key" type="text" value="0c0df79a-cc2c-4efd-9835-fdaeb66df843">
-                <br><br>
-                <label>Pinecone Environment</label>
-                <input class="pinecone_environment" type="text" value="gcp-starter">
-
+                <table class="embedding_options_table">
+                    <tr>
+                        <td>Index Name </td>
+                        <td><input class="batch_id form-control" type="text" value=""></td>
+                        <td><button class="delete_index btn btn-primary"><i class="material-icons">delete</i></button></td>
+                    </tr>
+                    <tr>
+                        <td>API Key </td>
+                        <td><input class="pinecone_key form-control" type="text" value=""></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Environment </td>
+                        <td><input class="pinecone_environment form-control" type="text" value=""></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="text-align: right;padding: 8px;">
+                            <button class="btn btn-primary save_pineconeoptions_btn">Save Options</button>
+                        </td>
+                    </tr>
+                </table>
             </div>
             <div class="tab-pane fade" id="test_embedding_tab_view" role="tabpanel"
                 aria-labelledby="test_embedding_tab_btn">
@@ -195,6 +203,10 @@
                 <br><br><br>
                 
                 wait 20-30 seconds before testing after upserting documents 
+                <br><br>
+                
+                <br>
+                Delete index to remove all documents from pinecone storage
                 <br><br>
             </div>            
 

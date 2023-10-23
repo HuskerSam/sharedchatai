@@ -27,6 +27,7 @@ export class EmbeddingApp extends BaseApp {
     download_csv_results_btn: any = document.querySelector(".download_csv_results_btn");
     download_json_results_btn: any = document.querySelector(".download_json_results_btn");
     upsert_result_status_bar: any = document.querySelector(".upsert_result_status_bar");
+    save_pineconeoptions_btn: any = document.querySelector(".save_pineconeoptions_btn");
     fileListToUpload: Array<any> = [];
     upsertFileResults: Array<any> = [];
     embeddingRunning = false;
@@ -63,6 +64,7 @@ export class EmbeddingApp extends BaseApp {
 
         this.download_csv_results_btn.addEventListener("click", () => this.downloadResultsFile(true));
         this.download_json_results_btn.addEventListener("click", () => this.downloadResultsFile());
+        this.save_pineconeoptions_btn.addEventListener("click", () => this.scrapeData());
     }
     /**
      * @param { boolean } csv
@@ -103,31 +105,68 @@ export class EmbeddingApp extends BaseApp {
      * @return { any }
     */
     scrapeData(): any {
-        const batchId = this.batch_id.value;
+        const pineconeIndex = this.batch_id.value;
         const pineconeKey = this.pinecone_key.value;
         const pineconeEnvironment = this.pinecone_environment.value;
         const prompt = this.prompt_area.value;
 
+        this.savePineconeOptions({
+            pineconeIndex,
+            pineconeKey,
+            pineconeEnvironment,
+        });
         return {
             urls: "",
-            batchId,
+            pineconeIndex,
             pineconeKey,
             pineconeEnvironment,
             prompt,
         };
     }
+    /** */
+    getPineconeOptions() {
+        let pineconeIndex = "";
+        let pineconeKey = "";
+        let pineconeEnvironment = "";
+        if (this.profile.emb_pineconeIndex !== undefined) pineconeIndex = this.profile.emb_pineconeIndex;
+        if (this.profile.emb_pineconeKey !== undefined) pineconeKey = this.profile.emb_pineconeKey;
+        if (this.profile.emb_pineconeEnvironment !== undefined) pineconeEnvironment = this.profile.emb_pineconeEnvironment;
+        
+        return {
+            pineconeIndex,
+            pineconeKey,
+            pineconeEnvironment,
+        }
+    }
+    /**
+     * @param { any } options
+     */
+    async savePineconeOptions(options: any) {
+        const profileOptions = this.getPineconeOptions();
+        if (options.pineconeIndex !== profileOptions.pineconeIndex || 
+            options.pineconeKey !== profileOptions.pineconeKey ||
+            options.pineconeEnvironment !== profileOptions.pineconeEnvironment) {
+                await Promise.all([
+                    this.saveProfileField("emb_pineconeIndex", options.pineconeIndex),
+                    this.saveProfileField("emb_pineconeKey", options.pineconeKey),
+                    this.saveProfileField("emb_pineconeEnvironment", options.pineconeEnvironment),
+                ]);
+            }
+    }
     /** override event that happens after authentication resolution */
     authUpdateStatusUI(): void {
         super.authUpdateStatusUI();
-        /*
         if (this.profile) {
+            const options = this.getPineconeOptions();
+            this.batch_id.value = options.pineconeIndex;
+            this.pinecone_key.value = options.pineconeKey;
+            this.pinecone_environment.value = options.pineconeEnvironment;
         }
-        */
     }
     /** */
     async embedURLContent() {
         const data = this.scrapeData();
-        await this._embedURLContent(this.fileListToUpload, data.batchId, data.pineconeKey, data.pineconeEnvironment);
+        await this._embedURLContent(this.fileListToUpload, data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
     }
     /** scrape URLs for embedding
      * @param { Array<any> } fileList
@@ -184,7 +223,7 @@ export class EmbeddingApp extends BaseApp {
     /** */
     async queryEmbeddings() {
         const data = this.scrapeData();
-        await this._queryEmbeddings(data.prompt, data.batchId, data.pineconeKey, data.pineconeEnvironment);
+        await this._queryEmbeddings(data.prompt, data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
     }
     /** query matching vector documents
      * @param { string } query
@@ -249,7 +288,7 @@ export class EmbeddingApp extends BaseApp {
     /** */
     async deleteIndex() {
         const data = this.scrapeData();
-        await this._deleteIndex(data.batchId, data.pineconeKey, data.pineconeEnvironment);
+        await this._deleteIndex(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
     }
     /** delete index
      * @param { string } batchId grouping key
