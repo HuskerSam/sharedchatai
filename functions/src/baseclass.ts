@@ -199,9 +199,17 @@ export default class BaseClass {
     }
     return o;
   }
-      /** */
+      /**
+       * @param { string } uid
+       * @param { string } lastChatDocumentId
+       * @param { string } lastChatTicketId
+       * @param { number } totalTokens
+       * @param { number } promptTokens
+       * @param { number } completionTokens
+       * @param { number } usageCredits
+       */
       static async _updateCreditUsageForUser(uid: string, lastChatDocumentId: string, lastChatTicketId: string,
-        total_tokens: number, prompt_tokens: number, completion_tokens: number, usage_credits: number) {
+        totalTokens: number, promptTokens: number, completionTokens: number, usageCredits: number) {
         const today = new Date().toISOString();
         const yearFrag = today.substring(0, 4);
         const yearMonthFrag = today.substring(0, 7);
@@ -211,24 +219,24 @@ export default class BaseClass {
             lastActivity: new Date().toISOString(),
             lastChatDocumentId,
             lastChatTicketId,
-            totalTokens: FieldValue.increment(total_tokens),
-            promptTokens: FieldValue.increment(prompt_tokens),
-            completionTokens: FieldValue.increment(completion_tokens),
-            creditUsage: FieldValue.increment(usage_credits),
-            availableCreditBalance: FieldValue.increment(-1 * usage_credits),
+            totalTokens: FieldValue.increment(totalTokens),
+            promptTokens: FieldValue.increment(promptTokens),
+            completionTokens: FieldValue.increment(completionTokens),
+            creditUsage: FieldValue.increment(usageCredits),
+            availableCreditBalance: FieldValue.increment(-1 * usageCredits),
             runningTokens: {
-                ["total_" + yearFrag]: FieldValue.increment(total_tokens),
-                ["total_" + yearMonthFrag]: FieldValue.increment(total_tokens),
-                ["total_" + ymdFrag]: FieldValue.increment(total_tokens),
-                ["prompt_" + yearFrag]: FieldValue.increment(prompt_tokens),
-                ["prompt_" + yearMonthFrag]: FieldValue.increment(prompt_tokens),
-                ["prompt_" + ymdFrag]: FieldValue.increment(prompt_tokens),
-                ["completion_" + yearFrag]: FieldValue.increment(completion_tokens),
-                ["completion_" + yearMonthFrag]: FieldValue.increment(completion_tokens),
-                ["completion_" + ymdFrag]: FieldValue.increment(completion_tokens),
-                ["credit_" + yearFrag]: FieldValue.increment(usage_credits),
-                ["credit_" + yearMonthFrag]: FieldValue.increment(usage_credits),
-                ["credit_" + ymdFrag]: FieldValue.increment(usage_credits),
+                ["total_" + yearFrag]: FieldValue.increment(totalTokens),
+                ["total_" + yearMonthFrag]: FieldValue.increment(totalTokens),
+                ["total_" + ymdFrag]: FieldValue.increment(totalTokens),
+                ["prompt_" + yearFrag]: FieldValue.increment(promptTokens),
+                ["prompt_" + yearMonthFrag]: FieldValue.increment(promptTokens),
+                ["prompt_" + ymdFrag]: FieldValue.increment(promptTokens),
+                ["completion_" + yearFrag]: FieldValue.increment(completionTokens),
+                ["completion_" + yearMonthFrag]: FieldValue.increment(completionTokens),
+                ["completion_" + ymdFrag]: FieldValue.increment(completionTokens),
+                ["credit_" + yearFrag]: FieldValue.increment(usageCredits),
+                ["credit_" + yearMonthFrag]: FieldValue.increment(usageCredits),
+                ["credit_" + ymdFrag]: FieldValue.increment(usageCredits),
             },
         }, {
             merge: true,

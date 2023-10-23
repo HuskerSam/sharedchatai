@@ -142,7 +142,7 @@ export default class EmbeddingAPI {
         if (prefixText !== "") {
             prefixText += "\n";
             text = prefixText + text;
-        } 
+        }
 
         const embeddingModelResult = await EmbeddingAPI.encodeEmbedding(text, chatGptKey, uid);
         const embedding = embeddingModelResult.vectorResult;

@@ -115,11 +115,6 @@ export default class SessionAPI {
         const authResults = await BaseClass.validateCredentials(req.headers.token);
         if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
 
-        const today = new Date().toISOString();
-        const yearFrag = today.substring(0, 4);
-        const yearMonthFrag = today.substring(0, 7);
-        const ymdFrag = today.substring(0, 10);
-
         const uid = authResults.uid;
         const gameNumber = req.body.gameNumber;
         const reRunticket: any = req.body.reRunTicket;

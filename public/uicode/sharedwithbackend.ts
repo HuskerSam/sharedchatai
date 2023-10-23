@@ -229,7 +229,7 @@ const models: any = {
     "top_k": 40,
     "presence_penalty": 0,
     "frequency_penalty": 0,
-  }, 
+  },
   "text-embedding-ada-002": {
     "active": 0,
     "type": "gpt",
