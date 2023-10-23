@@ -46,12 +46,21 @@ export default class EmbeddingAPI {
         }
         const pIndex = pinecone.index(batchId);
 
-        const promises: any = [];
-        fileList.forEach((fileDesc: any) => {
+        let promises: any = [];
+        let fileUploadResults: Array<any> = [];
+        for (let c = 0, l = fileList.length; c < l; c++) {
+            const fileDesc = fileList[c];
             promises.push(EmbeddingAPI.upsertFileData(fileDesc, batchId, chatGptKey, pIndex));
-        });
 
-        const fileUploadResults = await Promise.all(promises);
+            if (promises.length >= 20) {
+                const uploadResults = await Promise.all(promises);
+                fileUploadResults = fileUploadResults.concat(uploadResults);
+                promises = [];
+            }
+        }
+
+        const uploadResults = await Promise.all(promises);
+        fileUploadResults = fileUploadResults.concat(uploadResults);
         res.send({
             fileUploadResults,
             success: true,
@@ -92,6 +101,7 @@ export default class EmbeddingAPI {
      * @return { any } success: true - otherwise errorMessage: string is in map
     */
     static async upsertFileData(fileDesc: any, batchId: string, chatGptKey: string, pIndex: any) {
+        console.log(fileDesc);
         let id = fileDesc.id;
         if (id === "") id = encodeURIComponent(fileDesc.url);
         if (id === "") {
@@ -115,14 +125,15 @@ export default class EmbeddingAPI {
             }
             title = scrapeResult.title;
             html = scrapeResult.html;
-        } else {
+        } else if (!text && !url) {
             return {
                 success: false,
                 errorMessage: "text or url required",
             };
         }
 
-        if (title === "") title = fileDesc.title;
+        const overrideTitle = fileDesc.title.trim();
+        if (overrideTitle !== "") title = overrideTitle;
         if (title === "") title = url.substring(0, 100);
         if (title === "") title = text.substring(0, 100);
 
@@ -170,7 +181,6 @@ export default class EmbeddingAPI {
             id,
             url,
             text,
-            html,
             title,
             textSize,
         };
