@@ -1,5 +1,6 @@
 import * as firebaseAdmin from "firebase-admin";
 import BaseClass from "./baseclass";
+import SharedWithBackend from "./uicode/sharedwithbackend";
 import type {
     Request,
     Response,
@@ -142,20 +143,10 @@ export default class EmbeddingAPI {
             text = prefixText + text;
         } 
 
-        const response = await fetch(`https://api.openai.com/v1/embeddings`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + chatGptKey,
-            },
-            body: JSON.stringify({
-                "input": text,
-                "model": "text-embedding-ada-002",
-            }),
-        });
-
-        const json = await response.json();
-        const embedding = json.data[0].embedding;
+        const embeddingModelResult = await EmbeddingAPI.encodeEmbedding(text, chatGptKey);
+        const embedding = embeddingModelResult.vectorResult;
+        const encodingTokens = embeddingModelResult.encodingTokens;
+        const encodingCredits = embeddingModelResult.encodingCredits;
 
         const textSize = text.length;
         await firebaseAdmin.firestore().doc(`Embeddings/${batchId}/html/${id}`)
@@ -165,6 +156,8 @@ export default class EmbeddingAPI {
                 title,
                 textSize,
                 embedding,
+                encodingTokens,
+                encodingCredits,
             });
 
         const pEmbedding = {
@@ -172,6 +165,8 @@ export default class EmbeddingAPI {
                 text,
                 url,
                 title,
+                encodingTokens,
+                encodingCredits,
             },
             values: embedding,
             id: id,
@@ -188,6 +183,8 @@ export default class EmbeddingAPI {
             text,
             title,
             textSize,
+            encodingTokens,
+            encodingCredits,
         };
     }
     /**
@@ -256,6 +253,8 @@ export default class EmbeddingAPI {
         let success = true;
         let error = null;
         let fullResult: any = {};
+        let encodingTokens = 0;
+        let encodingCredits = 0;
         try {
             const response = await fetch(`https://api.openai.com/v1/embeddings`, {
                 method: "POST",
@@ -269,8 +268,10 @@ export default class EmbeddingAPI {
                 }),
             });
             fullResult = await response.json();
-
             vectorResult = fullResult["data"][0]["embedding"];
+            encodingTokens = fullResult.usage.total_tokens;
+            const modelMeta = SharedWithBackend.getModelMeta("text-embedding-ada-002");
+            encodingCredits = encodingTokens * modelMeta.input;
         } catch (err: any) {
             success = false;
             error = err;
@@ -280,6 +281,8 @@ export default class EmbeddingAPI {
             success,
             fullResult,
             vectorResult,
+            encodingTokens,
+            encodingCredits,
             error,
         };
     }

@@ -229,6 +229,21 @@ const models: any = {
     "top_k": 40,
     "presence_penalty": 0,
     "frequency_penalty": 0,
+  }, 
+  "text-embedding-ada-002": {
+    "active": 0,
+    "type": "gpt",
+    "input": 0.0001,
+    "output": 0.0001,
+    "contextualLimit": 4096,
+    "defaultCompletion": 500,
+    "completionMax": 2048,
+    "completionMin": 20,
+    "temperature": 1,
+    "top_p": 1,
+    "top_k": 40,
+    "presence_penalty": 0,
+    "frequency_penalty": 0,
   },
 };
 

@@ -174,10 +174,12 @@ export class EmbeddingApp extends BaseApp {
         this.embeddingRunning = false;
         const count = this.upsertFileResults.length;
         let errors = 0;
+        let credits = 0;
         this.upsertFileResults.forEach((result: any) => {
             if (result.errorMessage) errors++;
+            else credits += result.encodingCredits;
         });
-        this.upsert_result_status_bar.innerHTML = `${count} rows processed, ${errors} errors`;
+        this.upsert_result_status_bar.innerHTML = `${count} rows processed, ${errors} errors, ${credits.toFixed(3)} credits`;
     }
     /** */
     async queryEmbeddings() {
