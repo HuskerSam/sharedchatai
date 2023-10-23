@@ -136,6 +136,12 @@ export default class EmbeddingAPI {
         if (title === "") title = url.substring(0, 100);
         if (title === "") title = text.substring(0, 100);
 
+        let prefixText = fileDesc.prefix.trim();
+        if (prefixText !== "") {
+            prefixText += "\n";
+            text = prefixText + text;
+        } 
+
         const response = await fetch(`https://api.openai.com/v1/embeddings`, {
             method: "POST",
             headers: {

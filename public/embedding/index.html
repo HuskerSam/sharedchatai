@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Embedding</title>
+    <title>Embedding Documents</title>
     <link rel="shortcut icon" href="/images/logo64.png" />
     <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-database.js"></script>
@@ -57,7 +57,8 @@
                             class="home_navbar_name_color"">cog</span></span>
                 </a>
             </li>
-            <li style=" flex:1">
+            <li style="flex:1;background:none" class="app_panel">
+                Embedding Documents
             </li>
             <li class="nav-item signed_out_flex">
                 <a class="signin_show_modal hover_yellow btn btn-primary px-4" href="login" type="button">Login
@@ -69,7 +70,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="showhomepage_help nav-link hover_yellow" href="/help/" target="help">
+                <a class="showhomepage_help nav-link hover_yellow" href="/help/#embedding" target="help">
                     <span class="mobile_custom_icon_label">
                         <i class="material-icons">help_outline</i>
                     </span>
@@ -120,9 +121,12 @@
                         <div class="preview_embedding_documents_list styled_csv_table"></div>
                     </div>
                     <hr>
-                    <div>
-                        <button class="upload_embedding_documents_btn btn btn-primary">
-                            <i class="material-icons">cloud_upload</i> <span>Upsert Documents</span></button>
+                    <div style="display:flex;flex-direction:row">
+                        <div>
+                            <button class="upload_embedding_documents_btn btn btn-primary">
+                                <i class="material-icons">cloud_upload</i> <span>Upsert List</span></button>
+                        </div>
+                        <div class="upsert_result_status_bar"></div>
                     </div>
                     <br>
                     <div class="upsert_results_display_table styled_csv_table"></div>
@@ -195,6 +199,7 @@
             </div>            
 
         </div>
+        <div style="flex:1"></div>
     </div>
 </body>
 

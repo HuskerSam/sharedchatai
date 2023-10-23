@@ -26,6 +26,7 @@ export class EmbeddingApp extends BaseApp {
     upsert_results_display_table: any = document.querySelector(".upsert_results_display_table");
     download_csv_results_btn: any = document.querySelector(".download_csv_results_btn");
     download_json_results_btn: any = document.querySelector(".download_json_results_btn");
+    upsert_result_status_bar: any = document.querySelector(".upsert_result_status_bar");
     fileListToUpload: Array<any> = [];
     upsertFileResults: Array<any> = [];
     embeddingRunning = false;
@@ -143,8 +144,9 @@ export class EmbeddingApp extends BaseApp {
             alert("already running");
             return;
         }
-
-        this.upload_embedding_documents_btn.innerHTML = "Embedding...";
+        this.upsertFileResults = [];
+        this.updateUpsertResultsTable();
+        this.upsert_result_status_bar.innerHTML = "processing document list...";
         this.embeddingRunning = true;
         const body = {
             fileList,
@@ -170,7 +172,12 @@ export class EmbeddingApp extends BaseApp {
         this.updateUpsertResultsTable();
 
         this.embeddingRunning = false;
-        this.upload_embedding_documents_btn.innerHTML = "Upsert Documents";
+        const count = this.upsertFileResults.length;
+        let errors = 0;
+        this.upsertFileResults.forEach((result: any) => {
+            if (result.errorMessage) errors++;
+        });
+        this.upsert_result_status_bar.innerHTML = `${count} rows processed, ${errors} errors`;
     }
     /** */
     async queryEmbeddings() {
