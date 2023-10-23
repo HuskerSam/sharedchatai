@@ -51,7 +51,7 @@ export default class EmbeddingAPI {
         let fileUploadResults: Array<any> = [];
         for (let c = 0, l = fileList.length; c < l; c++) {
             const fileDesc = fileList[c];
-            promises.push(EmbeddingAPI.upsertFileData(fileDesc, batchId, chatGptKey, pIndex));
+            promises.push(EmbeddingAPI.upsertFileData(fileDesc, batchId, chatGptKey, authResults.uid, pIndex));
 
             if (promises.length >= 20) {
                 const uploadResults = await Promise.all(promises);
@@ -98,10 +98,11 @@ export default class EmbeddingAPI {
      * @param { any } fileDesc
      * @param { string } batchId
      * @param { string } chatGptKey
+     * @param { string } uid
      * @param { any } pIndex
      * @return { any } success: true - otherwise errorMessage: string is in map
     */
-    static async upsertFileData(fileDesc: any, batchId: string, chatGptKey: string, pIndex: any) {
+    static async upsertFileData(fileDesc: any, batchId: string, chatGptKey: string, uid: string, pIndex: any) {
         let id = fileDesc.id;
         if (id === "") id = encodeURIComponent(fileDesc.url);
         if (id === "") {
@@ -143,7 +144,7 @@ export default class EmbeddingAPI {
             text = prefixText + text;
         } 
 
-        const embeddingModelResult = await EmbeddingAPI.encodeEmbedding(text, chatGptKey);
+        const embeddingModelResult = await EmbeddingAPI.encodeEmbedding(text, chatGptKey, uid);
         const embedding = embeddingModelResult.vectorResult;
         const encodingTokens = embeddingModelResult.encodingTokens;
         const encodingCredits = embeddingModelResult.encodingCredits;
@@ -246,9 +247,10 @@ export default class EmbeddingAPI {
     /**
      * @param { string } data
      * @param { string } chatGptKey
+     * @param { string } uid for billing
      * @return { Promise<any> }
      */
-    static async encodeEmbedding(data: string, chatGptKey: string): Promise<any> {
+    static async encodeEmbedding(data: string, chatGptKey: string, uid: string): Promise<any> {
         let vectorResult = null;
         let success = true;
         let error = null;
@@ -272,6 +274,8 @@ export default class EmbeddingAPI {
             encodingTokens = fullResult.usage.total_tokens;
             const modelMeta = SharedWithBackend.getModelMeta("text-embedding-ada-002");
             encodingCredits = encodingTokens * modelMeta.input;
+
+            await BaseClass._updateCreditUsageForUser(uid, "", "", encodingTokens, encodingTokens, 0, encodingCredits);
         } catch (err: any) {
             success = false;
             error = err;

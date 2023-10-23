@@ -31,15 +31,16 @@ export default class SessionAPI {
      * @param { number } maxTokens
      * @param { number } topK
      * @param { string } chatGptKey
+     * @param { string } uid
      * @param { string } pineconeKey
      * @param { string } pineconeEnvironment
      * @param { string } pineconeIndex
      * @param { number } pineconeThreshold
      * @return { Promise<any> }
      */
-    static async processEmbedding(query: string, maxTokens: number, topK: number, chatGptKey: string,
+    static async processEmbedding(query: string, maxTokens: number, topK: number, chatGptKey: string, uid: string,
         pineconeKey: string, pineconeEnvironment: string, pineconeIndex: string, pineconeThreshold: number): Promise<any> {
-        const encodingResult = await EmbeddingAPI.encodeEmbedding(query, chatGptKey);
+        const encodingResult = await EmbeddingAPI.encodeEmbedding(query, chatGptKey, uid);
         if (!encodingResult.success) {
             return {
                 success: false,
@@ -263,7 +264,7 @@ export default class SessionAPI {
                 return BaseClass.respondError(res, "Pinecone must have index, key and environment configured when embedding is enabled");
             }
             let embeddingResult: any = await SessionAPI.processEmbedding(messageQuery, maxTokens, topK,
-                chatGptKey, pineconeKey, pineconeEnvironment, pineconeIndex, pineconeThreshold);
+                chatGptKey, sessionDocumentData.createUser, pineconeKey, pineconeEnvironment, pineconeIndex, pineconeThreshold);
 
             const embeddedQuery = embeddingResult.promptText;
 
@@ -355,32 +356,8 @@ export default class SessionAPI {
             }, {
                 merge: true,
             }),
-            firebaseAdmin.firestore().doc(`Users/${sessionDocumentData.createUser}/internal/tokenUsage`).set({
-                lastActivity: new Date().toISOString(),
-                lastChatDocumentId: gameNumber,
-                lastChatTicketId: ticketId,
-                totalTokens: FieldValue.increment(total_tokens),
-                promptTokens: FieldValue.increment(prompt_tokens),
-                completionTokens: FieldValue.increment(completion_tokens),
-                creditUsage: FieldValue.increment(usage_credits),
-                availableCreditBalance: FieldValue.increment(-1 * usage_credits),
-                runningTokens: {
-                    ["total_" + yearFrag]: FieldValue.increment(total_tokens),
-                    ["total_" + yearMonthFrag]: FieldValue.increment(total_tokens),
-                    ["total_" + ymdFrag]: FieldValue.increment(total_tokens),
-                    ["prompt_" + yearFrag]: FieldValue.increment(prompt_tokens),
-                    ["prompt_" + yearMonthFrag]: FieldValue.increment(prompt_tokens),
-                    ["prompt_" + ymdFrag]: FieldValue.increment(prompt_tokens),
-                    ["completion_" + yearFrag]: FieldValue.increment(completion_tokens),
-                    ["completion_" + yearMonthFrag]: FieldValue.increment(completion_tokens),
-                    ["completion_" + ymdFrag]: FieldValue.increment(completion_tokens),
-                    ["credit_" + yearFrag]: FieldValue.increment(usage_credits),
-                    ["credit_" + yearMonthFrag]: FieldValue.increment(usage_credits),
-                    ["credit_" + ymdFrag]: FieldValue.increment(usage_credits),
-                },
-            }, {
-                merge: true,
-            }),
+            BaseClass._updateCreditUsageForUser(sessionDocumentData.createUser, gameNumber, ticketId,
+                total_tokens, prompt_tokens, completion_tokens, usage_credits),
         ];
         await Promise.all(promises);
 
