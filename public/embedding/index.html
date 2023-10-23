@@ -104,12 +104,11 @@
             <div class="tab-pane fade show active" id="upsert_embedding_tab_view" role="tabpanel"
                 aria-labelledby="upsert_embedding_tab_btn">
                 <div style="padding: 20px; text-align: left;">
-                    <h2>Upload document list for embedding</h2>
                     <div>
                         <div class="upload_wrapper">
                             <div>
                                 <button class="btn btn-primary upload_document_list_button">
-                                    <i class="material-icons">upload_file</i> <span>Document List (csv/json)</span>
+                                    <i class="material-icons">upload_file</i> <span>Import List</span>
                                 </button>
                             </div>
                             <div>
@@ -121,18 +120,18 @@
                         <div class="preview_embedding_documents_list styled_csv_table"></div>
                     </div>
                     <hr>
-                    <h2>Encode data and upload to Pinecone</h2>
-                    <br>
-                    <button class="upload_embedding_documents_btn btn btn-primary">Upsert Document List</button>
-                    <br>
-                    - wait 20-30 seconds after upserting items before trying to query them
-                    <br>
+                    <div>
+                        <button class="upload_embedding_documents_btn btn btn-primary">
+                            <i class="material-icons">cloud_upload</i> <span>Upsert Documents</span></button>
+                    </div>
                     <br>
                     <div class="upsert_results_display_table styled_csv_table"></div>
                     <div style="text-align: right;">
-                        <button class="btn btn-primary download_csv_results_btn">CSV Results</button>
+                        <button class="btn btn-primary download_csv_results_btn">
+                            <i class="material-icons">file_download</i> <span>CSV</span></button>
                         &nbsp;
-                        <button class="btn btn-primary download_json_results_btn">JSON Results</button>
+                        <button class="btn btn-primary download_json_results_btn">
+                            <i class="material-icons">file_download</i> <span>JSON</span></button>
                     </div>
 
                 </div>
@@ -189,7 +188,10 @@
                 <label>prefix</label> - (optional) prefix meta text for scrape or text
                 <br><br>
                 If you want to remove files, delete the index, uploading will upsert documents using url as unique id, or id if supplied
-
+                <br><br><br>
+                
+                wait 20-30 seconds before testing after upserting documents 
+                <br><br>
             </div>            
 
         </div>

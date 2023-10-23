@@ -66,3 +66,9 @@ label {
 .styled_csv_table td {
   width: 25%;
 }
+
+.btn i {
+  position: relative;
+  font-size: 20px;
+  top: 4px;
+}
