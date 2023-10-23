@@ -101,7 +101,6 @@ export default class EmbeddingAPI {
      * @return { any } success: true - otherwise errorMessage: string is in map
     */
     static async upsertFileData(fileDesc: any, batchId: string, chatGptKey: string, pIndex: any) {
-        console.log(fileDesc);
         let id = fileDesc.id;
         if (id === "") id = encodeURIComponent(fileDesc.url);
         if (id === "") {
