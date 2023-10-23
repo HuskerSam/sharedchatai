@@ -123,27 +123,29 @@ export class EmbeddingApp extends BaseApp {
             prompt,
         };
     }
-    /** */
-    getPineconeOptions() {
+    /**
+     * @return { any }
+    */
+    getPineconeOptions(): any {
         let pineconeIndex = "";
         let pineconeKey = "";
         let pineconeEnvironment = "";
         if (this.profile.emb_pineconeIndex !== undefined) pineconeIndex = this.profile.emb_pineconeIndex;
         if (this.profile.emb_pineconeKey !== undefined) pineconeKey = this.profile.emb_pineconeKey;
         if (this.profile.emb_pineconeEnvironment !== undefined) pineconeEnvironment = this.profile.emb_pineconeEnvironment;
-        
+
         return {
             pineconeIndex,
             pineconeKey,
             pineconeEnvironment,
-        }
+        };
     }
     /**
      * @param { any } options
      */
     async savePineconeOptions(options: any) {
         const profileOptions = this.getPineconeOptions();
-        if (options.pineconeIndex !== profileOptions.pineconeIndex || 
+        if (options.pineconeIndex !== profileOptions.pineconeIndex ||
             options.pineconeKey !== profileOptions.pineconeKey ||
             options.pineconeEnvironment !== profileOptions.pineconeEnvironment) {
                 await Promise.all([
