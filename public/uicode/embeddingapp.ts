@@ -293,7 +293,7 @@ export class EmbeddingApp extends BaseApp {
         let contentCount = "";
         contentCount = importData.length + " rows";
         let fileContent = "<table class=\"file_preview_table\">";
-        const keys = ["exclude", "url", "id", "title", "options", "text", "prefix"];
+        const keys = ["url", "id", "title", "options", "text", "prefix"];
         fileContent += "<tr>";
         fileContent += `<th>row</th>`;
         keys.forEach((key: string) => fileContent += `<th>${key}</th>`);

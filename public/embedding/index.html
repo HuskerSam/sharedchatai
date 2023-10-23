@@ -77,25 +77,105 @@
             </li>
         </ul>
     </nav>
-    <div class="container main_container">
-        <div style="padding: 20px; text-align: left;">
-            <h2>Upload document list for embedding</h2>
-            <div>
-                <div class="upload_wrapper">
+    <div class="container main_container app_panel">
+        <ul class="nav nav-tabs" role="tablist" style="margin-top:20px;">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="upsert_embedding_tab_btn" data-bs-toggle="tab"
+                    href="#upsert_embedding_tab_view" role="tab" aria-controls="upsert_embedding_tab_view"
+                    aria-selected="true">Upsert</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="options_embedding_tab_btn" data-bs-toggle="tab"
+                    href="#options_embedding_tab_view" role="tab" aria-controls="options_embedding_tab_view"
+                    aria-selected="false">Options</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="test_embedding_tab_btn" data-bs-toggle="tab"
+                    href="#test_embedding_tab_view" role="tab" aria-controls="test_embedding_tab_view"
+                    aria-selected="false">Test</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="help_embedding_tab_btn" data-bs-toggle="tab"
+                    href="#help_embedding_tab_view" role="tab" aria-controls="help_embedding_tab_view"
+                    aria-selected="false">Help</a>
+            </li>
+        </ul>
+        <div class="tab-content" style="overflow:hidden;display:flex;text-align: left;">
+            <div class="tab-pane fade show active" id="upsert_embedding_tab_view" role="tabpanel"
+                aria-labelledby="upsert_embedding_tab_btn">
+                <div style="padding: 20px; text-align: left;">
+                    <h2>Upload document list for embedding</h2>
                     <div>
-                        <button class="btn btn-primary upload_document_list_button">
-                            <i class="material-icons">upload_file</i> <span>Document List (csv/json)</span>
-                        </button>
+                        <div class="upload_wrapper">
+                            <div>
+                                <button class="btn btn-primary upload_document_list_button">
+                                    <i class="material-icons">upload_file</i> <span>Document List (csv/json)</span>
+                                </button>
+                            </div>
+                            <div>
+                                <input class="embedding_list_file_dom" style="display:none;" type="file" accept=".json,.csv">
+                            </div>
+                            <div class="document_list_file_status"></div>
+                            <div class="document_list_file_name" style="display:none;"></div>
+                        </div>
+                        <div class="preview_embedding_documents_list styled_csv_table"></div>
                     </div>
-                    <div>
-                        <input class="embedding_list_file_dom" style="display:none;" type="file" accept=".json,.csv">
+                    <hr>
+                    <h2>Encode data and upload to Pinecone</h2>
+                    <br>
+                    <button class="upload_embedding_documents_btn btn btn-primary">Upsert Document List</button>
+                    <br>
+                    - wait 20-30 seconds after upserting items before trying to query them
+                    <br>
+                    <br>
+                    <div class="upsert_results_display_table styled_csv_table"></div>
+                    <div style="text-align: right;">
+                        <button class="btn btn-primary download_csv_results_btn">CSV Results</button>
+                        &nbsp;
+                        <button class="btn btn-primary download_json_results_btn">JSON Results</button>
                     </div>
-                    <div class="document_list_file_status"></div>
-                    <div class="document_list_file_name" style="display:none;"></div>
+
                 </div>
-                <div class="preview_embedding_documents_list styled_csv_table"></div>
-                <label>exclude</label> - (optional) enter 1 or y or x to exclude this line from upload
+            </div>
+            <div class="tab-pane fade" id="options_embedding_tab_view" role="tabpanel"
+                aria-labelledby="options_embedding_tab_btn">
+                <h2>Configure Pinecone Settings</h2>
+                <label>Index Name</label>
+                <input class="batch_id" type="text" value="usda">
+                &nbsp; &nbsp;
+                <button class="delete_index btn btn-primary"><i class="material-icons">delete</i></button>
                 <br>
+                Delete index to remove all documents from pinecone storage
+                <br><br>
+                <label>Pinecone Key</label>
+                <input class="pinecone_key" type="text" value="0c0df79a-cc2c-4efd-9835-fdaeb66df843">
+                <br><br>
+                <label>Pinecone Environment</label>
+                <input class="pinecone_environment" type="text" value="gcp-starter">
+
+            </div>
+            <div class="tab-pane fade" id="test_embedding_tab_view" role="tabpanel"
+                aria-labelledby="test_embedding_tab_btn">
+                <h2>Test Pinecone Queries</h2>
+                <label>Prompt</label>
+                <textarea class="prompt_area" style="width:20em;max-width: 90%;"
+                    rows="6">How do I save seeds from my garden for next year?</textarea>
+                <br>
+                <br>
+                <button class="run_prompt btn btn-primary">Prepare Prompt</button>
+                <br>
+                <br>
+                <label>Prepare Prompt Results</label>
+                <br>
+                <h2>Prepared Prompt</h2>
+                <button class="copy_results_to_clipboard btn btn-primary">Copy to Clipboard</button>
+                <div class="results_div" style="min-height:5em;padding:10px;white-space:pre-wrap"></div>
+                <br><br>
+                <h2>Top 10 results from Pinecone query</h2>
+                <table class="results_table"></table>
+            </div>
+            <div class="tab-pane fade" id="help_embedding_tab_view" role="tabpanel"
+                aria-labelledby="help_embedding_tab_btn">
                 <label>url</label> - serves as the link in UI, location to scrape (optional) and id
                 <br>
                 <label>id</label> - (optional) overrides the url as the id
@@ -109,53 +189,9 @@
                 <label>prefix</label> - (optional) prefix meta text for scrape or text
                 <br><br>
                 If you want to remove files, delete the index, uploading will upsert documents using url as unique id, or id if supplied
-            </div>
-            <hr>
-            <h2>Encode data and upload to Pinecone</h2>
-            <br>
-            <button class="upload_embedding_documents_btn btn btn-primary">Upsert Document List</button>
-            <br>
-            - wait 20-30 seconds after upserting items before trying to query them
-            <br>
-            <br>
-            <div class="upsert_results_display_table styled_csv_table"></div>
-            <div style="text-align: right;">
-                <button class="btn btn-primary download_csv_results_btn">CSV Results</button>
-                &nbsp;
-                <button class="btn btn-primary download_json_results_btn">JSON Results</button>
-            </div>
-            <hr>
-            <h2>Configure Pinecone Settings</h2>
-            <label>Index Name</label>
-            <input class="batch_id" type="text" value="usda">
-            &nbsp; &nbsp;
-            <button class="delete_index btn btn-primary"><i class="material-icons">delete</i></button>
-            <br>
-            Delete index to remove all documents from pinecone storage
-            <br><br>
-            <label>Pinecone Key</label>
-            <input class="pinecone_key" type="text" value="0c0df79a-cc2c-4efd-9835-fdaeb66df843">
-            <br><br>
-            <label>Pinecone Environment</label>
-            <input class="pinecone_environment" type="text" value="gcp-starter">
-            <hr>
-            <h2>Test Pinecone Queries</h2>
-            <label>Prompt</label>
-            <textarea class="prompt_area" style="width:20em;max-width: 90%;"
-                rows="6">How do I save seeds from my garden for next year?</textarea>
-            <br>
-            <br>
-            <button class="run_prompt btn btn-primary">Prepare Prompt</button>
-            <br>
-            <br>
-            <label>Prepare Prompt Results</label>
-            <br>
-            <h2>Prepared Prompt</h2>
-            <button class="copy_results_to_clipboard btn btn-primary">Copy to Clipboard</button>
-            <div class="results_div" style="min-height:5em;padding:10px;white-space:pre-wrap"></div>
-            <br><br>
-            <h2>Top 10 results from Pinecone query</h2>
-            <table class="results_table"></table>
+
+            </div>            
+
         </div>
     </div>
 </body>
