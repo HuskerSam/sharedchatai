@@ -87,3 +87,13 @@
   white-space: pre-wrap;
   background: var(--background-accent);
 }
+
+.embedding_query_results_table_wrapper {
+  min-height: 10vh;
+  min-height: 10vh;
+  max-height: 35vh;
+  overflow: auto;
+  padding: 10px;
+  white-space: pre-wrap;
+  background: var(--background-accent);
+}

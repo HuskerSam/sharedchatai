@@ -13,7 +13,7 @@ export class EmbeddingApp extends BaseApp {
     run_prompt: any = document.querySelector(".run_prompt");
     delete_index: any = document.querySelector(".delete_index");
     embedding_query_test_results: any = document.querySelector(".embedding_query_test_results");
-    results_table: any = document.querySelector(".results_table");
+    embedding_query_results_table: any = document.querySelector(".embedding_query_results_table");
     batch_id: any = document.querySelector(".batch_id");
     pinecone_key: any = document.querySelector(".pinecone_key");
     pinecone_environment: any = document.querySelector(".pinecone_environment");
@@ -31,6 +31,7 @@ export class EmbeddingApp extends BaseApp {
     copy_resultdoclist_to_clipboard: any = document.querySelector(".copy_resultdoclist_to_clipboard");
     fileListToUpload: Array<any> = [];
     upsertFileResults: Array<any> = [];
+    pineconeQueryResults: any = {};
     embeddingRunning = false;
     vectorQueryRunning = false;
     indexDeleteRunning = false;
@@ -66,6 +67,12 @@ export class EmbeddingApp extends BaseApp {
         this.download_csv_results_btn.addEventListener("click", () => this.downloadResultsFile(true));
         this.download_json_results_btn.addEventListener("click", () => this.downloadResultsFile());
         this.save_pineconeoptions_btn.addEventListener("click", () => this.scrapeData());
+        this.copy_resultdoclist_to_clipboard.addEventListener("click", () => this.copyQueryResultsToClipboard());
+    }
+    /** */
+    copyQueryResultsToClipboard() {
+        const jsonStr = JSON.stringify(this.pineconeQueryResults, null, "\t");
+        navigator.clipboard.writeText(jsonStr);
     }
     /**
      * @param { boolean } csv
@@ -252,7 +259,7 @@ export class EmbeddingApp extends BaseApp {
             return;
         }
 
-        this.results_table.innerHTML = "";
+        this.embedding_query_results_table.innerHTML = "";
         this.embedding_query_test_results.innerHTML = "";
 
         this.run_prompt.innerHTML = "Processing...";
@@ -277,7 +284,7 @@ export class EmbeddingApp extends BaseApp {
         });
 
         const json = await fResult.json();
-        console.log("query response", json);
+        this.pineconeQueryResults = json;
 
         const resultRows = json.queryResponse.matches;
         let tableRowsHtml = "<tr><th>URL</th><th>Text</th></tr>";
@@ -290,7 +297,7 @@ export class EmbeddingApp extends BaseApp {
                 "\n\nAnswer: " + text + "\n\n";
         });
         primedPrompt += "Question: " + query;
-        this.results_table.innerHTML = tableRowsHtml;
+        this.embedding_query_results_table.innerHTML = tableRowsHtml;
         this.embedding_query_test_results.innerHTML = primedPrompt;
 
         this.vectorQueryRunning = false;
