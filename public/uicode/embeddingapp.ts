@@ -12,7 +12,7 @@ export class EmbeddingApp extends BaseApp {
     copy_results_to_clipboard: any = document.querySelector(".copy_results_to_clipboard");
     run_prompt: any = document.querySelector(".run_prompt");
     delete_index: any = document.querySelector(".delete_index");
-    results_div: any = document.querySelector(".results_div");
+    embedding_query_test_results: any = document.querySelector(".embedding_query_test_results");
     results_table: any = document.querySelector(".results_table");
     batch_id: any = document.querySelector(".batch_id");
     pinecone_key: any = document.querySelector(".pinecone_key");
@@ -28,6 +28,7 @@ export class EmbeddingApp extends BaseApp {
     download_json_results_btn: any = document.querySelector(".download_json_results_btn");
     upsert_result_status_bar: any = document.querySelector(".upsert_result_status_bar");
     save_pineconeoptions_btn: any = document.querySelector(".save_pineconeoptions_btn");
+    copy_resultdoclist_to_clipboard: any = document.querySelector(".copy_resultdoclist_to_clipboard");
     fileListToUpload: Array<any> = [];
     upsertFileResults: Array<any> = [];
     embeddingRunning = false;
@@ -44,7 +45,7 @@ export class EmbeddingApp extends BaseApp {
         this.run_prompt.addEventListener("click", () => this.queryEmbeddings());
         this.delete_index.addEventListener("click", () => this.deleteIndex());
         this.copy_results_to_clipboard.addEventListener("click", () => {
-            const data = this.results_div.innerHTML;
+            const data = this.embedding_query_test_results.innerHTML;
             navigator.clipboard.writeText(data);
         });
 
@@ -108,19 +109,20 @@ export class EmbeddingApp extends BaseApp {
         const pineconeIndex = this.batch_id.value;
         const pineconeKey = this.pinecone_key.value;
         const pineconeEnvironment = this.pinecone_environment.value;
-        const prompt = this.prompt_area.value;
+        const pineconePrompt = this.prompt_area.value;
 
         this.savePineconeOptions({
             pineconeIndex,
             pineconeKey,
             pineconeEnvironment,
+            pineconePrompt,
         });
         return {
             urls: "",
             pineconeIndex,
             pineconeKey,
             pineconeEnvironment,
-            prompt,
+            pineconePrompt,
         };
     }
     /**
@@ -130,14 +132,17 @@ export class EmbeddingApp extends BaseApp {
         let pineconeIndex = "";
         let pineconeKey = "";
         let pineconeEnvironment = "";
+        let pineconePrompt = "";
         if (this.profile.emb_pineconeIndex !== undefined) pineconeIndex = this.profile.emb_pineconeIndex;
         if (this.profile.emb_pineconeKey !== undefined) pineconeKey = this.profile.emb_pineconeKey;
         if (this.profile.emb_pineconeEnvironment !== undefined) pineconeEnvironment = this.profile.emb_pineconeEnvironment;
+        if (this.profile.emb_pineconePrompt !== undefined) pineconePrompt = this.profile.emb_pineconePrompt;
 
         return {
             pineconeIndex,
             pineconeKey,
             pineconeEnvironment,
+            pineconePrompt,
         };
     }
     /**
@@ -148,12 +153,15 @@ export class EmbeddingApp extends BaseApp {
         if (options.pineconeIndex !== profileOptions.pineconeIndex ||
             options.pineconeKey !== profileOptions.pineconeKey ||
             options.pineconeEnvironment !== profileOptions.pineconeEnvironment) {
-                await Promise.all([
-                    this.saveProfileField("emb_pineconeIndex", options.pineconeIndex),
-                    this.saveProfileField("emb_pineconeKey", options.pineconeKey),
-                    this.saveProfileField("emb_pineconeEnvironment", options.pineconeEnvironment),
-                ]);
-            }
+            await Promise.all([
+                this.saveProfileField("emb_pineconeIndex", options.pineconeIndex),
+                this.saveProfileField("emb_pineconeKey", options.pineconeKey),
+                this.saveProfileField("emb_pineconeEnvironment", options.pineconeEnvironment),
+            ]);
+        }
+        if (options.pineconePrompt !== profileOptions.pineconePrompt) {
+            await this.saveProfileField("emb_pineconePrompt", options.pineconePrompt);
+        }
     }
     /** override event that happens after authentication resolution */
     authUpdateStatusUI(): void {
@@ -163,6 +171,7 @@ export class EmbeddingApp extends BaseApp {
             this.batch_id.value = options.pineconeIndex;
             this.pinecone_key.value = options.pineconeKey;
             this.pinecone_environment.value = options.pineconeEnvironment;
+            this.prompt_area.value = options.pineconePrompt;
         }
     }
     /** */
@@ -225,7 +234,7 @@ export class EmbeddingApp extends BaseApp {
     /** */
     async queryEmbeddings() {
         const data = this.scrapeData();
-        await this._queryEmbeddings(data.prompt, data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
+        await this._queryEmbeddings(data.pineconePrompt, data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
     }
     /** query matching vector documents
      * @param { string } query
@@ -244,7 +253,7 @@ export class EmbeddingApp extends BaseApp {
         }
 
         this.results_table.innerHTML = "";
-        this.results_div.innerHTML = "";
+        this.embedding_query_test_results.innerHTML = "";
 
         this.run_prompt.innerHTML = "Processing...";
         this.vectorQueryRunning = true;
@@ -282,7 +291,7 @@ export class EmbeddingApp extends BaseApp {
         });
         primedPrompt += "Question: " + query;
         this.results_table.innerHTML = tableRowsHtml;
-        this.results_div.innerHTML = primedPrompt;
+        this.embedding_query_test_results.innerHTML = primedPrompt;
 
         this.vectorQueryRunning = false;
         this.run_prompt.innerHTML = "Run Query";
@@ -351,17 +360,17 @@ export class EmbeddingApp extends BaseApp {
 
         this.fileListToUpload = [];
         importData.forEach((row: any, index: number) => {
-          fileContent += "<tr>";
-          fileContent += `<th>${index + 1}</th>`;
-          const newRow: any = {};
-          keys.forEach((key: string) => {
-            let value = row[key];
-            if (value === undefined) value = "";
-            fileContent += `<td>${BaseApp.escapeHTML(value)}</td>`;
-            newRow[key] = value;
-          });
-          fileContent += "</tr>";
-          this.fileListToUpload.push(newRow);
+            fileContent += "<tr>";
+            fileContent += `<th>${index + 1}</th>`;
+            const newRow: any = {};
+            keys.forEach((key: string) => {
+                let value = row[key];
+                if (value === undefined) value = "";
+                fileContent += `<td>${BaseApp.escapeHTML(value)}</td>`;
+                newRow[key] = value;
+            });
+            fileContent += "</tr>";
+            this.fileListToUpload.push(newRow);
         });
 
         fileContent += `</table>`;
@@ -373,7 +382,7 @@ export class EmbeddingApp extends BaseApp {
         if (this.embedding_list_file_dom.files[0]) fileName = this.embedding_list_file_dom.files[0].name;
         this.document_list_file_name.innerHTML = fileName;
         return importData;
-      }
+    }
     /** */
     async updateUpsertResultsTable() {
         let fileContent = "<table class=\"file_preview_table\">";
@@ -384,20 +393,20 @@ export class EmbeddingApp extends BaseApp {
         fileContent += "</tr>";
 
         this.upsertFileResults.forEach((row: any, index: number) => {
-          fileContent += "<tr>";
-          fileContent += `<th>${index + 1}</th>`;
-          const newRow: any = {};
-          keys.forEach((key: string) => {
-            let value = row[key];
-            if (value === undefined) value = "";
-            fileContent += `<td>${BaseApp.escapeHTML(value)}</td>`;
-            newRow[key] = value;
-          });
-          fileContent += "</tr>";
+            fileContent += "<tr>";
+            fileContent += `<th>${index + 1}</th>`;
+            const newRow: any = {};
+            keys.forEach((key: string) => {
+                let value = row[key];
+                if (value === undefined) value = "";
+                fileContent += `<td>${BaseApp.escapeHTML(value)}</td>`;
+                newRow[key] = value;
+            });
+            fileContent += "</tr>";
         });
 
         fileContent += `</table>`;
 
         this.upsert_results_display_table.innerHTML = fileContent;
-      }
+    }
 }

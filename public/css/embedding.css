@@ -33,7 +33,7 @@
   padding-right: 12px;
 }
 
-.styled_csv_table table td  {
+.styled_csv_table table td {
   white-space: pre-wrap;
   background-color: var(--background-accent);
   /*
@@ -77,4 +77,13 @@
   flex: 1;
   padding: 4px;
   padding-left: 20px;
+}
+
+.embedding_query_test_results {
+  min-height: 10vh;
+  max-height: 35vh;
+  overflow: auto;
+  padding: 10px;
+  white-space: pre-wrap;
+  background: var(--background-accent);
 }

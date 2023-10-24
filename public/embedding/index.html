@@ -166,23 +166,27 @@
                 </table>
             </div>
             <div class="tab-pane fade" id="test_embedding_tab_view" role="tabpanel"
-                aria-labelledby="test_embedding_tab_btn">
-                <h2>Test Pinecone Queries</h2>
-                <label>Prompt</label>
-                <textarea class="prompt_area" style="width:20em;max-width: 90%;"
-                    rows="6">How do I save seeds from my garden for next year?</textarea>
+                aria-labelledby="test_embedding_tab_btn" style="padding: 10px;">
+                <label class="form-label">Prompt to test:</label>
                 <br>
+                <textarea class="prompt_area form-control" rows="6"></textarea>
                 <br>
-                <button class="run_prompt btn btn-primary">Prepare Prompt</button>
-                <br>
-                <br>
-                <label>Prepare Prompt Results</label>
-                <br>
-                <h2>Prepared Prompt</h2>
-                <button class="copy_results_to_clipboard btn btn-primary">Copy to Clipboard</button>
-                <div class="results_div" style="min-height:5em;padding:10px;white-space:pre-wrap"></div>
-                <br><br>
-                <h2>Top 10 results from Pinecone query</h2>
+                <div style="text-align: right">
+                    <button class="run_prompt btn btn-primary">Query Pinecone</button>
+                </div>
+                <hr>
+                <div style="line-height: 4em;">
+                    <h2 style="display:inline-block;">Prepared Prompt</h2>
+                    &nbsp;
+                    <button class="copy_results_to_clipboard btn btn-primary"><i class="material-icons">content_copy</i></button>
+                </div>
+                <div class="embedding_query_test_results"></div>
+                <hr>
+                <div style="line-height: 4em">
+                    <h2 style="display:inline-block">Documents Fetched</h2>
+                    &nbsp;
+                    <button class="copy_resultdoclist_to_clipboard btn btn-primary"><i class="material-icons">content_copy</i></button>
+                </div>
                 <table class="results_table"></table>
             </div>
             <div class="tab-pane fade" id="help_embedding_tab_view" role="tabpanel"
