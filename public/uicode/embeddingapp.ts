@@ -70,7 +70,7 @@ export class EmbeddingApp extends BaseApp {
         this.save_pineconeoptions_btn.addEventListener("click", () => this.scrapeData());
         this.copy_resultdoclist_to_clipboard.addEventListener("click", () => this.copyQueryResultsToClipboard());
         this.results_open_new_window.addEventListener("click", () => {
-            var wnd = window.open("about:blank", "", "_blank");
+            const wnd = window.open("about:blank", "", "_blank");
             wnd.document.write(`<div style="white-space: pre-wrap">${this.primedPrompt}</div>`);
         });
         this.updateQueriedDocumentList();
@@ -311,7 +311,7 @@ export class EmbeddingApp extends BaseApp {
     /** */
     updateQueriedDocumentList() {
         let fileContent = "<table class=\"query_result_documents_list\">";
-        const keys = ["id", "url", "title", "text", "encodingCredits"];
+        const keys = ["similarity", "id", "url", "title", "text", "copy", "size", "encodingCredits"];
         fileContent += "<tr>";
         fileContent += `<th>row</th>`;
         keys.forEach((key: string) => fileContent += `<th>${key}</th>`);
@@ -323,9 +323,16 @@ export class EmbeddingApp extends BaseApp {
             const newRow: any = {};
             keys.forEach((key: string) => {
                 let value = row.metadata[key];
+                value = BaseApp.escapeHTML(value);
                 if (key === "id") value = row.id;
-                if (value === undefined) value = "";
-                fileContent += `<td class="table_cell_sizer"><div>${BaseApp.escapeHTML(value)}</div></td>`;
+                if (key === "similarity") value = row.score;
+                if (key === "encodingCredits") value = value.substring(0, 6);
+                if (key === "size") value = row.metadata.text.length;
+                if (key === "copy") {
+                    value = `<button data-index="${index}" class="btn btn-secondary 
+                       doc_text_copy_btn"><i class="material-icons">content_copy</i></button>`;
+                }
+                fileContent += `<td class="table_cell_sizer"><div>${value}</div></td>`;
                 newRow[key] = value;
             });
             fileContent += "</tr>";
@@ -333,6 +340,13 @@ export class EmbeddingApp extends BaseApp {
 
         fileContent += `</table>`;
         this.embedding_query_results_table_wrapper.innerHTML = fileContent;
+        this.embedding_query_results_table_wrapper.querySelectorAll(".doc_text_copy_btn").forEach((btn: any) => {
+            btn.addEventListener("click", () => {
+                const index = btn.dataset.index;
+                const row = this.queryDocumentsResultRows[index];
+                navigator.clipboard.writeText(row.metadata.text);
+            });
+        });
     }
     /** */
     async deleteIndex() {
