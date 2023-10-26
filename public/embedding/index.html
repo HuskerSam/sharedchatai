@@ -57,8 +57,8 @@
                             class="home_navbar_name_color"">cog</span></span>
                 </a>
             </li>
-            <li style="flex:1;background:none" class="app_panel">
-                Embedding Documents
+            <li style=" flex:1;background:none" class="app_panel">
+                            Embedding Documents
             </li>
             <li class="nav-item signed_out_flex">
                 <a class="signin_show_modal hover_yellow btn btn-primary px-4" href="login" type="button">Login
@@ -91,36 +91,32 @@
                     aria-selected="false">Options</a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link" id="test_embedding_tab_btn" data-bs-toggle="tab"
-                    href="#test_embedding_tab_view" role="tab" aria-controls="test_embedding_tab_view"
-                    aria-selected="false">Test</a>
+                <a class="nav-link" id="test_embedding_tab_btn" data-bs-toggle="tab" href="#test_embedding_tab_view"
+                    role="tab" aria-controls="test_embedding_tab_view" aria-selected="false">Test</a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link" id="help_embedding_tab_btn" data-bs-toggle="tab"
-                    href="#help_embedding_tab_view" role="tab" aria-controls="help_embedding_tab_view"
-                    aria-selected="false">Help</a>
+                <a class="nav-link" id="help_embedding_tab_btn" data-bs-toggle="tab" href="#help_embedding_tab_view"
+                    role="tab" aria-controls="help_embedding_tab_view" aria-selected="false">Help</a>
             </li>
         </ul>
         <div class="tab-content" style="overflow:hidden;display:flex;text-align: left;">
             <div class="tab-pane fade show active" id="upsert_embedding_tab_view" role="tabpanel"
                 aria-labelledby="upsert_embedding_tab_btn">
                 <div style="padding: 20px; text-align: left;">
-                    <div>
-                        <div class="upload_wrapper">
-                            <div>
-                                <button class="btn btn-primary upload_document_list_button">
-                                    <i class="material-icons">upload_file</i> <span>Import List</span>
-                                </button>
-                            </div>
-                            <div>
-                                <input class="embedding_list_file_dom" style="display:none;" type="file" accept=".json,.csv">
-                            </div>
-                            <div class="document_list_file_status"></div>
-                            <div class="document_list_file_name" style="display:none;"></div>
+                    <div class="upload_wrapper">
+                        <div>
+                            <button class="btn btn-primary upload_document_list_button">
+                                <i class="material-icons">upload_file</i> <span>Import List</span>
+                            </button>
                         </div>
-                        <div class="preview_embedding_documents_list styled_csv_table"></div>
+                        <div>
+                            <input class="embedding_list_file_dom" style="display:none;" type="file"
+                                accept=".json,.csv">
+                        </div>
+                        <div class="document_list_file_status"></div>
+                        <div class="document_list_file_name" style="display:none;"></div>
                     </div>
-                    <hr>
+                    <div class="preview_embedding_documents_list styled_csv_table"></div>
                     <div style="display:flex;flex-direction:row">
                         <div>
                             <button class="upload_embedding_documents_btn btn btn-primary">
@@ -146,7 +142,8 @@
                     <tr>
                         <td>Index Name </td>
                         <td><input class="batch_id form-control" type="text" value=""></td>
-                        <td><button class="delete_index btn btn-primary"><i class="material-icons">delete</i></button></td>
+                        <td><button class="delete_index btn btn-primary"><i class="material-icons">delete</i></button>
+                        </td>
                     </tr>
                     <tr>
                         <td>API Key </td>
@@ -167,28 +164,21 @@
             </div>
             <div class="tab-pane fade" id="test_embedding_tab_view" role="tabpanel"
                 aria-labelledby="test_embedding_tab_btn" style="padding: 10px;">
-                <label class="form-label">Prompt to test:</label>
-                <br>
                 <textarea class="prompt_area form-control" rows="6"></textarea>
-                <br>
-                <div style="text-align: right">
-                    <button class="run_prompt btn btn-primary">Query Pinecone</button>
+                <div style="text-align: right;line-height: 3.5em">
+                    <button class="run_prompt btn btn-primary">Query Documents for Prompt</button>
                 </div>
-                <hr>
-                <div style="line-height: 4em;">
-                    <h2 style="display:inline-block;">Prompt Embedding</h2>
+                <div class="embedding_query_results_table_wrapper styled_csv_table" style="margin-top: 8px;">
+                </div>
+                <div style="text-align: right;">
+                    <button class="copy_results_to_clipboard btn btn-primary"><i class="material-icons">content_copy</i>
+                        Prompt</button>
+                    <button class="results_open_new_window btn btn-primary"><i
+                            class="material-icons">open_in_new</i></button>
                     &nbsp;
-                    <button class="copy_results_to_clipboard btn btn-primary"><i class="material-icons">content_copy</i></button>
-                </div>
-                <div class="embedding_query_test_results"></div>
-                <hr>
-                <div style="line-height: 4em">
-                    <h2 style="display:inline-block">Documents Fetched</h2>
                     &nbsp;
-                    <button class="copy_resultdoclist_to_clipboard btn btn-primary"><i class="material-icons">content_copy</i></button>
-                </div>
-                <div class="embedding_query_results_table_wrapper">
-                    <table class="embedding_query_results_table"></table>
+                    <button class="copy_resultdoclist_to_clipboard btn btn-primary"><i
+                            class="material-icons">content_copy</i> JSON</button>
                 </div>
             </div>
             <div class="tab-pane fade" id="help_embedding_tab_view" role="tabpanel"
@@ -205,16 +195,18 @@
                 <br>
                 <label>prefix</label> - (optional) prefix meta text for scrape or text
                 <br><br>
-                If you want to remove files, delete the index, uploading will upsert documents using url as unique id, or id if supplied
+                If you want to remove files, delete the index, uploading will upsert documents using url as unique id,
+                or id if supplied
                 <br><br><br>
-                
-                wait 20-30 seconds before testing after upserting documents 
+
+                wait 20-30 seconds before testing after upserting documents
                 <br><br>
-                
+
                 <br>
                 Delete index to remove all documents from pinecone storage
                 <br><br>
-            </div>            
+                topK for the test tab is 10 (max of 10 documents can be returned)
+            </div>
 
         </div>
         <div style="flex:1"></div>

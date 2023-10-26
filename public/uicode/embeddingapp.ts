@@ -12,8 +12,7 @@ export class EmbeddingApp extends BaseApp {
     copy_results_to_clipboard: any = document.querySelector(".copy_results_to_clipboard");
     run_prompt: any = document.querySelector(".run_prompt");
     delete_index: any = document.querySelector(".delete_index");
-    embedding_query_test_results: any = document.querySelector(".embedding_query_test_results");
-    embedding_query_results_table: any = document.querySelector(".embedding_query_results_table");
+    embedding_query_results_table_wrapper: any = document.querySelector(".embedding_query_results_table_wrapper");
     batch_id: any = document.querySelector(".batch_id");
     pinecone_key: any = document.querySelector(".pinecone_key");
     pinecone_environment: any = document.querySelector(".pinecone_environment");
@@ -29,12 +28,15 @@ export class EmbeddingApp extends BaseApp {
     upsert_result_status_bar: any = document.querySelector(".upsert_result_status_bar");
     save_pineconeoptions_btn: any = document.querySelector(".save_pineconeoptions_btn");
     copy_resultdoclist_to_clipboard: any = document.querySelector(".copy_resultdoclist_to_clipboard");
+    results_open_new_window: any = document.querySelector(".results_open_new_window");
+    queryDocumentsResultRows: any = [];
     fileListToUpload: Array<any> = [];
     upsertFileResults: Array<any> = [];
     pineconeQueryResults: any = {};
     embeddingRunning = false;
     vectorQueryRunning = false;
     indexDeleteRunning = false;
+    primedPrompt = "";
 
     /** */
     constructor() {
@@ -46,8 +48,7 @@ export class EmbeddingApp extends BaseApp {
         this.run_prompt.addEventListener("click", () => this.queryEmbeddings());
         this.delete_index.addEventListener("click", () => this.deleteIndex());
         this.copy_results_to_clipboard.addEventListener("click", () => {
-            const data = this.embedding_query_test_results.innerHTML;
-            navigator.clipboard.writeText(data);
+            navigator.clipboard.writeText(this.primedPrompt);
         });
 
         if (this.show_profile_modal) {
@@ -68,6 +69,11 @@ export class EmbeddingApp extends BaseApp {
         this.download_json_results_btn.addEventListener("click", () => this.downloadResultsFile());
         this.save_pineconeoptions_btn.addEventListener("click", () => this.scrapeData());
         this.copy_resultdoclist_to_clipboard.addEventListener("click", () => this.copyQueryResultsToClipboard());
+        this.results_open_new_window.addEventListener("click", () => {
+            var wnd = window.open("about:blank", "", "_blank");
+            wnd.document.write(`<div style="white-space: pre-wrap">${this.primedPrompt}</div>`);
+        });
+        this.updateQueriedDocumentList();
     }
     /** */
     copyQueryResultsToClipboard() {
@@ -258,9 +264,9 @@ export class EmbeddingApp extends BaseApp {
             alert("already running");
             return;
         }
-
-        this.embedding_query_results_table.innerHTML = "";
-        this.embedding_query_test_results.innerHTML = "";
+        this.queryDocumentsResultRows = [];
+        this.updateQueriedDocumentList();
+        this.primedPrompt = "";
 
         this.run_prompt.innerHTML = "Processing...";
         this.vectorQueryRunning = true;
@@ -269,6 +275,7 @@ export class EmbeddingApp extends BaseApp {
             batchId,
             pineconeKey,
             pineconeEnvironment,
+            topK: 10,
         };
 
         const token = await firebase.auth().currentUser.getIdToken();
@@ -287,21 +294,45 @@ export class EmbeddingApp extends BaseApp {
         this.pineconeQueryResults = json;
 
         const resultRows = json.queryResponse.matches;
-        let tableRowsHtml = "<tr><th>URL</th><th>Text</th></tr>";
+        this.queryDocumentsResultRows = resultRows;
         let primedPrompt = "";
         resultRows.forEach((row: any) => {
             const text = row.metadata.text;
-            const url = row.metadata.url;
-            tableRowsHtml += `<tr><td>${url}</td><td>${text}</td></tr>`;
             primedPrompt += "Question: " + query +
                 "\n\nAnswer: " + text + "\n\n";
         });
         primedPrompt += "Question: " + query;
-        this.embedding_query_results_table.innerHTML = tableRowsHtml;
-        this.embedding_query_test_results.innerHTML = primedPrompt;
+        this.primedPrompt = primedPrompt;
+        this.updateQueriedDocumentList();
 
         this.vectorQueryRunning = false;
         this.run_prompt.innerHTML = "Run Query";
+    }
+    /** */
+    updateQueriedDocumentList() {
+        let fileContent = "<table class=\"query_result_documents_list\">";
+        const keys = ["id", "url", "title", "text", "encodingCredits"];
+        fileContent += "<tr>";
+        fileContent += `<th>row</th>`;
+        keys.forEach((key: string) => fileContent += `<th>${key}</th>`);
+        fileContent += "</tr>";
+
+        this.queryDocumentsResultRows.forEach((row: any, index: number) => {
+            fileContent += "<tr>";
+            fileContent += `<th>${index + 1}</th>`;
+            const newRow: any = {};
+            keys.forEach((key: string) => {
+                let value = row.metadata[key];
+                if (key === "id") value = row.id;
+                if (value === undefined) value = "";
+                fileContent += `<td class="table_cell_sizer"><div>${BaseApp.escapeHTML(value)}</div></td>`;
+                newRow[key] = value;
+            });
+            fileContent += "</tr>";
+        });
+
+        fileContent += `</table>`;
+        this.embedding_query_results_table_wrapper.innerHTML = fileContent;
     }
     /** */
     async deleteIndex() {

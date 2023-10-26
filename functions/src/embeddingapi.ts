@@ -201,6 +201,8 @@ export default class EmbeddingAPI {
         await localInstance.init();
 
         const query = req.body.query.trim();
+        let topK = 3;
+        if (req.body.topK !== undefined) topK = req.body.topK;
 
         if (!query) return BaseClass.respondError(res, "Query prompt required");
         const batchId = req.body.batchId.toString().trim();
@@ -218,7 +220,6 @@ export default class EmbeddingAPI {
             }),
         });
         const json = await response.json();
-
         const vectorQuery = json["data"][0]["embedding"];
         const pineconeKey = req.body.pineconeKey;
         const pineconeEnvironment = req.body.pineconeEnvironment;
@@ -233,7 +234,7 @@ export default class EmbeddingAPI {
         const pIndex = pinecone.index(batchId);
 
         const opts = {
-            topK: 3,
+            topK,
             vector: vectorQuery,
             includeMetadata: true,
         };
