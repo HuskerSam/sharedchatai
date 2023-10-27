@@ -671,16 +671,18 @@ export class SessionApp extends BaseApp {
       const details = match.metadata;
       let title = details.text;
       if (!title) title = "";
-      title = title.substring(0, 100);
+      title = title.trim().substring(0, 100);
+      title = BaseApp.escapeHTML(title.trim())
       let url = details.url;
       if (!url) url = "";
+      if (url) url = `<a href="${url}" target="_blank">${url}</a>`;
       const included = matchesIncluded.indexOf(index) !== -1 ? "✔️" : "";
 
       html += `<tr>
           <td>${included}</td>
           <td>${match.score.toFixed(3)}</td>
-          <td>${title}</td>
-          <td>${url}</td>
+          <td><div class="embedded_ticket_title">${title}</div></td>
+          <td><div class="embedded_ticket_url">${url}</div></td>
           <td><button class="copy_embedded_prompt_to_clipboard btn btn-secondary" 
           data-index="${index}"><i class="material-icons">content_copy</i></button></td>
         </tr>`;

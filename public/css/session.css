@@ -1366,11 +1366,6 @@ li.mb-1 button.btn.btn-toggle:before {
   display: inline-block;
 }
 
-.ticket_embedding_details_table td, .ticket_embedding_details_table th {
-  white-space: nowrap;
-  overflow: hidden;
-}
-
 .ticket_embedding_settings_table tr td {
   text-align: left;
   font-family: "MonospaceTTF";
@@ -1392,4 +1387,28 @@ li.mb-1 button.btn.btn-toggle:before {
 
 .copy_embedded_prompt_to_clipboard {
   margin-bottom: 8px;
+}
+
+.embedded_ticket_title,
+.embedded_ticket_url {
+  overflow: auto;
+  max-height: 3em;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.ticket_embedding_details_table td, .ticket_embedding_details_table th {
+  white-space: nowrap;
+  overflow: hidden;
+  width: 50%;
+}
+
+.ticket_embedding_details_table td:nth-child(1),
+.ticket_embedding_details_table th:nth-child(1) {
+  width: 20px;
+}
+
+.ticket_embedding_details_table td:nth-child(2),
+.ticket_embedding_details_table th:nth-child(2) {
+  width: auto;
 }

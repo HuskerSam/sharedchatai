@@ -323,11 +323,13 @@ export class EmbeddingApp extends BaseApp {
             const newRow: any = {};
             keys.forEach((key: string) => {
                 let value = row.metadata[key];
+                const rawValue = value;
                 value = BaseApp.escapeHTML(value);
                 if (key === "id") value = row.id;
                 if (key === "similarity") value = row.score;
-                if (key === "encodingCredits") value = value.substring(0, 6);
+                if (key === "encodingCredits") value = rawValue.toString().substring(0, 6);
                 if (key === "size") value = row.metadata.text.length;
+                if (key === "url") value = `<a href="${rawValue}" target="_blank">${rawValue}</a>`
                 if (key === "copy") {
                     value = `<button data-index="${index}" class="btn btn-secondary 
                        doc_text_copy_btn"><i class="material-icons">content_copy</i></button>`;
