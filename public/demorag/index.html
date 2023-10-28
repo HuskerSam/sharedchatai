@@ -6,33 +6,91 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Chatbot Demo</title>
   <style>
-    .response_feed .feed_item {
+    .response_feed .feed_item_response {
       white-space: pre-wrap;
+    }
+
+    .clear_storage_button {
+      float: right;
     }
 
     .message_text {
       width: 100%;
       height: 5em;
     }
+
+    .feed_item_raw_data {
+      white-space: pre-wrap;
+      max-height: 5em;
+      overflow: auto;
+      padding: 10px;
+      border: solid 1px silver;
+      margin: 8px;
+      background: rgb(230, 230, 230);
+    }
   </style>
   <script>
+    let running = false;
+    let submit_button;
+    let message_text;
+    let response_feed;
+    let clear_storage_button;
 
     window.addEventListener("load", () => {
+      submit_button = document.body.querySelector(".submit_button");
+      message_text = document.body.querySelector(".message_text");
+      response_feed = document.body.querySelector(".response_feed");
+      clear_storage_button = document.body.querySelector(".clear_storage_button");
       initDemoApp();
       //load items from local storage
+      renderFromStorage();
     });
 
+    async function renderFromStorage() {
+      let items = localStorage.getItem("response_feed");
+      try {
+        if (items) items = JSON.parse(items);
+      } catch (e) {
+        items = [];
+      }
+      if (!items) items = [];
+
+      response_feed.innerHTML = "";
+      items.forEach((item, index) => {
+        const itemDom = document.createElement("div");
+        itemDom.classList.add("feed_item");
+        const itemJson = JSON.stringify(item, null, "\t");
+        const ticketResponse = item.assist.assist.choices["0"].message.content;
+        itemDom.innerHTML = `<div class="feed_item_header">Prompt:
+${item.ticket.message}</div>
+        <div class="feed_item_response">Response:
+${ticketResponse}</div>
+          <div class="feed_item_raw_data">${itemJson}</div>`;
+        response_feed.insertBefore(itemDom, response_feed.firstChild);
+      });
+    }
+
+    async function pushToStorage(item) {
+      let items = localStorage.getItem("response_feed");
+      try {
+        if (items) items = JSON.parse(items);
+      } catch (e) {
+        items = [];
+      }
+      if (!items) items = [];
+
+      items.push(item);
+      localStorage.setItem("response_feed", JSON.stringify(items));
+      renderFromStorage();
+    }
+
     function initDemoApp() {
-      let running = false;
-      const submit_button = document.body.querySelector(".submit_button");
-      const message_text = document.body.querySelector(".message_text");
-      const response_feed = document.body.querySelector(".response_feed");
       submit_button.addEventListener("click", async () => {
         if (running) return;
         running = true;
         submit_button.innerHTML = "running...";
         let url = `https://us-central1-promptplusai.cloudfunctions.net/lobbyApi/session/external/message`;
-        //let url = `http://localhost:5001/promptplusai/us-central1/lobbyApi/session/external/message`;
+        // let url = `http://localhost:5001/promptplusai/us-central1/lobbyApi/session/external/message`;
         const message = message_text.value.trim();
         const body = {
           message,
@@ -57,18 +115,23 @@
           console.log("error", result);
           alert(result.errorMessage);
         }
-
-        const itemDom = document.createElement("div");
-        itemDom.classList.add("feed_item");
-        itemDom.innerHTML = JSON.stringify(result, null, "\t");
-        response_feed.insertBefore(itemDom, response_feed.firstChild);
+        message_text.value = "";
+        pushToStorage(result);
       });
+
+      clear_storage_button.addEventListener("click", () => {
+        localStorage.clear();
+        renderFromStorage();
+      })
     }
   </script>
 </head>
 
 <body>
-  Demo chatbot
+  <h1>Demo chatbot</h1>
+  <br>
+  <button class="clear_storage_button">Clear</button>
+  <br>
   <textarea class="message_text"></textarea>
   <button class="submit_button">Submit</button>
   <hr>

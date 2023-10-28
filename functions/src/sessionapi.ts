@@ -1081,6 +1081,7 @@ export default class SessionAPI {
 
         let ticket: any = {};
         let embeddings: any = {};
+        let assist: any = {};
         if (ticketResults.success) {
             const ticketId = ticketResults.ticketId;
             const ticketQuery = await firebaseAdmin.firestore().doc(`Games/${sessionId}/tickets/${ticketId}`).get();
@@ -1088,12 +1089,16 @@ export default class SessionAPI {
 
             const embeddingsQuery = await firebaseAdmin.firestore().doc(`Games/${sessionId}/augmented/${ticketId}`).get();
             embeddings = embeddingsQuery.data();
+
+            const assistQuery = await firebaseAdmin.firestore().doc(`Games/${sessionId}/assists/${ticketId}`).get();
+            assist = assistQuery.data();
         }
 
         return res.status(200).send({
             ticketResults,
             ticket,
             embeddings,
+            assist,
             success: true,
         });
     }
