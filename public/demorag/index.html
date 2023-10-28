@@ -31,8 +31,8 @@
         if (running) return;
         running = true;
         submit_button.innerHTML = "running...";
-        //let url = `https://us-central1-promptplusai.cloudfunctions.net/lobbyApi/session/external/message`;
-        let url = `http://localhost:5001/promptplusai/us-central1/lobbyApi/session/external/message`;
+        let url = `https://us-central1-promptplusai.cloudfunctions.net/lobbyApi/session/external/message`;
+        //let url = `http://localhost:5001/promptplusai/us-central1/lobbyApi/session/external/message`;
         const message = message_text.value.trim();
         const body = {
           message,
