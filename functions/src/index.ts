@@ -68,3 +68,6 @@ gameAPIApp.post("/payment/capture", async (req, res) => PaymentAPI.postPayment(r
 embeddingAPIApp.post("/scrapeurls", async (req, res) => EmbeddingAPI.scrapeURLs(req, res));
 embeddingAPIApp.post("/processquery", async (req, res) => EmbeddingAPI.processQuery(req, res));
 embeddingAPIApp.post("/deleteindex", async (req, res) => EmbeddingAPI.deleteIndex(req, res));
+
+gameAPIApp.post("/session/external/message", async (req, res) => SessionAPI.externalMessageRequest(req, res));
+

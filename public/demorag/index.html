@@ -1,12 +1,78 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Chatbot Demo</title>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chatbot Demo</title>
+  <style>
+    .response_feed .feed_item {
+      white-space: pre-wrap;
+    }
+
+    .message_text {
+      width: 100%;
+      height: 5em;
+    }
+  </style>
+  <script>
+
+    window.addEventListener("load", () => {
+      initDemoApp();
+      //load items from local storage
+    });
+
+    function initDemoApp() {
+      let running = false;
+      const submit_button = document.body.querySelector(".submit_button");
+      const message_text = document.body.querySelector(".message_text");
+      const response_feed = document.body.querySelector(".response_feed");
+      submit_button.addEventListener("click", async () => {
+        if (running) return;
+        running = true;
+        submit_button.innerHTML = "running...";
+        //let url = `https://us-central1-promptplusai.cloudfunctions.net/lobbyApi/session/external/message`;
+        let url = `http://localhost:5001/promptplusai/us-central1/lobbyApi/session/external/message`;
+        const message = message_text.value.trim();
+        const body = {
+          message,
+          apiToken: "bcdc6f90-80f8-49bc-94ed-f82b43305af2",
+          sessionId: "07yt1fqvoj9q",
+        }
+        const fetchResults = await fetch(url, {
+          method: "POST",
+          mode: "cors",
+          cache: "no-cache",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        });
+        const result = await fetchResults.json();
+        running = false;
+        submit_button.innerHTML = "Submit";
+
+        if (!result) alert("No results");
+        if (result.success === false) {
+          console.log("error", result);
+          alert(result.errorMessage);
+        }
+
+        const itemDom = document.createElement("div");
+        itemDom.classList.add("feed_item");
+        itemDom.innerHTML = JSON.stringify(result, null, "\t");
+        response_feed.insertBefore(itemDom, response_feed.firstChild);
+      });
+    }
+  </script>
 </head>
 
-  <body>
-    Demo chatbot
-  </body>
+<body>
+  Demo chatbot
+  <textarea class="message_text"></textarea>
+  <button class="submit_button">Submit</button>
+  <hr>
+  <div class="response_feed"></div>
+</body>
+
 </html>

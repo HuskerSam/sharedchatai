@@ -107,26 +107,27 @@ export default class SessionAPI {
             maxTokens,
         };
     }
-    /** http endpoint for user posting message to table chat
-   * @param { any } req http request object
-   * @param { any } res http response object
-   */
-    static async submitTicket(req: any, res: any) {
-        const authResults = await BaseClass.validateCredentials(req.headers.token);
-        if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
-
-        const uid = authResults.uid;
-        const gameNumber = req.body.gameNumber;
-        const reRunticket: any = req.body.reRunTicket;
-        let message = req.body.message;
+    /**
+     * @param { string } gameNumber
+     * @param { string } message
+     * @param { string } uid
+     * @param { string } reRunTicket
+     * @param { Array<string> } includeTickets
+     * @param { boolean } includeInMessage
+     * @return { Promise<any> }
+     */
+    static async _processSubmittedTicket(gameNumber: string, message: string, uid: string, reRunTicket: string,
+        includeTickets: Array<string>, includeInMessage: boolean): Promise<any> {
         if (message) {
-            if (message.length > 500000) message = message.substr(0, 500000);
+            if (message.length > 500000) message = message.substring(0, 500000);
         }
 
-        if (!message && !reRunticket) {
-            return BaseClass.respondError(res, "Message is empty and no rerunticket id");
+        if (!message && !reRunTicket) {
+            return {
+                success: false,
+                errorMessage: "Message is empty and no reRunTicket id",
+            };
         }
-        const includeTickets = req.body.includeTickets;
 
         const localInstance = BaseClass.newLocalInstance();
         await localInstance.init();
@@ -136,7 +137,10 @@ export default class SessionAPI {
         const gameQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).get();
         const sessionDocumentData = gameQuery.data();
         if (!sessionDocumentData) {
-            return BaseClass.respondError(res, "Game not found");
+            return {
+                success: false,
+                errorMessage: "Session not found",
+            };
         }
 
         const userUsageQuery = await firebaseAdmin.firestore().doc(`Users/${sessionDocumentData.createUser}/internal/tokenUsage`).get();
@@ -147,7 +151,10 @@ export default class SessionAPI {
         const userQ = await firebaseAdmin.firestore().doc(`Users/${sessionDocumentData.createUser}`).get();
         const ownerProfile = userQ.data();
         if (!ownerProfile) {
-            return BaseClass.respondError(res, "User not found");
+            return {
+                success: false,
+                errorMessage: "User profile not found",
+            };
         }
 
         /* eslint-disable camelcase */
@@ -160,20 +167,26 @@ export default class SessionAPI {
         let ticketId = "";
         let ticket: any;
         const submitted = new Date().toISOString();
-        if (reRunticket) {
-            ticketId = reRunticket;
-            const ticketQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${reRunticket}`).get();
+        if (reRunTicket) {
+            ticketId = reRunTicket;
+            const ticketQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${reRunTicket}`).get();
             ticket = ticketQuery.data();
 
             if (!ticket) {
-                return BaseClass.respondError(res, "Rerun Ticket not found " + reRunticket);
+                return {
+                    success: false,
+                    errorMessage: "Rerun Ticket not found " + reRunTicket,
+                };
             }
 
             if (ticket.running) {
-                return BaseClass.respondError(res, "Ticket is already running " + reRunticket);
+                return {
+                    success: false,
+                    errorMessage: "Ticket is already running " + reRunTicket,
+                };
             }
 
-            await firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${reRunticket}`).set({
+            await firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${reRunTicket}`).set({
                 uid,
                 memberName,
                 memberImage,
@@ -184,9 +197,8 @@ export default class SessionAPI {
             }, {
                 merge: true,
             });
-            await firebaseAdmin.firestore().doc(`Games/${ticket.gameNumber}/assists/${reRunticket}`).delete();
+            await firebaseAdmin.firestore().doc(`Games/${ticket.gameNumber}/assists/${reRunTicket}`).delete();
         } else {
-            const includeInMessage = req.body.includeInMessage === true;
             ticket = {
                 createUser: uid,
                 uid,
@@ -241,7 +253,7 @@ export default class SessionAPI {
             usageErrorObject = usageTestError;
         }
 
-        if (sessionDocumentData.enableEmbedding) {
+        if (sessionDocumentData.enableEmbedding && !usageLimitError) {
             const messageQuery = ticket.message;
 
             const ownerPrivateQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}/ownerPrivate/data`).get();
@@ -256,7 +268,10 @@ export default class SessionAPI {
             const pineconeThreshold = BaseClass.getNumberOrDefault(privateData.pineconeThreshold, 0);
 
             if (!pineconeKey || !pineconeIndex || !pineconeEnvironment) {
-                return BaseClass.respondError(res, "Pinecone must have index, key and environment configured when embedding is enabled");
+                return {
+                    success: false,
+                    errorMessage: "Pinecone must have index, key and environment configured when embedding is enabled",
+                };
             }
             let embeddingResult: any = await SessionAPI.processEmbedding(messageQuery, maxTokens, topK,
                 chatGptKey, sessionDocumentData.createUser, pineconeKey, pineconeEnvironment, pineconeIndex, pineconeThreshold);
@@ -319,10 +334,10 @@ export default class SessionAPI {
                 const packet = await SessionAPI._generateGAIPacket(ticket, sessionDocumentData, gameNumber, ticketId, includeTickets);
                 aiResults = await SessionAPI._processGAIPacket(packet, sessionDocumentData, ticket, ticketId, bardKey, submitted);
             } else {
-                return res.status(200).send({
+                return {
                     success: false,
                     errorMessage: "Model not found",
-                });
+                };
             }
         }
 
@@ -356,10 +371,37 @@ export default class SessionAPI {
         ];
         await Promise.all(promises);
 
+        return {
+            ticketId,
+            success: true,
+        };
+    }
+    /** http endpoint for user posting message to table chat
+   * @param { any } req http request object
+   * @param { any } res http response object
+   */
+    static async submitTicket(req: any, res: any) {
+        const authResults = await BaseClass.validateCredentials(req.headers.token);
+        if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
+
+        const uid = authResults.uid;
+        const gameNumber = req.body.gameNumber;
+        const reRunTicket: any = req.body.reRunTicket;
+        const message = req.body.message;
+        const includeTickets = req.body.includeTickets;
+        const includeInMessage = req.body.includeInMessage === true;
+
+        const submissionResults = await SessionAPI._processSubmittedTicket(gameNumber, message, uid, reRunTicket,
+            includeTickets, includeInMessage);
+
+        if (submissionResults.success === false) {
+            return BaseClass.respondError(res, submissionResults.errorMessage);
+        }
 
         return res.status(200).send({
             success: true,
             gameNumber,
+            submissionResults,
         });
         /* eslint-enable camelcase */
     }
@@ -1014,5 +1056,81 @@ export default class SessionAPI {
         return res.status(200).send({
             success: true,
         });
+    }
+    /**
+     * @param { Request } req http request object
+     * @param { Response } res http response object
+    */
+    static async externalMessageRequest(req: Request, res: Response) {
+        const sessionId = req.body.sessionId;
+        const apiToken = req.body.apiToken;
+        const message = req.body.message;
+        const authResults = await SessionAPI._validateExternalRequest(sessionId, apiToken);
+
+        if (!authResults.success) {
+            return BaseClass.respondError(res, authResults.errorMessage);
+        }
+        if (!message || !apiToken || !sessionId) {
+            return BaseClass.respondError(res, "Please supply message, apiToken and sessionId");
+        }
+        const uid = authResults.uid;
+        const localInstance = BaseClass.newLocalInstance();
+        await localInstance.init();
+
+        const ticketResults = await SessionAPI._processSubmittedTicket(sessionId, message, uid, "", [], false);
+
+        let ticket: any = {};
+        let embeddings: any = {};
+        if (ticketResults.success) {
+            const ticketId = ticketResults.ticketId;
+            const ticketQuery = await firebaseAdmin.firestore().doc(`Games/${sessionId}/tickets/${ticketId}`).get();
+            ticket = ticketQuery.data();
+
+            const embeddingsQuery = await firebaseAdmin.firestore().doc(`Games/${sessionId}/augmented/${ticketId}`).get();
+            embeddings = embeddingsQuery.data();
+        }
+
+        return res.status(200).send({
+            ticketResults,
+            ticket,
+            embeddings,
+            success: true,
+        });
+    }
+    /**
+     * @param { string } sessionId
+     * @param { string } apiToken
+     * @return { Promise<any> }
+     */
+    static async _validateExternalRequest(sessionId: string, apiToken: string): Promise<any> {
+        const sessionQuery = await firebaseAdmin.firestore().doc(`Games/${sessionId}`).get();
+        const sessionDocumentData = sessionQuery.data();
+        if (!sessionDocumentData) {
+            return {
+                success: false,
+                errorMessage: "No session found, check session id",
+            };
+        }
+
+        const ownerDataQuery = await firebaseAdmin.firestore().doc(`Games/${sessionId}/ownerPrivate/data`).get();
+        const ownerData: any = ownerDataQuery.data();
+        if (!ownerData && !ownerData.externalSessionAPIKey) {
+            return {
+                success: false,
+                errorMessage: "No session api key not found, please refer to help",
+            };
+        }
+        if (ownerData.externalSessionAPIKey !== apiToken) {
+            return {
+                success: false,
+                errorMessage: "Session api mismatch, please check session for updated key",
+            };
+        }
+
+        return {
+            sessionDocumentData,
+            uid: sessionDocumentData.createUser,
+            success: true,
+        };
     }
 }

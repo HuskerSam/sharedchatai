@@ -672,7 +672,7 @@ export class SessionApp extends BaseApp {
       let title = details.text;
       if (!title) title = "";
       title = title.trim().substring(0, 100);
-      title = BaseApp.escapeHTML(title.trim())
+      title = BaseApp.escapeHTML(title.trim());
       let url = details.url;
       if (!url) url = "";
       if (url) url = `<a href="${url}" target="_blank">${url}</a>`;
