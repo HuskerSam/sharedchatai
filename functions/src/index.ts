@@ -69,6 +69,7 @@ embeddingAPIApp.post("/scrapeurls", async (req, res) => EmbeddingAPI.scrapeURLs(
 embeddingAPIApp.post("/processquery", async (req, res) => EmbeddingAPI.processQuery(req, res));
 embeddingAPIApp.post("/deleteindex", async (req, res) => EmbeddingAPI.deleteIndex(req, res));
 embeddingAPIApp.post("/indexstats", async (req, res) => EmbeddingAPI.getPineconeIndexStats(req, res));
+embeddingAPIApp.post("/deletevector", async (req, res) => EmbeddingAPI.deleteVectorById(req, res));
 
 gameAPIApp.post("/session/external/message", async (req, res) => SessionAPI.externalMessageRequest(req, res));
 

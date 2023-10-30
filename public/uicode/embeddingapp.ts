@@ -33,6 +33,8 @@ export class EmbeddingApp extends BaseApp {
     pinecone_index_stats_display: any = document.querySelector(".pinecone_index_stats_display");
     pinecone_index_count: any = document.querySelector(".pinecone_index_count");
     pinecone_index_name: any = document.querySelector(".pinecone_index_name");
+    delete_pinecone_vector_id: any = document.querySelector(".delete_pinecone_vector_id");
+    pinecone_id_to_delete: any = document.querySelector(".pinecone_id_to_delete");
     queryDocumentsResultRows: any = [];
     fileListToUpload: Array<any> = [];
     upsertFileResults: Array<any> = [];
@@ -82,6 +84,8 @@ export class EmbeddingApp extends BaseApp {
             wnd.document.write(`<div style="white-space: pre-wrap">${this.primedPrompt}</div>`);
         });
         this.fetch_pinecone_index_stats_btn.addEventListener("click", () => this.fetchIndexStats());
+        this.delete_pinecone_vector_id.addEventListener("click", () => this.deletePineconeVector())
+
         this.updateQueriedDocumentList();
     }
     /** */
@@ -424,17 +428,14 @@ export class EmbeddingApp extends BaseApp {
      * @param { string } pineconeEnvironment
     */
     async _fetchIndexStats(batchId: string, pineconeKey: string, pineconeEnvironment: string) {
-        if (!firebase.auth().currentUser) {
-            alert("login on homepage to use this");
-            return;
-        }
-
         const body = {
             batchId,
             pineconeEnvironment,
             pineconeKey,
         };
         this.pinecone_index_stats_display.innerHTML = "fetching...";
+        this.pinecone_index_count.innerHTML = "";
+        this.pinecone_index_name.innerHTML = "fetching...";
         const token = await firebase.auth().currentUser.getIdToken();
         const fResult = await fetch(this.basePath + "embeddingApi/indexstats", {
             method: "POST",
@@ -522,5 +523,46 @@ export class EmbeddingApp extends BaseApp {
         fileContent += `</table>`;
 
         this.upsert_results_display_table.innerHTML = fileContent;
+    }
+    /** */
+    async deletePineconeVector() {
+        const id = this.pinecone_id_to_delete.value.trim();
+        if (id === "") {
+            alert("Please supply a vector id");
+            return;
+        }
+
+        const data = this.scrapeData();
+        const batchId = data.pineconeIndex;
+        const pineconeEnvironment = data.pineconeEnvironment;
+        const pineconeKey = data.pineconeKey;
+        const body = {
+            batchId,
+            pineconeEnvironment,
+            pineconeKey,
+            vectorId: id,
+        };
+        const token = await firebase.auth().currentUser.getIdToken();
+        const fResult = await fetch(this.basePath + "embeddingApi/deletevector", {
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            headers: {
+                "Content-Type": "application/json",
+                token,
+            },
+            body: JSON.stringify(body),
+        });
+
+        const json = await fResult.json();
+
+        if (json.success === false) {
+            console.log("delete error", json);
+            alert("error deleting vector refer to console for more");
+            return;
+        }
+
+        alert(`Vector ${id} deleted (if existed)\n\nPlease wait up to 15 seconds to refresh count`)
+        this.fetchIndexStats();
     }
 }
