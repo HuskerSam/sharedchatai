@@ -381,4 +381,37 @@ export default class EmbeddingAPI {
 
         return exists;
     }
+    /**
+    * @param { Request } req http request object
+    * @param { Response } res http response object
+    */
+    static async getPineconeIndexStats(req: Request, res: Response) {
+        const authResults = await BaseClass.validateCredentials(<string>req.headers.token);
+        if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
+
+        const localInstance = BaseClass.newLocalInstance();
+        await localInstance.init();
+
+        const batchId = req.body.batchId.toString().trim();
+        if (!batchId.trim()) BaseClass.respondError(res, "Index name required");
+        const pineconeKey = req.body.pineconeKey;
+        const pineconeEnvironment = req.body.pineconeEnvironment;
+
+        const pinecone = new Pinecone({
+            apiKey: pineconeKey,
+            environment: pineconeEnvironment,
+        });
+        const indexList = await pinecone.listIndexes();
+        if (!EmbeddingAPI.testIfIndexExists(indexList, batchId)) {
+            return BaseClass.respondError(res, "Index not found or not ready");
+        }
+
+        const pIndex = pinecone.index(batchId);
+        const indexDescription: any = await pIndex.describeIndexStats();
+
+        res.send({
+            indexDescription,
+            success: true,
+        });
+    }
 }

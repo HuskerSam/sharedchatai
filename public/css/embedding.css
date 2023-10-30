@@ -100,3 +100,7 @@
 table tr td.table_cell_sizer {
   padding: 0;
 }
+
+.pinecone_index_stats_display {
+  white-space: pre-wrap;
+}

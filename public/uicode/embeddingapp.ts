@@ -29,6 +29,8 @@ export class EmbeddingApp extends BaseApp {
     save_pineconeoptions_btn: any = document.querySelector(".save_pineconeoptions_btn");
     copy_resultdoclist_to_clipboard: any = document.querySelector(".copy_resultdoclist_to_clipboard");
     results_open_new_window: any = document.querySelector(".results_open_new_window");
+    fetch_pinecone_index_stats_btn: any = document.querySelector(".fetch_pinecone_index_stats_btn");
+    pinecone_index_stats_display: any = document.querySelector(".pinecone_index_stats_display");
     queryDocumentsResultRows: any = [];
     fileListToUpload: Array<any> = [];
     upsertFileResults: Array<any> = [];
@@ -37,6 +39,7 @@ export class EmbeddingApp extends BaseApp {
     vectorQueryRunning = false;
     indexDeleteRunning = false;
     primedPrompt = "";
+    pineConeInited = false;
 
     /** */
     constructor() {
@@ -73,6 +76,7 @@ export class EmbeddingApp extends BaseApp {
             const wnd = window.open("about:blank", "", "_blank");
             wnd.document.write(`<div style="white-space: pre-wrap">${this.primedPrompt}</div>`);
         });
+        this.fetch_pinecone_index_stats_btn.addEventListener("click", () => this.fetchIndexStats());
         this.updateQueriedDocumentList();
     }
     /** */
@@ -179,12 +183,14 @@ export class EmbeddingApp extends BaseApp {
     /** override event that happens after authentication resolution */
     authUpdateStatusUI(): void {
         super.authUpdateStatusUI();
-        if (this.profile) {
+        if (this.profile && !this.pineConeInited) {
             const options = this.getPineconeOptions();
             this.batch_id.value = options.pineconeIndex;
             this.pinecone_key.value = options.pineconeKey;
             this.pinecone_environment.value = options.pineconeEnvironment;
             this.prompt_area.value = options.pineconePrompt;
+            this.pineConeInited = true;
+            this.fetchIndexStats();
         }
     }
     /** */
@@ -399,6 +405,48 @@ export class EmbeddingApp extends BaseApp {
         if (json.success === false) {
             alert(json.errorMessage);
         }
+    }
+    /** */
+    async fetchIndexStats() {
+        const data = this.scrapeData();
+        await this._fetchIndexStats(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
+    }
+    /** fetch index stats
+     * @param { string } batchId grouping key
+     * @param { string } pineconeKey
+     * @param { string } pineconeEnvironment
+    */
+    async _fetchIndexStats(batchId: string, pineconeKey: string, pineconeEnvironment: string) {
+        if (!firebase.auth().currentUser) {
+            alert("login on homepage to use this");
+            return;
+        }
+
+        const body = {
+            batchId,
+            pineconeEnvironment,
+            pineconeKey,
+        };
+        this.pinecone_index_stats_display.innerHTML = "fetching...";
+        const token = await firebase.auth().currentUser.getIdToken();
+        const fResult = await fetch(this.basePath + "embeddingApi/indexstats", {
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            headers: {
+                "Content-Type": "application/json",
+                token,
+            },
+            body: JSON.stringify(body),
+        });
+
+        const json = await fResult.json();
+
+        if (json.success === false) {
+            alert(json.errorMessage);
+        }
+
+        this.pinecone_index_stats_display.innerHTML = JSON.stringify(json, null, "\t");
     }
     /** */
     async updateParsedEmbeddingListFileStatus(): Promise<Array<any>> {
