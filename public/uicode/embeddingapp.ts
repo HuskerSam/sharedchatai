@@ -84,7 +84,7 @@ export class EmbeddingApp extends BaseApp {
             wnd.document.write(`<div style="white-space: pre-wrap">${this.primedPrompt}</div>`);
         });
         this.fetch_pinecone_index_stats_btn.addEventListener("click", () => this.fetchIndexStats());
-        this.delete_pinecone_vector_id.addEventListener("click", () => this.deletePineconeVector())
+        this.delete_pinecone_vector_id.addEventListener("click", () => this.deletePineconeVector());
 
         this.updateQueriedDocumentList();
     }
@@ -501,7 +501,7 @@ export class EmbeddingApp extends BaseApp {
     /** */
     async updateUpsertResultsTable() {
         let fileContent = "<table class=\"file_preview_table\">";
-        const keys = ["id", "url", "title", "textSize", "errorMessage"];
+        const keys = ["id", "url", "title", "textSize", "text", "json", "errorMessage"];
         fileContent += "<tr>";
         fileContent += `<th>row</th>`;
         keys.forEach((key: string) => fileContent += `<th>${key}</th>`);
@@ -512,9 +512,16 @@ export class EmbeddingApp extends BaseApp {
             fileContent += `<th>${index + 1}</th>`;
             const newRow: any = {};
             keys.forEach((key: string) => {
-                let value = row[key];
-                if (value === undefined) value = "";
-                fileContent += `<td>${BaseApp.escapeHTML(value)}</td>`;
+                let value = BaseApp.escapeHTML(row[key]);
+                if (key === "text") {
+                    value = `<button data-index="${index}" class="btn btn-secondary 
+                       doc_text_copy_btn"><i class="material-icons">content_copy</i> Text</button>`;
+                }
+                if (key === "json") {
+                    value = `<button data-index="${index}" class="btn btn-secondary 
+                       doc_json_copy_btn"><i class="material-icons">content_copy</i> JSON</button>`;
+                }
+                fileContent += `<td>${(value)}</td>`;
                 newRow[key] = value;
             });
             fileContent += "</tr>";
@@ -523,6 +530,22 @@ export class EmbeddingApp extends BaseApp {
         fileContent += `</table>`;
 
         this.upsert_results_display_table.innerHTML = fileContent;
+
+        this.upsert_results_display_table.querySelectorAll(".doc_text_copy_btn").forEach((btn: any) => {
+            btn.addEventListener("click", () => {
+                const index = btn.dataset.index;
+                const row = this.upsertFileResults[index];
+                navigator.clipboard.writeText(row.text);
+            });
+        });
+
+        this.upsert_results_display_table.querySelectorAll(".doc_json_copy_btn").forEach((btn: any) => {
+            btn.addEventListener("click", () => {
+                const index = btn.dataset.index;
+                const row = this.upsertFileResults[index];
+                navigator.clipboard.writeText(JSON.stringify(row, null, "\t"));
+            });
+        });
     }
     /** */
     async deletePineconeVector() {
@@ -562,7 +585,7 @@ export class EmbeddingApp extends BaseApp {
             return;
         }
 
-        alert(`Vector ${id} deleted (if existed)\n\nPlease wait up to 15 seconds to refresh count`)
+        alert(`Vector ${id} deleted (if existed)\n\nPlease wait up to 15 seconds to refresh count`);
         this.fetchIndexStats();
     }
 }

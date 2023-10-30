@@ -68,23 +68,50 @@ export default class EmbeddingAPI {
         });
     }
     /**
-     * @param { string } url
+     * @param { string } options string with options split by || and key=value entries
+     * @return { any }
      */
-    static async _scrapeURL(url: string): Promise<any> {
+    static _processOptions(options: string): any {
+        const opts = options.split("||");
+        const optionsMap: any = {};
+        opts.forEach((opt: string) => {
+            const pieces = opt.trim().split("=");
+            const key = pieces[0].trim();
+            if (key !== "") {
+                let value = "";
+                if (pieces[1]) value = pieces[1];
+                optionsMap[key] = value;
+            }
+        });
+
+        return optionsMap;
+    }
+    /**
+     * @param { string } url
+     * @param { string } options
+     */
+    static async _scrapeURL(url: string, options: string): Promise<any> {
+        const optionsMap = EmbeddingAPI._processOptions(options);
         const result = await fetch(url);
         const html = await result.text();
         let text = "";
         let title = "";
         if (html) {
             const cheerioQuery = cheerio.load(html);
-            cheerioQuery("h1, h2, h3, h4, h5, p").each((index: number, element: any) => {
-                const t = cheerioQuery(element).text();
+            let htmlElementsSelector = "h1, h2, h3, h4, h5, p";
+            if (optionsMap.htmlElementsSelector) htmlElementsSelector = optionsMap.htmlElementsSelector;
+            cheerioQuery(htmlElementsSelector).each((index: number, element: any) => {
+                const t = cheerioQuery(element).text().trim();
                 if (t) text += t + "\n";
             });
-            text = text.trim().substring(0, 100000);
+            text = text.replace(/^[ \t]+/gm, "")
+                .replace(/[ \t]+/g, " ")
+                .replace(/\n{2,}/g, "\n")
+                .trim();
+            text = text.substring(0, 100000);
 
             cheerioQuery("title").each((index: number, element: any) => {
-                title = cheerioQuery(element).text();
+                if (!title) title = cheerioQuery(element).text().trim();
             });
         }
 
@@ -112,11 +139,12 @@ export default class EmbeddingAPI {
             };
         }
         const url = fileDesc.url;
+        const options = fileDesc.options;
         let text = fileDesc.text;
         let title = "";
         let html = "";
         if (!text && url !== "") {
-            const scrapeResult = await EmbeddingAPI._scrapeURL(fileDesc.url);
+            const scrapeResult = await EmbeddingAPI._scrapeURL(fileDesc.url, options);
             text = scrapeResult.text;
             if (!text) {
                 return {

@@ -54,14 +54,6 @@
   width: 20px;
 }
 
-.styled_csv_table td:nth-child(2) {
-  width: 20px;
-}
-
-.styled_csv_table td {
-  width: 20%;
-}
-
 .embedding_options_table td:nth-child(2) {
   padding: 8px;
   width: 22em;
@@ -99,6 +91,7 @@
 
 table tr td.table_cell_sizer {
   padding: 0;
+  word-break: break-all;
 }
 
 .pinecone_index_stats_display {
@@ -123,4 +116,14 @@ table tr td.table_cell_sizer {
 
 .pinecone_index_count {
   width: 4em;
+}
+
+.styled_csv_table table td:nth-child(2),
+.styled_csv_table table td:nth-child(3) {
+  word-break: break-all;
+}
+
+.styled_csv_table table td button {
+  word-break: normal;
+  white-space: nowrap;
 }
