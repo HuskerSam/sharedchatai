@@ -31,6 +31,8 @@ export class EmbeddingApp extends BaseApp {
     results_open_new_window: any = document.querySelector(".results_open_new_window");
     fetch_pinecone_index_stats_btn: any = document.querySelector(".fetch_pinecone_index_stats_btn");
     pinecone_index_stats_display: any = document.querySelector(".pinecone_index_stats_display");
+    pinecone_index_count: any = document.querySelector(".pinecone_index_count");
+    pinecone_index_name: any = document.querySelector(".pinecone_index_name");
     queryDocumentsResultRows: any = [];
     fileListToUpload: Array<any> = [];
     upsertFileResults: Array<any> = [];
@@ -70,7 +72,10 @@ export class EmbeddingApp extends BaseApp {
 
         this.download_csv_results_btn.addEventListener("click", () => this.downloadResultsFile(true));
         this.download_json_results_btn.addEventListener("click", () => this.downloadResultsFile());
-        this.save_pineconeoptions_btn.addEventListener("click", () => this.scrapeData());
+        this.save_pineconeoptions_btn.addEventListener("click", () => {
+            const data = this.scrapeData();
+            this._fetchIndexStats(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
+        });
         this.copy_resultdoclist_to_clipboard.addEventListener("click", () => this.copyQueryResultsToClipboard());
         this.results_open_new_window.addEventListener("click", () => {
             const wnd = window.open("about:blank", "", "_blank");
@@ -197,6 +202,7 @@ export class EmbeddingApp extends BaseApp {
     async embedURLContent() {
         const data = this.scrapeData();
         await this._embedURLContent(this.fileListToUpload, data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
+        this._fetchIndexStats(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
     }
     /** scrape URLs for embedding
      * @param { Array<any> } fileList
@@ -360,6 +366,7 @@ export class EmbeddingApp extends BaseApp {
     async deleteIndex() {
         const data = this.scrapeData();
         await this._deleteIndex(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
+        this._fetchIndexStats(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
     }
     /** delete index
      * @param { string } batchId grouping key
@@ -443,10 +450,15 @@ export class EmbeddingApp extends BaseApp {
         const json = await fResult.json();
 
         if (json.success === false) {
-            alert(json.errorMessage);
+            console.log("pinecone error", json);
+            this.pinecone_index_name.innerHTML = json.errorMessage;
+            this.pinecone_index_count.innerHTML = "N/A";
+            return;
         }
 
         this.pinecone_index_stats_display.innerHTML = JSON.stringify(json, null, "\t");
+        this.pinecone_index_count.innerHTML = json.indexDescription.totalRecordCount;
+        this.pinecone_index_name.innerHTML = batchId;
     }
     /** */
     async updateParsedEmbeddingListFileStatus(): Promise<Array<any>> {

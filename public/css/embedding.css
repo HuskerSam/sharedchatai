@@ -103,4 +103,24 @@ table tr td.table_cell_sizer {
 
 .pinecone_index_stats_display {
   white-space: pre-wrap;
+  display: none;
+}
+
+.pinecone_status_bar {
+  display: flex;
+  flex-direction: row;
+}
+
+.pinecone_status_bar div {
+  padding: 8px;
+  margin: auto;
+  text-align: left;
+}
+
+.pinecone_index_name {
+  flex: 1;
+}
+
+.pinecone_index_count {
+  width: 4em;
 }

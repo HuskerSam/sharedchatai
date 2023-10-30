@@ -53,7 +53,7 @@ export default class EmbeddingAPI {
             const fileDesc = fileList[c];
             promises.push(EmbeddingAPI.upsertFileData(fileDesc, batchId, chatGptKey, authResults.uid, pIndex));
 
-            if (promises.length >= 20) {
+            if (promises.length >= 40) {
                 const uploadResults = await Promise.all(promises);
                 fileUploadResults = fileUploadResults.concat(uploadResults);
                 promises = [];
@@ -397,21 +397,31 @@ export default class EmbeddingAPI {
         const pineconeKey = req.body.pineconeKey;
         const pineconeEnvironment = req.body.pineconeEnvironment;
 
-        const pinecone = new Pinecone({
-            apiKey: pineconeKey,
-            environment: pineconeEnvironment,
-        });
-        const indexList = await pinecone.listIndexes();
-        if (!EmbeddingAPI.testIfIndexExists(indexList, batchId)) {
-            return BaseClass.respondError(res, "Index not found or not ready");
+        if (batchId === "" || pineconeEnvironment === "" || pineconeKey === "") {
+            return BaseClass.respondError(res, "Name, Environment or Key is empty");
         }
 
-        const pIndex = pinecone.index(batchId);
-        const indexDescription: any = await pIndex.describeIndexStats();
-
-        res.send({
-            indexDescription,
-            success: true,
-        });
+        try {
+            const pinecone = new Pinecone({
+                apiKey: pineconeKey,
+                environment: pineconeEnvironment,
+            });
+            const indexList = await pinecone.listIndexes();
+            if (!EmbeddingAPI.testIfIndexExists(indexList, batchId)) {
+                return BaseClass.respondError(res, `Index: [${batchId}] not found or not ready`);
+            }
+    
+            const pIndex = pinecone.index(batchId);
+            const indexDescription: any = await pIndex.describeIndexStats();
+    
+            res.send({
+                indexDescription,
+                success: true,
+            });
+        } catch (error: any) {
+            console.log("pinecone unhandled error", error);
+            console.log(error);
+            return BaseClass.respondError(res, error.message, error);
+        }
     }
 }
