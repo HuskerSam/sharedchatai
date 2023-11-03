@@ -1,3 +1,9 @@
+body,
+html {
+  min-height: unset;
+  height: 100%;
+}
+
 .document_list_file_name,
 .document_list_file_status {
   margin-left: 12px;

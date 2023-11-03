@@ -30,6 +30,9 @@
 
     <link href="//cdn-images.mailchimp.com/embedcode/classic-061523.css" rel="stylesheet" type="text/css">
 
+    <link href="https://unpkg.com/tabulator-tables/dist/css/tabulator.min.css" rel="stylesheet">
+    <script type="text/javascript" src="https://unpkg.com/tabulator-tables/dist/js/tabulator.min.js"></script>
+
     <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="/css/modal.css">
     <link rel="stylesheet" href="/css/home.css">
@@ -48,192 +51,203 @@
         if (localStorage.getItem("niteMode") !== "true") document.body.classList.add("day_mode");
         else document.body.classList.add("nite_mode");
     </script>
-    <nav class="navbar navbar-light navbar_wrapper">
-        <ul class="navbar-nav container-fluid d-flex flex-row justify-content-end justify-content-sm-between container">
-            <li class="" style="margin-left: 20px;">
-                <a class="navbar_brand hover_yellow" style="text-decoration: none;" href="/">
-                    <span class="navbar_logo" style="background-image: url('/images/logo64.png'); top:2px;"></span>
-                    <span class="mobile_hide position-relative homepage_logo_spacing">Una<span
-                            class="home_navbar_name_color"">cog</span></span>
-                </a>
-            </li>
-            <li style=" flex:1;background:none" class="app_panel">
-                            Embedding Documents
-            </li>
-            <li class="nav-item signed_out_flex">
-                <a class="signin_show_modal hover_yellow btn btn-primary px-4" href="login" type="button">Login
-                </a>
-            </li>
-            <li class="nav-item signed_in_options">
-                <a class="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
-                    <span class="menu_profile_user_image_span member_profile_image hover_yellow"> </span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="showhomepage_help nav-link hover_yellow" href="/help/#embedding" target="help">
-                    <span class="mobile_custom_icon_label">
-                        <i class="material-icons">help_outline</i>
-                    </span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-    <div class="container main_container app_panel">
-        <div class="pinecone_status_bar">
-            <div>Pinecone Index: </div>
-            <div class="pinecone_index_name"></div>
-            <div>Count: </div>
-            <div class="pinecone_index_count"></div>
-            <div>
-                <button class="btn btn-primary fetch_pinecone_index_stats_btn">Fetch Count</button>
+    <div style="height: 100%;display: flex; flex-direction: column;overflow: hidden;">
+        <nav class="navbar navbar-light navbar_wrapper">
+            <ul class="navbar-nav container-fluid d-flex flex-row justify-content-end justify-content-sm-between">
+                <li class="" style="margin-left: 20px;">
+                    <a class="navbar_brand hover_yellow" style="text-decoration: none;" href="/">
+                        <span class="navbar_logo" style="background-image: url('/images/logo64.png'); top:2px;"></span>
+                        <span class="mobile_hide position-relative homepage_logo_spacing">Una<span
+                                class="home_navbar_name_color"">cog</span></span>
+                    </a>
+                </li>
+                <li style=" flex:1;background:none" class="app_panel">
+                                Embedding Documents
+                </li>
+                <li class="nav-item signed_out_flex">
+                    <a class="signin_show_modal hover_yellow btn btn-primary px-4" href="login" type="button">Login
+                    </a>
+                </li>
+                <li class="nav-item signed_in_options">
+                    <a class="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
+                        <span class="menu_profile_user_image_span member_profile_image hover_yellow"> </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="showhomepage_help nav-link hover_yellow" href="/help/#embedding" target="help">
+                        <span class="mobile_custom_icon_label">
+                            <i class="material-icons">help_outline</i>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="app_panel"
+            style="padding: 8px;padding-top: 70px;flex: 1;overflow: hidden;display: flex;flex-direction: column;">
+            <div class="pinecone_status_bar">
+                <div>Pinecone Index: </div>
+                <div class="pinecone_index_name"></div>
+                <div>Count: </div>
+                <div class="pinecone_index_count"></div>
+                <div>
+                    <button class="btn btn-primary fetch_pinecone_index_stats_btn">Fetch Count</button>
+                </div>
             </div>
-        </div>
-        <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="upsert_embedding_tab_btn" data-bs-toggle="tab"
-                    href="#upsert_embedding_tab_view" role="tab" aria-controls="upsert_embedding_tab_view"
-                    aria-selected="true">Upsert</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="options_embedding_tab_btn" data-bs-toggle="tab"
-                    href="#options_embedding_tab_view" role="tab" aria-controls="options_embedding_tab_view"
-                    aria-selected="false">Options</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="test_embedding_tab_btn" data-bs-toggle="tab" href="#test_embedding_tab_view"
-                    role="tab" aria-controls="test_embedding_tab_view" aria-selected="false">Test</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="help_embedding_tab_btn" data-bs-toggle="tab" href="#help_embedding_tab_view"
-                    role="tab" aria-controls="help_embedding_tab_view" aria-selected="false">Help</a>
-            </li>
-        </ul>
-        <div class="tab-content" style="overflow:hidden;display:flex;text-align: left;">
-            <div class="tab-pane fade show active" id="upsert_embedding_tab_view" role="tabpanel"
-                aria-labelledby="upsert_embedding_tab_btn">
-                <div style="padding: 20px; text-align: left;">
-                    <div class="upload_wrapper">
-                        <div>
-                            <button class="btn btn-primary upload_document_list_button">
-                                <i class="material-icons">upload_file</i> <span>Import List</span>
-                            </button>
-                        </div>
-                        <div>
-                            <input class="embedding_list_file_dom" style="display:none;" type="file"
-                                accept=".json,.csv">
-                        </div>
-                        <div class="document_list_file_status"></div>
-                        <div class="document_list_file_name" style="display:none;"></div>
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="upsert_embedding_tab_btn" data-bs-toggle="tab"
+                        href="#upsert_embedding_tab_view" role="tab" aria-controls="upsert_embedding_tab_view"
+                        aria-selected="true">Upsert</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="options_embedding_tab_btn" data-bs-toggle="tab"
+                        href="#options_embedding_tab_view" role="tab" aria-controls="options_embedding_tab_view"
+                        aria-selected="false">Options</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="test_embedding_tab_btn" data-bs-toggle="tab" href="#test_embedding_tab_view"
+                        role="tab" aria-controls="test_embedding_tab_view" aria-selected="false">Test</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="help_embedding_tab_btn" data-bs-toggle="tab" href="#help_embedding_tab_view"
+                        role="tab" aria-controls="help_embedding_tab_view" aria-selected="false">Help</a>
+                </li>
+            </ul>
+            <div class="tab-content"
+                style="overflow:hidden;display:flex;text-align: left;flex: 1;flex-direction: column;">
+                <div class="tab-pane fade show active" id="upsert_embedding_tab_view" role="tabpanel"
+                    aria-labelledby="upsert_embedding_tab_btn"
+                    style="flex:1;display:flex;flex-direction: column;overflow:hidden;">
+                    <div style="flex:1;overflow: auto;">
+                        <div class="preview_embedding_documents_table"></div>
                     </div>
-                    <div class="preview_embedding_documents_list styled_csv_table"></div>
                     <div style="display:flex;flex-direction:row">
-                        <div>
-                            <button class="upload_embedding_documents_btn btn btn-primary">
-                                <i class="material-icons">cloud_upload</i> <span>Upsert List</span></button>
+                        <div class="upload_wrapper">
+                            <div>
+                                <button class="btn btn-primary upload_document_list_button">
+                                    <i class="material-icons">upload_file</i> <span>Import List</span>
+                                </button>
+                            </div>
+                            <div>
+                                <input class="embedding_list_file_dom" style="display:none;" type="file"
+                                    accept=".json,.csv">
+                            </div>
+                            <div class="document_list_file_status"></div>
+                            <div class="document_list_file_name" style="display:none;"></div>
                         </div>
                         <div class="upsert_result_status_bar"></div>
+                        <div style="text-align: right;">
+                            <button class="upload_embedding_documents_btn btn btn-primary">
+                                <i class="material-icons">cloud_upload</i> <span>Upsert List</span></button>
+                            &nbsp;
+                            <button class="btn btn-primary download_csv_results_btn">
+                                <i class="material-icons">file_download</i> <span>CSV</span></button>
+                            &nbsp;
+                            <button class="btn btn-primary download_json_results_btn">
+                                <i class="material-icons">file_download</i> <span>JSON</span></button>
+                        </div>
                     </div>
-                    <br>
-                    <div class="upsert_results_display_table styled_csv_table"></div>
+                </div>
+                <div class="tab-pane fade" id="options_embedding_tab_view" role="tabpanel"
+                    aria-labelledby="options_embedding_tab_btn">
+                    <table class="embedding_options_table">
+                        <tr>
+                            <td>Index Name </td>
+                            <td><input class="batch_id form-control" type="text" value=""></td>
+                            <td><button class="delete_index btn btn-primary"><i
+                                        class="material-icons">delete</i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>API Key </td>
+                            <td><input class="pinecone_key form-control" type="text" value=""></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Environment </td>
+                            <td><input class="pinecone_environment form-control" type="text" value=""></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align: right;padding: 8px;">
+                                <button class="btn btn-primary save_pineconeoptions_btn">Save Options</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <hr>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Vector Id </td>
+                            <td>
+                                <input class="pinecone_id_to_delete form-control" type="text" value="">
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align: right;padding: 8px;">
+                                <button class="btn btn-primary delete_pinecone_vector_id">Delete Vector</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <hr>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="pinecone_index_stats_display"></div>
+                </div>
+                <div class="tab-pane fade" id="test_embedding_tab_view" role="tabpanel"
+                    aria-labelledby="test_embedding_tab_btn" style="padding: 10px;">
+                    <textarea class="prompt_area form-control" rows="6"></textarea>
+                    <div style="text-align: right;line-height: 3.5em">
+                        (top K = 10)
+                        <button class="run_prompt btn btn-primary">Query Documents for Prompt</button>
+                    </div>
+                    <div class="embedding_query_results_table_wrapper styled_csv_table" style="margin-top: 8px;">
+                    </div>
                     <div style="text-align: right;">
-                        <button class="btn btn-primary download_csv_results_btn">
-                            <i class="material-icons">file_download</i> <span>CSV</span></button>
+                        <button class="copy_results_to_clipboard btn btn-primary"><i
+                                class="material-icons">content_copy</i>
+                            Prompt</button>
+                        <button class="results_open_new_window btn btn-primary"><i
+                                class="material-icons">open_in_new</i></button>
                         &nbsp;
-                        <button class="btn btn-primary download_json_results_btn">
-                            <i class="material-icons">file_download</i> <span>JSON</span></button>
+                        &nbsp;
+                        <button class="copy_resultdoclist_to_clipboard btn btn-primary"><i
+                                class="material-icons">content_copy</i> JSON</button>
                     </div>
-
                 </div>
-            </div>
-            <div class="tab-pane fade" id="options_embedding_tab_view" role="tabpanel"
-                aria-labelledby="options_embedding_tab_btn">
-                <table class="embedding_options_table">
-                    <tr>
-                        <td>Index Name </td>
-                        <td><input class="batch_id form-control" type="text" value=""></td>
-                        <td><button class="delete_index btn btn-primary"><i class="material-icons">delete</i></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>API Key </td>
-                        <td><input class="pinecone_key form-control" type="text" value=""></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Environment </td>
-                        <td><input class="pinecone_environment form-control" type="text" value=""></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td colspan="3" style="text-align: right;padding: 8px;">
-                            <button class="btn btn-primary save_pineconeoptions_btn">Save Options</button>
-                        </td>
-                    </tr>
-                    <tr><td colspan="3"><hr></td></tr>
-                    <tr>
-                        <td>Vector Id </td>
-                        <td>
-                            <input class="pinecone_id_to_delete form-control" type="text" value="">
-                        </td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td colspan="3" style="text-align: right;padding: 8px;">
-                            <button class="btn btn-primary delete_pinecone_vector_id">Delete Vector</button>
-                        </td>
-                    </tr>
-                    <tr><td colspan="3"><hr></td></tr>
-                </table>
-                <div class="pinecone_index_stats_display"></div>
-            </div>
-            <div class="tab-pane fade" id="test_embedding_tab_view" role="tabpanel"
-                aria-labelledby="test_embedding_tab_btn" style="padding: 10px;">
-                <textarea class="prompt_area form-control" rows="6"></textarea>
-                <div style="text-align: right;line-height: 3.5em">
-                    (top K = 10)
-                    <button class="run_prompt btn btn-primary">Query Documents for Prompt</button>
-                </div>
-                <div class="embedding_query_results_table_wrapper styled_csv_table" style="margin-top: 8px;">
-                </div>
-                <div style="text-align: right;">
-                    <button class="copy_results_to_clipboard btn btn-primary"><i class="material-icons">content_copy</i>
-                        Prompt</button>
-                    <button class="results_open_new_window btn btn-primary"><i
-                            class="material-icons">open_in_new</i></button>
-                    &nbsp;
-                    &nbsp;
-                    <button class="copy_resultdoclist_to_clipboard btn btn-primary"><i
-                            class="material-icons">content_copy</i> JSON</button>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="help_embedding_tab_view" role="tabpanel"
-                aria-labelledby="help_embedding_tab_btn">
-                <label>url</label> - serves as the link in UI, location to scrape (optional) and id
-                <br>
-                <label>id</label> - (optional) overrides the url as the id
-                <br>
-                <label>title</label> - (optional) override the scraped title
-                <br>
-                <label>options</label> - (optional)
-                <br>
-                <label>text</label> - (optional) no scrape use this text
-                <br>
-                <label>prefix</label> - (optional) prefix meta text for scrape or text
-                <br><br>
-                If you want to remove files, delete the index, uploading will upsert documents using url as unique id,
-                or id if supplied
-                <br><br><br>
+                <div class="tab-pane fade" id="help_embedding_tab_view" role="tabpanel"
+                    aria-labelledby="help_embedding_tab_btn">
+                    <label>url</label> - serves as the link in UI, location to scrape (optional) and id
+                    <br>
+                    <label>id</label> - (optional) overrides the url as the id
+                    <br>
+                    <label>title</label> - (optional) override the scraped title
+                    <br>
+                    <label>options</label> - (optional)
+                    <br>
+                    <label>text</label> - (optional) no scrape use this text
+                    <br>
+                    <label>prefix</label> - (optional) prefix meta text for scrape or text
+                    <br><br>
+                    If you want to remove files, delete the index, uploading will upsert documents using url as unique
+                    id,
+                    or id if supplied
+                    <br><br><br>
 
-                wait 20-30 seconds before testing after upserting documents
-                <br><br>
+                    wait 20-30 seconds before testing after upserting documents
+                    <br><br>
 
-                <br>
-                Delete index to remove all documents from pinecone storage
-                <br><br>
+                    <br>
+                    Delete index to remove all documents from pinecone storage
+                    <br><br>
+                </div>
+
             </div>
-
         </div>
-        <div style="flex:1"></div>
     </div>
 </body>
 

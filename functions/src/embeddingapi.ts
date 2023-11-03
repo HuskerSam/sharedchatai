@@ -166,11 +166,8 @@ export default class EmbeddingAPI {
         if (title === "") title = url.substring(0, 100);
         if (title === "") title = text.substring(0, 100);
 
-        let prefixText = fileDesc.prefix.trim();
-        if (prefixText !== "") {
-            prefixText += "\n";
-            text = prefixText + text;
-        }
+        let prefix = fileDesc.prefix;
+        if (prefix) text = prefix.trim() + text + "\n";
 
         const embeddingModelResult = await EmbeddingAPI.encodeEmbedding(text, chatGptKey, uid);
         const embedding = embeddingModelResult.vectorResult;

@@ -21,8 +21,6 @@ export class EmbeddingApp extends BaseApp {
     document_list_file_name: any = document.querySelector(".document_list_file_name");
     embedding_list_file_dom: any = document.querySelector(".embedding_list_file_dom");
     upload_document_list_button: any = document.querySelector(".upload_document_list_button");
-    preview_embedding_documents_list: any = document.querySelector(".preview_embedding_documents_list");
-    upsert_results_display_table: any = document.querySelector(".upsert_results_display_table");
     download_csv_results_btn: any = document.querySelector(".download_csv_results_btn");
     download_json_results_btn: any = document.querySelector(".download_json_results_btn");
     upsert_result_status_bar: any = document.querySelector(".upsert_result_status_bar");
@@ -35,10 +33,12 @@ export class EmbeddingApp extends BaseApp {
     pinecone_index_name: any = document.querySelector(".pinecone_index_name");
     delete_pinecone_vector_id: any = document.querySelector(".delete_pinecone_vector_id");
     pinecone_id_to_delete: any = document.querySelector(".pinecone_id_to_delete");
+    fileUpsertListFirestore: any = null;
     queryDocumentsResultRows: any = [];
     fileListToUpload: Array<any> = [];
     upsertFileResults: Array<any> = [];
     pineconeQueryResults: any = {};
+    csvUploadDocumentsTabulator: any = null;
     embeddingRunning = false;
     vectorQueryRunning = false;
     indexDeleteRunning = false;
@@ -50,6 +50,58 @@ export class EmbeddingApp extends BaseApp {
         super();
         this.showLoginModal = true;
         this.profileHelper.noAuthPage = false;
+
+        this.csvUploadDocumentsTabulator = new window.Tabulator(".preview_embedding_documents_table", {
+            data: [],
+            height: "100%",
+            layout: "fitColumns",
+            columns: [
+                {
+                    title: "row",
+                    field: "row",
+                },
+                {
+                    title: "url",
+                    field: "url",
+                }, {
+                    title: "id",
+                    field: "id",
+                }, {
+                    title: "title",
+                    field: "title",
+                }, {
+                    title: "options",
+                    field: "options",
+                }, {
+                    title: "text",
+                    field: "text",
+                }, {
+                    title: "prefix",
+                    field: "prefix",
+                }, {
+                    title: "uploaded",
+                    field: "uploadedDate",
+                    formatter: (cell: any) => {
+                        return this.showGmailStyleDate(new Date(cell.getValue()));
+                    },
+                }, {
+                    title: "upserted",
+                    field: "upsertedDate",
+                    formatter: (cell: any) => {
+                        return this.showGmailStyleDate(new Date(cell.getValue()));
+                    },
+                }, {
+                    title: "pineconeId",
+                    field: "pineconeId",
+                }, {
+                    title: "Characters",
+                    field: "size",
+                },, {
+                    title: "pineconeTitle",
+                    field: "pineconeTitle",
+                },
+            ],
+        });
 
         this.upload_embedding_documents_btn.addEventListener("click", () => this.embedURLContent());
         this.run_prompt.addEventListener("click", () => this.queryEmbeddings());
@@ -68,9 +120,7 @@ export class EmbeddingApp extends BaseApp {
         }
 
         this.upload_document_list_button.addEventListener("click", () => this.embedding_list_file_dom.click());
-        this.embedding_list_file_dom.addEventListener("change", () => this.updateParsedEmbeddingListFileStatus());
-        this.updateParsedEmbeddingListFileStatus();
-        this.updateUpsertResultsTable();
+        this.embedding_list_file_dom.addEventListener("change", () => this.uploadUpsertListFile());
 
         this.download_csv_results_btn.addEventListener("click", () => this.downloadResultsFile(true));
         this.download_json_results_btn.addEventListener("click", () => this.downloadResultsFile());
@@ -200,6 +250,7 @@ export class EmbeddingApp extends BaseApp {
             this.prompt_area.value = options.pineconePrompt;
             this.pineConeInited = true;
             this.fetchIndexStats();
+            this.watchUpsertRows();
         }
     }
     /** */
@@ -224,7 +275,6 @@ export class EmbeddingApp extends BaseApp {
             return;
         }
         this.upsertFileResults = [];
-        this.updateUpsertResultsTable();
         this.upsert_result_status_bar.innerHTML = "processing document list...";
         this.embeddingRunning = true;
         const body = {
@@ -248,7 +298,7 @@ export class EmbeddingApp extends BaseApp {
 
         const json = await fResult.json();
         this.upsertFileResults = json.fileUploadResults;
-        this.updateUpsertResultsTable();
+        this.applyUpsertResultsToStore();
 
         this.embeddingRunning = false;
         const count = this.upsertFileResults.length;
@@ -462,90 +512,40 @@ export class EmbeddingApp extends BaseApp {
         this.pinecone_index_name.innerHTML = batchId;
     }
     /** */
-    async updateParsedEmbeddingListFileStatus(): Promise<Array<any>> {
+    async uploadUpsertListFile() {
         const importData = await ChatDocument.getImportDataFromDomFile(this.embedding_list_file_dom);
-        let contentCount = "";
-        contentCount = importData.length + " rows";
-        let fileContent = "<table class=\"file_preview_table\">";
-        const keys = ["url", "id", "title", "options", "text", "prefix"];
-        fileContent += "<tr>";
-        fileContent += `<th>row</th>`;
-        keys.forEach((key: string) => fileContent += `<th>${key}</th>`);
-        fileContent += "</tr>";
 
         this.fileListToUpload = [];
-        importData.forEach((row: any, index: number) => {
-            fileContent += "<tr>";
-            fileContent += `<th>${index + 1}</th>`;
-            const newRow: any = {};
-            keys.forEach((key: string) => {
-                let value = row[key];
-                if (value === undefined) value = "";
-                fileContent += `<td>${BaseApp.escapeHTML(value)}</td>`;
-                newRow[key] = value;
+        const uploadDate = new Date().toISOString();
+        importData.forEach((item: any, index: number) => {
+            item.row = (index + 1).toString();
+            item.uploadedDate = uploadDate;
+            const columnsToVerify = ["prefix", "text", "url", "id", "options", "title"];
+            columnsToVerify.forEach((key: string) => {
+                if (!item[key]) item[key] = "";
             });
-            fileContent += "</tr>";
-            this.fileListToUpload.push(newRow);
+            this.fileListToUpload.push(item);
         });
 
-        fileContent += `</table>`;
-
-        this.preview_embedding_documents_list.innerHTML = fileContent;
-
-        this.document_list_file_status.innerHTML = contentCount;
         let fileName = "";
         if (this.embedding_list_file_dom.files[0]) fileName = this.embedding_list_file_dom.files[0].name;
         this.document_list_file_name.innerHTML = fileName;
-        return importData;
+        await this.saveUpsertRows();
     }
     /** */
-    async updateUpsertResultsTable() {
-        let fileContent = "<table class=\"file_preview_table\">";
-        const keys = ["id", "url", "title", "textSize", "text", "json", "errorMessage"];
-        fileContent += "<tr>";
-        fileContent += `<th>row</th>`;
-        keys.forEach((key: string) => fileContent += `<th>${key}</th>`);
-        fileContent += "</tr>";
-
+    async applyUpsertResultsToStore() {
+        const dt = new Date().toISOString();
         this.upsertFileResults.forEach((row: any, index: number) => {
-            fileContent += "<tr>";
-            fileContent += `<th>${index + 1}</th>`;
-            const newRow: any = {};
-            keys.forEach((key: string) => {
-                let value = BaseApp.escapeHTML(row[key]);
-                if (key === "text") {
-                    value = `<button data-index="${index}" class="btn btn-secondary 
-                       doc_text_copy_btn"><i class="material-icons">content_copy</i> Text</button>`;
-                }
-                if (key === "json") {
-                    value = `<button data-index="${index}" class="btn btn-secondary 
-                       doc_json_copy_btn"><i class="material-icons">content_copy</i> JSON</button>`;
-                }
-                fileContent += `<td>${(value)}</td>`;
-                newRow[key] = value;
-            });
-            fileContent += "</tr>";
-        });
-
-        fileContent += `</table>`;
-
-        this.upsert_results_display_table.innerHTML = fileContent;
-
-        this.upsert_results_display_table.querySelectorAll(".doc_text_copy_btn").forEach((btn: any) => {
-            btn.addEventListener("click", () => {
-                const index = btn.dataset.index;
-                const row = this.upsertFileResults[index];
-                navigator.clipboard.writeText(row.text);
+            this.fileListToUpload[index]["pineconeTitle"] = row["title"];
+            this.fileListToUpload[index]["pineconeId"] = row["id"];
+            this.fileListToUpload[index]["size"] = row["textSize"];
+            this.fileListToUpload[index]["upsertedDate"] = dt;
+            firebase.firestore().doc(`Users/${this.uid}/embedding/doclist/responses/${index}`).set(row, {
+                merge: true,
             });
         });
-
-        this.upsert_results_display_table.querySelectorAll(".doc_json_copy_btn").forEach((btn: any) => {
-            btn.addEventListener("click", () => {
-                const index = btn.dataset.index;
-                const row = this.upsertFileResults[index];
-                navigator.clipboard.writeText(JSON.stringify(row, null, "\t"));
-            });
-        });
+        console.log(this.fileListToUpload);
+        this.saveUpsertRows();
     }
     /** */
     async deletePineconeVector() {
@@ -587,5 +587,27 @@ export class EmbeddingApp extends BaseApp {
 
         alert(`Vector ${id} deleted (if existed)\n\nPlease wait up to 15 seconds to refresh count`);
         this.fetchIndexStats();
+    }
+    /** */
+    async saveUpsertRows() {
+        await firebase.firestore().doc(`Users/${this.uid}/embedding/doclist`).set({
+            upsertList: this.fileListToUpload,
+        }, {
+            merge: true,
+        });
+    }
+    /** */
+    async watchUpsertRows() {
+        if (this.fileUpsertListFirestore) return;
+
+        this.fileUpsertListFirestore = firebase.firestore().doc(`Users/${this.uid}/embedding/doclist`)
+            .onSnapshot((snapshot: any) => {
+                let data = snapshot.data()
+                if (!data) data = {};
+                this.fileListToUpload = data.upsertList;
+                if (!this.fileListToUpload) this.fileListToUpload = [];
+
+                this.csvUploadDocumentsTabulator.setData(this.fileListToUpload);
+            });
     }
 }
