@@ -105,14 +105,8 @@ table tr td.table_cell_sizer {
   display: none;
 }
 
-.pinecone_status_bar {
-  display: flex;
-  flex-direction: row;
-}
-
 .pinecone_status_bar div {
-  padding: 8px;
-  margin: auto;
+  display: inline-block;
   text-align: left;
 }
 

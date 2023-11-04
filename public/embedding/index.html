@@ -61,8 +61,18 @@
                                 class="home_navbar_name_color"">cog</span></span>
                     </a>
                 </li>
-                <li style=" flex:1;background:none" class="app_panel">
-                                Embedding Documents
+                <li style=" flex:1;background:none;" class="app_panel">
+                    <div class="pinecone_status_bar">
+                        <div>
+                            <b>Pinecone Index: </b>
+                            <div class="pinecone_index_name"></div>
+                            <br>
+                            <b>Count: </b>
+                            <div class="pinecone_index_count"></div>
+                        </div>
+                        &nbsp;
+                        <button class="btn btn-primary fetch_pinecone_index_stats_btn">Fetch Count</button>
+                    </div>
                 </li>
                 <li class="nav-item signed_out_flex">
                     <a class="signin_show_modal hover_yellow btn btn-primary px-4" href="login" type="button">Login
@@ -84,15 +94,6 @@
         </nav>
         <div class="app_panel"
             style="padding: 8px;padding-top: 70px;flex: 1;overflow: hidden;display: flex;flex-direction: column;">
-            <div class="pinecone_status_bar">
-                <div>Pinecone Index: </div>
-                <div class="pinecone_index_name"></div>
-                <div>Count: </div>
-                <div class="pinecone_index_count"></div>
-                <div>
-                    <button class="btn btn-primary fetch_pinecone_index_stats_btn">Fetch Count</button>
-                </div>
-            </div>
             <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item" role="presentation">
                     <a class="nav-link active" id="upsert_embedding_tab_btn" data-bs-toggle="tab"

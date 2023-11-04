@@ -94,15 +94,46 @@ export class EmbeddingApp extends BaseApp {
                     title: "pineconeId",
                     field: "pineconeId",
                 }, {
-                    title: "Characters",
-                    field: "size",
-                },, {
                     title: "pineconeTitle",
                     field: "pineconeTitle",
+                }, {
+                    title: "Characters",
+                    field: "size",
+                }, {
+                    title: "Text",
+                    field: "copyText",
+                    formatter: (cell: any) => {
+                        return `<i class="material-icons">content_copy</i>`;
+                    },
+                }, {
+                    title: "JSON",
+                    field: "copyJSON",
+                    formatter: (cell: any) => {
+                        return `<i class="material-icons">content_copy</i>`;
+                    },
                 },
             ],
         });
-
+        this.csvUploadDocumentsTabulator.on("cellClick", async (e: any, cell: any) => {
+            const field = cell.getField();
+            const data = cell.getRow().getData();
+            const rowIndex = Number(data.row) - 1;
+            if (field === "copyJSON") {
+                const  responseQuery = await firebase.firestore()
+                    .doc(`Users/${this.uid}/embedding/doclist/responses/${rowIndex}`).get();
+                const responseData = responseQuery.data();
+                let outData: any = Object.assign({}, data);
+                outData.upsertResponse = responseData;
+                const json = JSON.stringify(outData, null, "\t");
+                navigator.clipboard.writeText(json);
+            }
+            if (field === "copyText") {
+                const  responseQuery = await firebase.firestore()
+                    .doc(`Users/${this.uid}/embedding/doclist/responses/${rowIndex}`).get();
+                const responseData = responseQuery.data();
+                navigator.clipboard.writeText(responseData.text);
+            }
+        });
         this.upload_embedding_documents_btn.addEventListener("click", () => this.embedURLContent());
         this.run_prompt.addEventListener("click", () => this.queryEmbeddings());
         this.delete_index.addEventListener("click", () => this.deleteIndex());
