@@ -63,15 +63,18 @@
                 </li>
                 <li style=" flex:1;background:none;" class="app_panel">
                     <div class="pinecone_status_bar">
-                        <div>
+                        <div style="min-width:15em;">
                             <b>Pinecone Index: </b>
-                            <div class="pinecone_index_name"></div>
+                            <span class="pinecone_index_name"></span>
                             <br>
                             <b>Count: </b>
-                            <div class="pinecone_index_count"></div>
+                            <span class="pinecone_index_count"></span>
                         </div>
-                        &nbsp;
-                        <button class="btn btn-primary fetch_pinecone_index_stats_btn">Fetch Count</button>
+                        <div style="padding-bottom: 12px;">
+                            &nbsp;
+                            <button class="btn btn-primary fetch_pinecone_index_stats_btn">Fetch
+                                Stats</button>
+                        </div>
                     </div>
                 </li>
                 <li class="nav-item signed_out_flex">
@@ -123,23 +126,22 @@
                         <div class="preview_embedding_documents_table"></div>
                     </div>
                     <div style="display:flex;flex-direction:row">
-                        <div class="upload_wrapper">
-                            <div>
-                                <button class="btn btn-primary upload_document_list_button">
-                                    <i class="material-icons">upload_file</i> <span>Import List</span>
-                                </button>
-                            </div>
-                            <div>
-                                <input class="embedding_list_file_dom" style="display:none;" type="file"
-                                    accept=".json,.csv">
-                            </div>
-                            <div class="document_list_file_status"></div>
+                        <div style="padding-top:8px;">
+                            <button class="btn btn-primary upload_document_list_button">
+                                <i class="material-icons">upload_file</i> <span>Upload Rows</span>
+                            </button>
+                            &nbsp;
+                            <input class="embedding_list_file_dom" style="display:none;" type="file"
+                                accept=".json,.csv">
                             <div class="document_list_file_name" style="display:none;"></div>
-                        </div>
-                        <div class="upsert_result_status_bar"></div>
-                        <div style="text-align: right;">
                             <button class="upload_embedding_documents_btn btn btn-primary">
-                                <i class="material-icons">cloud_upload</i> <span>Upsert List</span></button>
+                                <i class="material-icons">cloud_upload</i> <span>Upsert Selected</span></button>
+                            &nbsp;
+                            <button class="btn btn-primary download_csv_results_btn">
+                                <i class="material-icons">delete</i> <span>Selected</span></button>
+                            &nbsp;
+                            <button class="btn btn-primary download_csv_results_btn">
+                                <i class="material-icons">add</i> <span>Row</span></button>
                             &nbsp;
                             <button class="btn btn-primary download_csv_results_btn">
                                 <i class="material-icons">file_download</i> <span>CSV</span></button>
@@ -147,6 +149,7 @@
                             <button class="btn btn-primary download_json_results_btn">
                                 <i class="material-icons">file_download</i> <span>JSON</span></button>
                         </div>
+                        <div class="upsert_result_status_bar"></div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="options_embedding_tab_view" role="tabpanel"

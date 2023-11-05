@@ -17,7 +17,6 @@ export class EmbeddingApp extends BaseApp {
     pinecone_key: any = document.querySelector(".pinecone_key");
     pinecone_environment: any = document.querySelector(".pinecone_environment");
     prompt_area: any = document.querySelector(".prompt_area");
-    document_list_file_status: any = document.querySelector(".document_list_file_status");
     document_list_file_name: any = document.querySelector(".document_list_file_name");
     embedding_list_file_dom: any = document.querySelector(".embedding_list_file_dom");
     upload_document_list_button: any = document.querySelector(".upload_document_list_button");
@@ -62,12 +61,23 @@ export class EmbeddingApp extends BaseApp {
                 {
                     title: "",
                     field: "include",
+                    headerHozAlign: "center",
+                    headerSort: false,
                     formatter: (cell: any) => {
                         if (cell.getValue()) return `☒`;
                         return `☐`;
                     },
                     cellClick: (ev: any, cell: any) => {
                         cell.setValue(!cell.getValue());
+                        this.updateTableSelectAllIcon();
+                    },
+                    headerClick: (ev: any) => {
+                        if (this.isAllTableRowsSelected()) {
+                            this.fileListToUpload.forEach((row: any) => row.include = false);
+                        } else {
+                            this.fileListToUpload.forEach((row: any) => row.include = true);
+                        }
+                        this.saveUpsertRows(true);
                     },
                     hozAlign: "center",
                 }, {
@@ -175,8 +185,6 @@ export class EmbeddingApp extends BaseApp {
                     const element = this.fileListToUpload[oldIndex - 1];
                     this.fileListToUpload.splice(oldIndex - 1, 1);
                     this.fileListToUpload.splice(newRowIndex - 1, 0, element);
-                    console.log(this.fileListToUpload);
-                    console.log(newRowIndex - 1, oldIndex);
                 } else {
                     this.fileListToUpload[rowIndex][field] = data[field];
                 }
@@ -686,7 +694,6 @@ export class EmbeddingApp extends BaseApp {
                 clone.include = clone.include === true;
                 upsertList.push(clone);
             });
-            console.log(upsertList);
             await firebase.firestore().doc(`Users/${this.uid}/embedding/doclist`).set({
                 upsertList,
             }, {
@@ -716,6 +723,22 @@ export class EmbeddingApp extends BaseApp {
                     item.row = (index + 1).toString();
                 });
                 this.csvUploadDocumentsTabulator.setData(this.fileListToUpload);
+                console.log(this.fileListToUpload);
+                this.updateTableSelectAllIcon();
             });
+    }
+    /** */
+    isAllTableRowsSelected(): boolean {
+        for (let c = 0, l = this.fileListToUpload.length; c < l; c++) {
+            if (this.fileListToUpload[c].include !== true) return false;
+        }
+        return true;
+    }
+    /** */
+    updateTableSelectAllIcon() {
+        let selectAllIcon = `☒`;
+        if (this.isAllTableRowsSelected()) selectAllIcon = `☐`;
+        console.log(selectAllIcon);
+        this.csvUploadDocumentsTabulator.columnManager.columns[0].titleElement.innerHTML = selectAllIcon;
     }
 }

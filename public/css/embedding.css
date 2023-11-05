@@ -4,13 +4,6 @@ html {
   height: 100%;
 }
 
-.document_list_file_name,
-.document_list_file_status {
-  margin-left: 12px;
-  align-self: center;
-  flex: 1;
-}
-
 .styled_csv_table {
   width: 100%;
   flex: 1;
@@ -105,9 +98,11 @@ table tr td.table_cell_sizer {
   display: none;
 }
 
-.pinecone_status_bar div {
-  display: inline-block;
+.pinecone_status_bar {
+  display: inline-flex;
+  flex-direction: row;
   text-align: left;
+  width: auto;
 }
 
 .pinecone_index_name {
