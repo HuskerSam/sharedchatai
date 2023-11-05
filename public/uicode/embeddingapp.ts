@@ -33,6 +33,7 @@ export class EmbeddingApp extends BaseApp {
     pinecone_index_name: any = document.querySelector(".pinecone_index_name");
     delete_pinecone_vector_id: any = document.querySelector(".delete_pinecone_vector_id");
     pinecone_id_to_delete: any = document.querySelector(".pinecone_id_to_delete");
+    upsert_embedding_tab_btn: any = document.querySelector("#upsert_embedding_tab_btn");
     fileUpsertListFirestore: any = null;
     queryDocumentsResultRows: any = [];
     fileListToUpload: Array<any> = [];
@@ -44,6 +45,8 @@ export class EmbeddingApp extends BaseApp {
     indexDeleteRunning = false;
     primedPrompt = "";
     pineConeInited = false;
+    saveChangesTimer: any = null;
+    editableTableFields = ["include", "row", "url", "id", "title", "options", "text", "prefix"];
 
     /** */
     constructor() {
@@ -54,30 +57,49 @@ export class EmbeddingApp extends BaseApp {
         this.csvUploadDocumentsTabulator = new window.Tabulator(".preview_embedding_documents_table", {
             data: [],
             height: "100%",
-            layout: "fitColumns",
+            layout: "fitDataStretch",
             columns: [
                 {
+                    title: "",
+                    field: "include",
+                    formatter: (cell: any) => {
+                        if (cell.getValue()) return `☒`;
+                        return `☐`;
+                    },
+                    cellClick: (ev: any, cell: any) => {
+                        cell.setValue(!cell.getValue());
+                    },
+                    hozAlign: "center",
+                }, {
                     title: "row",
                     field: "row",
+                    editor: "input",
+                    hozAlign: "center",
                 },
                 {
                     title: "url",
                     field: "url",
+                    editor: "input",
                 }, {
                     title: "id",
                     field: "id",
+                    editor: "input",
                 }, {
                     title: "title",
                     field: "title",
+                    editor: "input",
                 }, {
                     title: "options",
                     field: "options",
+                    editor: "input",
                 }, {
                     title: "text",
                     field: "text",
+                    editor: "input",
                 }, {
                     title: "prefix",
                     field: "prefix",
+                    editor: "input",
                 }, {
                     title: "uploaded",
                     field: "uploadedDate",
@@ -88,7 +110,9 @@ export class EmbeddingApp extends BaseApp {
                     title: "upserted",
                     field: "upsertedDate",
                     formatter: (cell: any) => {
-                        return this.showGmailStyleDate(new Date(cell.getValue()));
+                        const d: string = this.showGmailStyleDate(new Date(cell.getValue()));
+                        if (d === "Invalid Date") return "";
+                        return d;
                     },
                 }, {
                     title: "pineconeId",
@@ -102,15 +126,17 @@ export class EmbeddingApp extends BaseApp {
                 }, {
                     title: "Text",
                     field: "copyText",
-                    formatter: (cell: any) => {
+                    formatter: () => {
                         return `<i class="material-icons">content_copy</i>`;
                     },
+                    hozAlign: "center",
                 }, {
                     title: "JSON",
                     field: "copyJSON",
-                    formatter: (cell: any) => {
+                    formatter: () => {
                         return `<i class="material-icons">content_copy</i>`;
                     },
+                    hozAlign: "center",
                 },
             ],
         });
@@ -119,19 +145,42 @@ export class EmbeddingApp extends BaseApp {
             const data = cell.getRow().getData();
             const rowIndex = Number(data.row) - 1;
             if (field === "copyJSON") {
-                const  responseQuery = await firebase.firestore()
+                const responseQuery = await firebase.firestore()
                     .doc(`Users/${this.uid}/embedding/doclist/responses/${rowIndex}`).get();
                 const responseData = responseQuery.data();
-                let outData: any = Object.assign({}, data);
+                const outData: any = Object.assign({}, data);
                 outData.upsertResponse = responseData;
                 const json = JSON.stringify(outData, null, "\t");
                 navigator.clipboard.writeText(json);
             }
             if (field === "copyText") {
-                const  responseQuery = await firebase.firestore()
+                const responseQuery = await firebase.firestore()
                     .doc(`Users/${this.uid}/embedding/doclist/responses/${rowIndex}`).get();
                 const responseData = responseQuery.data();
                 navigator.clipboard.writeText(responseData.text);
+            }
+        });
+        this.csvUploadDocumentsTabulator.on("cellEdited", async (cell: any) => {
+            const field = cell.getField();
+            if (this.editableTableFields.indexOf(field) !== -1) {
+                const data = cell.getRow().getData();
+                const rowIndex = Number(data.row) - 1;
+                if (field === "row") {
+                    let newRowIndex = Number(data[field]);
+                    if (isNaN(newRowIndex) || newRowIndex < 1) newRowIndex = 1;
+                    if (newRowIndex > this.fileListToUpload.length) {
+                        newRowIndex = this.fileListToUpload.length;
+                    }
+                    const oldIndex = cell.getRow().getPosition();
+                    const element = this.fileListToUpload[oldIndex - 1];
+                    this.fileListToUpload.splice(oldIndex - 1, 1);
+                    this.fileListToUpload.splice(newRowIndex - 1, 0, element);
+                    console.log(this.fileListToUpload);
+                    console.log(newRowIndex - 1, oldIndex);
+                } else {
+                    this.fileListToUpload[rowIndex][field] = data[field];
+                }
+                this.saveUpsertRows();
             }
         });
         this.upload_embedding_documents_btn.addEventListener("click", () => this.embedURLContent());
@@ -548,8 +597,7 @@ export class EmbeddingApp extends BaseApp {
 
         this.fileListToUpload = [];
         const uploadDate = new Date().toISOString();
-        importData.forEach((item: any, index: number) => {
-            item.row = (index + 1).toString();
+        importData.forEach((item: any) => {
             item.uploadedDate = uploadDate;
             const columnsToVerify = ["prefix", "text", "url", "id", "options", "title"];
             columnsToVerify.forEach((key: string) => {
@@ -561,7 +609,7 @@ export class EmbeddingApp extends BaseApp {
         let fileName = "";
         if (this.embedding_list_file_dom.files[0]) fileName = this.embedding_list_file_dom.files[0].name;
         this.document_list_file_name.innerHTML = fileName;
-        await this.saveUpsertRows();
+        this.saveUpsertRows(true);
     }
     /** */
     async applyUpsertResultsToStore() {
@@ -575,8 +623,7 @@ export class EmbeddingApp extends BaseApp {
                 merge: true,
             });
         });
-        console.log(this.fileListToUpload);
-        this.saveUpsertRows();
+        this.saveUpsertRows(true);
     }
     /** */
     async deletePineconeVector() {
@@ -619,13 +666,41 @@ export class EmbeddingApp extends BaseApp {
         alert(`Vector ${id} deleted (if existed)\n\nPlease wait up to 15 seconds to refresh count`);
         this.fetchIndexStats();
     }
-    /** */
-    async saveUpsertRows() {
-        await firebase.firestore().doc(`Users/${this.uid}/embedding/doclist`).set({
-            upsertList: this.fileListToUpload,
-        }, {
-            merge: true,
-        });
+    /**
+     * @param { boolean } saveNow
+     */
+    async saveUpsertRows(saveNow = false) {
+        this.upsert_embedding_tab_btn.innerHTML = "Saving...";
+
+        if (saveNow) {
+            const upsertList: Array<any> = [];
+            this.fileListToUpload.forEach((row: any) => {
+                const clone = Object.assign({}, row);
+                delete clone.copyJSON;
+                delete clone.copyText;
+                delete clone.row;
+                if (!clone.pineconeId) clone.pineconeId = "";
+                if (!clone.pineconeTitle) clone.pineconeTitle = "";
+                if (!clone.size) clone.size = "";
+                if (!clone.upsertedDate) clone.upsertedDate = "";
+                clone.include = clone.include === true;
+                upsertList.push(clone);
+            });
+            console.log(upsertList);
+            await firebase.firestore().doc(`Users/${this.uid}/embedding/doclist`).set({
+                upsertList,
+            }, {
+                merge: true,
+            });
+            this.upsert_embedding_tab_btn.innerHTML = "Upsert";
+            return;
+        }
+
+        window.clearTimeout(this.saveChangesTimer);
+        this.saveChangesTimer = setTimeout(() => {
+            this.saveChangesTimer = null;
+            this.saveUpsertRows(true);
+        }, 1000);
     }
     /** */
     async watchUpsertRows() {
@@ -633,11 +708,13 @@ export class EmbeddingApp extends BaseApp {
 
         this.fileUpsertListFirestore = firebase.firestore().doc(`Users/${this.uid}/embedding/doclist`)
             .onSnapshot((snapshot: any) => {
-                let data = snapshot.data()
+                let data = snapshot.data();
                 if (!data) data = {};
                 this.fileListToUpload = data.upsertList;
                 if (!this.fileListToUpload) this.fileListToUpload = [];
-
+                this.fileListToUpload.forEach((item: any, index: number) => {
+                    item.row = (index + 1).toString();
+                });
                 this.csvUploadDocumentsTabulator.setData(this.fileListToUpload);
             });
     }
