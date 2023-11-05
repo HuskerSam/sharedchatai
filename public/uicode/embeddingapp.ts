@@ -33,6 +33,8 @@ export class EmbeddingApp extends BaseApp {
     delete_pinecone_vector_id: any = document.querySelector(".delete_pinecone_vector_id");
     pinecone_id_to_delete: any = document.querySelector(".pinecone_id_to_delete");
     upsert_embedding_tab_btn: any = document.querySelector("#upsert_embedding_tab_btn");
+    delete_selected_row_btn: any = document.querySelector(".delete_selected_row_btn");
+    add_row_btn: any = document.querySelector(".add_row_btn");
     fileUpsertListFirestore: any = null;
     queryDocumentsResultRows: any = [];
     fileListToUpload: Array<any> = [];
@@ -71,7 +73,7 @@ export class EmbeddingApp extends BaseApp {
                         cell.setValue(!cell.getValue());
                         this.updateTableSelectAllIcon();
                     },
-                    headerClick: (ev: any) => {
+                    headerClick: () => {
                         if (this.isAllTableRowsSelected()) {
                             this.fileListToUpload.forEach((row: any) => row.include = false);
                         } else {
@@ -224,6 +226,8 @@ export class EmbeddingApp extends BaseApp {
         this.fetch_pinecone_index_stats_btn.addEventListener("click", () => this.fetchIndexStats());
         this.delete_pinecone_vector_id.addEventListener("click", () => this.deletePineconeVector());
 
+        this.delete_selected_row_btn.addEventListener("click", () => this.deleteSelectedRows());
+        this.add_row_btn.addEventListener("click", () => this.addEmptyTableRow());
         this.updateQueriedDocumentList();
     }
     /** */
@@ -727,7 +731,9 @@ export class EmbeddingApp extends BaseApp {
                 this.updateTableSelectAllIcon();
             });
     }
-    /** */
+    /**
+     * @return { boolean }
+     */
     isAllTableRowsSelected(): boolean {
         for (let c = 0, l = this.fileListToUpload.length; c < l; c++) {
             if (this.fileListToUpload[c].include !== true) return false;
@@ -740,5 +746,30 @@ export class EmbeddingApp extends BaseApp {
         if (this.isAllTableRowsSelected()) selectAllIcon = `☐`;
         console.log(selectAllIcon);
         this.csvUploadDocumentsTabulator.columnManager.columns[0].titleElement.innerHTML = selectAllIcon;
+    }
+    /** */
+    deleteSelectedRows() {
+        if (!confirm("Delete selected rows?")) return;
+        for (let c = 0; c < this.fileListToUpload.length; c++) {
+            if (this.fileListToUpload[c].include) {
+                this.fileListToUpload.splice(c, 1);
+                c--;
+            }
+        }
+        this.saveUpsertRows(true);
+    }
+    /** */
+    addEmptyTableRow() {
+        this.fileListToUpload.unshift({
+            include: true,
+            prefix: "",
+            text: "",
+            url: "",
+            options: "",
+            title: "",
+            id: "",
+            uploadedDate: new Date().toISOString(),
+        });
+        this.saveUpsertRows(true);
     }
 }
