@@ -63,12 +63,15 @@
                 </li>
                 <li style=" flex:1;background:none;" class="app_panel">
                     <div class="pinecone_status_bar">
-                        <div style="min-width:15em;">
+                        <div style="min-width:15em;font-size:0.65em">
                             <b>Pinecone Index: </b>
                             <span class="pinecone_index_name"></span>
                             <br>
-                            <b>Count: </b>
+                            <b>Vectors: </b>
                             <span class="pinecone_index_count"></span>
+                            <br>
+                            <b>Upsert Rows: </b>
+                            <span class="table_row_count"></span>
                         </div>
                         <div style="padding-bottom: 12px;">
                             &nbsp;
@@ -126,7 +129,8 @@
                         <div class="preview_embedding_documents_table"></div>
                     </div>
                     <div style="display:flex;flex-direction:row">
-                        <div style="padding-top:8px;">
+                        <div class="upsert_result_status_bar"></div>
+                        <div style="padding: 8px;">
                             <button class="btn btn-primary upload_document_list_button">
                                 <i class="material-icons">upload_file</i> <span>Upload Rows</span>
                             </button>
@@ -148,8 +152,8 @@
                             &nbsp;
                             <button class="btn btn-primary download_json_results_btn">
                                 <i class="material-icons">file_download</i> <span>JSON</span></button>
+                            &nbsp;
                         </div>
-                        <div class="upsert_result_status_bar"></div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="options_embedding_tab_view" role="tabpanel"

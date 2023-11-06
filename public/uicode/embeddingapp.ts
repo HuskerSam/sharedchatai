@@ -35,6 +35,7 @@ export class EmbeddingApp extends BaseApp {
     upsert_embedding_tab_btn: any = document.querySelector("#upsert_embedding_tab_btn");
     delete_selected_row_btn: any = document.querySelector(".delete_selected_row_btn");
     add_row_btn: any = document.querySelector(".add_row_btn");
+    table_row_count: any = document.querySelector(".table_row_count");
     fileUpsertListFirestore: any = null;
     queryDocumentsResultRows: any = [];
     fileListToUpload: Array<any> = [];
@@ -58,7 +59,6 @@ export class EmbeddingApp extends BaseApp {
         this.csvUploadDocumentsTabulator = new window.Tabulator(".preview_embedding_documents_table", {
             data: [],
             height: "100%",
-            layout: "fitDataStretch",
             columns: [
                 {
                     title: "",
@@ -87,31 +87,38 @@ export class EmbeddingApp extends BaseApp {
                     field: "row",
                     editor: "input",
                     hozAlign: "center",
+                    width: 100,
                 },
                 {
                     title: "url",
                     field: "url",
                     editor: "input",
+                    width: 250,
                 }, {
                     title: "id",
                     field: "id",
                     editor: "input",
+                    width: 100,
                 }, {
                     title: "title",
                     field: "title",
                     editor: "input",
+                    width: 100,
                 }, {
                     title: "options",
                     field: "options",
                     editor: "input",
+                    width: 100,
                 }, {
                     title: "text",
                     field: "text",
                     editor: "input",
+                    width: 100,
                 }, {
                     title: "prefix",
                     field: "prefix",
                     editor: "input",
+                    width: 100,
                 }, {
                     title: "uploaded",
                     field: "uploadedDate",
@@ -127,24 +134,28 @@ export class EmbeddingApp extends BaseApp {
                         return d;
                     },
                 }, {
-                    title: "pineconeId",
+                    title: "vId",
                     field: "pineconeId",
+                    width: 100,
                 }, {
-                    title: "pineconeTitle",
+                    title: "vTitle",
                     field: "pineconeTitle",
+                    width: 100,
                 }, {
-                    title: "Characters",
+                    title: "Size",
                     field: "size",
                 }, {
-                    title: "Text",
+                    title: "vText",
                     field: "copyText",
+                    headerSort: false,
                     formatter: () => {
                         return `<i class="material-icons">content_copy</i>`;
                     },
                     hozAlign: "center",
                 }, {
-                    title: "JSON",
+                    title: "vResult",
                     field: "copyJSON",
+                    headerSort: false,
                     formatter: () => {
                         return `<i class="material-icons">content_copy</i>`;
                     },
@@ -348,7 +359,15 @@ export class EmbeddingApp extends BaseApp {
     /** */
     async embedURLContent() {
         const data = this.scrapeData();
-        await this._embedURLContent(this.fileListToUpload, data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
+        const selectedRows: Array<any> = [];
+        this.fileListToUpload.forEach((row: any) => {
+            if (row.include) selectedRows.push(row);
+        });
+        if (selectedRows.length === 0) {
+            alert("no rows selected to upsert");
+            return;
+        }
+        await this._embedURLContent(selectedRows, data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
         this._fetchIndexStats(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
     }
     /** scrape URLs for embedding
@@ -390,7 +409,7 @@ export class EmbeddingApp extends BaseApp {
 
         const json = await fResult.json();
         this.upsertFileResults = json.fileUploadResults;
-        this.applyUpsertResultsToStore();
+        this.applyUpsertResultsToStore(fileList);
 
         this.embeddingRunning = false;
         const count = this.upsertFileResults.length;
@@ -623,14 +642,16 @@ export class EmbeddingApp extends BaseApp {
         this.document_list_file_name.innerHTML = fileName;
         this.saveUpsertRows(true);
     }
-    /** */
-    async applyUpsertResultsToStore() {
+    /**
+     * @param { Array<any> } upsertArray
+    */
+    async applyUpsertResultsToStore(upsertArray: Array<any>) {
         const dt = new Date().toISOString();
         this.upsertFileResults.forEach((row: any, index: number) => {
-            this.fileListToUpload[index]["pineconeTitle"] = row["title"];
-            this.fileListToUpload[index]["pineconeId"] = row["id"];
-            this.fileListToUpload[index]["size"] = row["textSize"];
-            this.fileListToUpload[index]["upsertedDate"] = dt;
+            upsertArray[index]["pineconeTitle"] = row["title"];
+            upsertArray[index]["pineconeId"] = row["id"];
+            upsertArray[index]["size"] = row["textSize"];
+            upsertArray[index]["upsertedDate"] = dt;
             firebase.firestore().doc(`Users/${this.uid}/embedding/doclist/responses/${index}`).set(row, {
                 merge: true,
             });
@@ -729,6 +750,7 @@ export class EmbeddingApp extends BaseApp {
                 this.csvUploadDocumentsTabulator.setData(this.fileListToUpload);
                 console.log(this.fileListToUpload);
                 this.updateTableSelectAllIcon();
+                this.table_row_count.innerHTML = this.fileListToUpload.length;
             });
     }
     /**
