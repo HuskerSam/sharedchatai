@@ -1,0 +1,2 @@
+cd functions
+tsc --watch
