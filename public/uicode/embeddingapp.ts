@@ -203,7 +203,7 @@ export class EmbeddingApp extends BaseApp {
                 this.saveUpsertRows();
             }
         });
-        this.upload_embedding_documents_btn.addEventListener("click", () => this.embedURLContent());
+        this.upload_embedding_documents_btn.addEventListener("click", () => this.upsertTableRowsToPinecone());
         this.run_prompt.addEventListener("click", () => this.queryEmbeddings());
         this.delete_index.addEventListener("click", () => this.deleteIndex());
         this.copy_results_to_clipboard.addEventListener("click", () => {
@@ -356,7 +356,7 @@ export class EmbeddingApp extends BaseApp {
         }
     }
     /** */
-    async embedURLContent() {
+    async upsertTableRowsToPinecone() {
         const data = this.scrapeData();
         const selectedRows: Array<any> = [];
         this.fileListToUpload.forEach((row: any) => {
@@ -366,7 +366,7 @@ export class EmbeddingApp extends BaseApp {
             alert("no rows selected to upsert");
             return;
         }
-        await this._embedURLContent(selectedRows, data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
+        await this._upsertTableRowsToPinecone(selectedRows, data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
         this._fetchIndexStats(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
     }
     /** scrape URLs for embedding
@@ -375,7 +375,7 @@ export class EmbeddingApp extends BaseApp {
      * @param { string } pineconeKey
      * @param { string } pineconeEnvironment
     */
-    async _embedURLContent(fileList: Array<any>, batchId: string, pineconeKey: string, pineconeEnvironment: string) {
+    async _upsertTableRowsToPinecone(fileList: Array<any>, batchId: string, pineconeKey: string, pineconeEnvironment: string) {
         if (!firebase.auth().currentUser) {
             alert("login on homepage to use this");
             return;
@@ -624,7 +624,6 @@ export class EmbeddingApp extends BaseApp {
     async uploadUpsertListFile() {
         const importData = await ChatDocument.getImportDataFromDomFile(this.embedding_list_file_dom);
 
-        this.fileListToUpload = [];
         const uploadDate = new Date().toISOString();
         importData.forEach((item: any) => {
             item.uploadedDate = uploadDate;
@@ -632,6 +631,7 @@ export class EmbeddingApp extends BaseApp {
             columnsToVerify.forEach((key: string) => {
                 if (!item[key]) item[key] = "";
             });
+            item.include = !(item.include === "false"); //catch the exported case otherwise include by default
             this.fileListToUpload.push(item);
         });
 
@@ -651,6 +651,7 @@ export class EmbeddingApp extends BaseApp {
             upsertArray[index]["pineconeId"] = row["id"];
             upsertArray[index]["size"] = row["textSize"];
             upsertArray[index]["upsertedDate"] = dt;
+            upsertArray[index]["include"] = false;
             firebase.firestore().doc(`Users/${this.uid}/embedding/doclist/responses/${row.row}`).set(row, {
                 merge: true,
             });
