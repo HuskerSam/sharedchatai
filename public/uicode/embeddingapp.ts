@@ -39,7 +39,6 @@ export class EmbeddingApp extends BaseApp {
     fileUpsertListFirestore: any = null;
     queryDocumentsResultRows: any = [];
     fileListToUpload: Array<any> = [];
-    upsertFileResults: Array<any> = [];
     pineconeQueryResults: any = {};
     csvUploadDocumentsTabulator: any = null;
     embeddingRunning = false;
@@ -250,7 +249,7 @@ export class EmbeddingApp extends BaseApp {
      * @param { boolean } csv
     */
     downloadResultsFile(csv = false) {
-        if (!this.upsertFileResults || this.upsertFileResults.length === 0) {
+        if (!this.fileListToUpload || this.fileListToUpload.length === 0) {
             alert("no results to download");
             return;
         }
@@ -259,11 +258,11 @@ export class EmbeddingApp extends BaseApp {
         let fileName = "";
         if (csv) {
             fileName = "upsertResults.csv";
-            resultText = window.Papa.unparse(this.upsertFileResults);
+            resultText = window.Papa.unparse(this.fileListToUpload);
         } else {
             type = "application/json";
             fileName = "upsertResults.json";
-            resultText = JSON.stringify(this.upsertFileResults, null, "  ");
+            resultText = JSON.stringify(this.fileListToUpload, null, "  ");
         }
 
         const file = new File([resultText], fileName, {
@@ -385,7 +384,6 @@ export class EmbeddingApp extends BaseApp {
             alert("already running");
             return;
         }
-        this.upsertFileResults = [];
         this.upsert_result_status_bar.innerHTML = "processing document list...";
         this.embeddingRunning = true;
         const body = {
@@ -408,14 +406,14 @@ export class EmbeddingApp extends BaseApp {
         });
 
         const json = await fResult.json();
-        this.upsertFileResults = json.fileUploadResults;
-        this.applyUpsertResultsToStore(fileList);
+        const upsertFileResults = json.fileUploadResults;
+        this.applyUpsertResultsToStore(fileList, upsertFileResults);
 
         this.embeddingRunning = false;
-        const count = this.upsertFileResults.length;
+        const count = upsertFileResults.length;
         let errors = 0;
         let credits = 0;
-        this.upsertFileResults.forEach((result: any) => {
+        upsertFileResults.forEach((result: any) => {
             if (result.errorMessage) errors++;
             else credits += result.encodingCredits;
         });
@@ -644,15 +642,16 @@ export class EmbeddingApp extends BaseApp {
     }
     /**
      * @param { Array<any> } upsertArray
+     * @param { Array<any> } upsertResults
     */
-    async applyUpsertResultsToStore(upsertArray: Array<any>) {
+    async applyUpsertResultsToStore(upsertArray: Array<any>, upsertResults: Array<any>) {
         const dt = new Date().toISOString();
-        this.upsertFileResults.forEach((row: any, index: number) => {
+        upsertResults.forEach((row: any, index: number) => {
             upsertArray[index]["pineconeTitle"] = row["title"];
             upsertArray[index]["pineconeId"] = row["id"];
             upsertArray[index]["size"] = row["textSize"];
             upsertArray[index]["upsertedDate"] = dt;
-            firebase.firestore().doc(`Users/${this.uid}/embedding/doclist/responses/${index}`).set(row, {
+            firebase.firestore().doc(`Users/${this.uid}/embedding/doclist/responses/${row.row}`).set(row, {
                 merge: true,
             });
         });
@@ -748,7 +747,6 @@ export class EmbeddingApp extends BaseApp {
                     item.row = (index + 1).toString();
                 });
                 this.csvUploadDocumentsTabulator.setData(this.fileListToUpload);
-                console.log(this.fileListToUpload);
                 this.updateTableSelectAllIcon();
                 this.table_row_count.innerHTML = this.fileListToUpload.length;
             });
@@ -766,7 +764,6 @@ export class EmbeddingApp extends BaseApp {
     updateTableSelectAllIcon() {
         let selectAllIcon = `☒`;
         if (this.isAllTableRowsSelected()) selectAllIcon = `☐`;
-        console.log(selectAllIcon);
         this.csvUploadDocumentsTabulator.columnManager.columns[0].titleElement.innerHTML = selectAllIcon;
     }
     /** */
