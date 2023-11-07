@@ -106,17 +106,17 @@ export class EmbeddingApp extends BaseApp {
                 }, {
                     title: "options",
                     field: "options",
-                    editor: "input",
+                    editor: "textarea",
                     width: 100,
                 }, {
                     title: "text",
                     field: "text",
-                    editor: "input",
+                    editor: "textarea",
                     width: 100,
                 }, {
                     title: "prefix",
                     field: "prefix",
-                    editor: "input",
+                    editor: "textarea",
                     width: 100,
                 }, {
                     title: "uploaded",
