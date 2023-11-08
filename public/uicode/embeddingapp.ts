@@ -36,6 +36,7 @@ export class EmbeddingApp extends BaseApp {
     delete_selected_row_btn: any = document.querySelector(".delete_selected_row_btn");
     add_row_btn: any = document.querySelector(".add_row_btn");
     table_row_count: any = document.querySelector(".table_row_count");
+    validate_selected_rows_btn: any = document.querySelector(".validate_selected_rows_btn");
     fileUpsertListFirestore: any = null;
     queryDocumentsResultRows: any = [];
     fileListToUpload: Array<any> = [];
@@ -159,6 +160,12 @@ export class EmbeddingApp extends BaseApp {
                         return `<i class="material-icons">content_copy</i>`;
                     },
                     hozAlign: "center",
+                }, {
+                    title: "Validation",
+                    field: "validation",
+                }, {
+                    title: "Error",
+                    field: "upsertError",
                 },
             ],
         });
@@ -239,6 +246,8 @@ export class EmbeddingApp extends BaseApp {
         this.delete_selected_row_btn.addEventListener("click", () => this.deleteSelectedRows());
         this.add_row_btn.addEventListener("click", () => this.addEmptyTableRow());
         this.updateQueriedDocumentList();
+
+        this.validate_selected_rows_btn.addEventListener("click", () => this.validateSelectedRows());
     }
     /** */
     copyQueryResultsToClipboard() {
@@ -716,9 +725,12 @@ export class EmbeddingApp extends BaseApp {
                 if (!clone.pineconeTitle) clone.pineconeTitle = "";
                 if (!clone.size) clone.size = "";
                 if (!clone.upsertedDate) clone.upsertedDate = "";
+                if (!clone.validation) clone.validation = "";
+                if (!clone.upsertError) clone.upsertError = "";
                 clone.include = clone.include === true;
                 upsertList.push(clone);
             });
+            console.log(upsertList);
             await firebase.firestore().doc(`Users/${this.uid}/embedding/doclist`).set({
                 upsertList,
             }, {
@@ -791,5 +803,65 @@ export class EmbeddingApp extends BaseApp {
             uploadedDate: new Date().toISOString(),
         });
         this.saveUpsertRows(true);
+    }
+    /** detect duplicate ids, rows without id,text or a url */
+    validateSelectedRows() {
+        let validationResults = "";
+        const selectedIndexes = this.getSelectedTableIndexes();
+
+        if (selectedIndexes.length === 0) {
+            validationResults = "No rows selected to validate";
+        } else {
+            const idStore: Array<String> = [];
+            this.fileListToUpload.forEach((row: any) => idStore.push(this.resolveTableRowUpsertId(row)));
+    
+            const invalidRows: Array<number> = [];
+            selectedIndexes.forEach((selectedIndex: number) => {
+                const selectedId = idStore[selectedIndex];
+                let validationMessage = "";
+                if (selectedId === "") {
+                    validationMessage = "No url or id supplied";
+                    invalidRows.push(selectedIndex);
+                } else {
+                    const duplicates: Array<number> = [];
+                    idStore.forEach((id: String, index: number) => {
+                        if (id === selectedId && index !== selectedIndex) duplicates.push(index);
+                    });
+                    if (duplicates.length > 0) {
+                        let dupRows = "";
+                        duplicates.forEach((dupIndex: number) => dupRows += (dupIndex + 1).toString() + ",");
+                        validationMessage = "Duplicate rows " + dupRows;
+                        invalidRows.push(selectedIndex);
+                        console.log(selectedIndex, selectedId);
+                    }
+                }
+                this.fileListToUpload[selectedIndex].validation = validationMessage;
+            });
+
+            if (invalidRows.length === 0) {
+                validationResults = "Selected rows have unique ids or urls";
+            } else {
+                let invalidRowsStr = "";
+                invalidRows.forEach((dupIndex: number) => invalidRowsStr += (dupIndex + 1).toString() + ",");
+                validationResults = "Invalid rows: " + invalidRowsStr;
+            }
+        }
+        this.saveUpsertRows(true);
+        this.upsert_result_status_bar.innerHTML = validationResults;
+    }
+    /** */
+    resolveTableRowUpsertId(row: any) {
+        let id = "";
+        if (row.id) id = row.id;
+        if (!id && row.url) id = encodeURIComponent(row.url.trim());
+        return id;
+    }
+    /** */
+    getSelectedTableIndexes(): Array<number> {
+        const selected: Array<number> = [];
+        for (let c = 0, l = this.fileListToUpload.length; c < l; c++) {
+            if (this.fileListToUpload[c].include) selected.push(c);
+        }
+        return selected;
     }
 }

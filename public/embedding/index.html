@@ -124,13 +124,17 @@
                 style="overflow:hidden;display:flex;text-align: left;flex: 1;flex-direction: column;">
                 <div class="tab-pane fade show active" id="upsert_embedding_tab_view" role="tabpanel"
                     aria-labelledby="upsert_embedding_tab_btn"
-                    style="flex:1;display:flex;flex-direction: column;overflow:hidden;">
+                    style="flex:1;flex-direction: column;overflow:hidden;">
                     <div style="flex:1;overflow: auto;">
                         <div class="preview_embedding_documents_table"></div>
                     </div>
                     <div style="display:flex;flex-direction:row">
                         <div class="upsert_result_status_bar"></div>
                         <div style="padding: 8px;">
+                            <button class="btn btn-primary validate_selected_rows_btn">
+                                <i class="material-icons">rule_folder</i> <span>Validate Selected</span>
+                            </button>
+                            &nbsp;
                             <button class="btn btn-primary upload_document_list_button">
                                 <i class="material-icons">upload_file</i> <span>Upload Rows</span>
                             </button>

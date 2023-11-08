@@ -122,3 +122,7 @@ table tr td.table_cell_sizer {
   word-break: normal;
   white-space: nowrap;
 }
+
+#upsert_embedding_tab_view.active.show {
+  display: flex;
+}
