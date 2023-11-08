@@ -640,7 +640,7 @@ export class EmbeddingApp extends BaseApp {
             columnsToVerify.forEach((key: string) => {
                 if (!item[key]) item[key] = "";
             });
-            item.include = !(item.include === "false"); //catch the exported case otherwise include by default
+            item.include = !(item.include === "false"); // catch the exported case otherwise include by default
             this.fileListToUpload.push(item);
         });
 
@@ -812,9 +812,9 @@ export class EmbeddingApp extends BaseApp {
         if (selectedIndexes.length === 0) {
             validationResults = "No rows selected to validate";
         } else {
-            const idStore: Array<String> = [];
+            const idStore: Array<string> = [];
             this.fileListToUpload.forEach((row: any) => idStore.push(this.resolveTableRowUpsertId(row)));
-    
+
             const invalidRows: Array<number> = [];
             selectedIndexes.forEach((selectedIndex: number) => {
                 const selectedId = idStore[selectedIndex];
@@ -824,7 +824,7 @@ export class EmbeddingApp extends BaseApp {
                     invalidRows.push(selectedIndex);
                 } else {
                     const duplicates: Array<number> = [];
-                    idStore.forEach((id: String, index: number) => {
+                    idStore.forEach((id: string, index: number) => {
                         if (id === selectedId && index !== selectedIndex) duplicates.push(index);
                     });
                     if (duplicates.length > 0) {
@@ -849,14 +849,19 @@ export class EmbeddingApp extends BaseApp {
         this.saveUpsertRows(true);
         this.upsert_result_status_bar.innerHTML = validationResults;
     }
-    /** */
-    resolveTableRowUpsertId(row: any) {
+    /**
+     * @param { any } row
+     * @return { string }
+    */
+    resolveTableRowUpsertId(row: any): string {
         let id = "";
         if (row.id) id = row.id;
         if (!id && row.url) id = encodeURIComponent(row.url.trim());
         return id;
     }
-    /** */
+    /**
+     * @return { Array<number> }
+     */
     getSelectedTableIndexes(): Array<number> {
         const selected: Array<number> = [];
         for (let c = 0, l = this.fileListToUpload.length; c < l; c++) {

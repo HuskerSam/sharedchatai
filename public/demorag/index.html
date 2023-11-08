@@ -18,16 +18,6 @@
       width: 100%;
       height: 5em;
     }
-
-    .feed_item_raw_data {
-      white-space: pre-wrap;
-      max-height: 5em;
-      overflow: auto;
-      padding: 10px;
-      border: solid 1px silver;
-      margin: 8px;
-      background: rgb(230, 230, 230);
-    }
   </style>
   <script>
     let running = false;
@@ -59,15 +49,33 @@
       items.forEach((item, index) => {
         const itemDom = document.createElement("div");
         itemDom.classList.add("feed_item");
-        const itemJson = JSON.stringify(item, null, "\t");
         const ticketResponse = item.assist.assist.choices["0"].message.content;
         itemDom.innerHTML = `<div class="feed_item_header">Prompt:
 ${item.ticket.message}</div>
         <div class="feed_item_response">Response:
 ${ticketResponse}</div>
-          <div class="feed_item_raw_data">${itemJson}</div>`;
+          <div class="feed_item_table_wrapper styled_csv_table"></div>`;
+        const tblWrapper = itemDom.querySelector(".feed_item_table_wrapper");
+        getDocumentTableHTML(item.embeddings.embeddingResult.matches, tblWrapper);
         response_feed.insertBefore(itemDom, response_feed.firstChild);
       });
+    }
+
+    function escapeHTML(str) {
+      if (str === undefined || str === null) str = "";
+      str = str.toString();
+      return str.replace(/[&<>'"]/g,
+        (match) => {
+          switch (match) {
+            case "&": return "&amp;";
+            case "<": return "&lt;";
+            case ">": return "&gt;";
+            case "'": return "&#39;";
+            case "\"": return "&quot;";
+          }
+
+          return match;
+        });
     }
 
     async function pushToStorage(item) {
@@ -115,6 +123,7 @@ ${ticketResponse}</div>
           console.log("error", result);
           alert(result.errorMessage);
         }
+        console.log(body, result);
         message_text.value = "";
         pushToStorage(result);
       });
@@ -123,6 +132,48 @@ ${ticketResponse}</div>
         localStorage.clear();
         renderFromStorage();
       })
+    }
+
+    function getDocumentTableHTML(docRowsArray, ele) {
+      let fileContent = "<table class=\"query_result_documents_list\">";
+      const keys = ["similarity", "id", "url", "title", "text", "copy", "size", "encodingCredits"];
+      fileContent += "<tr>";
+      fileContent += `<th>row</th>`;
+      keys.forEach((key) => fileContent += `<th>${key}</th>`);
+      fileContent += "</tr>";
+
+      docRowsArray.forEach((row, index) => {
+        fileContent += "<tr>";
+        fileContent += `<th>${index + 1}</th>`;
+        const newRow = {};
+        keys.forEach((key) => {
+          let value = row.metadata[key];
+          const rawValue = value;
+          value = escapeHTML(value);
+          if (key === "id") value = row.id;
+          if (key === "similarity") value = row.score;
+          if (key === "encodingCredits") value = rawValue.toString().substring(0, 6);
+          if (key === "size") value = row.metadata.text.length;
+          if (key === "url") value = `<a href="${rawValue}" target="_blank">${rawValue}</a>`;
+          if (key === "copy") {
+            value = `<button data-index="${index}" class="btn btn-secondary 
+                       doc_text_copy_btn">json</button>`;
+          }
+          fileContent += `<td class="table_cell_sizer"><div>${value}</div></td>`;
+          newRow[key] = value;
+        });
+        fileContent += "</tr>";
+      });
+
+      fileContent += `</table>`;
+      ele.innerHTML = fileContent;
+      ele.querySelectorAll(".doc_text_copy_btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const index = btn.dataset.index;
+          const row = docRowsArray[index];
+          navigator.clipboard.writeText(row.metadata.text);
+        });
+      });
     }
   </script>
 </head>
@@ -136,6 +187,100 @@ ${ticketResponse}</div>
   <button class="submit_button">Submit</button>
   <hr>
   <div class="response_feed"></div>
+  <style>
+    .feed_item_table_wrapper {
+      max-height: 30vh;
+      overflow: auto;
+    }
+    .styled_csv_table {
+      width: 100%;
+      flex: 1;
+      overflow: auto;
+      border: solid 1px var(--secondary-color-4);
+      margin-bottom: 12px;
+      max-height: 50vh;
+      min-height: 10vh;
+    }
+    
+    .styled_csv_table table {
+  border: solid 1px silver;
+  width: 100%;
+  position: relative;
+}
+
+.styled_csv_table table th {
+  background-color: var(--background-accent-5);
+  /*
+  border-right: solid 1px var(--secondary-color-4);
+  border-top: solid 1px var(--secondary-color-4);
+  border-bottom: solid 1px var(--secondary-color-4);
+  */
+  border: solid 1px var(--secondary-color-4);
+  padding: 4px;
+  text-align: center;
+  padding-right: 12px;
+}
+
+.styled_csv_table table td {
+  white-space: pre-wrap;
+  background-color: var(--background-accent);
+  /*
+  border-right: solid 1px var(--secondary-color-4);
+  border-bottom: solid 1px var(--secondary-color-4);
+  */
+  border: solid 1px var(--secondary-color-4);
+  padding: 4px;
+  padding-right: 12px;
+}
+
+.styled_csv_table tr:first-child th {
+  position: sticky;
+  top: -1px;
+}
+
+.styled_csv_table th:nth-child(6),
+.styled_csv_table td:nth-child(6) {
+  width: 40%;
+}
+
+.styled_csv_table th:nth-child(1) {
+  width: 20px;
+}
+
+.table_cell_sizer div {
+  max-height: 100px;
+  overflow: auto;
+  padding: 2px;
+}
+
+table tr td.table_cell_sizer {
+  padding: 0;
+  word-break: break-all;
+}
+
+    .styled_csv_table table td:nth-child(2),
+    .styled_csv_table table td:nth-child(3) {
+      word-break: break-all;
+    }
+
+    .styled_csv_table table td button {
+      word-break: normal;
+      white-space: nowrap;
+    }
+
+    
+.query_result_documents_list td:nth-child(2) {
+  padding: 8px;
+  width: 22em;
+}
+
+.btn i {
+  position: relative;
+  font-size: 20px;
+  top: 4px;
+}
+
+  </style>
 </body>
 
 </html>
