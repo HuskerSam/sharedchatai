@@ -42,6 +42,7 @@ export class EmbeddingApp extends BaseApp {
     parse_url_path_input: any = document.querySelector(".parse_url_path_input");
     parse_url_text_results: any = document.querySelector(".parse_url_text_results");
     parse_url_path_options: any = document.querySelector(".parse_url_path_options");
+    parse_embedding_tab_btn: any = document.querySelector("#parse_embedding_tab_btn");
     fileUpsertListFirestore: any = null;
     queryDocumentsResultRows: any = [];
     fileListToUpload: Array<any> = [];
@@ -98,7 +99,7 @@ export class EmbeddingApp extends BaseApp {
                 {
                     title: "url",
                     field: "url",
-                    editor: "input",
+                    editor: "textarea",
                     width: 250,
                 }, {
                     title: "id",
@@ -125,6 +126,13 @@ export class EmbeddingApp extends BaseApp {
                     field: "prefix",
                     editor: "textarea",
                     width: 100,
+                }, {
+                    title: "parser",
+                    field: "parser",
+                    headerSort: false,
+                    formatter: () => {
+                        return `<i class="material-icons">start</i>`;
+                    },
                 }, {
                     title: "uploaded",
                     field: "uploadedDate",
@@ -193,6 +201,12 @@ export class EmbeddingApp extends BaseApp {
                     .doc(`Users/${this.uid}/embedding/doclist/responses/${rowIndex}`).get();
                 const responseData = responseQuery.data();
                 navigator.clipboard.writeText(responseData.text);
+            }
+            if (field === "parser") {
+                this.parse_url_path_input.value = data.url;
+                this.parse_url_path_options.value = data.options;
+                this.parse_embedding_tab_btn.click();
+                this.parse_url_parse_button.click();
             }
         });
         this.csvUploadDocumentsTabulator.on("cellEdited", async (cell: any) => {
@@ -756,12 +770,14 @@ export class EmbeddingApp extends BaseApp {
                 const clone = Object.assign({}, row);
                 delete clone.copyJSON;
                 delete clone.copyText;
+                delete clone.parser;
                 delete clone.row;
                 if (!clone.pineconeId) clone.pineconeId = "";
                 if (!clone.pineconeTitle) clone.pineconeTitle = "";
                 if (!clone.size) clone.size = "";
                 if (!clone.upsertedDate) clone.upsertedDate = "";
                 if (!clone.validation) clone.validation = "";
+                if (!clone.parser) clone.parser = "";
                 if (!clone.upsertError) clone.upsertError = "";
                 clone.include = clone.include === true;
                 upsertList.push(clone);
