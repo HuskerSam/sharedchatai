@@ -133,5 +133,22 @@ table tr td.table_cell_sizer {
 }
 
 .parse_stretch_div div {
-  padding: 8px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.parse_url_text_results {
+  height: 150px;
+  margin: 4px;
+  width: calc(100% - 16px)
+}
+
+.chunked_text_results_table td:nth-child(3),
+.chunked_text_results_table th:nth-child(3) {
+  width: 6em;
+}
+
+.chunked_text_results_table td:nth-child(2),
+.chunked_text_results_table th:nth-child(2) {
+  width: auto;
 }

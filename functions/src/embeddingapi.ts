@@ -10,6 +10,7 @@ import fetch from "cross-fetch";
 import {
     Pinecone,
 } from "@pinecone-database/pinecone";
+import { embeddingApi } from ".";
 
 /** handle scraping webpages and embedding contents in pinecone */
 export default class EmbeddingAPI {
@@ -68,6 +69,26 @@ export default class EmbeddingAPI {
         });
     }
     /**
+    * @param { Request } req http request object
+    * @param { Response } res http response object
+    */
+    static async scrapeURL(req: Request, res: Response) {
+        const authResults = await BaseClass.validateCredentials(<string>req.headers.token);
+        if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
+
+        const localInstance = BaseClass.newLocalInstance();
+        await localInstance.init();
+
+        const url = req.body.url;
+        const options = req.body.options;
+        const result = await EmbeddingAPI._scrapeURL(url, options);
+
+        return res.status(200).send({
+            success: true,
+            result,
+        });
+    }
+    /**
      * @param { string } options string with options split by || and key=value entries
      * @return { any }
      */
@@ -108,7 +129,7 @@ export default class EmbeddingAPI {
                 .replace(/[ \t]+/g, " ")
                 .replace(/\n{2,}/g, "\n")
                 .trim();
-            text = text.substring(0, 100000);
+            text = text.substring(0, 10000000);
 
             cheerioQuery("title").each((index: number, element: any) => {
                 if (!title) title = cheerioQuery(element).text().trim();

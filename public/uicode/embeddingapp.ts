@@ -37,6 +37,11 @@ export class EmbeddingApp extends BaseApp {
     add_row_btn: any = document.querySelector(".add_row_btn");
     table_row_count: any = document.querySelector(".table_row_count");
     validate_selected_rows_btn: any = document.querySelector(".validate_selected_rows_btn");
+    chunking_results_wrapper: any = document.querySelector(".chunking_results_wrapper");
+    parse_url_parse_button: any = document.querySelector(".parse_url_parse_button");
+    parse_url_path_input: any = document.querySelector(".parse_url_path_input");
+    parse_url_text_results: any = document.querySelector(".parse_url_text_results");
+    parse_url_path_options: any = document.querySelector(".parse_url_path_options");
     fileUpsertListFirestore: any = null;
     queryDocumentsResultRows: any = [];
     fileListToUpload: Array<any> = [];
@@ -49,6 +54,7 @@ export class EmbeddingApp extends BaseApp {
     pineConeInited = false;
     saveChangesTimer: any = null;
     editableTableFields = ["include", "row", "url", "id", "title", "options", "text", "prefix"];
+    resultChunks: Array<any> = [];
 
     /** */
     constructor() {
@@ -248,6 +254,36 @@ export class EmbeddingApp extends BaseApp {
         this.updateQueriedDocumentList();
 
         this.validate_selected_rows_btn.addEventListener("click", () => this.validateSelectedRows());
+        this.parse_url_parse_button.addEventListener("click", () => this.scrapeSingleURL());
+        this.updateResultChunksTable();
+    }
+    /** */
+    async scrapeSingleURL() {
+        let url = this.parse_url_path_input.value;
+        let options = this.parse_url_path_options.value;
+        if (!url) {
+            alert("URL required");
+            return;
+        }
+
+        const body = {
+            url,
+            options,
+        };
+
+        const token = await firebase.auth().currentUser.getIdToken();
+        const fResult = await fetch(this.basePath + "embeddingApi/scrapeurl", {
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            headers: {
+                "Content-Type": "application/json",
+                token,
+            },
+            body: JSON.stringify(body),
+        });
+        const result = await fResult.json();
+        this.parse_url_text_results.value = result.result.text;
     }
     /** */
     copyQueryResultsToClipboard() {
@@ -868,5 +904,41 @@ export class EmbeddingApp extends BaseApp {
             if (this.fileListToUpload[c].include) selected.push(c);
         }
         return selected;
+    }
+    /** */
+    updateResultChunksTable() {
+        let fileContent = "<table class=\"chunked_text_results_table\">";
+        const keys = ["text", "tokens"];
+        fileContent += "<tr>";
+        fileContent += `<th>row</th>`;
+        keys.forEach((key: string) => fileContent += `<th>${key}</th>`);
+        fileContent += "</tr>";
+
+        this.queryDocumentsResultRows.forEach((row: any, index: number) => {
+            fileContent += "<tr>";
+            fileContent += `<th>${index + 1}</th>`;
+            const newRow: any = {};
+            keys.forEach((key: string) => {
+                let value = row.metadata[key];
+                const rawValue = value;
+                value = BaseApp.escapeHTML(value);
+                if (key === "id") value = row.id;
+                if (key === "similarity") value = row.score;
+                if (key === "encodingCredits") value = rawValue.toString().substring(0, 6);
+                if (key === "size") value = row.metadata.text.length;
+                if (key === "url") value = `<a href="${rawValue}" target="_blank">${rawValue}</a>`;
+                if (key === "copy") {
+                    value = `<button data-index="${index}" class="btn btn-secondary 
+                       doc_text_copy_btn"><i class="material-icons">content_copy</i></button>`;
+                }
+                fileContent += `<td class="table_cell_sizer"><div>${value}</div></td>`;
+                newRow[key] = value;
+            });
+            fileContent += "</tr>";
+        });
+
+        fileContent += `</table>`;
+
+        this.chunking_results_wrapper.innerHTML = fileContent;
     }
 }

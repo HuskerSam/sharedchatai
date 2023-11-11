@@ -237,14 +237,38 @@
                 </div>
                 <div class="tab-pane fade" id="parse_embedding_tab_view" role="tabpanel"
                     aria-labelledby="parse_embedding_tab_btn">
+                    <br>
+                    <h4>Enter URL (html or pdf) to parse</h4>
                     <div class="parse_stretch_div">
+                        <div style="padding-top:6px;">URL</div>
                         <div style="flex:1">
                             <input type="text" class="parse_url_path_input form-control">
+                        </div>
+                        <div style="padding-top:6px;">
+                            Options
+                        </div>
+                        <div>
+                            <input type="text" class="parse_url_path_options form-control">
                         </div>
                         <div>
                             <button class="parse_url_parse_button btn btn-primary">Parse</button>
                         </div>
                     </div>
+                    <h4>Parsed Text Results</h4>
+                    <textarea class="form-control parse_url_text_results"></textarea>
+                    <h4>Splice into chunks</h4>
+                    <div class="parse_stretch_div">
+                        <div>
+                            <input type="text" class="parse_url_chunk_tokens form-control">
+                        </div>
+                        <div style="padding-top:6px;">max size (tokens)</div>
+                        <div>
+                            <button class="parse_chunks_parse_button btn btn-primary">Chunk</button>
+                        </div>
+                        <div style="flex:1"></div>
+                    </div>
+                    <h4>Chunked Results</h4>
+                    <div class="chunking_results_wrapper styled_csv_table"></div>
                 </div>
                 <div class="tab-pane fade" id="help_embedding_tab_view" role="tabpanel"
                     aria-labelledby="help_embedding_tab_btn">
