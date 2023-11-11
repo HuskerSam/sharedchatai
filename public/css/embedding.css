@@ -126,3 +126,16 @@ table tr td.table_cell_sizer {
 #upsert_embedding_tab_view.active.show {
   display: flex;
 }
+
+.parse_stretch_div {
+  display: flex;
+  flex-direction: row;
+}
+
+.parse_stretch_div div {
+  padding: 8px;
+}
+
+.parse_stretch_div input {
+  margin: 8px;
+}

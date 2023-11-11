@@ -62,23 +62,23 @@
                     </a>
                 </li>
                 <li style=" flex:1;background:none;" class="app_panel">
-                    <div class="pinecone_status_bar">
-                        <div style="min-width:15em;font-size:0.65em">
-                            <b>Pinecone Index: </b>
-                            <span class="pinecone_index_name"></span>
-                            <br>
-                            <b>Vectors: </b>
-                            <span class="pinecone_index_count"></span>
-                            <br>
-                            <b>Upsert Rows: </b>
-                            <span class="table_row_count"></span>
-                        </div>
-                        <div style="padding-bottom: 12px;">
-                            &nbsp;
-                            <button class="btn btn-primary fetch_pinecone_index_stats_btn">Fetch
-                                Stats</button>
-                        </div>
-                    </div>
+                                <div class="pinecone_status_bar">
+                                    <div style="min-width:15em;font-size:0.65em">
+                                        <b>Pinecone Index: </b>
+                                        <span class="pinecone_index_name"></span>
+                                        <br>
+                                        <b>Vectors: </b>
+                                        <span class="pinecone_index_count"></span>
+                                        <br>
+                                        <b>Upsert Rows: </b>
+                                        <span class="table_row_count"></span>
+                                    </div>
+                                    <div style="padding-bottom: 12px;">
+                                        &nbsp;
+                                        <button class="btn btn-primary fetch_pinecone_index_stats_btn">Fetch
+                                            Stats</button>
+                                    </div>
+                                </div>
                 </li>
                 <li class="nav-item signed_out_flex">
                     <a class="signin_show_modal hover_yellow btn btn-primary px-4" href="login" type="button">Login
@@ -116,6 +116,11 @@
                         role="tab" aria-controls="test_embedding_tab_view" aria-selected="false">Test</a>
                 </li>
                 <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="parse_embedding_tab_btn" data-bs-toggle="tab"
+                        href="#parse_embedding_tab_view" role="tab" aria-controls="pase_embedding_tab_view"
+                        aria-selected="false">Parse</a>
+                </li>
+                <li class="nav-item" role="presentation">
                     <a class="nav-link" id="help_embedding_tab_btn" data-bs-toggle="tab" href="#help_embedding_tab_view"
                         role="tab" aria-controls="help_embedding_tab_view" aria-selected="false">Help</a>
                 </li>
@@ -123,8 +128,7 @@
             <div class="tab-content"
                 style="overflow:hidden;display:flex;text-align: left;flex: 1;flex-direction: column;">
                 <div class="tab-pane fade show active" id="upsert_embedding_tab_view" role="tabpanel"
-                    aria-labelledby="upsert_embedding_tab_btn"
-                    style="flex:1;flex-direction: column;overflow:hidden;">
+                    aria-labelledby="upsert_embedding_tab_btn" style="flex:1;flex-direction: column;overflow:hidden;">
                     <div style="flex:1;overflow: auto;">
                         <div class="preview_embedding_documents_table"></div>
                     </div>
@@ -229,6 +233,15 @@
                         &nbsp;
                         <button class="copy_resultdoclist_to_clipboard btn btn-primary"><i
                                 class="material-icons">content_copy</i> JSON</button>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="parse_embedding_tab_view" role="tabpanel"
+                    aria-labelledby="parse_embedding_tab_btn">
+                    <div class="parse_stretch_div">
+                        <input type="text" class="parse_url_path_input" style="flex:1">
+                        <div>
+                            <button class="parse_url_parse_button btn btn-primary">Parse</button>
+                        </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="help_embedding_tab_view" role="tabpanel"
