@@ -40,6 +40,8 @@
 
     <script>
         window.addEventListener("load", async (event) => {
+            window.gpt3tokenizer = await import('/models/gpttokenizer.js');
+
             let module = await import("/models/embeddingapp.js");
             window.EmbeddingApp = new module.EmbeddingApp();
         });
@@ -236,7 +238,7 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="parse_embedding_tab_view" role="tabpanel"
-                    aria-labelledby="parse_embedding_tab_btn">
+                    aria-labelledby="parse_embedding_tab_btn" style="overflow:auto;">
                     <br>
                     <h4>Enter URL (html or pdf) to parse</h4>
                     <div class="parse_stretch_div">
@@ -254,12 +256,12 @@
                             <button class="parse_url_parse_button btn btn-primary">Parse</button>
                         </div>
                     </div>
-                    <h4>Parsed Text Results</h4>
+                    <h4 class="parsed_text_results_h4">Parsed Text Results</h4>
                     <textarea class="form-control parse_url_text_results"></textarea>
                     <h4>Splice into chunks</h4>
                     <div class="parse_stretch_div">
                         <div>
-                            <input type="text" class="parse_url_chunk_tokens form-control">
+                            <input type="text" class="parse_url_chunk_tokens form-control" value="1000">
                         </div>
                         <div style="padding-top:6px;">max size (tokens)</div>
                         <div>

@@ -122,8 +122,6 @@ export class SessionApp extends BaseApp {
   currentSystemMessage = "";
   editedTicketId = "";
 
-  tokenizedStringCache: any = {};
-
   /**  */
   constructor() {
     super(false, false);
@@ -1209,20 +1207,6 @@ export class SessionApp extends BaseApp {
       }
     });
     return tickets.reverse();
-  }
-  /**
-   * @param { string } value text fragment
-   * @return { any } length and token array
-  */
-  getEncodedToken(value: any): any {
-    let str = "";
-    if (value !== undefined) str = value;
-    if (!this.tokenizedStringCache[str]) {
-      this.tokenizedStringCache[str] = window.gpt3tokenizer.encode(str);
-      if (!this.tokenizedStringCache[str]) this.tokenizedStringCache[str] = [];
-    }
-
-    return this.tokenizedStringCache[str];
   }
   /** lookup token usage
    * @param { string } assistId ticket id to check for assist

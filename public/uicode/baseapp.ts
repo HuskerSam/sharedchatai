@@ -62,6 +62,7 @@ export default class BaseApp {
   content_list_container: any = document.querySelector(".recent_content_ul_list");
   themeIndex = 0;
   buy_credits_cta_btn: any = document.querySelector(".buy_credits_cta_btn");
+  tokenizedStringCache: any = {};
 
   /**
  * @param { boolean } contentPage content list trimmed on other pages and footer link change
@@ -875,5 +876,19 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
     return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (c: any) =>
       (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
     );
+  }
+  /**
+ * @param { string } value text fragment
+ * @return { any } length and token array
+*/
+  getEncodedToken(value: any): any {
+    let str = "";
+    if (value !== undefined) str = value;
+    if (!this.tokenizedStringCache[str]) {
+      this.tokenizedStringCache[str] = window.gpt3tokenizer.encode(str);
+      if (!this.tokenizedStringCache[str]) this.tokenizedStringCache[str] = [];
+    }
+
+    return this.tokenizedStringCache[str];
   }
 }

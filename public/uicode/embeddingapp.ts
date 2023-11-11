@@ -43,9 +43,13 @@ export class EmbeddingApp extends BaseApp {
     parse_url_text_results: any = document.querySelector(".parse_url_text_results");
     parse_url_path_options: any = document.querySelector(".parse_url_path_options");
     parse_embedding_tab_btn: any = document.querySelector("#parse_embedding_tab_btn");
+    parsed_text_results_h4: any = document.querySelector(".parsed_text_results_h4");
+    parse_chunks_parse_button: any = document.querySelector(".parse_chunks_parse_button");
+    parse_url_chunk_tokens: any = document.querySelector(".parse_url_chunk_tokens");
     fileUpsertListFirestore: any = null;
     queryDocumentsResultRows: any = [];
     fileListToUpload: Array<any> = [];
+    parsedTextChunks: Array<string> = [];
     pineconeQueryResults: any = {};
     csvUploadDocumentsTabulator: any = null;
     embeddingRunning = false;
@@ -269,6 +273,7 @@ export class EmbeddingApp extends BaseApp {
 
         this.validate_selected_rows_btn.addEventListener("click", () => this.validateSelectedRows());
         this.parse_url_parse_button.addEventListener("click", () => this.scrapeSingleURL());
+        this.parse_chunks_parse_button.addEventListener("click", () => this.parseBreakTextIntoChunks())
         this.updateResultChunksTable();
     }
     /** */
@@ -297,7 +302,10 @@ export class EmbeddingApp extends BaseApp {
             body: JSON.stringify(body),
         });
         const result = await fResult.json();
-        this.parse_url_text_results.value = result.result.text;
+        const text = result.result.text;
+        this.parse_url_text_results.value = text;
+        const tokens = this.getEncodedToken(text);
+        this.parsed_text_results_h4.innerHTML = `Parsed Text Results (${text.length} chars, ${tokens.length} tokens)`;
     }
     /** */
     copyQueryResultsToClipboard() {
@@ -930,25 +938,14 @@ export class EmbeddingApp extends BaseApp {
         keys.forEach((key: string) => fileContent += `<th>${key}</th>`);
         fileContent += "</tr>";
 
-        this.queryDocumentsResultRows.forEach((row: any, index: number) => {
+        this.resultChunks.forEach((row: any, index: number) => {
             fileContent += "<tr>";
             fileContent += `<th>${index + 1}</th>`;
-            const newRow: any = {};
             keys.forEach((key: string) => {
-                let value = row.metadata[key];
-                const rawValue = value;
+                let value = row[key];
                 value = BaseApp.escapeHTML(value);
-                if (key === "id") value = row.id;
-                if (key === "similarity") value = row.score;
-                if (key === "encodingCredits") value = rawValue.toString().substring(0, 6);
-                if (key === "size") value = row.metadata.text.length;
-                if (key === "url") value = `<a href="${rawValue}" target="_blank">${rawValue}</a>`;
-                if (key === "copy") {
-                    value = `<button data-index="${index}" class="btn btn-secondary 
-                       doc_text_copy_btn"><i class="material-icons">content_copy</i></button>`;
-                }
+
                 fileContent += `<td class="table_cell_sizer"><div>${value}</div></td>`;
-                newRow[key] = value;
             });
             fileContent += "</tr>";
         });
@@ -956,5 +953,66 @@ export class EmbeddingApp extends BaseApp {
         fileContent += `</table>`;
 
         this.chunking_results_wrapper.innerHTML = fileContent;
+    }
+    /** */
+    async parseBreakTextIntoChunks() {
+        let threshold = Number(this.parse_url_chunk_tokens.value);
+        if (isNaN(threshold)) threshold = 0;
+        if (threshold < 10) {
+            alert("tokens per chunk must be greater than 10");
+            return;
+        }
+        if (threshold > 1000000) {
+            alert("tokens per chunk must be less than 1000000");
+            return;
+        }
+        const fullText = this.parse_url_text_results.value;
+        if (!fullText) {
+            alert("no text to parse");
+            return;
+        }
+        const lines = fullText.split("\n");
+        const chunks = [""];
+        lines.forEach((line: string) => {
+            const lineTokens = this.getEncodedToken(line);
+            let linePieces = [line];
+            if (lineTokens.length > threshold) {
+                linePieces = [""];
+                const words = line.split(" ");
+                words.forEach((word: string) => {
+                    let currentPiece = linePieces[linePieces.length - 1];
+                    const newPiece = currentPiece + " " + word;
+                    const pieceTokens = this.getEncodedToken(newPiece);
+                    if (pieceTokens.length > threshold) {
+                        linePieces.push(word);
+                    } else {
+                        linePieces[linePieces.length - 1] = newPiece;
+                    }
+                });
+            }
+            linePieces.forEach((piece: string) => {
+                let currentChunk = chunks[chunks.length - 1];
+                const newChunk = currentChunk + "\n" + piece;
+                const chunkTokens = this.getEncodedToken(newChunk);
+                if (currentChunk === "") {
+                    chunks[chunks.length - 1] = piece;
+                } else if (chunkTokens.length > threshold) {
+                    chunks.push(piece);
+                } else {
+                    chunks[chunks.length - 1] = newChunk;
+                }
+            });
+        });
+
+        this.resultChunks = [];
+        chunks.forEach((chunk: string) => {
+            const tokens = this.getEncodedToken(chunk);
+            this.resultChunks.push({
+                text: chunk,
+                tokens: tokens.length,
+                rawTokens: tokens,
+            });
+        });
+        this.updateResultChunksTable();        
     }
 }
