@@ -88,7 +88,7 @@ export default class SessionAPI {
         }
 
         let promptText = "";
-        textAnswers.forEach((answer: string) => {
+        textAnswers.slice().reverse().forEach((answer: string) => {
             answer = answer.replaceAll("\n\n", "\n");
             answer = answer.replaceAll("\n\n", "\n");
             answer = answer.replaceAll("\n\n", "\n");

@@ -932,7 +932,7 @@ export class EmbeddingApp extends BaseApp {
     /** */
     updateResultChunksTable() {
         let fileContent = "<table class=\"chunked_text_results_table\">";
-        const keys = ["text", "tokens"];
+        const keys = ["text", "tokens", "textSize"];
         fileContent += "<tr>";
         fileContent += `<th>row</th>`;
         keys.forEach((key: string) => fileContent += `<th>${key}</th>`);
@@ -1011,6 +1011,7 @@ export class EmbeddingApp extends BaseApp {
                 text: chunk,
                 tokens: tokens.length,
                 rawTokens: tokens,
+                textSize: chunk.length,
             });
         });
         this.updateResultChunksTable();        
