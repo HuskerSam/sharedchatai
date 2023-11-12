@@ -273,13 +273,13 @@ export class EmbeddingApp extends BaseApp {
 
         this.validate_selected_rows_btn.addEventListener("click", () => this.validateSelectedRows());
         this.parse_url_parse_button.addEventListener("click", () => this.scrapeSingleURL());
-        this.parse_chunks_parse_button.addEventListener("click", () => this.parseBreakTextIntoChunks())
+        this.parse_chunks_parse_button.addEventListener("click", () => this.parseBreakTextIntoChunks());
         this.updateResultChunksTable();
     }
     /** */
     async scrapeSingleURL() {
-        let url = this.parse_url_path_input.value;
-        let options = this.parse_url_path_options.value;
+        const url = this.parse_url_path_input.value;
+        const options = this.parse_url_path_options.value;
         if (!url) {
             alert("URL required");
             return;
@@ -980,7 +980,7 @@ export class EmbeddingApp extends BaseApp {
                 linePieces = [""];
                 const words = line.split(" ");
                 words.forEach((word: string) => {
-                    let currentPiece = linePieces[linePieces.length - 1];
+                    const currentPiece = linePieces[linePieces.length - 1];
                     const newPiece = currentPiece + " " + word;
                     const pieceTokens = this.getEncodedToken(newPiece);
                     if (pieceTokens.length > threshold) {
@@ -991,7 +991,7 @@ export class EmbeddingApp extends BaseApp {
                 });
             }
             linePieces.forEach((piece: string) => {
-                let currentChunk = chunks[chunks.length - 1];
+                const currentChunk = chunks[chunks.length - 1];
                 const newChunk = currentChunk + "\n" + piece;
                 const chunkTokens = this.getEncodedToken(newChunk);
                 if (currentChunk === "") {
@@ -1013,6 +1013,6 @@ export class EmbeddingApp extends BaseApp {
                 rawTokens: tokens,
             });
         });
-        this.updateResultChunksTable();        
+        this.updateResultChunksTable();
     }
 }

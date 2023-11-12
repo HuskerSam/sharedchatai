@@ -10,7 +10,7 @@ import fetch from "cross-fetch";
 import {
     Pinecone,
 } from "@pinecone-database/pinecone";
-import { embeddingApi } from ".";
+import PDFParser from "pdf2json";
 
 /** handle scraping webpages and embedding contents in pinecone */
 export default class EmbeddingAPI {
@@ -81,7 +81,17 @@ export default class EmbeddingAPI {
 
         const url = req.body.url;
         const options = req.body.options;
-        const result = await EmbeddingAPI._scrapeURL(url, options);
+        let result = null;
+        if (url.indexOf(".pdf")) {
+            const pdfResult = await EmbeddingAPI.pdfToText(url);
+            result = {
+                html: "",
+                text: pdfResult.text,
+                title: "",
+            };
+        } else {
+            result = await EmbeddingAPI._scrapeURL(url, options);
+        }
 
         return res.status(200).send({
             success: true,
@@ -510,5 +520,34 @@ export default class EmbeddingAPI {
             console.log(error);
             return BaseClass.respondError(res, error.message, error);
         }
+    }
+    /**
+     * @param { string } url
+     * @return { Promise<any> }
+    */
+    static async pdfToText(url: string): Promise<any> {
+        const resultPDF = await fetch(url);
+        const arrayBuffer = await resultPDF.arrayBuffer();
+        return new Promise((res: any) => {
+            const pdfParser = new PDFParser(this, 1);
+            const buff = Buffer.from(arrayBuffer);
+            // pdfParser.on("pdfParser_dataError", (errData: any) => console.error(errData.parserError) );
+            pdfParser.on("pdfParser_dataReady", (pdfData: any) => {
+                const pages = pdfData.Pages;
+                let text = "";
+                pages.forEach((page: any) => {
+                    page.Texts.forEach((blocks: any) => {
+                        blocks.R.forEach((run: any) => {
+                            text += decodeURIComponent(run.T) + "\n";
+                        });
+                    });
+                });
+                res({
+                    success: true,
+                    text,
+                });
+            });
+            pdfParser.parseBuffer(buff);
+        });
     }
 }
