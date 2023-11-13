@@ -3,7 +3,7 @@ import ChatDocument from "./chatdocument.js";
 declare const firebase: any;
 declare const window: any;
 
-/** Guess app class */
+/** Embedding upload app class */
 export class EmbeddingApp extends BaseApp {
     show_profile_modal: any = document.querySelector(".show_profile_modal");
     help_show_modal: any = document.querySelector(".help_show_modal");
@@ -16,6 +16,7 @@ export class EmbeddingApp extends BaseApp {
     batch_id: any = document.querySelector(".batch_id");
     pinecone_key: any = document.querySelector(".pinecone_key");
     pinecone_environment: any = document.querySelector(".pinecone_environment");
+    chunk_size_default: any = document.querySelector(".chunk_size_default");
     prompt_area: any = document.querySelector(".prompt_area");
     document_list_file_name: any = document.querySelector(".document_list_file_name");
     embedding_list_file_dom: any = document.querySelector(".embedding_list_file_dom");
@@ -355,12 +356,14 @@ export class EmbeddingApp extends BaseApp {
         const pineconeKey = this.pinecone_key.value;
         const pineconeEnvironment = this.pinecone_environment.value;
         const pineconePrompt = this.prompt_area.value;
+        const pineconeChunkSize = this.chunk_size_default.value;
 
         this.savePineconeOptions({
             pineconeIndex,
             pineconeKey,
             pineconeEnvironment,
             pineconePrompt,
+            pineconeChunkSize,
         });
         return {
             urls: "",
@@ -368,6 +371,7 @@ export class EmbeddingApp extends BaseApp {
             pineconeKey,
             pineconeEnvironment,
             pineconePrompt,
+            pineconeChunkSize,
         };
     }
     /**
@@ -378,16 +382,19 @@ export class EmbeddingApp extends BaseApp {
         let pineconeKey = "";
         let pineconeEnvironment = "";
         let pineconePrompt = "";
+        let pineconeChunkSize = "";
         if (this.profile.emb_pineconeIndex !== undefined) pineconeIndex = this.profile.emb_pineconeIndex;
         if (this.profile.emb_pineconeKey !== undefined) pineconeKey = this.profile.emb_pineconeKey;
         if (this.profile.emb_pineconeEnvironment !== undefined) pineconeEnvironment = this.profile.emb_pineconeEnvironment;
         if (this.profile.emb_pineconePrompt !== undefined) pineconePrompt = this.profile.emb_pineconePrompt;
+        if (this.profile.emb_pineconeChunkSize !== undefined) pineconeChunkSize = this.profile.emb_pineconeChunkSize;
 
         return {
             pineconeIndex,
             pineconeKey,
             pineconeEnvironment,
             pineconePrompt,
+            pineconeChunkSize,
         };
     }
     /**
@@ -407,6 +414,10 @@ export class EmbeddingApp extends BaseApp {
         if (options.pineconePrompt !== profileOptions.pineconePrompt) {
             await this.saveProfileField("emb_pineconePrompt", options.pineconePrompt);
         }
+        
+        if (options.pineconeChunkSize !== profileOptions.pineconeChunkSize) {
+            await this.saveProfileField("emb_pineconeChunkSize", options.pineconeChunkSize);
+        }
     }
     /** override event that happens after authentication resolution */
     authUpdateStatusUI(): void {
@@ -417,6 +428,7 @@ export class EmbeddingApp extends BaseApp {
             this.pinecone_key.value = options.pineconeKey;
             this.pinecone_environment.value = options.pineconeEnvironment;
             this.prompt_area.value = options.pineconePrompt;
+            this.chunk_size_default.value = options.pineconeChunkSize;
             this.pineConeInited = true;
             this.fetchIndexStats();
             this.watchUpsertRows();

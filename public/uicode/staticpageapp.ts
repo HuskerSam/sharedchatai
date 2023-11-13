@@ -2,7 +2,7 @@ import BaseApp from "./baseapp.js";
 
 declare const firebase: any;
 
-/** Guess app class */
+/** app class for content pages */
 export class StaticPageApp extends BaseApp {
     show_profile_modal: any = document.querySelector(".show_profile_modal");
     help_show_modal: any = document.querySelector(".help_show_modal");
