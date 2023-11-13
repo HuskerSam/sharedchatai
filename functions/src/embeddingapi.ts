@@ -125,6 +125,19 @@ export default class EmbeddingAPI {
     static async _scrapeURL(url: string, options: string): Promise<any> {
         const optionsMap = EmbeddingAPI._processOptions(options);
         const result = await fetch(url);
+        let isPDF = false;
+        const contentHeader = result.headers.get("content-type");
+        if (contentHeader === "application/pdf") isPDF = true;
+        console.log(isPDF);
+        if (url.indexOf(".pdf") !== -1 || isPDF) {
+            const pdfResult = await EmbeddingAPI.pdfToText(result);
+            return {
+                html: "",
+                text: pdfResult.text,
+                title: "",
+            };
+        }
+
         const html = await result.text();
         let text = "";
         let title = "";
@@ -568,11 +581,10 @@ export default class EmbeddingAPI {
         }
     }
     /**
-     * @param { string } url
+     * @param { globalThis.Response } resultPDF
      * @return { Promise<any> }
     */
-    static async pdfToText(url: string): Promise<any> {
-        const resultPDF = await fetch(url);
+    static async pdfToText(resultPDF: globalThis.Response): Promise<any> {
         const arrayBuffer = await resultPDF.arrayBuffer();
         return new Promise((res: any) => {
             const pdfParser = new PDFParser(this, 1);
