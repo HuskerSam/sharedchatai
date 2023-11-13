@@ -1,3 +1,4 @@
+declare const window: any;
 const newsList = [
   {
     link: "/content/edustudy2/",
@@ -158,8 +159,8 @@ const models: any = {
   "gpt-4": {
     "active": 1,
     "type": "gpt",
-    "input": 0.03,
-    "output": 0.06,
+    "input": 0.01,
+    "output": 0.03,
     "contextualLimit": 8192,
     "defaultCompletion": 1000,
     "completionMax": 4000,
@@ -411,5 +412,74 @@ export default class SharedWithBackend {
     if (isNaN(Number(x))) x = 0;
     const xString = (decimalDigits !== -1) ? x.toFixed(decimalDigits) : x.toString();
     return xString.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+  /**
+   * @param { number } threshold
+   * @param { string } fullText
+   * @return { Promise<Array<any>> }
+   */
+  static async parseBreakTextIntoChunks(threshold: number, fullText: string): Promise<Array<any>> {
+    const encode = await SharedWithBackend.tokenEncodeFunction();
+    if (isNaN(threshold)) threshold = 0;
+    if (threshold < 10 || threshold > 1000000) {
+      threshold = 1000000;
+    }
+
+    const lines = fullText.split("\n");
+    const chunks = [""];
+    lines.forEach((line: string) => {
+      const lineTokens = encode(line);
+      let linePieces = [line];
+      if (lineTokens.length > threshold) {
+        linePieces = [""];
+        const words = line.split(" ");
+        words.forEach((word: string) => {
+          const currentPiece = linePieces[linePieces.length - 1];
+          const newPiece = currentPiece + " " + word;
+          const pieceTokens = encode(newPiece);
+          if (pieceTokens.length > threshold) {
+            linePieces.push(word);
+          } else {
+            linePieces[linePieces.length - 1] = newPiece;
+          }
+        });
+      }
+      linePieces.forEach((piece: string) => {
+        const currentChunk = chunks[chunks.length - 1];
+        const newChunk = currentChunk + "\n" + piece;
+        const chunkTokens = encode(newChunk);
+        if (currentChunk === "") {
+          chunks[chunks.length - 1] = piece;
+        } else if (chunkTokens.length > threshold) {
+          chunks.push(piece);
+        } else {
+          chunks[chunks.length - 1] = newChunk;
+        }
+      });
+    });
+
+    const resultChunks: Array<any> = [];
+    chunks.forEach((chunk: string) => {
+      const tokens = encode(chunk);
+      resultChunks.push({
+        text: chunk,
+        tokens: tokens.length,
+        rawTokens: tokens,
+        textSize: chunk.length,
+      });
+    });
+
+    return resultChunks;
+  }
+  /** */
+  static async tokenEncodeFunction(): Promise<any> {
+    let encode: any = null;
+    if (typeof window !== "undefined" && window.gpt3tokenizer) {
+      encode = window.gpt3tokenizer.encode;
+    } else if (typeof window === "undefined") {
+      const gptModule = await import("gpt-tokenizer");
+      encode = gptModule.encode;
+    }
+    return encode;
   }
 }

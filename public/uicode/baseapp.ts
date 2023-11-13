@@ -63,6 +63,7 @@ export default class BaseApp {
   themeIndex = 0;
   buy_credits_cta_btn: any = document.querySelector(".buy_credits_cta_btn");
   tokenizedStringCache: any = {};
+  tokenEncode: any = null;
 
   /**
  * @param { boolean } contentPage content list trimmed on other pages and footer link change
@@ -118,6 +119,7 @@ export default class BaseApp {
   }
   /** asynchronous loads - data setup  */
   async load() {
+    this.tokenEncode = await SharedWithBackend.tokenEncodeFunction();
     this.authUpdateStatusUI();
   }
   /** reads a json file async and sets window.varName to it's value
@@ -878,14 +880,14 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
     );
   }
   /**
- * @param { string } value text fragment
- * @return { any } length and token array
+* @param { string } value text fragment
+* @return { any } length and token array
 */
   getEncodedToken(value: any): any {
     let str = "";
     if (value !== undefined) str = value;
     if (!this.tokenizedStringCache[str]) {
-      this.tokenizedStringCache[str] = window.gpt3tokenizer.encode(str);
+      this.tokenizedStringCache[str] = this.tokenEncode(str);
       if (!this.tokenizedStringCache[str]) this.tokenizedStringCache[str] = [];
     }
 

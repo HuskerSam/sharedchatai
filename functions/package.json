@@ -24,6 +24,7 @@
     "fs": "^0.0.1-security",
     "google-auth-library": "^8.9.0",
     "gpt-3-encoder": "^1.1.4",
+    "gpt-tokenizer": "^2.1.2",
     "handlebars": "^4.7.8",
     "pdf2json": "^3.0.5",
     "tiktoken": "^1.0.10",

@@ -1,5 +1,6 @@
 import BaseApp from "./baseapp.js";
 import ChatDocument from "./chatdocument.js";
+import SharedWithBackend from "./sharedwithbackend.js";
 declare const firebase: any;
 declare const window: any;
 
@@ -274,7 +275,7 @@ export class EmbeddingApp extends BaseApp {
 
         this.validate_selected_rows_btn.addEventListener("click", () => this.validateSelectedRows());
         this.parse_url_parse_button.addEventListener("click", () => this.scrapeSingleURL());
-        this.parse_chunks_parse_button.addEventListener("click", () => this.parseBreakTextIntoChunks());
+        this.parse_chunks_parse_button.addEventListener("click", () => this.parseText());
         this.updateResultChunksTable();
     }
     /** */
@@ -305,7 +306,7 @@ export class EmbeddingApp extends BaseApp {
         const result = await fResult.json();
         const text = result.result.text;
         this.parse_url_text_results.value = text;
-        const tokens = this.getEncodedToken(text);
+        const tokens = this.tokenEncode(text);
         this.parsed_text_results_h4.innerHTML = `Parsed Text Results (${text.length} chars, ${tokens.length} tokens)`;
     }
     /** */
@@ -382,7 +383,7 @@ export class EmbeddingApp extends BaseApp {
         let pineconeKey = "";
         let pineconeEnvironment = "";
         let pineconePrompt = "";
-        let pineconeChunkSize = "";
+        let pineconeChunkSize = "1000";
         if (this.profile.emb_pineconeIndex !== undefined) pineconeIndex = this.profile.emb_pineconeIndex;
         if (this.profile.emb_pineconeKey !== undefined) pineconeKey = this.profile.emb_pineconeKey;
         if (this.profile.emb_pineconeEnvironment !== undefined) pineconeEnvironment = this.profile.emb_pineconeEnvironment;
@@ -414,7 +415,7 @@ export class EmbeddingApp extends BaseApp {
         if (options.pineconePrompt !== profileOptions.pineconePrompt) {
             await this.saveProfileField("emb_pineconePrompt", options.pineconePrompt);
         }
-        
+
         if (options.pineconeChunkSize !== profileOptions.pineconeChunkSize) {
             await this.saveProfileField("emb_pineconeChunkSize", options.pineconeChunkSize);
         }
@@ -445,7 +446,8 @@ export class EmbeddingApp extends BaseApp {
             alert("no rows selected to upsert");
             return;
         }
-        await this._upsertTableRowsToPinecone(selectedRows, data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
+        await this._upsertTableRowsToPinecone(selectedRows, data.pineconeIndex, data.pineconeKey,
+            data.pineconeEnvironment, data.pineconeChunkSize);
         this._fetchIndexStats(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
     }
     /** scrape URLs for embedding
@@ -453,8 +455,10 @@ export class EmbeddingApp extends BaseApp {
      * @param { string } batchId grouping key
      * @param { string } pineconeKey
      * @param { string } pineconeEnvironment
+     * @param { number } tokenThreshold
     */
-    async _upsertTableRowsToPinecone(fileList: Array<any>, batchId: string, pineconeKey: string, pineconeEnvironment: string) {
+    async _upsertTableRowsToPinecone(fileList: Array<any>, batchId: string, pineconeKey: string,
+        pineconeEnvironment: string, tokenThreshold: number) {
         if (!firebase.auth().currentUser) {
             alert("login on homepage to use this");
             return;
@@ -470,6 +474,7 @@ export class EmbeddingApp extends BaseApp {
             batchId,
             pineconeKey,
             pineconeEnvironment,
+            tokenThreshold,
         };
 
         const token = await firebase.auth().currentUser.getIdToken();
@@ -967,65 +972,11 @@ export class EmbeddingApp extends BaseApp {
         this.chunking_results_wrapper.innerHTML = fileContent;
     }
     /** */
-    async parseBreakTextIntoChunks() {
-        let threshold = Number(this.parse_url_chunk_tokens.value);
-        if (isNaN(threshold)) threshold = 0;
-        if (threshold < 10) {
-            alert("tokens per chunk must be greater than 10");
-            return;
-        }
-        if (threshold > 1000000) {
-            alert("tokens per chunk must be less than 1000000");
-            return;
-        }
+    async parseText() {
+        const threshold = Number(this.parse_url_chunk_tokens.value);
         const fullText = this.parse_url_text_results.value;
-        if (!fullText) {
-            alert("no text to parse");
-            return;
-        }
-        const lines = fullText.split("\n");
-        const chunks = [""];
-        lines.forEach((line: string) => {
-            const lineTokens = this.getEncodedToken(line);
-            let linePieces = [line];
-            if (lineTokens.length > threshold) {
-                linePieces = [""];
-                const words = line.split(" ");
-                words.forEach((word: string) => {
-                    const currentPiece = linePieces[linePieces.length - 1];
-                    const newPiece = currentPiece + " " + word;
-                    const pieceTokens = this.getEncodedToken(newPiece);
-                    if (pieceTokens.length > threshold) {
-                        linePieces.push(word);
-                    } else {
-                        linePieces[linePieces.length - 1] = newPiece;
-                    }
-                });
-            }
-            linePieces.forEach((piece: string) => {
-                const currentChunk = chunks[chunks.length - 1];
-                const newChunk = currentChunk + "\n" + piece;
-                const chunkTokens = this.getEncodedToken(newChunk);
-                if (currentChunk === "") {
-                    chunks[chunks.length - 1] = piece;
-                } else if (chunkTokens.length > threshold) {
-                    chunks.push(piece);
-                } else {
-                    chunks[chunks.length - 1] = newChunk;
-                }
-            });
-        });
 
-        this.resultChunks = [];
-        chunks.forEach((chunk: string) => {
-            const tokens = this.getEncodedToken(chunk);
-            this.resultChunks.push({
-                text: chunk,
-                tokens: tokens.length,
-                rawTokens: tokens,
-                textSize: chunk.length,
-            });
-        });
+        this.resultChunks = await SharedWithBackend.parseBreakTextIntoChunks(threshold, fullText);
         this.updateResultChunksTable();
     }
 }

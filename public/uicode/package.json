@@ -20,5 +20,6 @@
   },
   "private": true,
   "dependencies": {
+    "gpt-tokenizer": "^2.1.2"
   }
 }

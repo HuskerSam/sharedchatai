@@ -32,6 +32,7 @@ export default class EmbeddingAPI {
         const chatGptKey = localInstance.privateConfig.chatGPTKey;
         const pineconeKey = req.body.pineconeKey;
         const pineconeEnvironment = req.body.pineconeEnvironment;
+        const tokenThreshold = req.body.tokenThreshold;
 
         const pinecone = new Pinecone({
             apiKey: pineconeKey,
@@ -52,7 +53,7 @@ export default class EmbeddingAPI {
         let fileUploadResults: Array<any> = [];
         for (let c = 0, l = fileList.length; c < l; c++) {
             const fileDesc = fileList[c];
-            promises.push(EmbeddingAPI.upsertFileData(fileDesc, batchId, chatGptKey, authResults.uid, pIndex));
+            promises.push(EmbeddingAPI.upsertFileData(fileDesc, batchId, chatGptKey, authResults.uid, pIndex, tokenThreshold));
 
             if (promises.length >= 40) {
                 const uploadResults = await Promise.all(promises);
@@ -82,7 +83,7 @@ export default class EmbeddingAPI {
         const url = req.body.url;
         const options = req.body.options;
         let result = null;
-        if (url.indexOf(".pdf")) {
+        if (url.indexOf(".pdf") !== -1) {
             const pdfResult = await EmbeddingAPI.pdfToText(url);
             result = {
                 html: "",
@@ -153,14 +154,59 @@ export default class EmbeddingAPI {
         };
     }
     /**
+     * @param { string } prefix
+     * @param { any } chunk
+     * @param { string } chatGptKey
+     * @param { string } uid
+     * @param { string } batchId
+     * @param { string } id
+     * @param { string } title
+     * @param { string } url
+     * @param { any } pIndex
+     * @return { Promise<any> }
+     */
+    static async upsertChunkToPinecone(prefix: string, chunk: any, chatGptKey: string, uid: string, batchId: string, id: string,
+            title: string, url: string, pIndex: any): Promise<any> {
+        let text = chunk.text;
+        if (prefix) text = prefix.trim() + text + "\n";
+
+        const embeddingModelResult = await EmbeddingAPI.encodeEmbedding(text, chatGptKey, uid);
+        const embedding = embeddingModelResult.vectorResult;
+        const encodingTokens = embeddingModelResult.encodingTokens;
+        const encodingCredits = embeddingModelResult.encodingCredits;
+
+        const pEmbedding = {
+            metadata: {
+                text,
+                url,
+                title,
+                encodingTokens,
+                encodingCredits,
+            },
+            values: embedding,
+            id: id,
+        };
+
+        await pIndex.upsert([
+            pEmbedding,
+        ]);
+
+        return {
+            pEmbedding,
+            encodingTokens,
+            encodingCredits,
+        };
+    }
+    /**
      * @param { any } fileDesc
      * @param { string } batchId
      * @param { string } chatGptKey
      * @param { string } uid
      * @param { any } pIndex
+     * @param { number } tokenThreshold
      * @return { any } success: true - otherwise errorMessage: string is in map
     */
-    static async upsertFileData(fileDesc: any, batchId: string, chatGptKey: string, uid: string, pIndex: any) {
+    static async upsertFileData(fileDesc: any, batchId: string, chatGptKey: string, uid: string, pIndex: any, tokenThreshold: number) {
         let id = fileDesc.id;
         if (id === "") id = encodeURIComponent(fileDesc.url);
         if (id === "") {
@@ -192,56 +238,56 @@ export default class EmbeddingAPI {
             };
         }
 
+        const textChunks = await SharedWithBackend.parseBreakTextIntoChunks(tokenThreshold, text);
         const overrideTitle = fileDesc.title.trim();
         if (overrideTitle !== "") title = overrideTitle;
         if (title === "") title = url.substring(0, 100);
         if (title === "") title = text.substring(0, 100);
-
         const prefix = fileDesc.prefix;
-        if (prefix) text = prefix.trim() + text + "\n";
-
-        const embeddingModelResult = await EmbeddingAPI.encodeEmbedding(text, chatGptKey, uid);
-        const embedding = embeddingModelResult.vectorResult;
-        const encodingTokens = embeddingModelResult.encodingTokens;
-        const encodingCredits = embeddingModelResult.encodingCredits;
-
         const textSize = text.length;
+
+        const promises: any = [];
+        const chunkCount = textChunks.length;
+        const idList: Array<string> = [];
+        textChunks.forEach((chunk: any, index: number) => {
+            let pId = id;
+            if (chunkCount > 1) pId += "_" + (index + 1) + "_" + chunkCount;
+            promises.push(EmbeddingAPI.upsertChunkToPinecone(prefix, chunk, chatGptKey, uid, batchId,
+                pId, title, url, pIndex));
+            idList.push(pId);
+            console.log(pId);
+        });
+
+        let encodingCredits = 0;
+        let encodingTokens = 0;
+        const upsertResults = await Promise.all(promises);
+        upsertResults.forEach((result: any) => {
+            encodingTokens += result.encodingTokens;
+            encodingCredits += result.encodingCredits;
+        });
+
         await firebaseAdmin.firestore().doc(`Embeddings/${batchId}/html/${id}`)
-            .set({
-                html,
-                text,
-                title,
-                textSize,
-                embedding,
-                encodingTokens,
-                encodingCredits,
-            });
-
-        const pEmbedding = {
-            metadata: {
-                text,
-                url,
-                title,
-                encodingTokens,
-                encodingCredits,
-            },
-            values: embedding,
-            id: id,
-        };
-
-        await pIndex.upsert([
-            pEmbedding,
-        ]);
+        .set({
+            html,
+            text,
+            textChunks,
+            title,
+            textSize,
+            encodingTokens,
+            encodingCredits,
+            idList,
+        });
 
         return {
             success: true,
-            id,
+            id: idList.join(","),
             url,
             text,
             title,
             textSize,
             encodingTokens,
             encodingCredits,
+            idList,
         };
     }
     /**
