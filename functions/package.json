@@ -17,7 +17,6 @@
   "dependencies": {
     "@google-ai/generativelanguage": "^0.2.0",
     "@pinecone-database/pinecone": "^1.0.1",
-    "cheerio": "^1.0.0-rc.12",
     "cross-fetch": "^4.0.0",
     "firebase-admin": "^11.5.0",
     "firebase-functions": "^4.5.0",
@@ -26,11 +25,13 @@
     "gpt-3-encoder": "^1.1.4",
     "gpt-tokenizer": "^2.1.2",
     "handlebars": "^4.7.8",
+    "jsdom": "^22.1.0",
     "pdf2json": "^3.0.5",
     "tiktoken": "^1.0.10",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@types/jsdom": "^21.1.5",
     "@types/node": "^20.2.4",
     "@types/node-fetch": "^2.6.4",
     "@types/uuid": "^9.0.4",

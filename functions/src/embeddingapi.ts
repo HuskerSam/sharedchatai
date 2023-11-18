@@ -5,7 +5,7 @@ import type {
     Request,
     Response,
 } from "express";
-import * as cheerio from "cheerio";
+import { JSDOM } from "jsdom";
 import fetch from "cross-fetch";
 import {
     Pinecone,
@@ -91,7 +91,11 @@ export default class EmbeddingAPI {
                 title: "",
             };
         } else {
-            result = await EmbeddingAPI._scrapeURL(url, options);
+            try {
+                result = await EmbeddingAPI._scrapeURL(url, options);
+            } catch (error: any) {
+                return BaseClass.respondError(res, error.message, error);
+            }
         }
 
         return res.status(200).send({
@@ -142,11 +146,13 @@ export default class EmbeddingAPI {
         let text = "";
         let title = "";
         if (html) {
-            const cheerioQuery = cheerio.load(html);
+            const dom = new JSDOM(html);
+            const document = dom.window.document;
+        
             let htmlElementsSelector = "h1, h2, h3, h4, h5, p";
             if (optionsMap.htmlElementsSelector) htmlElementsSelector = optionsMap.htmlElementsSelector;
-            cheerioQuery(htmlElementsSelector).each((index: number, element: any) => {
-                const t = cheerioQuery(element).text().trim();
+            document.querySelectorAll(htmlElementsSelector).forEach((element: any) => {
+                const t = element.textContent.trim();
                 if (t) text += t + "\n";
             });
             text = text.replace(/^[ \t]+/gm, "")
@@ -155,9 +161,7 @@ export default class EmbeddingAPI {
                 .trim();
             text = text.substring(0, 10000000);
 
-            cheerioQuery("title").each((index: number, element: any) => {
-                if (!title) title = cheerioQuery(element).text().trim();
-            });
+            if (!title) title = dom.window.document.title;
         }
 
         return {
@@ -210,6 +214,27 @@ export default class EmbeddingAPI {
             encodingCredits,
         };
     }
+    /** error handling wrapper
+     * @param { any } fileDesc
+     * @param { string } batchId
+     * @param { string } chatGptKey
+     * @param { string } uid
+     * @param { any } pIndex
+     * @param { number } tokenThreshold
+     * @return { any } success: true - otherwise errorMessage: string is in map
+    */
+    static async upsertFileData(fileDesc: any, batchId: string, chatGptKey: string, uid: string, pIndex: any, 
+        tokenThreshold: number) {
+            try {
+                return await EmbeddingAPI._upsertFileData(fileDesc, batchId, chatGptKey, uid, pIndex, tokenThreshold);
+            } catch (error: any) {
+                return {
+                    success: false,
+                    errorMessage: error.message,
+                    error,
+                }
+            }
+    }
     /**
      * @param { any } fileDesc
      * @param { string } batchId
@@ -219,7 +244,8 @@ export default class EmbeddingAPI {
      * @param { number } tokenThreshold
      * @return { any } success: true - otherwise errorMessage: string is in map
     */
-    static async upsertFileData(fileDesc: any, batchId: string, chatGptKey: string, uid: string, pIndex: any, tokenThreshold: number) {
+    static async _upsertFileData(fileDesc: any, batchId: string, chatGptKey: string, uid: string, pIndex: any, 
+        tokenThreshold: number) {
         let id = fileDesc.id;
         if (id === "") id = encodeURIComponent(fileDesc.url);
         if (id === "") {

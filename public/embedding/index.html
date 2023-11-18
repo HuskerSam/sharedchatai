@@ -65,15 +65,12 @@
                 </li>
                 <li style=" flex:1;background:none;" class="app_panel">
                                 <div class="pinecone_status_bar">
-                                    <div style="min-width:15em;font-size:0.65em">
+                                    <div style="min-width:15em;">
                                         <b>Pinecone Index: </b>
                                         <span class="pinecone_index_name"></span>
                                         <br>
                                         <b>Vectors: </b>
                                         <span class="pinecone_index_count"></span>
-                                        <br>
-                                        <b>Upsert Rows: </b>
-                                        <span class="table_row_count"></span>
                                     </div>
                                     <div style="padding-bottom: 12px;">
                                         &nbsp;
@@ -131,31 +128,38 @@
                 style="overflow:hidden;display:flex;text-align: left;flex: 1;flex-direction: column;">
                 <div class="tab-pane fade show active" id="upsert_embedding_tab_view" role="tabpanel"
                     aria-labelledby="upsert_embedding_tab_btn" style="flex:1;flex-direction: column;overflow:hidden;">
+                    <div style="padding: 8px;">
+                        <button class="btn btn-primary upload_document_list_button">
+                            <i class="material-icons">upload_file</i>
+                        </button>
+                        &nbsp;
+                        <input class="embedding_list_file_dom" style="display:none;" type="file"
+                            accept=".json,.csv">
+                        <div class="document_list_file_name" style="display:none;"></div>
+                        <button class="btn btn-primary delete_selected_row_btn">
+                            <i class="material-icons">delete</i></button>
+                        &nbsp;
+                        <button class="btn btn-primary add_row_btn">
+                            <i class="material-icons">add</i></button>
+                        &nbsp; 
+                        <div style="display:inline-block;position:relative;top:2px">
+                            <b>Documents: </b>
+                            <span class="table_row_count"></span>              
+                        </div>
+                    </div>
                     <div style="flex:1;overflow: auto;">
                         <div class="preview_embedding_documents_table"></div>
                     </div>
                     <div style="display:flex;flex-direction:row">
+                        <div style="padding: 8px;">
+                            <button class="upload_embedding_documents_btn btn btn-primary">
+                                <i class="material-icons">cloud_upload</i> <span>Upsert Vectors</span></button>                          
+                        </div>
                         <div class="upsert_result_status_bar"></div>
                         <div style="padding: 8px;">
-                            <button class="btn btn-primary validate_selected_rows_btn">
+                            <button class="btn btn-primary validate_selected_rows_btn" style="display:none">
                                 <i class="material-icons">rule_folder</i> <span>Validate Selected</span>
                             </button>
-                            &nbsp;
-                            <button class="btn btn-primary upload_document_list_button">
-                                <i class="material-icons">upload_file</i> <span>Upload Rows</span>
-                            </button>
-                            &nbsp;
-                            <input class="embedding_list_file_dom" style="display:none;" type="file"
-                                accept=".json,.csv">
-                            <div class="document_list_file_name" style="display:none;"></div>
-                            <button class="upload_embedding_documents_btn btn btn-primary">
-                                <i class="material-icons">cloud_upload</i> <span>Upsert Selected</span></button>
-                            &nbsp;
-                            <button class="btn btn-primary delete_selected_row_btn">
-                                <i class="material-icons">delete</i> <span>Selected</span></button>
-                            &nbsp;
-                            <button class="btn btn-primary add_row_btn">
-                                <i class="material-icons">add</i> <span>Row</span></button>
                             &nbsp;
                             <button class="btn btn-primary download_csv_results_btn">
                                 <i class="material-icons">file_download</i> <span>CSV</span></button>

@@ -62,6 +62,127 @@ export class EmbeddingApp extends BaseApp {
     saveChangesTimer: any = null;
     editableTableFields = ["include", "row", "url", "id", "title", "options", "text", "prefix"];
     resultChunks: Array<any> = [];
+    tableColumns = [
+        {
+            title: "",
+            field: "include",
+            headerHozAlign: "center",
+            headerSort: false,
+            formatter: (cell: any) => {
+                if (cell.getValue()) return `☒`;
+                return `☐`;
+            },
+            cellClick: (ev: any, cell: any) => {
+                cell.setValue(!cell.getValue());
+                this.updateTableSelectAllIcon();
+            },
+            headerClick: () => {
+                if (this.isAllTableRowsSelected()) {
+                    this.fileListToUpload.forEach((row: any) => row.include = false);
+                } else {
+                    this.fileListToUpload.forEach((row: any) => row.include = true);
+                }
+                this.saveUpsertRows(true);
+            },
+            hozAlign: "center",
+        }, {
+            title: "row",
+            field: "row",
+            editor: "input",
+            hozAlign: "center",
+            width: 100,
+        },
+        {
+            title: "url",
+            field: "url",
+            editor: "textarea",
+            width: 250,
+        }, {
+            title: "id",
+            field: "id",
+            editor: "input",
+            width: 100,
+        }, {
+            title: "title",
+            field: "title",
+            editor: "input",
+            width: 100,
+        }, {
+            title: "options",
+            field: "options",
+            editor: "textarea",
+            width: 100,
+        }, {
+            title: "text",
+            field: "text",
+            editor: "textarea",
+            width: 100,
+        }, {
+            title: "prefix",
+            field: "prefix",
+            editor: "textarea",
+            width: 100,
+        }, {
+            title: "parser",
+            field: "parser",
+            headerSort: false,
+            formatter: () => {
+                return `<i class="material-icons">start</i>`;
+            },
+        }, {
+            title: "uploaded",
+            field: "uploadedDate",
+            formatter: (cell: any) => {
+                return this.showGmailStyleDate(new Date(cell.getValue()));
+            },
+        }, {
+            title: "upserted",
+            field: "upsertedDate",
+            formatter: (cell: any) => {
+                const d: string = this.showGmailStyleDate(new Date(cell.getValue()));
+                if (d === "Invalid Date") return "";
+                return d;
+            },
+        }, {
+            title: "vId",
+            field: "pineconeId",
+            width: 100,
+        }, {
+            title: "vCount",
+            field: "vectorCount",
+            width: 20,
+            hozAlign: "center",
+        }, {
+            title: "vTitle",
+            field: "pineconeTitle",
+            width: 100,
+        }, {
+            title: "Size",
+            field: "size",
+        }, {
+            title: "vText",
+            field: "copyText",
+            headerSort: false,
+            formatter: () => {
+                return `<i class="material-icons">content_copy</i>`;
+            },
+            hozAlign: "center",
+        }, {
+            title: "vResult",
+            field: "copyJSON",
+            headerSort: false,
+            formatter: () => {
+                return `<i class="material-icons">content_copy</i>`;
+            },
+            hozAlign: "center",
+        }, {
+            title: "Validation",
+            field: "validation",
+        }, {
+            title: "Error",
+            field: "errorMessage",
+        },
+    ];
 
     /** */
     constructor() {
@@ -72,122 +193,7 @@ export class EmbeddingApp extends BaseApp {
         this.csvUploadDocumentsTabulator = new window.Tabulator(".preview_embedding_documents_table", {
             data: [],
             height: "100%",
-            columns: [
-                {
-                    title: "",
-                    field: "include",
-                    headerHozAlign: "center",
-                    headerSort: false,
-                    formatter: (cell: any) => {
-                        if (cell.getValue()) return `☒`;
-                        return `☐`;
-                    },
-                    cellClick: (ev: any, cell: any) => {
-                        cell.setValue(!cell.getValue());
-                        this.updateTableSelectAllIcon();
-                    },
-                    headerClick: () => {
-                        if (this.isAllTableRowsSelected()) {
-                            this.fileListToUpload.forEach((row: any) => row.include = false);
-                        } else {
-                            this.fileListToUpload.forEach((row: any) => row.include = true);
-                        }
-                        this.saveUpsertRows(true);
-                    },
-                    hozAlign: "center",
-                }, {
-                    title: "row",
-                    field: "row",
-                    editor: "input",
-                    hozAlign: "center",
-                    width: 100,
-                },
-                {
-                    title: "url",
-                    field: "url",
-                    editor: "textarea",
-                    width: 250,
-                }, {
-                    title: "id",
-                    field: "id",
-                    editor: "input",
-                    width: 100,
-                }, {
-                    title: "title",
-                    field: "title",
-                    editor: "input",
-                    width: 100,
-                }, {
-                    title: "options",
-                    field: "options",
-                    editor: "textarea",
-                    width: 100,
-                }, {
-                    title: "text",
-                    field: "text",
-                    editor: "textarea",
-                    width: 100,
-                }, {
-                    title: "prefix",
-                    field: "prefix",
-                    editor: "textarea",
-                    width: 100,
-                }, {
-                    title: "parser",
-                    field: "parser",
-                    headerSort: false,
-                    formatter: () => {
-                        return `<i class="material-icons">start</i>`;
-                    },
-                }, {
-                    title: "uploaded",
-                    field: "uploadedDate",
-                    formatter: (cell: any) => {
-                        return this.showGmailStyleDate(new Date(cell.getValue()));
-                    },
-                }, {
-                    title: "upserted",
-                    field: "upsertedDate",
-                    formatter: (cell: any) => {
-                        const d: string = this.showGmailStyleDate(new Date(cell.getValue()));
-                        if (d === "Invalid Date") return "";
-                        return d;
-                    },
-                }, {
-                    title: "vId",
-                    field: "pineconeId",
-                    width: 100,
-                }, {
-                    title: "vTitle",
-                    field: "pineconeTitle",
-                    width: 100,
-                }, {
-                    title: "Size",
-                    field: "size",
-                }, {
-                    title: "vText",
-                    field: "copyText",
-                    headerSort: false,
-                    formatter: () => {
-                        return `<i class="material-icons">content_copy</i>`;
-                    },
-                    hozAlign: "center",
-                }, {
-                    title: "vResult",
-                    field: "copyJSON",
-                    headerSort: false,
-                    formatter: () => {
-                        return `<i class="material-icons">content_copy</i>`;
-                    },
-                    hozAlign: "center",
-                }, {
-                    title: "Validation",
-                    field: "validation",
-                }, {
-                    title: "Error",
-                    field: "upsertError",
-                },
-            ],
+            columns: this.tableColumns,
         });
         this.csvUploadDocumentsTabulator.on("cellClick", async (e: any, cell: any) => {
             const field = cell.getField();
@@ -497,11 +503,15 @@ export class EmbeddingApp extends BaseApp {
         const count = upsertFileResults.length;
         let errors = 0;
         let credits = 0;
+        let vectorCount = 0;
         upsertFileResults.forEach((result: any) => {
             if (result.errorMessage) errors++;
-            else credits += result.encodingCredits;
+            else {
+                vectorCount += result.idList.length;
+                credits += result.encodingCredits;
+            }
         });
-        this.upsert_result_status_bar.innerHTML = `${count} rows processed, ${errors} errors, ${credits.toFixed(3)} credits`;
+        this.upsert_result_status_bar.innerHTML = `${count} documents, ${vectorCount} vectors, ${errors} errors, ${credits.toFixed(3)} credits`;
     }
     /** */
     async queryEmbeddings() {
@@ -731,11 +741,23 @@ export class EmbeddingApp extends BaseApp {
     async applyUpsertResultsToStore(upsertArray: Array<any>, upsertResults: Array<any>) {
         const dt = new Date().toISOString();
         upsertResults.forEach((row: any, index: number) => {
-            upsertArray[index]["pineconeTitle"] = row["title"];
-            upsertArray[index]["pineconeId"] = row["id"];
-            upsertArray[index]["size"] = row["textSize"];
-            upsertArray[index]["upsertedDate"] = dt;
-            upsertArray[index]["include"] = false;
+            if (row["errorMessage"]) {
+                upsertArray[index]["errorMessage"] = row["errorMessage"];
+                upsertArray[index]["pineconeTitle"] = "";
+                upsertArray[index]["pineconeId"] = "";
+                upsertArray[index]["size"] = 0;
+                upsertArray[index]["upsertedDate"] = dt;
+                upsertArray[index]["include"] = false;
+                upsertArray[index]["vectorCount"] = 0;
+            } else {
+                upsertArray[index]["errorMessage"] = "";
+                upsertArray[index]["pineconeTitle"] = row["title"];
+                upsertArray[index]["pineconeId"] = row["id"];
+                upsertArray[index]["size"] = row["textSize"];
+                upsertArray[index]["upsertedDate"] = dt;
+                upsertArray[index]["include"] = false;
+                upsertArray[index]["vectorCount"] = row["idList"].length;
+            }
             firebase.firestore().doc(`Users/${this.uid}/embedding/doclist/responses/${row.row}`).set(row, {
                 merge: true,
             });
@@ -801,9 +823,10 @@ export class EmbeddingApp extends BaseApp {
                 if (!clone.pineconeTitle) clone.pineconeTitle = "";
                 if (!clone.size) clone.size = "";
                 if (!clone.upsertedDate) clone.upsertedDate = "";
+                if (!clone.vectorCount) clone.vectorCount = "";
                 if (!clone.validation) clone.validation = "";
                 if (!clone.parser) clone.parser = "";
-                if (!clone.upsertError) clone.upsertError = "";
+                if (!clone.errorMessage) clone.errorMessage = "";
                 clone.include = clone.include === true;
                 upsertList.push(clone);
             });
