@@ -66,13 +66,13 @@ export class EmbeddingApp extends BaseApp {
     selectedRowCount = 0;
     tableColumns = [
         {
-            title: "",
+            title: ``,
             field: "include",
             headerHozAlign: "center",
             headerSort: false,
             formatter: (cell: any) => {
-                if (cell.getValue()) return `<span class="check_emoji">❎</span>`;
-                return `<span class="check_emoji">⬜</span>`;
+                if (cell.getValue()) return `<button class="btn btn-secondary"><span class="check_emoji">❎</span></button>`;
+                return `<button class="btn btn-secondary"><span class="check_emoji">⬜</span></button>`;
             },
             cellClick: (ev: any, cell: any) => {
                 cell.setValue(!cell.getValue());
@@ -288,8 +288,8 @@ export class EmbeddingApp extends BaseApp {
     setTableTheme() {
         if (this.tableThemeLinkDom) this.tableThemeLinkDom.remove();
         this.tableThemeLinkDom = document.createElement("link");
-        const theme = this.themeIndex === 0 ? "tabulator" : "tabulator_midnight";
-        this.tableThemeLinkDom.setAttribute("href", `https://unpkg.com/tabulator-tables/dist/css/${theme}.min.css`);
+        const theme = this.themeIndex === 0 ? "tabulator_site" : "tabulator_midnight";
+        this.tableThemeLinkDom.setAttribute("href", `/css/${theme}.css`);
         this.tableThemeLinkDom.setAttribute("rel", "stylesheet");
         document.body.appendChild(this.tableThemeLinkDom);
     }

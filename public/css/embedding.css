@@ -161,13 +161,10 @@ table tr td.table_cell_sizer {
   width: auto;
 }
 
-.check_emoji {
-  font-size: 1.25em;
-}
-
 .tabulator-col-title .check_emoji {
   position: relative;
-  top: -2px;
+  font-size: 1.25em;
+  top: -4px;
 }
 
 .selected_rows_display_span {
@@ -177,10 +174,9 @@ table tr td.table_cell_sizer {
 .preview_embedding_documents_table .tabulator-row .tabulator-cell {
   white-space: normal;
   word-break: break-all;
-  max-height: 3.5em;
+  height: 3.5em;
 }
 
 .preview_embedding_documents_table .tabulator-row .tabulator-cell .check_emoji {
   position: relative;
-  top: 4px;
 }
