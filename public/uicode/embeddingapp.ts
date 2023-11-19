@@ -59,6 +59,7 @@ export class EmbeddingApp extends BaseApp {
     indexDeleteRunning = false;
     primedPrompt = "";
     pineConeInited = false;
+    tableThemeLinkDom: any = null;
     saveChangesTimer: any = null;
     editableTableFields = ["include", "row", "url", "id", "title", "options", "text", "prefix"];
     resultChunks: Array<any> = [];
@@ -284,6 +285,16 @@ export class EmbeddingApp extends BaseApp {
         this.parse_url_parse_button.addEventListener("click", () => this.scrapeSingleURL());
         this.parse_chunks_parse_button.addEventListener("click", () => this.parseText());
         this.updateResultChunksTable();
+        this.setTableTheme();
+    }
+    /** */
+    setTableTheme() {
+        if (this.tableThemeLinkDom) this.tableThemeLinkDom.remove();
+        this.tableThemeLinkDom = document.createElement("link");
+        const theme = this.themeIndex === 0 ? "tabulator" : "tabulator_midnight";
+        this.tableThemeLinkDom.setAttribute("href", `https://unpkg.com/tabulator-tables/dist/css/${theme}.min.css`);
+        this.tableThemeLinkDom.setAttribute("rel", "stylesheet");
+        document.body.appendChild(this.tableThemeLinkDom);
     }
     /** */
     async scrapeSingleURL() {
@@ -427,7 +438,7 @@ export class EmbeddingApp extends BaseApp {
             await this.saveProfileField("emb_pineconeChunkSize", options.pineconeChunkSize);
         }
     }
-    /** override event that happens after authentication resolution */
+    /** override event that happens after authentication resolution / or a user profile change */
     authUpdateStatusUI(): void {
         super.authUpdateStatusUI();
         if (this.profile && !this.pineConeInited) {
@@ -441,6 +452,13 @@ export class EmbeddingApp extends BaseApp {
             this.fetchIndexStats();
             this.watchUpsertRows();
         }
+    }
+    /** override to add set table theme
+     * @param { boolean } niteMode true if nite mode
+    */
+    toggleDayMode(niteMode = false) {
+        super.toggleDayMode(niteMode);
+        this.setTableTheme();
     }
     /** */
     async upsertTableRowsToPinecone() {
