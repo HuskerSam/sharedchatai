@@ -100,14 +100,21 @@ table tr td.table_cell_sizer {
 }
 
 .pinecone_status_bar {
-  display: inline-flex;
+  display: flex;
   flex-direction: row;
   text-align: left;
-  width: auto;
+}
+
+.pinecone_status_bar div {
+  padding: 8px;
+}
+
+.pinecone_status_bar div button {
+  margin: -8px;
 }
 
 .pinecone_index_name {
-  flex: 1;
+  width: 10em;
 }
 
 .pinecone_index_count {
@@ -152,4 +159,18 @@ table tr td.table_cell_sizer {
 .chunked_text_results_table td:nth-child(2),
 .chunked_text_results_table th:nth-child(2) {
   width: auto;
+}
+
+.check_emoji {
+  font-size: 1.25em;
+}
+
+.tabulator-col-title .check_emoji {
+  position: relative;
+  top: -2px;
+}
+
+.selected_rows_display_span {
+  width: 4em;
+  display: inline-block;
 }

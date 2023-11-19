@@ -37,7 +37,7 @@ export class EmbeddingApp extends BaseApp {
     upsert_embedding_tab_btn: any = document.querySelector("#upsert_embedding_tab_btn");
     delete_selected_row_btn: any = document.querySelector(".delete_selected_row_btn");
     add_row_btn: any = document.querySelector(".add_row_btn");
-    table_row_count: any = document.querySelector(".table_row_count");
+    selected_rows_display_span: any = document.querySelector(".selected_rows_display_span");
     validate_selected_rows_btn: any = document.querySelector(".validate_selected_rows_btn");
     chunking_results_wrapper: any = document.querySelector(".chunking_results_wrapper");
     parse_url_parse_button: any = document.querySelector(".parse_url_parse_button");
@@ -62,6 +62,7 @@ export class EmbeddingApp extends BaseApp {
     saveChangesTimer: any = null;
     editableTableFields = ["include", "row", "url", "id", "title", "options", "text", "prefix"];
     resultChunks: Array<any> = [];
+    selectedRowCount = 0;
     tableColumns = [
         {
             title: "",
@@ -69,8 +70,8 @@ export class EmbeddingApp extends BaseApp {
             headerHozAlign: "center",
             headerSort: false,
             formatter: (cell: any) => {
-                if (cell.getValue()) return `☒`;
-                return `☐`;
+                if (cell.getValue()) return `<span class="check_emoji">❎</span>`;
+                return `<span class="check_emoji">⬜</span>`;
             },
             cellClick: (ev: any, cell: any) => {
                 cell.setValue(!cell.getValue());
@@ -861,22 +862,23 @@ export class EmbeddingApp extends BaseApp {
                 });
                 this.csvUploadDocumentsTabulator.setData(this.fileListToUpload);
                 this.updateTableSelectAllIcon();
-                this.table_row_count.innerHTML = this.fileListToUpload.length;
+                this.selected_rows_display_span.innerHTML = this.selectedRowCount + " / " + this.fileListToUpload.length;
             });
     }
     /**
      * @return { boolean }
      */
     isAllTableRowsSelected(): boolean {
+        this.selectedRowCount = 0;
         for (let c = 0, l = this.fileListToUpload.length; c < l; c++) {
-            if (this.fileListToUpload[c].include !== true) return false;
+            if (this.fileListToUpload[c].include === true) this.selectedRowCount++;
         }
-        return true;
+        return (this.selectedRowCount === this.fileListToUpload.length);
     }
     /** */
     updateTableSelectAllIcon() {
-        let selectAllIcon = `☒`;
-        if (this.isAllTableRowsSelected()) selectAllIcon = `☐`;
+        let selectAllIcon = `<span class="check_emoji">❎</span>`;
+        if (this.isAllTableRowsSelected()) selectAllIcon = `<span class="check_emoji">⬜</span>`;
         this.csvUploadDocumentsTabulator.columnManager.columns[0].titleElement.innerHTML = selectAllIcon;
     }
     /** */
