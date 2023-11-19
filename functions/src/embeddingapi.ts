@@ -5,7 +5,9 @@ import type {
     Request,
     Response,
 } from "express";
-import { JSDOM } from "jsdom";
+import {
+    JSDOM,
+} from "jsdom";
 import fetch from "cross-fetch";
 import {
     Pinecone,
@@ -148,7 +150,7 @@ export default class EmbeddingAPI {
         if (html) {
             const dom = new JSDOM(html);
             const document = dom.window.document;
-        
+
             let htmlElementsSelector = "h1, h2, h3, h4, h5, p";
             if (optionsMap.htmlElementsSelector) htmlElementsSelector = optionsMap.htmlElementsSelector;
             document.querySelectorAll(htmlElementsSelector).forEach((element: any) => {
@@ -223,7 +225,7 @@ export default class EmbeddingAPI {
      * @param { number } tokenThreshold
      * @return { any } success: true - otherwise errorMessage: string is in map
     */
-    static async upsertFileData(fileDesc: any, batchId: string, chatGptKey: string, uid: string, pIndex: any, 
+    static async upsertFileData(fileDesc: any, batchId: string, chatGptKey: string, uid: string, pIndex: any,
         tokenThreshold: number) {
             try {
                 return await EmbeddingAPI._upsertFileData(fileDesc, batchId, chatGptKey, uid, pIndex, tokenThreshold);
@@ -232,7 +234,7 @@ export default class EmbeddingAPI {
                     success: false,
                     errorMessage: error.message,
                     error,
-                }
+                };
             }
     }
     /**
@@ -244,7 +246,7 @@ export default class EmbeddingAPI {
      * @param { number } tokenThreshold
      * @return { any } success: true - otherwise errorMessage: string is in map
     */
-    static async _upsertFileData(fileDesc: any, batchId: string, chatGptKey: string, uid: string, pIndex: any, 
+    static async _upsertFileData(fileDesc: any, batchId: string, chatGptKey: string, uid: string, pIndex: any,
         tokenThreshold: number) {
         let id = fileDesc.id;
         if (id === "") id = encodeURIComponent(fileDesc.url);

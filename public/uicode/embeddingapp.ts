@@ -512,7 +512,8 @@ export class EmbeddingApp extends BaseApp {
                 credits += result.encodingCredits;
             }
         });
-        this.upsert_result_status_bar.innerHTML = `${count} documents, ${vectorCount} vectors, ${errors} errors, ${credits.toFixed(3)} credits`;
+        this.upsert_result_status_bar.innerHTML = `${count} documents, ${vectorCount} vectors, ${errors} errors, 
+            ${credits.toFixed(3)} credits`;
     }
     /** */
     async queryEmbeddings() {
