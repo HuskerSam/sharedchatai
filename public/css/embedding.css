@@ -174,3 +174,13 @@ table tr td.table_cell_sizer {
   width: 4em;
   display: inline-block;
 }
+.preview_embedding_documents_table .tabulator-row .tabulator-cell {
+  white-space: normal;
+  word-break: break-all;
+  max-height: 3.5em;
+}
+
+.preview_embedding_documents_table .tabulator-row .tabulator-cell .check_emoji {
+  position: relative;
+  top: 4px;
+}

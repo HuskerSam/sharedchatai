@@ -125,11 +125,11 @@ export class EmbeddingApp extends BaseApp {
             editor: "textarea",
             width: 100,
         }, {
-            title: "parser",
+            title: "Parser",
             field: "parser",
             headerSort: false,
             formatter: () => {
-                return `<i class="material-icons">start</i>`;
+                return `<button class="btn btn-secondary"><i class="material-icons">start</i></button>`;
             },
         }, {
             title: "uploaded",
@@ -152,7 +152,7 @@ export class EmbeddingApp extends BaseApp {
         }, {
             title: "vCount",
             field: "vectorCount",
-            width: 20,
+            width: 90,
             hozAlign: "center",
         }, {
             title: "vTitle",
@@ -162,24 +162,21 @@ export class EmbeddingApp extends BaseApp {
             title: "Size",
             field: "size",
         }, {
-            title: "vText",
+            title: "Text",
             field: "copyText",
             headerSort: false,
             formatter: () => {
-                return `<i class="material-icons">content_copy</i>`;
+                return `<button class="btn btn-secondary"><i class="material-icons">content_copy</i></button>`;
             },
             hozAlign: "center",
         }, {
-            title: "vResult",
+            title: "JSON",
             field: "copyJSON",
             headerSort: false,
             formatter: () => {
-                return `<i class="material-icons">content_copy</i>`;
+                return `<button class="btn btn-secondary"><i class="material-icons">content_copy</i></button>`;
             },
             hozAlign: "center",
-        }, {
-            title: "Validation",
-            field: "validation",
         }, {
             title: "Error",
             field: "errorMessage",
