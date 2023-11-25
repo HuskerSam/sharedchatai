@@ -144,10 +144,11 @@ export default class EmbeddingAPI {
             };
         }
 
-        const html = await result.text();
+        let html = await result.text();
         let text = "";
         let title = "";
         if (html) {
+            if (html.length > 1000000) html = html.substring(0, 1000000);
             const dom = new JSDOM(html);
             const document = dom.window.document;
 

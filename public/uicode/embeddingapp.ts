@@ -197,21 +197,30 @@ export class EmbeddingApp extends BaseApp {
         this.csvUploadDocumentsTabulator.on("cellClick", async (e: any, cell: any) => {
             const field = cell.getField();
             const data = cell.getRow().getData();
-            const rowIndex = Number(data.row) - 1;
+            const rowIndex = Number(data.row);
             if (field === "copyJSON") {
                 const responseQuery = await firebase.firestore()
-                    .doc(`Users/${this.uid}/embedding/doclist/responses/${rowIndex}`).get();
+                    .doc(`Users/${this.uid}/embedding/doclist/responses/${data["responseId"]}`).get();
                 const responseData = responseQuery.data();
                 const outData: any = Object.assign({}, data);
                 outData.upsertResponse = responseData;
                 const json = JSON.stringify(outData, null, "\t");
                 navigator.clipboard.writeText(json);
+                cell.getElement().firstChild.innerHTML = `<i class="material-icons">check</i>`;
+                setTimeout(() => cell.getElement().firstChild.innerHTML = `<i class="material-icons">content_copy</i>`, 800);
             }
             if (field === "copyText") {
+                console.log(rowIndex);
                 const responseQuery = await firebase.firestore()
-                    .doc(`Users/${this.uid}/embedding/doclist/responses/${rowIndex}`).get();
+                    .doc(`Users/${this.uid}/embedding/doclist/responses/${data["responseId"]}`).get();
                 const responseData = responseQuery.data();
+                if (!responseData) {
+                    alert("No text response to copy");
+                    return;                    
+                }
                 navigator.clipboard.writeText(responseData.text);
+                cell.getElement().firstChild.innerHTML = `<i class="material-icons">check</i>`;
+                setTimeout(() => cell.getElement().firstChild.innerHTML = `<i class="material-icons">content_copy</i>`, 800);
             }
             if (field === "parser") {
                 this.parse_url_path_input.value = data.url;
@@ -224,7 +233,7 @@ export class EmbeddingApp extends BaseApp {
             const field = cell.getField();
             if (this.editableTableFields.indexOf(field) !== -1) {
                 const data = cell.getRow().getData();
-                const rowIndex = Number(data.row) - 1;
+                const rowIndex = Number(data.row);
                 if (field === "row") {
                     let newRowIndex = Number(data[field]);
                     if (isNaN(newRowIndex) || newRowIndex < 1) newRowIndex = 1;
@@ -757,6 +766,13 @@ export class EmbeddingApp extends BaseApp {
     */
     async applyUpsertResultsToStore(upsertArray: Array<any>, upsertResults: Array<any>) {
         const dt = new Date().toISOString();
+        const promises: any = [];
+        const saveResponse = async (index: number, row: any) => {
+            const doc = await firebase.firestore().collection(`Users/${this.uid}/embedding/doclist/responses/`).doc()
+            await doc.set(row);
+            upsertArray[index]["responseId"] = doc.id;
+        };
+
         upsertResults.forEach((row: any, index: number) => {
             if (row["errorMessage"]) {
                 upsertArray[index]["errorMessage"] = row["errorMessage"];
@@ -775,10 +791,9 @@ export class EmbeddingApp extends BaseApp {
                 upsertArray[index]["include"] = false;
                 upsertArray[index]["vectorCount"] = row["idList"].length;
             }
-            firebase.firestore().doc(`Users/${this.uid}/embedding/doclist/responses/${row.row}`).set(row, {
-                merge: true,
-            });
+            promises.push(saveResponse(index, row));
         });
+        await Promise.all(promises);
         this.saveUpsertRows(true);
     }
     /** */
@@ -874,7 +889,7 @@ export class EmbeddingApp extends BaseApp {
                 this.fileListToUpload = data.upsertList;
                 if (!this.fileListToUpload) this.fileListToUpload = [];
                 this.fileListToUpload.forEach((item: any, index: number) => {
-                    item.row = (index + 1).toString();
+                    item.row = (index).toString();
                 });
                 this.csvUploadDocumentsTabulator.setData(this.fileListToUpload);
                 this.updateTableSelectAllIcon();
