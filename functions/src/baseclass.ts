@@ -108,7 +108,7 @@ export default class BaseClass {
       };
     } catch (error) {
       return {
-        sucess: false,
+        success: false,
         error,
         errorMessage: "uid not found for email " + email,
       };
