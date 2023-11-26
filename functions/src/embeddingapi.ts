@@ -188,7 +188,7 @@ export default class EmbeddingAPI {
     static async upsertChunkToPinecone(prefix: string, chunk: any, chatGptKey: string, uid: string, batchId: string, id: string,
             title: string, url: string, pIndex: any): Promise<any> {
         let text = chunk.text;
-        if (prefix) text = prefix.trim() + text + "\n";
+        if (prefix) text = prefix.trim() + "\n" + text;
 
         const embeddingModelResult = await EmbeddingAPI.encodeEmbedding(text, chatGptKey, uid);
         const embedding = embeddingModelResult.vectorResult;
@@ -601,6 +601,58 @@ export default class EmbeddingAPI {
             await pIndex.deleteOne(vectorId);
 
             res.send({
+                success: true,
+            });
+        } catch (error: any) {
+            console.log("pinecone unhandled error", error);
+            console.log(error);
+            return BaseClass.respondError(res, error.message, error);
+        }
+    }
+    /**
+     * @param { globalThis.Response } resultPDF
+     * @return { Promise<any> }
+    */
+       /**
+    * @param { Request } req http request object
+    * @param { Response } res http response object
+    */
+       static async fetchVectorById(req: Request, res: Response) {
+        const authResults = await BaseClass.validateCredentials(<string>req.headers.token);
+        if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
+
+        // const uid = authResults.uid;
+        const localInstance = BaseClass.newLocalInstance();
+        await localInstance.init();
+
+        const batchId = req.body.batchId.toString().trim();
+        if (!batchId.trim()) BaseClass.respondError(res, "index name required");
+
+        const vectorId = req.body.vectorId.toString().trim();
+        const pineconeKey = req.body.pineconeKey;
+        const pineconeEnvironment = req.body.pineconeEnvironment;
+
+        try {
+            const pinecone = new Pinecone({
+                apiKey: pineconeKey,
+                environment: pineconeEnvironment,
+            });
+            const indexList = await pinecone.listIndexes();
+            if (!EmbeddingAPI.testIfIndexExists(indexList, batchId)) {
+                return BaseClass.respondError(res, `Index: [${batchId}] not found or not ready`);
+            }
+
+            const pIndex = pinecone.index(batchId);
+            const opts = {
+                id: vectorId,
+                includeMetadata: true,
+                includeValues: true,
+                topK: 1,
+            };
+            const queryResponse = await pIndex.query(opts);
+    
+            res.send({
+                response: queryResponse,
                 success: true,
             });
         } catch (error: any) {

@@ -48,6 +48,8 @@ export class EmbeddingApp extends BaseApp {
     parsed_text_results_h4: any = document.querySelector(".parsed_text_results_h4");
     parse_chunks_parse_button: any = document.querySelector(".parse_chunks_parse_button");
     parse_url_chunk_tokens: any = document.querySelector(".parse_url_chunk_tokens");
+    fetch_pinecone_vector_id: any = document.querySelector(".fetch_pinecone_vector_id");
+    fetch_vector_results: any = document.querySelector(".fetch_vector_results");
     fileUpsertListFirestore: any = null;
     queryDocumentsResultRows: any = [];
     fileListToUpload: Array<any> = [];
@@ -292,6 +294,46 @@ export class EmbeddingApp extends BaseApp {
         this.parse_chunks_parse_button.addEventListener("click", () => this.parseText());
         this.updateResultChunksTable();
         this.setTableTheme();
+
+        this.fetch_pinecone_vector_id.addEventListener("click", () => this.fetchPineconeVector());
+    }
+    /** */
+    async fetchPineconeVector() {
+        this.fetch_vector_results.innerHTML = "fetching...";
+        const id = this.pinecone_id_to_delete.value.trim();
+        if (id === "") {
+            alert("Please supply a vector id");
+            return;
+        }
+
+        const data = this.scrapeData();
+        const batchId = data.pineconeIndex;
+        const pineconeEnvironment = data.pineconeEnvironment;
+        const pineconeKey = data.pineconeKey;
+        const body = {
+            batchId,
+            pineconeEnvironment,
+            pineconeKey,
+            vectorId: id,
+        };
+        const token = await firebase.auth().currentUser.getIdToken();
+        const fResult = await fetch(this.basePath + "embeddingApi/fetchvector", {
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            headers: {
+                "Content-Type": "application/json",
+                token,
+            },
+            body: JSON.stringify(body),
+        });
+
+        const json = await fResult.json();
+        this.fetch_vector_results.innerHTML = JSON.stringify(json, (k,v) => {
+            if(v instanceof Array && k === "values")
+               return JSON.stringify(v, null, 1).replace(/\n/g, " ");
+            return v;
+         }, 2);
     }
     /** */
     setTableTheme() {
@@ -798,6 +840,8 @@ export class EmbeddingApp extends BaseApp {
     }
     /** */
     async deletePineconeVector() {
+        this.fetch_vector_results.innerHTML = "";
+
         const id = this.pinecone_id_to_delete.value.trim();
         if (id === "") {
             alert("Please supply a vector id");

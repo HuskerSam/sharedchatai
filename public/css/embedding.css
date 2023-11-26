@@ -55,8 +55,19 @@ html {
 
 .embedding_options_table td:nth-child(2) {
   padding: 8px;
-  width: 22em;
+  width: 25em;
 }
+
+.embedding_options_table td:nth-child(1) {
+  padding: 8px;
+  width: 5em;
+}
+
+.embedding_options_table td:nth-child(3) {
+  padding: 8px;
+  width: 5em;
+}
+
 
 .btn i {
   position: relative;
@@ -179,4 +190,8 @@ table tr td.table_cell_sizer {
 
 .preview_embedding_documents_table .tabulator-row .tabulator-cell .check_emoji {
   position: relative;
+}
+
+.fetch_vector_results {
+  white-space: pre-wrap;
 }

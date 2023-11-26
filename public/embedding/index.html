@@ -169,7 +169,7 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="options_embedding_tab_view" role="tabpanel"
-                    aria-labelledby="options_embedding_tab_btn">
+                    aria-labelledby="options_embedding_tab_btn" style="flex: 1;flex-direction: column;overflow: auto;">
                     <table class="embedding_options_table">
                         <tr>
                             <td>Index Name </td>
@@ -177,29 +177,34 @@
                             <td><button class="delete_index btn btn-primary"><i
                                         class="material-icons">delete</i></button>
                             </td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td>API Key </td>
                             <td><input class="pinecone_key form-control" type="text" value=""></td>
+                            <td></td>
                             <td></td>
                         </tr>
                         <tr>
                             <td>Environment </td>
                             <td><input class="pinecone_environment form-control" type="text" value=""></td>
                             <td></td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td>Chunk Size</td>
                             <td><input class="chunk_size_default form-control" type="text" value=""></td>
                             <td>tokens</td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td colspan="3" style="text-align: right;padding: 8px;">
                                 <button class="btn btn-primary save_pineconeoptions_btn">Save Options</button>
                             </td>
+                            <td></td>
                         </tr>
                         <tr>
-                            <td colspan="3">
+                            <td colspan="4">
                                 <hr>
                             </td>
                         </tr>
@@ -209,14 +214,18 @@
                                 <input class="pinecone_id_to_delete form-control" type="text" value="">
                             </td>
                             <td></td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td colspan="3" style="text-align: right;padding: 8px;">
+                                <button class="btn btn-primary fetch_pinecone_vector_id">Fetch Vector</button>
                                 <button class="btn btn-primary delete_pinecone_vector_id">Delete Vector</button>
                             </td>
+                            <td></td>
                         </tr>
                         <tr>
-                            <td colspan="3">
+                            <td colspan="4">
+                                <div class="fetch_vector_results"></div>
                                 <hr>
                             </td>
                         </tr>
