@@ -218,7 +218,7 @@ export class EmbeddingApp extends BaseApp {
                 const responseData = responseQuery.data();
                 if (!responseData) {
                     alert("No text response to copy");
-                    return;                    
+                    return;
                 }
                 navigator.clipboard.writeText(responseData.text);
                 cell.getElement().firstChild.innerHTML = `<i class="material-icons">check</i>`;
@@ -329,11 +329,10 @@ export class EmbeddingApp extends BaseApp {
         });
 
         const json = await fResult.json();
-        this.fetch_vector_results.innerHTML = JSON.stringify(json, (k,v) => {
-            if(v instanceof Array && k === "values")
-               return JSON.stringify(v, null, 1).replace(/\n/g, " ");
+        this.fetch_vector_results.innerHTML = JSON.stringify(json, (k: any, v: any) => {
+            if (v instanceof Array && k === "values") return JSON.stringify(v, null, 1).replace(/\n/g, " ");
             return v;
-         }, 2);
+        }, 2);
     }
     /** */
     setTableTheme() {
@@ -810,7 +809,7 @@ export class EmbeddingApp extends BaseApp {
         const dt = new Date().toISOString();
         const promises: any = [];
         const saveResponse = async (index: number, row: any) => {
-            const doc = await firebase.firestore().collection(`Users/${this.uid}/embedding/doclist/responses/`).doc()
+            const doc = await firebase.firestore().collection(`Users/${this.uid}/embedding/doclist/responses/`).doc();
             await doc.set(row);
             upsertArray[index]["responseId"] = doc.id;
         };

@@ -650,7 +650,7 @@ export default class EmbeddingAPI {
                 topK: 1,
             };
             const queryResponse = await pIndex.query(opts);
-    
+
             res.send({
                 response: queryResponse,
                 success: true,
