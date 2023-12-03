@@ -348,6 +348,8 @@ export class EmbeddingApp extends BaseApp {
         const url = this.parse_url_path_input.value;
         const options = this.parse_url_path_options.value;
         this.parse_url_parse_button.innerHTML = "Parsing...";
+        this.parse_url_text_results.value = "";
+        this.parsed_text_results_h4.innerHTML = "Processing...";
         if (!url) {
             alert("URL required");
             return;
@@ -378,7 +380,8 @@ export class EmbeddingApp extends BaseApp {
             this.parse_url_text_results.value = text;
             let statusResult = `Parsed Text Results (${text.length} chars, `;
             if (result.result.duration) {
-                statusResult += `${Math.ceil(result.result.duration)} seconds)`;
+                const credits = result.result.encodingCredits;
+                statusResult += `${Math.ceil(result.result.duration)} seconds, ${credits} credits)`;
             } else {
                 const tokens = this.tokenEncode(text);
                 statusResult += `${tokens.length} tokens)`;

@@ -92,7 +92,7 @@ export default class EmbeddingAPI {
 
         const mimeTypeResult: any = mime.lookup(url);
         let result = null;
-        if (mimeTypeResult === "application/pdf") {
+        if (mimeTypeResult && mimeTypeResult === "application/pdf") {
             const pdfResult = await EmbeddingAPI.pdfToText(url);
             result = {
                 html: "",
@@ -100,19 +100,16 @@ export default class EmbeddingAPI {
                 title: "",
                 mimeType: mimeTypeResult,
             };
-        } else if (mimeTypeResult.substring(0, 6) === "audio/") {
+        } else if (mimeTypeResult && mimeTypeResult.substring(0, 6) === "audio/") {
             const audioResult = await fetch(url);
             const fileData = await audioResult.arrayBuffer();
             const chatGptKey = localInstance.privateConfig.chatGPTKey;
-            const transcriptionResult = await EmbeddingAPI.getTranscription(fileData, url, chatGptKey);
+            const transcriptionResult = await EmbeddingAPI.getTranscription(authResults.uid, fileData, url, chatGptKey);
 
             if (transcriptionResult.success) {
-                result = {
-                    html: "",
-                    text: transcriptionResult.text,
-                    title: "",
-                    duration: transcriptionResult.duration,
-                };
+                result = transcriptionResult;
+                result.html = "";
+                result.title = "";
             } else {
                 return BaseClass.respondError(res, "transcription failed", transcriptionResult);
             }
@@ -147,13 +144,14 @@ export default class EmbeddingAPI {
         });
     }
     /**
+     * @param { string } uid
      * @param { any } data
      * @param { string } filePath
      * @param { string } apiKey chatGPTKey
      * @param { string } model
      * @return { Promise<any> }
      */
-    static async getTranscription(data: any, filePath: string, apiKey: string, model = "whisper-1"): Promise<any> {
+    static async getTranscription(uid: string, data: any, filePath: string, apiKey: string, model = "whisper-1"): Promise<any> {
         try {
             const file = await OpenAI.toFile(data, filePath);
             const format = await EmbeddingAPI.getAudioFormat(data);
@@ -174,8 +172,16 @@ export default class EmbeddingAPI {
                 file,
                 model,
             });
+
+            const modelMeta = SharedWithBackend.getModelMeta(model);
+            const encodingTokens = Math.round(duration);
+            const encodingCredits = Math.ceil(encodingTokens * modelMeta.input / 60) + 1;
+            await BaseClass._updateCreditUsageForUser(uid, "", "", encodingTokens, encodingTokens, 0, encodingCredits);
+
             result.success = true;
             result.duration = duration;
+            result.encodingCredits = encodingCredits;
+            result.encodingTokens = encodingTokens;
             console.log(result);
             return result;
         } catch (error) {
