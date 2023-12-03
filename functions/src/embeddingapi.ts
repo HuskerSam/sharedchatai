@@ -13,6 +13,11 @@ import {
     Pinecone,
 } from "@pinecone-database/pinecone";
 import PDFParser from "pdf2json";
+import mime from "mime-types";
+import * as OpenAI from "openai";
+import fluentFfmpeg from "fluent-ffmpeg";
+import fs from "fs/promises";
+import ffprobe from "@ffprobe-installer/ffprobe";
 
 /** handle scraping webpages and embedding contents in pinecone */
 export default class EmbeddingAPI {
@@ -84,14 +89,33 @@ export default class EmbeddingAPI {
 
         const url = req.body.url;
         const options = req.body.options;
+
+        const mimeTypeResult: any = mime.lookup(url);
         let result = null;
-        if (url.indexOf(".pdf") !== -1) {
+        if (mimeTypeResult === "application/pdf") {
             const pdfResult = await EmbeddingAPI.pdfToText(url);
             result = {
                 html: "",
                 text: pdfResult.text,
                 title: "",
+                mimeType: mimeTypeResult,
             };
+        } else if (mimeTypeResult.substring(0, 6) === "audio/") {
+            const audioResult = await fetch(url);
+            const fileData = await audioResult.arrayBuffer();
+            const chatGptKey = localInstance.privateConfig.chatGPTKey;
+            const transcriptionResult = await EmbeddingAPI.getTranscription(fileData, url, chatGptKey);
+
+            if (transcriptionResult.success) {
+                result = {
+                    html: "",
+                    text: transcriptionResult.text,
+                    title: "",
+                    duration: transcriptionResult.duration,
+                };
+            } else {
+                return BaseClass.respondError(res, "transcription failed", transcriptionResult);
+            }
         } else {
             try {
                 result = await EmbeddingAPI._scrapeURL(url, options);
@@ -104,6 +128,63 @@ export default class EmbeddingAPI {
             success: true,
             result,
         });
+    }
+    /**
+     *
+     * @param { any } data bytearray of file
+     * @return { any }
+     */
+    static async getAudioFormat(data: any): Promise<any> {
+        fluentFfmpeg.setFfprobePath(ffprobe.path);
+        const audioFilePath = "/tmp/temp.mp3";
+        await fs.writeFile(audioFilePath, Buffer.from(data));
+
+        return new Promise((res, rej) => {
+            fluentFfmpeg.ffprobe("/tmp/temp.mp3", (err: any, probeResult: any) => {
+                if (err) rej(err);
+                res(probeResult);
+            });
+        });
+    }
+    /**
+     * @param { any } data
+     * @param { string } filePath
+     * @param { string } apiKey chatGPTKey
+     * @param { string } model
+     * @return { Promise<any> }
+     */
+    static async getTranscription(data: any, filePath: string, apiKey: string, model = "whisper-1"): Promise<any> {
+        try {
+            const file = await OpenAI.toFile(data, filePath);
+            const format = await EmbeddingAPI.getAudioFormat(data);
+            const duration = Number(format.format.duration);
+            if (isNaN(duration) || duration <= 0) {
+                return {
+                    success: false,
+                    error: new Error("no duration detected for audio file"),
+                };
+            }
+            console.log(format.format.duration);
+
+            const openai = new OpenAI.OpenAI({
+                apiKey,
+            });
+
+            const result: any = await openai.audio.transcriptions.create({
+                file,
+                model,
+            });
+            result.success = true;
+            result.duration = duration;
+            console.log(result);
+            return result;
+        } catch (error) {
+            console.log(error);
+            return {
+                success: false,
+                error,
+            };
+        }
     }
     /**
      * @param { string } options string with options split by || and key=value entries
@@ -186,7 +267,7 @@ export default class EmbeddingAPI {
      * @return { Promise<any> }
      */
     static async upsertChunkToPinecone(prefix: string, chunk: any, chatGptKey: string, uid: string, batchId: string, id: string,
-            title: string, url: string, pIndex: any): Promise<any> {
+        title: string, url: string, pIndex: any): Promise<any> {
         let text = chunk.text;
         if (prefix) text = prefix.trim() + "\n" + text;
 
@@ -228,15 +309,15 @@ export default class EmbeddingAPI {
     */
     static async upsertFileData(fileDesc: any, batchId: string, chatGptKey: string, uid: string, pIndex: any,
         tokenThreshold: number) {
-            try {
-                return await EmbeddingAPI._upsertFileData(fileDesc, batchId, chatGptKey, uid, pIndex, tokenThreshold);
-            } catch (error: any) {
-                return {
-                    success: false,
-                    errorMessage: error.message,
-                    error,
-                };
-            }
+        try {
+            return await EmbeddingAPI._upsertFileData(fileDesc, batchId, chatGptKey, uid, pIndex, tokenThreshold);
+        } catch (error: any) {
+            return {
+                success: false,
+                errorMessage: error.message,
+                error,
+            };
+        }
     }
     /**
      * @param { any } fileDesc
@@ -309,16 +390,16 @@ export default class EmbeddingAPI {
         });
 
         await firebaseAdmin.firestore().doc(`Embeddings/${batchId}/html/${id}`)
-        .set({
-            html,
-            text,
-            textChunks,
-            title,
-            textSize,
-            encodingTokens,
-            encodingCredits,
-            idList,
-        });
+            .set({
+                html,
+                text,
+                textChunks,
+                title,
+                textSize,
+                encodingTokens,
+                encodingCredits,
+                idList,
+            });
 
         return {
             success: true,
@@ -613,11 +694,11 @@ export default class EmbeddingAPI {
      * @param { globalThis.Response } resultPDF
      * @return { Promise<any> }
     */
-       /**
-    * @param { Request } req http request object
-    * @param { Response } res http response object
-    */
-       static async fetchVectorById(req: Request, res: Response) {
+    /**
+ * @param { Request } req http request object
+ * @param { Response } res http response object
+ */
+    static async fetchVectorById(req: Request, res: Response) {
         const authResults = await BaseClass.validateCredentials(<string>req.headers.token);
         if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
 

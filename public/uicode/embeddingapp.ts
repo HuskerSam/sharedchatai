@@ -347,6 +347,7 @@ export class EmbeddingApp extends BaseApp {
     async scrapeSingleURL() {
         const url = this.parse_url_path_input.value;
         const options = this.parse_url_path_options.value;
+        this.parse_url_parse_button.innerHTML = "Parsing...";
         if (!url) {
             alert("URL required");
             return;
@@ -368,11 +369,22 @@ export class EmbeddingApp extends BaseApp {
             },
             body: JSON.stringify(body),
         });
+        this.parse_url_parse_button.innerHTML = "Parse";
         const result = await fResult.json();
-        const text = result.result.text;
-        this.parse_url_text_results.value = text;
-        const tokens = this.tokenEncode(text);
-        this.parsed_text_results_h4.innerHTML = `Parsed Text Results (${text.length} chars, ${tokens.length} tokens)`;
+        if (!result.success) {
+            this.parsed_text_results_h4.innerHTML = JSON.stringify(result, null, "\t");
+        } else {
+            const text = result.result.text;
+            this.parse_url_text_results.value = text;
+            let statusResult = `Parsed Text Results (${text.length} chars, `;
+            if (result.result.duration) {
+                statusResult += `${Math.ceil(result.result.duration)} seconds)`;    
+            } else {
+                const tokens = this.tokenEncode(text);
+                statusResult += `${tokens.length} tokens)`;
+            }
+            this.parsed_text_results_h4.innerHTML = statusResult;
+        }
     }
     /** */
     copyQueryResultsToClipboard() {
