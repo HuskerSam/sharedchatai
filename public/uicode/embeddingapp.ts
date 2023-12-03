@@ -376,12 +376,12 @@ export class EmbeddingApp extends BaseApp {
         if (!result.success) {
             this.parsed_text_results_h4.innerHTML = JSON.stringify(result, null, "\t");
         } else {
-            const text = result.result.text;
+            const text = result.text;
             this.parse_url_text_results.value = text;
             let statusResult = `Parsed Text Results (${text.length} chars, `;
-            if (result.result.duration) {
-                const credits = result.result.encodingCredits;
-                statusResult += `${Math.ceil(result.result.duration)} seconds, ${credits} credits)`;
+            if (result.duration) {
+                const credits = result.encodingCredits;
+                statusResult += `${Math.ceil(result.duration)} seconds, ${credits} credits)`;
             } else {
                 const tokens = this.tokenEncode(text);
                 statusResult += `${tokens.length} tokens)`;

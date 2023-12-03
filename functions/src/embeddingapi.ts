@@ -92,8 +92,9 @@ export default class EmbeddingAPI {
 
         const url = req.body.url;
         const options = req.body.options;
+        const chatGptKey = localInstance.privateConfig.chatGPTKey;
 
-        const result = await EmbeddingAPI._processURL(authResults.uid, localInstance, url, options);
+        const result = await EmbeddingAPI._processURL(authResults.uid, chatGptKey, url, options);
         return res.status(200).send(result);
     }
     /**
@@ -183,15 +184,23 @@ export default class EmbeddingAPI {
     }
     /**
      * @param { string } uid
-     * @param { LocalInstance } localInstance
+     * @param { string } chatGptKey
     * @param { string } url
     * @param { string } options
     */
-    static async _processURL(uid: string, localInstance: LocalInstance, url: string, options: string): Promise<any> {
-        const mimeTypeResult: any = mime.lookup(url);
+    static async _processURL(uid: string, chatGptKey: string, url: string,
+        options: string): Promise<any> {
+        const fileResponse = await fetch(url);
+        let mimeTypeResult: any = fileResponse.headers.get("content-type");
+
+        if (mimeTypeResult !== "application/pdf" &&
+            mimeTypeResult !== "application/html" &&
+            mimeTypeResult.substring("audio/") !== 0) {
+            mimeTypeResult = mime.lookup(url);
+        }
         let result = null;
         if (mimeTypeResult && mimeTypeResult === "application/pdf") {
-            const pdfResult = await EmbeddingAPI.pdfToText(<any>url);
+            const pdfResult = await EmbeddingAPI.pdfToText(fileResponse);
             result = {
                 success: true,
                 html: "",
@@ -200,9 +209,7 @@ export default class EmbeddingAPI {
                 mimeType: mimeTypeResult,
             };
         } else if (mimeTypeResult && mimeTypeResult.substring(0, 6) === "audio/") {
-            const audioResult = await fetch(url);
-            const fileData = await audioResult.arrayBuffer();
-            const chatGptKey = localInstance.privateConfig.chatGPTKey;
+            const fileData = await fileResponse.arrayBuffer();
             const transcriptionResult = await EmbeddingAPI.getTranscription(uid, fileData, url, chatGptKey);
 
             if (transcriptionResult.success) {
@@ -218,7 +225,7 @@ export default class EmbeddingAPI {
             }
         } else {
             try {
-                result = await EmbeddingAPI._scrapeHTMLURL(url, options);
+                result = await EmbeddingAPI._scrapeHTMLURL(fileResponse, url, options);
             } catch (error: any) {
                 return {
                     success: false,
@@ -231,26 +238,13 @@ export default class EmbeddingAPI {
         return result;
     }
     /**
+     * @param { any } fileResponse
      * @param { string } url
      * @param { string } options
      */
-    static async _scrapeHTMLURL(url: string, options: string): Promise<any> {
+    static async _scrapeHTMLURL(fileResponse: any, url: string, options: string): Promise<any> {
         const optionsMap = EmbeddingAPI._processOptions(options);
-        const result = await fetch(url);
-        let isPDF = false;
-        const contentHeader = result.headers.get("content-type");
-        if (contentHeader === "application/pdf") isPDF = true;
-        console.log(isPDF);
-        if (url.indexOf(".pdf") !== -1 || isPDF) {
-            const pdfResult = await EmbeddingAPI.pdfToText(result);
-            return {
-                html: "",
-                text: pdfResult.text,
-                title: "",
-            };
-        }
-
-        let html = await result.text();
+        let html = await fileResponse.text();
         let text = "";
         let title = "";
         if (html) {
@@ -274,6 +268,7 @@ export default class EmbeddingAPI {
         }
 
         return {
+            success: true,
             html,
             text,
             title,
@@ -369,7 +364,7 @@ export default class EmbeddingAPI {
         let title = "";
         let html = "";
         if (!text && url !== "") {
-            const scrapeResult = await EmbeddingAPI._scrapeHTMLURL(fileDesc.url, options);
+            const scrapeResult = await EmbeddingAPI._processURL(uid, chatGptKey, url, options);
             text = scrapeResult.text;
             if (!text) {
                 return {
