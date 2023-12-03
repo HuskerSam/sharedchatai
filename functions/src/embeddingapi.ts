@@ -1,7 +1,6 @@
 import * as firebaseAdmin from "firebase-admin";
 import {
     BaseClass,
-    LocalInstance,
 } from "./baseclass";
 import SharedWithBackend from "./uicode/sharedwithbackend";
 import type {
