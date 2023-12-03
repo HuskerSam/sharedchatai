@@ -378,7 +378,7 @@ export class EmbeddingApp extends BaseApp {
             this.parse_url_text_results.value = text;
             let statusResult = `Parsed Text Results (${text.length} chars, `;
             if (result.result.duration) {
-                statusResult += `${Math.ceil(result.result.duration)} seconds)`;    
+                statusResult += `${Math.ceil(result.result.duration)} seconds)`;
             } else {
                 const tokens = this.tokenEncode(text);
                 statusResult += `${tokens.length} tokens)`;
