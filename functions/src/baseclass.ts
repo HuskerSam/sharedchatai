@@ -33,7 +33,7 @@ class LocalInstance {
 }
 
 /** static functions to support micro services */
-export default class BaseClass {
+class BaseClass {
   /** default for chatgpt engine
    * @return { any } map of defaults
   */
@@ -55,7 +55,7 @@ export default class BaseClass {
   /** gets local instance with public and private config
    * @return { any } object with data
    */
-  static newLocalInstance(): any {
+  static newLocalInstance(): LocalInstance {
     return new LocalInstance();
   }
   /** tests numeric
@@ -199,47 +199,52 @@ export default class BaseClass {
     }
     return o;
   }
-      /**
-       * @param { string } uid
-       * @param { string } lastChatDocumentId
-       * @param { string } lastChatTicketId
-       * @param { number } totalTokens
-       * @param { number } promptTokens
-       * @param { number } completionTokens
-       * @param { number } usageCredits
-       */
-      static async _updateCreditUsageForUser(uid: string, lastChatDocumentId: string, lastChatTicketId: string,
-        totalTokens: number, promptTokens: number, completionTokens: number, usageCredits: number) {
-        const today = new Date().toISOString();
-        const yearFrag = today.substring(0, 4);
-        const yearMonthFrag = today.substring(0, 7);
-        const ymdFrag = today.substring(0, 10);
+  /**
+   * @param { string } uid
+   * @param { string } lastChatDocumentId
+   * @param { string } lastChatTicketId
+   * @param { number } totalTokens
+   * @param { number } promptTokens
+   * @param { number } completionTokens
+   * @param { number } usageCredits
+   */
+  static async _updateCreditUsageForUser(uid: string, lastChatDocumentId: string, lastChatTicketId: string,
+    totalTokens: number, promptTokens: number, completionTokens: number, usageCredits: number) {
+    const today = new Date().toISOString();
+    const yearFrag = today.substring(0, 4);
+    const yearMonthFrag = today.substring(0, 7);
+    const ymdFrag = today.substring(0, 10);
 
-        return await firebaseAdmin.firestore().doc(`Users/${uid}/internal/tokenUsage`).set({
-            lastActivity: new Date().toISOString(),
-            lastChatDocumentId,
-            lastChatTicketId,
-            totalTokens: FieldValue.increment(totalTokens),
-            promptTokens: FieldValue.increment(promptTokens),
-            completionTokens: FieldValue.increment(completionTokens),
-            creditUsage: FieldValue.increment(usageCredits),
-            availableCreditBalance: FieldValue.increment(-1 * usageCredits),
-            runningTokens: {
-                ["total_" + yearFrag]: FieldValue.increment(totalTokens),
-                ["total_" + yearMonthFrag]: FieldValue.increment(totalTokens),
-                ["total_" + ymdFrag]: FieldValue.increment(totalTokens),
-                ["prompt_" + yearFrag]: FieldValue.increment(promptTokens),
-                ["prompt_" + yearMonthFrag]: FieldValue.increment(promptTokens),
-                ["prompt_" + ymdFrag]: FieldValue.increment(promptTokens),
-                ["completion_" + yearFrag]: FieldValue.increment(completionTokens),
-                ["completion_" + yearMonthFrag]: FieldValue.increment(completionTokens),
-                ["completion_" + ymdFrag]: FieldValue.increment(completionTokens),
-                ["credit_" + yearFrag]: FieldValue.increment(usageCredits),
-                ["credit_" + yearMonthFrag]: FieldValue.increment(usageCredits),
-                ["credit_" + ymdFrag]: FieldValue.increment(usageCredits),
-            },
-        }, {
-            merge: true,
-        });
-    }
+    return await firebaseAdmin.firestore().doc(`Users/${uid}/internal/tokenUsage`).set({
+      lastActivity: new Date().toISOString(),
+      lastChatDocumentId,
+      lastChatTicketId,
+      totalTokens: FieldValue.increment(totalTokens),
+      promptTokens: FieldValue.increment(promptTokens),
+      completionTokens: FieldValue.increment(completionTokens),
+      creditUsage: FieldValue.increment(usageCredits),
+      availableCreditBalance: FieldValue.increment(-1 * usageCredits),
+      runningTokens: {
+        ["total_" + yearFrag]: FieldValue.increment(totalTokens),
+        ["total_" + yearMonthFrag]: FieldValue.increment(totalTokens),
+        ["total_" + ymdFrag]: FieldValue.increment(totalTokens),
+        ["prompt_" + yearFrag]: FieldValue.increment(promptTokens),
+        ["prompt_" + yearMonthFrag]: FieldValue.increment(promptTokens),
+        ["prompt_" + ymdFrag]: FieldValue.increment(promptTokens),
+        ["completion_" + yearFrag]: FieldValue.increment(completionTokens),
+        ["completion_" + yearMonthFrag]: FieldValue.increment(completionTokens),
+        ["completion_" + ymdFrag]: FieldValue.increment(completionTokens),
+        ["credit_" + yearFrag]: FieldValue.increment(usageCredits),
+        ["credit_" + yearMonthFrag]: FieldValue.increment(usageCredits),
+        ["credit_" + ymdFrag]: FieldValue.increment(usageCredits),
+      },
+    }, {
+      merge: true,
+    });
+  }
 }
+
+export {
+  BaseClass,
+  LocalInstance,
+};

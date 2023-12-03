@@ -1,5 +1,7 @@
 import * as firebaseAdmin from "firebase-admin";
-import BaseClass from "./baseclass";
+import {
+  BaseClass,
+} from "./baseclass";
 import SessionAPI from "./sessionapi";
 import ChatDocument from "./uicode/sharedwithbackend";
 import {

@@ -2,7 +2,9 @@ import * as firebaseAdmin from "firebase-admin";
 import {
     FieldValue,
 } from "firebase-admin/firestore";
-import BaseClass from "./baseclass";
+import {
+    BaseClass,
+} from "./baseclass";
 import fetch from "node-fetch";
 import {
     DiscussServiceClient,

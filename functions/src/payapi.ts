@@ -3,7 +3,9 @@ import * as functions from "firebase-functions";
 import {
     FieldValue,
 } from "firebase-admin/firestore";
-import BaseClass from "./baseclass";
+import {
+    BaseClass,
+} from "./baseclass";
 import fetch from "node-fetch";
 import type {
     Request,

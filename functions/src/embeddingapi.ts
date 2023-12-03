@@ -1,5 +1,8 @@
 import * as firebaseAdmin from "firebase-admin";
-import BaseClass from "./baseclass";
+import {
+    BaseClass,
+    LocalInstance,
+} from "./baseclass";
 import SharedWithBackend from "./uicode/sharedwithbackend";
 import type {
     Request,
@@ -90,41 +93,8 @@ export default class EmbeddingAPI {
         const url = req.body.url;
         const options = req.body.options;
 
-        const mimeTypeResult: any = mime.lookup(url);
-        let result = null;
-        if (mimeTypeResult && mimeTypeResult === "application/pdf") {
-            const pdfResult = await EmbeddingAPI.pdfToText(url);
-            result = {
-                html: "",
-                text: pdfResult.text,
-                title: "",
-                mimeType: mimeTypeResult,
-            };
-        } else if (mimeTypeResult && mimeTypeResult.substring(0, 6) === "audio/") {
-            const audioResult = await fetch(url);
-            const fileData = await audioResult.arrayBuffer();
-            const chatGptKey = localInstance.privateConfig.chatGPTKey;
-            const transcriptionResult = await EmbeddingAPI.getTranscription(authResults.uid, fileData, url, chatGptKey);
-
-            if (transcriptionResult.success) {
-                result = transcriptionResult;
-                result.html = "";
-                result.title = "";
-            } else {
-                return BaseClass.respondError(res, "transcription failed", transcriptionResult);
-            }
-        } else {
-            try {
-                result = await EmbeddingAPI._scrapeURL(url, options);
-            } catch (error: any) {
-                return BaseClass.respondError(res, error.message, error);
-            }
-        }
-
-        return res.status(200).send({
-            success: true,
-            result,
-        });
+        const result = await EmbeddingAPI._processURL(authResults.uid, localInstance, url, options);
+        return res.status(200).send(result);
     }
     /**
      *
@@ -212,10 +182,59 @@ export default class EmbeddingAPI {
         return optionsMap;
     }
     /**
+     * @param { string } uid
+     * @param { LocalInstance } localInstance
+    * @param { string } url
+    * @param { string } options
+    */
+    static async _processURL(uid: string, localInstance: LocalInstance, url: string, options: string): Promise<any> {
+        const mimeTypeResult: any = mime.lookup(url);
+        let result = null;
+        if (mimeTypeResult && mimeTypeResult === "application/pdf") {
+            const pdfResult = await EmbeddingAPI.pdfToText(<any>url);
+            result = {
+                success: true,
+                html: "",
+                text: pdfResult.text,
+                title: "",
+                mimeType: mimeTypeResult,
+            };
+        } else if (mimeTypeResult && mimeTypeResult.substring(0, 6) === "audio/") {
+            const audioResult = await fetch(url);
+            const fileData = await audioResult.arrayBuffer();
+            const chatGptKey = localInstance.privateConfig.chatGPTKey;
+            const transcriptionResult = await EmbeddingAPI.getTranscription(uid, fileData, url, chatGptKey);
+
+            if (transcriptionResult.success) {
+                result = transcriptionResult;
+                result.html = "";
+                result.title = "";
+            } else {
+                return {
+                    success: false,
+                    errorMessage: "transcription failed",
+                    error: transcriptionResult,
+                };
+            }
+        } else {
+            try {
+                result = await EmbeddingAPI._scrapeHTMLURL(url, options);
+            } catch (error: any) {
+                return {
+                    success: false,
+                    errorMessage: error.message,
+                    error,
+                };
+            }
+        }
+
+        return result;
+    }
+    /**
      * @param { string } url
      * @param { string } options
      */
-    static async _scrapeURL(url: string, options: string): Promise<any> {
+    static async _scrapeHTMLURL(url: string, options: string): Promise<any> {
         const optionsMap = EmbeddingAPI._processOptions(options);
         const result = await fetch(url);
         let isPDF = false;
@@ -350,7 +369,7 @@ export default class EmbeddingAPI {
         let title = "";
         let html = "";
         if (!text && url !== "") {
-            const scrapeResult = await EmbeddingAPI._scrapeURL(fileDesc.url, options);
+            const scrapeResult = await EmbeddingAPI._scrapeHTMLURL(fileDesc.url, options);
             text = scrapeResult.text;
             if (!text) {
                 return {
