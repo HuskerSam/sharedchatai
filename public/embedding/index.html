@@ -97,15 +97,22 @@
                 <div style="padding-top:6px;">Project:&nbsp;</div>
                 <div style="padding:0">
                     <select class="upsert_documents_list form-select">
-                        <option>Default</option>
+                        <option value="">Loading...</option>
                     </select>
                 </div>
-                <div class="pinecone_stats_label">Pinecone Index:<br>Vectors: </div>
+                <div style="padding-left:16px;padding-top: 4px;">
+                    <button class="btn btn-secondary add_project_btn">
+                        <i class="material-icons">add</i></button>
+                    &nbsp;
+                    &nbsp;
+                    <button class="btn btn-secondary remove_project_btn">
+                        <i class="material-icons">delete</i></button>
+                </div>
+                <div class="pinecone_stats_label">Index:<br>Vectors: </div>
                 <div class="pinecone_index_name"></div>
                 <div style="padding-top: 8px;flex:1">
                     &nbsp;
-                    <button class="btn btn-secondary fetch_pinecone_index_stats_btn">Update
-                        Pinecone Status</button>
+                    <button class="btn btn-secondary fetch_pinecone_index_stats_btn">Update Status</button>
                 </div>
             </div>
             <ul class="nav nav-tabs" role="tablist">

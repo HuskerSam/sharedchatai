@@ -51,7 +51,11 @@ export class EmbeddingApp extends BaseApp {
     fetch_pinecone_vector_id: any = document.querySelector(".fetch_pinecone_vector_id");
     fetch_vector_results: any = document.querySelector(".fetch_vector_results");
     credits_left: any = document.querySelector(".credits_left");
+    upsert_documents_list: any = document.querySelector(".upsert_documents_list");
+    add_project_btn: any = document.querySelector(".add_project_btn");
     fileUpsertListFirestore: any = null;
+    selectedProjectId = "";
+    watchProjectListFirestore: any = null;
     queryDocumentsResultRows: any = [];
     fileListToUpload: Array<any> = [];
     parsedTextChunks: Array<string> = [];
@@ -204,7 +208,7 @@ export class EmbeddingApp extends BaseApp {
             const rowIndex = Number(data.row);
             if (field === "copyJSON") {
                 const responseQuery = await firebase.firestore()
-                    .doc(`Users/${this.uid}/embedding/doclist/responses/${data["responseId"]}`).get();
+                    .doc(`Users/${this.uid}/embedding/${this.selectedProjectId}/responses/${data["responseId"]}`).get();
                 const responseData = responseQuery.data();
                 const outData: any = Object.assign({}, data);
                 outData.upsertResponse = responseData;
@@ -216,7 +220,7 @@ export class EmbeddingApp extends BaseApp {
             if (field === "copyText") {
                 console.log(rowIndex);
                 const responseQuery = await firebase.firestore()
-                    .doc(`Users/${this.uid}/embedding/doclist/responses/${data["responseId"]}`).get();
+                    .doc(`Users/${this.uid}/embedding/${this.selectedProjectId}/responses/${data["responseId"]}`).get();
                 const responseData = responseQuery.data();
                 if (!responseData) {
                     alert("No text response to copy");
@@ -298,6 +302,9 @@ export class EmbeddingApp extends BaseApp {
         this.setTableTheme();
 
         this.fetch_pinecone_vector_id.addEventListener("click", () => this.fetchPineconeVector());
+
+        this.upsert_documents_list.addEventListener("change", () => this.updateWatchUpsertRows());
+        this.add_project_btn.addEventListener("click", () => this.addProject());
     }
     /** */
     async fetchPineconeVector() {
@@ -514,7 +521,7 @@ export class EmbeddingApp extends BaseApp {
             this.chunk_size_default.value = options.pineconeChunkSize;
             this.pineConeInited = true;
             this.fetchIndexStats();
-            this.watchUpsertRows();
+            this.watchProjectList();
             this.initUsageWatch();
         }
     }
@@ -824,7 +831,7 @@ export class EmbeddingApp extends BaseApp {
         const dt = new Date().toISOString();
         const promises: any = [];
         const saveResponse = async (index: number, row: any) => {
-            const doc = await firebase.firestore().collection(`Users/${this.uid}/embedding/doclist/responses/`).doc();
+            const doc = await firebase.firestore().collection(`Users/${this.uid}/embedding/${this.selectedProjectId}/responses/`).doc();
             await doc.set(row);
             upsertArray[index]["responseId"] = doc.id;
         };
@@ -921,7 +928,7 @@ export class EmbeddingApp extends BaseApp {
                 upsertList.push(clone);
             });
             console.log(upsertList);
-            await firebase.firestore().doc(`Users/${this.uid}/embedding/doclist`).set({
+            await firebase.firestore().doc(`Users/${this.uid}/embedding/${this.selectedProjectId}/data/rows`).set({
                 upsertList,
             }, {
                 merge: true,
@@ -947,10 +954,61 @@ export class EmbeddingApp extends BaseApp {
         });
     }
     /** */
-    async watchUpsertRows() {
-        if (this.fileUpsertListFirestore) return;
+    async addProject(projectId: any = "") {
+        if (!projectId) {
+            projectId = prompt("Project Name:", new Date().toISOString().substring(0, 10));
+            if (projectId === null) return;
+        }
+        
+        this.upsert_documents_list.innerHTML = ``;
+        this.profile.selectedEmbeddingProjectId = projectId;
+        this.saveProfileField("selectedEmbeddingProjectId", projectId);
+        await firebase.firestore().doc(`Users/${this.uid}/embedding/${projectId}`).set({
+            projectId,
+            updated: new Date().toISOString(),
+        }, {
+            merge: true,
+        });
+    }
+    /** */
+    async watchProjectList() {
+        if (this.watchProjectListFirestore) return;
+        this.watchProjectListFirestore = firebase.firestore().collection(`Users/${this.uid}/embedding`)
+            .onSnapshot((snapshot: any) => {  
+                let optionsHtml = "";
+                const selectedValue = this.upsert_documents_list.selectedValue;
+                if (snapshot.size === 0) {
+                    optionsHtml += "<option>Default</option>";
+                    this.addProject("Default");
+                } else {
+                    snapshot.forEach((doc: any) => {
+                        optionsHtml += `<option value="${doc.id}">${doc.id}</option>`;
+                    });
+                }
+                this.upsert_documents_list.innerHTML = optionsHtml;
+                if (!selectedValue) {
+                    this.upsert_documents_list.value = this.profile.selectedEmbeddingProjectId;
+                } else {
+                    this.upsert_documents_list.value = selectedValue;
+                }
+                if (this.upsert_documents_list.selectedIndex === -1) {
+                    this.upsert_documents_list.selectedIndex = 0;
+                }
 
-        this.fileUpsertListFirestore = firebase.firestore().doc(`Users/${this.uid}/embedding/doclist`)
+                this.updateWatchUpsertRows();
+            });
+    }
+    /** */
+    async updateWatchUpsertRows() {
+        const projectId = this.upsert_documents_list.value;
+        if (this.selectedProjectId === projectId) return;
+        this.selectedProjectId = projectId;
+        if (!this.selectedProjectId) return;
+        if (this.fileUpsertListFirestore) this.fileUpsertListFirestore();
+
+        this.saveProfileField("selectedEmbeddingProjectId", this.selectedProjectId);
+        this.fileUpsertListFirestore = firebase.firestore()
+            .doc(`Users/${this.uid}/embedding/${this.selectedProjectId}/data/rows`)
             .onSnapshot((snapshot: any) => {
                 let data = snapshot.data();
                 if (!data) data = {};
