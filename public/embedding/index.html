@@ -62,8 +62,16 @@
                                 class="home_navbar_name_color"">cog</span></span>
                     </a>
                 </li>
-                <li style=" flex:1;background:none;" class="app_panel">
-                                &nbsp; Upsert Embedding Documents
+                <li style="background:none;" class="app_panel">
+                                &nbsp; Upsert Embedding Documents &nbsp;
+                </li>
+                <li style="background:none;flex:1" class="app_panel">
+                    &nbsp;
+                </li>
+                <li style="background:none;" class="app_panel">
+                    <a class="account_status_display" href="showaccountinfo">
+                        <div class="credits_left"></div>
+                    </a>
                 </li>
                 <li class="nav-item signed_out_flex">
                     <a class="signin_show_modal hover_yellow btn btn-primary px-4" href="login" type="button">Login
@@ -86,11 +94,15 @@
         <div class="app_panel"
             style="padding: 8px;padding-top: 70px;flex: 1;overflow: hidden;display: flex;flex-direction: column;">
             <div class="pinecone_status_bar">
-                <div>Pinecone Index: </div>
+                <div style="padding-top:6px;">Project:&nbsp;</div>
+                <div style="padding:0">
+                    <select class="upsert_documents_list form-select">
+                        <option>Default</option>
+                    </select>
+                </div>
+                <div class="pinecone_stats_label">Pinecone Index:<br>Vectors: </div>
                 <div class="pinecone_index_name"></div>
-                <div>Vectors: </div>
-                <div class="pinecone_index_count"></div>
-                <div style="padding-bottom: 12px;flex:1">
+                <div style="padding-top: 8px;flex:1">
                     &nbsp;
                     <button class="btn btn-secondary fetch_pinecone_index_stats_btn">Update
                         Pinecone Status</button>
@@ -100,7 +112,7 @@
                 <li class="nav-item" role="presentation">
                     <a class="nav-link active" id="upsert_embedding_tab_btn" data-bs-toggle="tab"
                         href="#upsert_embedding_tab_view" role="tab" aria-controls="upsert_embedding_tab_view"
-                        aria-selected="true">Upsert</a>
+                        aria-selected="true">Documents</a>
                 </li>
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" id="options_embedding_tab_btn" data-bs-toggle="tab"

@@ -116,20 +116,24 @@ table tr td.table_cell_sizer {
   text-align: left;
 }
 
-.pinecone_status_bar div {
-  padding: 8px;
-}
-
 .pinecone_status_bar div button {
   margin: -8px;
 }
 
 .pinecone_index_name {
   width: 10em;
+  line-height: 1.25em;
 }
 
 .pinecone_index_count {
   width: 4em;
+}
+
+.pinecone_stats_label {
+  text-align: right;
+  padding-left: 12px;
+  padding-right: 8px;
+  line-height: 1.25em;
 }
 
 .styled_csv_table table td:nth-child(2),
@@ -194,4 +198,21 @@ table tr td.table_cell_sizer {
 
 .fetch_vector_results {
   white-space: pre-wrap;
+}
+
+select.upsert_documents_list.form-select {
+  border: 1px solid var(--primary-color-4);
+  color: var(--primary-color);
+  font-size: 18px;
+  background-color: var(--secondary-color);
+  padding: 4px;
+  padding-left: 8px;
+  padding-right: 24px;
+  width: 200px;
+}
+
+select.upsert_documents_list.form-select:hover,
+select.upsert_documents_list.form-select:focus,
+select.upsert_documents_list.form-select:active {
+  background-color: var(--background-accent-3);
 }

@@ -1,6 +1,7 @@
 import BaseApp from "./baseapp.js";
 import ChatDocument from "./chatdocument.js";
 import SharedWithBackend from "./sharedwithbackend.js";
+import AccountHelper from "./accounthelper.js";
 declare const firebase: any;
 declare const window: any;
 
@@ -30,7 +31,6 @@ export class EmbeddingApp extends BaseApp {
     results_open_new_window: any = document.querySelector(".results_open_new_window");
     fetch_pinecone_index_stats_btn: any = document.querySelector(".fetch_pinecone_index_stats_btn");
     pinecone_index_stats_display: any = document.querySelector(".pinecone_index_stats_display");
-    pinecone_index_count: any = document.querySelector(".pinecone_index_count");
     pinecone_index_name: any = document.querySelector(".pinecone_index_name");
     delete_pinecone_vector_id: any = document.querySelector(".delete_pinecone_vector_id");
     pinecone_id_to_delete: any = document.querySelector(".pinecone_id_to_delete");
@@ -50,6 +50,7 @@ export class EmbeddingApp extends BaseApp {
     parse_url_chunk_tokens: any = document.querySelector(".parse_url_chunk_tokens");
     fetch_pinecone_vector_id: any = document.querySelector(".fetch_pinecone_vector_id");
     fetch_vector_results: any = document.querySelector(".fetch_vector_results");
+    credits_left: any = document.querySelector(".credits_left");
     fileUpsertListFirestore: any = null;
     queryDocumentsResultRows: any = [];
     fileListToUpload: Array<any> = [];
@@ -57,6 +58,7 @@ export class EmbeddingApp extends BaseApp {
     pineconeQueryResults: any = {};
     csvUploadDocumentsTabulator: any = null;
     embeddingRunning = false;
+    usageWatchInited = false;
     vectorQueryRunning = false;
     indexDeleteRunning = false;
     primedPrompt = "";
@@ -513,6 +515,7 @@ export class EmbeddingApp extends BaseApp {
             this.pineConeInited = true;
             this.fetchIndexStats();
             this.watchUpsertRows();
+            this.initUsageWatch();
         }
     }
     /** override to add set table theme
@@ -769,7 +772,6 @@ export class EmbeddingApp extends BaseApp {
             pineconeKey,
         };
         this.pinecone_index_stats_display.innerHTML = "fetching...";
-        this.pinecone_index_count.innerHTML = "";
         this.pinecone_index_name.innerHTML = "fetching...";
         const token = await firebase.auth().currentUser.getIdToken();
         const fResult = await fetch(this.basePath + "embeddingApi/indexstats", {
@@ -788,13 +790,11 @@ export class EmbeddingApp extends BaseApp {
         if (json.success === false) {
             console.log("pinecone error", json);
             this.pinecone_index_name.innerHTML = json.errorMessage;
-            this.pinecone_index_count.innerHTML = "N/A";
             return;
         }
 
         this.pinecone_index_stats_display.innerHTML = JSON.stringify(json, null, "\t");
-        this.pinecone_index_count.innerHTML = json.indexDescription.totalRecordCount;
-        this.pinecone_index_name.innerHTML = batchId;
+        this.pinecone_index_name.innerHTML = batchId + "<br>" + json.indexDescription.totalRecordCount;
     }
     /** */
     async uploadUpsertListFile() {
@@ -899,7 +899,7 @@ export class EmbeddingApp extends BaseApp {
      * @param { boolean } saveNow
      */
     async saveUpsertRows(saveNow = false) {
-        this.upsert_embedding_tab_btn.innerHTML = "Saving...";
+        // this.upsert_embedding_tab_btn.innerHTML = "Saving...";
 
         if (saveNow) {
             const upsertList: Array<any> = [];
@@ -926,7 +926,7 @@ export class EmbeddingApp extends BaseApp {
             }, {
                 merge: true,
             });
-            this.upsert_embedding_tab_btn.innerHTML = "Upsert";
+            // this.upsert_embedding_tab_btn.innerHTML = "Upsert";
             return;
         }
 
@@ -935,6 +935,16 @@ export class EmbeddingApp extends BaseApp {
             this.saveChangesTimer = null;
             this.saveUpsertRows(true);
         }, 1000);
+    }
+    /** */
+    initUsageWatch() {
+        if (this.usageWatchInited) return;
+        this.usageWatchInited = true;
+
+        AccountHelper.accountInfoUpdate(this, (usageData: any) => {
+            const availableBalance = usageData.availableCreditBalance;
+            this.credits_left.innerHTML = Math.floor(availableBalance) + "<br><span>Credits</span>";
+        });
     }
     /** */
     async watchUpsertRows() {
