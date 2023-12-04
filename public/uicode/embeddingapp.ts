@@ -53,6 +53,7 @@ export class EmbeddingApp extends BaseApp {
     credits_left: any = document.querySelector(".credits_left");
     upsert_documents_list: any = document.querySelector(".upsert_documents_list");
     add_project_btn: any = document.querySelector(".add_project_btn");
+    remove_project_btn: any = document.querySelector(".remove_project_btn");
     fileUpsertListFirestore: any = null;
     selectedProjectId = "";
     watchProjectListFirestore: any = null;
@@ -274,7 +275,10 @@ export class EmbeddingApp extends BaseApp {
             });
         }
 
-        this.upload_document_list_button.addEventListener("click", () => this.embedding_list_file_dom.click());
+        this.upload_document_list_button.addEventListener("click", () => {
+            this.embedding_list_file_dom.value = "";
+            this.embedding_list_file_dom.click();
+        });
         this.embedding_list_file_dom.addEventListener("change", () => this.uploadUpsertListFile());
 
         this.download_csv_results_btn.addEventListener("click", () => this.downloadResultsFile(true));
@@ -305,6 +309,7 @@ export class EmbeddingApp extends BaseApp {
 
         this.upsert_documents_list.addEventListener("change", () => this.updateWatchUpsertRows());
         this.add_project_btn.addEventListener("click", () => this.addProject());
+        this.remove_project_btn.addEventListener("click", () => this.deleteProject());
     }
     /** */
     async fetchPineconeVector() {
@@ -971,15 +976,23 @@ export class EmbeddingApp extends BaseApp {
         });
     }
     /** */
+    async deleteProject() {
+        if (!this.selectedProjectId) return;
+        if (!confirm("Are you sure you want to delete this project?")) return;
+        await firebase.firestore().doc(`Users/${this.uid}/embedding/${this.selectedProjectId}/data/rows`).delete();
+        await firebase.firestore().doc(`Users/${this.uid}/embedding/${this.selectedProjectId}`).delete();
+    }
+    /** */
     async watchProjectList() {
         if (this.watchProjectListFirestore) return;
         this.watchProjectListFirestore = firebase.firestore().collection(`Users/${this.uid}/embedding`)
-            .onSnapshot((snapshot: any) => {  
+            .onSnapshot((snapshot: any) => {
                 let optionsHtml = "";
                 const selectedValue = this.upsert_documents_list.selectedValue;
                 if (snapshot.size === 0) {
                     optionsHtml += "<option>Default</option>";
                     this.addProject("Default");
+                    this.selectedProjectId = "";
                 } else {
                     snapshot.forEach((doc: any) => {
                         optionsHtml += `<option value="${doc.id}">${doc.id}</option>`;
@@ -993,6 +1006,7 @@ export class EmbeddingApp extends BaseApp {
                 }
                 if (this.upsert_documents_list.selectedIndex === -1) {
                     this.upsert_documents_list.selectedIndex = 0;
+                    this.selectedProjectId = "";
                 }
 
                 this.updateWatchUpsertRows();
@@ -1003,8 +1017,11 @@ export class EmbeddingApp extends BaseApp {
         const projectId = this.upsert_documents_list.value;
         if (this.selectedProjectId === projectId) return;
         this.selectedProjectId = projectId;
-        if (!this.selectedProjectId) return;
         if (this.fileUpsertListFirestore) this.fileUpsertListFirestore();
+        this.fileUpsertListFirestore = null;
+        if (!this.selectedProjectId) return;
+        this.fileListToUpload = [];
+        this.csvUploadDocumentsTabulator.setData(this.fileListToUpload);
 
         this.saveProfileField("selectedEmbeddingProjectId", this.selectedProjectId);
         this.fileUpsertListFirestore = firebase.firestore()
