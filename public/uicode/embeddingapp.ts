@@ -518,7 +518,10 @@ export class EmbeddingApp extends BaseApp {
             await this.saveEmbeddingField("pineconeChunkSize", options.pineconeChunkSize);
         }
     }
-    /** */
+    /**
+     * @param { string } field
+     * @param { any } value
+     */
     async saveEmbeddingField(field: string, value: any) {
         if (!this.selectedProjectId) return;
         await firebase.firestore().doc(`Users/${this.uid}/embedding/${this.selectedProjectId}`).set({
@@ -964,13 +967,15 @@ export class EmbeddingApp extends BaseApp {
             this.credits_left.innerHTML = Math.floor(availableBalance) + "<br><span>Credits</span>";
         });
     }
-    /** */
+    /**
+     * @param { any } projectId
+    */
     async addProject(projectId: any = "") {
         if (!projectId) {
             projectId = prompt("Project Name:", new Date().toISOString().substring(0, 10));
             if (projectId === null) return;
         }
-        
+
         this.upsert_documents_list.innerHTML = ``;
         this.profile.selectedEmbeddingProjectId = projectId;
         this.saveProfileField("selectedEmbeddingProjectId", projectId);
