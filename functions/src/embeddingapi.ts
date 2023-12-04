@@ -637,7 +637,7 @@ export default class EmbeddingAPI {
         await localInstance.init();
 
         const batchId = req.body.batchId.toString().trim();
-        if (!batchId.trim()) BaseClass.respondError(res, "Index name required");
+        if (!batchId.trim()) return BaseClass.respondError(res, "Index name required");
         const pineconeKey = req.body.pineconeKey;
         const pineconeEnvironment = req.body.pineconeEnvironment;
 

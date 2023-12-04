@@ -55,6 +55,7 @@ export class EmbeddingApp extends BaseApp {
     add_project_btn: any = document.querySelector(".add_project_btn");
     remove_project_btn: any = document.querySelector(".remove_project_btn");
     fileUpsertListFirestore: any = null;
+    embeddingProjects: any = {};
     selectedProjectId = "";
     watchProjectListFirestore: any = null;
     queryDocumentsResultRows: any = [];
@@ -67,7 +68,6 @@ export class EmbeddingApp extends BaseApp {
     vectorQueryRunning = false;
     indexDeleteRunning = false;
     primedPrompt = "";
-    pineConeInited = false;
     tableThemeLinkDom: any = null;
     saveChangesTimer: any = null;
     editableTableFields = ["include", "row", "url", "id", "title", "options", "text", "prefix"];
@@ -478,11 +478,15 @@ export class EmbeddingApp extends BaseApp {
         let pineconeEnvironment = "";
         let pineconePrompt = "";
         let pineconeChunkSize = "1000";
-        if (this.profile.emb_pineconeIndex !== undefined) pineconeIndex = this.profile.emb_pineconeIndex;
-        if (this.profile.emb_pineconeKey !== undefined) pineconeKey = this.profile.emb_pineconeKey;
-        if (this.profile.emb_pineconeEnvironment !== undefined) pineconeEnvironment = this.profile.emb_pineconeEnvironment;
-        if (this.profile.emb_pineconePrompt !== undefined) pineconePrompt = this.profile.emb_pineconePrompt;
-        if (this.profile.emb_pineconeChunkSize !== undefined) pineconeChunkSize = this.profile.emb_pineconeChunkSize;
+        // 0c0df79a-cc2c-4efd-9835-fdaeb66df843
+        if (this.selectedProjectId) {
+            const projectSettings = this.embeddingProjects[this.selectedProjectId];
+            if (projectSettings.pineconeIndex !== undefined) pineconeIndex = projectSettings.pineconeIndex;
+            if (projectSettings.pineconeKey !== undefined) pineconeKey = projectSettings.pineconeKey;
+            if (projectSettings.pineconeEnvironment !== undefined) pineconeEnvironment = projectSettings.pineconeEnvironment;
+            if (projectSettings.pineconePrompt !== undefined) pineconePrompt = projectSettings.pineconePrompt;
+            if (projectSettings.pineconeChunkSize !== undefined) pineconeChunkSize = projectSettings.pineconeChunkSize;
+        }
 
         return {
             pineconeIndex,
@@ -501,31 +505,33 @@ export class EmbeddingApp extends BaseApp {
             options.pineconeKey !== profileOptions.pineconeKey ||
             options.pineconeEnvironment !== profileOptions.pineconeEnvironment) {
             await Promise.all([
-                this.saveProfileField("emb_pineconeIndex", options.pineconeIndex),
-                this.saveProfileField("emb_pineconeKey", options.pineconeKey),
-                this.saveProfileField("emb_pineconeEnvironment", options.pineconeEnvironment),
+                this.saveEmbeddingField("pineconeIndex", options.pineconeIndex),
+                this.saveEmbeddingField("pineconeKey", options.pineconeKey),
+                this.saveEmbeddingField("pineconeEnvironment", options.pineconeEnvironment),
             ]);
         }
         if (options.pineconePrompt !== profileOptions.pineconePrompt) {
-            await this.saveProfileField("emb_pineconePrompt", options.pineconePrompt);
+            await this.saveEmbeddingField("pineconePrompt", options.pineconePrompt);
         }
 
         if (options.pineconeChunkSize !== profileOptions.pineconeChunkSize) {
-            await this.saveProfileField("emb_pineconeChunkSize", options.pineconeChunkSize);
+            await this.saveEmbeddingField("pineconeChunkSize", options.pineconeChunkSize);
         }
+    }
+    /** */
+    async saveEmbeddingField(field: string, value: any) {
+        if (!this.selectedProjectId) return;
+        await firebase.firestore().doc(`Users/${this.uid}/embedding/${this.selectedProjectId}`).set({
+            [field]: value,
+            updated: new Date().toISOString(),
+        }, {
+            merge: true,
+        });
     }
     /** override event that happens after authentication resolution / or a user profile change */
     authUpdateStatusUI(): void {
         super.authUpdateStatusUI();
-        if (this.profile && !this.pineConeInited) {
-            const options = this.getPineconeOptions();
-            this.batch_id.value = options.pineconeIndex;
-            this.pinecone_key.value = options.pineconeKey;
-            this.pinecone_environment.value = options.pineconeEnvironment;
-            this.prompt_area.value = options.pineconePrompt;
-            this.chunk_size_default.value = options.pineconeChunkSize;
-            this.pineConeInited = true;
-            this.fetchIndexStats();
+        if (this.profile) {
             this.watchProjectList();
             this.initUsageWatch();
         }
@@ -994,8 +1000,10 @@ export class EmbeddingApp extends BaseApp {
                     this.addProject("Default");
                     this.selectedProjectId = "";
                 } else {
+                    this.embeddingProjects = {};
                     snapshot.forEach((doc: any) => {
                         optionsHtml += `<option value="${doc.id}">${doc.id}</option>`;
+                        this.embeddingProjects[doc.id] = doc.data();
                     });
                 }
                 this.upsert_documents_list.innerHTML = optionsHtml;
@@ -1020,6 +1028,14 @@ export class EmbeddingApp extends BaseApp {
         if (this.fileUpsertListFirestore) this.fileUpsertListFirestore();
         this.fileUpsertListFirestore = null;
         if (!this.selectedProjectId) return;
+
+        const options = this.getPineconeOptions();
+        this.batch_id.value = options.pineconeIndex;
+        this.pinecone_key.value = options.pineconeKey;
+        this.pinecone_environment.value = options.pineconeEnvironment;
+        this.prompt_area.value = options.pineconePrompt;
+        this.chunk_size_default.value = options.pineconeChunkSize;
+        this.fetchIndexStats();
         this.fileListToUpload = [];
         this.csvUploadDocumentsTabulator.setData(this.fileListToUpload);
 
