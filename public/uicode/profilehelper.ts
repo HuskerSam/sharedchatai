@@ -290,6 +290,8 @@ export default class ProfileHelper {
                             <br>
                             <select class="label_profile_picker" multiple="multiple"
                                 style="width:95%;min-height:6em"></select>
+                            <hr>
+                            <a class="btn btn-secondary" href="/embedding">Open Embedding</a>
                         </div>
                         <div class="tab-pane fade" id="profile_user_labels_view" style="min-height:10em;" role="tabpanel"
                             aria-labelledby="profile_labels_tab_button">
