@@ -601,23 +601,29 @@ export class EmbeddingApp extends BaseApp {
         });
 
         const json = await fResult.json();
-        const upsertFileResults = json.fileUploadResults;
-        this.applyUpsertResultsToStore(fileList, upsertFileResults);
-
         this.embeddingRunning = false;
-        const count = upsertFileResults.length;
-        let errors = 0;
-        let credits = 0;
-        let vectorCount = 0;
-        upsertFileResults.forEach((result: any) => {
-            if (result.errorMessage) errors++;
-            else {
-                vectorCount += result.idList.length;
-                credits += result.encodingCredits;
-            }
-        });
-        this.upsert_result_status_bar.innerHTML = `${count} documents, ${vectorCount} vectors, ${errors} errors, 
-            ${credits.toFixed(3)} credits`;
+        if (!json.success) {
+            alert("Error: " + json.errorMessage);
+            console.log(json);
+            this.upsert_result_status_bar.innerHTML = json.errorMessage;
+        } else {
+            const upsertFileResults = json.fileUploadResults;
+            this.applyUpsertResultsToStore(fileList, upsertFileResults);
+    
+            const count = upsertFileResults.length;
+            let errors = 0;
+            let credits = 0;
+            let vectorCount = 0;
+            upsertFileResults.forEach((result: any) => {
+                if (result.errorMessage) errors++;
+                else {
+                    vectorCount += result.idList.length;
+                    credits += result.encodingCredits;
+                }
+            });
+            this.upsert_result_status_bar.innerHTML = `${count} documents, ${vectorCount} vectors, ${errors} errors, 
+                ${credits.toFixed(3)} credits`;
+        }
     }
     /** */
     async queryEmbeddings() {
@@ -727,6 +733,7 @@ export class EmbeddingApp extends BaseApp {
     }
     /** */
     async deleteIndex() {
+        if (!confirm("Are you sure you want to delete this index - there is no recovery?")) return;
         const data = this.scrapeData();
         await this._deleteIndex(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
         this._fetchIndexStats(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
@@ -746,7 +753,6 @@ export class EmbeddingApp extends BaseApp {
             return;
         }
 
-        this.delete_index.innerHTML = "Deleting...";
         this.indexDeleteRunning = true;
         const body = {
             batchId,
@@ -770,7 +776,6 @@ export class EmbeddingApp extends BaseApp {
         console.log("query response", json);
 
         this.indexDeleteRunning = false;
-        this.delete_index.innerHTML = "Delete Batch (Pinecone Index)";
 
         if (json.success === false) {
             alert(json.errorMessage);

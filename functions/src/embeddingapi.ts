@@ -49,12 +49,16 @@ export default class EmbeddingAPI {
         });
         const indexList = await pinecone.listIndexes();
         if (!EmbeddingAPI.testIfIndexExists(indexList, batchId)) {
-            await pinecone.createIndex({
-                name: batchId,
-                dimension: 1536,
-                metric: "cosine",
-                waitUntilReady: true,
-            });
+            try {
+                await pinecone.createIndex({
+                    name: batchId,
+                    dimension: 1536,
+                    metric: "cosine",
+                    waitUntilReady: true,
+                });
+            } catch (createError: any) {
+                return BaseClass.respondError(res, createError.message, createError);
+            }
         }
         const pIndex = pinecone.index(batchId);
 
