@@ -289,8 +289,9 @@ export default class EmbeddingAPI {
      * @param { any } pIndex
      * @return { Promise<any> }
      */
-    static async upsertChunkToPinecone(prefix: string, chunk: any, chatGptKey: string, uid: string, batchId: string, id: string,
-        title: string, url: string, pIndex: any): Promise<any> {
+    static async upsertChunkToPinecone(prefix: string, chunk: any, chatGptKey: string, uid: string,
+        batchId: string, id: string, title: string, url: string, pIndex: any,
+        additionalMetaData: any = {}): Promise<any> {
         let text = chunk.text;
         if (prefix) text = prefix.trim() + "\n" + text;
 
@@ -299,14 +300,17 @@ export default class EmbeddingAPI {
         const encodingTokens = embeddingModelResult.encodingTokens;
         const encodingCredits = embeddingModelResult.encodingCredits;
 
+        const metadata: any = {
+            text,
+            url,
+            title,
+            encodingTokens,
+            encodingCredits,
+        };
+
+        Object.assign(metadata, additionalMetaData);
         const pEmbedding = {
-            metadata: {
-                text,
-                url,
-                title,
-                encodingTokens,
-                encodingCredits,
-            },
+            metadata,
             values: embedding,
             id: id,
         };
@@ -384,6 +388,14 @@ export default class EmbeddingAPI {
             };
         }
 
+        const additionalMetaData: any = {};
+        const fileDescKeys = Object.keys(fileDesc);
+        fileDescKeys.forEach((key: string) => {
+            if (key.substring(0, 5).toLocaleLowerCase() === "meta_") {
+                additionalMetaData[key.substring(6)] = fileDesc[key];
+            }
+        });
+
         const textChunks = await SharedWithBackend.parseBreakTextIntoChunks(tokenThreshold, text);
         const overrideTitle = fileDesc.title.trim();
         if (overrideTitle !== "") title = overrideTitle;
@@ -399,7 +411,7 @@ export default class EmbeddingAPI {
             let pId = id;
             if (chunkCount > 1) pId += "_" + (index + 1) + "_" + chunkCount;
             promises.push(EmbeddingAPI.upsertChunkToPinecone(prefix, chunk, chatGptKey, uid, batchId,
-                pId, title, url, pIndex));
+                pId, title, url, pIndex, additionalMetaData));
             idList.push(pId);
             console.log(pId);
         });

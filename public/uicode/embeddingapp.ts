@@ -840,7 +840,7 @@ export class EmbeddingApp extends BaseApp {
         let fileName = "";
         if (this.embedding_list_file_dom.files[0]) fileName = this.embedding_list_file_dom.files[0].name;
         this.document_list_file_name.innerHTML = fileName;
-        this.saveUpsertRows(true);
+        this.saveUpsertRows(true, true);
     }
     /**
      * @param { Array<any> } upsertArray
@@ -924,7 +924,7 @@ export class EmbeddingApp extends BaseApp {
     /**
      * @param { boolean } saveNow
      */
-    async saveUpsertRows(saveNow = false) {
+    async saveUpsertRows(saveNow = false, alertSizeTest = false) {
         // this.upsert_embedding_tab_btn.innerHTML = "Saving...";
 
         if (saveNow) {
@@ -947,6 +947,16 @@ export class EmbeddingApp extends BaseApp {
                 upsertList.push(clone);
             });
             console.log(upsertList);
+
+            if (alertSizeTest) {
+                const jsonStr = JSON.stringify(upsertList);
+                console.log("payload size", jsonStr.length);
+                if (jsonStr.length > 8 * 1024 * 1024) {
+                    alert("Data size must be less then 10mb total, please make multiple upsert lists.");
+                    return;
+                }
+            }
+            
             await firebase.firestore().doc(`Users/${this.uid}/embedding/${this.selectedProjectId}/data/rows`).set({
                 upsertList,
             }, {
