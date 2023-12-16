@@ -267,11 +267,303 @@ export class EmbeddingApp extends BaseApp {
         this.remove_project_btn.addEventListener("click", () => this.deleteProject());
     }
     /** */
+    addEmptyTableRow() {
+        let rowId = prompt("Project Name:", new Date().toISOString().substring(0, 10));
+        if (rowId === null) return;
+        rowId = rowId.trim();
+        if (!rowId) return;
+
+        const data: any = {
+            id: rowId,
+            include: true,
+            prefix: "",
+            text: "",
+            url: "",
+            options: "",
+            title: "",
+            pineconeId: "",
+            pineconeTitle: "",
+            size: "",
+            upsertedDate: "",
+            vectorCount: "",
+            validation: "",
+            parser: "",
+            errorMessage: "",
+            created: new Date().toISOString(),
+        };
+        this.saveTableRowToFirestore(data, rowId);
+    }
+    /**
+     * @param { any } projectId
+    */
+    async addProject(projectId: any = "") {
+        if (!projectId) {
+            projectId = prompt("Project Name:", new Date().toISOString().substring(0, 10));
+            if (projectId === null) return;
+            projectId = projectId.trim();
+            if (!projectId) return;
+        }
+
+        this.upsert_documents_list.innerHTML = ``;
+        this.profile.selectedEmbeddingProjectId = projectId;
+        this.saveProfileField("selectedEmbeddingProjectId", projectId);
+        await firebase.firestore().doc(`Users/${this.uid}/embedding/${projectId}`).set({
+            projectId,
+            updated: new Date().toISOString(),
+        }, {
+            merge: true,
+        });
+    }
+    /**
+     * @param { Array<any> } upsertArray
+     * @param { Array<any> } upsertResults
+    */
+    async applyUpsertResultsToStore(upsertArray: Array<any>, upsertResults: Array<any>) {
+        const dt = new Date().toISOString();
+        const promises: any = [];
+        const saveResponse = async (index: number, row: any) => {
+            const doc = await firebase.firestore().collection(`Users/${this.uid}/embedding/${this.selectedProjectId}/responses/`).doc();
+            await doc.set(row);
+            upsertArray[index]["responseId"] = doc.id;
+        };
+
+        upsertResults.forEach((row: any, index: number) => {
+            if (row["errorMessage"]) {
+                upsertArray[index]["errorMessage"] = row["errorMessage"];
+                upsertArray[index]["pineconeTitle"] = "";
+                upsertArray[index]["pineconeId"] = "";
+                upsertArray[index]["size"] = 0;
+                upsertArray[index]["upsertedDate"] = dt;
+                upsertArray[index]["include"] = false;
+                upsertArray[index]["vectorCount"] = 0;
+            } else {
+                upsertArray[index]["errorMessage"] = "";
+                upsertArray[index]["pineconeTitle"] = row["title"];
+                upsertArray[index]["pineconeId"] = row["id"];
+                upsertArray[index]["size"] = row["textSize"];
+                upsertArray[index]["upsertedDate"] = dt;
+                upsertArray[index]["include"] = false;
+                upsertArray[index]["vectorCount"] = row["idList"].length;
+            }
+            promises.push(saveResponse(index, row));
+        });
+        await Promise.all(promises);
+        // this.saveUpsertRows(true);
+    }
+    /** override event that happens after authentication resolution / or a user profile change */
+    authUpdateStatusUI(): void {
+        super.authUpdateStatusUI();
+        if (this.profile) {
+            this.watchProjectList();
+            this.initUsageWatch();
+        }
+    }
+    /** */
+    copyQueryResultsToClipboard() {
+        const jsonStr = JSON.stringify(this.pineconeQueryResults, null, "\t");
+        navigator.clipboard.writeText(jsonStr);
+    }
+    /** */
+    async deleteIndex() {
+        if (!confirm("Are you sure you want to delete this index?")) return;
+        const data = this.scrapeData();
+        await this._deleteIndex(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
+        this._fetchIndexStats(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
+    }
+    /** delete index
+     * @param { string } batchId grouping key
+     * @param { string } pineconeKey
+     * @param { string } pineconeEnvironment
+    */
+    async _deleteIndex(batchId: string, pineconeKey: string, pineconeEnvironment: string) {
+        if (!firebase.auth().currentUser) {
+            alert("login on homepage to use this");
+            return;
+        }
+        if (this.indexDeleteRunning) {
+            alert("already running");
+            return;
+        }
+
+        this.indexDeleteRunning = true;
+        const body = {
+            batchId,
+            pineconeEnvironment,
+            pineconeKey,
+        };
+
+        const token = await firebase.auth().currentUser.getIdToken();
+        const fResult = await fetch(this.basePath + "embeddingApi/deleteindex", {
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            headers: {
+                "Content-Type": "application/json",
+                token,
+            },
+            body: JSON.stringify(body),
+        });
+
+        const json = await fResult.json();
+        console.log("query response", json);
+
+        this.indexDeleteRunning = false;
+
+        if (json.success === false) {
+            alert(json.errorMessage);
+        }
+    }
+    /** */
+    async deletePineconeVector() {
+        this.fetch_vector_results.innerHTML = "";
+
+        const id = this.pinecone_id_to_delete.value.trim();
+        if (id === "") {
+            alert("Please supply a vector id");
+            return;
+        }
+
+        const data = this.scrapeData();
+        const batchId = data.pineconeIndex;
+        const pineconeEnvironment = data.pineconeEnvironment;
+        const pineconeKey = data.pineconeKey;
+        const body = {
+            batchId,
+            pineconeEnvironment,
+            pineconeKey,
+            vectorId: id,
+        };
+        const token = await firebase.auth().currentUser.getIdToken();
+        const fResult = await fetch(this.basePath + "embeddingApi/deletevector", {
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            headers: {
+                "Content-Type": "application/json",
+                token,
+            },
+            body: JSON.stringify(body),
+        });
+
+        const json = await fResult.json();
+
+        if (json.success === false) {
+            console.log("delete error", json);
+            alert("error deleting vector refer to console for more");
+            return;
+        }
+
+        alert(`Vector ${id} deleted (if existed)\n\nPlease wait up to 15 seconds to refresh count`);
+        this.fetchIndexStats();
+    }
+    /** */
+    async deleteProject() {
+        if (!this.selectedProjectId) return;
+        if (!confirm("Are you sure you want to delete this project?")) return;
+        const deleteProjectId = this.selectedProjectId;
+        await firebase.firestore().doc(`Users/${this.uid}/embedding/${deleteProjectId}`).delete();
+
+        const loop = true;
+        while (loop) {
+            const nextChunk = await firebase.firestore()
+                .collection(`Users/${this.uid}/embedding/${deleteProjectId}/data`)
+                .limit(100)
+                .get();
+
+            if (nextChunk.size < 1) return;
+
+            const promises: any[] = [];
+            nextChunk.forEach((doc: any) => {
+                promises.push(firebase.firestore()
+                    .doc(`Users/${this.uid}/embedding/${deleteProjectId}/data/${doc.id}`)
+                    .delete());
+            });
+            await Promise.all(promises);
+        }
+    }
+    /**
+     * @param { string } id
+     */
     async deleteTableRow(id: string) {
         if (!confirm("Are you sure you want to delete this row?")) return;
 
         const rowPath = `Users/${this.uid}/embedding/${this.selectedProjectId}/data/${id}`;
         await firebase.firestore().doc(rowPath).delete();
+    }
+    /**
+ * @param { boolean } csv
+*/
+    downloadResultsFile(csv = false) {
+        if (!this.fileListToUpload || this.fileListToUpload.length === 0) {
+            alert("no results to download");
+            return;
+        }
+        let type = "application/csv";
+        let resultText = "";
+        let fileName = "";
+        if (csv) {
+            fileName = "upsertResults.csv";
+            resultText = window.Papa.unparse(this.fileListToUpload);
+        } else {
+            type = "application/json";
+            fileName = "upsertResults.json";
+            resultText = JSON.stringify(this.fileListToUpload, null, "  ");
+        }
+
+        const file = new File([resultText], fileName, {
+            type,
+        });
+
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(file);
+
+        link.href = url;
+        link.download = file.name;
+        document.body.appendChild(link);
+        link.click();
+
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+    }
+    /** */
+    async fetchIndexStats() {
+        const data = this.scrapeData();
+        await this._fetchIndexStats(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
+    }
+    /** fetch index stats
+     * @param { string } batchId grouping key
+     * @param { string } pineconeKey
+     * @param { string } pineconeEnvironment
+    */
+    async _fetchIndexStats(batchId: string, pineconeKey: string, pineconeEnvironment: string) {
+        const body = {
+            batchId,
+            pineconeEnvironment,
+            pineconeKey,
+        };
+        this.pinecone_index_stats_display.innerHTML = "fetching...";
+        this.pinecone_index_name.innerHTML = "fetching...";
+        const token = await firebase.auth().currentUser.getIdToken();
+        const fResult = await fetch(this.basePath + "embeddingApi/indexstats", {
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            headers: {
+                "Content-Type": "application/json",
+                token,
+            },
+            body: JSON.stringify(body),
+        });
+
+        const json = await fResult.json();
+
+        if (json.success === false) {
+            this.pinecone_index_name.innerHTML = json.errorMessage;
+            return;
+        }
+
+        this.pinecone_index_stats_display.innerHTML = JSON.stringify(json, null, "\t");
+        this.pinecone_index_name.innerHTML = batchId + "<br>" + json.indexDescription.totalRecordCount;
     }
     /** */
     async fetchPineconeVector() {
@@ -310,14 +602,220 @@ export class EmbeddingApp extends BaseApp {
             return v;
         }, 2);
     }
+    /**
+    * @return { any }
+    */
+    getPineconeOptions(): any {
+        let pineconeIndex = "";
+        let pineconeKey = "";
+        let pineconeEnvironment = "";
+        let pineconePrompt = "";
+        let pineconeChunkSize = "1000";
+        // 0c0df79a-cc2c-4efd-9835-fdaeb66df843
+        if (this.selectedProjectId) {
+            const projectSettings = this.embeddingProjects[this.selectedProjectId];
+            if (projectSettings.pineconeIndex !== undefined) pineconeIndex = projectSettings.pineconeIndex;
+            if (projectSettings.pineconeKey !== undefined) pineconeKey = projectSettings.pineconeKey;
+            if (projectSettings.pineconeEnvironment !== undefined) pineconeEnvironment = projectSettings.pineconeEnvironment;
+            if (projectSettings.pineconePrompt !== undefined) pineconePrompt = projectSettings.pineconePrompt;
+            if (projectSettings.pineconeChunkSize !== undefined) pineconeChunkSize = projectSettings.pineconeChunkSize;
+        }
+
+        return {
+            pineconeIndex,
+            pineconeKey,
+            pineconeEnvironment,
+            pineconePrompt,
+            pineconeChunkSize,
+        };
+    }
     /** */
-    setTableTheme() {
-        if (this.tableThemeLinkDom) this.tableThemeLinkDom.remove();
-        this.tableThemeLinkDom = document.createElement("link");
-        const theme = this.themeIndex === 0 ? "tabulator_site" : "tabulator_midnight";
-        this.tableThemeLinkDom.setAttribute("href", `/css/${theme}.css`);
-        this.tableThemeLinkDom.setAttribute("rel", "stylesheet");
-        document.body.appendChild(this.tableThemeLinkDom);
+    initUsageWatch() {
+        if (this.usageWatchInited) return;
+        this.usageWatchInited = true;
+
+        AccountHelper.accountInfoUpdate(this, (usageData: any) => {
+            const availableBalance = usageData.availableCreditBalance;
+            this.credits_left.innerHTML = Math.floor(availableBalance) + "<br><span>Credits</span>";
+        });
+    }
+    /** */
+    async parseText() {
+        const threshold = Number(this.parse_url_chunk_tokens.value);
+        const fullText = this.parse_url_text_results.value;
+
+        this.resultChunks = await SharedWithBackend.parseBreakTextIntoChunks(threshold, fullText);
+        this.updateResultChunksTable();
+    }
+    /** */
+    async queryEmbeddings() {
+        const data = this.scrapeData();
+        await this._queryEmbeddings(data.pineconePrompt, data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
+    }
+    /** query matching vector documents
+     * @param { string } query
+     * @param { string } batchId grouping key
+     * @param { string } pineconeKey
+     * @param { string } pineconeEnvironment
+    */
+    async _queryEmbeddings(query: string, batchId: string, pineconeKey: string, pineconeEnvironment: string) {
+        if (!firebase.auth().currentUser) {
+            alert("login on homepage to use this");
+            return;
+        }
+        if (this.vectorQueryRunning) {
+            alert("already running");
+            return;
+        }
+        this.queryDocumentsResultRows = [];
+        this.updateQueriedDocumentList();
+        this.primedPrompt = "";
+
+        this.run_prompt.innerHTML = "Processing...";
+        this.vectorQueryRunning = true;
+        const body = {
+            query,
+            batchId,
+            pineconeKey,
+            pineconeEnvironment,
+            topK: 10,
+        };
+
+        const token = await firebase.auth().currentUser.getIdToken();
+        const fResult = await fetch(this.basePath + "embeddingApi/processquery", {
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            headers: {
+                "Content-Type": "application/json",
+                token,
+            },
+            body: JSON.stringify(body),
+        });
+
+        const json = await fResult.json();
+        this.pineconeQueryResults = json;
+
+        const resultRows = json.queryResponse.matches;
+        this.queryDocumentsResultRows = resultRows;
+        let primedPrompt = "";
+        resultRows.forEach((row: any) => {
+            const text = row.metadata.text;
+            primedPrompt += "Question: " + query +
+                "\n\nAnswer: " + text + "\n\n";
+        });
+        primedPrompt += "Question: " + query;
+        this.primedPrompt = primedPrompt;
+        this.updateQueriedDocumentList();
+
+        this.vectorQueryRunning = false;
+        this.run_prompt.innerHTML = "Run Query";
+    }
+    /**
+ * @param { string } field
+ * @param { any } value
+ */
+    async saveEmbeddingField(field: string, value: any) {
+        if (!this.selectedProjectId) return;
+        await firebase.firestore().doc(`Users/${this.uid}/embedding/${this.selectedProjectId}`).set({
+            [field]: value,
+            updated: new Date().toISOString(),
+        }, {
+            merge: true,
+        });
+    }
+    /**
+ * @param { any } options
+ */
+    async savePineconeOptions(options: any) {
+        const profileOptions = this.getPineconeOptions();
+        if (options.pineconeIndex !== profileOptions.pineconeIndex ||
+            options.pineconeKey !== profileOptions.pineconeKey ||
+            options.pineconeEnvironment !== profileOptions.pineconeEnvironment) {
+            await Promise.all([
+                this.saveEmbeddingField("pineconeIndex", options.pineconeIndex),
+                this.saveEmbeddingField("pineconeKey", options.pineconeKey),
+                this.saveEmbeddingField("pineconeEnvironment", options.pineconeEnvironment),
+            ]);
+        }
+        if (options.pineconePrompt !== profileOptions.pineconePrompt) {
+            await this.saveEmbeddingField("pineconePrompt", options.pineconePrompt);
+        }
+
+        if (options.pineconeChunkSize !== profileOptions.pineconeChunkSize) {
+            await this.saveEmbeddingField("pineconeChunkSize", options.pineconeChunkSize);
+        }
+    }
+    /**
+ * @param { any } updateData
+ * @param { string } id
+ */
+    async saveTableRowToFirestore(updateData: any, id: string) {
+        const rowPath = `Users/${this.uid}/embedding/${this.selectedProjectId}/data/${id}`;
+        return firebase.firestore().doc(rowPath).set(updateData, {
+            merge: true,
+        });
+    }
+    /**
+ * @param { any[] } rows
+ * @return { Promise<any> }
+ */
+    async saveUpsertRowsToFirestore(rows: any[]): Promise<any> {
+        const promises: any[] = [];
+        const errors: any[] = [];
+        rows.forEach((row: any, index: number) => {
+            if (!row.id || !row.url) {
+                errors.push({
+                    index,
+                    error: "No id or url specified",
+                });
+            } else {
+                if (!row.pineconeId) row.pineconeId = "";
+                if (!row.pineconeTitle) row.pineconeTitle = "";
+                if (!row.size) row.size = "";
+                if (!row.upsertedDate) row.upsertedDate = "";
+                if (!row.vectorCount) row.vectorCount = "";
+                if (!row.validation) row.validation = "";
+                if (!row.parser) row.parser = "";
+                if (!row.errorMessage) row.errorMessage = "";
+                if (!row.id) row.id = encodeURIComponent(row.url);
+
+                promises.push(this.saveTableRowToFirestore(row, row.id));
+            }
+        });
+        await Promise.all(promises);
+
+        const success = errors.length === 0;
+        return {
+            success,
+            errors,
+        };
+    }
+    /**
+ * @return { any }
+*/
+    scrapeData(): any {
+        const pineconeIndex = this.batch_id.value;
+        const pineconeKey = this.pinecone_key.value;
+        const pineconeEnvironment = this.pinecone_environment.value;
+        const pineconePrompt = this.prompt_area.value;
+        const pineconeChunkSize = this.chunk_size_default.value;
+
+        this.savePineconeOptions({
+            pineconeIndex,
+            pineconeKey,
+            pineconeEnvironment,
+            pineconePrompt,
+            pineconeChunkSize,
+        });
+        return {
+            urls: "",
+            pineconeIndex,
+            pineconeKey,
+            pineconeEnvironment,
+            pineconePrompt,
+            pineconeChunkSize,
+        };
     }
     /** */
     async scrapeSingleURL() {
@@ -366,140 +864,13 @@ export class EmbeddingApp extends BaseApp {
         }
     }
     /** */
-    copyQueryResultsToClipboard() {
-        const jsonStr = JSON.stringify(this.pineconeQueryResults, null, "\t");
-        navigator.clipboard.writeText(jsonStr);
-    }
-    /**
-     * @param { boolean } csv
-    */
-    downloadResultsFile(csv = false) {
-        if (!this.fileListToUpload || this.fileListToUpload.length === 0) {
-            alert("no results to download");
-            return;
-        }
-        let type = "application/csv";
-        let resultText = "";
-        let fileName = "";
-        if (csv) {
-            fileName = "upsertResults.csv";
-            resultText = window.Papa.unparse(this.fileListToUpload);
-        } else {
-            type = "application/json";
-            fileName = "upsertResults.json";
-            resultText = JSON.stringify(this.fileListToUpload, null, "  ");
-        }
-
-        const file = new File([resultText], fileName, {
-            type,
-        });
-
-        const link = document.createElement("a");
-        const url = URL.createObjectURL(file);
-
-        link.href = url;
-        link.download = file.name;
-        document.body.appendChild(link);
-        link.click();
-
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
-    }
-    /**
-     * @return { any }
-    */
-    scrapeData(): any {
-        const pineconeIndex = this.batch_id.value;
-        const pineconeKey = this.pinecone_key.value;
-        const pineconeEnvironment = this.pinecone_environment.value;
-        const pineconePrompt = this.prompt_area.value;
-        const pineconeChunkSize = this.chunk_size_default.value;
-
-        this.savePineconeOptions({
-            pineconeIndex,
-            pineconeKey,
-            pineconeEnvironment,
-            pineconePrompt,
-            pineconeChunkSize,
-        });
-        return {
-            urls: "",
-            pineconeIndex,
-            pineconeKey,
-            pineconeEnvironment,
-            pineconePrompt,
-            pineconeChunkSize,
-        };
-    }
-    /**
-     * @return { any }
-    */
-    getPineconeOptions(): any {
-        let pineconeIndex = "";
-        let pineconeKey = "";
-        let pineconeEnvironment = "";
-        let pineconePrompt = "";
-        let pineconeChunkSize = "1000";
-        // 0c0df79a-cc2c-4efd-9835-fdaeb66df843
-        if (this.selectedProjectId) {
-            const projectSettings = this.embeddingProjects[this.selectedProjectId];
-            if (projectSettings.pineconeIndex !== undefined) pineconeIndex = projectSettings.pineconeIndex;
-            if (projectSettings.pineconeKey !== undefined) pineconeKey = projectSettings.pineconeKey;
-            if (projectSettings.pineconeEnvironment !== undefined) pineconeEnvironment = projectSettings.pineconeEnvironment;
-            if (projectSettings.pineconePrompt !== undefined) pineconePrompt = projectSettings.pineconePrompt;
-            if (projectSettings.pineconeChunkSize !== undefined) pineconeChunkSize = projectSettings.pineconeChunkSize;
-        }
-
-        return {
-            pineconeIndex,
-            pineconeKey,
-            pineconeEnvironment,
-            pineconePrompt,
-            pineconeChunkSize,
-        };
-    }
-    /**
-     * @param { any } options
-     */
-    async savePineconeOptions(options: any) {
-        const profileOptions = this.getPineconeOptions();
-        if (options.pineconeIndex !== profileOptions.pineconeIndex ||
-            options.pineconeKey !== profileOptions.pineconeKey ||
-            options.pineconeEnvironment !== profileOptions.pineconeEnvironment) {
-            await Promise.all([
-                this.saveEmbeddingField("pineconeIndex", options.pineconeIndex),
-                this.saveEmbeddingField("pineconeKey", options.pineconeKey),
-                this.saveEmbeddingField("pineconeEnvironment", options.pineconeEnvironment),
-            ]);
-        }
-        if (options.pineconePrompt !== profileOptions.pineconePrompt) {
-            await this.saveEmbeddingField("pineconePrompt", options.pineconePrompt);
-        }
-
-        if (options.pineconeChunkSize !== profileOptions.pineconeChunkSize) {
-            await this.saveEmbeddingField("pineconeChunkSize", options.pineconeChunkSize);
-        }
-    }
-    /**
-     * @param { string } field
-     * @param { any } value
-     */
-    async saveEmbeddingField(field: string, value: any) {
-        if (!this.selectedProjectId) return;
-        await firebase.firestore().doc(`Users/${this.uid}/embedding/${this.selectedProjectId}`).set({
-            [field]: value,
-            updated: new Date().toISOString(),
-        }, {
-            merge: true,
-        });
-    }
-    /** override event that happens after authentication resolution / or a user profile change */
-    authUpdateStatusUI(): void {
-        super.authUpdateStatusUI();
-        if (this.profile) {
-            this.watchProjectList();
-            this.initUsageWatch();
-        }
+    setTableTheme() {
+        if (this.tableThemeLinkDom) this.tableThemeLinkDom.remove();
+        this.tableThemeLinkDom = document.createElement("link");
+        const theme = this.themeIndex === 0 ? "tabulator_site" : "tabulator_midnight";
+        this.tableThemeLinkDom.setAttribute("href", `/css/${theme}.css`);
+        this.tableThemeLinkDom.setAttribute("rel", "stylesheet");
+        document.body.appendChild(this.tableThemeLinkDom);
     }
     /** override to add set table theme
      * @param { boolean } niteMode true if nite mode
@@ -587,202 +958,6 @@ export class EmbeddingApp extends BaseApp {
                 ${credits.toFixed(3)} credits`;
         }
     }
-    /** */
-    async queryEmbeddings() {
-        const data = this.scrapeData();
-        await this._queryEmbeddings(data.pineconePrompt, data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
-    }
-    /** query matching vector documents
-     * @param { string } query
-     * @param { string } batchId grouping key
-     * @param { string } pineconeKey
-     * @param { string } pineconeEnvironment
-    */
-    async _queryEmbeddings(query: string, batchId: string, pineconeKey: string, pineconeEnvironment: string) {
-        if (!firebase.auth().currentUser) {
-            alert("login on homepage to use this");
-            return;
-        }
-        if (this.vectorQueryRunning) {
-            alert("already running");
-            return;
-        }
-        this.queryDocumentsResultRows = [];
-        this.updateQueriedDocumentList();
-        this.primedPrompt = "";
-
-        this.run_prompt.innerHTML = "Processing...";
-        this.vectorQueryRunning = true;
-        const body = {
-            query,
-            batchId,
-            pineconeKey,
-            pineconeEnvironment,
-            topK: 10,
-        };
-
-        const token = await firebase.auth().currentUser.getIdToken();
-        const fResult = await fetch(this.basePath + "embeddingApi/processquery", {
-            method: "POST",
-            mode: "cors",
-            cache: "no-cache",
-            headers: {
-                "Content-Type": "application/json",
-                token,
-            },
-            body: JSON.stringify(body),
-        });
-
-        const json = await fResult.json();
-        this.pineconeQueryResults = json;
-
-        const resultRows = json.queryResponse.matches;
-        this.queryDocumentsResultRows = resultRows;
-        let primedPrompt = "";
-        resultRows.forEach((row: any) => {
-            const text = row.metadata.text;
-            primedPrompt += "Question: " + query +
-                "\n\nAnswer: " + text + "\n\n";
-        });
-        primedPrompt += "Question: " + query;
-        this.primedPrompt = primedPrompt;
-        this.updateQueriedDocumentList();
-
-        this.vectorQueryRunning = false;
-        this.run_prompt.innerHTML = "Run Query";
-    }
-    /** */
-    updateQueriedDocumentList() {
-        let fileContent = "<table class=\"query_result_documents_list\">";
-        const keys = ["similarity", "id", "url", "title", "text", "copy", "size", "encodingCredits"];
-        fileContent += "<tr>";
-        fileContent += `<th>row</th>`;
-        keys.forEach((key: string) => fileContent += `<th>${key}</th>`);
-        fileContent += "</tr>";
-
-        this.queryDocumentsResultRows.forEach((row: any, index: number) => {
-            fileContent += "<tr>";
-            fileContent += `<th>${index + 1}</th>`;
-            const newRow: any = {};
-            keys.forEach((key: string) => {
-                let value = row.metadata[key];
-                const rawValue = value;
-                value = BaseApp.escapeHTML(value);
-                if (key === "id") value = row.id;
-                if (key === "similarity") value = row.score;
-                if (key === "encodingCredits") value = rawValue.toString().substring(0, 6);
-                if (key === "size") value = row.metadata.text.length;
-                if (key === "url") value = `<a href="${rawValue}" target="_blank">${rawValue}</a>`;
-                if (key === "copy") {
-                    value = `<button data-index="${index}" class="btn btn-secondary 
-                       doc_text_copy_btn"><i class="material-icons">content_copy</i></button>`;
-                }
-                fileContent += `<td class="table_cell_sizer"><div>${value}</div></td>`;
-                newRow[key] = value;
-            });
-            fileContent += "</tr>";
-        });
-
-        fileContent += `</table>`;
-        this.embedding_query_results_table_wrapper.innerHTML = fileContent;
-        this.embedding_query_results_table_wrapper.querySelectorAll(".doc_text_copy_btn").forEach((btn: any) => {
-            btn.addEventListener("click", () => {
-                const index = btn.dataset.index;
-                const row = this.queryDocumentsResultRows[index];
-                navigator.clipboard.writeText(row.metadata.text);
-            });
-        });
-    }
-    /** */
-    async deleteIndex() {
-        if (!confirm("Are you sure you want to delete this index - there is no recovery?")) return;
-        const data = this.scrapeData();
-        await this._deleteIndex(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
-        this._fetchIndexStats(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
-    }
-    /** delete index
-     * @param { string } batchId grouping key
-     * @param { string } pineconeKey
-     * @param { string } pineconeEnvironment
-    */
-    async _deleteIndex(batchId: string, pineconeKey: string, pineconeEnvironment: string) {
-        if (!firebase.auth().currentUser) {
-            alert("login on homepage to use this");
-            return;
-        }
-        if (this.indexDeleteRunning) {
-            alert("already running");
-            return;
-        }
-
-        this.indexDeleteRunning = true;
-        const body = {
-            batchId,
-            pineconeEnvironment,
-            pineconeKey,
-        };
-
-        const token = await firebase.auth().currentUser.getIdToken();
-        const fResult = await fetch(this.basePath + "embeddingApi/deleteindex", {
-            method: "POST",
-            mode: "cors",
-            cache: "no-cache",
-            headers: {
-                "Content-Type": "application/json",
-                token,
-            },
-            body: JSON.stringify(body),
-        });
-
-        const json = await fResult.json();
-        console.log("query response", json);
-
-        this.indexDeleteRunning = false;
-
-        if (json.success === false) {
-            alert(json.errorMessage);
-        }
-    }
-    /** */
-    async fetchIndexStats() {
-        const data = this.scrapeData();
-        await this._fetchIndexStats(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
-    }
-    /** fetch index stats
-     * @param { string } batchId grouping key
-     * @param { string } pineconeKey
-     * @param { string } pineconeEnvironment
-    */
-    async _fetchIndexStats(batchId: string, pineconeKey: string, pineconeEnvironment: string) {
-        const body = {
-            batchId,
-            pineconeEnvironment,
-            pineconeKey,
-        };
-        this.pinecone_index_stats_display.innerHTML = "fetching...";
-        this.pinecone_index_name.innerHTML = "fetching...";
-        const token = await firebase.auth().currentUser.getIdToken();
-        const fResult = await fetch(this.basePath + "embeddingApi/indexstats", {
-            method: "POST",
-            mode: "cors",
-            cache: "no-cache",
-            headers: {
-                "Content-Type": "application/json",
-                token,
-            },
-            body: JSON.stringify(body),
-        });
-
-        const json = await fResult.json();
-
-        if (json.success === false) {
-            this.pinecone_index_name.innerHTML = json.errorMessage;
-            return;
-        }
-
-        this.pinecone_index_stats_display.innerHTML = JSON.stringify(json, null, "\t");
-        this.pinecone_index_name.innerHTML = batchId + "<br>" + json.indexDescription.totalRecordCount;
-    }
     /** upload/import CSV file */
     async uploadUpsertListFile() {
         let fileName = "";
@@ -808,219 +983,78 @@ export class EmbeddingApp extends BaseApp {
         });
 
         await this.saveUpsertRowsToFirestore(importedRows);
-        let alertMessage = importedRows.length + " row(s) imported "
+        let alertMessage = importedRows.length + " row(s) imported ";
         if (rowsSkipped) {
             alertMessage += rowsSkipped + " row(s) skipped - a url or id field value is required for a row to be imported";
         }
         alert(alertMessage);
     }
-    /**
-     * @param { Array<any> } upsertArray
-     * @param { Array<any> } upsertResults
-    */
-    async applyUpsertResultsToStore(upsertArray: Array<any>, upsertResults: Array<any>) {
-        const dt = new Date().toISOString();
-        const promises: any = [];
-        const saveResponse = async (index: number, row: any) => {
-            const doc = await firebase.firestore().collection(`Users/${this.uid}/embedding/${this.selectedProjectId}/responses/`).doc();
-            await doc.set(row);
-            upsertArray[index]["responseId"] = doc.id;
-        };
-
-        upsertResults.forEach((row: any, index: number) => {
-            if (row["errorMessage"]) {
-                upsertArray[index]["errorMessage"] = row["errorMessage"];
-                upsertArray[index]["pineconeTitle"] = "";
-                upsertArray[index]["pineconeId"] = "";
-                upsertArray[index]["size"] = 0;
-                upsertArray[index]["upsertedDate"] = dt;
-                upsertArray[index]["include"] = false;
-                upsertArray[index]["vectorCount"] = 0;
-            } else {
-                upsertArray[index]["errorMessage"] = "";
-                upsertArray[index]["pineconeTitle"] = row["title"];
-                upsertArray[index]["pineconeId"] = row["id"];
-                upsertArray[index]["size"] = row["textSize"];
-                upsertArray[index]["upsertedDate"] = dt;
-                upsertArray[index]["include"] = false;
-                upsertArray[index]["vectorCount"] = row["idList"].length;
-            }
-            promises.push(saveResponse(index, row));
-        });
-        await Promise.all(promises);
-        // this.saveUpsertRows(true);
-    }
     /** */
-    async deletePineconeVector() {
-        this.fetch_vector_results.innerHTML = "";
+    updateQueriedDocumentList() {
+        let fileContent = "<table class=\"query_result_documents_list\">";
+        const keys = ["similarity", "id", "url", "title", "text", "copy", "size", "encodingCredits"];
+        fileContent += "<tr>";
+        fileContent += `<th>row</th>`;
+        keys.forEach((key: string) => fileContent += `<th>${key}</th>`);
+        fileContent += "</tr>";
 
-        const id = this.pinecone_id_to_delete.value.trim();
-        if (id === "") {
-            alert("Please supply a vector id");
-            return;
-        }
-
-        const data = this.scrapeData();
-        const batchId = data.pineconeIndex;
-        const pineconeEnvironment = data.pineconeEnvironment;
-        const pineconeKey = data.pineconeKey;
-        const body = {
-            batchId,
-            pineconeEnvironment,
-            pineconeKey,
-            vectorId: id,
-        };
-        const token = await firebase.auth().currentUser.getIdToken();
-        const fResult = await fetch(this.basePath + "embeddingApi/deletevector", {
-            method: "POST",
-            mode: "cors",
-            cache: "no-cache",
-            headers: {
-                "Content-Type": "application/json",
-                token,
-            },
-            body: JSON.stringify(body),
-        });
-
-        const json = await fResult.json();
-
-        if (json.success === false) {
-            console.log("delete error", json);
-            alert("error deleting vector refer to console for more");
-            return;
-        }
-
-        alert(`Vector ${id} deleted (if existed)\n\nPlease wait up to 15 seconds to refresh count`);
-        this.fetchIndexStats();
-    }
-    /**
-     * @param { any[] } rows
-     * @return { Promise<any> } 
-     */
-    async saveUpsertRowsToFirestore(rows: any[]): Promise<any> {
-        const promises: any[] = [];
-        const errors: any[] = [];
-        rows.forEach((row: any, index: number) => {
-            if (!row.id || !row.url) {
-                errors.push({
-                    index,
-                    error: "No id or url specified",
-                });
-            } else {
-                if (!row.pineconeId) row.pineconeId = "";
-                if (!row.pineconeTitle) row.pineconeTitle = "";
-                if (!row.size) row.size = "";
-                if (!row.upsertedDate) row.upsertedDate = "";
-                if (!row.vectorCount) row.vectorCount = "";
-                if (!row.validation) row.validation = "";
-                if (!row.parser) row.parser = "";
-                if (!row.errorMessage) row.errorMessage = "";
-                if (!row.id) row.id = encodeURIComponent(row.url);
-
-                promises.push(this.saveTableRowToFirestore(row, row.id));
-            }
-        });
-        await Promise.all(promises);
-
-        const success = errors.length === 0;
-        return {
-            success,
-            errors,
-        }
-    }
-    /** */
-    async saveTableRowToFirestore(updateData: any, id: string) {
-        const rowPath = `Users/${this.uid}/embedding/${this.selectedProjectId}/data/${id}`;
-        return firebase.firestore().doc(rowPath).set(updateData, {
-            merge: true,
-        });
-    }
-    /** */
-    initUsageWatch() {
-        if (this.usageWatchInited) return;
-        this.usageWatchInited = true;
-
-        AccountHelper.accountInfoUpdate(this, (usageData: any) => {
-            const availableBalance = usageData.availableCreditBalance;
-            this.credits_left.innerHTML = Math.floor(availableBalance) + "<br><span>Credits</span>";
-        });
-    }
-    /**
-     * @param { any } projectId
-    */
-    async addProject(projectId: any = "") {
-        if (!projectId) {
-            projectId = prompt("Project Name:", new Date().toISOString().substring(0, 10));
-            if (projectId === null) return;
-            projectId = projectId.trim();
-            if (!projectId) return;
-        }
-
-        this.upsert_documents_list.innerHTML = ``;
-        this.profile.selectedEmbeddingProjectId = projectId;
-        this.saveProfileField("selectedEmbeddingProjectId", projectId);
-        await firebase.firestore().doc(`Users/${this.uid}/embedding/${projectId}`).set({
-            projectId,
-            updated: new Date().toISOString(),
-        }, {
-            merge: true,
-        });
-    }
-    /** */
-    async deleteProject() {
-        if (!this.selectedProjectId) return;
-        if (!confirm("Are you sure you want to delete this project?")) return;
-        const deleteProjectId = this.selectedProjectId;
-        await firebase.firestore().doc(`Users/${this.uid}/embedding/${deleteProjectId}`).delete();
-
-        while (true) {
-            const nextChunk = await firebase.firestore()
-                .collection(`Users/${this.uid}/embedding/${deleteProjectId}/data`)
-                .limit(100)
-                .get();
-
-            if (nextChunk.size < 1) return;
-
-            const promises: any[] = [];
-            nextChunk.forEach((doc: any) => {
-                promises.push(firebase.firestore()
-                    .doc(`Users/${this.uid}/embedding/${deleteProjectId}/data/${doc.id}`)
-                    .delete());
+        this.queryDocumentsResultRows.forEach((row: any, index: number) => {
+            fileContent += "<tr>";
+            fileContent += `<th>${index + 1}</th>`;
+            const newRow: any = {};
+            keys.forEach((key: string) => {
+                let value = row.metadata[key];
+                const rawValue = value;
+                value = BaseApp.escapeHTML(value);
+                if (key === "id") value = row.id;
+                if (key === "similarity") value = row.score;
+                if (key === "encodingCredits") value = rawValue.toString().substring(0, 6);
+                if (key === "size") value = row.metadata.text.length;
+                if (key === "url") value = `<a href="${rawValue}" target="_blank">${rawValue}</a>`;
+                if (key === "copy") {
+                    value = `<button data-index="${index}" class="btn btn-secondary 
+                           doc_text_copy_btn"><i class="material-icons">content_copy</i></button>`;
+                }
+                fileContent += `<td class="table_cell_sizer"><div>${value}</div></td>`;
+                newRow[key] = value;
             });
-            await Promise.all(promises);
-        }
+            fileContent += "</tr>";
+        });
+
+        fileContent += `</table>`;
+        this.embedding_query_results_table_wrapper.innerHTML = fileContent;
+        this.embedding_query_results_table_wrapper.querySelectorAll(".doc_text_copy_btn").forEach((btn: any) => {
+            btn.addEventListener("click", () => {
+                const index = btn.dataset.index;
+                const row = this.queryDocumentsResultRows[index];
+                navigator.clipboard.writeText(row.metadata.text);
+            });
+        });
     }
     /** */
-    async watchProjectList() {
-        if (this.watchProjectListFirestore) return;
-        this.watchProjectListFirestore = firebase.firestore().collection(`Users/${this.uid}/embedding`)
-            .onSnapshot((snapshot: any) => {
-                let optionsHtml = "";
-                const selectedValue = this.upsert_documents_list.selectedValue;
-                if (snapshot.size === 0) {
-                    optionsHtml += "<option>Default</option>";
-                    this.addProject("Default");
-                    this.selectedProjectId = "";
-                } else {
-                    this.embeddingProjects = {};
-                    snapshot.forEach((doc: any) => {
-                        optionsHtml += `<option value="${doc.id}">${doc.id}</option>`;
-                        this.embeddingProjects[doc.id] = doc.data();
-                    });
-                }
-                this.upsert_documents_list.innerHTML = optionsHtml;
-                if (!selectedValue) {
-                    this.upsert_documents_list.value = this.profile.selectedEmbeddingProjectId;
-                } else {
-                    this.upsert_documents_list.value = selectedValue;
-                }
-                if (this.upsert_documents_list.selectedIndex === -1) {
-                    this.upsert_documents_list.selectedIndex = 0;
-                    this.selectedProjectId = "";
-                }
+    updateResultChunksTable() {
+        let fileContent = "<table class=\"chunked_text_results_table\">";
+        const keys = ["text", "tokens", "textSize"];
+        fileContent += "<tr>";
+        fileContent += `<th>row</th>`;
+        keys.forEach((key: string) => fileContent += `<th>${key}</th>`);
+        fileContent += "</tr>";
 
-                this.updateWatchUpsertRows();
+        this.resultChunks.forEach((row: any, index: number) => {
+            fileContent += "<tr>";
+            fileContent += `<th>${index + 1}</th>`;
+            keys.forEach((key: string) => {
+                let value = row[key];
+                value = BaseApp.escapeHTML(value);
+
+                fileContent += `<td class="table_cell_sizer"><div>${value}</div></td>`;
             });
+            fileContent += "</tr>";
+        });
+
+        fileContent += `</table>`;
+
+        this.chunking_results_wrapper.innerHTML = fileContent;
     }
     /** */
     async updateWatchUpsertRows() {
@@ -1054,7 +1088,7 @@ export class EmbeddingApp extends BaseApp {
                 this.fileListToUpload = [];
                 let index = 1;
                 snapshot.forEach((doc: any) => {
-                    let row: any = doc.data();
+                    const row: any = doc.data();
                     row.rowNumber = index++;
                     this.fileListToUpload.push(row);
                 });
@@ -1063,63 +1097,35 @@ export class EmbeddingApp extends BaseApp {
             });
     }
     /** */
-    addEmptyTableRow() {
-        let rowId = prompt("Project Name:", new Date().toISOString().substring(0, 10));
-        if (rowId === null) return;
-        rowId = rowId.trim();
-        if (!rowId) return;
+    async watchProjectList() {
+        if (this.watchProjectListFirestore) return;
+        this.watchProjectListFirestore = firebase.firestore().collection(`Users/${this.uid}/embedding`)
+            .onSnapshot((snapshot: any) => {
+                let optionsHtml = "";
+                const selectedValue = this.upsert_documents_list.selectedValue;
+                if (snapshot.size === 0) {
+                    optionsHtml += "<option>Default</option>";
+                    this.addProject("Default");
+                    this.selectedProjectId = "";
+                } else {
+                    this.embeddingProjects = {};
+                    snapshot.forEach((doc: any) => {
+                        optionsHtml += `<option value="${doc.id}">${doc.id}</option>`;
+                        this.embeddingProjects[doc.id] = doc.data();
+                    });
+                }
+                this.upsert_documents_list.innerHTML = optionsHtml;
+                if (!selectedValue) {
+                    this.upsert_documents_list.value = this.profile.selectedEmbeddingProjectId;
+                } else {
+                    this.upsert_documents_list.value = selectedValue;
+                }
+                if (this.upsert_documents_list.selectedIndex === -1) {
+                    this.upsert_documents_list.selectedIndex = 0;
+                    this.selectedProjectId = "";
+                }
 
-        const data: any = {
-            id: rowId,
-            include: true,
-            prefix: "",
-            text: "",
-            url: "",
-            options: "",
-            title: "",
-            pineconeId: "",
-            pineconeTitle: "",
-            size: "",
-            upsertedDate: "",
-            vectorCount: "",
-            validation: "",
-            parser: "",
-            errorMessage: "",
-            created: new Date().toISOString(),
-        };
-        this.saveTableRowToFirestore(data, rowId);
-    }
-    /** */
-    updateResultChunksTable() {
-        let fileContent = "<table class=\"chunked_text_results_table\">";
-        const keys = ["text", "tokens", "textSize"];
-        fileContent += "<tr>";
-        fileContent += `<th>row</th>`;
-        keys.forEach((key: string) => fileContent += `<th>${key}</th>`);
-        fileContent += "</tr>";
-
-        this.resultChunks.forEach((row: any, index: number) => {
-            fileContent += "<tr>";
-            fileContent += `<th>${index + 1}</th>`;
-            keys.forEach((key: string) => {
-                let value = row[key];
-                value = BaseApp.escapeHTML(value);
-
-                fileContent += `<td class="table_cell_sizer"><div>${value}</div></td>`;
+                this.updateWatchUpsertRows();
             });
-            fileContent += "</tr>";
-        });
-
-        fileContent += `</table>`;
-
-        this.chunking_results_wrapper.innerHTML = fileContent;
-    }
-    /** */
-    async parseText() {
-        const threshold = Number(this.parse_url_chunk_tokens.value);
-        const fullText = this.parse_url_text_results.value;
-
-        this.resultChunks = await SharedWithBackend.parseBreakTextIntoChunks(threshold, fullText);
-        this.updateResultChunksTable();
     }
 }

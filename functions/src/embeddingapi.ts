@@ -287,6 +287,7 @@ export default class EmbeddingAPI {
      * @param { string } title
      * @param { string } url
      * @param { any } pIndex
+     * @param { any } additionalMetaData
      * @return { Promise<any> }
      */
     static async upsertChunkToPinecone(prefix: string, chunk: any, chatGptKey: string, uid: string,
