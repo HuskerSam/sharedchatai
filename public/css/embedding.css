@@ -187,10 +187,9 @@ table tr td.table_cell_sizer {
   width: 4em;
   display: inline-block;
 }
-.preview_embedding_documents_table .tabulator-row .tabulator-cell {
-  white-space: normal;
-  word-break: break-all;
-  height: 3.5em;
+.preview_embedding_documents_table .tabulator-row .tabulator-cell i {
+  top: 2px;
+  position: relative;
 }
 
 .preview_embedding_documents_table .tabulator-row .tabulator-cell .check_emoji {
@@ -216,4 +215,9 @@ select.upsert_documents_list.form-select:hover,
 select.upsert_documents_list.form-select:focus,
 select.upsert_documents_list.form-select:active {
   background-color: var(--background-accent-3);
+}
+
+.btn_icon {
+  border: none;
+  background: none;
 }

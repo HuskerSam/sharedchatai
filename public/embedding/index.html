@@ -147,6 +147,26 @@
                 <div class="tab-pane fade show active" id="upsert_embedding_tab_view" role="tabpanel"
                     aria-labelledby="upsert_embedding_tab_btn" style="flex:1;flex-direction: column;overflow:hidden;">
                     <div style="padding: 8px;display:flex;flex-direction:row">
+                        <div style="padding-top: 4px;">
+                            <label class="form-check-label csv_choice_label">
+                                <input type="radio" class="form-radio-input" name="table_filter_radio" value="All">
+                                All
+                            </label>
+                            <label class="form-check-label csv_choice_label">
+                                <input type="radio" class="form-radio-input" checked name="table_filter_radio" value="New">
+                                New
+                            </label>
+                            <label class="form-check-label csv_choice_label">
+                                <input type="radio" class="form-radio-input" name="table_filter_radio" value="Error">
+                                Errors
+                            </label>
+                            &nbsp;
+                            &nbsp;
+                        </div>
+                        <div>
+                            <label class="form-label">First Row</label>
+                            <input class="first_table_row form-control" value="1" style="width:100px;display:inline-block">
+                        </div>
                         <div class="upsert_result_status_bar"></div>
                         <div>
                             <button class="upload_embedding_documents_btn btn btn-primary">
@@ -160,16 +180,16 @@
                                 Actions
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item upload_document_list_button">
+                                <a class="dropdown-item upload_document_list_button" href="importrows">
                                     <i class="material-icons">upload_file</i> Import Rows
                                 </a>
-                                <a class="dropdown-item download_csv_results_btn">
+                                <a class="dropdown-item download_csv_results_btn" href="exportcsv">
                                     <i class="material-icons">file_download</i> Export CSV
                                 </a>
-                                <a class="dropdown-item download_json_results_btn">
+                                <a class="dropdown-item download_json_results_btn" href="exportjson">
                                     <i class="material-icons">file_download</i> Export JSON
                                 </a>
-                                <a class="dropdown-item add_row_btn">
+                                <a class="dropdown-item add_row_btn" href="addrow">
                                     <i class="material-icons">add</i> Add Row
                                 </a>
                             </div>
