@@ -62,7 +62,7 @@
                                 class="home_navbar_name_color"">cog</span></span>
                     </a>
                 </li>
-                <li style="background:none;" class="app_panel">
+                <li style=" background:none;" class="app_panel">
                                 &nbsp; Upsert Embedding Documents &nbsp;
                 </li>
                 <li style="background:none;flex:1" class="app_panel">
@@ -112,7 +112,9 @@
                 <div class="pinecone_index_name"></div>
                 <div style="padding-top: 8px;flex:1">
                     &nbsp;
-                    <button class="btn btn-secondary fetch_pinecone_index_stats_btn">Update Status</button>
+                    <button class="btn btn-secondary fetch_pinecone_index_stats_btn">
+                        <i class="material-icons">sync</i>
+                    </button>
                 </div>
             </div>
             <ul class="nav nav-tabs" role="tablist">
@@ -144,47 +146,39 @@
                 style="overflow:hidden;display:flex;text-align: left;flex: 1;flex-direction: column;">
                 <div class="tab-pane fade show active" id="upsert_embedding_tab_view" role="tabpanel"
                     aria-labelledby="upsert_embedding_tab_btn" style="flex:1;flex-direction: column;overflow:hidden;">
-                    <div style="padding: 8px;">
-                        <button class="btn btn-primary upload_document_list_button">
-                            <i class="material-icons">upload_file</i>
-                            Import Rows
-                        </button>
-                        &nbsp;
-                        <button class="btn btn-secondary add_row_btn">
-                            <i class="material-icons">add</i></button>
-                        &nbsp;
+                    <div style="padding: 8px;display:flex;flex-direction:row">
+                        <div class="upsert_result_status_bar"></div>
+                        <div>
+                            <button class="upload_embedding_documents_btn btn btn-primary">
+                                <i class="material-icons">cloud_upload</i> <span>Upsert 50</span>
+                            </button>
+                            &nbsp;
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Manage Data
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item upload_document_list_button">
+                                    <i class="material-icons">upload_file</i> Import Rows
+                                </a>
+                                <a class="dropdown-item download_csv_results_btn">
+                                    <i class="material-icons">file_download</i> Export CSV
+                                </a>
+                                <a class="dropdown-item download_json_results_btn">
+                                    <i class="material-icons">file_download</i> Export JSON
+                                </a>
+                                <a class="dropdown-item add_row_btn">
+                                    <i class="material-icons">add</i> Add Row
+                                </a>
+                            </div>
+                        </div>
                         <input class="embedding_list_file_dom" style="display:none;" type="file" accept=".json,.csv">
                         <div class="document_list_file_name" style="display:none;"></div>
                     </div>
                     <div style="flex:1;overflow: auto;">
                         <div class="preview_embedding_documents_table"></div>
-                    </div>
-                    <div style="display:flex;flex-direction:row">
-                        <div style="padding: 8px;">
-                            <div style="display:inline-block;position:relative;top:2px">
-                                <b>Selected Rows: </b>
-                                <span class="selected_rows_display_span"></span>
-                            </div>
-                            &nbsp;
-                            <button class="btn btn-secondary delete_selected_row_btn">
-                                <i class="material-icons">delete</i></button>
-                            &nbsp;
-                            <button class="upload_embedding_documents_btn btn btn-primary">
-                                <i class="material-icons">cloud_upload</i> <span>Upsert Rows</span></button>
-                        </div>
-                        <div class="upsert_result_status_bar"></div>
-                        <div style="padding: 8px;">
-                            <button class="btn btn-secondary validate_selected_rows_btn" style="display:none">
-                                <i class="material-icons">rule_folder</i> <span>Validate Selected</span>
-                            </button>
-                            &nbsp;
-                            <button class="btn btn-secondary download_csv_results_btn">
-                                <i class="material-icons">file_download</i> <span>CSV Rows</span></button>
-                            &nbsp;
-                            <button class="btn btn-secondary download_json_results_btn">
-                                <i class="material-icons">file_download</i> <span>JSON Rows</span></button>
-                            &nbsp;
-                        </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="options_embedding_tab_view" role="tabpanel"

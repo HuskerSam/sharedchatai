@@ -2,6 +2,7 @@ body,
 html {
   min-height: unset;
   height: 100%;
+  overflow: hidden;
 }
 
 .styled_csv_table {

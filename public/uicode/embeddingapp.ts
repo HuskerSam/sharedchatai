@@ -35,10 +35,7 @@ export class EmbeddingApp extends BaseApp {
     delete_pinecone_vector_id: any = document.querySelector(".delete_pinecone_vector_id");
     pinecone_id_to_delete: any = document.querySelector(".pinecone_id_to_delete");
     upsert_embedding_tab_btn: any = document.querySelector("#upsert_embedding_tab_btn");
-    delete_selected_row_btn: any = document.querySelector(".delete_selected_row_btn");
     add_row_btn: any = document.querySelector(".add_row_btn");
-    selected_rows_display_span: any = document.querySelector(".selected_rows_display_span");
-    validate_selected_rows_btn: any = document.querySelector(".validate_selected_rows_btn");
     chunking_results_wrapper: any = document.querySelector(".chunking_results_wrapper");
     parse_url_parse_button: any = document.querySelector(".parse_url_parse_button");
     parse_url_path_input: any = document.querySelector(".parse_url_path_input");
@@ -76,21 +73,28 @@ export class EmbeddingApp extends BaseApp {
     tableColumns = [
         {
             title: "",
-            field: "rowIndex",
+            field: "rowNumber",
             hozAlign: "center",
-            headerSort: false,
-        },
-        {
-            title: "url",
-            field: "url",
-            editor: "textarea",
-            width: 250,
             headerSort: false,
         }, {
             title: "id",
             field: "id",
             editor: "input",
             width: 100,
+            headerSort: false,
+        }, {
+            title: "",
+            field: "deleteRow",
+            headerSort: false,
+            formatter: () => {
+                return `<button class="btn btn-secondary"><i class="material-icons">delete</i></button>`;
+            },
+            hozAlign: "center",
+        }, {
+            title: "url",
+            field: "url",
+            editor: "textarea",
+            width: 250,
             headerSort: false,
         }, {
             title: "title",
@@ -146,6 +150,7 @@ export class EmbeddingApp extends BaseApp {
             hozAlign: "center",
         }, {
             title: "text",
+            width: 200,
             field: "text",
             editor: "textarea",
             headerSort: false,
@@ -161,7 +166,7 @@ export class EmbeddingApp extends BaseApp {
         this.csvUploadDocumentsTabulator = new window.Tabulator(".preview_embedding_documents_table", {
             data: [],
             height: "100%",
-            layout:"fitDataStretch",
+            layout: "fitDataStretch",
             columns: this.tableColumns,
         });
         this.csvUploadDocumentsTabulator.on("cellClick", async (e: any, cell: any) => {
@@ -198,26 +203,17 @@ export class EmbeddingApp extends BaseApp {
                 this.parse_embedding_tab_btn.click();
                 this.parse_url_parse_button.click();
             }
+            if (field === "deleteRow") {
+                this.deleteTableRow(data.id);
+            }
         });
         this.csvUploadDocumentsTabulator.on("cellEdited", async (cell: any) => {
             const field = cell.getField();
             if (this.editableTableFields.indexOf(field) !== -1) {
                 const data = cell.getRow().getData();
-                const rowIndex = Number(data.row);
-                if (field === "row") {
-                    let newRowIndex = Number(data[field]);
-                    if (isNaN(newRowIndex) || newRowIndex < 1) newRowIndex = 1;
-                    if (newRowIndex > this.fileListToUpload.length) {
-                        newRowIndex = this.fileListToUpload.length;
-                    }
-                    const oldIndex = cell.getRow().getPosition();
-                    const element = this.fileListToUpload[oldIndex - 1];
-                    this.fileListToUpload.splice(oldIndex - 1, 1);
-                    this.fileListToUpload.splice(newRowIndex - 1, 0, element);
-                } else {
-                    this.fileListToUpload[rowIndex][field] = data[field];
-                }
-              // FIX THIS  this.saveUpsertRows();
+                this.saveTableRowToFirestore({
+                    [field]: data[field],
+                }, data.id);
             }
         });
         this.upload_embedding_documents_btn.addEventListener("click", () => this.upsertTableRowsToPinecone());
@@ -269,6 +265,13 @@ export class EmbeddingApp extends BaseApp {
         this.upsert_documents_list.addEventListener("change", () => this.updateWatchUpsertRows());
         this.add_project_btn.addEventListener("click", () => this.addProject());
         this.remove_project_btn.addEventListener("click", () => this.deleteProject());
+    }
+    /** */
+    async deleteTableRow(id: string) {
+        if (!confirm("Are you sure you want to delete this row?")) return;
+
+        const rowPath = `Users/${this.uid}/embedding/${this.selectedProjectId}/data/${id}`;
+        await firebase.firestore().doc(rowPath).delete();
     }
     /** */
     async fetchPineconeVector() {
@@ -773,7 +776,6 @@ export class EmbeddingApp extends BaseApp {
         const json = await fResult.json();
 
         if (json.success === false) {
-            console.log("pinecone error", json);
             this.pinecone_index_name.innerHTML = json.errorMessage;
             return;
         }
@@ -793,7 +795,7 @@ export class EmbeddingApp extends BaseApp {
         let rowsSkipped = 0;
         importData.forEach((item: any, index: number) => {
             if (item.url || item.id) {
-                item.uploadedDate = uploadDate;
+                item.created = uploadDate;
                 const columnsToVerify = ["prefix", "text", "url", "id", "options", "title"];
                 columnsToVerify.forEach((key: string) => {
                     if (!item[key]) item[key] = "";
@@ -808,7 +810,7 @@ export class EmbeddingApp extends BaseApp {
         await this.saveUpsertRowsToFirestore(importedRows);
         let alertMessage = importedRows.length + " row(s) imported "
         if (rowsSkipped) {
-            alertMessage += rowsSkipped + " row(s) skipped - a url or id field value is required for a row to be imported"; 
+            alertMessage += rowsSkipped + " row(s) skipped - a url or id field value is required for a row to be imported";
         }
         alert(alertMessage);
     }
@@ -913,18 +915,10 @@ export class EmbeddingApp extends BaseApp {
                 if (!row.validation) row.validation = "";
                 if (!row.parser) row.parser = "";
                 if (!row.errorMessage) row.errorMessage = "";
-                if (!row.id) row.id = encodeURIComponent(row.url); // orl or id is required
-                row.include = row.include === true;
-                
-                const rowPath = `Users/${this.uid}/embedding/${this.selectedProjectId}/data/${row.id}`;
-                console.log(rowPath);
-                promises.push(firebase.firestore()
-                    .doc(rowPath)
-                    .set(row, {
-                        merge: true,
-                    }));
-            }
+                if (!row.id) row.id = encodeURIComponent(row.url);
 
+                promises.push(this.saveTableRowToFirestore(row, row.id));
+            }
         });
         await Promise.all(promises);
 
@@ -933,6 +927,13 @@ export class EmbeddingApp extends BaseApp {
             success,
             errors,
         }
+    }
+    /** */
+    async saveTableRowToFirestore(updateData: any, id: string) {
+        const rowPath = `Users/${this.uid}/embedding/${this.selectedProjectId}/data/${id}`;
+        return firebase.firestore().doc(rowPath).set(updateData, {
+            merge: true,
+        });
     }
     /** */
     initUsageWatch() {
@@ -951,6 +952,8 @@ export class EmbeddingApp extends BaseApp {
         if (!projectId) {
             projectId = prompt("Project Name:", new Date().toISOString().substring(0, 10));
             if (projectId === null) return;
+            projectId = projectId.trim();
+            if (!projectId) return;
         }
 
         this.upsert_documents_list.innerHTML = ``;
@@ -967,8 +970,25 @@ export class EmbeddingApp extends BaseApp {
     async deleteProject() {
         if (!this.selectedProjectId) return;
         if (!confirm("Are you sure you want to delete this project?")) return;
-        await firebase.firestore().doc(`Users/${this.uid}/embedding/${this.selectedProjectId}/data/rows`).delete();
-        await firebase.firestore().doc(`Users/${this.uid}/embedding/${this.selectedProjectId}`).delete();
+        const deleteProjectId = this.selectedProjectId;
+        await firebase.firestore().doc(`Users/${this.uid}/embedding/${deleteProjectId}`).delete();
+
+        while (true) {
+            const nextChunk = await firebase.firestore()
+                .collection(`Users/${this.uid}/embedding/${deleteProjectId}/data`)
+                .limit(100)
+                .get();
+
+            if (nextChunk.size < 1) return;
+
+            const promises: any[] = [];
+            nextChunk.forEach((doc: any) => {
+                promises.push(firebase.firestore()
+                    .doc(`Users/${this.uid}/embedding/${deleteProjectId}/data/${doc.id}`)
+                    .delete());
+            });
+            await Promise.all(promises);
+        }
     }
     /** */
     async watchProjectList() {
@@ -1032,30 +1052,42 @@ export class EmbeddingApp extends BaseApp {
             .limit(500)
             .onSnapshot((snapshot: any) => {
                 this.fileListToUpload = [];
-                snapshot.forEach((doc: any, index: number) => {
+                let index = 1;
+                snapshot.forEach((doc: any) => {
                     let row: any = doc.data();
-                    row.rowNumber = index + 1;
-                    this.fileListToUpload.push(doc.data());
+                    row.rowNumber = index++;
+                    this.fileListToUpload.push(row);
                 });
 
                 this.csvUploadDocumentsTabulator.setData(this.fileListToUpload);
-                // this.updateTableSelectAllIcon();
-                // FIX THIS this.selected_rows_display_span.innerHTML = this.selectedRowCount + " / " + this.fileListToUpload.length;
             });
     }
     /** */
     addEmptyTableRow() {
-        this.fileListToUpload.unshift({
+        let rowId = prompt("Project Name:", new Date().toISOString().substring(0, 10));
+        if (rowId === null) return;
+        rowId = rowId.trim();
+        if (!rowId) return;
+
+        const data: any = {
+            id: rowId,
             include: true,
             prefix: "",
             text: "",
             url: "",
             options: "",
             title: "",
-            id: "",
-            uploadedDate: new Date().toISOString(),
-        });
-        // FIX THIS this.saveUpsertRows(true);
+            pineconeId: "",
+            pineconeTitle: "",
+            size: "",
+            upsertedDate: "",
+            vectorCount: "",
+            validation: "",
+            parser: "",
+            errorMessage: "",
+            created: new Date().toISOString(),
+        };
+        this.saveTableRowToFirestore(data, rowId);
     }
     /** */
     updateResultChunksTable() {
