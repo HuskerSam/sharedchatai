@@ -37,7 +37,7 @@ service cloud.firestore {
       allow read, write: if request.auth != null && request.auth.uid == userId
     }
 
-    match /Users/{userId}/embedding/{projectid}/data/rows {
+    match /Users/{userId}/embedding/{projectid}/data/{rowid} {
       allow read, write: if request.auth != null && request.auth.uid == userId
     }
 

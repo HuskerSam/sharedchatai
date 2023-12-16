@@ -75,103 +75,69 @@ export class EmbeddingApp extends BaseApp {
     selectedRowCount = 0;
     tableColumns = [
         {
-            title: ``,
-            field: "include",
-            headerHozAlign: "center",
+            title: "",
+            field: "rowIndex",
+            hozAlign: "center",
             headerSort: false,
-            formatter: (cell: any) => {
-                if (cell.getValue()) return `<button class="btn btn-secondary"><span class="check_emoji">❎</span></button>`;
-                return `<button class="btn btn-secondary"><span class="check_emoji">⬜</span></button>`;
-            },
-            cellClick: (ev: any, cell: any) => {
-                cell.setValue(!cell.getValue());
-                this.updateTableSelectAllIcon();
-            },
-            headerClick: () => {
-                if (this.isAllTableRowsSelected()) {
-                    this.fileListToUpload.forEach((row: any) => row.include = false);
-                } else {
-                    this.fileListToUpload.forEach((row: any) => row.include = true);
-                }
-                this.saveUpsertRows(true);
-            },
-            hozAlign: "center",
-        }, {
-            title: "row",
-            field: "row",
-            editor: "input",
-            hozAlign: "center",
-            width: 100,
         },
         {
             title: "url",
             field: "url",
             editor: "textarea",
             width: 250,
+            headerSort: false,
         }, {
             title: "id",
             field: "id",
             editor: "input",
             width: 100,
+            headerSort: false,
         }, {
             title: "title",
             field: "title",
             editor: "input",
             width: 100,
+            headerSort: false,
         }, {
             title: "options",
             field: "options",
             editor: "textarea",
             width: 100,
-        }, {
-            title: "text",
-            field: "text",
-            editor: "textarea",
-            width: 100,
+            headerSort: false,
         }, {
             title: "prefix",
             field: "prefix",
             editor: "textarea",
             width: 100,
+            headerSort: false,
         }, {
-            title: "Parser",
+            title: "Meta",
+            field: "additionalMeta",
+            width: 100,
+            headerSort: false,
+            hozAlign: "center",
+        }, {
+            title: "Status",
+            width: 100,
+            field: "errorMessage",
+            headerSort: false,
+        }, {
+            title: "Parse",
             field: "parser",
             headerSort: false,
             formatter: () => {
                 return `<button class="btn btn-secondary"><i class="material-icons">start</i></button>`;
             },
         }, {
-            title: "uploaded",
-            field: "uploadedDate",
-            formatter: (cell: any) => {
-                return this.showGmailStyleDate(new Date(cell.getValue()));
+            title: "Export",
+            field: "copyJSON",
+            headerSort: false,
+            formatter: () => {
+                return `<button class="btn btn-secondary"><i class="material-icons">dataset_linked</i></button>`;
             },
-        }, {
-            title: "upserted",
-            field: "upsertedDate",
-            formatter: (cell: any) => {
-                const d: string = this.showGmailStyleDate(new Date(cell.getValue()));
-                if (d === "Invalid Date") return "";
-                return d;
-            },
-        }, {
-            title: "vId",
-            field: "pineconeId",
-            width: 100,
-        }, {
-            title: "vCount",
-            field: "vectorCount",
-            width: 90,
             hozAlign: "center",
         }, {
-            title: "vTitle",
-            field: "pineconeTitle",
-            width: 100,
-        }, {
-            title: "Size",
-            field: "size",
-        }, {
-            title: "Text",
+            title: "",
             field: "copyText",
             headerSort: false,
             formatter: () => {
@@ -179,16 +145,10 @@ export class EmbeddingApp extends BaseApp {
             },
             hozAlign: "center",
         }, {
-            title: "JSON",
-            field: "copyJSON",
+            title: "text",
+            field: "text",
+            editor: "textarea",
             headerSort: false,
-            formatter: () => {
-                return `<button class="btn btn-secondary"><i class="material-icons">content_copy</i></button>`;
-            },
-            hozAlign: "center",
-        }, {
-            title: "Error",
-            field: "errorMessage",
         },
     ];
 
@@ -201,6 +161,7 @@ export class EmbeddingApp extends BaseApp {
         this.csvUploadDocumentsTabulator = new window.Tabulator(".preview_embedding_documents_table", {
             data: [],
             height: "100%",
+            layout:"fitDataStretch",
             columns: this.tableColumns,
         });
         this.csvUploadDocumentsTabulator.on("cellClick", async (e: any, cell: any) => {
@@ -256,7 +217,7 @@ export class EmbeddingApp extends BaseApp {
                 } else {
                     this.fileListToUpload[rowIndex][field] = data[field];
                 }
-                this.saveUpsertRows();
+              // FIX THIS  this.saveUpsertRows();
             }
         });
         this.upload_embedding_documents_btn.addEventListener("click", () => this.upsertTableRowsToPinecone());
@@ -295,11 +256,9 @@ export class EmbeddingApp extends BaseApp {
         this.fetch_pinecone_index_stats_btn.addEventListener("click", () => this.fetchIndexStats());
         this.delete_pinecone_vector_id.addEventListener("click", () => this.deletePineconeVector());
 
-        this.delete_selected_row_btn.addEventListener("click", () => this.deleteSelectedRows());
         this.add_row_btn.addEventListener("click", () => this.addEmptyTableRow());
         this.updateQueriedDocumentList();
 
-        this.validate_selected_rows_btn.addEventListener("click", () => this.validateSelectedRows());
         this.parse_url_parse_button.addEventListener("click", () => this.scrapeSingleURL());
         this.parse_chunks_parse_button.addEventListener("click", () => this.parseText());
         this.updateResultChunksTable();
@@ -609,7 +568,7 @@ export class EmbeddingApp extends BaseApp {
         } else {
             const upsertFileResults = json.fileUploadResults;
             this.applyUpsertResultsToStore(fileList, upsertFileResults);
-    
+
             const count = upsertFileResults.length;
             let errors = 0;
             let credits = 0;
@@ -822,25 +781,36 @@ export class EmbeddingApp extends BaseApp {
         this.pinecone_index_stats_display.innerHTML = JSON.stringify(json, null, "\t");
         this.pinecone_index_name.innerHTML = batchId + "<br>" + json.indexDescription.totalRecordCount;
     }
-    /** */
+    /** upload/import CSV file */
     async uploadUpsertListFile() {
-        const importData = await ChatDocument.getImportDataFromDomFile(this.embedding_list_file_dom);
-
-        const uploadDate = new Date().toISOString();
-        importData.forEach((item: any) => {
-            item.uploadedDate = uploadDate;
-            const columnsToVerify = ["prefix", "text", "url", "id", "options", "title"];
-            columnsToVerify.forEach((key: string) => {
-                if (!item[key]) item[key] = "";
-            });
-            item.include = !(item.include === "false"); // catch the exported case otherwise include by default
-            this.fileListToUpload.push(item);
-        });
-
         let fileName = "";
         if (this.embedding_list_file_dom.files[0]) fileName = this.embedding_list_file_dom.files[0].name;
         this.document_list_file_name.innerHTML = fileName;
-        this.saveUpsertRows(true, true);
+
+        const importData = await ChatDocument.getImportDataFromDomFile(this.embedding_list_file_dom);
+        const uploadDate = new Date().toISOString();
+        const importedRows: any[] = [];
+        let rowsSkipped = 0;
+        importData.forEach((item: any, index: number) => {
+            if (item.url || item.id) {
+                item.uploadedDate = uploadDate;
+                const columnsToVerify = ["prefix", "text", "url", "id", "options", "title"];
+                columnsToVerify.forEach((key: string) => {
+                    if (!item[key]) item[key] = "";
+                });
+                item.include = !(item.include === "false"); // catch the exported case otherwise include by default
+                importedRows.push(item);
+            } else {
+                if (index < importData.length - 1) rowsSkipped++;
+            }
+        });
+
+        await this.saveUpsertRowsToFirestore(importedRows);
+        let alertMessage = importedRows.length + " row(s) imported "
+        if (rowsSkipped) {
+            alertMessage += rowsSkipped + " row(s) skipped - a url or id field value is required for a row to be imported"; 
+        }
+        alert(alertMessage);
     }
     /**
      * @param { Array<any> } upsertArray
@@ -876,7 +846,7 @@ export class EmbeddingApp extends BaseApp {
             promises.push(saveResponse(index, row));
         });
         await Promise.all(promises);
-        this.saveUpsertRows(true);
+        // this.saveUpsertRows(true);
     }
     /** */
     async deletePineconeVector() {
@@ -922,55 +892,47 @@ export class EmbeddingApp extends BaseApp {
         this.fetchIndexStats();
     }
     /**
-     * @param { boolean } saveNow
+     * @param { any[] } rows
+     * @return { Promise<any> } 
      */
-    async saveUpsertRows(saveNow = false, alertSizeTest = false) {
-        // this.upsert_embedding_tab_btn.innerHTML = "Saving...";
-
-        if (saveNow) {
-            const upsertList: Array<any> = [];
-            this.fileListToUpload.forEach((row: any) => {
-                const clone = Object.assign({}, row);
-                delete clone.copyJSON;
-                delete clone.copyText;
-                delete clone.parser;
-                delete clone.row;
-                if (!clone.pineconeId) clone.pineconeId = "";
-                if (!clone.pineconeTitle) clone.pineconeTitle = "";
-                if (!clone.size) clone.size = "";
-                if (!clone.upsertedDate) clone.upsertedDate = "";
-                if (!clone.vectorCount) clone.vectorCount = "";
-                if (!clone.validation) clone.validation = "";
-                if (!clone.parser) clone.parser = "";
-                if (!clone.errorMessage) clone.errorMessage = "";
-                clone.include = clone.include === true;
-                upsertList.push(clone);
-            });
-            console.log(upsertList);
-
-            if (alertSizeTest) {
-                const jsonStr = JSON.stringify(upsertList);
-                console.log("payload size", jsonStr.length);
-                if (jsonStr.length > 8 * 1024 * 1024) {
-                    alert("Data size must be less then 10mb total, please make multiple upsert lists.");
-                    return;
-                }
+    async saveUpsertRowsToFirestore(rows: any[]): Promise<any> {
+        const promises: any[] = [];
+        const errors: any[] = [];
+        rows.forEach((row: any, index: number) => {
+            if (!row.id || !row.url) {
+                errors.push({
+                    index,
+                    error: "No id or url specified",
+                });
+            } else {
+                if (!row.pineconeId) row.pineconeId = "";
+                if (!row.pineconeTitle) row.pineconeTitle = "";
+                if (!row.size) row.size = "";
+                if (!row.upsertedDate) row.upsertedDate = "";
+                if (!row.vectorCount) row.vectorCount = "";
+                if (!row.validation) row.validation = "";
+                if (!row.parser) row.parser = "";
+                if (!row.errorMessage) row.errorMessage = "";
+                if (!row.id) row.id = encodeURIComponent(row.url); // orl or id is required
+                row.include = row.include === true;
+                
+                const rowPath = `Users/${this.uid}/embedding/${this.selectedProjectId}/data/${row.id}`;
+                console.log(rowPath);
+                promises.push(firebase.firestore()
+                    .doc(rowPath)
+                    .set(row, {
+                        merge: true,
+                    }));
             }
-            
-            await firebase.firestore().doc(`Users/${this.uid}/embedding/${this.selectedProjectId}/data/rows`).set({
-                upsertList,
-            }, {
-                merge: true,
-            });
-            // this.upsert_embedding_tab_btn.innerHTML = "Upsert";
-            return;
-        }
 
-        window.clearTimeout(this.saveChangesTimer);
-        this.saveChangesTimer = setTimeout(() => {
-            this.saveChangesTimer = null;
-            this.saveUpsertRows(true);
-        }, 1000);
+        });
+        await Promise.all(promises);
+
+        const success = errors.length === 0;
+        return {
+            success,
+            errors,
+        }
     }
     /** */
     initUsageWatch() {
@@ -1059,48 +1021,27 @@ export class EmbeddingApp extends BaseApp {
         this.fileListToUpload = [];
         this.csvUploadDocumentsTabulator.setData(this.fileListToUpload);
 
+        /*
+        collectionRef
+    .where('name', '>=', queryText)
+    .where('name', '<=', queryText+ '\uf8ff')
+    */
         this.saveProfileField("selectedEmbeddingProjectId", this.selectedProjectId);
         this.fileUpsertListFirestore = firebase.firestore()
-            .doc(`Users/${this.uid}/embedding/${this.selectedProjectId}/data/rows`)
+            .collection(`Users/${this.uid}/embedding/${this.selectedProjectId}/data`)
+            .limit(500)
             .onSnapshot((snapshot: any) => {
-                let data = snapshot.data();
-                if (!data) data = {};
-                this.fileListToUpload = data.upsertList;
-                if (!this.fileListToUpload) this.fileListToUpload = [];
-                this.fileListToUpload.forEach((item: any, index: number) => {
-                    item.row = (index).toString();
+                this.fileListToUpload = [];
+                snapshot.forEach((doc: any, index: number) => {
+                    let row: any = doc.data();
+                    row.rowNumber = index + 1;
+                    this.fileListToUpload.push(doc.data());
                 });
+
                 this.csvUploadDocumentsTabulator.setData(this.fileListToUpload);
-                this.updateTableSelectAllIcon();
-                this.selected_rows_display_span.innerHTML = this.selectedRowCount + " / " + this.fileListToUpload.length;
+                // this.updateTableSelectAllIcon();
+                // FIX THIS this.selected_rows_display_span.innerHTML = this.selectedRowCount + " / " + this.fileListToUpload.length;
             });
-    }
-    /**
-     * @return { boolean }
-     */
-    isAllTableRowsSelected(): boolean {
-        this.selectedRowCount = 0;
-        for (let c = 0, l = this.fileListToUpload.length; c < l; c++) {
-            if (this.fileListToUpload[c].include === true) this.selectedRowCount++;
-        }
-        return (this.selectedRowCount === this.fileListToUpload.length);
-    }
-    /** */
-    updateTableSelectAllIcon() {
-        let selectAllIcon = `<span class="check_emoji">❎</span>`;
-        if (this.isAllTableRowsSelected()) selectAllIcon = `<span class="check_emoji">⬜</span>`;
-        this.csvUploadDocumentsTabulator.columnManager.columns[0].titleElement.innerHTML = selectAllIcon;
-    }
-    /** */
-    deleteSelectedRows() {
-        if (!confirm("Delete selected rows?")) return;
-        for (let c = 0; c < this.fileListToUpload.length; c++) {
-            if (this.fileListToUpload[c].include) {
-                this.fileListToUpload.splice(c, 1);
-                c--;
-            }
-        }
-        this.saveUpsertRows(true);
     }
     /** */
     addEmptyTableRow() {
@@ -1114,72 +1055,7 @@ export class EmbeddingApp extends BaseApp {
             id: "",
             uploadedDate: new Date().toISOString(),
         });
-        this.saveUpsertRows(true);
-    }
-    /** detect duplicate ids, rows without id,text or a url */
-    validateSelectedRows() {
-        let validationResults = "";
-        const selectedIndexes = this.getSelectedTableIndexes();
-
-        if (selectedIndexes.length === 0) {
-            validationResults = "No rows selected to validate";
-        } else {
-            const idStore: Array<string> = [];
-            this.fileListToUpload.forEach((row: any) => idStore.push(this.resolveTableRowUpsertId(row)));
-
-            const invalidRows: Array<number> = [];
-            selectedIndexes.forEach((selectedIndex: number) => {
-                const selectedId = idStore[selectedIndex];
-                let validationMessage = "";
-                if (selectedId === "") {
-                    validationMessage = "No url or id supplied";
-                    invalidRows.push(selectedIndex);
-                } else {
-                    const duplicates: Array<number> = [];
-                    idStore.forEach((id: string, index: number) => {
-                        if (id === selectedId && index !== selectedIndex) duplicates.push(index);
-                    });
-                    if (duplicates.length > 0) {
-                        let dupRows = "";
-                        duplicates.forEach((dupIndex: number) => dupRows += (dupIndex + 1).toString() + ",");
-                        validationMessage = "Duplicate rows " + dupRows;
-                        invalidRows.push(selectedIndex);
-                        console.log(selectedIndex, selectedId);
-                    }
-                }
-                this.fileListToUpload[selectedIndex].validation = validationMessage;
-            });
-
-            if (invalidRows.length === 0) {
-                validationResults = "Selected rows have unique ids or urls";
-            } else {
-                let invalidRowsStr = "";
-                invalidRows.forEach((dupIndex: number) => invalidRowsStr += (dupIndex + 1).toString() + ",");
-                validationResults = "Invalid rows: " + invalidRowsStr;
-            }
-        }
-        this.saveUpsertRows(true);
-        this.upsert_result_status_bar.innerHTML = validationResults;
-    }
-    /**
-     * @param { any } row
-     * @return { string }
-    */
-    resolveTableRowUpsertId(row: any): string {
-        let id = "";
-        if (row.id) id = row.id;
-        if (!id && row.url) id = encodeURIComponent(row.url.trim());
-        return id;
-    }
-    /**
-     * @return { Array<number> }
-     */
-    getSelectedTableIndexes(): Array<number> {
-        const selected: Array<number> = [];
-        for (let c = 0, l = this.fileListToUpload.length; c < l; c++) {
-            if (this.fileListToUpload[c].include) selected.push(c);
-        }
-        return selected;
+        // FIX THIS this.saveUpsertRows(true);
     }
     /** */
     updateResultChunksTable() {
