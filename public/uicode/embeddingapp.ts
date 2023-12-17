@@ -181,7 +181,7 @@ export class EmbeddingApp extends BaseApp {
         this.showLoginModal = true;
         this.profileHelper.noAuthPage = false;
 
-        //init table
+        // init table
         this.csvUploadDocumentsTabulator = new window.Tabulator(".preview_embedding_documents_table", {
             data: [],
             height: "100%",

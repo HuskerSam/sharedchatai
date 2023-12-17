@@ -399,7 +399,7 @@ export default class EmbeddingAPI {
     */
     static async _upsertFileData(fileDesc: any, pineconeIndex: string, chatGptKey: string, uid: string, pIndex: any,
         tokenThreshold: number) {
-        let id = fileDesc.id;
+        const id = fileDesc.id;
         if (id === "") {
             return {
                 success: false,

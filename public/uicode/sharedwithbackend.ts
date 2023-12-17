@@ -1,4 +1,3 @@
-declare const window: any;
 import {
   encode,
 } from "gpt-tokenizer";
