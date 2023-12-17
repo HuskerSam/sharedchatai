@@ -1,7 +1,16 @@
-import BaseApp from "./baseapp.js";
-import ChatDocument from "./chatdocument.js";
-import SharedWithBackend from "./sharedwithbackend.js";
-import AccountHelper from "./accounthelper.js";
+import BaseApp from "./baseapp";
+import ChatDocument from "./chatdocument";
+import SharedWithBackend from "./sharedwithbackend";
+import AccountHelper from "./accounthelper";
+/*
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
+import "firebase/compat/auth";
+import {
+    collection,
+    getCountFromServer,
+} from "firebase/firestore";
+*/
 declare const firebase: any;
 declare const window: any;
 
@@ -52,6 +61,7 @@ export class EmbeddingApp extends BaseApp {
     add_project_btn: any = document.querySelector(".add_project_btn");
     remove_project_btn: any = document.querySelector(".remove_project_btn");
     table_filter_radios = document.querySelectorAll(`input[name="table_filter_radio"]`);
+    firebase_record_count_status: any = document.querySelector(".firebase_record_count_status");
     fileUpsertListFirestore: any = null;
     embeddingProjects: any = {};
     selectedProjectId = "";
@@ -82,6 +92,7 @@ export class EmbeddingApp extends BaseApp {
             title: "id",
             field: "id",
             editor: "input",
+            headerSort: false,
             width: 100,
         }, {
             title: "",
@@ -133,6 +144,7 @@ export class EmbeddingApp extends BaseApp {
             title: "Activity",
             field: "activity",
             hozAlign: "center",
+            headerSort: false,
         }, {
             title: "Status",
             width: 100,
@@ -182,7 +194,7 @@ export class EmbeddingApp extends BaseApp {
             const rowIndex = Number(data.row);
             if (field === "copyJSON") {
                 const responseQuery = await firebase.firestore()
-                    .doc(`Users/${this.uid}/embedding/${this.selectedProjectId}/responses/${data["responseId"]}`).get();
+                    ?.doc(`Users/${this.uid}/embedding/${this.selectedProjectId}/responses/${data["responseId"]}`).get();
                 const responseData = responseQuery.data();
                 const outData: any = Object.assign({}, data);
                 outData.upsertResponse = responseData;
@@ -194,7 +206,7 @@ export class EmbeddingApp extends BaseApp {
             if (field === "copyText") {
                 console.log(rowIndex);
                 const responseQuery = await firebase.firestore()
-                    .doc(`Users/${this.uid}/embedding/${this.selectedProjectId}/responses/${data["responseId"]}`).get();
+                    ?.doc(`Users/${this.uid}/embedding/${this.selectedProjectId}/responses/${data["responseId"]}`).get();
                 const responseData = responseQuery.data();
                 if (!responseData) {
                     alert("No text response to copy");
@@ -372,12 +384,12 @@ export class EmbeddingApp extends BaseApp {
             pineconeKey,
         };
 
-        const token = await firebase.auth().currentUser.getIdToken();
+        const token = await firebase.auth().currentUser?.getIdToken();
         const fResult = await fetch(this.basePath + "embeddingApi/deleteindex", {
             method: "POST",
             mode: "cors",
             cache: "no-cache",
-            headers: {
+            headers: <HeadersInit>{
                 "Content-Type": "application/json",
                 token,
             },
@@ -413,12 +425,12 @@ export class EmbeddingApp extends BaseApp {
             pineconeKey,
             vectorId: id,
         };
-        const token = await firebase.auth().currentUser.getIdToken();
+        const token = await firebase.auth().currentUser?.getIdToken();
         const fResult = await fetch(this.basePath + "embeddingApi/deletevector", {
             method: "POST",
             mode: "cors",
             cache: "no-cache",
-            headers: {
+            headers: <HeadersInit>{
                 "Content-Type": "application/json",
                 token,
             },
@@ -525,12 +537,12 @@ export class EmbeddingApp extends BaseApp {
         };
         this.pinecone_index_stats_display.innerHTML = "fetching...";
         this.pinecone_index_name.innerHTML = "fetching...";
-        const token = await firebase.auth().currentUser.getIdToken();
+        const token = await firebase.auth().currentUser?.getIdToken();
         const fResult = await fetch(this.basePath + "embeddingApi/indexstats", {
             method: "POST",
             mode: "cors",
             cache: "no-cache",
-            headers: {
+            headers: <HeadersInit>{
                 "Content-Type": "application/json",
                 token,
             },
@@ -566,12 +578,12 @@ export class EmbeddingApp extends BaseApp {
             pineconeKey,
             vectorId: id,
         };
-        const token = await firebase.auth().currentUser.getIdToken();
+        const token = await firebase.auth().currentUser?.getIdToken();
         const fResult = await fetch(this.basePath + "embeddingApi/fetchvector", {
             method: "POST",
             mode: "cors",
             cache: "no-cache",
-            headers: {
+            headers: <HeadersInit>{
                 "Content-Type": "application/json",
                 token,
             },
@@ -665,12 +677,12 @@ export class EmbeddingApp extends BaseApp {
             topK: 10,
         };
 
-        const token = await firebase.auth().currentUser.getIdToken();
+        const token = await firebase.auth().currentUser?.getIdToken();
         const fResult = await fetch(this.basePath + "embeddingApi/processquery", {
             method: "POST",
             mode: "cors",
             cache: "no-cache",
-            headers: {
+            headers: <HeadersInit>{
                 "Content-Type": "application/json",
                 token,
             },
@@ -813,12 +825,12 @@ export class EmbeddingApp extends BaseApp {
             options,
         };
 
-        const token = await firebase.auth().currentUser.getIdToken();
+        const token = await firebase.auth().currentUser?.getIdToken();
         const fResult = await fetch(this.basePath + "embeddingApi/scrapeurl", {
             method: "POST",
             mode: "cors",
             cache: "no-cache",
-            headers: {
+            headers: <HeadersInit>{
                 "Content-Type": "application/json",
                 token,
             },
@@ -895,12 +907,12 @@ export class EmbeddingApp extends BaseApp {
             tokenThreshold,
         };
 
-        const token = await firebase.auth().currentUser.getIdToken();
+        const token = await firebase.auth().currentUser?.getIdToken();
         const fResult = await fetch(this.basePath + "embeddingApi/upsertnextdocuments", {
             method: "POST",
             mode: "cors",
             cache: "no-cache",
-            headers: {
+            headers: <HeadersInit>{
                 "Content-Type": "application/json",
                 token,
             },
@@ -1041,7 +1053,7 @@ export class EmbeddingApp extends BaseApp {
     /** */
     async updateWatchUpsertRows() {
         const projectId = this.upsert_documents_list.value;
-        const selectedRadio: any = document.body.querySelector(`input[name="table_filter_radio"]:checked`);        
+        const selectedRadio: any = document.body.querySelector(`input[name="table_filter_radio"]:checked`);
         const filterValue = selectedRadio.value;
 
         if (this.selectedProjectId === projectId && this.selectedFilter === filterValue) return;
@@ -1062,14 +1074,16 @@ export class EmbeddingApp extends BaseApp {
         this.fileListToUpload = [];
         this.csvUploadDocumentsTabulator.setData(this.fileListToUpload);
 
+        const rowsPath = `Users/${this.uid}/embedding/${this.selectedProjectId}/data`;
         /*
-        collectionRef
-    .where('name', '>=', queryText)
-    .where('name', '<=', queryText+ '\uf8ff')
-    */
+        const countCollection = collection(firebase.firestore(), rowsPath);
+        const countSnapshot = await getCountFromServer(countCollection);
+        const rowCount = countSnapshot.data().count;
+        this.firebase_record_count_status.innerHTML = rowCount;
+*/
         this.saveProfileField("selectedEmbeddingProjectId", this.selectedProjectId);
         this.fileUpsertListFirestore = firebase.firestore()
-            .collection(`Users/${this.uid}/embedding/${this.selectedProjectId}/data`)
+            .collection(rowsPath)
             .limit(500);
         if (filterValue !== "All") {
             this.fileUpsertListFirestore = this.fileUpsertListFirestore.where("status", "==", filterValue);

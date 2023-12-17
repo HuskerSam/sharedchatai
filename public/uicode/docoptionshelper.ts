@@ -1,7 +1,7 @@
 declare const firebase: any;
 declare const window: any;
-import ChatDocument from "./chatdocument.js";
-import BaseApp from "./baseapp.js"; // only for escapeHTML
+import ChatDocument from "./chatdocument";
+import BaseApp from "./baseapp"; // only for escapeHTML
 
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
 export default class DocOptionsHelper {

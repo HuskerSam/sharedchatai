@@ -59,13 +59,9 @@
     <link rel="stylesheet" href="/css/modal.css" />
     <link rel="stylesheet" href="/css/home.css" />
     <link rel="stylesheet" href="/css/content.css" />
-    <script>
-        window.addEventListener("load", async (event) => {
-            let module = await import("/models/staticpageapp.js");
+        
+    <script src="/uicode/models/bundle.js"></script>
 
-            window.StaticPageApp = new module.StaticPageApp();
-        });
-    </script>
 </head>
 
 <body class="basic_page_wrapper">

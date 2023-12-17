@@ -1,5 +1,5 @@
-import BaseApp from "./baseapp.js";
-import ChatDocument from "./chatdocument.js";
+import BaseApp from "./baseapp";
+import ChatDocument from "./chatdocument";
 declare const firebase: any;
 declare const window: any;
 

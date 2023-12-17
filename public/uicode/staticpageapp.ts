@@ -1,4 +1,4 @@
-import BaseApp from "./baseapp.js";
+import BaseApp from "./baseapp";
 
 declare const firebase: any;
 

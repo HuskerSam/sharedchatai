@@ -1,4 +1,8 @@
 declare const window: any;
+import {
+  encode,
+} from "gpt-tokenizer";
+
 const newsList = [
   {
     link: "/content/edustudy2/",
@@ -488,13 +492,6 @@ export default class SharedWithBackend {
   }
   /** */
   static async tokenEncodeFunction(): Promise<any> {
-    let encode: any = null;
-    if (typeof window !== "undefined" && window.gpt3tokenizer) {
-      encode = window.gpt3tokenizer.encode;
-    } else if (typeof window === "undefined") {
-      const gptModule = await import("gpt-tokenizer");
-      encode = gptModule.encode;
-    }
     return encode;
   }
 }

@@ -1,8 +1,8 @@
 declare const firebase: any;
 declare const window: any;
 
-import BaseApp from "./baseapp.js";
-import AccountHelper from "./accounthelper.js";
+import BaseApp from "./baseapp";
+import AccountHelper from "./accounthelper";
 
 const creditsForDollars: any = {
   "5": 3000,

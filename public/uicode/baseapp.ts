@@ -1,9 +1,9 @@
-import ProfileHelper from "./profilehelper.js";
-import LoginHelper from "./loginhelper.js";
-import DocCreateHelper from "./doccreatehelper.js";
-import BuyCreditsHelper from "./buycreditshelper.js";
-import SharedWithBackend from "./sharedwithbackend.js";
-import PineconeHelper from "./embeddinghelper.js";
+import ProfileHelper from "./profilehelper";
+import LoginHelper from "./loginhelper";
+import DocCreateHelper from "./doccreatehelper";
+import BuyCreditsHelper from "./buycreditshelper";
+import SharedWithBackend from "./sharedwithbackend";
+import PineconeHelper from "./embeddinghelper";
 
 declare const firebase: any;
 declare const window: any;

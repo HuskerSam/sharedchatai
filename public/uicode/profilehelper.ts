@@ -1,6 +1,6 @@
-import Utility from "./utility.js";
-import BaseApp from "./baseapp.js";
-import AccountHelper from "./accounthelper.js";
+import Utility from "./utility";
+import BaseApp from "./baseapp";
+import AccountHelper from "./accounthelper";
 declare const firebase: any;
 declare const window: any;
 

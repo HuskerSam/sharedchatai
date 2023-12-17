@@ -81,14 +81,8 @@
   <link rel="stylesheet" href="/css/base.css" />
   <link rel="stylesheet" href="/css/modal.css" />
   <link rel="stylesheet" href="/css/session.css" />
-  <script>
-    window.addEventListener('load', async (event) => {
-      window.gpt3tokenizer = await import('/models/gpttokenizer.js');
-
-      let module = await import('/models/sessionapp.js');
-      window.SessionApp = new module.SessionApp();
-    });
-  </script>
+  
+  <script src="/uicode/models/bundle.js"></script>
 </head>
 
 <body class="archived_session">

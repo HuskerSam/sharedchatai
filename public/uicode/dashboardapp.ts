@@ -1,8 +1,8 @@
-import BaseApp from "./baseapp.js";
-import DocOptionsHelper from "./docoptionshelper.js";
-import ChatDocument from "./chatdocument.js";
-import AccountHelper from "./accounthelper.js";
-import SharedWithBackend from "./sharedwithbackend.js";
+import BaseApp from "./baseapp";
+import DocOptionsHelper from "./docoptionshelper";
+import ChatDocument from "./chatdocument";
+import AccountHelper from "./accounthelper";
+import SharedWithBackend from "./sharedwithbackend";
 
 declare const firebase: any;
 

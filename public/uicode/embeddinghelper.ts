@@ -1,4 +1,4 @@
-import ChatDocument from "./chatdocument.js";
+import ChatDocument from "./chatdocument";
 declare const window: any;
 
 /** login dialog helper - displays automatically if not home page */

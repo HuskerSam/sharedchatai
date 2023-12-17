@@ -367,7 +367,7 @@ export default class EmbeddingAPI {
             encodingCredits,
         };
     }
-    /** error handling wrapper
+    /**
      * @param { any } fileDesc
      * @param { string } pineconeIndex
      * @param { string } chatGptKey
@@ -767,13 +767,9 @@ export default class EmbeddingAPI {
         }
     }
     /**
-     * @param { globalThis.Response } resultPDF
-     * @return { Promise<any> }
-    */
-    /**
- * @param { Request } req http request object
- * @param { Response } res http response object
- */
+     * @param { Request } req http request object
+     * @param { Response } res http response object
+     */
     static async fetchVectorById(req: Request, res: Response) {
         const authResults = await BaseClass.validateCredentials(<string>req.headers.token);
         if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);

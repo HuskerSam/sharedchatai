@@ -61,13 +61,8 @@
     <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="/css/modal.css">
     <link rel="stylesheet" href="/css/home.css">
-    <script>
-        window.addEventListener("load", async (event) => {
-            let module = await import("/models/dashboardapp.js");
-
-            window.StaticPageApp = new module.DashboardApp();
-        });
-    </script>
+        
+    <script src="/uicode/models/bundle.js"></script>
 </head>
 
 <body class="basic_page_wrapper homepage news_tab homepage_tab_selected_0">
