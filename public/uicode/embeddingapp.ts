@@ -330,42 +330,6 @@ export class EmbeddingApp extends BaseApp {
             merge: true,
         });
     }
-    /**
-     * @param { Array<any> } upsertArray
-     * @param { Array<any> } upsertResults
-    */
-    async applyUpsertResultsToStore(upsertArray: Array<any>, upsertResults: Array<any>) {
-        const dt = new Date().toISOString();
-        const promises: any = [];
-        const saveResponse = async (index: number, row: any) => {
-            const doc = await firebase.firestore().collection(`Users/${this.uid}/embedding/${this.selectedProjectId}/responses/`).doc();
-            await doc.set(row);
-            upsertArray[index]["responseId"] = doc.id;
-        };
-
-        upsertResults.forEach((row: any, index: number) => {
-            if (row["errorMessage"]) {
-                upsertArray[index]["errorMessage"] = row["errorMessage"];
-                upsertArray[index]["pineconeTitle"] = "";
-                upsertArray[index]["pineconeId"] = "";
-                upsertArray[index]["size"] = 0;
-                upsertArray[index]["upsertedDate"] = dt;
-                upsertArray[index]["include"] = false;
-                upsertArray[index]["vectorCount"] = 0;
-            } else {
-                upsertArray[index]["errorMessage"] = "";
-                upsertArray[index]["pineconeTitle"] = row["title"];
-                upsertArray[index]["pineconeId"] = row["id"];
-                upsertArray[index]["size"] = row["textSize"];
-                upsertArray[index]["upsertedDate"] = dt;
-                upsertArray[index]["include"] = false;
-                upsertArray[index]["vectorCount"] = row["idList"].length;
-            }
-            promises.push(saveResponse(index, row));
-        });
-        await Promise.all(promises);
-        // this.saveUpsertRows(true);
-    }
     /** override event that happens after authentication resolution / or a user profile change */
     authUpdateStatusUI(): void {
         super.authUpdateStatusUI();
@@ -387,11 +351,11 @@ export class EmbeddingApp extends BaseApp {
         this._fetchIndexStats(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
     }
     /** delete index
-     * @param { string } batchId grouping key
+     * @param { string } pineconeIndex grouping key
      * @param { string } pineconeKey
      * @param { string } pineconeEnvironment
     */
-    async _deleteIndex(batchId: string, pineconeKey: string, pineconeEnvironment: string) {
+    async _deleteIndex(pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string) {
         if (!firebase.auth().currentUser) {
             alert("login on homepage to use this");
             return;
@@ -403,7 +367,7 @@ export class EmbeddingApp extends BaseApp {
 
         this.indexDeleteRunning = true;
         const body = {
-            batchId,
+            pineconeIndex,
             pineconeEnvironment,
             pineconeKey,
         };
@@ -440,11 +404,11 @@ export class EmbeddingApp extends BaseApp {
         }
 
         const data = this.scrapeData();
-        const batchId = data.pineconeIndex;
+        const pineconeIndex = data.pineconeIndex;
         const pineconeEnvironment = data.pineconeEnvironment;
         const pineconeKey = data.pineconeKey;
         const body = {
-            batchId,
+            pineconeIndex,
             pineconeEnvironment,
             pineconeKey,
             vectorId: id,
@@ -549,13 +513,13 @@ export class EmbeddingApp extends BaseApp {
         await this._fetchIndexStats(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
     }
     /** fetch index stats
-     * @param { string } batchId grouping key
+     * @param { string } pineconeIndex grouping key
      * @param { string } pineconeKey
      * @param { string } pineconeEnvironment
     */
-    async _fetchIndexStats(batchId: string, pineconeKey: string, pineconeEnvironment: string) {
+    async _fetchIndexStats(pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string) {
         const body = {
-            batchId,
+            pineconeIndex,
             pineconeEnvironment,
             pineconeKey,
         };
@@ -581,7 +545,7 @@ export class EmbeddingApp extends BaseApp {
         }
 
         this.pinecone_index_stats_display.innerHTML = JSON.stringify(json, null, "\t");
-        this.pinecone_index_name.innerHTML = batchId + "<br>" + json.indexDescription.totalRecordCount;
+        this.pinecone_index_name.innerHTML = pineconeIndex + "<br>" + json.indexDescription.totalRecordCount;
     }
     /** */
     async fetchPineconeVector() {
@@ -593,11 +557,11 @@ export class EmbeddingApp extends BaseApp {
         }
 
         const data = this.scrapeData();
-        const batchId = data.pineconeIndex;
+        const pineconeIndex = data.pineconeIndex;
         const pineconeEnvironment = data.pineconeEnvironment;
         const pineconeKey = data.pineconeKey;
         const body = {
-            batchId,
+            pineconeIndex,
             pineconeEnvironment,
             pineconeKey,
             vectorId: id,
@@ -674,11 +638,11 @@ export class EmbeddingApp extends BaseApp {
     }
     /** query matching vector documents
      * @param { string } query
-     * @param { string } batchId grouping key
+     * @param { string } pineconeIndex grouping key
      * @param { string } pineconeKey
      * @param { string } pineconeEnvironment
     */
-    async _queryEmbeddings(query: string, batchId: string, pineconeKey: string, pineconeEnvironment: string) {
+    async _queryEmbeddings(query: string, pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string) {
         if (!firebase.auth().currentUser) {
             alert("login on homepage to use this");
             return;
@@ -695,7 +659,7 @@ export class EmbeddingApp extends BaseApp {
         this.vectorQueryRunning = true;
         const body = {
             query,
-            batchId,
+            pineconeIndex,
             pineconeKey,
             pineconeEnvironment,
             topK: 10,
@@ -772,6 +736,7 @@ export class EmbeddingApp extends BaseApp {
  */
     async saveTableRowToFirestore(updateData: any, id: string) {
         const rowPath = `Users/${this.uid}/embedding/${this.selectedProjectId}/data/${id}`;
+        updateData.lastActivity = new Date().toISOString();
         return firebase.firestore().doc(rowPath).set(updateData, {
             merge: true,
         });
@@ -806,8 +771,8 @@ export class EmbeddingApp extends BaseApp {
         };
     }
     /**
- * @return { any }
-*/
+     * @return { any }
+    */
     scrapeData(): any {
         const pineconeIndex = this.batch_id.value;
         const pineconeKey = this.pinecone_key.value;
@@ -899,26 +864,18 @@ export class EmbeddingApp extends BaseApp {
     async upsertTableRowsToPinecone(event: any) {
         if (event) event.preventDefault();
         const data = this.scrapeData();
-        const selectedRows: Array<any> = [];
-        this.fileListToUpload.forEach((row: any) => {
-            if (row.include) selectedRows.push(row);
-        });
-        if (selectedRows.length === 0) {
-            alert("no rows selected to upsert");
-            return;
-        }
-        await this._upsertTableRowsToPinecone(selectedRows, data.pineconeIndex, data.pineconeKey,
+        await this._upsertTableRowsToPinecone(this.selectedProjectId, data.pineconeIndex, data.pineconeKey,
             data.pineconeEnvironment, data.pineconeChunkSize);
         this._fetchIndexStats(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
     }
     /** scrape URLs for embedding
-     * @param { Array<any> } fileList
-     * @param { string } batchId grouping key
+     * @param { string } projectId
+     * @param { string } pineconeIndex grouping key
      * @param { string } pineconeKey
      * @param { string } pineconeEnvironment
      * @param { number } tokenThreshold
     */
-    async _upsertTableRowsToPinecone(fileList: Array<any>, batchId: string, pineconeKey: string,
+    async _upsertTableRowsToPinecone(projectId: string, pineconeIndex: string, pineconeKey: string,
         pineconeEnvironment: string, tokenThreshold: number) {
         if (!firebase.auth().currentUser) {
             alert("login on homepage to use this");
@@ -931,15 +888,15 @@ export class EmbeddingApp extends BaseApp {
         this.upsert_result_status_bar.innerHTML = "processing document list...";
         this.embeddingRunning = true;
         const body = {
-            fileList,
-            batchId,
+            projectId,
+            pineconeIndex,
             pineconeKey,
             pineconeEnvironment,
             tokenThreshold,
         };
 
         const token = await firebase.auth().currentUser.getIdToken();
-        const fResult = await fetch(this.basePath + "embeddingApi/scrapeurls", {
+        const fResult = await fetch(this.basePath + "embeddingApi/upsertnextdocuments", {
             method: "POST",
             mode: "cors",
             cache: "no-cache",
@@ -958,8 +915,6 @@ export class EmbeddingApp extends BaseApp {
             this.upsert_result_status_bar.innerHTML = json.errorMessage;
         } else {
             const upsertFileResults = json.fileUploadResults;
-            this.applyUpsertResultsToStore(fileList, upsertFileResults);
-
             const count = upsertFileResults.length;
             let errors = 0;
             let credits = 0;

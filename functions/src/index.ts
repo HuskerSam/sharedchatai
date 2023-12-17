@@ -65,7 +65,7 @@ gameAPIApp.post("/payment/token", async (req, res) => PaymentAPI.getClientToken(
 gameAPIApp.post("/payment/error", async (req, res) => PaymentAPI.postError(req, res));
 gameAPIApp.post("/payment/capture", async (req, res) => PaymentAPI.postPayment(req, res));
 
-embeddingAPIApp.post("/scrapeurls", async (req, res) => EmbeddingAPI.scrapeURLs(req, res));
+embeddingAPIApp.post("/upsertnextdocuments", async (req, res) => EmbeddingAPI.upsertNext(req, res));
 embeddingAPIApp.post("/processquery", async (req, res) => EmbeddingAPI.processQuery(req, res));
 embeddingAPIApp.post("/deleteindex", async (req, res) => EmbeddingAPI.deleteIndex(req, res));
 embeddingAPIApp.post("/indexstats", async (req, res) => EmbeddingAPI.getPineconeIndexStats(req, res));

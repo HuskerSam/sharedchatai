@@ -27,31 +27,31 @@ export default class EmbeddingAPI {
    * @param { Request } req http request object
    * @param { Response } res http response object
    */
-    static async scrapeURLs(req: Request, res: Response) {
+    static async upsertNext(req: Request, res: Response) {
         const authResults = await BaseClass.validateCredentials(<string>req.headers.token);
         if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
+        const uid = authResults.uid;
 
-        // const uid = authResults.uid;
         const localInstance = BaseClass.newLocalInstance();
         await localInstance.init();
 
-        const fileList = req.body.fileList;
-        const batchId = req.body.batchId.toString().trim();
-        if (!batchId.trim()) BaseClass.respondError(res, "index name required");
+        const pineconeIndex = req.body.pineconeIndex.toString().trim();
+        if (!pineconeIndex.trim()) BaseClass.respondError(res, "index name required");
         const chatGptKey = localInstance.privateConfig.chatGPTKey;
         const pineconeKey = req.body.pineconeKey;
         const pineconeEnvironment = req.body.pineconeEnvironment;
         const tokenThreshold = req.body.tokenThreshold;
+        const projectId = req.body.projectId;
 
         const pinecone = new Pinecone({
             apiKey: pineconeKey,
             environment: pineconeEnvironment,
         });
         const indexList = await pinecone.listIndexes();
-        if (!EmbeddingAPI.testIfIndexExists(indexList, batchId)) {
+        if (!EmbeddingAPI.testIfIndexExists(indexList, pineconeIndex)) {
             try {
                 await pinecone.createIndex({
-                    name: batchId,
+                    name: pineconeIndex,
                     dimension: 1536,
                     metric: "cosine",
                     waitUntilReady: true,
@@ -60,23 +60,65 @@ export default class EmbeddingAPI {
                 return BaseClass.respondError(res, createError.message, createError);
             }
         }
-        const pIndex = pinecone.index(batchId);
+        const pIndex = pinecone.index(pineconeIndex);
 
-        let promises: any = [];
-        let fileUploadResults: Array<any> = [];
-        for (let c = 0, l = fileList.length; c < l; c++) {
-            const fileDesc = fileList[c];
-            promises.push(EmbeddingAPI.upsertFileData(fileDesc, batchId, chatGptKey, authResults.uid, pIndex, tokenThreshold));
+        let fileUploadResults: any = [];
+        try {
+            // get oldest 50 new
+            const next50Query = await firebaseAdmin.firestore()
+                .collection(`Users/${uid}/embedding/${projectId}/data`)
+                .where(`status`, "!=", "Upserted")
+                .orderBy("status")
+                .orderBy("lastActivity", "asc")
+                .get();
 
-            if (promises.length >= 40) {
-                const uploadResults = await Promise.all(promises);
-                fileUploadResults = fileUploadResults.concat(uploadResults);
-                promises = [];
-            }
+            const promises: any = [];
+            next50Query.forEach((doc: any) => {
+                console.log(doc.id);
+                promises.push(EmbeddingAPI.upsertFileData(doc.data(), pineconeIndex, chatGptKey,
+                    uid, pIndex, tokenThreshold));
+            });
+            fileUploadResults = await Promise.all(promises);
+        } catch (error: any) {
+            return BaseClass.respondError(res, error.message, error);
         }
 
-        const uploadResults = await Promise.all(promises);
-        fileUploadResults = fileUploadResults.concat(uploadResults);
+        const promises: any = [];
+        fileUploadResults.forEach((row: any) => {
+            const lastActivity = new Date().toISOString();
+            const savedRow = JSON.parse(JSON.stringify(row));
+            const mergeBlock: any = {
+                lastActivity,
+                upsertResult: savedRow,
+            };
+            if (row["errorMessage"]) {
+                mergeBlock["errorMessage"] = row["errorMessage"];
+                mergeBlock["pineconeTitle"] = "";
+                mergeBlock["pineconeId"] = "";
+                mergeBlock["size"] = 0;
+                mergeBlock["upsertedDate"] = lastActivity;
+                mergeBlock["include"] = false;
+                mergeBlock["vectorCount"] = 0;
+                mergeBlock["status"] = "Error";
+            } else {
+                mergeBlock["errorMessage"] = "";
+                mergeBlock["pineconeTitle"] = row["title"];
+                mergeBlock["pineconeId"] = row["id"];
+                mergeBlock["size"] = row["textSize"];
+                mergeBlock["upsertedDate"] = lastActivity;
+                mergeBlock["include"] = false;
+                mergeBlock["vectorCount"] = row["idList"].length;
+                mergeBlock["status"] = "Upserted";
+            }
+            const rowId = row.originalId;
+            promises.push(
+                firebaseAdmin.firestore().doc(`Users/${uid}/embedding/${projectId}/data/${rowId}`)
+                    .set(mergeBlock, {
+                        merge: true,
+                    }));
+        });
+        await Promise.all(promises);
+
         res.send({
             fileUploadResults,
             success: true,
@@ -282,7 +324,6 @@ export default class EmbeddingAPI {
      * @param { any } chunk
      * @param { string } chatGptKey
      * @param { string } uid
-     * @param { string } batchId
      * @param { string } id
      * @param { string } title
      * @param { string } url
@@ -291,7 +332,7 @@ export default class EmbeddingAPI {
      * @return { Promise<any> }
      */
     static async upsertChunkToPinecone(prefix: string, chunk: any, chatGptKey: string, uid: string,
-        batchId: string, id: string, title: string, url: string, pIndex: any,
+        id: string, title: string, url: string, pIndex: any,
         additionalMetaData: any = {}): Promise<any> {
         let text = chunk.text;
         if (prefix) text = prefix.trim() + "\n" + text;
@@ -328,17 +369,17 @@ export default class EmbeddingAPI {
     }
     /** error handling wrapper
      * @param { any } fileDesc
-     * @param { string } batchId
+     * @param { string } pineconeIndex
      * @param { string } chatGptKey
      * @param { string } uid
      * @param { any } pIndex
      * @param { number } tokenThreshold
      * @return { any } success: true - otherwise errorMessage: string is in map
     */
-    static async upsertFileData(fileDesc: any, batchId: string, chatGptKey: string, uid: string, pIndex: any,
+    static async upsertFileData(fileDesc: any, pineconeIndex: string, chatGptKey: string, uid: string, pIndex: any,
         tokenThreshold: number) {
         try {
-            return await EmbeddingAPI._upsertFileData(fileDesc, batchId, chatGptKey, uid, pIndex, tokenThreshold);
+            return await EmbeddingAPI._upsertFileData(fileDesc, pineconeIndex, chatGptKey, uid, pIndex, tokenThreshold);
         } catch (error: any) {
             return {
                 success: false,
@@ -349,17 +390,16 @@ export default class EmbeddingAPI {
     }
     /**
      * @param { any } fileDesc
-     * @param { string } batchId
+     * @param { string } pineconeIndex
      * @param { string } chatGptKey
      * @param { string } uid
      * @param { any } pIndex
      * @param { number } tokenThreshold
      * @return { any } success: true - otherwise errorMessage: string is in map
     */
-    static async _upsertFileData(fileDesc: any, batchId: string, chatGptKey: string, uid: string, pIndex: any,
+    static async _upsertFileData(fileDesc: any, pineconeIndex: string, chatGptKey: string, uid: string, pIndex: any,
         tokenThreshold: number) {
         let id = fileDesc.id;
-        if (id === "") id = encodeURIComponent(fileDesc.url);
         if (id === "") {
             return {
                 success: false,
@@ -393,7 +433,7 @@ export default class EmbeddingAPI {
         const fileDescKeys = Object.keys(fileDesc);
         fileDescKeys.forEach((key: string) => {
             if (key.substring(0, 5).toLocaleLowerCase() === "meta_") {
-                additionalMetaData[key.substring(6)] = fileDesc[key];
+                additionalMetaData[key.substring(5)] = fileDesc[key];
             }
         });
 
@@ -411,10 +451,9 @@ export default class EmbeddingAPI {
         textChunks.forEach((chunk: any, index: number) => {
             let pId = id;
             if (chunkCount > 1) pId += "_" + (index + 1) + "_" + chunkCount;
-            promises.push(EmbeddingAPI.upsertChunkToPinecone(prefix, chunk, chatGptKey, uid, batchId,
+            promises.push(EmbeddingAPI.upsertChunkToPinecone(prefix, chunk, chatGptKey, uid,
                 pId, title, url, pIndex, additionalMetaData));
             idList.push(pId);
-            console.log(pId);
         });
 
         let encodingCredits = 0;
@@ -425,7 +464,7 @@ export default class EmbeddingAPI {
             encodingCredits += result.encodingCredits;
         });
 
-        await firebaseAdmin.firestore().doc(`Embeddings/${batchId}/html/${id}`)
+        await firebaseAdmin.firestore().doc(`Embeddings/${pineconeIndex}/html/${id}`)
             .set({
                 html,
                 text,
@@ -447,6 +486,7 @@ export default class EmbeddingAPI {
             encodingTokens,
             encodingCredits,
             idList,
+            originalId: fileDesc.id,
         };
     }
     /**
@@ -466,8 +506,8 @@ export default class EmbeddingAPI {
         if (req.body.topK !== undefined) topK = req.body.topK;
 
         if (!query) return BaseClass.respondError(res, "Query prompt required");
-        const batchId = req.body.batchId.toString().trim();
-        if (!batchId.trim()) BaseClass.respondError(res, "Index name required");
+        const pineconeIndex = req.body.pineconeIndex.toString().trim();
+        if (!pineconeIndex.trim()) BaseClass.respondError(res, "Index name required");
         const chatGptKey = localInstance.privateConfig.chatGPTKey;
         const response = await fetch(`https://api.openai.com/v1/embeddings`, {
             method: "POST",
@@ -489,10 +529,10 @@ export default class EmbeddingAPI {
             environment: pineconeEnvironment,
         });
         const indexList = await pinecone.listIndexes();
-        if (!EmbeddingAPI.testIfIndexExists(indexList, batchId)) {
+        if (!EmbeddingAPI.testIfIndexExists(indexList, pineconeIndex)) {
             return BaseClass.respondError(res, "Index not found or not ready");
         }
-        const pIndex = pinecone.index(batchId);
+        const pIndex = pinecone.index(pineconeIndex);
 
         const opts = {
             topK,
@@ -608,8 +648,8 @@ export default class EmbeddingAPI {
         const localInstance = BaseClass.newLocalInstance();
         await localInstance.init();
 
-        const batchId = req.body.batchId.toString().trim();
-        if (!batchId.trim()) BaseClass.respondError(res, "index name required");
+        const pineconeIndex = req.body.pineconeIndex.toString().trim();
+        if (!pineconeIndex.trim()) BaseClass.respondError(res, "index name required");
 
         const pineconeKey = req.body.pineconeKey;
         const pineconeEnvironment = req.body.pineconeEnvironment;
@@ -619,11 +659,11 @@ export default class EmbeddingAPI {
             environment: pineconeEnvironment,
         });
         const indexList = await pinecone.listIndexes();
-        if (!EmbeddingAPI.testIfIndexExists(indexList, batchId)) {
+        if (!EmbeddingAPI.testIfIndexExists(indexList, pineconeIndex)) {
             return BaseClass.respondError(res, "Index not found or not ready");
         }
 
-        await pinecone.deleteIndex(batchId);
+        await pinecone.deleteIndex(pineconeIndex);
 
         res.send({
             success: true,
@@ -653,12 +693,12 @@ export default class EmbeddingAPI {
         const localInstance = BaseClass.newLocalInstance();
         await localInstance.init();
 
-        const batchId = req.body.batchId.toString().trim();
-        if (!batchId.trim()) return BaseClass.respondError(res, "Index name required");
+        const pineconeIndex = req.body.pineconeIndex.toString().trim();
+        if (!pineconeIndex.trim()) return BaseClass.respondError(res, "Index name required");
         const pineconeKey = req.body.pineconeKey;
         const pineconeEnvironment = req.body.pineconeEnvironment;
 
-        if (batchId === "" || pineconeEnvironment === "" || pineconeKey === "") {
+        if (pineconeIndex === "" || pineconeEnvironment === "" || pineconeKey === "") {
             return BaseClass.respondError(res, "Name, Environment or Key is empty");
         }
 
@@ -668,11 +708,11 @@ export default class EmbeddingAPI {
                 environment: pineconeEnvironment,
             });
             const indexList = await pinecone.listIndexes();
-            if (!EmbeddingAPI.testIfIndexExists(indexList, batchId)) {
-                return BaseClass.respondError(res, `Index: [${batchId}] not found or not ready`);
+            if (!EmbeddingAPI.testIfIndexExists(indexList, pineconeIndex)) {
+                return BaseClass.respondError(res, `Index: [${pineconeIndex}] not found or not ready`);
             }
 
-            const pIndex = pinecone.index(batchId);
+            const pIndex = pinecone.index(pineconeIndex);
             const indexDescription: any = await pIndex.describeIndexStats();
 
             res.send({
@@ -697,8 +737,8 @@ export default class EmbeddingAPI {
         const localInstance = BaseClass.newLocalInstance();
         await localInstance.init();
 
-        const batchId = req.body.batchId.toString().trim();
-        if (!batchId.trim()) BaseClass.respondError(res, "index name required");
+        const pineconeIndex = req.body.pineconeIndex.toString().trim();
+        if (!pineconeIndex.trim()) BaseClass.respondError(res, "index name required");
 
         const vectorId = req.body.vectorId.toString().trim();
         const pineconeKey = req.body.pineconeKey;
@@ -710,11 +750,11 @@ export default class EmbeddingAPI {
                 environment: pineconeEnvironment,
             });
             const indexList = await pinecone.listIndexes();
-            if (!EmbeddingAPI.testIfIndexExists(indexList, batchId)) {
-                return BaseClass.respondError(res, `Index: [${batchId}] not found or not ready`);
+            if (!EmbeddingAPI.testIfIndexExists(indexList, pineconeIndex)) {
+                return BaseClass.respondError(res, `Index: [${pineconeIndex}] not found or not ready`);
             }
 
-            const pIndex = pinecone.index(batchId);
+            const pIndex = pinecone.index(pineconeIndex);
             await pIndex.deleteOne(vectorId);
 
             res.send({
@@ -742,8 +782,8 @@ export default class EmbeddingAPI {
         const localInstance = BaseClass.newLocalInstance();
         await localInstance.init();
 
-        const batchId = req.body.batchId.toString().trim();
-        if (!batchId.trim()) BaseClass.respondError(res, "index name required");
+        const pineconeIndex = req.body.pineconeIndex.toString().trim();
+        if (!pineconeIndex.trim()) BaseClass.respondError(res, "index name required");
 
         const vectorId = req.body.vectorId.toString().trim();
         const pineconeKey = req.body.pineconeKey;
@@ -755,11 +795,11 @@ export default class EmbeddingAPI {
                 environment: pineconeEnvironment,
             });
             const indexList = await pinecone.listIndexes();
-            if (!EmbeddingAPI.testIfIndexExists(indexList, batchId)) {
-                return BaseClass.respondError(res, `Index: [${batchId}] not found or not ready`);
+            if (!EmbeddingAPI.testIfIndexExists(indexList, pineconeIndex)) {
+                return BaseClass.respondError(res, `Index: [${pineconeIndex}] not found or not ready`);
             }
 
-            const pIndex = pinecone.index(batchId);
+            const pIndex = pinecone.index(pineconeIndex);
             const opts = {
                 id: vectorId,
                 includeMetadata: true,

@@ -148,13 +148,14 @@ class BaseClass {
   */
   static async respondError(res: any, errorMessage: string, errorObject: any = null): Promise<any> {
     const err = new Error();
-    // log errors here if wanted later
-    return res.status(200).send({
+    const response = {
       success: false,
       errorMessage,
       errorObject,
       stack: err.stack,
-    });
+    };
+    console.log("BaseClass error response", response);
+    return res.status(200).send(response);
   }
   /** gets local adjusted data from isodate
    * @param { string } startTimeISOString GMT iso datetime string
