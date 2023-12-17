@@ -1,6 +1,20 @@
 ﻿{
   "indexes": [
     {
+      "collectionGroup": "data",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "status",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "lastActivity",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
       "collectionGroup": "Games",
       "queryScope": "COLLECTION",
       "fields": [
@@ -28,5 +42,6 @@
         }
       ]
     }
-  ]
+  ],
+  "fieldOverrides": []
 }
