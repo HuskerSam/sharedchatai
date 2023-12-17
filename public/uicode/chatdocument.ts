@@ -1,5 +1,4 @@
 import BaseApp from "./baseapp";
-declare const firebase: any;
 declare const window: any;
 
 /** static functions for UI and api calls  */
@@ -28,7 +27,7 @@ From
       gameNumber: documentId,
       importedTickets,
     };
-    const token = await firebase.auth().currentUser.getIdToken();
+    const token = await window.fireUser.getIdToken();
     const fResult = await fetch(basePath + "lobbyApi/session/message/import", {
       method: "POST",
       mode: "cors",
@@ -320,7 +319,7 @@ From
     const body = {
       gameNumber: sessionId,
     };
-    const token = await firebase.auth().currentUser.getIdToken();
+    const token = await window.fireUser.getIdToken();
     const fResult = await fetch(basePath + "lobbyApi/games/owner/viewprivate", {
       method: "POST",
       mode: "cors",
@@ -355,7 +354,7 @@ From
         [field]: value,
       },
     };
-    const token = await firebase.auth().currentUser.getIdToken();
+    const token = await window.fireUser.getIdToken();
     const fResult = await fetch(basePath + "lobbyApi/games/owner/updateprivate", {
       method: "POST",
       mode: "cors",

@@ -1,8 +1,15 @@
-declare const firebase: any;
-declare const window: any;
+import {
+  collection,
+  query,
+  onSnapshot,
+  orderBy,
+  limit,
+} from "firebase/firestore";
 
 import BaseApp from "./baseapp";
 import AccountHelper from "./accounthelper";
+
+declare const window: any;
 
 const creditsForDollars: any = {
   "5": 3000,
@@ -158,7 +165,7 @@ export default class BuyCreditsHelper {
   }
   /** */
   async renderPaymentForm() {
-    const token = await firebase.auth().currentUser.getIdToken();
+    const token = await window.fireUser.getIdToken();
     const fResult = await fetch(this.app.basePath + "lobbyApi/payment/token", {
       method: "POST",
       mode: "cors",
@@ -286,7 +293,7 @@ export default class BuyCreditsHelper {
       formBody.push(encodedKey + "=" + encodedValue);
     });
     const body = formBody.join("&");
-    const token = await firebase.auth().currentUser.getIdToken();
+    const token = await window.fireUser.getIdToken();
     const fResult = await fetch(this.app.basePath + "lobbyApi/payment/order", {
       method: "POST",
       mode: "cors",
@@ -312,7 +319,7 @@ export default class BuyCreditsHelper {
     const data = {
       orderId: this.order.id,
     };
-    const token = await firebase.auth().currentUser.getIdToken();
+    const token = await window.fireUser.getIdToken();
     const fResult = await fetch(this.app.basePath + "lobbyApi/payment/capture", {
       method: "POST",
       mode: "cors",
@@ -352,7 +359,7 @@ export default class BuyCreditsHelper {
       cvv: cvv.value,
       orderId: this.order.id,
     };
-    const token = await firebase.auth().currentUser.getIdToken();
+    const token = await window.fireUser.getIdToken();
     const fResult = await fetch(this.app.basePath + "lobbyApi/payment/error", {
       method: "POST",
       mode: "cors",
@@ -379,10 +386,9 @@ export default class BuyCreditsHelper {
     if (this.paymentHistoryInited) return;
     this.paymentHistoryInited = true;
 
-    firebase.firestore().collection(`Users/${this.app.uid}/paymentHistory`)
-      .orderBy(`purchaseDate`, "desc")
-      .limit(100)
-      .onSnapshot((snapshot: any) => this.updatePaymentHistory(snapshot));
+    const paymentHistoryRef = collection(window.firestoreDb, `Users/${this.app.uid}/paymentHistory`);
+    const historyQuery = query(paymentHistoryRef, orderBy(`purchaseDate`, "desc"), limit(100));
+    onSnapshot(historyQuery, (snapshot: any) => this.updatePaymentHistory(snapshot));
   }
   /** paint payment document feed
   * @param { any } snapshot firestore query data snapshot

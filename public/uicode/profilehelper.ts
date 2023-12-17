@@ -1,7 +1,20 @@
 import Utility from "./utility";
 import BaseApp from "./baseapp";
 import AccountHelper from "./accounthelper";
-declare const firebase: any;
+import {
+    ref,
+    getStorage,
+    getDownloadURL,
+    uploadBytes,
+} from "firebase/storage";
+import {
+    doc,
+    setDoc,
+} from "firebase/firestore";
+import {
+    signOut,
+} from "firebase/auth";
+
 declare const window: any;
 
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
@@ -394,8 +407,9 @@ export default class ProfileHelper {
                 resultFile = this.dataURLtoFile(dataurl, "pimage.png");
 
                 this.profile_display_image.style.backgroundImage = ``;
-                const sRef = firebase.storage().ref("Users").child(this.app.uid + "/pimage");
-                await sRef.put(resultFile);
+                const storage = getStorage(window.firebaseApp);
+                const sRef = ref(storage, "Users/" + this.app.uid + "/pimage");
+                await uploadBytes(sRef, resultFile);
                 setTimeout(() => this._finishImagePathUpdate(), 1500);
             };
             img.src = e.target.result;
@@ -423,13 +437,15 @@ export default class ProfileHelper {
     /** handle profile image upload complete
      */
     async _finishImagePathUpdate() {
-        const sRef2 = firebase.storage().ref("Users").child(this.app.uid + "/pimage");
-        const resizePath = await sRef2.getDownloadURL();
+        const storage = getStorage(window.firebaseApp);
+        const sRef2 = ref(storage, "Users/" + this.app.uid + "/pimage");
+        const resizePath = await getDownloadURL(sRef2);
         const updatePacket = {
             displayImage: resizePath,
         };
         if (this.app.fireToken) {
-            await firebase.firestore().doc(`Users/${this.app.uid}`).set(updatePacket, {
+            const profileRef = doc(window.firestoreDb, `Users/${this.app.uid}`);
+            await setDoc(profileRef, updatePacket, {
                 merge: true,
             });
         }
@@ -441,7 +457,8 @@ export default class ProfileHelper {
             displayImage: "",
         };
         if (this.app.fireToken) {
-            await firebase.firestore().doc(`Users/${this.app.uid}`).set(updatePacket, {
+            const profileRef = doc(window.firestoreDb, `Users/${this.app.uid}`);
+            await setDoc(profileRef, updatePacket, {
                 merge: true,
             });
         }
@@ -522,7 +539,8 @@ export default class ProfileHelper {
         }
 
         if (this.app.fireToken) {
-            await firebase.firestore().doc(`Users/${this.app.uid}`).set(updatePacket, {
+            const profileRef = doc(window.firestoreDb, `Users/${this.app.uid}`);
+            await setDoc(profileRef, updatePacket, {
                 merge: true,
             });
         }
@@ -534,7 +552,7 @@ export default class ProfileHelper {
         e.preventDefault();
         if (this.app.fireToken) {
             this.app.removeUserPresenceWatch();
-            await firebase.auth().signOut();
+            await signOut(window.firebaseAuth);
 
             this.app.fireToken = null;
             this.app.fireUser = null;
@@ -633,7 +651,7 @@ export default class ProfileHelper {
         if (!displayName) displayName = "New User";
         this.profile_display_name.innerHTML = displayName;
 
-        let email = firebase.auth().currentUser.email;
+        let email = window.fireUser.email;
         if (!email) email = "Logged in as: Anonymous";
 
         this.logged_in_status.innerHTML = email;
@@ -739,7 +757,7 @@ export default class ProfileHelper {
 
         if (success) {
             this.app.removeUserPresenceWatch();
-            if (this.app.fireToken) await firebase.auth().signOut();
+            if (this.app.fireToken) await signOut(window.firebaseAuth);
 
             this.app.fireToken = null;
             this.app.fireUser = null;

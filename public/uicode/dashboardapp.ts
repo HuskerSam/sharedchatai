@@ -3,8 +3,18 @@ import DocOptionsHelper from "./docoptionshelper";
 import ChatDocument from "./chatdocument";
 import AccountHelper from "./accounthelper";
 import SharedWithBackend from "./sharedwithbackend";
+import {
+  collection,
+  getDocs,
+  orderBy,
+  query,
+  onSnapshot,
+  limit,
+  setDoc,
+  doc,
+} from "firebase/firestore";
 
-declare const firebase: any;
+declare const window: any;
 
 /** Dashboard Document Management App - for listing, joining and creating games  */
 export class DashboardApp extends BaseApp {
@@ -60,8 +70,9 @@ export class DashboardApp extends BaseApp {
     super(true, true);
     this.showLoginModal = false;
     this.memberRefreshBufferTime = 1000;
-    this.document_label_filter.addEventListener("input", () => {
-      firebase.firestore().doc(`Users/${this.uid}`).set({
+    this.document_label_filter.addEventListener("input", async () => {
+      const profileRef = doc(window.firestoreDb, `Users/${this.uid}`);
+      await setDoc(profileRef, {
         defaultDashboardLabel: this.document_label_filter.value,
       }, {
         merge: true,
@@ -255,9 +266,11 @@ export class DashboardApp extends BaseApp {
   async prepDocumentOptionsHelper(documentId: string) {
     this.lastTicketsSnapshot = {};
 
-    this.lastTicketsSnapshot = await firebase.firestore().collection(`Games/${documentId}/tickets`)
-      .orderBy(`submitted`, "desc").get();
-    this.lastAssistsSnapshot = await firebase.firestore().collection(`Games/${documentId}/assists`).get();
+    const lastTicketsRef = collection(window.firestoreDb, `Games/${documentId}/tickets`);
+    this.lastTicketsSnapshot = await getDocs(query(lastTicketsRef, orderBy(`submitted`, "desc")));
+
+    const lastAssistsRef = collection(window.firestoreDb, `Games/${documentId}/assists`);
+    this.lastAssistsSnapshot = await getDocs(lastAssistsRef);
     this.assistsLookup = {};
     this.lastAssistsSnapshot.forEach((assistDoc: any) => this.assistsLookup[assistDoc.id] = assistDoc.data());
 
@@ -346,10 +359,9 @@ export class DashboardApp extends BaseApp {
     // window.history.replaceState({}, document.title, "/");
     document.body.classList.add("session_feed_inited");
     let firstLoad = true;
-    this.gameFeedSubscription = firebase.firestore().collection(`Games`)
-      .orderBy(`members.${this.uid}`, "desc")
-      .limit(500)
-      .onSnapshot((snapshot: any) => {
+    const gameFeedRef = collection(window.firestoreDb, "Games");
+    const gameFeedQuery = query(gameFeedRef, orderBy(`members.${this.uid}`, "desc"), limit(500));
+    this.gameFeedSubscription = onSnapshot(gameFeedQuery, (snapshot: any) => {
         if (firstLoad) {
           this.refreshDocumentsLookup(snapshot);
           this.paintLabelSelect(true);

@@ -1,4 +1,7 @@
-declare const firebase: any;
+import {
+  sendSignInLinkToEmail,
+} from "firebase/auth";
+
 declare const window: any;
 
 /** login dialog helper - displays automatically if not home page */
@@ -118,7 +121,7 @@ export default class LoginHelper {
       url,
       handleCodeInApp: true,
     };
-    await firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings);
+    await sendSignInLinkToEmail(window.firebaseApp, email, actionCodeSettings);
 
     window.localStorage.setItem("emailForSignIn", email);
     alert("Email Sent");

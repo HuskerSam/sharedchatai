@@ -1,6 +1,5 @@
 import BaseApp from "./baseapp";
 import ChatDocument from "./chatdocument";
-declare const firebase: any;
 declare const window: any;
 
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
@@ -710,7 +709,7 @@ export default class DocCreateHelper {
       body.creditUsageLimit = this.document_usage_cap_field.value.trim();
     }
 
-    const token = await firebase.auth().currentUser.getIdToken();
+    const token = await window.fireUser.getIdToken();
     const fResult = await fetch(this.app.basePath + "lobbyApi/games/create", {
       method: "POST",
       mode: "cors",

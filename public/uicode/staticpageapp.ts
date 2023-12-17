@@ -1,6 +1,13 @@
 import BaseApp from "./baseapp";
+import {
+    collection,
+    orderBy,
+    query,
+    onSnapshot,
+    limit,
+} from "firebase/firestore";
 
-declare const firebase: any;
+declare const window: any;
 
 /** app class for content pages */
 export class StaticPageApp extends BaseApp {
@@ -54,10 +61,9 @@ export class StaticPageApp extends BaseApp {
         this.recentDocumentFeedRegistered = true;
 
         if (this.recentDocumentsSubscription) this.recentDocumentsSubscription();
-        this.recentDocumentsSubscription = firebase.firestore().collection(`Games`)
-            .orderBy(`members.${this.uid}`, "desc")
-            .limit(5)
-            .onSnapshot((snapshot: any) => this.updateRecentDocumentFeed(snapshot));
+        const chatsRef = collection(window.firestoreDb, "Games");
+        const chatsQuery = query(chatsRef, orderBy(`members.${this.uid}`, "desc"), limit(5));
+        this.recentDocumentsSubscription = onSnapshot(chatsQuery, (snapshot: any) => this.updateRecentDocumentFeed(snapshot));
     }
     /** paint recent document feed
 * @param { any } snapshot firestore query data snapshot

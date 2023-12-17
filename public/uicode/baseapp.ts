@@ -4,8 +4,27 @@ import DocCreateHelper from "./doccreatehelper";
 import BuyCreditsHelper from "./buycreditshelper";
 import SharedWithBackend from "./sharedwithbackend";
 import PineconeHelper from "./embeddinghelper";
+import {
+  getIdToken,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
+import {
+  doc,
+  setDoc,
+  getDoc,
+  onSnapshot,
+} from "firebase/firestore";
+import {
+  getDatabase,
+  serverTimestamp,
+  ref,
+  set,
+  off,
+  onValue,
+  onDisconnect,
+} from "firebase/database";
 
-declare const firebase: any;
 declare const window: any;
 
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
@@ -13,7 +32,7 @@ export default class BaseApp {
   timeSinceRedraw = 300;
   feedLimit = 10;
   deferredPWAInstallPrompt: any = null;
-  projectId = firebase.app().options.projectId;
+  projectId = window.firebaseApp.options.projectId;
   basePath = `https://us-central1-${this.projectId}.cloudfunctions.net/`;
   urlParams = new URLSearchParams(window.location.search);
   signin_show_modal: any = document.querySelector(".signin_show_modal");
@@ -46,17 +65,19 @@ export default class BaseApp {
   pineconeHelper = new PineconeHelper(this);
   sessionDeleting = false;
   isSessionApp = false;
+  rtdbInstance = getDatabase(window.firebaseApp);
+
   documentId = "";
   memberRefreshBufferTime = 500;
   menu_profile_user_image_span: any = document.querySelector(".menu_profile_user_image_span");
   menu_profile_user_name_span: any = document.querySelector(".menu_profile_user_name_span");
   isOfflineForDatabase = {
     state: "offline",
-    last_changed: firebase.database.ServerValue.TIMESTAMP,
+    last_changed: serverTimestamp(),
   };
   isOnlineForDatabase = {
     state: "online",
-    last_changed: firebase.database.ServerValue.TIMESTAMP,
+    last_changed: serverTimestamp(),
   };
   html_body_container: any = document.querySelector(".main_container");
   content_list_container: any = document.querySelector(".recent_content_ul_list");
@@ -77,7 +98,7 @@ export default class BaseApp {
 
     if (window.location.hostname === "localhost") this.basePath = `http://localhost:5001/${this.projectId}/us-central1/`;
 
-    firebase.auth().onAuthStateChanged((u: any) => this.authHandleEvent(u));
+    window.firebaseAuth.onAuthStateChanged((u: any) => this.authHandleEvent(u));
     this.signInWithURL();
 
     if (addFooter && this.html_body_container) {
@@ -163,8 +184,9 @@ export default class BaseApp {
     }
     if (user) {
       this.fireUser = user;
+      window.fireUser = user;
       this.uid = this.fireUser.uid;
-      this.fireToken = await user.getIdToken();
+      this.fireToken = await getIdToken(this.fireUser);
       document.body.classList.add("app_signed_in");
       document.body.classList.remove("app_signed_out");
       if (this.fireUser.isAnonymous) document.body.classList.add("signed_in_anonymous");
@@ -173,6 +195,7 @@ export default class BaseApp {
     } else {
       this.fireToken = null;
       this.fireUser = null;
+      window.fireUser = null;
       this.uid = null;
       document.body.classList.remove("app_signed_in");
       document.body.classList.add("app_signed_out");
@@ -191,12 +214,12 @@ export default class BaseApp {
   async _authInitProfile() {
     if (this.profileInited) return;
 
-    this.profileSubscription = firebase.firestore().doc(`Users/${this.uid}`)
-      .onSnapshot(async (snapshot: any) => {
+    const docRef = doc(window.firestoreDb, `Users/${this.uid}`);
+    this.profileSubscription = onSnapshot(docRef, async (snapshot: any) => {
         this.profile = snapshot.data();
         if (!this.profile) {
           if (this.fireUser.email) {
-            const result = await firebase.auth().fetchSignInMethodsForEmail(this.fireUser.email);
+            const result = await window.firebaseAuth.fetchSignInMethodsForEmail(this.fireUser.email);
             // user was deleted dont create new profile - this is the case where the user deletes the account in browser
             if (result.length < 1) return;
           }
@@ -222,7 +245,8 @@ export default class BaseApp {
     };
 
     this.profileDefaulted = true;
-    await firebase.firestore().doc(`Users/${this.uid}`).set(this.profile, {
+    const docRef = doc(window.firestoreDb, `Users/${this.uid}`);
+    await setDoc(docRef, this.profile, {
       merge: true,
     });
   }
@@ -236,14 +260,16 @@ export default class BaseApp {
    */
   async authGoogleSignIn(e: any) {
     e.preventDefault();
-    const provider = new firebase.auth.GoogleAuthProvider();
+    const provider = new GoogleAuthProvider();
     provider.setCustomParameters({
       "prompt": "select_account",
     });
-    const loginResult = await firebase.auth().signInWithPopup(provider);
+    const loginResult: any = await signInWithPopup(window.firebaseAuth, provider);
     if (loginResult.additionalUserInfo && loginResult.additionalUserInfo.profile && loginResult.user.uid) {
       this.uid = loginResult.user.uid;
-      const profile = await firebase.firestore().doc(`Users/${this.uid}`).get();
+
+      const docRef = doc(window.firestoreDb, `Users/${this.uid}`);
+      const profile = await getDoc(docRef);
       let data = profile.data();
       if (!data) data = {};
       let displayName = data.displayName;
@@ -265,7 +291,7 @@ export default class BaseApp {
    */
   async signInAnon(e: any) {
     e.preventDefault();
-    await firebase.auth().signInAnonymously();
+    await window.firebaseAuth.signInAnonymously();
     /*
     setTimeout(() => {
       location.reload();
@@ -276,13 +302,13 @@ export default class BaseApp {
 
   /** for use on page load - tests if a signIn token was included in the URL */
   signInWithURL() {
-    if (!firebase.auth().isSignInWithEmailLink) return;
-    if (firebase.auth().isSignInWithEmailLink(location.href) !== true) return;
+    if (!window.firebaseAuth.isSignInWithEmailLink) return;
+    if (window.firebaseAuth.isSignInWithEmailLink(location.href) !== true) return;
 
     let email = window.localStorage.getItem("emailForSignIn");
     if (!email) email = window.prompt("Please provide your email for confirmation");
 
-    firebase.auth().signInWithEmailLink(email, location.href)
+    window.firebaseAuth.signInWithEmailLink(email, location.href)
       .then(() => {
         window.localStorage.removeItem("emailForSignIn");
         location.reload();
@@ -386,36 +412,36 @@ export default class BaseApp {
     if (this.rtdbPresenceInited && !reset) return;
 
     this.rtdbPresenceInited = true;
-    this.userStatusDatabaseRef = firebase.database().ref("/OnlinePresence/" + this.uid);
+    this.userStatusDatabaseRef = ref(this.rtdbInstance, "/OnlinePresence/" + this.uid);
 
-    firebase.database().ref(".info/connected").off();
-    firebase.database().ref(".info/connected").on("value", (snapshot: any) => {
+    off(ref(this.rtdbInstance, ".info/connected"));
+    onValue(ref(this.rtdbInstance, ".info/connected"), (snapshot: any) => {
       if (snapshot.val() == false) return;
 
-      this.userStatusDatabaseRef.onDisconnect().set(this.isOfflineForDatabase).then(() => {
-        this.userStatusDatabaseRef.set(this.isOnlineForDatabase);
+      onDisconnect(this.userStatusDatabaseRef).set(this.isOfflineForDatabase).then(() => {
+        set(this.userStatusDatabaseRef, this.isOnlineForDatabase);
       });
 
       if (this.isSessionApp && this.documentId) {
-        this.documentStatusDatabaseRef = firebase.database().ref("/DocumentPresence/" + this.uid + "/" + this.documentId);
-        this.documentStatusDatabaseRef.onDisconnect().set(null).then(() => {
-          this.documentStatusDatabaseRef.set(true);
+        this.documentStatusDatabaseRef = ref(this.rtdbInstance, "/DocumentPresence/" + this.uid + "/" + this.documentId);
+        onDisconnect(this.documentStatusDatabaseRef).set(null).then(() => {
+          set(this.documentStatusDatabaseRef, true);
         });
       }
     });
   }
   /** disconnect online presence watch query from RTDB */
   removeUserPresenceWatch() {
-    firebase.database().ref(".info/connected").off();
-    firebase.database().ref("/OnlinePresence/" + this.uid).set(this.isOfflineForDatabase);
+    off(ref(this.rtdbInstance, ".info/connected"));
+    set(ref(this.rtdbInstance, "/OnlinePresence/" + this.uid), this.isOfflineForDatabase);
   }
   /** register a uid to watch for online state
    * @param { string } uid user id
   */
   addUserPresenceWatch(uid: string) {
     if (!this.userPresenceStatusRefs[uid]) {
-      this.userPresenceStatusRefs[uid] = firebase.database().ref("OnlinePresence/" + uid);
-      this.userPresenceStatusRefs[uid].on("value", (snapshot: any) => {
+      this.userPresenceStatusRefs[uid] = ref(this.rtdbInstance, "OnlinePresence/" + uid);
+      onValue(this.userPresenceStatusRefs[uid], (snapshot: any) => {
         this.userPresenceStatus[uid] = false;
         const data = snapshot.val();
         if (data && data.state === "online") this.userPresenceStatus[uid] = true;
@@ -424,8 +450,8 @@ export default class BaseApp {
       });
     }
     if (!this.userDocumentStatusRefs[uid]) {
-      this.userDocumentStatusRefs[uid] = firebase.database().ref("DocumentPresence/" + uid);
-      this.userDocumentStatusRefs[uid].on("value", (snapshot: any) => {
+      this.userDocumentStatusRefs[uid] = ref(this.rtdbInstance, "DocumentPresence/" + uid);
+      onValue(this.userDocumentStatusRefs[uid], (snapshot: any) => {
         this.userDocumentStatus[uid] = snapshot.val();
         this.updateUserPresence();
       });
@@ -455,7 +481,7 @@ export default class BaseApp {
   updateUserPresence(noTimeout = false) {
     if (!this.userPresenceStatus[this.uid]) {
       this.userPresenceStatus[this.uid] = true;
-      this.userStatusDatabaseRef.set(this.isOnlineForDatabase);
+      set(this.userStatusDatabaseRef, this.isOnlineForDatabase);
     }
     document.querySelectorAll(".member_online_status")
       .forEach((div: any) => {
@@ -482,7 +508,7 @@ export default class BaseApp {
     const body = {
       gameNumber,
     };
-    const token = await firebase.auth().currentUser.getIdToken();
+    const token = await getIdToken(this.fireUser);
     const fResult = await fetch(this.basePath + "lobbyApi/games/join", {
       method: "POST",
       mode: "cors",
@@ -566,7 +592,8 @@ export default class BaseApp {
 */
   saveProfileField(fieldKey: string, value: any) {
     if (!this.profile) return;
-    firebase.firestore().doc(`Users/${this.uid}`).set({
+    const docRef = doc(window.firestoreDb, `Users/${this.uid}`);
+    setDoc(docRef, {
       [fieldKey]: value,
     }, {
       merge: true,
@@ -595,7 +622,7 @@ export default class BaseApp {
       gameNumber: id,
       [field]: value,
     };
-    const token = await firebase.auth().currentUser.getIdToken();
+    const token = await getIdToken(this.fireUser);
     const fResult = await fetch(this.basePath + "lobbyApi/games/options", {
       method: "POST",
       mode: "cors",
@@ -660,7 +687,7 @@ export default class BaseApp {
       updatePacket.externalSessionAPIKey = data.externalSessionAPIKey;
     }
 
-    const token = await firebase.auth().currentUser.getIdToken();
+    const token = await getIdToken(this.fireUser);
     const fResult = await fetch(this.basePath + "lobbyApi/games/owner/options", {
       method: "POST",
       mode: "cors",

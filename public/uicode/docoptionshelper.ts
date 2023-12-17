@@ -1,8 +1,14 @@
-declare const firebase: any;
-declare const window: any;
 import ChatDocument from "./chatdocument";
 import BaseApp from "./baseapp"; // only for escapeHTML
+import {
+    collection,
+    orderBy,
+    query,
+    getDocs,
+    limit,
+} from "firebase/firestore";
 
+declare const window: any;
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
 export default class DocOptionsHelper {
     app: any = null;
@@ -232,8 +238,9 @@ export default class DocOptionsHelper {
     }
     /** */
     async showPacketsDialog() {
-        const packets = await firebase.firestore().collection(`Games/${this.chatDocumentId}/packets`)
-            .orderBy("submitted", "desc").limit(200).get();
+        const packetsRef = collection(window.firestoreDb, `Games/${this.chatDocumentId}/packets`);
+        const packets = await getDocs(query(packetsRef, orderBy("submitted", "desc"), limit(200)));
+
         const lookup: any = {};
         packets.forEach((doc: any) => {
             lookup[doc.id] = doc.data();
@@ -328,7 +335,7 @@ export default class DocOptionsHelper {
     /** */
     updateEnableEmbeddingStatus() {
         this.app.saveDocumentOption(this.chatDocumentId, "enableEmbedding",
-        this.docfield_enable_embedding_checkbox.checked);
+            this.docfield_enable_embedding_checkbox.checked);
     }
     /** */
     updateArchivedStatus() {
@@ -590,7 +597,7 @@ export default class DocOptionsHelper {
         const body = {
             gameNumber: this.chatDocumentId,
         };
-        const token = await firebase.auth().currentUser.getIdToken();
+        const token = await window.fireUser.getIdToken();
         this.app.sessionDeleting = true;
 
         if (this.app.isSessionApp) window.location = "/";
@@ -626,7 +633,7 @@ export default class DocOptionsHelper {
         const body = {
             gameNumber: this.chatDocumentId,
         };
-        const token = await firebase.auth().currentUser.getIdToken();
+        const token = await window.fireUser.getIdToken();
         this.app.sessionDeleting = true;
         const fResult = await fetch(this.app.basePath + "lobbyApi/games/leave", {
             method: "POST",

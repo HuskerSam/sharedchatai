@@ -2,8 +2,18 @@ import BaseApp from "./baseapp";
 import DocOptionsHelper from "./docoptionshelper";
 import ChatDocument from "./chatdocument";
 import SharedWithBackend from "./sharedwithbackend";
-
-declare const firebase: any;
+import {
+  collection,
+  getDoc,
+  orderBy,
+  query,
+  onSnapshot,
+  limit,
+  doc,
+} from "firebase/firestore";
+import {
+  decode,
+} from "gpt-tokenizer";
 declare const window: any;
 
 /** Session app class */
@@ -261,7 +271,7 @@ export class SessionApp extends BaseApp {
       response: responseValue,
     };
     console.log(body);
-    const token = await firebase.auth().currentUser.getIdToken();
+    const token = await window.fireUser.getIdToken();
     const fResult = await fetch(this.basePath + "lobbyApi/session/message/editresponse", {
       method: "POST",
       mode: "cors",
@@ -348,17 +358,15 @@ export class SessionApp extends BaseApp {
 
     if (this.ticketsSubscription) this.ticketsSubscription();
 
-    this.ticketsSubscription = firebase.firestore().collection(`Games/${this.documentId}/tickets`)
-      .orderBy(`submitted`, "desc")
-      .limit(500)
-      .onSnapshot((snapshot: any) => this.updateTicketsFeed(snapshot));
+    const ticketsRef = collection(window.firestoreDb, `Games/${this.documentId}/tickets`);
+    const ticketsQuery = query(ticketsRef, orderBy(`submitted`, "desc"), limit(500));
+    this.ticketsSubscription = onSnapshot(ticketsQuery, (snapshot: any) => this.updateTicketsFeed(snapshot));
 
     if (this.assistsSubscription) this.assistsSubscription();
 
-    this.assistsSubscription = firebase.firestore().collection(`Games/${this.documentId}/assists`)
-      .orderBy(`created`, "desc")
-      .limit(500)
-      .onSnapshot((snapshot: any) => this.updateAssistsFeed(snapshot));
+    const assistsRef = collection(window.firestoreDb, `Games/${this.documentId}/assists`);
+    const assistsQuery = query(assistsRef, orderBy(`created`, "desc"), limit(500));
+    this.assistsSubscription = onSnapshot(assistsQuery, (snapshot: any) => this.updateAssistsFeed(snapshot));
   }
   /** setup data listener for recent document feed */
   async initRecentDocumentsFeed() {
@@ -366,10 +374,10 @@ export class SessionApp extends BaseApp {
     this.recentDocumentFeedRegistered = true;
 
     if (this.recentDocumentsSubscription) this.recentDocumentsSubscription();
-    this.recentDocumentsSubscription = firebase.firestore().collection(`Games`)
-      .orderBy(`members.${this.uid}`, "desc")
-      .limit(6)
-      .onSnapshot((snapshot: any) => this.updateRecentDocumentFeed(snapshot));
+    const chatsRef = collection(window.firestoreDb, "Games");
+    const chatsQuery = query(chatsRef, orderBy(`members.${this.uid}`, "desc"), limit(6));
+    this.recentDocumentsSubscription = onSnapshot(chatsQuery,
+      (snapshot: any) => this.updateRecentDocumentFeed(snapshot));
   }
   /** paint recent document feed
   * @param { any } snapshot firestore query data snapshot
@@ -701,7 +709,8 @@ export class SessionApp extends BaseApp {
    * @return { Promise<any> }
    */
   async getTicketEmbeddingDetails(ticketId: string): Promise<any> {
-    const query = await firebase.firestore().doc(`Games/${this.documentId}/augmented/${ticketId}`).get();
+    const augementedRef = doc(window.firestoreDb, `Games/${this.documentId}/augmented/${ticketId}`);
+    const query = await getDoc(augementedRef);
     let data = query.data();
     if (!data) data = {};
     return data;
@@ -717,7 +726,7 @@ export class SessionApp extends BaseApp {
       ticketId: ticketId.toString(),
       bookmark,
     };
-    const token = await firebase.auth().currentUser.getIdToken();
+    const token = await window.fireUser.getIdToken();
     const fResult = await fetch(this.basePath + "lobbyApi/session/message/bookmark", {
       method: "POST",
       mode: "cors",
@@ -883,7 +892,7 @@ export class SessionApp extends BaseApp {
       includeTickets,
       reRunTicket: ticketId.toString(),
     };
-    const token = await firebase.auth().currentUser.getIdToken();
+    const token = await window.fireUser.getIdToken();
     const fResult = await fetch(this.basePath + "lobbyApi/session/message", {
       method: "POST",
       mode: "cors",
@@ -944,7 +953,7 @@ export class SessionApp extends BaseApp {
       gameNumber,
       ticketId,
     };
-    const token = await firebase.auth().currentUser.getIdToken();
+    const token = await window.fireUser.getIdToken();
     const fResult = await fetch(this.basePath + "lobbyApi/session/message/delete", {
       method: "POST",
       mode: "cors",
@@ -1081,7 +1090,7 @@ export class SessionApp extends BaseApp {
       ticketId,
       include,
     };
-    const token = await firebase.auth().currentUser.getIdToken();
+    const token = await window.fireUser.getIdToken();
     const fResult = await fetch(this.basePath + "lobbyApi/session/message/include", {
       method: "POST",
       mode: "cors",
@@ -1157,7 +1166,7 @@ export class SessionApp extends BaseApp {
       includeTickets,
       includeInMessage,
     };
-    const token = await firebase.auth().currentUser.getIdToken();
+    const token = await window.fireUser.getIdToken();
     const fResult = await fetch(this.basePath + "lobbyApi/session/message", {
       method: "POST",
       mode: "cors",
@@ -1236,8 +1245,8 @@ export class SessionApp extends BaseApp {
         this.documentId = urlSessionId;
         let reloading = false;
         if (this.gameSubscription) this.gameSubscription();
-        this.gameSubscription = firebase.firestore().doc(`Games/${this.documentId}`)
-          .onSnapshot((doc: any) => {
+        const chatRef = doc(window.firestoreDb, `Games/${this.documentId}`);
+        this.gameSubscription = onSnapshot(chatRef, (doc: any) => {
             if (this.sessionDeleting) return;
             if (!doc.data() && !reloading) {
               alert("Session not found, returning to home");
@@ -1570,7 +1579,7 @@ export class SessionApp extends BaseApp {
     let tokensUsed = 0;
     for (let c = tokens.length - 1; c >= 0; c--) {
       const token = tokens[c];
-      const text = window.gpt3tokenizer.decode([token]);
+      const text = decode([token]);
 
       if (totalChars + text.length <= this.maxTokenPreviewChars) {
         tokensUsed++;
@@ -1698,7 +1707,7 @@ export class SessionApp extends BaseApp {
       gameNumber: this.documentId,
     };
     Object.assign(body, this.modelMeta.defaults);
-    const token = await firebase.auth().currentUser.getIdToken();
+    const token = await window.fireUser.getIdToken();
     const fResult = await fetch(this.basePath + "lobbyApi/games/options", {
       method: "POST",
       mode: "cors",

@@ -2,16 +2,23 @@ import BaseApp from "./baseapp";
 import ChatDocument from "./chatdocument";
 import SharedWithBackend from "./sharedwithbackend";
 import AccountHelper from "./accounthelper";
-/*
-import firebase from "firebase/compat/app";
-import "firebase/compat/firestore";
-import "firebase/compat/auth";
+import {
+    getIdToken,
+} from "firebase/auth";
 import {
     collection,
+    doc,
+    setDoc,
+    deleteDoc,
+    where,
+    limit,
+    getDoc,
+    getDocs,
+    onSnapshot,
     getCountFromServer,
+    query,
 } from "firebase/firestore";
-*/
-declare const firebase: any;
+
 declare const window: any;
 
 /** Embedding upload app class */
@@ -191,10 +198,10 @@ export class EmbeddingApp extends BaseApp {
         this.csvUploadDocumentsTabulator.on("cellClick", async (e: any, cell: any) => {
             const field = cell.getField();
             const data = cell.getRow().getData();
-            const rowIndex = Number(data.row);
             if (field === "copyJSON") {
-                const responseQuery = await firebase.firestore()
-                    ?.doc(`Users/${this.uid}/embedding/${this.selectedProjectId}/responses/${data["responseId"]}`).get();
+                const docRef = doc(window.firestoreDb,
+                    `Users/${this.uid}/embedding/${this.selectedProjectId}/responses/${data["responseId"]}`);
+                const responseQuery = await getDoc(docRef);
                 const responseData = responseQuery.data();
                 const outData: any = Object.assign({}, data);
                 outData.upsertResponse = responseData;
@@ -204,9 +211,10 @@ export class EmbeddingApp extends BaseApp {
                 setTimeout(() => cell.getElement().innerHTML = `<i class="material-icons">content_copy</i>`, 800);
             }
             if (field === "copyText") {
-                console.log(rowIndex);
-                const responseQuery = await firebase.firestore()
-                    ?.doc(`Users/${this.uid}/embedding/${this.selectedProjectId}/responses/${data["responseId"]}`).get();
+                const docRef = doc(window.firestoreDb,
+                    `Users/${this.uid}/embedding/${this.selectedProjectId}/responses/${data["responseId"]}`);
+                const responseQuery = await getDoc(docRef);
+
                 const responseData = responseQuery.data();
                 if (!responseData) {
                     alert("No text response to copy");
@@ -335,7 +343,8 @@ export class EmbeddingApp extends BaseApp {
         this.upsert_documents_list.innerHTML = ``;
         this.profile.selectedEmbeddingProjectId = projectId;
         this.saveProfileField("selectedEmbeddingProjectId", projectId);
-        await firebase.firestore().doc(`Users/${this.uid}/embedding/${projectId}`).set({
+        const docRef = doc(window.firestoreDb, `Users/${this.uid}/embedding/${projectId}`);
+        await setDoc(docRef, {
             projectId,
             updated: new Date().toISOString(),
         }, {
@@ -368,7 +377,7 @@ export class EmbeddingApp extends BaseApp {
      * @param { string } pineconeEnvironment
     */
     async _deleteIndex(pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string) {
-        if (!firebase.auth().currentUser) {
+        if (!this.fireUser) {
             alert("login on homepage to use this");
             return;
         }
@@ -384,7 +393,7 @@ export class EmbeddingApp extends BaseApp {
             pineconeKey,
         };
 
-        const token = await firebase.auth().currentUser?.getIdToken();
+        const token = await getIdToken(this.fireUser);
         const fResult = await fetch(this.basePath + "embeddingApi/deleteindex", {
             method: "POST",
             mode: "cors",
@@ -425,7 +434,7 @@ export class EmbeddingApp extends BaseApp {
             pineconeKey,
             vectorId: id,
         };
-        const token = await firebase.auth().currentUser?.getIdToken();
+        const token = await getIdToken(this.fireUser);
         const fResult = await fetch(this.basePath + "embeddingApi/deletevector", {
             method: "POST",
             mode: "cors",
@@ -453,22 +462,23 @@ export class EmbeddingApp extends BaseApp {
         if (!this.selectedProjectId) return;
         if (!confirm("Are you sure you want to delete this project?")) return;
         const deleteProjectId = this.selectedProjectId;
-        await firebase.firestore().doc(`Users/${this.uid}/embedding/${deleteProjectId}`).delete();
+        const rowRef = doc(window.firestoreDb, `Users/${this.uid}/embedding/${deleteProjectId}`);
+        await deleteDoc(rowRef);
 
         const loop = true;
         while (loop) {
-            const nextChunk = await firebase.firestore()
-                .collection(`Users/${this.uid}/embedding/${deleteProjectId}/data`)
-                .limit(100)
-                .get();
+            const docsCollection = collection(window.firestoreDb,
+                `Users/${this.uid}/embedding/${deleteProjectId}/data`);
+            const docsQuery = query(docsCollection, limit(100));
+            const nextChunk = await getDocs(docsQuery);
 
             if (nextChunk.size < 1) return;
 
             const promises: any[] = [];
             nextChunk.forEach((doc: any) => {
-                promises.push(firebase.firestore()
-                    .doc(`Users/${this.uid}/embedding/${deleteProjectId}/data/${doc.id}`)
-                    .delete());
+                const rowRef = doc(window.firestoreDb,
+                    `Users/${this.uid}/embedding/${deleteProjectId}/data/${doc.id}`);
+                promises.push(deleteDoc(rowRef));
             });
             await Promise.all(promises);
         }
@@ -478,9 +488,9 @@ export class EmbeddingApp extends BaseApp {
      */
     async deleteTableRow(id: string) {
         if (!confirm("Are you sure you want to delete this row?")) return;
-
-        const rowPath = `Users/${this.uid}/embedding/${this.selectedProjectId}/data/${id}`;
-        await firebase.firestore().doc(rowPath).delete();
+        const rowRef = doc(window.firestoreDb,
+            `Users/${this.uid}/embedding/${this.selectedProjectId}/data/${id}`);
+        await deleteDoc(rowRef);
     }
     /**
      * @param { any } event
@@ -537,7 +547,7 @@ export class EmbeddingApp extends BaseApp {
         };
         this.pinecone_index_stats_display.innerHTML = "fetching...";
         this.pinecone_index_name.innerHTML = "fetching...";
-        const token = await firebase.auth().currentUser?.getIdToken();
+        const token = await getIdToken(this.fireUser);
         const fResult = await fetch(this.basePath + "embeddingApi/indexstats", {
             method: "POST",
             mode: "cors",
@@ -578,7 +588,7 @@ export class EmbeddingApp extends BaseApp {
             pineconeKey,
             vectorId: id,
         };
-        const token = await firebase.auth().currentUser?.getIdToken();
+        const token = await getIdToken(this.fireUser);
         const fResult = await fetch(this.basePath + "embeddingApi/fetchvector", {
             method: "POST",
             mode: "cors",
@@ -655,7 +665,7 @@ export class EmbeddingApp extends BaseApp {
      * @param { string } pineconeEnvironment
     */
     async _queryEmbeddings(query: string, pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string) {
-        if (!firebase.auth().currentUser) {
+        if (!this.fireUser) {
             alert("login on homepage to use this");
             return;
         }
@@ -677,7 +687,7 @@ export class EmbeddingApp extends BaseApp {
             topK: 10,
         };
 
-        const token = await firebase.auth().currentUser?.getIdToken();
+        const token = await getIdToken(this.fireUser);
         const fResult = await fetch(this.basePath + "embeddingApi/processquery", {
             method: "POST",
             mode: "cors",
@@ -713,7 +723,8 @@ export class EmbeddingApp extends BaseApp {
  */
     async saveEmbeddingField(field: string, value: any) {
         if (!this.selectedProjectId) return;
-        await firebase.firestore().doc(`Users/${this.uid}/embedding/${this.selectedProjectId}`).set({
+        const docRef = doc(window.firestoreDb, `Users/${this.uid}/embedding/${this.selectedProjectId}`);
+        await setDoc(docRef, {
             [field]: value,
             updated: new Date().toISOString(),
         }, {
@@ -749,7 +760,8 @@ export class EmbeddingApp extends BaseApp {
     async saveTableRowToFirestore(updateData: any, id: string) {
         const rowPath = `Users/${this.uid}/embedding/${this.selectedProjectId}/data/${id}`;
         updateData.lastActivity = new Date().toISOString();
-        return firebase.firestore().doc(rowPath).set(updateData, {
+        const docRef = doc(window.firestoreDb, rowPath);
+        return setDoc(docRef, updateData, {
             merge: true,
         });
     }
@@ -825,7 +837,7 @@ export class EmbeddingApp extends BaseApp {
             options,
         };
 
-        const token = await firebase.auth().currentUser?.getIdToken();
+        const token = await getIdToken(this.fireUser);
         const fResult = await fetch(this.basePath + "embeddingApi/scrapeurl", {
             method: "POST",
             mode: "cors",
@@ -889,7 +901,7 @@ export class EmbeddingApp extends BaseApp {
     */
     async _upsertTableRowsToPinecone(projectId: string, pineconeIndex: string, pineconeKey: string,
         pineconeEnvironment: string, tokenThreshold: number) {
-        if (!firebase.auth().currentUser) {
+        if (!window.fireUser) {
             alert("login on homepage to use this");
             return;
         }
@@ -907,7 +919,7 @@ export class EmbeddingApp extends BaseApp {
             tokenThreshold,
         };
 
-        const token = await firebase.auth().currentUser?.getIdToken();
+        const token = await getIdToken(window.fireUser);
         const fResult = await fetch(this.basePath + "embeddingApi/upsertnextdocuments", {
             method: "POST",
             mode: "cors",
@@ -1075,20 +1087,19 @@ export class EmbeddingApp extends BaseApp {
         this.csvUploadDocumentsTabulator.setData(this.fileListToUpload);
 
         const rowsPath = `Users/${this.uid}/embedding/${this.selectedProjectId}/data`;
-        /*
-        const countCollection = collection(firebase.firestore(), rowsPath);
+
+        const countCollection = collection(window.firestoreDb, rowsPath);
         const countSnapshot = await getCountFromServer(countCollection);
         const rowCount = countSnapshot.data().count;
         this.firebase_record_count_status.innerHTML = rowCount;
-*/
+
         this.saveProfileField("selectedEmbeddingProjectId", this.selectedProjectId);
-        this.fileUpsertListFirestore = firebase.firestore()
-            .collection(rowsPath)
-            .limit(500);
+        const docsCollection = collection(window.firestoreDb, rowsPath);
+        let docsQuery = query(docsCollection, limit(500));
         if (filterValue !== "All") {
-            this.fileUpsertListFirestore = this.fileUpsertListFirestore.where("status", "==", filterValue);
+            docsQuery = query(docsCollection, where("status", "==", filterValue), limit(500));
         }
-        this.fileUpsertListFirestore = this.fileUpsertListFirestore.onSnapshot((snapshot: any) => {
+        this.fileUpsertListFirestore = onSnapshot(docsQuery, (snapshot: any) => {
             this.fileListToUpload = [];
             let index = 1;
             snapshot.forEach((doc: any) => {
@@ -1103,33 +1114,35 @@ export class EmbeddingApp extends BaseApp {
     /** */
     async watchProjectList() {
         if (this.watchProjectListFirestore) return;
-        this.watchProjectListFirestore = firebase.firestore().collection(`Users/${this.uid}/embedding`)
-            .onSnapshot((snapshot: any) => {
-                let optionsHtml = "";
-                const selectedValue = this.upsert_documents_list.selectedValue;
-                if (snapshot.size === 0) {
-                    optionsHtml += "<option>Default</option>";
-                    this.addProject("Default");
-                    this.selectedProjectId = "";
-                } else {
-                    this.embeddingProjects = {};
-                    snapshot.forEach((doc: any) => {
-                        optionsHtml += `<option value="${doc.id}">${doc.id}</option>`;
-                        this.embeddingProjects[doc.id] = doc.data();
-                    });
-                }
-                this.upsert_documents_list.innerHTML = optionsHtml;
-                if (!selectedValue) {
-                    this.upsert_documents_list.value = this.profile.selectedEmbeddingProjectId;
-                } else {
-                    this.upsert_documents_list.value = selectedValue;
-                }
-                if (this.upsert_documents_list.selectedIndex === -1) {
-                    this.upsert_documents_list.selectedIndex = 0;
-                    this.selectedProjectId = "";
-                }
+        const collectionRef = collection(window.firestoreDb,
+            `Users/${this.uid}/embedding`);
 
-                this.updateWatchUpsertRows();
-            });
+        this.watchProjectListFirestore = onSnapshot(collectionRef, (snapshot: any) => {
+            let optionsHtml = "";
+            const selectedValue = this.upsert_documents_list.selectedValue;
+            if (snapshot.size === 0) {
+                optionsHtml += "<option>Default</option>";
+                this.addProject("Default");
+                this.selectedProjectId = "";
+            } else {
+                this.embeddingProjects = {};
+                snapshot.forEach((doc: any) => {
+                    optionsHtml += `<option value="${doc.id}">${doc.id}</option>`;
+                    this.embeddingProjects[doc.id] = doc.data();
+                });
+            }
+            this.upsert_documents_list.innerHTML = optionsHtml;
+            if (!selectedValue) {
+                this.upsert_documents_list.value = this.profile.selectedEmbeddingProjectId;
+            } else {
+                this.upsert_documents_list.value = selectedValue;
+            }
+            if (this.upsert_documents_list.selectedIndex === -1) {
+                this.upsert_documents_list.selectedIndex = 0;
+                this.selectedProjectId = "";
+            }
+
+            this.updateWatchUpsertRows();
+        });
     }
 }

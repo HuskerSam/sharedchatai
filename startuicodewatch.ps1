@@ -1,2 +1,2 @@
 cd public\uicode
-tsc --watch
+webpack --watch

@@ -14,7 +14,7 @@ import {
 } from "google-auth-library";
 import {
     encode,
-} from "gpt-3-encoder";
+} from "gpt-tokenizer";
 import SharedWithBackend from "./uicode/sharedwithbackend";
 import type {
     Request,

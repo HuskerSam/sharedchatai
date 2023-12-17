@@ -2,8 +2,8 @@
   "name": "unacogapp",
   "scripts": {
     "lint": "eslint --ext .js,.ts .",
-    "build": "tsc",
-    "build:watch": "tsc --watch"
+    "build": "webpack",
+    "build:watch": "webpack --watch"
   },
   "engines": {
     "node": "16"
