@@ -95,6 +95,7 @@ export default class BaseApp {
  * @param { boolean } addFooter add footer (true by default)
  */
   constructor(contentPage = false, addFooter = true) {
+    contentPage;
     window.addEventListener("beforeinstallprompt", (e: any) => {
       e.preventDefault();
       this.deferredPWAInstallPrompt = e;
