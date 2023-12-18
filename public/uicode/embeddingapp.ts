@@ -904,6 +904,7 @@ export class EmbeddingApp extends BaseApp {
      * @param { string } pineconeKey
      * @param { string } pineconeEnvironment
      * @param { number } tokenThreshold
+     * @param { number } rowCount
     */
     async _upsertTableRowsToPinecone(projectId: string, pineconeIndex: string, pineconeKey: string,
         pineconeEnvironment: string, tokenThreshold: number, rowCount: number) {

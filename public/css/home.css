@@ -1413,10 +1413,6 @@ ol li,
   display: inline-block;
 }
 
-.homepage_logo_spacing.mobile_hide {
-  display: none;
-}
-
 @media(min-width: 450px) {
 
   .feature_group_list .feature_group_item,
@@ -1670,3 +1666,9 @@ body.app_signed_in p.alert.alert-danger.signed_in_anonymous {
   }
 }
   
+.headline_unacog {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 4em;
+  color: var(--primary-color-3);
+  font-weight: bold;
+}
