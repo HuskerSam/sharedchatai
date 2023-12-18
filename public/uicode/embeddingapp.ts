@@ -1086,18 +1086,17 @@ export class EmbeddingApp extends BaseApp {
         this.csvUploadDocumentsTabulator.setData(this.fileListToUpload);
 
         const rowsPath = `Users/${this.uid}/embedding/${this.selectedProjectId}/data`;
-
-        const countCollection = collection(getFirestore(), rowsPath);
-        const countSnapshot = await getCountFromServer(countCollection);
-        const rowCount = countSnapshot.data().count;
-        this.firebase_record_count_status.innerHTML = rowCount;
-
         this.saveProfileField("selectedEmbeddingProjectId", this.selectedProjectId);
         const docsCollection = collection(getFirestore(), rowsPath);
         let docsQuery = query(docsCollection, limit(500));
         if (filterValue !== "All") {
             docsQuery = query(docsCollection, where("status", "==", filterValue), limit(500));
         }
+        const countSnapshot = await getCountFromServer(docsQuery);
+
+        const rowCount = countSnapshot.data().count;
+        this.firebase_record_count_status.innerHTML = rowCount;
+
         this.fileUpsertListFirestore = onSnapshot(docsQuery, (snapshot: any) => {
             this.fileListToUpload = [];
             let index = 1;
