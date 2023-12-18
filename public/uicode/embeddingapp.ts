@@ -18,6 +18,7 @@ import {
     getCountFromServer,
     query,
     getFirestore,
+    startAfter,
 } from "firebase/firestore";
 
 /** Embedding upload app class */
@@ -73,6 +74,7 @@ export class EmbeddingApp extends BaseApp {
     table_done_count: any = document.querySelector(".table_done_count");
     table_error_count: any = document.querySelector(".table_error_count");
     upload_embedding_document_batchsize: any = document.querySelector(".upload_embedding_document_batchsize");
+    tableQueryFirstRow = 1;
     fileUpsertListFirestore: any = null;
     embeddingProjects: any = {};
     selectedProjectId = "";
@@ -93,6 +95,8 @@ export class EmbeddingApp extends BaseApp {
     editableTableFields = ["include", "row", "url", "id", "title", "options", "text", "prefix"];
     resultChunks: Array<any> = [];
     selectedRowCount = 0;
+    userPreferencesInited = false;
+    first_table_row: any = document.querySelector(".first_table_row");
     tableColumns = [
         {
             title: "",
@@ -298,9 +302,15 @@ export class EmbeddingApp extends BaseApp {
         this.add_project_btn.addEventListener("click", () => this.addProject());
         this.remove_project_btn.addEventListener("click", () => this.deleteProject());
 
-        this.table_filter_radios.forEach((btn: any) => btn.addEventListener("input", () => {
+        this.table_filter_radios.forEach((btn: any) => btn.addEventListener("input", () => {            
+            const selectedRadio: any = document.body.querySelector(`input[name="table_filter_radio"]:checked`);
+            const filterValue = selectedRadio.value;
+
+            this.saveProfileField("embeddingPageTableFilterValue", filterValue);
             this.updateWatchUpsertRows();
         }));
+
+        this.first_table_row.addEventListener("input", () => this.updateWatchUpsertRows());
     }
     /**
      * @param { any } event
@@ -359,6 +369,21 @@ export class EmbeddingApp extends BaseApp {
     authUpdateStatusUI(): void {
         super.authUpdateStatusUI();
         if (this.profile) {
+            if (!this.userPreferencesInited) {
+                this.userPreferencesInited = true;
+                this.table_filter_radios.forEach((radio: any) => {
+                    if (radio.value === this.profile.embeddingPageTableFilterValue) radio.click();
+                });
+
+                let rowCount = Number(this.profile.upsertEmbeddingRowCount);
+                if (isNaN(rowCount)) rowCount = 1;
+                this.upload_embedding_document_batchsize.value = rowCount;
+
+                let startRow = Number(this.profile.upsertEmbeddingStartRow);
+                if (isNaN(startRow)) rowCount = 1;
+                this.first_table_row.value = startRow;
+            }
+
             this.watchProjectList();
             this.initUsageWatch();
         }
@@ -894,9 +919,12 @@ export class EmbeddingApp extends BaseApp {
         if (event) event.preventDefault();
         const data = this.scrapeData();
         const rowCount = this.upload_embedding_document_batchsize.value;
+        this.saveProfileField("upsertEmbeddingRowCount", rowCount);
+
         await this._upsertTableRowsToPinecone(this.selectedProjectId, data.pineconeIndex, data.pineconeKey,
             data.pineconeEnvironment, data.pineconeChunkSize, rowCount);
         this._fetchIndexStats(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
+        this.updateRowsCountFromFirestore();
     }
     /** scrape URLs for embedding
      * @param { string } projectId
@@ -916,7 +944,7 @@ export class EmbeddingApp extends BaseApp {
             alert("already running");
             return;
         }
-        this.upsert_result_status_bar.innerHTML = "processing document list...";
+        this.upsert_result_status_bar.innerHTML = `Upserting next ${rowCount} rows ...`;
         this.embeddingRunning = true;
         const body = {
             projectId,
@@ -1102,10 +1130,17 @@ export class EmbeddingApp extends BaseApp {
         const projectId = this.upsert_documents_list.value;
         const selectedRadio: any = document.body.querySelector(`input[name="table_filter_radio"]:checked`);
         const filterValue = selectedRadio.value;
+        let firstRow = Number(this.first_table_row.value);
+        if (isNaN(firstRow) || firstRow < 1) firstRow = 1;
 
-        if (this.selectedProjectId === projectId && this.selectedFilter === filterValue) return;
+        if (this.selectedProjectId === projectId && this.selectedFilter === filterValue
+            && this.tableQueryFirstRow === firstRow) return;
         this.selectedProjectId = projectId;
         this.selectedFilter = filterValue;
+        if (this.tableQueryFirstRow !== firstRow) {
+            this.tableQueryFirstRow = firstRow;
+            this.saveProfileField("upsertEmbeddingStartRow", firstRow);
+        }
 
         if (this.fileUpsertListFirestore) this.fileUpsertListFirestore();
         this.fileUpsertListFirestore = null;
