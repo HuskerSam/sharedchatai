@@ -6,6 +6,10 @@ import {
   limit,
   getFirestore,
 } from "firebase/firestore";
+import {
+  getAuth,
+  getIdToken,
+} from "firebase/auth";
 
 import BaseApp from "./baseapp";
 import AccountHelper from "./accounthelper";
@@ -164,12 +168,12 @@ export default class BuyCreditsHelper {
   }
   /** */
   async renderPaymentForm() {
-    const token = await this.app.fireUser.getIdToken();
+    const token = await getAuth().currentUser?.getIdToken();
     const fResult = await fetch(this.app.basePath + "lobbyApi/payment/token", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
-      headers: {
+      headers: <HeadersInit>{
         "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
         token,
       },
@@ -292,7 +296,7 @@ export default class BuyCreditsHelper {
       formBody.push(encodedKey + "=" + encodedValue);
     });
     const body = formBody.join("&");
-    const token = await this.app.fireUser.getIdToken();
+    const token = await getIdToken(<any>getAuth().currentUser);
     const fResult = await fetch(this.app.basePath + "lobbyApi/payment/order", {
       method: "POST",
       mode: "cors",
@@ -318,7 +322,7 @@ export default class BuyCreditsHelper {
     const data = {
       orderId: this.order.id,
     };
-    const token = await this.app.fireUser.getIdToken();
+    const token = await getIdToken(<any>getAuth().currentUser);
     const fResult = await fetch(this.app.basePath + "lobbyApi/payment/capture", {
       method: "POST",
       mode: "cors",
@@ -358,7 +362,7 @@ export default class BuyCreditsHelper {
       cvv: cvv.value,
       orderId: this.order.id,
     };
-    const token = await this.app.fireUser.getIdToken();
+    const token = await getIdToken(<any>getAuth().currentUser);
     const fResult = await fetch(this.app.basePath + "lobbyApi/payment/error", {
       method: "POST",
       mode: "cors",
@@ -536,7 +540,7 @@ export default class BuyCreditsHelper {
   }
   /** */
   show() {
-    if (this.app.fireUser && this.app.fireUser.isAnonymous) {
+    if (getAuth().currentUser && getAuth().currentUser?.isAnonymous) {
       alert("Anonymous users can't buy credits");
       return;
     }

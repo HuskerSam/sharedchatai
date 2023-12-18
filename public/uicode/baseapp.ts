@@ -47,8 +47,6 @@ export default class BaseApp {
   muted = false;
   uid: any = null;
   profile: any = null;
-  fireUser: any = null;
-  fireToken: any = null;
   profileSubscription: any = null;
   profileInited = false;
   profileDefaulted = false;
@@ -165,8 +163,10 @@ export default class BaseApp {
   }
   /** Paints UI display/status for user profile based changes */
   authUpdateStatusUI() {
-    if (this.fireToken) {
-      if (document.body.dataset.creator === this.uid) document.body.classList.add("user_editable_record");
+    if (getAuth().currentUser) {
+      if (document.body.dataset.creator === getAuth().currentUser?.uid) {
+        document.body.classList.add("user_editable_record");
+      }
     }
 
     if (this.profile) {
@@ -190,17 +190,13 @@ export default class BaseApp {
       return;
     }
     if (user) {
-      this.fireUser = user;
-      this.uid = this.fireUser.uid;
-      this.fireToken = await getIdToken(this.fireUser);
+      this.uid = <string>getAuth().currentUser?.uid;
       document.body.classList.add("app_signed_in");
       document.body.classList.remove("app_signed_out");
-      if (this.fireUser.isAnonymous) document.body.classList.add("signed_in_anonymous");
+      if (getAuth().currentUser?.isAnonymous) document.body.classList.add("signed_in_anonymous");
 
       await this._authInitProfile();
     } else {
-      this.fireToken = null;
-      this.fireUser = null;
       this.uid = null;
       document.body.classList.remove("app_signed_in");
       document.body.classList.add("app_signed_out");
@@ -223,8 +219,8 @@ export default class BaseApp {
     this.profileSubscription = onSnapshot(docRef, async (snapshot: any) => {
         this.profile = snapshot.data();
         if (!this.profile) {
-          if (this.fireUser.email) {
-            const result = await fetchSignInMethodsForEmail(getAuth(), this.fireUser.email);
+          if (getAuth().currentUser?.email) {
+            const result = await fetchSignInMethodsForEmail(getAuth(), <string>getAuth().currentUser?.email);
             // user was deleted dont create new profile - this is the case where the user deletes the account in browser
             if (result.length < 1) return;
           }
@@ -513,7 +509,7 @@ export default class BaseApp {
     const body = {
       gameNumber,
     };
-    const token = await getIdToken(this.fireUser);
+    const token = await getIdToken(<any>getAuth().currentUser);
     const fResult = await fetch(this.basePath + "lobbyApi/games/join", {
       method: "POST",
       mode: "cors",
@@ -627,7 +623,7 @@ export default class BaseApp {
       gameNumber: id,
       [field]: value,
     };
-    const token = await getIdToken(this.fireUser);
+    const token = await getIdToken(<any>getAuth().currentUser);
     const fResult = await fetch(this.basePath + "lobbyApi/games/options", {
       method: "POST",
       mode: "cors",
@@ -692,7 +688,7 @@ export default class BaseApp {
       updatePacket.externalSessionAPIKey = data.externalSessionAPIKey;
     }
 
-    const token = await getIdToken(this.fireUser);
+    const token = await getIdToken(<any>getAuth().currentUser);
     const fResult = await fetch(this.basePath + "lobbyApi/games/owner/options", {
       method: "POST",
       mode: "cors",

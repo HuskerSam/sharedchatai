@@ -778,7 +778,7 @@ export default class DocCreateHelper {
     await this.updateUsersListFile();
     this.updateBulkBatchStatus();
 
-    if (this.app.fireUser && this.app.fireUser.isAnonymous) {
+    if (getAuth().currentUser && getAuth().currentUser?.isAnonymous) {
       alert("Anonymous can only join already created sessions (no create)");
       return;
     }

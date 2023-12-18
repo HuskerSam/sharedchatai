@@ -447,7 +447,7 @@ export default class ProfileHelper {
         const updatePacket = {
             displayImage: resizePath,
         };
-        if (this.app.fireToken) {
+        if (getAuth().currentUser) {
             const profileRef = doc(getFirestore(), `Users/${this.app.uid}`);
             await setDoc(profileRef, updatePacket, {
                 merge: true,
@@ -460,8 +460,8 @@ export default class ProfileHelper {
         const updatePacket = {
             displayImage: "",
         };
-        if (this.app.fireToken) {
-            const profileRef = doc(getFirestore(), `Users/${this.app.uid}`);
+        if (getAuth().currentUser) {
+            const profileRef = doc(getFirestore(), `Users/${getAuth().currentUser?.uid}`);
             await setDoc(profileRef, updatePacket, {
                 merge: true,
             });
@@ -542,7 +542,7 @@ export default class ProfileHelper {
             updatePacket.enableKatexInline = this.app.profile.enableKatexInline;
         }
 
-        if (this.app.fireToken) {
+        if (getAuth().currentUser) {
             const profileRef = doc(getFirestore(), `Users/${this.app.uid}`);
             await setDoc(profileRef, updatePacket, {
                 merge: true,
@@ -554,12 +554,10 @@ export default class ProfileHelper {
      */
     async authSignout(e: any) {
         e.preventDefault();
-        if (this.app.fireToken) {
+        if (getAuth().currentUser) {
             this.app.removeUserPresenceWatch();
             await signOut(getAuth());
 
-            this.app.fireToken = null;
-            this.app.fireUser = null;
             this.app.uid = null;
 
             if (this.noAuthPage) window.location.reload();
@@ -741,7 +739,7 @@ export default class ProfileHelper {
             return;
         }
 
-        const oldEmail = this.app.fireUser.email;
+        const oldEmail = getAuth().currentUser?.email;
         if (newEmail === oldEmail) {
             alert("Email is already " + oldEmail);
             return;
@@ -761,10 +759,8 @@ export default class ProfileHelper {
 
         if (success) {
             this.app.removeUserPresenceWatch();
-            if (this.app.fireToken) await signOut(getAuth());
+            if (getAuth().currentUser) await signOut(getAuth());
 
-            this.app.fireToken = null;
-            this.app.fireUser = null;
             this.app.uid = null;
             window.location.href = "/";
             window.location.reload();
