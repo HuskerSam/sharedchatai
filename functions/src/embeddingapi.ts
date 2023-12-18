@@ -42,6 +42,10 @@ export default class EmbeddingAPI {
         const pineconeEnvironment = req.body.pineconeEnvironment;
         const tokenThreshold = req.body.tokenThreshold;
         const projectId = req.body.projectId;
+        let rowCount = Number(req.body.rowCount);
+        if (isNaN(rowCount)) rowCount = 1;
+        if (rowCount < 1) rowCount = 1;
+        if (rowCount > 50) rowCount = 50;
 
         const pinecone = new Pinecone({
             apiKey: pineconeKey,
@@ -65,15 +69,16 @@ export default class EmbeddingAPI {
         let fileUploadResults: any = [];
         try {
             // get oldest 50 new
-            const next50Query = await firebaseAdmin.firestore()
+            const nextQuery = await firebaseAdmin.firestore()
                 .collection(`Users/${uid}/embedding/${projectId}/data`)
-                .where(`status`, "!=", "Upserted")
+                .where(`status`, "!=", "Done")
                 .orderBy("status")
                 .orderBy("lastActivity", "asc")
+                .limit(rowCount)
                 .get();
 
             const promises: any = [];
-            next50Query.forEach((doc: any) => {
+            nextQuery.forEach((doc: any) => {
                 console.log(doc.id);
                 promises.push(EmbeddingAPI.upsertFileData(doc.data(), pineconeIndex, chatGptKey,
                     uid, pIndex, tokenThreshold));
@@ -108,7 +113,7 @@ export default class EmbeddingAPI {
                 mergeBlock["upsertedDate"] = lastActivity;
                 mergeBlock["include"] = false;
                 mergeBlock["vectorCount"] = row["idList"].length;
-                mergeBlock["status"] = "Upserted";
+                mergeBlock["status"] = "Done";
             }
             const rowId = row.originalId;
             promises.push(

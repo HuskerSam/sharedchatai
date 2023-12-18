@@ -78,9 +78,8 @@ html {
 
 .upsert_result_status_bar {
   flex: 1;
-  padding: 4px;
-  padding-left: 20px;
-  padding-top: 16px;
+  padding-left: 16px;
+  padding-top: 8px;
 }
 
 .embedding_query_results_table_wrapper {
@@ -220,4 +219,9 @@ select.upsert_documents_list.form-select:active {
 .btn_icon {
   border: none;
   background: none;
+}
+
+.firebase_record_count_status {
+  padding-left: 16px;
+  padding-top: 8px;
 }

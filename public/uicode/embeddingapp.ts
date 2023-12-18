@@ -68,6 +68,11 @@ export class EmbeddingApp extends BaseApp {
     remove_project_btn: any = document.querySelector(".remove_project_btn");
     table_filter_radios = document.querySelectorAll(`input[name="table_filter_radio"]`);
     firebase_record_count_status: any = document.querySelector(".firebase_record_count_status");
+    table_all_count: any = document.querySelector(".table_all_count");
+    table_new_count: any = document.querySelector(".table_new_count");
+    table_done_count: any = document.querySelector(".table_done_count");
+    table_error_count: any = document.querySelector(".table_error_count");
+    upload_embedding_document_batchsize: any = document.querySelector(".upload_embedding_document_batchsize");
     fileUpsertListFirestore: any = null;
     embeddingProjects: any = {};
     selectedProjectId = "";
@@ -490,6 +495,7 @@ export class EmbeddingApp extends BaseApp {
         const rowRef = doc(getFirestore(),
             `Users/${this.uid}/embedding/${this.selectedProjectId}/data/${id}`);
         await deleteDoc(rowRef);
+        this.updateRowsCountFromFirestore();
     }
     /**
      * @param { any } event
@@ -887,8 +893,9 @@ export class EmbeddingApp extends BaseApp {
     async upsertTableRowsToPinecone(event: any) {
         if (event) event.preventDefault();
         const data = this.scrapeData();
+        const rowCount = this.upload_embedding_document_batchsize.value;
         await this._upsertTableRowsToPinecone(this.selectedProjectId, data.pineconeIndex, data.pineconeKey,
-            data.pineconeEnvironment, data.pineconeChunkSize);
+            data.pineconeEnvironment, data.pineconeChunkSize, rowCount);
         this._fetchIndexStats(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
     }
     /** scrape URLs for embedding
@@ -899,7 +906,7 @@ export class EmbeddingApp extends BaseApp {
      * @param { number } tokenThreshold
     */
     async _upsertTableRowsToPinecone(projectId: string, pineconeIndex: string, pineconeKey: string,
-        pineconeEnvironment: string, tokenThreshold: number) {
+        pineconeEnvironment: string, tokenThreshold: number, rowCount: number) {
         if (!getAuth().currentUser) {
             alert("login on homepage to use this");
             return;
@@ -916,6 +923,7 @@ export class EmbeddingApp extends BaseApp {
             pineconeKey,
             pineconeEnvironment,
             tokenThreshold,
+            rowCount,
         };
 
         const token = await getAuth().currentUser?.getIdToken();
@@ -989,6 +997,7 @@ export class EmbeddingApp extends BaseApp {
         });
 
         await this.saveUpsertRowsToFirestore(importedRows);
+        this.updateRowsCountFromFirestore();
         let alertMessage = importedRows.length + " row(s) imported ";
         if (rowsSkipped) {
             alertMessage += rowsSkipped + " row(s) skipped - a url or id field value is required for a row to be imported";
@@ -1062,6 +1071,32 @@ export class EmbeddingApp extends BaseApp {
         this.chunking_results_wrapper.innerHTML = fileContent;
     }
     /** */
+    async updateRowsCountFromFirestore() {
+        const rowsPath = `Users/${this.uid}/embedding/${this.selectedProjectId}/data`;
+        this.saveProfileField("selectedEmbeddingProjectId", this.selectedProjectId);
+        const docsCollection = collection(getFirestore(), rowsPath);
+
+        const newQuery = query(docsCollection, where("status", "==", "New"));
+        const newSnapshot = await getCountFromServer(newQuery);
+        const newCount = newSnapshot.data().count;
+
+        const totalRowsSnapshot = await getCountFromServer(query(docsCollection));
+        const totalRows = totalRowsSnapshot.data().count;
+
+        const doneQuery = query(docsCollection, where("status", "==", "Done"));
+        const doneSnapshot = await getCountFromServer(doneQuery);
+        const doneCount = doneSnapshot.data().count;
+
+        const errorQuery = query(docsCollection, where("status", "==", "Error"));
+        const errorSnapshot = await getCountFromServer(errorQuery);
+        const errorCount = errorSnapshot.data().count;
+
+        this.table_new_count.innerHTML = newCount;
+        this.table_all_count.innerHTML = totalRows;
+        this.table_done_count.innerHTML = doneCount;
+        this.table_error_count.innerHTML = errorCount;
+    }
+    /** */
     async updateWatchUpsertRows() {
         const projectId = this.upsert_documents_list.value;
         const selectedRadio: any = document.body.querySelector(`input[name="table_filter_radio"]:checked`);
@@ -1092,11 +1127,7 @@ export class EmbeddingApp extends BaseApp {
         if (filterValue !== "All") {
             docsQuery = query(docsCollection, where("status", "==", filterValue), limit(500));
         }
-        const countSnapshot = await getCountFromServer(docsQuery);
-
-        const rowCount = countSnapshot.data().count;
-        this.firebase_record_count_status.innerHTML = rowCount;
-
+        this.updateRowsCountFromFirestore();
         this.fileUpsertListFirestore = onSnapshot(docsQuery, (snapshot: any) => {
             this.fileListToUpload = [];
             let index = 1;
