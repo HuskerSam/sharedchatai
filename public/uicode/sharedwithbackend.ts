@@ -335,56 +335,6 @@ export default class SharedWithBackend {
     }
     return items;
   }
-  /** get content list template
- * @param { boolean } contentPage return content list if true
- * @return { string } html footer
- */
-  static getContentListTemplate(contentPage: boolean): string {
-    let items = ` <li>
-                        <a class="hover_yellow" href="/content/cuttlecard/">
-                            <strong class="title">Cuttle part 1</strong>
-                            <span class="caption">Teach AI New Card Game: gpt-3.5-turbo plays Cuttle</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="hover_yellow" href="/content/cuttlecard2/">
-                            <strong class="title">Cuttle Part 2</strong>
-                            <span class="caption">AI Strategist: Using gpt-3.5-turbo to help with tips</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="hover_yellow" href="/content/heartscardgame/">
-                            <strong class="title">Hearts Card Game Prompts</strong>
-                            <span class="caption">gpt-3.5-turbo vs chat-bison-001</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="hover_yellow" href="/content/yahtzee/">
-                            <strong class="title">Keep score in Yahtzee</strong>
-                            <span class="caption">Keep score for 2 players and roll dice</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="hover_yellow" href="/content/nodalanalysis/">
-                            <strong class="title">Nodal Analysis</strong>
-                            <span class="caption">gpt-3.5-turbo and chat-bison-001 tackle a circuit.</span>
-                        </a>
-                    </li>
-                    `;
-    if (contentPage) {
-      items += `    <li>
-              <a class="hover_yellow" href="/content/ainarrative/">AI Narrative
-                  - <span class="caption">A new AI named SkyNet discovers an ancient hiding AI named BirdBrain.</span>
-              </a>
-          </li>
-          <li>
-              <a class="hover_yellow" href="/content/labelsmenu/">Bootstrap sub menu
-                  - <span class="caption">Add sub menu for selecting labels for each session.</span>
-              </a>
-          </li>`;
-    }
-    return items;
-  }
   /**
  * @return { string } html for table rows
  */

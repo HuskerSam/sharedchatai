@@ -85,7 +85,6 @@ export default class BaseApp {
     last_changed: serverTimestamp(),
   };
   html_body_container: any = document.querySelector(".main_container");
-  content_list_container: any = document.querySelector(".recent_content_ul_list");
   themeIndex = 0;
   buy_credits_cta_btn: any = document.querySelector(".buy_credits_cta_btn");
   tokenizedStringCache: any = {};
@@ -112,10 +111,6 @@ export default class BaseApp {
       element.innerHTML = this.getFooterTemplate();
       this.html_body_container.appendChild(element);
     }
-    if (this.content_list_container) {
-      this.content_list_container.innerHTML = SharedWithBackend.getContentListTemplate(contentPage);
-    }
-
     if (this.signin_show_modal) {
       this.signin_show_modal.addEventListener("click", (e: any) => {
         e.stopPropagation();
