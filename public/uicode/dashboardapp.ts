@@ -12,9 +12,8 @@ import {
   limit,
   setDoc,
   doc,
+  getFirestore,
 } from "firebase/firestore";
-
-declare const window: any;
 
 /** Dashboard Document Management App - for listing, joining and creating games  */
 export class DashboardApp extends BaseApp {
@@ -71,7 +70,7 @@ export class DashboardApp extends BaseApp {
     this.showLoginModal = false;
     this.memberRefreshBufferTime = 1000;
     this.document_label_filter.addEventListener("input", async () => {
-      const profileRef = doc(window.firestoreDb, `Users/${this.uid}`);
+      const profileRef = doc(getFirestore(), `Users/${this.uid}`);
       await setDoc(profileRef, {
         defaultDashboardLabel: this.document_label_filter.value,
       }, {
@@ -266,10 +265,10 @@ export class DashboardApp extends BaseApp {
   async prepDocumentOptionsHelper(documentId: string) {
     this.lastTicketsSnapshot = {};
 
-    const lastTicketsRef = collection(window.firestoreDb, `Games/${documentId}/tickets`);
+    const lastTicketsRef = collection(getFirestore(), `Games/${documentId}/tickets`);
     this.lastTicketsSnapshot = await getDocs(query(lastTicketsRef, orderBy(`submitted`, "desc")));
 
-    const lastAssistsRef = collection(window.firestoreDb, `Games/${documentId}/assists`);
+    const lastAssistsRef = collection(getFirestore(), `Games/${documentId}/assists`);
     this.lastAssistsSnapshot = await getDocs(lastAssistsRef);
     this.assistsLookup = {};
     this.lastAssistsSnapshot.forEach((assistDoc: any) => this.assistsLookup[assistDoc.id] = assistDoc.data());
@@ -359,7 +358,7 @@ export class DashboardApp extends BaseApp {
     // window.history.replaceState({}, document.title, "/");
     document.body.classList.add("session_feed_inited");
     let firstLoad = true;
-    const gameFeedRef = collection(window.firestoreDb, "Games");
+    const gameFeedRef = collection(getFirestore(), "Games");
     const gameFeedQuery = query(gameFeedRef, orderBy(`members.${this.uid}`, "desc"), limit(500));
     this.gameFeedSubscription = onSnapshot(gameFeedQuery, (snapshot: any) => {
         if (firstLoad) {

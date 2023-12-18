@@ -2,9 +2,8 @@ import BaseApp from "./baseapp";
 import {
   doc,
   onSnapshot,
+  getFirestore,
 } from "firebase/firestore";
-
-declare const window: any;
 
 /** static functions account  */
 export default class AccountHelper {
@@ -13,7 +12,7 @@ export default class AccountHelper {
      * @param { any } callback paint function for account data
     */
     static accountInfoUpdate(app: any, callback: any) {
-        const docRef = doc(window.firestoreDb, `Users/${app.uid}/internal/tokenUsage`);
+        const docRef = doc(getFirestore(), `Users/${app.uid}/internal/tokenUsage`);
           onSnapshot(docRef, (snapshot: any) => {
             let usageData = snapshot.data();
             if (!usageData) usageData = {};

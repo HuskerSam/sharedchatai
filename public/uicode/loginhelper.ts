@@ -1,8 +1,7 @@
 import {
   sendSignInLinkToEmail,
+  getAuth,
 } from "firebase/auth";
-
-declare const window: any;
 
 /** login dialog helper - displays automatically if not home page */
 export default class LoginHelper {
@@ -51,7 +50,7 @@ export default class LoginHelper {
     const modal: any = document.getElementById("loginModal");
     modal?.addEventListener("hidden.bs.modal", () => {
       if (this.disableReload) return;
-      if (this.app.isSessionApp) window.location = "/";
+      if (this.app.isSessionApp) window.location.href = "/";
       else window.location.reload();
     });
   }
@@ -121,7 +120,7 @@ export default class LoginHelper {
       url,
       handleCodeInApp: true,
     };
-    await sendSignInLinkToEmail(window.firebaseApp, email, actionCodeSettings);
+    await sendSignInLinkToEmail(getAuth(), email, actionCodeSettings);
 
     window.localStorage.setItem("emailForSignIn", email);
     alert("Email Sent");
@@ -130,7 +129,7 @@ export default class LoginHelper {
   }
   /** */
   show() {
-    this.modal = new window.bootstrap.Modal("#loginModal", {});
+    this.modal = new (<any>window).bootstrap.Modal("#loginModal", {});
     this.modal.show();
   }
 }

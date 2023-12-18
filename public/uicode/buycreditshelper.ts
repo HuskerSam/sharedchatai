@@ -4,12 +4,11 @@ import {
   onSnapshot,
   orderBy,
   limit,
+  getFirestore,
 } from "firebase/firestore";
 
 import BaseApp from "./baseapp";
 import AccountHelper from "./accounthelper";
-
-declare const window: any;
 
 const creditsForDollars: any = {
   "5": 3000,
@@ -49,7 +48,7 @@ export default class BuyCreditsHelper {
     this.modalContainer = document.createElement("div");
     this.modalContainer.innerHTML = html;
     document.body.appendChild(this.modalContainer);
-    this.modal = new window.bootstrap.Modal("#buyCreditsModal", {});
+    this.modal = new (<any>window).bootstrap.Modal("#buyCreditsModal", {});
     this.purchase_amount_select = this.modalContainer.querySelector(".purchase_amount_select");
     let selectHTML = `<option value="none">Select an amount</option>`;
     const keys = Object.keys(creditsForDollars);
@@ -165,7 +164,7 @@ export default class BuyCreditsHelper {
   }
   /** */
   async renderPaymentForm() {
-    const token = await window.fireUser.getIdToken();
+    const token = await this.app.fireUser.getIdToken();
     const fResult = await fetch(this.app.basePath + "lobbyApi/payment/token", {
       method: "POST",
       mode: "cors",
@@ -204,12 +203,12 @@ export default class BuyCreditsHelper {
   }
   /** */
   _initPaypal() {
-    if (!window.paypal) {
+    if (!(<any>window).paypal) {
       setTimeout(() => this._initPaypal(), 50);
       return;
     }
 
-    window.paypal
+    (<any>window).paypal
       .Buttons({
         // Sets up the transaction when a payment button is clicked
         createOrder: async (/* data: any, actions: any */) => {
@@ -231,9 +230,9 @@ export default class BuyCreditsHelper {
       })
       .render("#paypal-button-container");
 
-    if (window.paypal.HostedFields.isEligible()) {
+    if ((<any>window).paypal.HostedFields.isEligible()) {
       // Renders card fields
-      window.paypal.HostedFields.render({
+      (<any>window).paypal.HostedFields.render({
         // Call your server to set up the transaction
         createOrder: async () => {
           return await this.getPayPalOrder();
@@ -293,7 +292,7 @@ export default class BuyCreditsHelper {
       formBody.push(encodedKey + "=" + encodedValue);
     });
     const body = formBody.join("&");
-    const token = await window.fireUser.getIdToken();
+    const token = await this.app.fireUser.getIdToken();
     const fResult = await fetch(this.app.basePath + "lobbyApi/payment/order", {
       method: "POST",
       mode: "cors",
@@ -319,7 +318,7 @@ export default class BuyCreditsHelper {
     const data = {
       orderId: this.order.id,
     };
-    const token = await window.fireUser.getIdToken();
+    const token = await this.app.fireUser.getIdToken();
     const fResult = await fetch(this.app.basePath + "lobbyApi/payment/capture", {
       method: "POST",
       mode: "cors",
@@ -359,7 +358,7 @@ export default class BuyCreditsHelper {
       cvv: cvv.value,
       orderId: this.order.id,
     };
-    const token = await window.fireUser.getIdToken();
+    const token = await this.app.fireUser.getIdToken();
     const fResult = await fetch(this.app.basePath + "lobbyApi/payment/error", {
       method: "POST",
       mode: "cors",
@@ -386,7 +385,7 @@ export default class BuyCreditsHelper {
     if (this.paymentHistoryInited) return;
     this.paymentHistoryInited = true;
 
-    const paymentHistoryRef = collection(window.firestoreDb, `Users/${this.app.uid}/paymentHistory`);
+    const paymentHistoryRef = collection(getFirestore(), `Users/${this.app.uid}/paymentHistory`);
     const historyQuery = query(paymentHistoryRef, orderBy(`purchaseDate`, "desc"), limit(100));
     onSnapshot(historyQuery, (snapshot: any) => this.updatePaymentHistory(snapshot));
   }
@@ -532,7 +531,7 @@ export default class BuyCreditsHelper {
     const win = window.open(winUrl, "Title",
       `resizable=yes,left=${left.toFixed()},top=${top.toFixed()},width=${width},height=${height}`);
     if (print) {
-      win.print();
+      win?.print();
     }
   }
   /** */

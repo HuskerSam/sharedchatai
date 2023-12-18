@@ -13,25 +13,15 @@ import {
 import {
     initializeApp,
 } from "firebase/app";
-import {
-    getFirestore,
-} from "firebase/firestore";
-import {
-    getAuth,
-} from "firebase/auth";
 
-declare const window: any;
 window.addEventListener("load", async () => {
     const response = await fetch("/__/firebase/init.json");
     const config = await response.json();
-    const firebaseApp = initializeApp(config);
-    window.firestoreDb = getFirestore(firebaseApp);
-    window.firebaseAuth = getAuth(firebaseApp);
-    window.firebaseApp = firebaseApp;
+    initializeApp(config);
 
     const firstSlug = window.location.pathname.split("/")[1];
-    if (firstSlug === "embedding") window.EmbeddingApp = new EmbeddingApp();
-    else if (firstSlug === "") window.StaticPageApp = new DashboardApp();
-    else if (firstSlug === "session") window.SessionApp = new SessionApp();
-    else window.StaticPageApp = new StaticPageApp();
+    if (firstSlug === "embedding") (<any>window).AppInstance = new EmbeddingApp();
+    else if (firstSlug === "") (<any>window).AppInstance = new DashboardApp();
+    else if (firstSlug === "session") (<any>window).AppInstance = new SessionApp();
+    else (<any>window).AppInstance = new StaticPageApp();
 });

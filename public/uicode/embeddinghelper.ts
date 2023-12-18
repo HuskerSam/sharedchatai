@@ -1,5 +1,4 @@
 import ChatDocument from "./chatdocument";
-declare const window: any;
 
 /** login dialog helper - displays automatically if not home page */
 export default class PineconeHelper {
@@ -231,7 +230,7 @@ export default class PineconeHelper {
     this.chatDocumentId = chatDocumentId;
     this.documentData = doc;
     this.isOwner = doc.createUser === this.app.uid;
-    this.modal = new window.bootstrap.Modal("#embeddingSettingsModal", {});
+    this.modal = new (<any>window).bootstrap.Modal("#embeddingSettingsModal", {});
 
     this.updateDisplayData();
     this.modal.show();

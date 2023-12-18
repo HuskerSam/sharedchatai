@@ -10,12 +10,16 @@ import {
 import {
     doc,
     setDoc,
+    getFirestore,
 } from "firebase/firestore";
 import {
     signOut,
+    getAuth,
+    updateEmail,
 } from "firebase/auth";
-
-declare const window: any;
+import {
+    getApp,
+} from "firebase/app";
 
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
 export default class ProfileHelper {
@@ -73,7 +77,7 @@ export default class ProfileHelper {
         this.modalContainer = document.createElement("div");
         this.modalContainer.innerHTML = html;
         document.body.appendChild(this.modalContainer);
-        this.modal = new window.bootstrap.Modal("#userProfileModal", {});
+        this.modal = new (<any>window).bootstrap.Modal("#userProfileModal", {});
 
         this.modalContainer.children[0].addEventListener("shown.bs.modal", () => {
             // this.profile_text_large_checkbox.focus();
@@ -158,11 +162,11 @@ export default class ProfileHelper {
 
         this.profile_text_large_checkbox.addEventListener("input", () => this.saveProfileField("largetext"));
 
-        window.$(".label_profile_picker").select2({
+        (<any>window).$(".label_profile_picker").select2({
             tags: true,
             placeHolder: "Configure default labels",
         });
-        window.$(".label_profile_picker").on("change", () => this.saveProfileLabels());
+        (<any>window).$(".label_profile_picker").on("change", () => this.saveProfileLabels());
         const field: any = document.body.querySelector("#profile_user_tab_view .select2-search__field");
         field.addEventListener("keydown", (event: any) => {
             if (event.key === ",") {
@@ -407,7 +411,7 @@ export default class ProfileHelper {
                 resultFile = this.dataURLtoFile(dataurl, "pimage.png");
 
                 this.profile_display_image.style.backgroundImage = ``;
-                const storage = getStorage(window.firebaseApp);
+                const storage = getStorage(getApp());
                 const sRef = ref(storage, "Users/" + this.app.uid + "/pimage");
                 await uploadBytes(sRef, resultFile);
                 setTimeout(() => this._finishImagePathUpdate(), 1500);
@@ -437,14 +441,14 @@ export default class ProfileHelper {
     /** handle profile image upload complete
      */
     async _finishImagePathUpdate() {
-        const storage = getStorage(window.firebaseApp);
+        const storage = getStorage(getApp());
         const sRef2 = ref(storage, "Users/" + this.app.uid + "/pimage");
         const resizePath = await getDownloadURL(sRef2);
         const updatePacket = {
             displayImage: resizePath,
         };
         if (this.app.fireToken) {
-            const profileRef = doc(window.firestoreDb, `Users/${this.app.uid}`);
+            const profileRef = doc(getFirestore(), `Users/${this.app.uid}`);
             await setDoc(profileRef, updatePacket, {
                 merge: true,
             });
@@ -457,7 +461,7 @@ export default class ProfileHelper {
             displayImage: "",
         };
         if (this.app.fireToken) {
-            const profileRef = doc(window.firestoreDb, `Users/${this.app.uid}`);
+            const profileRef = doc(getFirestore(), `Users/${this.app.uid}`);
             await setDoc(profileRef, updatePacket, {
                 merge: true,
             });
@@ -486,7 +490,7 @@ export default class ProfileHelper {
    * @return { string } label list
    */
     scrapeLabelList(): string {
-        const data = window.$(".label_profile_picker").select2("data");
+        const data = (<any>window).$(".label_profile_picker").select2("data");
         const labels: Array<string> = [];
         data.forEach((item: any) => {
             const text = item.text.trim().replaceAll(",", "").substring(0, 30);
@@ -539,7 +543,7 @@ export default class ProfileHelper {
         }
 
         if (this.app.fireToken) {
-            const profileRef = doc(window.firestoreDb, `Users/${this.app.uid}`);
+            const profileRef = doc(getFirestore(), `Users/${this.app.uid}`);
             await setDoc(profileRef, updatePacket, {
                 merge: true,
             });
@@ -552,14 +556,14 @@ export default class ProfileHelper {
         e.preventDefault();
         if (this.app.fireToken) {
             this.app.removeUserPresenceWatch();
-            await signOut(window.firebaseAuth);
+            await signOut(getAuth());
 
             this.app.fireToken = null;
             this.app.fireUser = null;
             this.app.uid = null;
 
             if (this.noAuthPage) window.location.reload();
-            else window.location = "/";
+            else window.location.href = "/";
         }
     }
     /** fetch and paint user token usage */
@@ -651,12 +655,12 @@ export default class ProfileHelper {
         if (!displayName) displayName = "New User";
         this.profile_display_name.innerHTML = displayName;
 
-        let email = window.fireUser.email;
+        let email = getAuth().currentUser?.email;
         if (!email) email = "Logged in as: Anonymous";
 
         this.logged_in_status.innerHTML = email;
 
-        const queryLabelSelect2 = window.$(".label_profile_picker");
+        const queryLabelSelect2 = (<any>window).$(".label_profile_picker");
         this.noLabelSave = true;
         queryLabelSelect2.html("");
         queryLabelSelect2.val(null).trigger("change");
@@ -749,7 +753,7 @@ export default class ProfileHelper {
 
         let success = true;
         try {
-            await this.app.fireUser.updateEmail(newEmail);
+            await updateEmail(<any>getAuth().currentUser, newEmail);
         } catch (error: any) {
             success = false;
             alert("email change FAILED: \n" + error.message);
@@ -757,12 +761,12 @@ export default class ProfileHelper {
 
         if (success) {
             this.app.removeUserPresenceWatch();
-            if (this.app.fireToken) await signOut(window.firebaseAuth);
+            if (this.app.fireToken) await signOut(getAuth());
 
             this.app.fireToken = null;
             this.app.fireUser = null;
             this.app.uid = null;
-            window.location = "/";
+            window.location.href = "/";
             window.location.reload();
         }
     }

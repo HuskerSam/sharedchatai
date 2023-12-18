@@ -6,9 +6,12 @@ import {
     query,
     getDocs,
     limit,
+    getFirestore,
 } from "firebase/firestore";
+import {
+    getAuth,
+} from "firebase/auth";
 
-declare const window: any;
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
 export default class DocOptionsHelper {
     app: any = null;
@@ -145,11 +148,11 @@ export default class DocOptionsHelper {
             this.logoutGame();
         });
 
-        window.$(".edit_options_document_labels").select2({
+        (<any>window).$(".edit_options_document_labels").select2({
             tags: true,
             placeHolder: "Add labels...",
         });
-        window.$(".edit_options_document_labels").on("change", () => this.saveDocumentLabels());
+        (<any>window).$(".edit_options_document_labels").on("change", () => this.saveDocumentLabels());
         const field: any = document.body.querySelector("#owner_tab_view .select2-search__field");
         field.addEventListener("keydown", (event: any) => {
             if (event.key === ",") {
@@ -238,7 +241,7 @@ export default class DocOptionsHelper {
     }
     /** */
     async showPacketsDialog() {
-        const packetsRef = collection(window.firestoreDb, `Games/${this.chatDocumentId}/packets`);
+        const packetsRef = collection(getFirestore(), `Games/${this.chatDocumentId}/packets`);
         const packets = await getDocs(query(packetsRef, orderBy("submitted", "desc"), limit(200)));
 
         const lookup: any = {};
@@ -571,7 +574,7 @@ export default class DocOptionsHelper {
     /** use jquery to extract label list from select2 */
     saveDocumentLabels() {
         if (this.noLabelSave) return;
-        const data = window.$(".edit_options_document_labels").select2("data");
+        const data = (<any>window).$(".edit_options_document_labels").select2("data");
         const labels: Array<string> = [];
         data.forEach((item: any) => {
             const text = item.text.trim().replaceAll(",", "").substring(0, 30);
@@ -597,17 +600,17 @@ export default class DocOptionsHelper {
         const body = {
             gameNumber: this.chatDocumentId,
         };
-        const token = await window.fireUser.getIdToken();
+        const token = await getAuth().currentUser?.getIdToken();
         this.app.sessionDeleting = true;
 
-        if (this.app.isSessionApp) window.location = "/";
+        if (this.app.isSessionApp) window.location.href = "/";
         this.modal_close_button.click();
 
         const fResult = await fetch(this.app.basePath + "lobbyApi/games/delete", {
             method: "POST",
             mode: "cors",
             cache: "no-cache",
-            headers: {
+            headers: <HeadersInit>{
                 "Content-Type": "application/json",
                 token,
             },
@@ -633,13 +636,13 @@ export default class DocOptionsHelper {
         const body = {
             gameNumber: this.chatDocumentId,
         };
-        const token = await window.fireUser.getIdToken();
+        const token = await getAuth().currentUser?.getIdToken();
         this.app.sessionDeleting = true;
         const fResult = await fetch(this.app.basePath + "lobbyApi/games/leave", {
             method: "POST",
             mode: "cors",
             cache: "no-cache",
-            headers: {
+            headers: <HeadersInit>{
                 "Content-Type": "application/json",
                 token,
             },
@@ -652,7 +655,7 @@ export default class DocOptionsHelper {
             return;
         }
 
-        if (this.app.isSessionApp) window.location = "/";
+        if (this.app.isSessionApp) window.location.href = "/";
         this.modal_close_button.click();
     }
     /** refresh report data
@@ -801,7 +804,7 @@ feedback: support@unacog.com`);
         }
 
         if (this.isOwner) {
-            const queryLabelSelect2 = window.$(".edit_options_document_labels");
+            const queryLabelSelect2 = (<any>window).$(".edit_options_document_labels");
             this.noLabelSave = true;
             queryLabelSelect2.html("");
             queryLabelSelect2.val(null).trigger("change");
@@ -863,7 +866,7 @@ feedback: support@unacog.com`);
             if (this.isOwner) this.owner_tab_button.click();
             else this.export_tab_button.click();
         }
-        const modal = new window.bootstrap.Modal("#editDocumentModal", {});
+        const modal = new (<any>window).bootstrap.Modal("#editDocumentModal", {});
         modal.show();
     }
 }

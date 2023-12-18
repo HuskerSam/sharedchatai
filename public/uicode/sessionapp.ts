@@ -10,11 +10,14 @@ import {
   onSnapshot,
   limit,
   doc,
+  getFirestore,
 } from "firebase/firestore";
+import {
+  getAuth,
+} from "firebase/auth";
 import {
   decode,
 } from "gpt-tokenizer";
-declare const window: any;
 
 /** Session app class */
 export class SessionApp extends BaseApp {
@@ -271,12 +274,12 @@ export class SessionApp extends BaseApp {
       response: responseValue,
     };
     console.log(body);
-    const token = await window.fireUser.getIdToken();
+    const token = await getAuth().currentUser?.getIdToken();
     const fResult = await fetch(this.basePath + "lobbyApi/session/message/editresponse", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
-      headers: {
+      headers: <HeadersInit>{
         "Content-Type": "application/json",
         token,
       },
@@ -358,13 +361,13 @@ export class SessionApp extends BaseApp {
 
     if (this.ticketsSubscription) this.ticketsSubscription();
 
-    const ticketsRef = collection(window.firestoreDb, `Games/${this.documentId}/tickets`);
+    const ticketsRef = collection(getFirestore(), `Games/${this.documentId}/tickets`);
     const ticketsQuery = query(ticketsRef, orderBy(`submitted`, "desc"), limit(500));
     this.ticketsSubscription = onSnapshot(ticketsQuery, (snapshot: any) => this.updateTicketsFeed(snapshot));
 
     if (this.assistsSubscription) this.assistsSubscription();
 
-    const assistsRef = collection(window.firestoreDb, `Games/${this.documentId}/assists`);
+    const assistsRef = collection(getFirestore(), `Games/${this.documentId}/assists`);
     const assistsQuery = query(assistsRef, orderBy(`created`, "desc"), limit(500));
     this.assistsSubscription = onSnapshot(assistsQuery, (snapshot: any) => this.updateAssistsFeed(snapshot));
   }
@@ -374,7 +377,7 @@ export class SessionApp extends BaseApp {
     this.recentDocumentFeedRegistered = true;
 
     if (this.recentDocumentsSubscription) this.recentDocumentsSubscription();
-    const chatsRef = collection(window.firestoreDb, "Games");
+    const chatsRef = collection(getFirestore(), "Games");
     const chatsQuery = query(chatsRef, orderBy(`members.${this.uid}`, "desc"), limit(6));
     this.recentDocumentsSubscription = onSnapshot(chatsQuery,
       (snapshot: any) => this.updateRecentDocumentFeed(snapshot));
@@ -410,7 +413,7 @@ export class SessionApp extends BaseApp {
   * @param { any } snapshot firestore query data snapshot
   */
   updateAssistsFeed(snapshot: any = null) {
-    if (!window.hljs || !window.hljs.highlightElement) {
+    if (!(<any>window).hljs || !(<any>window).hljs.highlightElement) {
       clearTimeout(this.updateAssistFeedTimeout);
       this.updateAssistFeedTimeout = setTimeout(() => this.updateAssistsFeed(snapshot), 30);
       return;
@@ -468,7 +471,7 @@ export class SessionApp extends BaseApp {
                 const fragmentId = ticketId + "_" + index;
                 this.fragmentCache[fragmentId] = responseFrag;
                 if (index % 2 === 1 && index < l - 1) {
-                  const htmlForMarkdown = window.marked.parse("```" + responseFrag + "```", {
+                  const htmlForMarkdown = (<any>window).marked.parse("```" + responseFrag + "```", {
                     mangle: false,
                     headerIds: false,
                   });
@@ -476,10 +479,10 @@ export class SessionApp extends BaseApp {
                   sectionDiv.innerHTML = `<div class="code_block_wrapper">` +
                     htmlForMarkdown + "</div>";
 
-                  window.hljs.configure({
+                    (<any>window).hljs.configure({
                     ignoreUnescapedHTML: true,
                   });
-                  window.hljs.highlightElement(sectionDiv.children[0]);
+                  (<any>window).hljs.highlightElement(sectionDiv.children[0]);
                   const btn = document.createElement("button");
                   btn.setAttribute("fragmentid", fragmentId);
                   btn.setAttribute("class", "copy_code_block_button btn btn-secondary");
@@ -521,7 +524,7 @@ export class SessionApp extends BaseApp {
                       });
                     }
                     try {
-                      window.renderMathInElement(sectionDiv, {
+                      (<any>window).renderMathInElement(sectionDiv, {
                         strict: false,
                         trust: true,
                         delimiters,
@@ -556,7 +559,7 @@ export class SessionApp extends BaseApp {
               assistSection.appendChild(editBtn);
               editBtn.addEventListener("click", () => {
                 document.body.classList.remove("side_bar_opened");
-                const modal = new window.bootstrap.Modal("#editResponseDialog", {});
+                const modal = new (<any>window).bootstrap.Modal("#editResponseDialog", {});
                 this.editedTicketId = <any>btn.getAttribute("ticketid");
                 this.edit_response_textarea.value = this.copyResponseCache[this.editedTicketId];
                 modal.show();
@@ -709,7 +712,7 @@ export class SessionApp extends BaseApp {
    * @return { Promise<any> }
    */
   async getTicketEmbeddingDetails(ticketId: string): Promise<any> {
-    const augementedRef = doc(window.firestoreDb, `Games/${this.documentId}/augmented/${ticketId}`);
+    const augementedRef = doc(getFirestore(), `Games/${this.documentId}/augmented/${ticketId}`);
     const query = await getDoc(augementedRef);
     let data = query.data();
     if (!data) data = {};
@@ -726,12 +729,12 @@ export class SessionApp extends BaseApp {
       ticketId: ticketId.toString(),
       bookmark,
     };
-    const token = await window.fireUser.getIdToken();
+    const token = await getAuth().currentUser?.getIdToken();
     const fResult = await fetch(this.basePath + "lobbyApi/session/message/bookmark", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
-      headers: {
+      headers: <HeadersInit>{
         "Content-Type": "application/json",
         token,
       },
@@ -892,12 +895,12 @@ export class SessionApp extends BaseApp {
       includeTickets,
       reRunTicket: ticketId.toString(),
     };
-    const token = await window.fireUser.getIdToken();
+    const token = await getAuth().currentUser?.getIdToken();
     const fResult = await fetch(this.basePath + "lobbyApi/session/message", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
-      headers: {
+      headers: <HeadersInit>{
         "Content-Type": "application/json",
         token,
       },
@@ -953,12 +956,12 @@ export class SessionApp extends BaseApp {
       gameNumber,
       ticketId,
     };
-    const token = await window.fireUser.getIdToken();
+    const token = await getAuth().currentUser?.getIdToken();
     const fResult = await fetch(this.basePath + "lobbyApi/session/message/delete", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
-      headers: {
+      headers: <HeadersInit>{
         "Content-Type": "application/json",
         token,
       },
@@ -1090,12 +1093,12 @@ export class SessionApp extends BaseApp {
       ticketId,
       include,
     };
-    const token = await window.fireUser.getIdToken();
+    const token = await getAuth().currentUser?.getIdToken();
     const fResult = await fetch(this.basePath + "lobbyApi/session/message/include", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
-      headers: {
+      headers: <HeadersInit>{
         "Content-Type": "application/json",
         token,
       },
@@ -1166,12 +1169,12 @@ export class SessionApp extends BaseApp {
       includeTickets,
       includeInMessage,
     };
-    const token = await window.fireUser.getIdToken();
+    const token = await getAuth().currentUser?.getIdToken();
     const fResult = await fetch(this.basePath + "lobbyApi/session/message", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
-      headers: {
+      headers: <HeadersInit>{
         "Content-Type": "application/json",
         token,
       },
@@ -1239,13 +1242,13 @@ export class SessionApp extends BaseApp {
     super.authUpdateStatusUI();
 
     if (this.profile) {
-      const urlSessionId = window.location.pathname.replace("/session/", "");
+      const urlSessionId = (<any>window).location.pathname.replace("/session/", "");
       if (this.documentId === "" && urlSessionId) {
         this.gameAPIJoin(urlSessionId);
         this.documentId = urlSessionId;
         let reloading = false;
         if (this.gameSubscription) this.gameSubscription();
-        const chatRef = doc(window.firestoreDb, `Games/${this.documentId}`);
+        const chatRef = doc(getFirestore(), `Games/${this.documentId}`);
         this.gameSubscription = onSnapshot(chatRef, (doc: any) => {
             if (this.sessionDeleting) return;
             if (!doc.data() && !reloading) {
@@ -1546,7 +1549,7 @@ export class SessionApp extends BaseApp {
   /** update the splitter if needed */
   updateMobileLayout() {
     let desktopView = true;
-    if (window.document.body.scrollWidth < 992) {
+    if ((<any>window).document.body.scrollWidth < 992) {
       desktopView = false;
     }
 
@@ -1624,7 +1627,7 @@ export class SessionApp extends BaseApp {
   /** shows over threshold modal */
   showOverthresholdToSendModal() {
     document.body.classList.remove("side_bar_opened");
-    const modal = new window.bootstrap.Modal("#overthresholdModalDialog", {});
+    const modal = new (<any>window).bootstrap.Modal("#overthresholdModalDialog", {});
     modal.show();
   }
   /**
@@ -1707,12 +1710,12 @@ export class SessionApp extends BaseApp {
       gameNumber: this.documentId,
     };
     Object.assign(body, this.modelMeta.defaults);
-    const token = await window.fireUser.getIdToken();
+    const token = await getAuth().currentUser?.getIdToken();
     const fResult = await fetch(this.basePath + "lobbyApi/games/options", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
-      headers: {
+      headers: <HeadersInit>{
         "Content-Type": "application/json",
         token,
       },

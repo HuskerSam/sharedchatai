@@ -1,5 +1,7 @@
 import BaseApp from "./baseapp";
-declare const window: any;
+import {
+  getAuth,
+} from "firebase/auth";
 
 /** static functions for UI and api calls  */
 export default class ChatDocument {
@@ -27,12 +29,12 @@ From
       gameNumber: documentId,
       importedTickets,
     };
-    const token = await window.fireUser.getIdToken();
+    const token = await getAuth()?.currentUser?.getIdToken();
     const fResult = await fetch(basePath + "lobbyApi/session/message/import", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
-      headers: {
+      headers: <HeadersInit>{
         "Content-Type": "application/json",
         token,
       },
@@ -88,7 +90,7 @@ From
       if (formatFilter === "json") {
         records = JSON.parse(fileContent);
       } else {
-        const result = window.Papa.parse(fileContent, {
+        const result = (<any>window).Papa.parse(fileContent, {
           header: true,
         });
         records = result.data;
@@ -251,7 +253,7 @@ From
           system: "",
         });
       });
-      const csvText = window.Papa.unparse(rows);
+      const csvText = (<any>window).Papa.unparse(rows);
       resultText = csvText;
       displayText = BaseApp.escapeHTML(resultText);
     } else if (fileFormat === "Text") {
@@ -319,12 +321,12 @@ From
     const body = {
       gameNumber: sessionId,
     };
-    const token = await window.fireUser.getIdToken();
+    const token = await getAuth()?.currentUser?.getIdToken();
     const fResult = await fetch(basePath + "lobbyApi/games/owner/viewprivate", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
-      headers: {
+      headers: <HeadersInit>{
         "Content-Type": "application/json",
         token,
       },
@@ -354,12 +356,12 @@ From
         [field]: value,
       },
     };
-    const token = await window.fireUser.getIdToken();
+    const token = await getAuth()?.currentUser?.getIdToken();
     const fResult = await fetch(basePath + "lobbyApi/games/owner/updateprivate", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
-      headers: {
+      headers: <HeadersInit>{
         "Content-Type": "application/json",
         token,
       },

@@ -1,6 +1,8 @@
 import BaseApp from "./baseapp";
 import ChatDocument from "./chatdocument";
-declare const window: any;
+import {
+  getAuth,
+} from "firebase/auth";
 
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
 export default class DocCreateHelper {
@@ -134,7 +136,7 @@ export default class DocCreateHelper {
     this.bulk_create_options = this.modalContainer.querySelector("#bulk_create_options");
     this.bulk_create_options.addEventListener("click", () => this.tabChangeHandler(3));
 
-    window.$(".create_document_label_options").select2({
+    (<any>window).$(".create_document_label_options").select2({
       tags: true,
       placeHolder: "Add labels...",
     });
@@ -178,7 +180,7 @@ export default class DocCreateHelper {
         }),
       })]);
     } else {
-      const csvText = window.Papa.unparse(this.lastEmailRows);
+      const csvText = (<any>window).Papa.unparse(this.lastEmailRows);
       const file = new File([csvText], "bulkResults.csv", {
         type: "application/csv",
       });
@@ -267,8 +269,8 @@ export default class DocCreateHelper {
     this.app.saveProfileField("bulkSendEmails", bulkSendEmails);
 
     try {
-      this.bulkEmailBodyTemplate = window.Handlebars.compile(body);
-      this.bulkEmailSubjectTemplate = window.Handlebars.compile(subject);
+      this.bulkEmailBodyTemplate = (<any>window).Handlebars.compile(body);
+      this.bulkEmailSubjectTemplate = (<any>window).Handlebars.compile(subject);
     } catch (err: any) {
       console.log(err);
       alert("Error compiling body or subject, check the console; send failed");
@@ -709,12 +711,12 @@ export default class DocCreateHelper {
       body.creditUsageLimit = this.document_usage_cap_field.value.trim();
     }
 
-    const token = await window.fireUser.getIdToken();
+    const token = await getAuth().currentUser?.getIdToken();
     const fResult = await fetch(this.app.basePath + "lobbyApi/games/create", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
-      headers: {
+      headers: <HeadersInit>{
         "Content-Type": "application/json",
         token,
       },
@@ -753,7 +755,7 @@ export default class DocCreateHelper {
   * @return { string } comma delimited list
   */
   scrapeLabels(): string {
-    const data = window.$(".create_document_label_options").select2("data");
+    const data = (<any>window).$(".create_document_label_options").select2("data");
     const labels: Array<string> = [];
     data.forEach((item: any) => {
       if (item.text.trim()) labels.push(item.text.trim());
@@ -781,7 +783,7 @@ export default class DocCreateHelper {
       return;
     }
 
-    const queryLabelSelect2 = window.$(".create_document_label_options");
+    const queryLabelSelect2 = (<any>window).$(".create_document_label_options");
     queryLabelSelect2.html("");
     queryLabelSelect2.val(null).trigger("change");
 
@@ -815,7 +817,7 @@ export default class DocCreateHelper {
     this.updateBulkEmailTemplate();
     this.updateBulkBatchStatus();
 
-    const modal = new window.bootstrap.Modal("#createDocumentModal", {});
+    const modal = new (<any>window).bootstrap.Modal("#createDocumentModal", {});
     modal.show();
   }
   /** parse template data from file input
@@ -938,7 +940,7 @@ export default class DocCreateHelper {
   addTodayAsLabel(label = "") {
     let today = this.getLocal8DigitDate();
     if (label) today = label;
-    const queryLabelSelect2 = window.$(".create_document_label_options");
+    const queryLabelSelect2 = (<any>window).$(".create_document_label_options");
 
     if (queryLabelSelect2.find("option[value='" + today + "']").length) {
       queryLabelSelect2.val(today).trigger("change");

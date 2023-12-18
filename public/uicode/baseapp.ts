@@ -8,12 +8,18 @@ import {
   getIdToken,
   GoogleAuthProvider,
   signInWithPopup,
+  getAuth,
+  signInAnonymously,
+  isSignInWithEmailLink,
+  signInWithEmailLink,
+  fetchSignInMethodsForEmail,
 } from "firebase/auth";
 import {
   doc,
   setDoc,
   getDoc,
   onSnapshot,
+  getFirestore,
 } from "firebase/firestore";
 import {
   getDatabase,
@@ -24,15 +30,16 @@ import {
   onValue,
   onDisconnect,
 } from "firebase/database";
-
-declare const window: any;
+import {
+  getApp,
+} from "firebase/app";
 
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
 export default class BaseApp {
   timeSinceRedraw = 300;
   feedLimit = 10;
   deferredPWAInstallPrompt: any = null;
-  projectId = window.firebaseApp.options.projectId;
+  projectId = getApp().options.projectId;
   basePath = `https://us-central1-${this.projectId}.cloudfunctions.net/`;
   urlParams = new URLSearchParams(window.location.search);
   signin_show_modal: any = document.querySelector(".signin_show_modal");
@@ -65,7 +72,7 @@ export default class BaseApp {
   pineconeHelper = new PineconeHelper(this);
   sessionDeleting = false;
   isSessionApp = false;
-  rtdbInstance = getDatabase(window.firebaseApp);
+  rtdbInstance = getDatabase(getApp());
 
   documentId = "";
   memberRefreshBufferTime = 500;
@@ -96,9 +103,9 @@ export default class BaseApp {
       this.deferredPWAInstallPrompt = e;
     });
 
-    if (window.location.hostname === "localhost") this.basePath = `http://localhost:5001/${this.projectId}/us-central1/`;
+    if (location.hostname === "localhost") this.basePath = `http://localhost:5001/${this.projectId}/us-central1/`;
 
-    window.firebaseAuth.onAuthStateChanged((u: any) => this.authHandleEvent(u));
+    getAuth().onAuthStateChanged((u: any) => this.authHandleEvent(u));
     this.signInWithURL();
 
     if (addFooter && this.html_body_container) {
@@ -184,7 +191,6 @@ export default class BaseApp {
     }
     if (user) {
       this.fireUser = user;
-      window.fireUser = user;
       this.uid = this.fireUser.uid;
       this.fireToken = await getIdToken(this.fireUser);
       document.body.classList.add("app_signed_in");
@@ -195,7 +201,6 @@ export default class BaseApp {
     } else {
       this.fireToken = null;
       this.fireUser = null;
-      window.fireUser = null;
       this.uid = null;
       document.body.classList.remove("app_signed_in");
       document.body.classList.add("app_signed_out");
@@ -214,12 +219,12 @@ export default class BaseApp {
   async _authInitProfile() {
     if (this.profileInited) return;
 
-    const docRef = doc(window.firestoreDb, `Users/${this.uid}`);
+    const docRef = doc(getFirestore(), `Users/${this.uid}`);
     this.profileSubscription = onSnapshot(docRef, async (snapshot: any) => {
         this.profile = snapshot.data();
         if (!this.profile) {
           if (this.fireUser.email) {
-            const result = await window.firebaseAuth.fetchSignInMethodsForEmail(this.fireUser.email);
+            const result = await fetchSignInMethodsForEmail(getAuth(), this.fireUser.email);
             // user was deleted dont create new profile - this is the case where the user deletes the account in browser
             if (result.length < 1) return;
           }
@@ -245,7 +250,7 @@ export default class BaseApp {
     };
 
     this.profileDefaulted = true;
-    const docRef = doc(window.firestoreDb, `Users/${this.uid}`);
+    const docRef = doc(getFirestore(), `Users/${this.uid}`);
     await setDoc(docRef, this.profile, {
       merge: true,
     });
@@ -264,11 +269,11 @@ export default class BaseApp {
     provider.setCustomParameters({
       "prompt": "select_account",
     });
-    const loginResult: any = await signInWithPopup(window.firebaseAuth, provider);
+    const loginResult: any = await signInWithPopup(getAuth(), provider);
     if (loginResult.additionalUserInfo && loginResult.additionalUserInfo.profile && loginResult.user.uid) {
       this.uid = loginResult.user.uid;
 
-      const docRef = doc(window.firestoreDb, `Users/${this.uid}`);
+      const docRef = doc(getFirestore(), `Users/${this.uid}`);
       const profile = await getDoc(docRef);
       let data = profile.data();
       if (!data) data = {};
@@ -291,7 +296,7 @@ export default class BaseApp {
    */
   async signInAnon(e: any) {
     e.preventDefault();
-    await window.firebaseAuth.signInAnonymously();
+    await signInAnonymously(getAuth());
     /*
     setTimeout(() => {
       location.reload();
@@ -302,13 +307,13 @@ export default class BaseApp {
 
   /** for use on page load - tests if a signIn token was included in the URL */
   signInWithURL() {
-    if (!window.firebaseAuth.isSignInWithEmailLink) return;
-    if (window.firebaseAuth.isSignInWithEmailLink(location.href) !== true) return;
+    if (isSignInWithEmailLink(getAuth(), location.href) !== true) return;
 
     let email = window.localStorage.getItem("emailForSignIn");
     if (!email) email = window.prompt("Please provide your email for confirmation");
+    if (!email) return;
 
-    window.firebaseAuth.signInWithEmailLink(email, location.href)
+    signInWithEmailLink(getAuth(), email, location.href)
       .then(() => {
         window.localStorage.removeItem("emailForSignIn");
         location.reload();
@@ -592,7 +597,7 @@ export default class BaseApp {
 */
   saveProfileField(fieldKey: string, value: any) {
     if (!this.profile) return;
-    const docRef = doc(window.firestoreDb, `Users/${this.uid}`);
+    const docRef = doc(getFirestore(), `Users/${this.uid}`);
     setDoc(docRef, {
       [fieldKey]: value,
     }, {
