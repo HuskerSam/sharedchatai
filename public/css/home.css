@@ -1224,6 +1224,7 @@ ol li,
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  display: none;
   height: 30px;
 }
 
