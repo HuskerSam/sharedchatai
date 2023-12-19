@@ -76,6 +76,8 @@ export class EmbeddingApp extends BaseApp {
     table_error_count: any = document.querySelector(".table_error_count");
     upload_embedding_document_batchsize: any = document.querySelector(".upload_embedding_document_batchsize");
     next_table_page_btn: any = document.querySelector(".next_table_page_btn");
+    upsert_next_loop_checkbox: any = document.querySelector(".upsert_next_loop_checkbox");
+    actionRunning = false;
     tableQueryFirstRow = 1;
     tableIdSortDirection = "";
     fileUpsertListFirestore: any = null;
@@ -88,7 +90,6 @@ export class EmbeddingApp extends BaseApp {
     parsedTextChunks: Array<string> = [];
     pineconeQueryResults: any = {};
     csvUploadDocumentsTabulator: any = null;
-    embeddingRunning = false;
     usageWatchInited = false;
     vectorQueryRunning = false;
     indexDeleteRunning = false;
@@ -98,6 +99,7 @@ export class EmbeddingApp extends BaseApp {
     editableTableFields = ["url", "title", "options", "text", "prefix", "status", "additionalMetaData"];
     resultChunks: Array<any> = [];
     userPreferencesInited = false;
+    newUpsertDocumentCount = 0;
     first_table_row: any = document.querySelector(".first_table_row");
     tableColumns = [
         {
@@ -235,7 +237,6 @@ export class EmbeddingApp extends BaseApp {
                 cell.getElement().innerHTML = `<i class="material-icons">check</i>`;
                 setTimeout(() => cell.getElement().innerHTML = `<i class="material-icons">download_for_offline</i>`, 800);
             }
-            
             if (field === "uploadToCloud") {
                 await this.upsertTableRowsToPinecone(data.id);
                 this.updateRowsCountFromFirestore();
@@ -275,17 +276,24 @@ export class EmbeddingApp extends BaseApp {
             }
         });
         this.csvUploadDocumentsTabulator.on("headerClick", (e: any, column: any) => {
-            //e - the click event object
-            //column - column component
             if (column.getField() === "id") {
                 this.tableIdSortDirection = this.csvUploadDocumentsTabulator.getSorters()[0].dir;
                 this.saveProfileField("embedding_tableIdSortDirection", this.tableIdSortDirection);
                 this.updateWatchUpsertRows(true);
             }
         });
-        this.upload_embedding_documents_btn.addEventListener("click", (e: any) => {
+        this.upload_embedding_documents_btn.addEventListener("click", async (e: any) => {
             e.preventDefault();
-            this.upsertTableRowsToPinecone();
+            const loop = this.upsert_next_loop_checkbox.checked;
+            const condition = true;
+            while (condition) {
+                if (this.newUpsertDocumentCount > 0) {
+                    await this.upsertTableRowsToPinecone();
+                    if (!loop) break;
+                } else {
+                    break;
+                }
+            }
         });
         this.run_prompt.addEventListener("click", () => this.queryEmbeddings());
         this.delete_index.addEventListener("click", () => this.deleteIndex());
@@ -421,8 +429,9 @@ export class EmbeddingApp extends BaseApp {
                 if (isNaN(rowCount)) rowCount = 1;
                 this.upload_embedding_document_batchsize.value = rowCount;
 
-                if (this.profile.upsertEmbeddingStartRow)
+                if (this.profile.upsertEmbeddingStartRow) {
                     this.first_table_row.value = this.profile.upsertEmbeddingStartRow;
+                }
 
                 let sortDir = this.profile.embedding_tableIdSortDirection;
                 this.tableIdSortDirection = sortDir;
@@ -968,7 +977,7 @@ export class EmbeddingApp extends BaseApp {
     /**
      * @param { string } singleRowId
      */
-    async upsertTableRowsToPinecone(singleRowId: string = "") {
+    async upsertTableRowsToPinecone(singleRowId = "") {
         const data = this.scrapeData();
         const rowCount = this.upload_embedding_document_batchsize.value;
         this.saveProfileField("upsertEmbeddingRowCount", rowCount);
@@ -976,7 +985,7 @@ export class EmbeddingApp extends BaseApp {
         await this._upsertTableRowsToPinecone(this.selectedProjectId, data.pineconeIndex, data.pineconeKey,
             data.pineconeEnvironment, data.pineconeChunkSize, rowCount, singleRowId);
         this._fetchIndexStats(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
-        this.updateRowsCountFromFirestore();
+        await this.updateRowsCountFromFirestore();
     }
     /** scrape URLs for embedding
      * @param { string } projectId
@@ -988,18 +997,18 @@ export class EmbeddingApp extends BaseApp {
      * @param { string } singleRowId
     */
     async _upsertTableRowsToPinecone(projectId: string, pineconeIndex: string, pineconeKey: string,
-        pineconeEnvironment: string, tokenThreshold: number, rowCount: number, singleRowId: string = "") {
+        pineconeEnvironment: string, tokenThreshold: number, rowCount: number, singleRowId = "") {
         if (!getAuth().currentUser) {
             alert("login on homepage to use this");
             return;
         }
-        if (this.embeddingRunning) {
+        if (this.actionRunning) {
             alert("already running");
             return;
         }
         if (singleRowId) rowCount = 1;
         this.upsert_result_status_bar.innerHTML = `Upserting next ${rowCount} rows ...`;
-        this.embeddingRunning = true;
+        this.actionRunning = true;
         const body = {
             projectId,
             pineconeIndex,
@@ -1023,7 +1032,7 @@ export class EmbeddingApp extends BaseApp {
         });
 
         const json = await fResult.json();
-        this.embeddingRunning = false;
+        this.actionRunning = false;
         if (!json.success) {
             alert("Error: " + json.errorMessage);
             console.log(json);
@@ -1050,9 +1059,18 @@ export class EmbeddingApp extends BaseApp {
      */
     async uploadUpsertListFile(event: any) {
         if (event) event.preventDefault();
+        if (this.actionRunning) {
+            alert("action running already");
+            return;
+        }
         let fileName = "";
         if (this.embedding_list_file_dom.files[0]) fileName = this.embedding_list_file_dom.files[0].name;
         this.document_list_file_name.innerHTML = fileName;
+
+        this.upsert_result_status_bar.innerHTML = `Uploading data file ...`;
+        this.actionRunning = true;
+        if (this.fileUpsertListFirestore) this.fileUpsertListFirestore();
+        this.fileUpsertListFirestore = null;
 
         const importData = await ChatDocument.getImportDataFromDomFile(this.embedding_list_file_dom);
         const uploadDate = new Date().toISOString();
@@ -1069,7 +1087,6 @@ export class EmbeddingApp extends BaseApp {
                     if (key.substring(0, 5) === "meta_") {
                         const field = key.substring(5);
                         if (field) metaData[field] = item[key];
-                        console.log(metaData);
                     }
                 });
                 item.additionalMetaData = JSON.stringify(metaData, null, "\t");
@@ -1086,7 +1103,9 @@ export class EmbeddingApp extends BaseApp {
         if (rowsSkipped) {
             alertMessage += rowsSkipped + " row(s) skipped - a url or id field value is required for a row to be imported";
         }
-        alert(alertMessage);
+        this.actionRunning = false;
+        this.upsert_result_status_bar.innerHTML = alertMessage;
+        this.updateWatchUpsertRows();
     }
     /** */
     updateQueriedDocumentList() {
@@ -1175,6 +1194,7 @@ export class EmbeddingApp extends BaseApp {
         const errorSnapshot = await getCountFromServer(errorQuery);
         const errorCount = errorSnapshot.data().count;
 
+        this.newUpsertDocumentCount = newCount;
         this.table_new_count.innerHTML = newCount;
         this.table_all_count.innerHTML = totalRows;
         this.table_done_count.innerHTML = doneCount;
@@ -1184,13 +1204,14 @@ export class EmbeddingApp extends BaseApp {
      * @param { boolean } forceRefresh
      */
     async updateWatchUpsertRows(forceRefresh = false) {
+        if (this.actionRunning) return;
         const projectId = this.upsert_documents_list.value;
         const selectedRadio: any = document.body.querySelector(`input[name="table_filter_radio"]:checked`);
         const filterValue = selectedRadio.value;
         const firstRow = this.first_table_row.value;
 
-        if (this.selectedProjectId === projectId && this.selectedFilter === filterValue
-            && this.tableQueryFirstRow === firstRow && forceRefresh === false) return;
+        if (this.selectedProjectId === projectId && this.selectedFilter === filterValue &&
+            this.tableQueryFirstRow === firstRow && forceRefresh === false) return;
         this.selectedFilter = filterValue;
         if (this.tableQueryFirstRow !== firstRow) {
             this.tableQueryFirstRow = firstRow;
@@ -1219,7 +1240,7 @@ export class EmbeddingApp extends BaseApp {
         if (sortDir !== "asc" && sortDir !== "desc") sortDir = "asc";
         const rowsPath = `Users/${this.uid}/embedding/${this.selectedProjectId}/data`;
         const docsCollection = collection(getFirestore(), rowsPath);
-        let docsQuery = query(docsCollection, limit(5), orderBy(documentId(), <any>sortDir), limit(500));
+        let docsQuery = query(docsCollection, orderBy(documentId(), <any>sortDir), limit(200));
         if (firstRow) {
             docsQuery = query(docsQuery, startAfter(firstRow));
         }
