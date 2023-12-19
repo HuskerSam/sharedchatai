@@ -41,7 +41,6 @@ export class EmbeddingApp extends BaseApp {
     document_list_file_name: any = document.querySelector(".document_list_file_name");
     embedding_list_file_dom: any = document.querySelector(".embedding_list_file_dom");
     upload_document_list_button: any = document.querySelector(".upload_document_list_button");
-    download_csv_results_btn: any = document.querySelector(".download_csv_results_btn");
     download_json_results_btn: any = document.querySelector(".download_json_results_btn");
     upsert_result_status_bar: any = document.querySelector(".upsert_result_status_bar");
     save_pineconeoptions_btn: any = document.querySelector(".save_pineconeoptions_btn");
@@ -234,7 +233,12 @@ export class EmbeddingApp extends BaseApp {
                 const json = JSON.stringify(outData, null, "\t");
                 navigator.clipboard.writeText(json);
                 cell.getElement().innerHTML = `<i class="material-icons">check</i>`;
-                setTimeout(() => cell.getElement().innerHTML = `<i class="material-icons">content_copy</i>`, 800);
+                setTimeout(() => cell.getElement().innerHTML = `<i class="material-icons">download_for_offline</i>`, 800);
+            }
+            
+            if (field === "uploadToCloud") {
+                await this.upsertTableRowsToPinecone(data.id);
+                this.updateRowsCountFromFirestore();
             }
             if (field === "copyText") {
                 const docRef = doc(getFirestore(),
@@ -279,7 +283,10 @@ export class EmbeddingApp extends BaseApp {
                 this.updateWatchUpsertRows(true);
             }
         });
-        this.upload_embedding_documents_btn.addEventListener("click", (e: any) => this.upsertTableRowsToPinecone(e));
+        this.upload_embedding_documents_btn.addEventListener("click", (e: any) => {
+            e.preventDefault();
+            this.upsertTableRowsToPinecone();
+        });
         this.run_prompt.addEventListener("click", () => this.queryEmbeddings());
         this.delete_index.addEventListener("click", () => this.deleteIndex());
         this.copy_results_to_clipboard.addEventListener("click", () => {
@@ -302,7 +309,6 @@ export class EmbeddingApp extends BaseApp {
         });
         this.embedding_list_file_dom.addEventListener("change", (e: any) => this.uploadUpsertListFile(e));
 
-        this.download_csv_results_btn.addEventListener("click", (e: any) => this.downloadResultsFile(e, true));
         this.download_json_results_btn.addEventListener("click", (e: any) => this.downloadResultsFile(e));
         this.save_pineconeoptions_btn.addEventListener("click", () => {
             const data = this.scrapeData();
@@ -960,16 +966,15 @@ export class EmbeddingApp extends BaseApp {
         this.setTableTheme();
     }
     /**
-     * @param { any } event
+     * @param { string } singleRowId
      */
-    async upsertTableRowsToPinecone(event: any) {
-        if (event) event.preventDefault();
+    async upsertTableRowsToPinecone(singleRowId: string = "") {
         const data = this.scrapeData();
         const rowCount = this.upload_embedding_document_batchsize.value;
         this.saveProfileField("upsertEmbeddingRowCount", rowCount);
 
         await this._upsertTableRowsToPinecone(this.selectedProjectId, data.pineconeIndex, data.pineconeKey,
-            data.pineconeEnvironment, data.pineconeChunkSize, rowCount);
+            data.pineconeEnvironment, data.pineconeChunkSize, rowCount, singleRowId);
         this._fetchIndexStats(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
         this.updateRowsCountFromFirestore();
     }
@@ -980,9 +985,10 @@ export class EmbeddingApp extends BaseApp {
      * @param { string } pineconeEnvironment
      * @param { number } tokenThreshold
      * @param { number } rowCount
+     * @param { string } singleRowId
     */
     async _upsertTableRowsToPinecone(projectId: string, pineconeIndex: string, pineconeKey: string,
-        pineconeEnvironment: string, tokenThreshold: number, rowCount: number) {
+        pineconeEnvironment: string, tokenThreshold: number, rowCount: number, singleRowId: string = "") {
         if (!getAuth().currentUser) {
             alert("login on homepage to use this");
             return;
@@ -991,6 +997,7 @@ export class EmbeddingApp extends BaseApp {
             alert("already running");
             return;
         }
+        if (singleRowId) rowCount = 1;
         this.upsert_result_status_bar.innerHTML = `Upserting next ${rowCount} rows ...`;
         this.embeddingRunning = true;
         const body = {
@@ -1000,6 +1007,7 @@ export class EmbeddingApp extends BaseApp {
             pineconeEnvironment,
             tokenThreshold,
             rowCount,
+            singleRowId,
         };
 
         const token = await getAuth().currentUser?.getIdToken();

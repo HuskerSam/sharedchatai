@@ -42,6 +42,7 @@ export default class EmbeddingAPI {
         const pineconeEnvironment = req.body.pineconeEnvironment;
         const tokenThreshold = req.body.tokenThreshold;
         const projectId = req.body.projectId;
+        const singleRowId = req.body.singleRowId;
         let rowCount = Number(req.body.rowCount);
         if (isNaN(rowCount)) rowCount = 1;
         if (rowCount < 1) rowCount = 1;
@@ -68,21 +69,32 @@ export default class EmbeddingAPI {
 
         let fileUploadResults: any = [];
         try {
-            // get oldest 50 new
-            const nextQuery = await firebaseAdmin.firestore()
-                .collection(`Users/${uid}/embedding/${projectId}/data`)
-                .where(`status`, "!=", "Done")
-                .orderBy("status")
-                .orderBy("lastActivity", "asc")
-                .limit(rowCount)
-                .get();
-
             const promises: any = [];
-            nextQuery.forEach((doc: any) => {
-                console.log(doc.id);
-                promises.push(EmbeddingAPI.upsertFileData(doc.data(), pineconeIndex, chatGptKey,
+            if (singleRowId) {
+                // get the single
+                const singleQuery = await firebaseAdmin.firestore()
+                    .doc(`Users/${uid}/embedding/${projectId}/data/${singleRowId}`)
+                    .get();
+                let doc = singleQuery.data();
+                if (!doc) doc = {};
+                promises.push(EmbeddingAPI.upsertFileData(doc, pineconeIndex, chatGptKey,
                     uid, pIndex, tokenThreshold));
-            });
+            } else {
+                // get oldest 50 new
+                const nextQuery = await firebaseAdmin.firestore()
+                    .collection(`Users/${uid}/embedding/${projectId}/data`)
+                    .where(`status`, "!=", "Done")
+                    .orderBy("status")
+                    .orderBy("lastActivity", "asc")
+                    .limit(rowCount)
+                    .get();
+
+                nextQuery.forEach((doc: any) => {
+                    console.log(doc.id);
+                    promises.push(EmbeddingAPI.upsertFileData(doc.data(), pineconeIndex, chatGptKey,
+                        uid, pIndex, tokenThreshold));
+                });
+            }
             fileUploadResults = await Promise.all(promises);
         } catch (error: any) {
             return BaseClass.respondError(res, error.message, error);
@@ -105,6 +117,7 @@ export default class EmbeddingAPI {
                 mergeBlock["include"] = false;
                 mergeBlock["vectorCount"] = 0;
                 mergeBlock["status"] = "Error";
+                mergeBlock["upsertResult"] = row;
             } else {
                 mergeBlock["errorMessage"] = "";
                 mergeBlock["pineconeTitle"] = row["title"];
@@ -114,6 +127,7 @@ export default class EmbeddingAPI {
                 mergeBlock["include"] = false;
                 mergeBlock["vectorCount"] = row["idList"].length;
                 mergeBlock["status"] = "Done";
+                mergeBlock["upsertResult"] = row;
             }
             const rowId = row.originalId;
             promises.push(
