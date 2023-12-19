@@ -78,6 +78,7 @@ export class EmbeddingApp extends BaseApp {
     upload_embedding_document_batchsize: any = document.querySelector(".upload_embedding_document_batchsize");
     next_table_page_btn: any = document.querySelector(".next_table_page_btn");
     tableQueryFirstRow = 1;
+    tableIdSortDirection = "";
     fileUpsertListFirestore: any = null;
     embeddingProjects: any = {};
     selectedProjectId = "";
@@ -97,7 +98,6 @@ export class EmbeddingApp extends BaseApp {
     saveChangesTimer: any = null;
     editableTableFields = ["include", "row", "url", "id", "title", "options", "text", "prefix"];
     resultChunks: Array<any> = [];
-    selectedRowCount = 0;
     userPreferencesInited = false;
     first_table_row: any = document.querySelector(".first_table_row");
     tableColumns = [
@@ -253,6 +253,15 @@ export class EmbeddingApp extends BaseApp {
                 }, data.id);
             }
         });
+        this.csvUploadDocumentsTabulator.on("headerClick", (e: any, column: any) => {
+            //e - the click event object
+            //column - column component
+            if (column.getField() === "id") {
+                this.tableIdSortDirection = this.csvUploadDocumentsTabulator.getSorters()[0].dir;
+                this.saveProfileField("embedding_tableIdSortDirection", this.tableIdSortDirection);
+                this.updateWatchUpsertRows(true);
+            }
+        });
         this.upload_embedding_documents_btn.addEventListener("click", (e: any) => this.upsertTableRowsToPinecone(e));
         this.run_prompt.addEventListener("click", () => this.queryEmbeddings());
         this.delete_index.addEventListener("click", () => this.deleteIndex());
@@ -304,7 +313,7 @@ export class EmbeddingApp extends BaseApp {
         this.add_project_btn.addEventListener("click", () => this.addProject());
         this.remove_project_btn.addEventListener("click", () => this.deleteProject());
 
-        this.table_filter_radios.forEach((btn: any) => btn.addEventListener("input", () => {            
+        this.table_filter_radios.forEach((btn: any) => btn.addEventListener("input", () => {
             const selectedRadio: any = document.body.querySelector(`input[name="table_filter_radio"]:checked`);
             const filterValue = selectedRadio.value;
 
@@ -391,6 +400,18 @@ export class EmbeddingApp extends BaseApp {
 
                 if (this.profile.upsertEmbeddingStartRow)
                     this.first_table_row.value = this.profile.upsertEmbeddingStartRow;
+
+                let sortDir = this.profile.embedding_tableIdSortDirection;
+                this.tableIdSortDirection = sortDir;
+                if (sortDir !== "asc" && sortDir !== "desc") sortDir = "asc";
+                console.log("sortDir", sortDir);
+                this.csvUploadDocumentsTabulator.setSort([
+                    {
+                        column: "id",
+                        dir: sortDir,
+                    },
+                ]);
+                this.updateWatchUpsertRows(true);
             }
 
             this.watchProjectList();
@@ -1134,20 +1155,25 @@ export class EmbeddingApp extends BaseApp {
         this.table_done_count.innerHTML = doneCount;
         this.table_error_count.innerHTML = errorCount;
     }
-    /** */
-    async updateWatchUpsertRows() {
+    /**
+     * @param { boolean } forceRefresh
+     */
+    async updateWatchUpsertRows(forceRefresh = false) {
         const projectId = this.upsert_documents_list.value;
         const selectedRadio: any = document.body.querySelector(`input[name="table_filter_radio"]:checked`);
         const filterValue = selectedRadio.value;
         const firstRow = this.first_table_row.value;
 
         if (this.selectedProjectId === projectId && this.selectedFilter === filterValue
-            && this.tableQueryFirstRow === firstRow) return;
-        this.selectedProjectId = projectId;
+            && this.tableQueryFirstRow === firstRow && forceRefresh === false) return;
         this.selectedFilter = filterValue;
         if (this.tableQueryFirstRow !== firstRow) {
             this.tableQueryFirstRow = firstRow;
             this.saveProfileField("upsertEmbeddingStartRow", firstRow);
+        }
+        if (this.selectedProjectId !== projectId) {
+            this.selectedProjectId = projectId;
+            this.saveProfileField("selectedEmbeddingProjectId", this.selectedProjectId);
         }
 
         if (this.fileUpsertListFirestore) this.fileUpsertListFirestore();
@@ -1164,13 +1190,17 @@ export class EmbeddingApp extends BaseApp {
         this.fileListToUpload = [];
         this.csvUploadDocumentsTabulator.setData(this.fileListToUpload);
 
+        let sortDir = this.tableIdSortDirection;
+        if (sortDir !== "asc" && sortDir !== "desc") sortDir = "asc";
         const rowsPath = `Users/${this.uid}/embedding/${this.selectedProjectId}/data`;
-        this.saveProfileField("selectedEmbeddingProjectId", this.selectedProjectId);
         const docsCollection = collection(getFirestore(), rowsPath);
-        let docsQuery = query(docsCollection, limit(500), orderBy(documentId()));
-        if (firstRow) docsQuery = query(docsQuery, startAfter(firstRow));
+        let docsQuery = query(docsCollection, limit(5), orderBy(documentId(), <any>sortDir), limit(500));
+        if (firstRow) {
+            docsQuery = query(docsQuery, startAfter(firstRow));
+        }
+
         if (filterValue !== "All") {
-            docsQuery = query(docsCollection, where("status", "==", filterValue), limit(500));
+            docsQuery = query(docsQuery, where("status", "==", filterValue));
         }
         this.updateRowsCountFromFirestore();
         this.fileUpsertListFirestore = onSnapshot(docsQuery, (snapshot: any) => {

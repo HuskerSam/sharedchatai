@@ -3,6 +3,11 @@
     {
       "collectionGroup": "data",
       "queryScope": "COLLECTION",
+      "fields": []
+    },
+    {
+      "collectionGroup": "data",
+      "queryScope": "COLLECTION",
       "fields": [
         {
           "fieldPath": "status",
