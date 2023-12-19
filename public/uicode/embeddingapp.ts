@@ -96,7 +96,7 @@ export class EmbeddingApp extends BaseApp {
     primedPrompt = "";
     tableThemeLinkDom: any = null;
     saveChangesTimer: any = null;
-    editableTableFields = ["include", "row", "url", "id", "title", "options", "text", "prefix"];
+    editableTableFields = ["url", "title", "options", "text", "prefix", "status", "additionalMetaData"];
     resultChunks: Array<any> = [];
     userPreferencesInited = false;
     first_table_row: any = document.querySelector(".first_table_row");
@@ -107,11 +107,6 @@ export class EmbeddingApp extends BaseApp {
             hozAlign: "center",
             headerSort: false,
         }, {
-            title: "id",
-            field: "id",
-            width: 100,
-            headerSort: true,
-        }, {
             title: "",
             field: "deleteRow",
             headerSort: false,
@@ -120,11 +115,10 @@ export class EmbeddingApp extends BaseApp {
             },
             hozAlign: "center",
         }, {
-            title: "url",
-            field: "url",
-            editor: "textarea",
-            width: 250,
-            headerSort: false,
+            title: "id",
+            field: "id",
+            width: 100,
+            headerSort: true,
         }, {
             title: "",
             field: "parser",
@@ -133,6 +127,12 @@ export class EmbeddingApp extends BaseApp {
             formatter: () => {
                 return `<i class="material-icons">start</i>`;
             },
+        }, {
+            title: "url",
+            field: "url",
+            editor: "textarea",
+            width: 250,
+            headerSort: false,
         }, {
             title: "title",
             field: "title",
@@ -158,23 +158,39 @@ export class EmbeddingApp extends BaseApp {
             width: 100,
             headerSort: false,
         }, {
+            title: "",
+            field: "copyJSON",
+            headerSort: false,
+            formatter: () => {
+                return `<i class="material-icons">download_for_offline</i>`;
+            },
+            hozAlign: "center",
+        }, {
             title: "Activity",
             field: "activity",
             hozAlign: "center",
             headerSort: false,
         }, {
+            title: "",
+            field: "uploadToCloud",
+            headerSort: false,
+            formatter: () => {
+                return `<i class="material-icons">cloud_upload</i>`;
+            },
+            hozAlign: "center",
+        }, {
             title: "Status",
             width: 100,
             field: "status",
-            headerSort: false,
-        }, {
-            title: "",
-            field: "copyJSON",
-            headerSort: false,
-            formatter: () => {
-                return `<i class="material-icons">dataset_linked</i>`;
+            editor: "list",
+            editorParams: {
+                values: {
+                    "New": "New",
+                    "Error": "Error",
+                    "Done": "Done",
+                },
             },
-            hozAlign: "center",
+            headerSort: false,
         }, {
             title: "",
             field: "copyText",
@@ -248,9 +264,10 @@ export class EmbeddingApp extends BaseApp {
             const field = cell.getField();
             if (this.editableTableFields.indexOf(field) !== -1) {
                 const data = cell.getRow().getData();
-                this.saveTableRowToFirestore({
+                await this.saveTableRowToFirestore({
                     [field]: data[field],
                 }, data.id);
+                if (field === "status") this.updateRowsCountFromFirestore();
             }
         });
         this.csvUploadDocumentsTabulator.on("headerClick", (e: any, column: any) => {
