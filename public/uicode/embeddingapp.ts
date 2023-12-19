@@ -17,8 +17,10 @@ import {
     onSnapshot,
     getCountFromServer,
     query,
+    orderBy,
     getFirestore,
     startAfter,
+    documentId,
 } from "firebase/firestore";
 
 /** Embedding upload app class */
@@ -74,6 +76,7 @@ export class EmbeddingApp extends BaseApp {
     table_done_count: any = document.querySelector(".table_done_count");
     table_error_count: any = document.querySelector(".table_error_count");
     upload_embedding_document_batchsize: any = document.querySelector(".upload_embedding_document_batchsize");
+    next_table_page_btn: any = document.querySelector(".next_table_page_btn");
     tableQueryFirstRow = 1;
     fileUpsertListFirestore: any = null;
     embeddingProjects: any = {};
@@ -106,9 +109,8 @@ export class EmbeddingApp extends BaseApp {
         }, {
             title: "id",
             field: "id",
-            editor: "input",
-            headerSort: false,
             width: 100,
+            headerSort: true,
         }, {
             title: "",
             field: "deleteRow",
@@ -311,6 +313,14 @@ export class EmbeddingApp extends BaseApp {
         }));
 
         this.first_table_row.addEventListener("input", () => this.updateWatchUpsertRows());
+        this.next_table_page_btn.addEventListener("click", () => {
+            let nextId = "";
+            if (this.fileListToUpload.length > 0) {
+                nextId = this.fileListToUpload[this.fileListToUpload.length - 1].id;
+            }
+            this.first_table_row.value = nextId;
+            this.updateWatchUpsertRows();
+        });
     }
     /**
      * @param { any } event
@@ -379,9 +389,8 @@ export class EmbeddingApp extends BaseApp {
                 if (isNaN(rowCount)) rowCount = 1;
                 this.upload_embedding_document_batchsize.value = rowCount;
 
-                let startRow = Number(this.profile.upsertEmbeddingStartRow);
-                if (isNaN(startRow)) rowCount = 1;
-                this.first_table_row.value = startRow;
+                if (this.profile.upsertEmbeddingStartRow)
+                    this.first_table_row.value = this.profile.upsertEmbeddingStartRow;
             }
 
             this.watchProjectList();
@@ -1130,8 +1139,7 @@ export class EmbeddingApp extends BaseApp {
         const projectId = this.upsert_documents_list.value;
         const selectedRadio: any = document.body.querySelector(`input[name="table_filter_radio"]:checked`);
         const filterValue = selectedRadio.value;
-        let firstRow = Number(this.first_table_row.value);
-        if (isNaN(firstRow) || firstRow < 1) firstRow = 1;
+        const firstRow = this.first_table_row.value;
 
         if (this.selectedProjectId === projectId && this.selectedFilter === filterValue
             && this.tableQueryFirstRow === firstRow) return;
@@ -1159,7 +1167,8 @@ export class EmbeddingApp extends BaseApp {
         const rowsPath = `Users/${this.uid}/embedding/${this.selectedProjectId}/data`;
         this.saveProfileField("selectedEmbeddingProjectId", this.selectedProjectId);
         const docsCollection = collection(getFirestore(), rowsPath);
-        let docsQuery = query(docsCollection, limit(500));
+        let docsQuery = query(docsCollection, limit(500), orderBy(documentId()));
+        if (firstRow) docsQuery = query(docsQuery, startAfter(firstRow));
         if (filterValue !== "All") {
             docsQuery = query(docsCollection, where("status", "==", filterValue), limit(500));
         }
