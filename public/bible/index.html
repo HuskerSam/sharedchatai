@@ -56,8 +56,8 @@
       submit_button.addEventListener("click", async () => {
         if (running) return;
         running = true;
-        //let url = `https://us-central1-promptplusai.cloudfunctions.net/lobbyApi/session/external/vectorquery`;
-        let url = `http://localhost:5001/promptplusai/us-central1/lobbyApi/session/external/vectorquery`;
+        let url = `https://us-central1-promptplusai.cloudfunctions.net/lobbyApi/session/external/vectorquery`;
+        // let url = `http://localhost:5001/promptplusai/us-central1/lobbyApi/session/external/vectorquery`;
         
         response_feed.innerHTML = "running...";
         const message = message_text.value.trim();
