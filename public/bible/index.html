@@ -18,6 +18,7 @@
     .message_text {
       width: 100%;
       height: 5em;
+      margin-bottom: 12px;
     }
   </style>
   <script>
@@ -169,11 +170,13 @@
   </script>
 </head>
 
-<body>
-  <h1>Verses Like your prompt</h1>
-  <textarea class="message_text"></textarea>
-  <button class="submit_button btn-primary">Submit</button>
-  <hr>
+<body style="padding:20px;">
+  <div style="width:20em;">
+    <textarea class="message_text"></textarea>
+    <br>
+    <button class="submit_button btn-primary" style="float:right">Get Verses</button>
+    <hr>
+  </div>
   <div class="response_feed"></div>
   <style>
   .verse_card {
