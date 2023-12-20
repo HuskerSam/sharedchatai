@@ -30,7 +30,6 @@
     "jsdom": "^22.1.0",
     "openai": "^4.20.1",
     "pdf2json": "^3.0.5",
-    "tiktoken": "^1.0.10",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

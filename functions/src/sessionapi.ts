@@ -14,6 +14,7 @@ import {
 } from "google-auth-library";
 import {
     encode,
+    decode,
 } from "gpt-tokenizer";
 import SharedWithBackend from "./uicode/sharedwithbackend";
 import type {
@@ -21,27 +22,22 @@ import type {
     Response,
 } from "express";
 import EmbeddingAPI from "./embeddingapi";
-import {
-    get_encoding as getEncoding,
-} from "tiktoken";
 const creditRequestCharge = 1;
 
 /** Match game specific turn logic wrapped in a transaction */
 export default class SessionAPI {
     /**
      * @param { string } query
-     * @param { number } maxTokens
      * @param { number } topK
      * @param { string } chatGptKey
      * @param { string } uid
      * @param { string } pineconeKey
      * @param { string } pineconeEnvironment
      * @param { string } pineconeIndex
-     * @param { number } pineconeThreshold
      * @return { Promise<any> }
      */
-    static async processEmbedding(query: string, maxTokens: number, topK: number, chatGptKey: string, uid: string,
-        pineconeKey: string, pineconeEnvironment: string, pineconeIndex: string, pineconeThreshold: number): Promise<any> {
+    static async processEmbedding(query: string, topK: number, chatGptKey: string, uid: string,
+        pineconeKey: string, pineconeEnvironment: string, pineconeIndex: string): Promise<any> {
         const encodingResult = await EmbeddingAPI.encodeEmbedding(query, chatGptKey, uid);
         if (!encodingResult.success) {
             return {
@@ -52,7 +48,6 @@ export default class SessionAPI {
         }
         const encodingTokens = encodingResult.fullResult.usage.total_tokens;
         const messageVectors = encodingResult.vectorResult;
-        console.log("pinecone query run", query);
         const pineconeQueryResults = await EmbeddingAPI.queryPineconeDocuments(messageVectors, pineconeKey, pineconeEnvironment,
             topK, pineconeIndex);
         if (!pineconeQueryResults.success) {
@@ -62,19 +57,35 @@ export default class SessionAPI {
             };
         }
         const matches = pineconeQueryResults.queryResponse.matches;
+        return {
+            success: true,
+            matches,
+            encodingTokens,
+            topK,
+        };
+    }
+    /** process pinecone results into a prompt for unacog
+     * @param { Array<any> } vectorResults
+     * @param { number } pineconeThreshold
+     * @param { number } maxTokens
+     * @param { string } query
+     * @return { any }
+     */
+    static processPrompt(vectorResults: Array<any>, pineconeThreshold: number,
+        maxTokens: number, query: string): any {
         let tokensIncluded = 0;
         const textAnswers = [];
         const matchesIncluded = [];
-        const enc = getEncoding("cl100k_base");
-        for (let c = 0, l = matches.length; c < l; c++) {
-            if (matches[c].score >= pineconeThreshold) {
-                const text = matches[c].metadata.text;
-                const tokens = enc.encode(text);
+        for (let c = 0, l = vectorResults.length; c < l; c++) {
+            if (vectorResults[c].score >= pineconeThreshold) {
+                const text = vectorResults[c].metadata.text;
+                const tokens = encode(text);
                 tokensIncluded += tokens.length;
+                console.log("t", tokensIncluded);
                 if (tokensIncluded > maxTokens) {
                     if (c === 0) {
                         const clippedTokens = tokens.slice(0, maxTokens);
-                        const clippedText = enc.decode(clippedTokens);
+                        const clippedText = decode(clippedTokens);
                         textAnswers.push(clippedText);
                         matchesIncluded.push(c);
                     }
@@ -99,14 +110,9 @@ export default class SessionAPI {
         promptText += `Question: ${query}`;
         return {
             success: true,
-            matches,
             matchesIncluded,
-            encodingTokens,
             textAnswers,
             promptText,
-            pineconeThreshold,
-            topK,
-            maxTokens,
         };
     }
     /**
@@ -275,14 +281,18 @@ export default class SessionAPI {
                     errorMessage: "Pinecone must have index, key and environment configured when embedding is enabled",
                 };
             }
-            let embeddingResult: any = await SessionAPI.processEmbedding(messageQuery, maxTokens, topK,
-                chatGptKey, sessionDocumentData.createUser, pineconeKey, pineconeEnvironment, pineconeIndex, pineconeThreshold);
+            let embeddingResult: any = await SessionAPI.processEmbedding(messageQuery, topK,
+                chatGptKey, sessionDocumentData.createUser, pineconeKey, pineconeEnvironment, pineconeIndex);
 
-            const embeddedQuery = embeddingResult.promptText;
+            const promptResult = SessionAPI.processPrompt(embeddingResult.matches, pineconeThreshold, maxTokens, messageQuery);
+            Object.assign(embeddingResult, promptResult);
+            embeddingResult.pineconeThreshold = pineconeThreshold;
+            embeddingResult.topK = topK;
+            embeddingResult.maxTokens = maxTokens;
+            const embeddedQuery = promptResult.promptText;
 
             embeddingResult = BaseClass.removeUndefined(embeddingResult);
 
-            console.log("set embedded query");
             ticket.embeddedQuery = embeddedQuery;
             await Promise.all([
                 firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${ticketId}`).set({
@@ -1103,6 +1113,48 @@ export default class SessionAPI {
             assist,
             success: true,
         });
+    }
+    /**
+     * @param { Request } req http request object
+    * @param { Response } res http response object
+    */
+    static async externalVectorQuery(req: Request, res: Response) {
+        const sessionId = req.body.sessionId;
+        const apiToken = req.body.apiToken;
+        const message = req.body.message;
+        let topK = req.body.topK;
+        const authResults = await SessionAPI._validateExternalRequest(sessionId, apiToken);
+        const sessionDocumentData = authResults.sessionDocumentData;
+        if (!authResults.success) {
+            return BaseClass.respondError(res, authResults.errorMessage);
+        }
+        if (!message || !apiToken || !sessionId) {
+            return BaseClass.respondError(res, "Please supply message, apiToken and sessionId");
+        }
+
+        const localInstance = BaseClass.newLocalInstance();
+        await localInstance.init();
+
+        const ownerPrivateQuery = await firebaseAdmin.firestore().doc(`Games/${sessionId}/ownerPrivate/data`).get();
+        let privateData: any = ownerPrivateQuery.data();
+        if (!privateData) privateData = {};
+
+        if (!topK) topK = BaseClass.getNumberOrDefault(privateData.pineconeTopK, 3);
+        const pineconeKey = String(privateData.pineconeKey);
+        const pineconeIndex = String(privateData.pineconeIndex);
+        const pineconeEnvironment = String(privateData.pineconeEnvironment);
+        const chatGptKey = localInstance.privateConfig.chatGPTKey;
+
+        if (!pineconeKey || !pineconeIndex || !pineconeEnvironment) {
+            return {
+                success: false,
+                errorMessage: "Pinecone must have index, key and environment configured when embedding is enabled",
+            };
+        }
+        const embeddingResult = await SessionAPI.processEmbedding(message, topK,
+            chatGptKey, sessionDocumentData.createUser, pineconeKey, pineconeEnvironment, pineconeIndex);
+
+        return res.status(200).send(embeddingResult);
     }
     /**
      * @param { string } sessionId

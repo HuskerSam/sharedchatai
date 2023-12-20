@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bible for embedding</title>    
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+  crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <style>
+
+    .message_text {
+      width: 100%;
+      height: 5em;
+    }
+  </style>
+  <script>
+    let running = false;
+    let submit_button;
+    let message_text;
+    let response_feed;
+
+    window.addEventListener("load", () => {
+      submit_button = document.body.querySelector(".submit_button");
+      message_text = document.body.querySelector(".message_text");
+      response_feed = document.body.querySelector(".response_feed");
+      initDemoApp();
+    });
+
+    function escapeHTML(str) {
+      if (str === undefined || str === null) str = "";
+      str = str.toString();
+      return str.replace(/[&<>'"]/g,
+        (match) => {
+          switch (match) {
+            case "&": return "&amp;";
+            case "<": return "&lt;";
+            case ">": return "&gt;";
+            case "'": return "&#39;";
+            case "\"": return "&quot;";
+          }
+
+          return match;
+        });
+    }
+
+    async function initDemoApp() {
+      const bibleDataResponse = await fetch("flattenedbible.json");
+      window.bibleData = await bibleDataResponse.json();
+      submit_button.addEventListener("click", async () => {
+        if (running) return;
+        running = true;
+        //let url = `https://us-central1-promptplusai.cloudfunctions.net/lobbyApi/session/external/vectorquery`;
+        let url = `http://localhost:5001/promptplusai/us-central1/lobbyApi/session/external/vectorquery`;
+        
+        response_feed.innerHTML = "running...";
+        const message = message_text.value.trim();
+        const body = {
+          message,
+          apiToken: "76acdd7d-609c-4a39-ab89-bc73b0c2c531",
+          sessionId: "vkuyk8lg74nq",
+          topK: 10,
+        }
+        const fetchResults = await fetch(url, {
+          method: "POST",
+          mode: "cors",
+          cache: "no-cache",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        });
+        const result = await fetchResults.json();
+        running = false;
+
+        if (!result) alert("No results");
+        if (result.success === false) {
+          console.log("error", result);
+          alert(result.errorMessage);
+        }
+        console.log(body, result);
+        let html = "";
+        result.matches.forEach((match) => {
+          const metaData = JSON.stringify(match.metadata, null, "\n");
+          const block = `<div class="verse_card">
+            <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="book">${match.metadata.book}</a>
+            <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="chapter"
+                      data-chapterindex="${match.metadata.chapterIndex}">${match.metadata.chapterIndex + 1}</a>
+            <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="verse"
+            data-chapterindex="${match.metadata.chapterIndex}"
+            data-verseindex="${match.metadata.verseIndex}">${match.metadata.verseIndex + 1}</a>
+              ${(match.score * 100).toFixed()}%
+              <br>
+              <div>${match.metadata.text}</div>
+            </div>`;
+          html += block;
+        });
+        
+        response_feed.innerHTML = html;
+
+        response_feed.querySelectorAll("a").forEach((a => a.addEventListener("click", (e) => {
+          e.preventDefault();
+          if (a.dataset.link === "book") {
+            const bookIndex = Number(a.dataset.bookindex);
+            alert(bookIndex)
+          }
+          if (a.dataset.link === "chapter") {
+            const bookIndex = Number(a.dataset.bookindex);
+            const chapterIndex = Number(a.dataset.chapterindex);
+            alert(bookIndex + " : " + chapterIndex);
+          }
+          if (a.dataset.link === "verse") {
+            const bookIndex = Number(a.dataset.bookindex);
+            const chapterIndex = Number(a.dataset.chapterindex);
+            const verseIndex = Number(a.dataset.verseindex);
+            alert(bookIndex + " : " + chapterIndex + " : " + verseIndex);
+          }
+        })));
+      });
+    }
+
+    function getDocumentTableHTML(docRowsArray, ele) {
+      let fileContent = "<table class=\"query_result_documents_list\">";
+      const keys = ["similarity", "id", "url", "title", "text", "copy", "size", "encodingCredits"];
+      fileContent += "<tr>";
+      fileContent += `<th>row</th>`;
+      keys.forEach((key) => fileContent += `<th>${key}</th>`);
+      fileContent += "</tr>";
+
+      docRowsArray.forEach((row, index) => {
+        fileContent += "<tr>";
+        fileContent += `<th>${index + 1}</th>`;
+        const newRow = {};
+        keys.forEach((key) => {
+          let value = row.metadata[key];
+          const rawValue = value;
+          value = escapeHTML(value);
+          if (key === "id") value = row.id;
+          if (key === "similarity") value = row.score;
+          if (key === "encodingCredits") value = rawValue.toString().substring(0, 6);
+          if (key === "size") value = row.metadata.text.length;
+          if (key === "url") value = `<a href="${rawValue}" target="_blank">${rawValue}</a>`;
+          if (key === "copy") {
+            value = `<button data-index="${index}" class="btn btn-secondary 
+                       doc_text_copy_btn">json</button>`;
+          }
+          fileContent += `<td class="table_cell_sizer"><div>${value}</div></td>`;
+          newRow[key] = value;
+        });
+        fileContent += "</tr>";
+      });
+
+      fileContent += `</table>`;
+      ele.innerHTML = fileContent;
+      ele.querySelectorAll(".doc_text_copy_btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const index = btn.dataset.index;
+          const row = docRowsArray[index];
+          navigator.clipboard.writeText(row.metadata.text);
+        });
+      });
+    }
+  </script>
+</head>
+
+<body>
+  <h1>Verses Like your prompt</h1>
+  <textarea class="message_text"></textarea>
+  <button class="submit_button btn-primary">Submit</button>
+  <hr>
+  <div class="response_feed"></div>
+  <style>
+  .verse_card {
+    max-width: 800px;
+    margin: 12px;
+    border-radius: 12px;
+    border: solid 1px black;
+    padding: 12px;
+  }
+  </style>
+</body>
+
+</html>

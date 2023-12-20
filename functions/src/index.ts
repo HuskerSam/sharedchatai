@@ -74,4 +74,5 @@ embeddingAPIApp.post("/fetchvector", async (req, res) => EmbeddingAPI.fetchVecto
 embeddingAPIApp.post("/scrapeurl", async (req, res) => EmbeddingAPI.scrapeURL(req, res));
 
 gameAPIApp.post("/session/external/message", async (req, res) => SessionAPI.externalMessageRequest(req, res));
+gameAPIApp.post("/session/external/vectorquery", async (req, res) => SessionAPI.externalVectorQuery(req, res));
 
