@@ -1,27 +1,31 @@
 export class BibleDemoApp {
   running = false;
   lookup_chapters_by_verse: any = document.body.querySelector(".lookup_chapters_by_verse");
-  message_text: any = document.body.querySelector(".message_text");
-  response_feed: any = document.body.querySelector(".response_feed");
+  lookup_verse_message_text: any = document.body.querySelector(".lookup_verse_message_text");
+  lookup_verse_response_feed: any = document.body.querySelector(".lookup_verse_response_feed");
   augmented_chapters_view: any = document.body.querySelector("#augmented_chapters_view");
   augmented_message_text: any = document.body.querySelector(".augmented_message_text");
   full_augmented_prompt: any = document.body.querySelector(".full_augmented_prompt");
   full_augmented_response: any = document.body.querySelector(".full_augmented_response");
   lookup_chapters_button: any = document.body.querySelector(".lookup_chapters_button");
+  lookup_chapter_message_text: any = document.body.querySelector(".lookup_chapter_message_text");
+  lookup_chapter_response_feed: any = document.body.querySelector(".lookup_chapter_response_feed");
   llm_prompt_response_button: any = document.body.querySelector(".llm_prompt_response_button");
   bibleData: any[] = [];
   byVerseAPIToken = "76acdd7d-609c-4a39-ab89-bc73b0c2c531";
   byVerseSessionId = "vkuyk8lg74nq";
-  byChapterToken = "0c0df79a-cc2c-4efd-9835-fdaeb66df843";
+  byChapterToken = "bcdc6f90-80f8-49bc-94ed-f82b43305af2";
   byChapterSessionId = "07yt1fqvoj9q";
   promptUrl = `https://us-central1-promptplusai.cloudfunctions.net/lobbyApi/session/external/message`;
   queryUrl = `https://us-central1-promptplusai.cloudfunctions.net/lobbyApi/session/external/vectorquery`;
 
   constructor() {
     this.load();
+    this.lookup_chapters_by_verse.addEventListener("click", () => this.lookupChaptersByVerse());
+    this.lookup_chapters_button.addEventListener("click", () => this.lookupChapters());
+    this.llm_prompt_response_button.addEventListener("click", () => this.sendPromptToLLM());
   }
-
-  async getMatchingVectors(message: string, topK: number, apiToken: string, sessionId: string) {
+  async getMatchingVectors(message: string, topK: number, apiToken: string, sessionId: string): Promise<any> {
     const body = {
       message,
       apiToken,
@@ -42,30 +46,31 @@ export class BibleDemoApp {
   async load() {
     const bibleDataResponse = await fetch("flattenedbible.json");
     this.bibleData = await bibleDataResponse.json();
-    this.lookup_chapters_by_verse.addEventListener("click", async () => {
-      if (this.running) return;
-      this.running = true;
-      this.response_feed.innerHTML = "running...";
-      const message = this.message_text.value.trim();
-      if (!message) {
-        alert("please supply a message");
-        return;
-      }
+  }
+  async lookupChaptersByVerse() {
+    if (this.running) return;
+    this.running = true;
+    this.lookup_verse_response_feed.innerHTML = "running...";
+    const message = this.lookup_verse_message_text.value.trim();
+    if (!message) {
+      alert("please supply a message");
+      return;
+    }
 
-      let result = await this.getMatchingVectors(message, 10, this.byVerseAPIToken, this.byVerseSessionId);
-      this.running = false;
-      if (!result.success) {
-        console.log("error", result);
-        alert(result.errorMessage);
-        return;
-      } else {
-        console.log(result);
-      }
+    let result = await this.getMatchingVectors(message, 10, this.byVerseAPIToken, this.byVerseSessionId);
+    this.running = false;
+    if (!result.success) {
+      console.log("error", result);
+      alert(result.errorMessage);
+      return;
+    } else {
+      console.log(result);
+    }
 
-      let html = "";
-      result.matches.forEach((match) => {
-        const metaData = JSON.stringify(match.metadata, null, "\n");
-        const block = `<div class="verse_card">
+    let html = "";
+    result.matches.forEach((match) => {
+      const metaData = JSON.stringify(match.metadata, null, "\n");
+      const block = `<div class="verse_card">
             <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="book">${match.metadata.book}</a>
             <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="chapter"
                       data-chapterindex="${match.metadata.chapterIndex}">${match.metadata.chapterIndex + 1}</a>
@@ -76,121 +81,78 @@ export class BibleDemoApp {
               <br>
               <div>${match.metadata.text}</div>
             </div>`;
-        html += block;
-      });
-
-      this.response_feed.innerHTML = html;
-
-      this.response_feed.querySelectorAll("a").forEach((a => a.addEventListener("click", (e) => {
-        e.preventDefault();
-        if (a.dataset.link === "book") {
-          const bookIndex = Number(a.dataset.bookindex);
-          alert(bookIndex)
-        }
-        if (a.dataset.link === "chapter") {
-          const bookIndex = Number(a.dataset.bookindex);
-          const chapterIndex = Number(a.dataset.chapterindex);
-          alert(bookIndex + " : " + chapterIndex);
-        }
-        if (a.dataset.link === "verse") {
-          const bookIndex = Number(a.dataset.bookindex);
-          const chapterIndex = Number(a.dataset.chapterindex);
-          const verseIndex = Number(a.dataset.verseindex);
-          alert(bookIndex + " : " + chapterIndex + " : " + verseIndex);
-        }
-      })));
+      html += block;
     });
 
-    this.llm_prompt_response_button.addEventListener("click", async () => {
-      if (this.running) return;
-      this.running = true;
-      this.response_feed.innerHTML = "running...";
-      const message = this.augmented_message_text.value.trim();
-      if (!message) {
-        alert("please supply a message");
-        return;
+    this.lookup_verse_response_feed.innerHTML = html;
+
+    this.lookup_verse_response_feed.querySelectorAll("a").forEach(((a: any) => a.addEventListener("click", (e: any) => {
+      e.preventDefault();
+      if (a.dataset.link === "book") {
+        const bookIndex = Number(a.dataset.bookindex);
+        alert(bookIndex)
       }
-
-      let result = await this.getMatchingVectors(message, 5, this.byVerseAPIToken, this.byVerseSessionId);
-      this.running = false;
-      if (!result.success) {
-        console.log("error", result);
-        alert(result.errorMessage);
-        return;
-      } else {
-        console.log(result);
+      if (a.dataset.link === "chapter") {
+        const bookIndex = Number(a.dataset.bookindex);
+        const chapterIndex = Number(a.dataset.chapterindex);
+        alert(bookIndex + " : " + chapterIndex);
       }
-
-      // get first 2 unique (or just 1)
-      let matches = [result.matches[0]];
-      let cIndex = result.matches[0].metadata.chapterIndex;
-      let bIndex = result.matches[0].metadata.bookIndex;
-      for (let c = 1, l = result.matches.length; c < l; c++) {
-        let match = result.matches[c];
-        if (match.metadata.chapterIndex !== cIndex || match.metadata.bookIndex !== bIndex) {
-          matches.push(match);
-          break;
-        }
+      if (a.dataset.link === "verse") {
+        const bookIndex = Number(a.dataset.bookindex);
+        const chapterIndex = Number(a.dataset.chapterindex);
+        const verseIndex = Number(a.dataset.verseindex);
+        alert(bookIndex + " : " + chapterIndex + " : " + verseIndex);
       }
+    })));
+  }
+  async lookupChapters(): Promise<void> {
+    if (this.running) return;
+    this.running = true;
+    this.lookup_chapter_response_feed.innerHTML = "running...";
+    const message = this.lookup_chapter_message_text.value.trim();
+    if (!message) {
+      alert("please supply a message");
+      return;
+    }
 
-      let chaptersHTML = "";
-      let chaptersText: any[] = [];
-      matches.forEach((match) => {
-        let chapterDetails = this.getChapter(match.metadata.bookIndex, match.metadata.chapterIndex, match.metadata.verseIndex);
+    let result = await this.getMatchingVectors(message, 10, this.byChapterToken, this.byChapterSessionId);
+    this.running = false;
+    if (!result.success) {
+      console.log("error", result);
+      alert(result.errorMessage);
+      return;
+    } else {
+      console.log(result);
+    }
 
-        const block = `<div class="verse_card">
-            <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="book">${match.metadata.book}</a>
-            <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="chapter"
-                      data-chapterindex="${match.metadata.chapterIndex}">${match.metadata.chapterIndex + 1}</a>
-            <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="verse"
-            data-chapterindex="${match.metadata.chapterIndex}"
-            data-verseindex="${match.metadata.verseIndex}">${match.metadata.verseIndex + 1}</a>
-              ${(match.score * 100).toFixed()}%
-              <br>
-              <div>${chapterDetails.html}</div>
-            </div>`;
-        chaptersHTML += block;
-        chaptersText.push(chapterDetails.text);
-      });
-
-      this.augmented_chapters_view.innerHTML = chaptersHTML;
-
-      let prompt = `Please respond to the following prompt using these Biblical chapters as guidance:\n`;
-      prompt += `Chapter 1 (${matches[0].metadata.title}):\n`;
-      prompt += `${chaptersText[0]}\n`;
-      if (matches[1]) {
-        prompt += `Chapter 2 (${matches[1].metadata.title}):\n`;
-        prompt += `${chaptersText[1]}\n`;
-      }
-      prompt += `Respond to prompt using Biblical language: ${message}`;
-      this.full_augmented_prompt.innerHTML = prompt;
-
-      const body = {
-        message: prompt,
-        apiToken: this.byVerseAPIToken,
-        sessionId: this.byVerseSessionId,
-      }
-      const fetchResults = await fetch(this.promptUrl, {
-        method: "POST",
-        mode: "cors",
-        cache: "no-cache",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      });
-      const promptResult = await fetchResults.json();
-      if (!promptResult.success) {
-        console.log("error", promptResult);
-        alert(promptResult.errorMessage);
-        return;
-      } else {
-        console.log(promptResult);
-      }
-      this.full_augmented_response.innerHTML = this.escapeHTML(promptResult.assist.assist.choices["0"].message.content);
-
-      this.running = false;
+    let html = "";
+    result.matches.forEach((match) => {
+      const metaData = JSON.stringify(match.metadata, null, "\n");
+      const block = `<div class="verse_card">
+          <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="book">${match.metadata.book}</a>
+          <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="chapter"
+                    data-chapterindex="${match.metadata.chapterIndex}">${match.metadata.chapterIndex + 1}</a>
+            ${(match.score * 100).toFixed()}%
+            <br>
+            <div>${match.metadata.text}</div>
+          </div>`;
+      html += block;
     });
+
+    this.lookup_chapter_response_feed.innerHTML = html;
+
+    this.lookup_chapter_response_feed.querySelectorAll("a").forEach((a => a.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (a.dataset.link === "book") {
+        const bookIndex = Number(a.dataset.bookindex);
+        alert(bookIndex)
+      }
+      if (a.dataset.link === "chapter") {
+        const bookIndex = Number(a.dataset.bookindex);
+        const chapterIndex = Number(a.dataset.chapterindex);
+        alert(bookIndex + " : " + chapterIndex);
+      }
+    })));
   }
   escapeHTML(str: string): string {
     if (str === undefined || str === null) str = "";
@@ -251,7 +213,7 @@ export class BibleDemoApp {
     });
     return books;
   }
-  getChaptersByBook() {
+  getChaptersByBook(): any[] {
     const books = this.getBooks();
     const bookList = Object.keys(books);
     const rows: any[] = [];
@@ -269,5 +231,95 @@ export class BibleDemoApp {
     });
 
     return rows;
+  }
+  async sendPromptToLLM() {
+    if (this.running) return;
+    this.running = true;
+    this.full_augmented_response.innerHTML = "running...";
+    const message = this.augmented_message_text.value.trim();
+    if (!message) {
+      alert("please supply a message");
+      return;
+    }
+
+    let result = await this.getMatchingVectors(message, 5, this.byVerseAPIToken, this.byVerseSessionId);
+    this.running = false;
+    if (!result.success) {
+      console.log("error", result);
+      alert(result.errorMessage);
+      return;
+    } else {
+      console.log(result);
+    }
+
+    // get first 2 unique (or just 1)
+    let matches = [result.matches[0]];
+    let cIndex = result.matches[0].metadata.chapterIndex;
+    let bIndex = result.matches[0].metadata.bookIndex;
+    for (let c = 1, l = result.matches.length; c < l; c++) {
+      let match = result.matches[c];
+      if (match.metadata.chapterIndex !== cIndex || match.metadata.bookIndex !== bIndex) {
+        matches.push(match);
+        break;
+      }
+    }
+
+    let chaptersHTML = "";
+    let chaptersText: any[] = [];
+    matches.forEach((match) => {
+      let chapterDetails = this.getChapter(match.metadata.bookIndex, match.metadata.chapterIndex, match.metadata.verseIndex);
+
+      const block = `<div class="verse_card">
+            <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="book">${match.metadata.book}</a>
+            <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="chapter"
+                      data-chapterindex="${match.metadata.chapterIndex}">${match.metadata.chapterIndex + 1}</a>
+            <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="verse"
+            data-chapterindex="${match.metadata.chapterIndex}"
+            data-verseindex="${match.metadata.verseIndex}">${match.metadata.verseIndex + 1}</a>
+              ${(match.score * 100).toFixed()}%
+              <br>
+              <div>${chapterDetails.html}</div>
+            </div>`;
+      chaptersHTML += block;
+      chaptersText.push(chapterDetails.text);
+    });
+
+    this.augmented_chapters_view.innerHTML = chaptersHTML;
+
+    let prompt = `Please respond to the following prompt using these Biblical chapters as guidance:\n`;
+    prompt += `Chapter 1 (${matches[0].metadata.title}):\n`;
+    prompt += `${chaptersText[0]}\n`;
+    if (matches[1]) {
+      prompt += `Chapter 2 (${matches[1].metadata.title}):\n`;
+      prompt += `${chaptersText[1]}\n`;
+    }
+    prompt += `Respond to prompt using Biblical language: ${message}`;
+    this.full_augmented_prompt.innerHTML = prompt;
+
+    const body = {
+      message: prompt,
+      apiToken: this.byVerseAPIToken,
+      sessionId: this.byVerseSessionId,
+    }
+    const fetchResults = await fetch(this.promptUrl, {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+    const promptResult = await fetchResults.json();
+    if (!promptResult.success) {
+      console.log("error", promptResult);
+      alert(promptResult.errorMessage);
+      return;
+    } else {
+      console.log(promptResult);
+    }
+    this.full_augmented_response.innerHTML = this.escapeHTML(promptResult.assist.assist.choices["0"].message.content);
+
+    this.running = false;
   }
 }
