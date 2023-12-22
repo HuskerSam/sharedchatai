@@ -264,18 +264,18 @@ export default class SessionAPI {
             try {
                 includeTickets = [];
                 const messageQuery = ticket.message;
-    
+
                 const ownerPrivateQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}/ownerPrivate/data`).get();
                 let privateData: any = ownerPrivateQuery.data();
                 if (!privateData) privateData = {};
-    
+
                 const topK = BaseClass.getNumberOrDefault(privateData.pineconeTopK, 3);
                 const maxTokens = BaseClass.getNumberOrDefault(privateData.pineconeMaxTokens, 2000);
                 const pineconeKey = String(privateData.pineconeKey);
                 const pineconeIndex = String(privateData.pineconeIndex);
                 const pineconeEnvironment = String(privateData.pineconeEnvironment);
                 const pineconeThreshold = BaseClass.getNumberOrDefault(privateData.pineconeThreshold, 0);
-    
+
                 if (!pineconeKey || !pineconeIndex || !pineconeEnvironment) {
                     return {
                         success: false,
@@ -293,9 +293,9 @@ export default class SessionAPI {
                 embeddingResult.topK = topK;
                 embeddingResult.maxTokens = maxTokens;
                 const embeddedQuery = promptResult.promptText;
-    
+
                 embeddingResult = BaseClass.removeUndefined(embeddingResult);
-    
+
                 ticket.embeddedQuery = embeddedQuery;
                 await Promise.all([
                     firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${ticketId}`).set({
