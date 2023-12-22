@@ -706,7 +706,7 @@ export class EmbeddingApp extends BaseApp {
         let pineconeKey = "";
         let pineconeEnvironment = "";
         let pineconePrompt = "";
-        let pineconeChunkSize = "1000";
+        let pineconeChunkSize = "";
         // 0c0df79a-cc2c-4efd-9835-fdaeb66df843
         if (this.selectedProjectId) {
             const projectSettings = this.embeddingProjects[this.selectedProjectId];
@@ -1105,7 +1105,7 @@ export class EmbeddingApp extends BaseApp {
         }
         this.actionRunning = false;
         this.upsert_result_status_bar.innerHTML = alertMessage;
-        this.updateWatchUpsertRows();
+        this.updateWatchUpsertRows(true);
     }
     /** */
     updateQueriedDocumentList() {

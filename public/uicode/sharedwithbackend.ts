@@ -389,7 +389,7 @@ export default class SharedWithBackend {
   static async parseBreakTextIntoChunks(threshold: number, fullText: string): Promise<Array<any>> {
     const encode = await SharedWithBackend.tokenEncodeFunction();
     if (isNaN(threshold)) threshold = 0;
-    if (threshold < 10 || threshold > 1000000) {
+    if (threshold > 1000000 || threshold <= 0) {
       threshold = 1000000;
     }
 

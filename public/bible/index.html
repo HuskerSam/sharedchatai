@@ -211,50 +211,88 @@
 
         running = false;
       });
+    }
 
-      function escapeHTML(str) {
-        if (str === undefined || str === null) str = "";
-        str = str.toString();
-        return str.replace(/[&<>'"]/g,
-          (match) => {
-            switch (match) {
-              case "&": return "&amp;";
-              case "<": return "&lt;";
-              case ">": return "&gt;";
-              case "'": return "&#39;";
-              case "\"": return "&quot;";
-            }
+    function escapeHTML(str) {
+      if (str === undefined || str === null) str = "";
+      str = str.toString();
+      return str.replace(/[&<>'"]/g,
+        (match) => {
+          switch (match) {
+            case "&": return "&amp;";
+            case "<": return "&lt;";
+            case ">": return "&gt;";
+            case "'": return "&#39;";
+            case "\"": return "&quot;";
+          }
 
-            return match;
-          });
-      }
-
-      function getChapter(bookIndex, chapterIndex, verseIndex = -1) {
-        let verses = window.bibleData.filter((verse) => {
-          if (verse.bookIndex.toString() === bookIndex.toString() &&
-            verse.chapterIndex.toString() === chapterIndex.toString())
-            return true;
-          return false;
+          return match;
         });
-        verses = verses.sort((a, b) => {
-          if (Number(a.verseIndex) > Number(b.verseIndex)) return 1;
-          if (Number(a.verseIndex) < Number(b.verseIndex)) return -1;
-          return 0;
-        });
+    }
 
-        let html = "";
-        let text = "";
-        verses.forEach((verse) => {
-          let selectedClass = verse.verseIndex.toString() === verseIndex.toString() ? " selected" : "";
-          html += `<span class="verse_line ${selectedClass}">${verse.verse}</span>&nbsp;`;
-          text += verse.verse + "\n";
-        });
+    function getChapter(bookIndex, chapterIndex, verseIndex = -1) {
+      let verses = window.bibleData.filter((verse) => {
+        if (verse.bookIndex.toString() === bookIndex.toString() &&
+          verse.chapterIndex.toString() === chapterIndex.toString())
+          return true;
+        return false;
+      });
+      verses = verses.sort((a, b) => {
+        if (Number(a.verseIndex) > Number(b.verseIndex)) return 1;
+        if (Number(a.verseIndex) < Number(b.verseIndex)) return -1;
+        return 0;
+      });
 
-        return {
-          text,
-          html,
-        };
-      }
+      let html = "";
+      let text = "";
+      verses.forEach((verse) => {
+        let selectedClass = verse.verseIndex.toString() === verseIndex.toString() ? " selected" : "";
+        html += `<span class="verse_line ${selectedClass}">${verse.verse}</span>&nbsp;`;
+        text += verse.verse + "\n";
+      });
+
+      return {
+        text,
+        html,
+      };
+    }
+
+    function getBooks() {
+      const books = {};
+      window.bibleData.forEach((row) => {
+        let book = books[row.bookIndex];
+        if (!book) {
+          book = {};
+          books[row.bookIndex] = book;
+        }
+        let chapter = book[row.chapterIndex];
+        if (!chapter) {
+          chapter = {};
+          book[row.chapterIndex] = chapter;
+        }
+        chapter[row.verseIndex] = row;
+      });
+      return books;
+    }
+
+    function getChaptersByBook() {
+      const books = getBooks();
+      const bookList = Object.keys(books);
+      const rows = [];
+      bookList.forEach(bookIndex => {
+        const chapterIndexes = Object.keys(books[bookIndex]);
+        chapterIndexes.forEach(chapterIndex => {
+          const chapter = getChapter(bookIndex, chapterIndex);
+          rows.push({
+            book: books[bookIndex][chapterIndex]["0"].book,
+            bookIndex,
+            chapterIndex,
+            text: chapter.text,
+          })
+        });
+      });
+
+      return rows;
     }
   </script>
 </head>
