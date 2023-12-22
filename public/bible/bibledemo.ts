@@ -1,16 +1,19 @@
 export class BibleDemoApp {
   running = false;
-  submit_button: any = document.body.querySelector(".submit_button");
+  lookup_chapters_by_verse: any = document.body.querySelector(".lookup_chapters_by_verse");
   message_text: any = document.body.querySelector(".message_text");
   response_feed: any = document.body.querySelector(".response_feed");
-  augmented_submit_button: any = document.body.querySelector(".augmented_submit_button");
   augmented_chapters_view: any = document.body.querySelector("#augmented_chapters_view");
   augmented_message_text: any = document.body.querySelector(".augmented_message_text");
   full_augmented_prompt: any = document.body.querySelector(".full_augmented_prompt");
   full_augmented_response: any = document.body.querySelector(".full_augmented_response");
+  lookup_chapters_button: any = document.body.querySelector(".lookup_chapters_button");
+  llm_prompt_response_button: any = document.body.querySelector(".llm_prompt_response_button");
   bibleData: any[] = [];
-  apiToken = "76acdd7d-609c-4a39-ab89-bc73b0c2c531";
-  sessionId = "vkuyk8lg74nq";
+  byVerseAPIToken = "76acdd7d-609c-4a39-ab89-bc73b0c2c531";
+  byVerseSessionId = "vkuyk8lg74nq";
+  byChapterToken = "0c0df79a-cc2c-4efd-9835-fdaeb66df843";
+  byChapterSessionId = "07yt1fqvoj9q";
   promptUrl = `https://us-central1-promptplusai.cloudfunctions.net/lobbyApi/session/external/message`;
   queryUrl = `https://us-central1-promptplusai.cloudfunctions.net/lobbyApi/session/external/vectorquery`;
 
@@ -18,13 +21,13 @@ export class BibleDemoApp {
     this.load();
   }
 
-  async getMatchingVectors(message, topK) {
+  async getMatchingVectors(message: string, topK: number, apiToken: string, sessionId: string) {
     const body = {
       message,
-      apiToken: this.apiToken,
-      sessionId: this.sessionId,
+      apiToken,
+      sessionId,
       topK,
-    }
+    };
     const fetchResults = await fetch(this.queryUrl, {
       method: "POST",
       mode: "cors",
@@ -39,7 +42,7 @@ export class BibleDemoApp {
   async load() {
     const bibleDataResponse = await fetch("flattenedbible.json");
     this.bibleData = await bibleDataResponse.json();
-    this.submit_button.addEventListener("click", async () => {
+    this.lookup_chapters_by_verse.addEventListener("click", async () => {
       if (this.running) return;
       this.running = true;
       this.response_feed.innerHTML = "running...";
@@ -49,7 +52,7 @@ export class BibleDemoApp {
         return;
       }
 
-      let result = await this.getMatchingVectors(message, 10);
+      let result = await this.getMatchingVectors(message, 10, this.byVerseAPIToken, this.byVerseSessionId);
       this.running = false;
       if (!result.success) {
         console.log("error", result);
@@ -98,7 +101,7 @@ export class BibleDemoApp {
       })));
     });
 
-    this.augmented_submit_button.addEventListener("click", async () => {
+    this.llm_prompt_response_button.addEventListener("click", async () => {
       if (this.running) return;
       this.running = true;
       this.response_feed.innerHTML = "running...";
@@ -108,7 +111,7 @@ export class BibleDemoApp {
         return;
       }
 
-      let result = await this.getMatchingVectors(message, 5);
+      let result = await this.getMatchingVectors(message, 5, this.byVerseAPIToken, this.byVerseSessionId);
       this.running = false;
       if (!result.success) {
         console.log("error", result);
@@ -164,8 +167,8 @@ export class BibleDemoApp {
 
       const body = {
         message: prompt,
-        apiToken: this.apiToken,
-        sessionId: this.sessionId,
+        apiToken: this.byVerseAPIToken,
+        sessionId: this.byVerseSessionId,
       }
       const fetchResults = await fetch(this.promptUrl, {
         method: "POST",

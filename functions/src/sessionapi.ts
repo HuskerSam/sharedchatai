@@ -53,7 +53,7 @@ export default class SessionAPI {
         if (!pineconeQueryResults.success) {
             return {
                 success: false,
-                errorMessage: pineconeQueryResults,
+                errorMessage: pineconeQueryResults.errorMessage,
             };
         }
         const matches = pineconeQueryResults.queryResponse.matches;
@@ -81,7 +81,6 @@ export default class SessionAPI {
                 const text = vectorResults[c].metadata.text;
                 const tokens = encode(text);
                 tokensIncluded += tokens.length;
-                console.log("t", tokensIncluded);
                 if (tokensIncluded > maxTokens) {
                     if (c === 0) {
                         const clippedTokens = tokens.slice(0, maxTokens);
@@ -262,51 +261,59 @@ export default class SessionAPI {
         }
 
         if (sessionDocumentData.enableEmbedding && !usageLimitError) {
-            const messageQuery = ticket.message;
-
-            const ownerPrivateQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}/ownerPrivate/data`).get();
-            let privateData: any = ownerPrivateQuery.data();
-            if (!privateData) privateData = {};
-
-            const topK = BaseClass.getNumberOrDefault(privateData.pineconeTopK, 3);
-            const maxTokens = BaseClass.getNumberOrDefault(privateData.pineconeMaxTokens, 2000);
-            const pineconeKey = String(privateData.pineconeKey);
-            const pineconeIndex = String(privateData.pineconeIndex);
-            const pineconeEnvironment = String(privateData.pineconeEnvironment);
-            const pineconeThreshold = BaseClass.getNumberOrDefault(privateData.pineconeThreshold, 0);
-
-            if (!pineconeKey || !pineconeIndex || !pineconeEnvironment) {
-                return {
-                    success: false,
-                    errorMessage: "Pinecone must have index, key and environment configured when embedding is enabled",
-                };
+            try {
+                includeTickets = [];
+                const messageQuery = ticket.message;
+    
+                const ownerPrivateQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}/ownerPrivate/data`).get();
+                let privateData: any = ownerPrivateQuery.data();
+                if (!privateData) privateData = {};
+    
+                const topK = BaseClass.getNumberOrDefault(privateData.pineconeTopK, 3);
+                const maxTokens = BaseClass.getNumberOrDefault(privateData.pineconeMaxTokens, 2000);
+                const pineconeKey = String(privateData.pineconeKey);
+                const pineconeIndex = String(privateData.pineconeIndex);
+                const pineconeEnvironment = String(privateData.pineconeEnvironment);
+                const pineconeThreshold = BaseClass.getNumberOrDefault(privateData.pineconeThreshold, 0);
+    
+                if (!pineconeKey || !pineconeIndex || !pineconeEnvironment) {
+                    return {
+                        success: false,
+                        errorMessage: "Pinecone must have index, key and environment configured when embedding is enabled",
+                    };
+                }
+                let embeddingResult: any = await SessionAPI.processEmbedding(messageQuery, topK,
+                    chatGptKey, sessionDocumentData.createUser, pineconeKey, pineconeEnvironment, pineconeIndex);
+                if (!embeddingResult.success) {
+                    throw new Error(embeddingResult.errorMessage);
+                }
+                const promptResult = SessionAPI.processPrompt(embeddingResult.matches, pineconeThreshold, maxTokens, messageQuery);
+                Object.assign(embeddingResult, promptResult);
+                embeddingResult.pineconeThreshold = pineconeThreshold;
+                embeddingResult.topK = topK;
+                embeddingResult.maxTokens = maxTokens;
+                const embeddedQuery = promptResult.promptText;
+    
+                embeddingResult = BaseClass.removeUndefined(embeddingResult);
+    
+                ticket.embeddedQuery = embeddedQuery;
+                await Promise.all([
+                    firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${ticketId}`).set({
+                        embeddedQuery,
+                    }, {
+                        merge: true,
+                    }),
+                    firebaseAdmin.firestore().doc(`Games/${gameNumber}/augmented/${ticketId}`).set({
+                        embeddedQuery,
+                        embeddingResult,
+                    }, {
+                        merge: true,
+                    }),
+                ]);
+            } catch (err: any) {
+                usageLimitError = true;
+                usageErrorObject = err;
             }
-            let embeddingResult: any = await SessionAPI.processEmbedding(messageQuery, topK,
-                chatGptKey, sessionDocumentData.createUser, pineconeKey, pineconeEnvironment, pineconeIndex);
-
-            const promptResult = SessionAPI.processPrompt(embeddingResult.matches, pineconeThreshold, maxTokens, messageQuery);
-            Object.assign(embeddingResult, promptResult);
-            embeddingResult.pineconeThreshold = pineconeThreshold;
-            embeddingResult.topK = topK;
-            embeddingResult.maxTokens = maxTokens;
-            const embeddedQuery = promptResult.promptText;
-
-            embeddingResult = BaseClass.removeUndefined(embeddingResult);
-
-            ticket.embeddedQuery = embeddedQuery;
-            await Promise.all([
-                firebaseAdmin.firestore().doc(`Games/${gameNumber}/tickets/${ticketId}`).set({
-                    embeddedQuery,
-                }, {
-                    merge: true,
-                }),
-                firebaseAdmin.firestore().doc(`Games/${gameNumber}/augmented/${ticketId}`).set({
-                    embeddedQuery,
-                    embeddingResult,
-                }, {
-                    merge: true,
-                }),
-            ]);
         } else {
             console.log("embedding disabled");
             if (ticket.embeddedQuery) {
