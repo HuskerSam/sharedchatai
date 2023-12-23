@@ -121,7 +121,7 @@ export class BibleDemoApp {
       return;
     }
 
-    let result = await this.getMatchingVectors(message, 10, this.byChapterToken, this.byChapterSessionId);
+    let result = await this.getMatchingVectors(message, 5, this.byChapterToken, this.byChapterSessionId);
     this.running = false;
     if (!result.success) {
       console.log("error", result);
