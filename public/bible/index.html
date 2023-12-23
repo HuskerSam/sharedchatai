@@ -14,7 +14,6 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-
   <script type="module">
     import { loadModule } from 'https://klesun.github.io/ts-browser/src/ts-browser.js';
     window.addEventListener("load", async () => {
@@ -77,26 +76,67 @@
           <li class="nav-item" role="presentation">
             <a class="nav-link active" id="augmented_response_button" data-bs-toggle="tab"
               href="#augmented_response_view" role="tab" aria-controls="augmented_response_view" aria-selected="true">
-              Prompt and Response
+              Response
             </a>
           </li>
           <li class="nav-item" role="presentation">
             <a class="nav-link" id="augmented_chapters_button" data-bs-toggle="tab" href="#augmented_chapters_view"
               role="tab" aria-controls="augmented_chapters_view" aria-selected="false">
-              Embedded Chapters
+              Embedded Items
+            </a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="augmented_template_button" data-bs-toggle="tab" href="#augmented_template_view"
+              role="tab" aria-controls="augmented_template_view" aria-selected="false">
+              Prompt Template
+            </a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="augmented_fullprompt_button" data-bs-toggle="tab" href="#augmented_fullprompt_view"
+              role="tab" aria-controls="augmented_fullprompt_view" aria-selected="false">
+              Embedded Prompt
             </a>
           </li>
         </ul>
         <div class="tab-content">
           <div class="tab-pane fade show active" id="augmented_response_view" role="tabpanel"
             aria-labelledby="augmented_response_button">
-            <b>Response</b>
             <div class="full_augmented_response"></div>
-            <b>Full Prompt</b>
-            <div class="full_augmented_prompt"></div>
           </div>
           <div class="tab-pane fade" id="augmented_chapters_view" role="tabpanel"
             aria-labelledby="augmented_chapters_button">
+          </div>
+          <div class="tab-pane fade" id="augmented_template_view" role="tabpanel"
+            aria-labelledby="augmented_template_button">
+            <br>
+            <label>Type of Embedding: </label>
+            <select class="form-select embedding_type_select" style="width:auto;display:inline-block;">
+              <option>Query Verses to Embed Chapters</option>
+              <option>Query Verses to Embed Verses</option>
+              <option>Query Chapter to Embed Chapter</option>
+            </select>
+            <br>
+            <br>
+            <label>Preset Prompts</label>
+            <select class="form-select prompt_template_select_preset" style="width:auto;display:inline-block;">
+              <option selected>Pick an editable template</option>
+              <option>Augmented Response</option>
+              <option>Write a new chapter</option>
+              <option>Provide guidance</option>
+              <option>Judge if embeds politically correct</option>
+            </select>
+            <br>
+            <br>
+            <label>Prompt Template: </label><br>
+            <textarea style="height:15em;width:30em;" class="prompt_template_text_area"></textarea>
+            <br>
+            <br>
+            <label>Embed Template: </label><br>
+            <textarea style="height:5em;width:30em;" class="document_template_text_area"></textarea>
+          </div>
+          <div class="tab-pane fade" id="augmented_fullprompt_view" role="tabpanel"
+            aria-labelledby="augmented_fullprompt_button">
+            <div class="full_augmented_prompt"></div>
           </div>
         </div>
       </div>
@@ -123,6 +163,10 @@
 
       .full_augmented_prompt {
         white-space: pre-wrap;
+      }
+
+      label {
+        font-weight: bold;
       }
     </style>
 </body>

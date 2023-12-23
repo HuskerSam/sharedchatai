@@ -11,6 +11,10 @@ export class BibleDemoApp {
   lookup_chapter_message_text: any = document.body.querySelector(".lookup_chapter_message_text");
   lookup_chapter_response_feed: any = document.body.querySelector(".lookup_chapter_response_feed");
   llm_prompt_response_button: any = document.body.querySelector(".llm_prompt_response_button");
+  embedding_type_select: any = document.body.querySelector(".embedding_type_select");
+  prompt_template_text_area: any = document.body.querySelector(".prompt_template_text_area");
+  document_template_text_area: any = document.body.querySelector(".document_template_text_area");
+  prompt_template_select_preset: any = document.body.querySelector(".prompt_template_select_preset");
   bibleData: any[] = [];
   byVerseAPIToken = "76acdd7d-609c-4a39-ab89-bc73b0c2c531";
   byVerseSessionId = "vkuyk8lg74nq";
@@ -24,6 +28,8 @@ export class BibleDemoApp {
     this.lookup_chapters_by_verse.addEventListener("click", () => this.lookupChaptersByVerse());
     this.lookup_chapters_button.addEventListener("click", () => this.lookupChapters());
     this.llm_prompt_response_button.addEventListener("click", () => this.sendPromptToLLM());
+    this.prompt_template_select_preset.addEventListener("input", () => this.populatePromptTemplates());
+    this.populatePromptTemplates(0);
   }
   async getMatchingVectors(message: string, topK: number, apiToken: string, sessionId: string): Promise<any> {
     const body = {
@@ -232,6 +238,37 @@ export class BibleDemoApp {
 
     return rows;
   }
+  getQueryDetails(): any {
+    if (this.embedding_type_select.selectedIndex === 0) {
+      return {
+        topK: 10,
+        includeK: 2,
+        include: "chapter",
+        pineconeDB: "verse",
+        apiToken: this.byVerseAPIToken,
+        sessionId: this.byVerseSessionId,
+      };
+    }
+    if (this.embedding_type_select.selectedIndex === 1) {
+      return {
+        topK: 10,
+        includeK: 10,
+        include: "verse",
+        pineconeDB: "verse",
+        apiToken: this.byVerseAPIToken,
+        sessionId: this.byVerseSessionId,
+      };
+    }
+
+    return {
+      topK: 2,
+      includeK: 2,
+      include: "chapter",
+      pineconeDB: "chapter",
+      apiToken: this.byChapterToken,
+      sessionId: this.byChapterSessionId,
+  };
+  }
   async sendPromptToLLM() {
     if (this.running) return;
     this.running = true;
@@ -241,8 +278,9 @@ export class BibleDemoApp {
       alert("please supply a message");
       return;
     }
+    const queryDetails = this.getQueryDetails();
 
-    let result = await this.getMatchingVectors(message, 5, this.byVerseAPIToken, this.byVerseSessionId);
+    let result = await this.getMatchingVectors(message, queryDetails.topK, queryDetails.apiToken, queryDetails.sessionId);
     this.running = false;
     if (!result.success) {
       console.log("error", result);
@@ -252,15 +290,17 @@ export class BibleDemoApp {
       console.log(result);
     }
 
-    // get first 2 unique (or just 1)
-    let matches = [result.matches[0]];
-    let cIndex = result.matches[0].metadata.chapterIndex;
-    let bIndex = result.matches[0].metadata.bookIndex;
-    for (let c = 1, l = result.matches.length; c < l; c++) {
-      let match = result.matches[c];
-      if (match.metadata.chapterIndex !== cIndex || match.metadata.bookIndex !== bIndex) {
-        matches.push(match);
-        break;
+    let matches: any[] = result.matches;
+    if (queryDetails.topK !== queryDetails.includeK) {
+      matches = [result.matches[0]];
+      let cIndex = result.matches[0].metadata.chapterIndex;
+      let bIndex = result.matches[0].metadata.bookIndex;
+      for (let c = 1, l = result.matches.length; c < l; c++) {
+        let match = result.matches[c];
+        if (match.metadata.chapterIndex !== cIndex || match.metadata.bookIndex !== bIndex) {
+          matches.push(match);
+          if (matches.length >= queryDetails.includeK) break;
+        }
       }
     }
 
@@ -285,22 +325,14 @@ export class BibleDemoApp {
     });
 
     this.augmented_chapters_view.innerHTML = chaptersHTML;
-
-    let prompt = `Please respond to the following prompt using these Biblical chapters as guidance:\n`;
-    prompt += `Chapter 1 (${matches[0].metadata.title}):\n`;
-    prompt += `${chaptersText[0]}\n`;
-    if (matches[1]) {
-      prompt += `Chapter 2 (${matches[1].metadata.title}):\n`;
-      prompt += `${chaptersText[1]}\n`;
-    }
-    prompt += `Respond to prompt using Biblical language: ${message}`;
+    const prompt = this.embedPrompt(message, matches, queryDetails);
     this.full_augmented_prompt.innerHTML = prompt;
 
     const body = {
       message: prompt,
       apiToken: this.byVerseAPIToken,
       sessionId: this.byVerseSessionId,
-    }
+    };
     const fetchResults = await fetch(this.promptUrl, {
       method: "POST",
       mode: "cors",
@@ -322,4 +354,89 @@ export class BibleDemoApp {
 
     this.running = false;
   }
+  embedPrompt(prompt: string, matches: any[], queryDetails: any): string {
+    const promptTemplate = this.prompt_template_text_area.value;
+    const documentTemplate = this.document_template_text_area.value;
+    const promptT = (<any>window).Handlebars.compile(promptTemplate);
+    const docT = (<any>window).Handlebars.compile(documentTemplate);
+
+    let documentsEmbedText = "";
+    matches.forEach((match: any) => {
+      const merge = Object.assign({}, match.metadata);
+      merge.id = match.id;
+      merge.text = this.getTextForMatch(match, queryDetails);
+      console.log(merge);
+      documentsEmbedText += (<any>docT)(merge);
+    });
+
+    const mainMerge = {
+      documents: documentsEmbedText,
+      prompt,
+    };
+    return (<any>promptT)(mainMerge);
+  }
+  getTextForMatch(match: any, queryDetails: any) {
+    if (queryDetails.include === "chapter") {
+      return this.getChapter(match.metadata.bookIndex, match.metadata.chapterIndex).text;
+    }
+    // else return the verse
+    return match.metadata.text;
+  }
+  populatePromptTemplates(templateIndex: number = -1) {
+    if (templateIndex < 0) templateIndex = this.prompt_template_select_preset.selectedIndex - 1;
+    if (templateIndex < 0) return;
+
+    this.prompt_template_text_area.value = promptTemplates[templateIndex].mainPrompt;
+    this.document_template_text_area.value = promptTemplates[templateIndex].documentPrompt;
+  }
 }
+
+const promptTemplates = [
+  {
+    mainPrompt: `Please respond to the following prompt using these Biblical chapters as guidance:
+{{documents}}
+
+Respond to prompt using Biblical language:
+{{prompt}}`,
+    documentPrompt: `Chapter ({{title}}):
+{{text}}
+
+`,
+  },
+  {
+    mainPrompt: `Please write a new chapter using these Biblical chapters as guidance:
+{{documents}}
+
+As primary guidance use:
+{{prompt}}`,
+    documentPrompt: `{{title}}:
+{{text}}
+
+`,
+  },
+  {
+    mainPrompt: `Please spiritual guidance using a Biblical voice using these chapters as reference:
+{{documents}}
+
+This is the specific prompt to respond to:
+{{prompt}}`,
+    documentPrompt: `{{title}}:
+{{text}}
+
+`,
+  },
+  {
+    mainPrompt: `Please provide a subject score in a range of 1-10 for political correctness for high school students in the USA for the following documents:
+{{documents}}
+
+Please respond with json and only json in this format:
+{
+  "documentId": "",
+  "politicalCorrectnessScore": 0,
+}`,
+    documentPrompt: `Document Id: {{index}}-{{id}}  Title: {{title}}:
+{{text}}
+
+`,
+  },
+];
