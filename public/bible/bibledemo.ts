@@ -79,10 +79,10 @@ export class BibleDemoApp {
       const block = `<div class="verse_card">
             <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="book">${match.metadata.book}</a>
             <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="chapter"
-                      data-chapterindex="${match.metadata.chapterIndex}">${match.metadata.chapterIndex + 1}</a>
+                      data-chapterindex="${match.metadata.chapterIndex}">${Number(match.metadata.chapterIndex) + 1}</a>
             <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="verse"
             data-chapterindex="${match.metadata.chapterIndex}"
-            data-verseindex="${match.metadata.verseIndex}">${match.metadata.verseIndex + 1}</a>
+            data-verseindex="${match.metadata.verseIndex}">${Number(match.metadata.verseIndex) + 1}</a>
               ${(match.score * 100).toFixed()}%
               <br>
               <div>${match.metadata.text}</div>
@@ -137,7 +137,7 @@ export class BibleDemoApp {
       const block = `<div class="verse_card">
           <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="book">${match.metadata.book}</a>
           <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="chapter"
-                    data-chapterindex="${match.metadata.chapterIndex}">${match.metadata.chapterIndex + 1}</a>
+                    data-chapterindex="${match.metadata.chapterIndex}">${Number(match.metadata.chapterIndex) + 1}</a>
             ${(match.score * 100).toFixed()}%
             <br>
             <div>${match.metadata.text}</div>
