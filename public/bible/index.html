@@ -24,152 +24,128 @@
   </script>
 </head>
 
-<body style="padding:20px;">
-  <ul class="nav nav-tabs" role="tablist">
-    <li class="nav-item" role="presentation">
-      <a class="nav-link active" id="verses_view_button" data-bs-toggle="tab" href="#verses_view" role="tab"
-        aria-controls="verses_view" aria-selected="true">
-        Chapters by Verse
-      </a>
-    </li>
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" id="chapters_view_button" data-bs-toggle="tab" href="#chapters_view" role="tab"
-        aria-controls="chapters_view" aria-selected="false">
-        Chapters
-      </a>
-    </li>
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" id="guidance_view_button" data-bs-toggle="tab" href="#guidance_view" role="tab"
-        aria-controls="guidance_view" aria-selected="false">
-        Augmented Prompt
-      </a>
-    </li>
-  </ul>
-  <div class="tab-content">
-    <div class="tab-pane fade show active" id="verses_view" role="tabpanel" aria-labelledby="verses_view_button">
-      <div style="width:20em;padding-top:1em;">
-        <textarea class="lookup_verse_message_text"></textarea>
-        <br>
-        <button class="lookup_chapters_by_verse btn-primary" style="float:right">Get Verses</button>
-        <hr>
+<body style="padding:20px;text-align: center;">
+  <div style="max-width:60em;padding-top:1em;display:inline-block;width:100%;text-align:left;">
+    <textarea class="analyze_prompt_textarea form-control" style="height:8em;"></textarea>
+    <br>
+    <button class="analyze_prompt_button btn-primary" style="float:right;width:10em;">Analyze Prompt</button>
+    <br>
+    <br>
+    <ul class="nav nav-tabs justify-content-center" role="tablist" style="width:100%;">
+      <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="augmented_response_button" data-bs-toggle="tab" href="#augmented_response_view"
+          role="tab" aria-controls="augmented_response_view" aria-selected="true">
+          Response
+        </a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="verses_view_button" data-bs-toggle="tab" href="#verses_view" role="tab"
+          aria-controls="verses_view" aria-selected="false">
+          Chapters by Verse
+        </a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="chapters_view_button" data-bs-toggle="tab" href="#chapters_view" role="tab"
+          aria-controls="chapters_view" aria-selected="false">
+          Chapters
+        </a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="augmented_chapters_button" data-bs-toggle="tab" href="#augmented_chapters_view"
+          role="tab" aria-controls="augmented_chapters_view" aria-selected="false">
+          Embedded Items
+        </a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="augmented_template_button" data-bs-toggle="tab" href="#augmented_template_view"
+          role="tab" aria-controls="augmented_template_view" aria-selected="false">
+          Prompt Template
+        </a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="augmented_fullprompt_button" data-bs-toggle="tab" href="#augmented_fullprompt_view"
+          role="tab" aria-controls="augmented_fullprompt_view" aria-selected="false">
+          Embedded Prompt
+        </a>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane fade" id="verses_view" role="tabpanel" aria-labelledby="verses_view_button">
+        <div class="lookup_verse_response_feed"></div>
       </div>
-      <div class="lookup_verse_response_feed"></div>
-    </div>
-    <div class="tab-pane fade" id="chapters_view" role="tabpanel" aria-labelledby="chapters_view_button">
-      <div style="width:20em;padding-top:1em;">
-        <textarea class="lookup_chapter_message_text"></textarea>
-        <br>
-        <button class="lookup_chapters_button btn-primary" style="float:right">Get Chapters</button>
-        <hr>
+      <div class="tab-pane fade" id="chapters_view" role="tabpanel" aria-labelledby="chapters_view_button">
+        <div class="lookup_chapter_response_feed"></div>
       </div>
-      <div class="lookup_chapter_response_feed"></div>
-    </div>
-    <div class="tab-pane fade" id="guidance_view" role="tabpanel" aria-labelledby="guidance_view_button">
-      <div style="width:20em;padding-top:1em;">
-        <textarea class="augmented_message_text"></textarea>
-        <br>
-        <button class="llm_prompt_response_button btn-primary" style="float:right">Get Augmented Response</button>
-        <hr>
+      <div class="tab-pane fade show active" id="augmented_response_view" role="tabpanel"
+        aria-labelledby="augmented_response_button">
+        <div class="full_augmented_response"></div>
       </div>
-      <div class="augmented_response_feed">
-        <ul class="nav nav-tabs" role="tablist">
-          <li class="nav-item" role="presentation">
-            <a class="nav-link active" id="augmented_response_button" data-bs-toggle="tab"
-              href="#augmented_response_view" role="tab" aria-controls="augmented_response_view" aria-selected="true">
-              Response
-            </a>
-          </li>
-          <li class="nav-item" role="presentation">
-            <a class="nav-link" id="augmented_chapters_button" data-bs-toggle="tab" href="#augmented_chapters_view"
-              role="tab" aria-controls="augmented_chapters_view" aria-selected="false">
-              Embedded Items
-            </a>
-          </li>
-          <li class="nav-item" role="presentation">
-            <a class="nav-link" id="augmented_template_button" data-bs-toggle="tab" href="#augmented_template_view"
-              role="tab" aria-controls="augmented_template_view" aria-selected="false">
-              Prompt Template
-            </a>
-          </li>
-          <li class="nav-item" role="presentation">
-            <a class="nav-link" id="augmented_fullprompt_button" data-bs-toggle="tab" href="#augmented_fullprompt_view"
-              role="tab" aria-controls="augmented_fullprompt_view" aria-selected="false">
-              Embedded Prompt
-            </a>
-          </li>
-        </ul>
-        <div class="tab-content">
-          <div class="tab-pane fade show active" id="augmented_response_view" role="tabpanel"
-            aria-labelledby="augmented_response_button">
-            <div class="full_augmented_response"></div>
-          </div>
-          <div class="tab-pane fade" id="augmented_chapters_view" role="tabpanel"
-            aria-labelledby="augmented_chapters_button">
-          </div>
-          <div class="tab-pane fade" id="augmented_template_view" role="tabpanel"
-            aria-labelledby="augmented_template_button">
-            <br>
-            <label>Type of Embedding: </label>
-            <select class="form-select embedding_type_select" style="width:auto;display:inline-block;">
-              <option>Query Verses to Embed Chapters</option>
-              <option>Query Verses to Embed Verses</option>
-              <option>Query Chapter to Embed Chapter</option>
-            </select>
-            <br>
-            <br>
-            <label>Preset Prompts</label>
-            <select class="form-select prompt_template_select_preset" style="width:auto;display:inline-block;">
-              <option selected>Pick an editable template</option>
-              <option>Augmented Response</option>
-              <option>Write a new chapter</option>
-              <option>Provide guidance</option>
-              <option>Judge if embeds politically correct</option>
-            </select>
-            <br>
-            <br>
-            <label>Prompt Template: </label><br>
-            <textarea style="height:15em;width:30em;" class="prompt_template_text_area"></textarea>
-            <br>
-            <br>
-            <label>Embed Template: </label><br>
-            <textarea style="height:5em;width:30em;" class="document_template_text_area"></textarea>
-          </div>
-          <div class="tab-pane fade" id="augmented_fullprompt_view" role="tabpanel"
-            aria-labelledby="augmented_fullprompt_button">
-            <div class="full_augmented_prompt"></div>
-          </div>
-        </div>
+      <div class="tab-pane fade" id="augmented_chapters_view" role="tabpanel"
+        aria-labelledby="augmented_chapters_button">
+      </div>
+      <div class="tab-pane fade" id="augmented_template_view" role="tabpanel"
+        aria-labelledby="augmented_template_button" style="padding-left: 5%">
+        <br>
+        <button class="reset_template_options_button btn btn-secondary" style="float:right;">Reset</button>
+        <label>Type of Embedding: </label>
+        <select class="form-select embedding_type_select" style="width:auto;display:inline-block;">
+          <option>Query Verses to Embed Chapters</option>
+          <option>Query Verses to Embed Verses</option>
+          <option>Query Chapter to Embed Chapter</option>
+        </select>
+        <br>
+        <br>
+        <label>Preset Prompts</label>
+        <select class="form-select prompt_template_select_preset" style="width:auto;display:inline-block;">
+          <option selected>Augmented Response</option>
+          <option>Write a new chapter</option>
+          <option>Provide guidance</option>
+          <option>Judge if embeds politically correct</option>
+        </select>
+        <br>
+        <br>
+        <label>Prompt Template: </label><br>
+        <textarea style="height:15em;width:90%;" class="prompt_template_text_area"></textarea>
+        <br>
+        <br>
+        <label>Embed Template: </label><br>
+        <textarea style="height:5em;width:90%;" class="document_template_text_area"></textarea>
+      </div>
+      <div class="tab-pane fade" id="augmented_fullprompt_view" role="tabpanel"
+        aria-labelledby="augmented_fullprompt_button">
+        <div class="full_augmented_prompt"></div>
       </div>
     </div>
-    <style>
-      .verse_card {
-        max-width: 800px;
-        margin: 12px;
-        border-radius: 12px;
-        border: solid 1px black;
-        padding: 12px;
-      }
 
-      .message_text,
-      .augmented_message_text {
-        width: 100%;
-        height: 5em;
-        margin-bottom: 12px;
-      }
+  </div>
+  <style>
+    .verse_card {
+      margin: 12px;
+      border-radius: 12px;
+      border: solid 1px black;
+      padding: 12px;
+    }
 
-      .verse_card .selected {
-        font-weight: bold;
-      }
+    .message_text,
+    .augmented_message_text {
+      width: 100%;
+      height: 5em;
+      margin-bottom: 12px;
+    }
 
-      .full_augmented_prompt,
-      .full_augmented_response {
-        white-space: pre-wrap;
-      }
+    .verse_card .selected {
+      font-weight: bold;
+    }
 
-      label {
-        font-weight: bold;
-      }
-    </style>
+    .full_augmented_prompt,
+    .full_augmented_response {
+      white-space: pre-wrap;
+    }
+
+    label {
+      font-weight: bold;
+    }
+  </style>
 </body>
 
 </html>

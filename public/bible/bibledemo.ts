@@ -1,20 +1,17 @@
 export class BibleDemoApp {
   running = false;
-  lookup_chapters_by_verse: any = document.body.querySelector(".lookup_chapters_by_verse");
-  lookup_verse_message_text: any = document.body.querySelector(".lookup_verse_message_text");
+  analyze_prompt_button: any = document.body.querySelector(".analyze_prompt_button");
   lookup_verse_response_feed: any = document.body.querySelector(".lookup_verse_response_feed");
   augmented_chapters_view: any = document.body.querySelector("#augmented_chapters_view");
-  augmented_message_text: any = document.body.querySelector(".augmented_message_text");
   full_augmented_prompt: any = document.body.querySelector(".full_augmented_prompt");
   full_augmented_response: any = document.body.querySelector(".full_augmented_response");
-  lookup_chapters_button: any = document.body.querySelector(".lookup_chapters_button");
-  lookup_chapter_message_text: any = document.body.querySelector(".lookup_chapter_message_text");
+  analyze_prompt_textarea: any = document.body.querySelector(".analyze_prompt_textarea");
   lookup_chapter_response_feed: any = document.body.querySelector(".lookup_chapter_response_feed");
-  llm_prompt_response_button: any = document.body.querySelector(".llm_prompt_response_button");
   embedding_type_select: any = document.body.querySelector(".embedding_type_select");
   prompt_template_text_area: any = document.body.querySelector(".prompt_template_text_area");
   document_template_text_area: any = document.body.querySelector(".document_template_text_area");
   prompt_template_select_preset: any = document.body.querySelector(".prompt_template_select_preset");
+  reset_template_options_button: any = document.body.querySelector(".reset_template_options_button");
   bibleData: any[] = [];
   byVerseAPIToken = "76acdd7d-609c-4a39-ab89-bc73b0c2c531";
   byVerseSessionId = "vkuyk8lg74nq";
@@ -25,11 +22,60 @@ export class BibleDemoApp {
 
   constructor() {
     this.load();
-    this.lookup_chapters_by_verse.addEventListener("click", () => this.lookupChaptersByVerse());
-    this.lookup_chapters_button.addEventListener("click", () => this.lookupChapters());
-    this.llm_prompt_response_button.addEventListener("click", () => this.sendPromptToLLM());
+    this.analyze_prompt_button.addEventListener("click", async () => {
+      if (this.running) {
+        alert("already running");
+        return;
+      }
+      this.analyze_prompt_button.setAttribute("disabled", "");
+      this.analyze_prompt_button.innerHTML = "Analyzing...";
+      this.running = true;
+      await Promise.all([
+        this.lookupChaptersByVerse(),
+        this.lookupChapters(),
+        this.sendPromptToLLM(),
+      ]);
+      this.analyze_prompt_button.removeAttribute("disabled");
+      this.analyze_prompt_button.innerHTML = "Analyze Prompt";
+      this.running = false;
+    });
     this.prompt_template_select_preset.addEventListener("input", () => this.populatePromptTemplates());
+    let templateIndex: any = localStorage.getItem("templateIndex");
+    if (templateIndex && templateIndex > 0) this.prompt_template_select_preset.selectedIndex = templateIndex;
+    let queryIndex: any = localStorage.getItem("queryIndex");
+    if (queryIndex && queryIndex > 0) this.embedding_type_select.selectedIndex = queryIndex;
+
     this.populatePromptTemplates(0);
+    this.analyze_prompt_textarea.addEventListener("keydown", (e: any) => {
+      if (e.key === "Enter" && e.shiftKey === false) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.analyze_prompt_button.click();
+      }
+    });
+    this.analyze_prompt_textarea.addEventListener("input", () => {
+      localStorage.setItem("lastPrompt", this.analyze_prompt_textarea.value);
+    });
+    this.prompt_template_text_area.addEventListener("input", () => {
+      localStorage.setItem("promptTemplate", this.prompt_template_text_area.value);
+    });
+    this.document_template_text_area.addEventListener("input", () => {
+      localStorage.setItem("documentTemplate", this.document_template_text_area.value);
+    });
+    const lastPrompt = localStorage.getItem("lastPrompt");
+    if (lastPrompt) this.analyze_prompt_textarea.value = lastPrompt;
+    const promptTemplate = localStorage.getItem("promptTemplate");
+    if (promptTemplate) this.prompt_template_text_area.value = promptTemplate;
+    const documentTemplate = localStorage.getItem("documentTemplate");
+    if (documentTemplate) this.document_template_text_area.value = documentTemplate;
+    
+    this.reset_template_options_button.addEventListener("click", () => {
+      this.prompt_template_select_preset.selectedIndex = 0;
+      this.embedding_type_select.selectedIndex = 0;
+      this.populatePromptTemplates();
+      localStorage.setItem("promptTemplate", this.prompt_template_text_area.value);
+      localStorage.setItem("documentTemplate", this.document_template_text_area.value);
+    });
   }
   async getMatchingVectors(message: string, topK: number, apiToken: string, sessionId: string): Promise<any> {
     const body = {
@@ -54,17 +100,14 @@ export class BibleDemoApp {
     this.bibleData = await bibleDataResponse.json();
   }
   async lookupChaptersByVerse() {
-    if (this.running) return;
-    this.running = true;
-    this.lookup_verse_response_feed.innerHTML = "running...";
-    const message = this.lookup_verse_message_text.value.trim();
+    this.lookup_verse_response_feed.innerHTML = "";
+    const message = this.analyze_prompt_textarea.value.trim();
     if (!message) {
       alert("please supply a message");
       return;
     }
 
     let result = await this.getMatchingVectors(message, 10, this.byVerseAPIToken, this.byVerseSessionId);
-    this.running = false;
     if (!result.success) {
       console.log("error", result);
       alert(result.errorMessage);
@@ -112,17 +155,14 @@ export class BibleDemoApp {
     })));
   }
   async lookupChapters(): Promise<void> {
-    if (this.running) return;
-    this.running = true;
-    this.lookup_chapter_response_feed.innerHTML = "running...";
-    const message = this.lookup_chapter_message_text.value.trim();
+    this.lookup_chapter_response_feed.innerHTML = "";
+    const message = this.analyze_prompt_textarea.value.trim();
     if (!message) {
       alert("please supply a message");
       return;
     }
 
     let result = await this.getMatchingVectors(message, 5, this.byChapterToken, this.byChapterSessionId);
-    this.running = false;
     if (!result.success) {
       console.log("error", result);
       alert(result.errorMessage);
@@ -267,13 +307,15 @@ export class BibleDemoApp {
       pineconeDB: "chapter",
       apiToken: this.byChapterToken,
       sessionId: this.byChapterSessionId,
-  };
+    };
   }
   async sendPromptToLLM() {
-    if (this.running) return;
-    this.running = true;
-    this.full_augmented_response.innerHTML = "running...";
-    const message = this.augmented_message_text.value.trim();
+    localStorage.setItem("templateIndex", this.prompt_template_select_preset.selectedIndex);
+    localStorage.setItem("queryIndex", this.embedding_type_select.selectedIndex);
+
+    this.full_augmented_response.innerHTML = "";
+    this.augmented_chapters_view.innerHTML = "";
+    const message = this.analyze_prompt_textarea.value.trim();
     if (!message) {
       alert("please supply a message");
       return;
@@ -281,7 +323,7 @@ export class BibleDemoApp {
     const queryDetails = this.getQueryDetails();
 
     let result = await this.getMatchingVectors(message, queryDetails.topK, queryDetails.apiToken, queryDetails.sessionId);
-    this.running = false;
+
     if (!result.success) {
       console.log("error", result);
       alert(result.errorMessage);
@@ -352,7 +394,6 @@ export class BibleDemoApp {
     }
     this.full_augmented_response.innerHTML = this.escapeHTML(promptResult.assist.assist.choices["0"].message.content);
 
-    this.running = false;
   }
   embedPrompt(prompt: string, matches: any[], queryDetails: any): string {
     const promptTemplate = this.prompt_template_text_area.value;
@@ -384,8 +425,7 @@ export class BibleDemoApp {
     return match.metadata.text;
   }
   populatePromptTemplates(templateIndex: number = -1) {
-    if (templateIndex < 0) templateIndex = this.prompt_template_select_preset.selectedIndex - 1;
-    if (templateIndex < 0) return;
+    if (templateIndex < 0) templateIndex = this.prompt_template_select_preset.selectedIndex;
 
     this.prompt_template_text_area.value = promptTemplates[templateIndex].mainPrompt;
     this.document_template_text_area.value = promptTemplates[templateIndex].documentPrompt;
@@ -396,7 +436,6 @@ const promptTemplates = [
   {
     mainPrompt: `Please respond to the following prompt using these Biblical chapters as guidance:
 {{documents}}
-
 Respond to prompt using Biblical language:
 {{prompt}}`,
     documentPrompt: `Chapter ({{title}}):
@@ -407,7 +446,6 @@ Respond to prompt using Biblical language:
   {
     mainPrompt: `Please write a new chapter using these Biblical chapters as guidance:
 {{documents}}
-
 As primary guidance use:
 {{prompt}}`,
     documentPrompt: `{{title}}:
@@ -418,7 +456,6 @@ As primary guidance use:
   {
     mainPrompt: `Please spiritual guidance using a Biblical voice using these chapters as reference:
 {{documents}}
-
 This is the specific prompt to respond to:
 {{prompt}}`,
     documentPrompt: `{{title}}:
@@ -429,7 +466,6 @@ This is the specific prompt to respond to:
   {
     mainPrompt: `Please provide a subject score in a range of 1-10 for political correctness for high school students in the USA for the following documents:
 {{documents}}
-
 Please respond with json and only json in this format:
 {
   "documentId": "",
