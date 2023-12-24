@@ -894,8 +894,10 @@ export default class BaseApp {
 
     return this.tokenizedStringCache[str];
   }
-  /** */
-  getHeaderBarHTML() {
+  /**
+   * @return { string }
+  */
+  getHeaderBarHTML(): string {
     const pathName = location.pathname;
     const homeHref = (pathName === "/") ? "" : `href="/"`;
     const embeddingHref = (pathName === "/embedding/") ? "" : `href="/embedding/"`;
@@ -954,6 +956,6 @@ export default class BaseApp {
             </a>
         </li>
     </ul>
-</nav>`
+</nav>`;
   }
 }

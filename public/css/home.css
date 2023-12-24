@@ -1092,12 +1092,6 @@ ol li,
   visibility: hidden;
 }
 
-.homepage.homepage_tab_selected_0 .signin_cta_navbar,
-.homepage.homepage_tab_selected_0 .signin_cta_navbar {
-  display: block;
-}
-
-
 .footer_container_div {
   margin-bottom: 0;
 }
@@ -1105,11 +1099,6 @@ ol li,
 .homepage .footer_container_div {
   transition: opacity 1.5s ease-in;
   opacity: 0;
-}
-
-.homepage.homepage_tab_selected_0 .footer_container_div,
-.homepage.homepage_tab_selected_2 .footer_container_div {
-  opacity: 1;
 }
 
 .video_wrapper {

@@ -14,6 +14,21 @@ const newsList = [
     date: "08-30-2023",
   },
   {
+    disabled: true,
+    link: "/content/about/",
+    title: "About",
+  },
+  {
+    disabled: true,
+    link: "/content/edushare/",
+    title: "Flyer",
+  },
+  {
+    disabled: true,
+    link: "/content/privacy/",
+    title: "Flyer",
+  },
+  {
     link: "/content/credits/",
     title: "Cost Info",
     description: "Unacog Credits Explained",
@@ -310,12 +325,12 @@ export default class SharedWithBackend {
     return newsList;
   }
   /** get content list template
-* @param { boolean } contentPage return content list if true
 * @return { string } html footer
 */
-  static getFlyerListTemplate(contentPage = false): string {
+  static getFlyerListTemplate(): string {
     let items = "";
     newsList.forEach((item: any) => {
+      if (item.disabled) return;
       items += `<li class="news_group_item hover_yellow"><a class="d-flex flex-column" href="${item.link}">
                 <div class="d-flex flex-column" style="flex:1">
                   <div style="flex:1;text-align:center;display:flex;">
@@ -330,9 +345,6 @@ export default class SharedWithBackend {
                 </div>
               </a></li>`;
     });
-    if (contentPage) {
-      items += ``;
-    }
     return items;
   }
   /**

@@ -1,9 +1,31 @@
 import fs from "fs";
+import fsp from "fs/promises";
 import Handlebars from "handlebars";
 import SharedWithBackend from "./uicode/sharedwithbackend";
 
 /** */
 export default class WebPage {
+    /** http endpoint for generating content page
+    * @param { any } req http request object
+    * @param { any } res http response object
+    */
+    static async contentHTML(req: any, res: any): Promise<any> {
+        const news = SharedWithBackend.getNews();
+        let contentItem: any = null;
+        news.forEach((item: any) => {
+            if (req.path === item.link) contentItem = item;
+        });
+
+        if (!contentItem) return res.status(404).send("Page Not Found");
+        const contentFile = await fsp.readFile("." + contentItem.link.slice(0, -1) + ".html");
+        const templateFile = await fsp.readFile("./content/template.html");
+        const outHTML = templateFile.toString();
+        const template = Handlebars.compile(outHTML);
+        const content = contentFile.toString();
+        return res.status(200).send(template({
+            content,
+        }));
+    }
     /** http endpoint for generating homepage
     * @param { any } req http request object
     * @param { any } res http response object
@@ -23,27 +45,27 @@ export default class WebPage {
             });
         });
     }
-        /** http endpoint for generating homepage
+    /** http endpoint for generating homepage
     * @param { any } req http request object
     * @param { any } res http response object
     */
-        static async aboutHTML(req: any, res: any): Promise<any> {
-            return new Promise((resolve: any) => {
-                const rawPrices = WebPage.generateRawPricingRows();
-                const tokensPerCredit = SharedWithBackend.generateCreditPricingRows();
-                fs.readFile("./html/about.html", async (err: any, html: any) => {
-                    if (err) {
-                        throw err;
-                    }
-                    const outHTML = html.toString();
-                    const template = Handlebars.compile(outHTML);
-                    resolve((<any>res).status(200).send(template({
-                        rawPrices,
-                        tokensPerCredit,
-                    })));
-                });
+    static async aboutHTML(req: any, res: any): Promise<any> {
+        return new Promise((resolve: any) => {
+            const rawPrices = WebPage.generateRawPricingRows();
+            const tokensPerCredit = SharedWithBackend.generateCreditPricingRows();
+            fs.readFile("./html/about.html", async (err: any, html: any) => {
+                if (err) {
+                    throw err;
+                }
+                const outHTML = html.toString();
+                const template = Handlebars.compile(outHTML);
+                resolve((<any>res).status(200).send(template({
+                    rawPrices,
+                    tokensPerCredit,
+                })));
             });
-        }
+        });
+    }
     /**
      * @return { string } html for table rows
      */

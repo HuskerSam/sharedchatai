@@ -4,6 +4,7 @@ import express from "express";
 import cors from "cors";
 const gameAPIApp = express();
 const embeddingAPIApp = express();
+const contentPagesApp = express();
 
 import GameAPI from "./gameapi";
 import SessionAPI from "./sessionapi";
@@ -36,9 +37,13 @@ embeddingAPIApp.use(cors({
 gameAPIApp.use(cors({
     origin: true,
 }));
+contentPagesApp.use(cors({
+    origin: true,
+}));
 
 export const lobbyApi = functions.runWith(runtimeOpts).https.onRequest(gameAPIApp);
 export const embeddingApi = functions.runWith(heavyOpts).https.onRequest(embeddingAPIApp);
+export const contentPage = functions.runWith(homeOpts).https.onRequest(contentPagesApp);
 export const updateDisplayNames = functions.firestore
     .document("Users/{uid}").onWrite(async (change, context) => GameAPI.updateUserMetaData(change, context));
 export const mediaPage = functions.runWith(homeOpts).https.onRequest(WebPage.mediaHTML);
@@ -76,4 +81,6 @@ embeddingAPIApp.post("/scrapeurl", async (req, res) => EmbeddingAPI.scrapeURL(re
 
 gameAPIApp.post("/session/external/message", async (req, res) => SessionAPI.externalMessageRequest(req, res));
 gameAPIApp.post("/session/external/vectorquery", async (req, res) => SessionAPI.externalVectorQuery(req, res));
+
+contentPagesApp.get("/*", async (req, res) => WebPage.contentHTML(req, res));
 
