@@ -810,41 +810,7 @@ export default class BaseApp {
                         </ul>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <h5 class="mb-0">Newsletter Signup:</h5>
-                        <p class="my-1">Get tips, updates, news and more.</p>
-                        <div class="intro_card card">
-                            <div id="mc_embed_shell">
-                                <div id="mc_embed_signup">
-                                    <form
-action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febcbb50595f9c46&amp;id=4abff76760&amp;f_id=00695ee1f0"
-                                        method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
-                                        class="validate m-2 mb-1" target="_self" novalidate="">
-                                        <div id="mc_embed_signup_scroll">
-                                            <div class="mc-field-group w-100"><label class="visually-hidden" for="mce-EMAIL">
-                                                    Email Address</label><input type="email" name="EMAIL"
-                                                    placeholder="Email Address" class="required email py-2" id="mce-EMAIL"
-                                                    required="" value=""></div>
-                                            <div id="mce-responses" class="clear foot">
-                                                <div class="response" id="mce-error-response" style="display: none;"></div>
-                                                <div class="response" id="mce-success-response" style="display: none;"></div>
-                                            </div>
-                                            <div aria-hidden="true" style="position: absolute; left: -5000px;">
-                                                /* real people should not fill this in and expect good things - do not remove
-                                                this or risk form bot signups */
-                                                <input type="text" name="b_064c017e2febcbb50595f9c46_4abff76760" tabindex="-1"
-                                                    value="">
-                                            </div>
-                                            <div class="optionalParent text-center">
-                                                <div class="clear foot d-inline-block">
-                                                    <input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button"
-                                                        value="Subscribe">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
                 <div class="d-flex flex-column flex-sm-row justify-content-center py-2 border-top">

@@ -10,7 +10,8 @@
     <meta name='mobile-web-app-capable' content='yes'>
     <meta name='apple-mobile-web-app-capable' content='yes'>
     <meta name='apple-mobile-web-app-status-bar-style' content='black'>
-    <meta name="description" content="Unacog is an online AI chat tool, enabling instant collaboration on any device. It equips you with a comprehensive set of features to optimize your interaction with advanced AI models.">
+    <meta name="description"
+        content="Unacog is an online AI chat tool, enabling instant collaboration on any device. It equips you with a comprehensive set of features to optimize your interaction with advanced AI models.">
 
     <link rel='icon' sizes='192x192' href='https://unacog.com/images/logo64.png'>
     <link rel='apple-touch-icon' href='https://unacog.com/images/logo64.png'>
@@ -49,12 +50,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
-    <link href="//cdn-images.mailchimp.com/embedcode/classic-061523.css" rel="stylesheet" type="text/css">
-
     <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="/css/modal.css">
     <link rel="stylesheet" href="/css/home.css">
-        
+
     <script src="/uicode/models/bundle.js"></script>
 </head>
 
@@ -69,29 +68,28 @@
                 <a class="navbar_brand homepage_logo_scrollup" href="#" style="text-decoration: none;">
                     <span class="navbar_logo"></span>
                     <div class=" scroll_to_top_icon">
-                            <span class="material-icons-outlined">
-                                arrow_upward
-                            </span>
-                            </div>
+                        <span class="material-icons-outlined">
+                            arrow_upward
+                        </span>
+                    </div>
                 </a>
             </li>
             <li class="logo_offset_spacer_mobile mobile_hide"></li>
             <li style="flex:1">
                 <ul class="header_tabs nav" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link session_tab active" id="dashboard_tab_button" data-bs-toggle="tab" href="#sessions"
-                            role="tab" aria-controls="sessions" aria-selected="true">
+                        <a class="nav-link active" role="tab">
                             <span class="tab_label">Sessions</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" href="/embedding/" role="tab">
+                            <span class="tab_label">Embedding</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link" href="/about/" role="tab">
                             <span class="tab_label">About</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" href="/media/" role="tab">
-                            <span class="tab_label">Media</span>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -111,7 +109,7 @@
                 <button class="signin_cta_navbar hover_yellow btn btn-primary" type="button"><span
                         class="mobile_hide">Login</span><span class="mobile_show"><i class="material-icons"
                             style="position: relative;top: 3px;">login</i></span>
-                        </button>
+                </button>
             </li>
             <li class="spacer_not_authed" style="width:65px"></li>
         </ul>
@@ -135,71 +133,64 @@
             </div>
         </div>
     </nav>
-    <div class="main_container homepage_content">
-        <div class="tab-content home_page_tabs">
-            <div class="tab-pane fade show active" id="sessions" role="tabpanel" style="flex-direction:column;"
-                aria-labelledby="dashboard_tab_button">
-                <div class="container">
-                    <div class="signed_out_flex p-3 justify-content-center session_cta">
-                        <div
-                            class="d-flex flex-column flex-auto justify-content-center rounded card side_block px-4 pt-4">
-                            <div class="mb-4 text-center">
-                                <img src="/images/logo64.png" alt="Unacog logo">
-                            </div>
-                            <div class="text-center mb-4">
-                                <p class="lead mb-2">Starting a Session?</p>
-                                <p class="desc">Login and purchase credits to begin.</p>
-                            </div>
-                            <div class="mb-1 text-center">
-                                <p class="lead mb-2">Joining a Shared Session?</p>
-                                <p class="desc">Login to access the session.</p>
-                            </div>
-                            <div class="d-flex flex-row justify-content-center pt-4 my-4">
-                                <button class="signin_show_modal btn btn-primary btn-md px-4 btn-lg"
-                                    type="button">Login</button>
-                            </div>
-                            <div class="text-center mt-4">
-                                <p class="alert alert-warning border"><small>Usage is
-                                        paid by the session owner.</small></p>
-                            </div>
+    <div class="main_container homepage_content" style="flex-direction:column;">
+        <div class="container">
+            <div class="signed_out_flex p-3 justify-content-center session_cta">
+                <div class="d-flex flex-column flex-auto justify-content-center rounded card side_block px-4 pt-4">
+                    <div class="mb-4 text-center">
+                        <img src="/images/logo64.png" alt="Unacog logo">
+                    </div>
+                    <div class="text-center mb-4">
+                        <p class="lead mb-2">Starting a Session?</p>
+                        <p class="desc">Login and purchase credits to begin.</p>
+                    </div>
+                    <div class="mb-1 text-center">
+                        <p class="lead mb-2">Joining a Shared Session?</p>
+                        <p class="desc">Login to access the session.</p>
+                    </div>
+                    <div class="d-flex flex-row justify-content-center pt-4 my-4">
+                        <button class="signin_show_modal btn btn-primary btn-md px-4 btn-lg"
+                            type="button">Login</button>
+                    </div>
+                    <div class="text-center mt-4">
+                        <p class="alert alert-warning border"><small>Usage is
+                                paid by the session owner.</small></p>
+                    </div>
+                </div>
+            </div>
+            <div class="signed_in_inline_block" style="width:100%;">
+                <div class="game_lobby">
+                    <div class="games_view_wrapper">
+                        <div class="dashboard_documents_view"></div>
+                    </div>
+                </div>
+                <div class="no_games_in_dashboard app_panel justify-content-center session_cta">
+                    <div class="d-flex flex-column flex-auto justify-content-center rounded card side_block px-4 pt-4">
+                        <div class="text-center">
+                            <p class="lead mb-4">Work on Context Together</p>
+                            <p class="desc">To get started, you need to purchase <a href="/content/pricing/">Unacog
+                                    credits</a> which can be found in profile
+                                options or by clicking below.
+                            </p>
+                        </div>
+                        <div class="d-flex flex-row justify-content-center pt-4 mb-3">
+                            <button class="btn btn-primary btn-md px-4 btn-md buy_credits_cta_btn" type="button">Buy
+                                Credits</button>
+                        </div>
+                        <div class="text-center mt-4">
+                            <p class="alert alert-warning border">
+                                <small>
+                                    Usage is paid by the session owner. The default limit per session is current
+                                    set to 1,000 and can change be changed in document options.
+                                </small>
+                            </p>
+                            <p class="alert alert-danger border signed_in_anonymous"><small>Anonymous users to
+                                    verify their account to purchase credits
+                                    and create sessions. This can be done by providing an email in profile
+                                    options or re-logging with your credentials.</small></p>
                         </div>
                     </div>
-                    <div class="signed_in_inline_block" style="width:100%;">
-                        <div class="game_lobby">
-                            <div class="games_view_wrapper">
-                                <div class="dashboard_documents_view"></div>
-                            </div>
-                        </div>
-                        <div class="no_games_in_dashboard app_panel justify-content-center session_cta">
-                            <div
-                                class="d-flex flex-column flex-auto justify-content-center rounded card side_block px-4 pt-4">
-                                <div class="text-center">
-                                    <p class="lead mb-4">Work on Context Together</p>
-                                    <p class="desc">To get started, you need to purchase <a
-                                            href="/content/pricing/">Unacog credits</a> which can be found in profile
-                                        options or by clicking below.
-                                    </p>
-                                </div>
-                                <div class="d-flex flex-row justify-content-center pt-4 mb-3">
-                                    <button class="btn btn-primary btn-md px-4 btn-md buy_credits_cta_btn"
-                                        type="button">Buy Credits</button>
-                                </div>
-                                <div class="text-center mt-4">
-                                    <p class="alert alert-warning border">
-                                        <small>
-                                            Usage is paid by the session owner. The default limit per session is current
-                                            set to 1,000 and can change be changed in document options.
-                                        </small>
-                                    </p>
-                                    <p class="alert alert-danger border signed_in_anonymous"><small>Anonymous users to
-                                            verify their account to purchase credits
-                                            and create sessions. This can be done by providing an email in profile
-                                            options or re-logging with your credentials.</small></p>
-                                </div>
-                            </div>
 
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
