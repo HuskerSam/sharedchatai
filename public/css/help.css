@@ -94,6 +94,7 @@ section {
 .help_content {
   flex: 1;
   overflow: auto;
+  padding: 12px;
 }
 
 .help_menu_panel {    
