@@ -2,7 +2,6 @@ import BaseApp from "./baseapp";
 import DocOptionsHelper from "./docoptionshelper";
 import ChatDocument from "./chatdocument";
 import AccountHelper from "./accounthelper";
-import SharedWithBackend from "./sharedwithbackend";
 import {
   collection,
   getDocs,
@@ -41,24 +40,7 @@ export class DashboardApp extends BaseApp {
   account_status_display: any = document.querySelector(".account_status_display");
   navigateHandled = false;
   homepage_logo_scrollup: any = document.querySelector(".homepage_logo_scrollup");
-//  pricing_type_display: any = document.querySelector(".pricing_type_display");
-  bulk_credits_wrapper: any = document.querySelector(".bulk_credits_wrapper");
-  power_user_wrapper: any = document.querySelector(".power_user_wrapper");
-  model_prices_wrapper: any = document.querySelector(".model_prices_wrapper");
-  tokens_per_credit: any = document.querySelector(".tokens_per_credit");
-  bulk_credits_table: any = document.querySelector(".bulk_credits_table");
-  bulk_project_count: any = document.querySelector(".bulk_project_count");
-  bulk_tokens_count: any = document.querySelector(".bulk_tokens_count");
-  tokens_per_credit_ratio: any = document.querySelector(".tokens_per_credit_ratio");
-  bulk_calc_total_tokens: any = document.querySelector(".bulk_calc_total_tokens");
-  primary_model_select: any = document.querySelector(".primary_model_select");
-  secondary_model_select: any = document.querySelector(".secondary_model_select");
-  power_tokens_count: any = document.querySelector(".power_tokens_count");
-  power_project_count: any = document.querySelector(".power_project_count");
-  power_user_calc_total_tokens: any = document.querySelector(".power_user_calc_total_tokens");
-  primary_usage_level: any = document.querySelector(".primary_usage_level");
-  power_user_credits_table: any = document.querySelector(".power_user_credits_table");
-  buy_credits_pricing: any = document.querySelector(".buy_credits_pricing");
+
   /** */
   constructor() {
     super(true, true);
@@ -108,103 +90,7 @@ export class DashboardApp extends BaseApp {
       history.pushState("", document.title, window.location.pathname +
         window.location.search);
     });
-/*
-    this.pricing_type_display.addEventListener("click", () => this.updateSelectedPricing());
-    this.updateSelectedPricing();
-
-    this.bulk_project_count.addEventListener("input", () => this.updateBulkCalculatorDisplay());
-    this.bulk_tokens_count.addEventListener("input", () => this.updateBulkCalculatorDisplay());
-    this.tokens_per_credit_ratio.addEventListener("input", () => this.updateBulkCalculatorDisplay());
-
-    this.updateBulkCalculatorDisplay();
-
-    this.primary_model_select.addEventListener("input", () => this.updatePowerUserCalculator());
-    this.secondary_model_select.addEventListener("input", () => this.updatePowerUserCalculator());
-    this.power_tokens_count.addEventListener("input", () => this.updatePowerUserCalculator());
-    this.power_project_count.addEventListener("input", () => this.updatePowerUserCalculator());
-    this.primary_usage_level.addEventListener("input", () => this.updatePowerUserCalculator());
-    this.initPowerUserCalcSelects();
-    this.updatePowerUserCalculator();
-    this.buy_credits_pricing.addEventListener("click", () => this.buyCredits.show());
-    */
   }
-  /** */
-  updatePowerUserCalculator() {
-    const perProject = Number(this.power_tokens_count.value);
-    const projectCount = Number(this.power_project_count.value);
-    const tokensNeeded = perProject * projectCount;
-    this.power_user_calc_total_tokens.innerHTML = tokensNeeded;
-    const primaryModel = this.primary_model_select.value;
-    const secondaryModel = this.secondary_model_select.value;
-    const primaryMeta = SharedWithBackend.getModelMeta(primaryModel);
-    const secondaryMeta = SharedWithBackend.getModelMeta(secondaryModel);
-    let modelRatio = Number(this.primary_usage_level.value);
-    if (isNaN(modelRatio)) modelRatio = 0;
-    if (modelRatio < 0) modelRatio = 0;
-    if (modelRatio > 100) modelRatio = 100;
-
-    let html = `<tr><th>Ratio</th><th>Credits</th><th>Cost*</th></tr>`;
-
-    for (let ratio = 1; ratio <= 5; ratio++) {
-      const primaryRatio = 1 / ((ratio * primaryMeta.input + primaryMeta.output) / (1 + ratio));
-      const secondaryRatio = 1 / ((ratio * secondaryMeta.input + secondaryMeta.output) / (1 + ratio));
-      const primaryTokens = modelRatio * tokensNeeded / 100;
-      const secondaryTokens = (100 - modelRatio) * tokensNeeded / 100;
-      const credits = primaryTokens / primaryRatio + secondaryTokens / secondaryRatio;
-      const cost = credits / 1000 / 0.75;
-
-      html += `<tr><td>${ratio}:1</td><td>${BaseApp.numberWithCommas(credits)}</td>
-        <td>${BaseApp.numberWithCommas(Math.ceil(cost))}</td></tr>`;
-    }
-
-    this.power_user_credits_table.innerHTML = html;
-  }
-  /** */
-  initPowerUserCalcSelects() {
-    const models = SharedWithBackend.getModels();
-    const modelNames = Object.keys(models);
-    let html = "";
-    modelNames.forEach((model: string) => {
-      html += `<option>${model}</option>`;
-    });
-
-    this.primary_model_select.innerHTML = html;
-    this.secondary_model_select.innerHTML = html;
-    this.secondary_model_select.selectedIndex = 2;
-  }
-  /*
-  updateSelectedPricing() {
-    this.bulk_credits_wrapper.style.display = "none";
-    this.power_user_wrapper.style.display = "none";
-    this.model_prices_wrapper.style.display = "none";
-    this.tokens_per_credit.style.display = "none";
-    (<any> this)[this.pricing_type_display.value].style.display = "block";
-  }
-  updateBulkCalculatorDisplay() {
-    let html = "";
-    html += `<tr><th>Model</th><th>Tokens/Credit</th><th>Credits</th><th>Cost*</th></tr>`;
-    const models = SharedWithBackend.getModels();
-    const modelNames = Object.keys(models);
-    const perProject = Number(this.bulk_tokens_count.value);
-    const projectCount = Number(this.bulk_project_count.value);
-    const ratio = Number(this.tokens_per_credit_ratio.value);
-    const tokensNeeded = perProject * projectCount;
-    this.bulk_calc_total_tokens.innerHTML = tokensNeeded;
-    modelNames.forEach((model: string) => {
-      const costRatio = 1 / ((ratio * models[model].input + models[model].output) / (1 + ratio));
-      const credits = tokensNeeded / costRatio;
-      const cost = credits / 1000 / 0.75;
-      const recommended = (model === "gpt-3.5-turbo") ? "class=\"recommended\"" : "";
-      html += `<tr ${recommended}>
-      <td>${model}</td>
-      <td>${BaseApp.numberWithCommas(costRatio)}</td>
-      <td>${BaseApp.numberWithCommas(credits)}</td>
-      <td>$${BaseApp.numberWithCommas(Math.ceil(cost))}</td>
-      </tr>`;
-    });
-    this.bulk_credits_table.innerHTML = html;
-  }
-  */
   /**
    * @return { string } label if custom, "" if not (all or unlabeled)
    */
