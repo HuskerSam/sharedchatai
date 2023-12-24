@@ -166,13 +166,15 @@ export class StaticPageApp extends BaseApp {
             });
         }
     }
+    /** */
     updateSelectedPricing() {
         this.bulk_credits_wrapper.style.display = "none";
         this.power_user_wrapper.style.display = "none";
         this.model_prices_wrapper.style.display = "none";
         this.tokens_per_credit.style.display = "none";
-        (<any>this)[this.pricing_type_display.value].style.display = "block";
+        (<any> this)[this.pricing_type_display.value].style.display = "block";
     }
+    /** */
     updateBulkCalculatorDisplay() {
         let html = "";
         html += `<tr><th>Model</th><th>Tokens/Credit</th><th>Credits</th><th>Cost*</th></tr>`;
