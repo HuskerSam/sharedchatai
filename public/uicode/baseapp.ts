@@ -857,8 +857,6 @@ action="https://promptplusai.us21.list-manage.com/subscribe/post?u=064c017e2febc
    * @return { number } 1 for dark mode, 0 for day
   */
   static initDayMode(): number {
-    if (window.location.pathname === "/help/") return 1;
-
     const niteMode = localStorage.getItem("niteMode");
     let themeIndex = 0;
     const highlightjstheme: any = document.querySelector("#highlightjstheme");
