@@ -28,8 +28,6 @@
     <link rel="stylesheet" href="/css/modal.css">
     <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="/css/embedding.css">
-
-    <script src="/uicode/models/bundle.js"></script>
 </head>
 
 <body class="basic_page_wrapper">
@@ -38,44 +36,7 @@
         else document.body.classList.add("nite_mode");
     </script>
     <div style="height: 100%;display: flex; flex-direction: column;overflow: hidden;">
-        <nav class="navbar navbar-light navbar_wrapper">
-            <ul class="navbar-nav container-fluid d-flex flex-row justify-content-end justify-content-sm-between">
-                <li class="" style="margin-left: 20px;">
-                    <a class="navbar_brand hover_yellow" style="text-decoration: none;" href="/">
-                        <span class="navbar_logo" style="background-image: url('/images/logo64.png'); top:2px;"></span>
-                        <span class="mobile_hide position-relative homepage_logo_spacing">Una<span
-                                class="home_navbar_name_color"">cog</span></span>
-                    </a>
-                </li>
-                <li style=" background:none;" class="app_panel">
-                                &nbsp; Upsert Embedding Documents &nbsp;
-                </li>
-                <li style="background:none;flex:1" class="app_panel">
-                    &nbsp;
-                </li>
-                <li style="background:none;" class="app_panel">
-                    <a class="account_status_display" href="showaccountinfo">
-                        <div class="credits_left"></div>
-                    </a>
-                </li>
-                <li class="nav-item signed_out_flex">
-                    <a class="signin_show_modal hover_yellow btn btn-primary px-4" href="login" type="button">Login
-                    </a>
-                </li>
-                <li class="nav-item signed_in_options">
-                    <a class="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
-                        <span class="menu_profile_user_image_span member_profile_image hover_yellow"> </span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="showhomepage_help nav-link hover_yellow" href="/help/#embedding" target="help">
-                        <span class="mobile_custom_icon_label">
-                            <i class="material-icons">help_outline</i>
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+        <div class="standard_header_bar_container"></div>
         <div class="app_panel"
             style="padding: 8px;padding-top: 70px;flex: 1;overflow: hidden;display: flex;flex-direction: column;">
             <div class="pinecone_status_bar">
@@ -360,6 +321,7 @@
             </div>
         </div>
     </div>
+    <script src="/uicode/models/bundle.js"></script>
 </body>
 
 </html>

@@ -40,8 +40,8 @@ export class StaticPageApp extends BaseApp {
     /**
      * @param { boolean } contentPage true if content page for all items
      */
-    constructor(contentPage = false) {
-        super(contentPage);
+    constructor() {
+        super();
         this.showLoginModal = false;
         this.profileHelper.noAuthPage = true;
 

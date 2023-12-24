@@ -64,7 +64,6 @@ export class EmbeddingApp extends BaseApp {
     parse_url_chunk_tokens: any = document.querySelector(".parse_url_chunk_tokens");
     fetch_pinecone_vector_id: any = document.querySelector(".fetch_pinecone_vector_id");
     fetch_vector_results: any = document.querySelector(".fetch_vector_results");
-    credits_left: any = document.querySelector(".credits_left");
     upsert_documents_list: any = document.querySelector(".upsert_documents_list");
     add_project_btn: any = document.querySelector(".add_project_btn");
     remove_project_btn: any = document.querySelector(".remove_project_btn");

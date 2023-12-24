@@ -137,7 +137,7 @@ export class SessionApp extends BaseApp {
 
   /**  */
   constructor() {
-    super(false, false);
+    super(false);
 
     this.send_ticket_button.addEventListener("click", () => this.sendTicketToAPI());
     this.auto_run_overthreshold_ticket.addEventListener("click", () => this.sendTicketToAPI(true));

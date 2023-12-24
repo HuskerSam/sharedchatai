@@ -35,15 +35,14 @@ export class DashboardApp extends BaseApp {
   help_show_modal: any = document.querySelector(".help_show_modal");
   menu_toggle_button: any = document.querySelector(".menu_toggle_button");
   show_create_modal: any = document.querySelector(".show_create_modal");
-  credits_left: any = document.querySelector(".credits_left");
   footer_container_div: any = null;
   account_status_display: any = document.querySelector(".account_status_display");
   navigateHandled = false;
-  homepage_logo_scrollup: any = document.querySelector(".homepage_logo_scrollup");
+  scroll_to_top_icon: any = document.querySelector(".scroll_to_top_icon");
 
   /** */
   constructor() {
-    super(true, true);
+    super(true);
     this.showLoginModal = false;
     this.memberRefreshBufferTime = 1000;
     this.document_label_filter.addEventListener("input", async () => {
@@ -82,7 +81,7 @@ export class DashboardApp extends BaseApp {
       }
     });
 
-    this.homepage_logo_scrollup.addEventListener("click", (e: any) => {
+    this.scroll_to_top_icon.addEventListener("click", (e: any) => {
       e.preventDefault();
       e.stopPropagation();
       document.documentElement.scrollTop = 0;

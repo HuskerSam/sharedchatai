@@ -453,7 +453,6 @@ ul.recent_documents_list li a {
 .game_lobby {
   margin: auto;
   width: 100%;
-  padding-top: 70px;
 }
 
 select.document_label_filter.form-select {

@@ -10,7 +10,8 @@
     <meta name='mobile-web-app-capable' content='yes'>
     <meta name='apple-mobile-web-app-capable' content='yes'>
     <meta name='apple-mobile-web-app-status-bar-style' content='black'>
-    <meta name="description" content="Unacog is an online AI chat tool, enabling instant collaboration on any device. It equips you with a comprehensive set of features to optimize your interaction with advanced AI models.">
+    <meta name="description"
+        content="Unacog is an online AI chat tool, enabling instant collaboration on any device. It equips you with a comprehensive set of features to optimize your interaction with advanced AI models.">
 
     <link rel='icon' sizes='192x192' href='https://unacog.com/images/logo64.png'>
     <link rel='apple-touch-icon' href='https://unacog.com/images/logo64.png'>
@@ -52,7 +53,7 @@
     <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="/css/modal.css">
     <link rel="stylesheet" href="/css/home.css">
-        
+
     <script src="/uicode/models/bundle.js"></script>
 </head>
 
@@ -61,406 +62,347 @@
         if (localStorage.getItem("niteMode") !== "true") document.body.classList.add("day_mode");
         else document.body.classList.add("nite_mode");
     </script>
-    <nav class="navbar navbar-light navbar_wrapper">
-        <ul class="navbar-nav d-flex flex-row justify-content-end justify-content-sm-between container">
-            <li class="home_logo_mobile_only">
-                <a class="navbar_brand homepage_logo_scrollup" href="#" style="text-decoration: none;">
-                    <span class="navbar_logo"></span>
-                    <div class=" scroll_to_top_icon">
-                            <span class="material-icons-outlined">
-                                arrow_upward
-                            </span>
-                            </div>
-                </a>
-            </li>
-            <li class="logo_offset_spacer_mobile mobile_hide"></li>
-            <li style="flex:1">
-                <ul class="header_tabs nav" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" href="/" role="tab">
-                            <span class="tab_label">Sessions</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link active" href="#" role="tab" aria-selected="true">
-                            <span class="tab_label">About</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" href="/media/" role="tab">
-                            <span class="tab_label">Media</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" href="/help/" role="tab">
-                            <span class="tab_label">Help</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li class="logo_offset_spacer mobile_hide"></li>
-            <li class="nav-item signed_in_list_item">
-                <a class="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
-                    <span class="menu_profile_user_image_span member_profile_image hover_yellow"> </span>
-                </a>
-            </li>
-            <li class="nav-item mobile_hide signed_out_list_item">
-                <button class="signin_cta_navbar hover_yellow btn btn-primary" type="button"><span
-                        class="mobile_hide">Login</span><span class="mobile_show"><i class="material-icons"
-                            style="position: relative;top: 3px;">login</i></span>
-                        </button>
-            </li>
-            <li class="spacer_not_authed" style="width:65px"></li>
-        </ul>
-    </nav>
-    <div class="main_container">
-        <div class="tab-content home_page_tabs">
-            <div class="tab-pane fade show active" id="about" role="tabpanel" style="flex-direction:column;"
-                aria-labelledby="about_tab_button">
+    <div class="standard_header_bar_container"></div>
 
-                <div class="homepage_container">
-                    <section class="homepage_section homepage_section_background">
-                        <div class="container">
-                            <div class="row">
-                                <div class="headline_unacog">Una<span
-                                        class="home_navbar_name_color">cog</span>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+    <div class="main_container" style="flex-direction:column;">
 
-                    <!-- intro unacog-->
-                    <section class="homepage_section homepage_section_background">
-                        <div class="container">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <img src="/images/unacog_screen.png" alt="Application Image" class="img-fluid mt-4">
-                                    <div class="row pt-5">
-                                        <div class="col-md-3 col-6">
-                                            <h4 class="feature_callout">Collaborative</h4>
-                                        </div>
-                                        <div class="col-md-3 col-6">
-                                            <h4 class="feature_callout">Multi-Model</h4>
-                                        </div>
-                                        <div class="col-md-3 col-6 mt-4 mt-md-0">
-                                            <h4 class="feature_callout">Feature-rich</h4>
-                                        </div>
-                                        <div class="col-md-3 col-6 mt-4 mt-md-0">
-                                            <h4 class="feature_callout">Credit-based</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+        <div class="homepage_container">
+            <section class="homepage_section homepage_section_background">
+                <div class="container">
+                    <div class="row">
+                        <div class="headline_unacog">Una<span class="home_navbar_name_color">cog</span>
                         </div>
-                    </section>
-
-                    <section class="px-md-4 text-center">
-                        <div class="container py-5">
-                            <div class="row g-4">
-                                <div class="col mt-md-0">
-                                    <img src="/images/openai-cir.png" alt="OpenAI logo" style="width:32px;"><img
-                                        class="model_svg show_day_mode_inline_block" src="/images/openai-name-day.png" alt="OpenAI day logo"
-                                        style="margin-left:6px;width:95px;"><img
-                                        class="model_svg show_nite_mode_inline_block" src="/images/openai-name-nite.png" alt="OpenAI nite logo"
-                                        style="margin-left:6px;width:95px;">
-                                </div>
-                                <div class="col mt-md-0">
-                                    <img src="/images/palmapi.png" alt="PaLM logo" style="width:32px;"><img
-                                        class="model_svg show_day_mode_inline_block" src="/images/palmapinamelite.png" alt="PaLM API day logo"
-                                        style="margin-left:6px;width:95px;"><img
-                                        class="model_svg show_nite_mode_inline_block" src="/images/palmapiname.png" alt="PaLM API nite logo"
-                                        style="margin-left:6px;width:95px;">
-                                </div>
-                                <div class="col mt-md-0">
-                                    <img src="/images/anthropologic.png" alt="Anthropic logo" style="width:32px;"><img alt="Anthropic day logo"
-                                        class="model_svg show_day_mode_inline_block" src="/images/anthrofulllite.svg"
-                                        style="margin-left:6px;width:100px;"><img alt="Anthropic nite logo"
-                                        class="model_svg show_nite_mode_inline_block" src="/images/anthrofull.svg"
-                                        style="margin-left:6px;width:100px;">
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="homepage_gif_section pt-5">
-                        <div class="container">
-                            <div class="row align-items-center">
-                                <div class="col-lg-6 p-lg-3 text-center">
-                                    <h2 class="display-6">Collaborate in Real-time
-                                    </h2>
-                                    <p class="fs-6">Learn to prompt by working together.</p>
-                                </div>
-                                <div class="col-lg-6 shadow-sm rounded">
-                                    <img src="/images/collab.gif" alt="gif of collaborative features"
-                                        class="img-fluid rounded">
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    <section class="homepage_gif_section pb-5">
-                        <div class="container">
-                            <div class="row align-items-center">
-                                <div class="col-lg-6 p-lg-3 text-center order-lg-1">
-                                    <h2 class="display-6">With Better Context Management
-                                    </h2>
-                                    <p class="fs-6">Create the perfect context for your use case.</p>
-                                </div>
-                                <div class="col-lg-6 order-lg-0 shadow-sm rounded">
-                                    <img src="/images/context.gif" alt="gif of features to manage context"
-                                        class="img-fluid rounded">
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    <section class="homepage_section homepage_section_background ">
-                        <div class="container">
-                            <div class="row align-items-center">
-                                <div class="col-lg-6 p-lg-3 text-center mb-3 mb-lg-0">
-                                    <h2 class="display-5">Unacog Credits
-                                    </h2>
-                                    <p class="fs-5">Only pay for what you use, with credits that never expire and grant
-                                        you access to a growing LLM library.</p>
-                                    <a href="#pricingcalculator" class="btn btn-primary btn-lg">Cost Calculator</a>
-                                </div>
-                                <div class="col-lg-6">
-                                    <img src="/images/credits.gif" alt="gif of explaining unacog credits"
-                                    class="img-fluid rounded">
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="homepage_gif_section pt-5">
-                        <div class="container">
-                            <div class="row align-items-center">
-                                <div class="col-lg-6 p-lg-3 text-center">
-                                    <h2 class="display-6">Create & Share Templates
-                                    </h2>
-                                    <p class="fs-6">Reuse your context as unique spaces and more.</p>
-                                </div>
-                                <div class="col-lg-6 shadow-sm rounded">
-                                    <img src="/images/templates.gif" alt="gif showing how to reuse context as templates"
-                                        class="img-fluid rounded">
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    <section class="homepage_gif_section pb-5">
-                        <div class="container">
-                            <div class="row align-items-center">
-                                <div class="col-lg-6 p-lg-3 text-center order-lg-1">
-                                    <h2 class="display-6">Organize & Customize
-                                    </h2>
-                                    <p class="fs-6">With features to streamline your workflow.</p>
-                                </div>
-                                <div class="col-lg-6 order-lg-0 shadow-sm rounded">
-                                    <img src="/images/dashprofile.gif" alt="gif showing dashboard and profile options"
-                                        class="img-fluid rounded">
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-    
-                    <section class="pricing_calculator_wrapper homepage_section homepage_section_background"
-                        id="pricingcalculator">
-                        <div class="container">
-                            <div class="text-center">
-                                <h2 class="display-5">Cost Calculator</h2>
-                                <hr>
-                                <div class="pb-3">
-                                    <select class="pricing_type_display form-select bulk_calc_input fs-5"
-                                        style="width:auto;display:inline-block">
-                                        <option selected value="bulk_credits_wrapper">Bulk Credits</option>
-                                        <option value="power_user_wrapper">Power User</option>
-                                        <option value="model_prices_wrapper">Model Prices</option>
-                                        <option value="tokens_per_credit">Tokens Per Credit</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="bulk_credits_wrapper text-center">
-                                <div class="calc_description pb-3">
-                                    This calculator is for a team leader or professor to determine the cost
-                                    of multiple projects.  A token is ~3/4 of a word for comparison.
-                                </div>
-                                <div>
-                                    <div style="display: inline-block" class="text-start card p-2 mb-4 shadow-sm">
-                                        <label class="form-label bulk_calc_label">Tokens Per Project</label>
-                                        <input class="bulk_tokens_count bulk_calc_input" type="text" value="10000">
-                                        <br>
-                                        <label class="form-label bulk_calc_label">Project Count</label>
-                                        <input class="bulk_project_count bulk_calc_input" type="text" value="25">
-                                        <br>
-                                        <label class="form-label bulk_calc_label">Input:Output Ratio</label>
-                                        <select class="tokens_per_credit_ratio form-select"
-                                            style="width:auto;display:inline-block">
-                                            <option value="1">1:1</option>
-                                            <option selected value="2">2:1</option>
-                                            <option value="3">3:1</option>
-                                            <option value="4">4:1</option>
-                                            <option value="5">5:1</option>
-                                        </select>
-                                        <hr>
-                                        <label class="form-label bulk_calc_label">Total Tokens</label>
-                                        <span class="bulk_calc_total_tokens"
-                                            style="padding:4px;display:inline-block"></span>
-                                    </div>
-                                    <br>
-                                    <div>
-                                        <div class="card shadow-sm">
-                                            <table class="bulk_credits_table price_table">
-                                            </table>
-                                        </div>
-                                        <div class="recommended"> &nbsp; gpt-3.5-turbo recommended as best value</div>
-                                        <div> &nbsp; * Cost based on purchasing credits in $100 amounts</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="power_user_wrapper text-center">
-                                <div class="calc_description pb-3">
-                                    For mixing models to build context cheaper but still get the
-                                    best quality final results.
-                                </div>
-                                <div>
-                                    <div style="display: inline-block" class="card p-2 mb-4 text-start shadow-sm">
-                                        <label class="form-label bulk_calc_label">Tokens Per Project</label>
-                                        <input class="power_tokens_count power_user_calc_input" type="text"
-                                            value="20000">
-                                        <br>
-                                        <label class="form-label bulk_calc_label">Project Count</label>
-                                        <input class="power_project_count power_user_calc_input" type="text" value="50">
-                                        <br>
-                                        <label class="form-label bulk_calc_label">Total Tokens</label>
-                                        <span class="power_user_calc_total_tokens"></span>
-                                        <br>
-                                        <label class="form-label bulk_calc_label">Primary Model</label>
-                                        <select class="form-select primary_model_select"
-                                            style="width:auto;display:inline-block"></select>
-                                        <br>
-                                        <label class="form-label bulk_calc_label">Secondary Model</label>
-                                        <select class="form-select secondary_model_select"
-                                            style="width:auto;display:inline-block"></select>
-                                        <br>
-                                        <label class="form-label bulk_calc_label">Primary Usage</label>
-                                        <input type="number" min="0" max="100"
-                                            class="form-control primary_usage_level bulk_calc_input" value="80">
-                                        %
-                                    </div>
-                                    <br>
-                                    <div style="max-width:45em;display:inline-block;width:100%;">
-                                        <div class="card shadow-sm">
-                                            <table class="power_user_credits_table price_table">
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="model_prices_wrapper" style="text-align:center">
-                                <div class="calc_description pb-3">
-                                    Wholesale cost, these are directly from the API vendors.
-                                </div>
-                                <div style="max-width:45em;display:inline-block;width:100%;">
-                                    <div class="card shadow-sm">
-                                        <table class="price_table">
-                                            {{{rawPrices}}}
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tokens_per_credit" style="text-align:center">
-                                <div class="calc_description pb-3">
-                                    Number of tokens per Unacog credit based on the API cost.
-                                </div>
-                                <div style="max-width:45em;display:inline-block;width:100%;">
-                                    <div class="card shadow-sm">
-                                        <table class="price_table">
-                                            {{{tokensPerCredit}}}
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="col align-items-center" style="display:none;">
-                                <div class="py-3" style="text-align:center;font-size:1.5em;">
-                                    <button class="btn btn-primary btn-lg buy_credits_pricing" type="button">Buy
-                                        Credits</button>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    <section class="homepage_section ">
-                        <div class="container">
-                            <div class="row align-items-center">
-                                <div class="col-lg-6 p-lg-3 text-center mb-3 mb-lg-0">
-                                    <h2 class="display-5">Most Flexible Way to Prompt
-                                    </h2>
-                                    <p class="fs-5">Collaborate in real-time with many LLMs with no subscription needed</p>
-                                    <a href="https://unacog.com/content/credits/" class="btn btn-primary btn-lg">Learn More</a>
-                                </div>
-                                <div class="col-lg-6">
-                                    <a href="https://unacog.com/content/credits/"
-                                        class="d-flex flex-sm-column justify-content-center align-content-center"
-                                        style="flex-flow: wrap;">
-                                        <img src="/images/unacog_pricing.png" class="img-fluid rounded w-50" alt="Unacog pricing">
-                                        <span class="text-center">A look at the cost of a Prompt</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="homepage_gif_section" id="contact">
-                        <div class="container">
-                            <div class="row justify-content-center">
-                                <div class="col-12 col-lg-8 px-md-5 py-md-5">
-                                    <div class="card border-0 p-2 p-md-3 p-lg-5 homepage_section_background">
-                                        <div class="border-0 text-center py-3 px-4">
-                                            <h2>Need to Talk?</h2>
-                                            <p> We're here to help! If you encounter any bugs or have questions, the best way to 
-                                                currently reach us is by email at <a href="mailto:support@unacog.com"
-                                                target="_blank">Support@unacog.com</a>.</p>
-                                        </div>
-                                        <div class="card-body pt-0 text-start homepage_section_background"
-                                            style="display:none">
-                                            <form>
-                                                <div class="mb-4">
-                                                    <label class="mb-2 fw-bold" for="name">Your Name</label>
-                                                    <div class="input-group">
-                                                        <span class="input-group-text" id="basic-addon3">
-                                                            <i class="material-icons">person</i></span>
-                                                        <input type="text" class="form-control" placeholder="Name"
-                                                            id="name" required>
-                                                    </div>
-                                                </div>
-                                                <div class="mb-4">
-                                                    <label class="mb-2 fw-bold" for="email">Your Email</label>
-                                                    <div class="input-group">
-                                                        <span class="input-group-text" id="basic-addon4"><i
-                                                                class="material-icons">email</i></span>
-                                                        <input type="email" class="form-control"
-                                                            placeholder="example@company.com" id="email" required>
-                                                    </div>
-                                                </div>
-                                                <div class="mb-4">
-                                                    <label class="mb-2 fw-bold" for="message">Your Message</label>
-                                                    <textarea placeholder="Your message" class="form-control"
-                                                        id="message" rows="4" required></textarea>
-
-                                                </div>
-                                                <div class="d-grid">
-                                                    <button type="submit" class="btn btn-primary">Send
-                                                        message</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
+                    </div>
                 </div>
-            </div>
+            </section>
+
+            <!-- intro unacog-->
+            <section class="homepage_section homepage_section_background">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <img src="/images/unacog_screen.png" alt="Application Image" class="img-fluid mt-4">
+                            <div class="row pt-5">
+                                <div class="col-md-3 col-6">
+                                    <h4 class="feature_callout">Collaborative</h4>
+                                </div>
+                                <div class="col-md-3 col-6">
+                                    <h4 class="feature_callout">Multi-Model</h4>
+                                </div>
+                                <div class="col-md-3 col-6 mt-4 mt-md-0">
+                                    <h4 class="feature_callout">Feature-rich</h4>
+                                </div>
+                                <div class="col-md-3 col-6 mt-4 mt-md-0">
+                                    <h4 class="feature_callout">Credit-based</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="px-md-4 text-center">
+                <div class="container py-5">
+                    <div class="row g-4">
+                        <div class="col mt-md-0">
+                            <img src="/images/openai-cir.png" alt="OpenAI logo" style="width:32px;"><img
+                                class="model_svg show_day_mode_inline_block" src="/images/openai-name-day.png"
+                                alt="OpenAI day logo" style="margin-left:6px;width:95px;"><img
+                                class="model_svg show_nite_mode_inline_block" src="/images/openai-name-nite.png"
+                                alt="OpenAI nite logo" style="margin-left:6px;width:95px;">
+                        </div>
+                        <div class="col mt-md-0">
+                            <img src="/images/palmapi.png" alt="PaLM logo" style="width:32px;"><img
+                                class="model_svg show_day_mode_inline_block" src="/images/palmapinamelite.png"
+                                alt="PaLM API day logo" style="margin-left:6px;width:95px;"><img
+                                class="model_svg show_nite_mode_inline_block" src="/images/palmapiname.png"
+                                alt="PaLM API nite logo" style="margin-left:6px;width:95px;">
+                        </div>
+                        <div class="col mt-md-0">
+                            <img src="/images/anthropologic.png" alt="Anthropic logo" style="width:32px;"><img
+                                alt="Anthropic day logo" class="model_svg show_day_mode_inline_block"
+                                src="/images/anthrofulllite.svg" style="margin-left:6px;width:100px;"><img
+                                alt="Anthropic nite logo" class="model_svg show_nite_mode_inline_block"
+                                src="/images/anthrofull.svg" style="margin-left:6px;width:100px;">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="homepage_gif_section pt-5">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 p-lg-3 text-center">
+                            <h2 class="display-6">Collaborate in Real-time
+                            </h2>
+                            <p class="fs-6">Learn to prompt by working together.</p>
+                        </div>
+                        <div class="col-lg-6 shadow-sm rounded">
+                            <img src="/images/collab.gif" alt="gif of collaborative features" class="img-fluid rounded">
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="homepage_gif_section pb-5">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 p-lg-3 text-center order-lg-1">
+                            <h2 class="display-6">With Better Context Management
+                            </h2>
+                            <p class="fs-6">Create the perfect context for your use case.</p>
+                        </div>
+                        <div class="col-lg-6 order-lg-0 shadow-sm rounded">
+                            <img src="/images/context.gif" alt="gif of features to manage context"
+                                class="img-fluid rounded">
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="homepage_section homepage_section_background ">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 p-lg-3 text-center mb-3 mb-lg-0">
+                            <h2 class="display-5">Unacog Credits
+                            </h2>
+                            <p class="fs-5">Only pay for what you use, with credits that never expire and grant
+                                you access to a growing LLM library.</p>
+                            <a href="#pricingcalculator" class="btn btn-primary btn-lg">Cost Calculator</a>
+                        </div>
+                        <div class="col-lg-6">
+                            <img src="/images/credits.gif" alt="gif of explaining unacog credits"
+                                class="img-fluid rounded">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="homepage_gif_section pt-5">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 p-lg-3 text-center">
+                            <h2 class="display-6">Create & Share Templates
+                            </h2>
+                            <p class="fs-6">Reuse your context as unique spaces and more.</p>
+                        </div>
+                        <div class="col-lg-6 shadow-sm rounded">
+                            <img src="/images/templates.gif" alt="gif showing how to reuse context as templates"
+                                class="img-fluid rounded">
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="homepage_gif_section pb-5">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 p-lg-3 text-center order-lg-1">
+                            <h2 class="display-6">Organize & Customize
+                            </h2>
+                            <p class="fs-6">With features to streamline your workflow.</p>
+                        </div>
+                        <div class="col-lg-6 order-lg-0 shadow-sm rounded">
+                            <img src="/images/dashprofile.gif" alt="gif showing dashboard and profile options"
+                                class="img-fluid rounded">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="pricing_calculator_wrapper homepage_section homepage_section_background"
+                id="pricingcalculator">
+                <div class="container">
+                    <div class="text-center">
+                        <h2 class="display-5">Cost Calculator</h2>
+                        <hr>
+                        <div class="pb-3">
+                            <select class="pricing_type_display form-select bulk_calc_input fs-5"
+                                style="width:auto;display:inline-block">
+                                <option selected value="bulk_credits_wrapper">Bulk Credits</option>
+                                <option value="power_user_wrapper">Power User</option>
+                                <option value="model_prices_wrapper">Model Prices</option>
+                                <option value="tokens_per_credit">Tokens Per Credit</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="bulk_credits_wrapper text-center">
+                        <div class="calc_description pb-3">
+                            This calculator is for a team leader or professor to determine the cost
+                            of multiple projects. A token is ~3/4 of a word for comparison.
+                        </div>
+                        <div>
+                            <div style="display: inline-block" class="text-start card p-2 mb-4 shadow-sm">
+                                <label class="form-label bulk_calc_label">Tokens Per Project</label>
+                                <input class="bulk_tokens_count bulk_calc_input" type="text" value="10000">
+                                <br>
+                                <label class="form-label bulk_calc_label">Project Count</label>
+                                <input class="bulk_project_count bulk_calc_input" type="text" value="25">
+                                <br>
+                                <label class="form-label bulk_calc_label">Input:Output Ratio</label>
+                                <select class="tokens_per_credit_ratio form-select"
+                                    style="width:auto;display:inline-block">
+                                    <option value="1">1:1</option>
+                                    <option selected value="2">2:1</option>
+                                    <option value="3">3:1</option>
+                                    <option value="4">4:1</option>
+                                    <option value="5">5:1</option>
+                                </select>
+                                <hr>
+                                <label class="form-label bulk_calc_label">Total Tokens</label>
+                                <span class="bulk_calc_total_tokens" style="padding:4px;display:inline-block"></span>
+                            </div>
+                            <br>
+                            <div>
+                                <div class="card shadow-sm">
+                                    <table class="bulk_credits_table price_table">
+                                    </table>
+                                </div>
+                                <div class="recommended"> &nbsp; gpt-3.5-turbo recommended as best value</div>
+                                <div> &nbsp; * Cost based on purchasing credits in $100 amounts</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="power_user_wrapper text-center">
+                        <div class="calc_description pb-3">
+                            For mixing models to build context cheaper but still get the
+                            best quality final results.
+                        </div>
+                        <div>
+                            <div style="display: inline-block" class="card p-2 mb-4 text-start shadow-sm">
+                                <label class="form-label bulk_calc_label">Tokens Per Project</label>
+                                <input class="power_tokens_count power_user_calc_input" type="text" value="20000">
+                                <br>
+                                <label class="form-label bulk_calc_label">Project Count</label>
+                                <input class="power_project_count power_user_calc_input" type="text" value="50">
+                                <br>
+                                <label class="form-label bulk_calc_label">Total Tokens</label>
+                                <span class="power_user_calc_total_tokens"></span>
+                                <br>
+                                <label class="form-label bulk_calc_label">Primary Model</label>
+                                <select class="form-select primary_model_select"
+                                    style="width:auto;display:inline-block"></select>
+                                <br>
+                                <label class="form-label bulk_calc_label">Secondary Model</label>
+                                <select class="form-select secondary_model_select"
+                                    style="width:auto;display:inline-block"></select>
+                                <br>
+                                <label class="form-label bulk_calc_label">Primary Usage</label>
+                                <input type="number" min="0" max="100"
+                                    class="form-control primary_usage_level bulk_calc_input" value="80">
+                                %
+                            </div>
+                            <br>
+                            <div style="max-width:45em;display:inline-block;width:100%;">
+                                <div class="card shadow-sm">
+                                    <table class="power_user_credits_table price_table">
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="model_prices_wrapper" style="text-align:center">
+                        <div class="calc_description pb-3">
+                            Wholesale cost, these are directly from the API vendors.
+                        </div>
+                        <div style="max-width:45em;display:inline-block;width:100%;">
+                            <div class="card shadow-sm">
+                                <table class="price_table">
+                                    {{{rawPrices}}}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tokens_per_credit" style="text-align:center">
+                        <div class="calc_description pb-3">
+                            Number of tokens per Unacog credit based on the API cost.
+                        </div>
+                        <div style="max-width:45em;display:inline-block;width:100%;">
+                            <div class="card shadow-sm">
+                                <table class="price_table">
+                                    {{{tokensPerCredit}}}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="col align-items-center" style="display:none;">
+                        <div class="py-3" style="text-align:center;font-size:1.5em;">
+                            <button class="btn btn-primary btn-lg buy_credits_pricing" type="button">Buy
+                                Credits</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="homepage_section ">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 p-lg-3 text-center mb-3 mb-lg-0">
+                            <h2 class="display-5">Most Flexible Way to Prompt
+                            </h2>
+                            <p class="fs-5">Collaborate in real-time with many LLMs with no subscription needed</p>
+                            <a href="https://unacog.com/content/credits/" class="btn btn-primary btn-lg">Learn More</a>
+                        </div>
+                        <div class="col-lg-6">
+                            <a href="https://unacog.com/content/credits/"
+                                class="d-flex flex-sm-column justify-content-center align-content-center"
+                                style="flex-flow: wrap;">
+                                <img src="/images/unacog_pricing.png" class="img-fluid rounded w-50"
+                                    alt="Unacog pricing">
+                                <span class="text-center">A look at the cost of a Prompt</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="homepage_gif_section" id="contact">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-lg-8 px-md-5 py-md-5">
+                            <div class="card border-0 p-2 p-md-3 p-lg-5 homepage_section_background">
+                                <div class="border-0 text-center py-3 px-4">
+                                    <h2>Need to Talk?</h2>
+                                    <p> We're here to help! If you encounter any bugs or have questions, the best way to
+                                        currently reach us is by email at <a href="mailto:support@unacog.com"
+                                            target="_blank">Support@unacog.com</a>.</p>
+                                </div>
+                                <div class="card-body pt-0 text-start homepage_section_background" style="display:none">
+                                    <form>
+                                        <div class="mb-4">
+                                            <label class="mb-2 fw-bold" for="name">Your Name</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text" id="basic-addon3">
+                                                    <i class="material-icons">person</i></span>
+                                                <input type="text" class="form-control" placeholder="Name" id="name"
+                                                    required>
+                                            </div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="mb-2 fw-bold" for="email">Your Email</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text" id="basic-addon4"><i
+                                                        class="material-icons">email</i></span>
+                                                <input type="email" class="form-control"
+                                                    placeholder="example@company.com" id="email" required>
+                                            </div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="mb-2 fw-bold" for="message">Your Message</label>
+                                            <textarea placeholder="Your message" class="form-control" id="message"
+                                                rows="4" required></textarea>
+
+                                        </div>
+                                        <div class="d-grid">
+                                            <button type="submit" class="btn btn-primary">Send
+                                                message</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </div>
     </div>
 

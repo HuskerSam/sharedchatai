@@ -47,8 +47,6 @@
     <link rel="stylesheet" href="/css/modal.css" />
     <link rel="stylesheet" href="/css/home.css" />
     <link rel="stylesheet" href="/css/help.css" />
-
-    <script src="/uicode/models/bundle.js"></script>
 </head>
 
 <body class="basic_page_wrapper">
@@ -56,58 +54,8 @@
         if (localStorage.getItem("niteMode") !== "true") document.body.classList.add("day_mode");
         else document.body.classList.add("nite_mode");
     </script>
-    <nav class="navbar navbar-light navbar_wrapper">
-        <ul class="navbar-nav d-flex flex-row justify-content-end justify-content-sm-between container">
-            <li class="home_logo_mobile_only">
-                <a class="navbar_brand homepage_logo_scrollup" href="#" style="text-decoration: none;">
-                    <span class="navbar_logo"></span>
-                    <div class=" scroll_to_top_icon">
-                        <span class="material-icons-outlined">
-                            arrow_upward
-                        </span>
-                    </div>
-                </a>
-            </li>
-            <li class="logo_offset_spacer_mobile mobile_hide"></li>
-            <li style="flex:1">
-                <ul class="header_tabs nav" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" href="/" role="tab">
-                            <span class="tab_label">Sessions</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" href="/about/" role="tab">
-                            <span class="tab_label">About</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" href="/media/" role="tab">
-                            <span class="tab_label">Media</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link active" href="/help/" role="tab" aria-selected="true">
-                            <span class="tab_label">Help</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li class="logo_offset_spacer mobile_hide"></li>
-            <li class="nav-item signed_in_list_item">
-                <a class="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
-                    <span class="menu_profile_user_image_span member_profile_image hover_yellow"> </span>
-                </a>
-            </li>
-            <li class="nav-item mobile_hide signed_out_list_item">
-                <button class="signin_cta_navbar hover_yellow btn btn-primary" type="button"><span
-                        class="mobile_hide">Login</span><span class="mobile_show"><i class="material-icons"
-                            style="position: relative;top: 3px;">login</i></span>
-                </button>
-            </li>
-            <li class="spacer_not_authed" style="width:65px"></li>
-        </ul>
-    </nav>
+    <div class="standard_header_bar_container"></div>
+
 
     <div id="content" role="main" class="main_content_container container">
         <div class="help_menu_panel">
@@ -1547,6 +1495,7 @@
         </div>
 
     </div>
+    <script src="/uicode/models/bundle.js"></script>
 </body>
 
 </html>

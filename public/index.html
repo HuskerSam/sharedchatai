@@ -53,8 +53,6 @@
     <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="/css/modal.css">
     <link rel="stylesheet" href="/css/home.css">
-
-    <script src="/uicode/models/bundle.js"></script>
 </head>
 
 <body class="basic_page_wrapper homepage news_tab homepage_tab_selected_0">
@@ -62,77 +60,7 @@
         if (localStorage.getItem("niteMode") !== "true") document.body.classList.add("day_mode");
         else document.body.classList.add("nite_mode");
     </script>
-    <nav class="navbar navbar-light navbar_wrapper">
-        <ul class="navbar-nav d-flex flex-row justify-content-end justify-content-sm-between container">
-            <li class="home_logo_mobile_only">
-                <a class="navbar_brand homepage_logo_scrollup" href="#" style="text-decoration: none;">
-                    <span class="navbar_logo"></span>
-                    <div class=" scroll_to_top_icon">
-                        <span class="material-icons-outlined">
-                            arrow_upward
-                        </span>
-                    </div>
-                </a>
-            </li>
-            <li class="logo_offset_spacer_mobile mobile_hide"></li>
-            <li style="flex:1">
-                <ul class="header_tabs nav" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link active" role="tab">
-                            <span class="tab_label">Sessions</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" href="/embedding/" role="tab">
-                            <span class="tab_label">Embedding</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" href="/about/" role="tab">
-                            <span class="tab_label">About</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" href="/help/" role="tab">
-                            <span class="tab_label">Help</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li class="logo_offset_spacer mobile_hide"></li>
-            <li class="nav-item signed_in_list_item">
-                <a class="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
-                    <span class="menu_profile_user_image_span member_profile_image hover_yellow"> </span>
-                </a>
-            </li>
-            <li class="nav-item mobile_hide signed_out_list_item">
-                <button class="signin_cta_navbar hover_yellow btn btn-primary" type="button"><span
-                        class="mobile_hide">Login</span><span class="mobile_show"><i class="material-icons"
-                            style="position: relative;top: 3px;">login</i></span>
-                </button>
-            </li>
-            <li class="spacer_not_authed" style="width:65px"></li>
-        </ul>
-        <div class="signed_in_inline_block container">
-            <div class="filter_bar_wrapper">
-                <div class="games_view_header_wrapper">
-                    <select class="document_label_filter form-select">
-                        <option>All Sessions</option>
-                    </select>
-                </div>
-                <div>
-                    <a class="nav-link show_create_modal homepage hover_yellow" href="create">
-                        <span class="mobile_custom_icon_label">
-                            <i class="material-icons add_icon">add</i>
-                        </span>
-                    </a>
-                </div>
-                <a class="account_status_display" href="showaccountinfo">
-                    <div class="credits_left"></div>
-                </a>
-            </div>
-        </div>
-    </nav>
+    <div class="standard_header_bar_container"></div>
     <div class="main_container homepage_content" style="flex-direction:column;">
         <div class="container">
             <div class="signed_out_flex p-3 justify-content-center session_cta">
@@ -159,6 +87,22 @@
                 </div>
             </div>
             <div class="signed_in_inline_block" style="width:100%;">
+                <div class="signed_in_inline_block container">
+                    <div class="filter_bar_wrapper">
+                        <div class="games_view_header_wrapper">
+                            <select class="document_label_filter form-select">
+                                <option>All Sessions</option>
+                            </select>
+                        </div>
+                        <div>
+                            <a class="nav-link show_create_modal homepage hover_yellow" href="create">
+                                <span class="mobile_custom_icon_label">
+                                    <i class="material-icons add_icon">add</i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
                 <div class="game_lobby">
                     <div class="games_view_wrapper">
                         <div class="dashboard_documents_view"></div>
@@ -197,6 +141,7 @@
     </div>
 
     <div style="flex:1"></div>
+    <script src="/uicode/models/bundle.js"></script>
 </body>
 
 </html>
