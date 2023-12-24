@@ -10,16 +10,16 @@
     <meta name='mobile-web-app-capable' content='yes'>
     <meta name='apple-mobile-web-app-capable' content='yes'>
     <meta name='apple-mobile-web-app-status-bar-style' content='black'>
-  
+
     <link rel='icon' sizes='192x192' href='https://unacog.com/images/logo64.png'>
     <link rel='apple-touch-icon' href='https://unacog.com/images/logo64.png'>
     <meta name='msapplication-square310x310logo' content='https://unacog.com/images/logo64.png'>
     <link rel='apple-touch-icon' href='https://unacog.com/images/logo64.png'>
-  
+
     <meta property="og:url" content="https://unacog.com/help/" />
     <meta property="og:title" content="Help for Unacog" />
     <meta property="og:type" content="website" />
-  
+
     <meta property="og:image" content="https://unacog.com/images/homepageogmeta.jpg" />
     <meta property="og:description" content="Context specific help for Unacog" />
 
@@ -43,20 +43,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
-    <!-- Stylesheet
-============================== -->
-    <!-- Bootstrap -->
-    <link rel="stylesheet" type="text/css" href="assets/vendor/bootstrap/css/bootstrap.min.css" />
-    <!-- Font Awesome Icon -->
-    <link rel="stylesheet" type="text/css" href="assets/vendor/font-awesome/css/all.min.css" />
-    <!-- Magnific Popup -->
-    <link rel="stylesheet" type="text/css" href="assets/vendor/magnific-popup/magnific-popup.min.css" />
-    <!-- Highlight Syntax -->
-    <link rel="stylesheet" type="text/css" href="assets/vendor/highlight.js/styles/github.css" />
-    <!-- Custom Stylesheet -->
-    <link rel="stylesheet" type="text/css" href="assets/css/stylesheet.css" />
-
-
     <link rel="stylesheet" href="/css/base.css" />
     <link rel="stylesheet" href="/css/modal.css" />
     <link rel="stylesheet" href="/css/home.css" />
@@ -66,15 +52,70 @@
 </head>
 
 <body class="basic_page_wrapper" data-bs-spy="scroll" data-bs-target=".idocs-navigation" data-bs-offset="125">
+    <script>
+        if (localStorage.getItem("niteMode") !== "true") document.body.classList.add("day_mode");
+        else document.body.classList.add("nite_mode");
+    </script>
+    <nav class="navbar navbar-light navbar_wrapper">
+        <ul class="navbar-nav d-flex flex-row justify-content-end justify-content-sm-between container">
+            <li class="home_logo_mobile_only">
+                <a class="navbar_brand homepage_logo_scrollup" href="#" style="text-decoration: none;">
+                    <span class="navbar_logo"></span>
+                    <div class=" scroll_to_top_icon">
+                        <span class="material-icons-outlined">
+                            arrow_upward
+                        </span>
+                    </div>
+                </a>
+            </li>
+            <li class="logo_offset_spacer_mobile mobile_hide"></li>
+            <li style="flex:1">
+                <ul class="header_tabs nav" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" href="/" role="tab">
+                            <span class="tab_label">Sessions</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" href="/about/" role="tab">
+                            <span class="tab_label">About</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" href="/media/" role="tab">
+                            <span class="tab_label">Media</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" href="/help/" role="tab" aria-selected="true">
+                            <span class="tab_label">Help</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="logo_offset_spacer mobile_hide"></li>
+            <li class="nav-item signed_in_list_item">
+                <a class="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
+                    <span class="menu_profile_user_image_span member_profile_image hover_yellow"> </span>
+                </a>
+            </li>
+            <li class="nav-item mobile_hide signed_out_list_item">
+                <button class="signin_cta_navbar hover_yellow btn btn-primary" type="button"><span
+                        class="mobile_hide">Login</span><span class="mobile_show"><i class="material-icons"
+                            style="position: relative;top: 3px;">login</i></span>
+                </button>
+            </li>
+            <li class="spacer_not_authed" style="width:65px"></li>
+        </ul>
+    </nav>
+
     <button id="sidebarCollapse" class="navbar-toggler hover_yellow shake" type="button"
         aria-controls="navbarSupportedContent" aria-expanded="false">
         <span class="hamburger_span"></span>
     </button>
 
     <div id="content" role="main">
-        <!-- Sidebar Navigation
-        ============================ -->
-        <div class="idocs-navigation docs-navigation-dark">
+        <div class="idocs-navigation" style="display:none;">
             <a class="navbar_brand hover_yellow  p-2" style="text-decoration: none; text-align: left;" href="/">
                 <span class="navbar_logo" style="background-image: url('/images/logo64.png'); top:2px;"></span>
                 <span class="position-relative" style="top:-6px;">Una<span
@@ -111,9 +152,7 @@
             </ul>
         </div>
 
-        <!-- Docs Content
-        ============================ -->
-        <div class="idocs-content help_content">
+        <div class="idocs-content help_content" style="padding-top:60px;">
             <div class="container text-start">
 
                 <!-- introduction
@@ -123,7 +162,9 @@
                             <span class="material-icons">link</span>
                         </a></h2>
                     <p>
-                        <strong><span>Una<span style="color: rgb(28, 227, 60);">cog</span></span></strong> is a online AI chat tool, enabling instant collaboration on any device. The app equips you with a comprehensive set of features to optimize your interaction with advanced AI models.
+                        <strong><span>Una<span style="color: rgb(28, 227, 60);">cog</span></span></strong> is a online
+                        AI chat tool, enabling instant collaboration on any device. The app equips you with a
+                        comprehensive set of features to optimize your interaction with advanced AI models.
                     <div class="text-center">
                         <figure class="figure">
                             <img class="img-fluid text-center bg-dark-2 rounded"
@@ -140,7 +181,8 @@
                         problem, we have you covered.
                     </p>
                     <p>Our platform is model-agnostic, supporting both OpenAI and Google LLM models. We are continually
-                        expanding our support to include new models as they become available. Model updates will be communicated our homepage under the News tab.</p>
+                        expanding our support to include new models as they become available. Model updates will be
+                        communicated our homepage under the News tab.</p>
                 </section>
                 <hr class="divider">
 
@@ -184,7 +226,9 @@
                             src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fcreate_new.png?alt=media&token=f4369ebf-5895-4f3f-8a03-6ce255c7f5d1"
                             alt="sidebar_title"></p>
                     <p class="mb-3"> Kick off your creative journey with the click of a button. To create a new session
-                        document, simply click the <i class="material-icons add_icon impact_font_secondary" style="font-size:44px;margin-top:-8px;margin-bottom:-8px;top:8px;">add</i> button in dashboard or during a session.</p>
+                        document, simply click the <i class="material-icons add_icon impact_font_secondary"
+                            style="font-size:44px;margin-top:-8px;margin-bottom:-8px;top:8px;">add</i> button in
+                        dashboard or during a session.</p>
                     </p>
                     <p class="lead">Join an Existing Session</p>
                     <p>Start or participate in a session via a unique URL. Your sessions remain private unless you
@@ -1133,8 +1177,10 @@
                         <p>See <a href="#prompt_structure">prompt structure</a> for more</p>
 
                         <h3 id="threshold" class="mb-2">Threshold Dialog</h3>
-                        <p class="mb-4">The Threshold Dialog is located within the Document Option and is designed to offer you a comprehensive view of your token count and give you
-                             better control over your interaction with the AI. The panel provides a summary of your session: </p>
+                        <p class="mb-4">The Threshold Dialog is located within the Document Option and is designed to
+                            offer you a comprehensive view of your token count and give you
+                            better control over your interaction with the AI. The panel provides a summary of your
+                            session: </p>
                         <div class="text-center">
                             <figure class="figure">
                                 <img class="img-fluid text-center rounded" style="max-width:320px"
@@ -1513,20 +1559,6 @@
         </div>
 
     </div>
-    <a style="font-size: 1.25em" id="back-to-top" data-toggle="tooltip" title="" href="javascript:void(0)"
-        data-original-title="Back to Top" style="display: inline;"><i class="fa fa-chevron-up"></i></a>
-    <button class="btn btn-primary help_show_modal" style="display:none" type="button" data-bs-toggle="modal"
-        data-bs-target="#helpIframeModal">
-        Help
-    </button>
-    <!-- Highlight JS -->
-    <script src="assets/vendor/highlight.js/highlight.min.js"></script>
-    <!-- Easing -->
-    <script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script>
-    <!-- Magnific Popup -->
-    <script src="assets/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
-    <!-- Custom Script -->
-    <script src="assets/js/theme.js"></script>
 </body>
 
 </html>

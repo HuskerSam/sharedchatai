@@ -41,7 +41,8 @@ export const lobbyApi = functions.runWith(runtimeOpts).https.onRequest(gameAPIAp
 export const embeddingApi = functions.runWith(heavyOpts).https.onRequest(embeddingAPIApp);
 export const updateDisplayNames = functions.firestore
     .document("Users/{uid}").onWrite(async (change, context) => GameAPI.updateUserMetaData(change, context));
-export const homePage = functions.runWith(homeOpts).https.onRequest(WebPage.homeHTML);
+export const mediaPage = functions.runWith(homeOpts).https.onRequest(WebPage.mediaHTML);
+export const aboutPage = functions.runWith(homeOpts).https.onRequest(WebPage.aboutHTML);
 export const siteMap = functions.runWith(sitemapOpts).https.onRequest(WebPage.generateSiteXMLMap);
 
 gameAPIApp.post("/games/create", async (req, res) => GameAPI.create(req, res));

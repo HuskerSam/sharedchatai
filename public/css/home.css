@@ -856,9 +856,6 @@ select.document_label_filter.form-select:active {
 
 .list_loaded .filter_bar_wrapper {
   opacity: 1;
-}
-
-.homepage_tab_selected_1 .filter_bar_wrapper {
   display: flex;
 }
 

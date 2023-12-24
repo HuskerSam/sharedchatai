@@ -21,8 +21,12 @@
         "destination": "/session/index.html"
       },
       {
-        "source": "/",
-        "function": "homePage"
+        "source": "/media/**",
+        "function": "mediaPage"
+      },
+      {
+        "source": "/about/**",
+        "function": "aboutPage"
       },
       {
         "source": "/sitemap.xml",

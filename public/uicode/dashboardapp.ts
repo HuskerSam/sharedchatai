@@ -36,17 +36,12 @@ export class DashboardApp extends BaseApp {
   help_show_modal: any = document.querySelector(".help_show_modal");
   menu_toggle_button: any = document.querySelector(".menu_toggle_button");
   show_create_modal: any = document.querySelector(".show_create_modal");
-  news_tab_button: any = document.querySelector("#news_tab_button");
-  dashboard_tab_button: any = document.querySelector("#dashboard_tab_button");
-  about_tab_button: any = document.querySelector("#about_tab_button");
-  news: any = document.querySelector("#news");
   credits_left: any = document.querySelector(".credits_left");
   footer_container_div: any = null;
   account_status_display: any = document.querySelector(".account_status_display");
   navigateHandled = false;
   homepage_logo_scrollup: any = document.querySelector(".homepage_logo_scrollup");
-  originalHash = location.hash;
-  pricing_type_display: any = document.querySelector(".pricing_type_display");
+//  pricing_type_display: any = document.querySelector(".pricing_type_display");
   bulk_credits_wrapper: any = document.querySelector(".bulk_credits_wrapper");
   power_user_wrapper: any = document.querySelector(".power_user_wrapper");
   model_prices_wrapper: any = document.querySelector(".model_prices_wrapper");
@@ -89,14 +84,6 @@ export class DashboardApp extends BaseApp {
       this.documentCreate.show(this.getCustomSelectedLabel());
     });
 
-    this.news_tab_button.addEventListener("click", () => this.tabChangeHandler(0));
-    this.dashboard_tab_button.addEventListener("click", () => this.tabChangeHandler(1));
-    this.about_tab_button.addEventListener("click", () => this.tabChangeHandler(2));
-
-    if (this.originalHash === "#news") this.news_tab_button.click();
-    if (this.originalHash === "#sessions") this.dashboard_tab_button.click();
-    if (this.originalHash === "#about") this.about_tab_button.click();
-
     this.account_status_display.addEventListener("click", (e: any) => {
       e.preventDefault();
       e.stopPropagation();
@@ -121,6 +108,7 @@ export class DashboardApp extends BaseApp {
       history.pushState("", document.title, window.location.pathname +
         window.location.search);
     });
+/*
     this.pricing_type_display.addEventListener("click", () => this.updateSelectedPricing());
     this.updateSelectedPricing();
 
@@ -138,6 +126,7 @@ export class DashboardApp extends BaseApp {
     this.initPowerUserCalcSelects();
     this.updatePowerUserCalculator();
     this.buy_credits_pricing.addEventListener("click", () => this.buyCredits.show());
+    */
   }
   /** */
   updatePowerUserCalculator() {
@@ -183,7 +172,7 @@ export class DashboardApp extends BaseApp {
     this.secondary_model_select.innerHTML = html;
     this.secondary_model_select.selectedIndex = 2;
   }
-  /** */
+  /*
   updateSelectedPricing() {
     this.bulk_credits_wrapper.style.display = "none";
     this.power_user_wrapper.style.display = "none";
@@ -191,7 +180,6 @@ export class DashboardApp extends BaseApp {
     this.tokens_per_credit.style.display = "none";
     (<any> this)[this.pricing_type_display.value].style.display = "block";
   }
-  /** */
   updateBulkCalculatorDisplay() {
     let html = "";
     html += `<tr><th>Model</th><th>Tokens/Credit</th><th>Credits</th><th>Cost*</th></tr>`;
@@ -216,41 +204,7 @@ export class DashboardApp extends BaseApp {
     });
     this.bulk_credits_table.innerHTML = html;
   }
-  /** */
-  navigateAnchor() {
-    this.about_tab_button.click();
-    location.hash = "";
-    location.hash = this.originalHash;
-  }
-  /** */
-  handleNavigateHash() {
-    if (this.navigateHandled) return;
-    this.navigateHandled = true;
-    setTimeout(() => {
-      if (this.originalHash === "#models") this.navigateAnchor();
-      if (this.originalHash === "#features") this.navigateAnchor();
-      if (this.originalHash === "#examples") this.navigateAnchor();
-    }, 50);
-  }
-  /**
- * @param { number } tabIndex
- * @param { boolean } save defaults to true
- */
-  tabChangeHandler(tabIndex: number, save = true) {
-    if (save) this.saveProfileField("homePageTabIndex", tabIndex);
-    for (let c = 0, l = 10; c < l; c++) document.body.classList.remove("homepage_tab_selected_" + c);
-    document.body.classList.add("homepage_tab_selected_" + tabIndex);
-    document.documentElement.style.scrollBehavior = "auto";
-    document.documentElement.scrollTop = 0;
-    document.documentElement.style.scrollBehavior = "";
-    document.body.style.scrollBehavior = "auto";
-    document.body.scrollTop = 0;
-    document.body.style.scrollBehavior = "";
-    if (save) {
-      history.pushState("", document.title, window.location.pathname +
-        window.location.search);
-    }
-  }
+  */
   /**
    * @return { string } label if custom, "" if not (all or unlabeled)
    */
@@ -317,12 +271,6 @@ export class DashboardApp extends BaseApp {
       this.initGameFeeds();
       this.initRTDBPresence();
       this.initUsageWatch();
-      this.handleNavigateHash();
-    } else {
-      if (this.originalHash === "") {
-       if (this.about_tab_button) this.about_tab_button.classList.add("active");
-      }
-      this.handleNavigateHash();
     }
   }
   /** */
@@ -342,19 +290,6 @@ export class DashboardApp extends BaseApp {
 
     if (this.gameFeedSubscription) this.gameFeedSubscription();
 
-    if (this.originalHash !== "#news" && this.originalHash !== "#about") {
-      if (this.originalHash === "#sessions") {
-        this.dashboard_tab_button.click();
-      } else if (this.profile.homePageTabIndex === 0) {
-        this.news_tab_button.click();
-      } else if (this.profile.homePageTabIndex === 1) {
-        this.dashboard_tab_button.click();
-      } else if (this.profile.homePageTabIndex === 2) {
-        this.about_tab_button.click();
-      } else {
-        this.dashboard_tab_button.click();
-      }
-    }
     // window.history.replaceState({}, document.title, "/");
     document.body.classList.add("session_feed_inited");
     let firstLoad = true;
