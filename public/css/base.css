@@ -309,10 +309,6 @@ a {
   height: 20px;
 }
 
-.label_profile_picker {
-  display: inline-block;
-}
-
 .list-group-item {
   color: var(--primary-color-1);
 }

@@ -47,7 +47,6 @@ export default class ProfileHelper {
     profile_new_email: any;
     change_email_button: any;
     lastLabelsSave = 0;
-    noLabelSave = true;
     replies_row: any;
     prompts_row: any;
     total_row: any;
@@ -168,20 +167,20 @@ export default class ProfileHelper {
             select: ".label_profile_picker",
             events: {
                 afterChange: () => this.saveProfileLabels(),
+                addable: (value: string): string | false => {
+                    if (value === "") return false;
+                    return value;
+                },
             },
             settings: {
                 placeholderText: "Configure default labels",
+                hideSelected: true,
+                searchPlaceholder: "Add Labels",
+                allowDeselect: true,
+                closeOnSelect: false,
             },
         });
-        /*
-      const field: any = document.body.querySelector("#profile_user_tab_view .-search__field");
-      field.addEventListener("keydown", (event: any) => {
-          if (event.key === ",") {
-              event.preventDefault();
-              event.stopPropagation();
-          }
-      });
-*/
+
         this.nite_mode_input = document.querySelector(".nite_mode_input");
         this.nite_mode_input.addEventListener("input", () => this.app.toggleDayMode(this.nite_mode_input.checked));
         this.account_tab_button = document.querySelector(".account_tab_button");
@@ -206,7 +205,7 @@ export default class ProfileHelper {
      * @return { string } html template as string
      */
     getModalTemplate(): string {
-        return `<div class="modal fade" id="userProfileModal" tabindex="-1" aria-labelledby="userProfileModalLabel" aria-hidden="true">
+        return `<div class="modal fade" data-bs-focus="false" id="userProfileModal" tabindex="-1" aria-labelledby="userProfileModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content app_panel">
                 <div class="modal-header">
@@ -312,8 +311,7 @@ export default class ProfileHelper {
                             <hr style="margin-top:-8px;">
                             <label class="form-label">Default Labels - [Enter] to add</label>
                             <br>
-                            <select class="label_profile_picker" multiple="multiple"
-                                style="width:95%;min-height:6em"></select>
+                            <select class="label_profile_picker" multiple="multiple"></select>
                             <hr>
                             <a class="btn btn-secondary" href="/embedding">Open Embedding</a>
                         </div>
@@ -500,15 +498,16 @@ export default class ProfileHelper {
         const data = this.slimSelect.getData();
         const labels: Array<string> = [];
         data.forEach((item: any) => {
-            const text = item.text.trim().replaceAll(",", "").substring(0, 30);
-            if (text) labels.push(text);
+            if (item.selected) {
+                const text = item.text.trim().replaceAll(",", "").substring(0, 30);
+                if (text) labels.push(text);
+            }
         });
 
         return labels.join(",");
     }
     /** scrape and save label list */
     saveProfileLabels() {
-        if (this.noLabelSave) return;
         this.app.profile.documentLabels = this.scrapeLabelList();
         this.saveProfileField("labels");
     }
@@ -665,13 +664,18 @@ export default class ProfileHelper {
 
         this.logged_in_status.innerHTML = email;
 
-        let labelString = this.app.profile.documentLabels;
-        if (!labelString) labelString = "";
-        const labelArray = labelString.split(",");
+        let profileLabelsPacked = this.app.profile.documentLabels;
+        if (!profileLabelsPacked) profileLabelsPacked = "";
+        const profileLabels = profileLabelsPacked.split(",");
         const selectItems: any[] = [];
-        labelArray.forEach((label: string) => selectItems.push({
-            text: label,
-        }));
+        profileLabels.forEach((label: string) => {
+            if (label) {
+                selectItems.push({
+                    text: label,
+                    selected: true,
+                });
+            }
+        });
         this.slimSelect.setData(selectItems);
 
         this.profile_text_large_checkbox.checked = (this.app.profile.textOptionsLarge === true);

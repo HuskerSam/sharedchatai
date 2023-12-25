@@ -855,16 +855,12 @@ select.document_label_filter.form-select:active {
   }
 }
 
-.header_tabs li {
-  padding-left: 8px;
-  padding-right: 8px;
-}
-
 .header_tabs li a {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  width: 8em;
 }
 
 .tab_label {
