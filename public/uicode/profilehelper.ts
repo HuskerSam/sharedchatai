@@ -20,6 +20,7 @@ import {
 import {
     getApp,
 } from "firebase/app";
+import SlimSelect from "slim-select";
 
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
 export default class ProfileHelper {
@@ -67,6 +68,7 @@ export default class ProfileHelper {
     lastMonth2 = new Date();
     usageStatsTabInited = false;
     usage_viewer: any;
+    slimSelect: SlimSelect;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -162,19 +164,24 @@ export default class ProfileHelper {
 
         this.profile_text_large_checkbox.addEventListener("input", () => this.saveProfileField("largetext"));
 
-        (<any>window).$(".label_profile_picker").select2({
-            tags: true,
-            placeHolder: "Configure default labels",
+        this.slimSelect = new SlimSelect({
+            select: ".label_profile_picker",
+            events: {
+                afterChange: () => this.saveProfileLabels(),
+            },
+            settings: {
+                placeholderText: "Configure default labels",
+            },
         });
-        (<any>window).$(".label_profile_picker").on("change", () => this.saveProfileLabels());
-        const field: any = document.body.querySelector("#profile_user_tab_view .select2-search__field");
-        field.addEventListener("keydown", (event: any) => {
-            if (event.key === ",") {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-        });
-
+        /*
+      const field: any = document.body.querySelector("#profile_user_tab_view .-search__field");
+      field.addEventListener("keydown", (event: any) => {
+          if (event.key === ",") {
+              event.preventDefault();
+              event.stopPropagation();
+          }
+      });
+*/
         this.nite_mode_input = document.querySelector(".nite_mode_input");
         this.nite_mode_input.addEventListener("input", () => this.app.toggleDayMode(this.nite_mode_input.checked));
         this.account_tab_button = document.querySelector(".account_tab_button");
@@ -490,7 +497,7 @@ export default class ProfileHelper {
    * @return { string } label list
    */
     scrapeLabelList(): string {
-        const data = (<any>window).$(".label_profile_picker").select2("data");
+        const data = this.slimSelect.getData();
         const labels: Array<string> = [];
         data.forEach((item: any) => {
             const text = item.text.trim().replaceAll(",", "").substring(0, 30);
@@ -499,7 +506,7 @@ export default class ProfileHelper {
 
         return labels.join(",");
     }
-    /** scrape and save select2 label list */
+    /** scrape and save label list */
     saveProfileLabels() {
         if (this.noLabelSave) return;
         this.app.profile.documentLabels = this.scrapeLabelList();
@@ -658,27 +665,14 @@ export default class ProfileHelper {
 
         this.logged_in_status.innerHTML = email;
 
-        const queryLabelSelect2 = (<any>window).$(".label_profile_picker");
-        this.noLabelSave = true;
-        queryLabelSelect2.html("");
-        queryLabelSelect2.val(null).trigger("change");
-        this.noLabelSave = false;
-
         let labelString = this.app.profile.documentLabels;
         if (!labelString) labelString = "";
         const labelArray = labelString.split(",");
-        labelArray.forEach((label: string) => {
-            if (label !== "") {
-                if (queryLabelSelect2.find("option[value='" + label + "']").length) {
-                    queryLabelSelect2.val(label).trigger("change");
-                } else {
-                    // Create a DOM Option and pre-select by default
-                    const newOption = new Option(label, label, true, true);
-                    // Append it to the select
-                    queryLabelSelect2.append(newOption).trigger("change");
-                }
-            }
-        });
+        const selectItems: any[] = [];
+        labelArray.forEach((label: string) => selectItems.push({
+            text: label,
+        }));
+        this.slimSelect.setData(selectItems);
 
         this.profile_text_large_checkbox.checked = (this.app.profile.textOptionsLarge === true);
         this.profile_text_monospace_checkbox.checked = (this.app.profile.textOptionsMonospace === true);

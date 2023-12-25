@@ -178,35 +178,10 @@
   position: relative;
 }
 
-.select2-container {
-  z-index: 100000;
-}
-
 .document_usage_cap_field,
 .create_modal_note_field {
   width: 125px;
   display: inline-block;
-}
-
-.select2-dropdown {
-  z-index: 10000;
-}
-
-.select2-dropdown.select2-dropdown--below {
-  top: -10px;
-  left: -10px;
-  color: var(--impact-green);
-  background: var(--secondary-color);
-}
-
-.select2-container--default .select2-results__option[aria-selected=true] {
-  background-color: var(--background-accent-3);
-}
-
-.select2-container--default .select2-results__option--highlighted[aria-selected] {
-  color: inherit;
-  filter: brightness(1.1);
-  background-color: var(--background-accent-3);
 }
 
 .app_panel.modal-content label {

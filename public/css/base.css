@@ -153,8 +153,7 @@ a {
 }
 
 .app_panel input,
-.app_panel textarea,
-.app_panel .select2-selection {
+.app_panel textarea {
   background: var(--background-accent);
   color: var(--primary-color-3);
 
@@ -310,23 +309,8 @@ a {
   height: 20px;
 }
 
-.select2-container .selection {
-  width: 100%
-}
-
-.select2-container {
-  font-size: 22px;
-  margin: 1%;
-}
-
 .label_profile_picker {
   display: inline-block;
-}
-
-.select2-container--default .select2-selection--multiple .select2-selection__choice {
-  background: var(--secondary-color-2);
-  padding: 4px 12px;
-  color: var(--primary-color);
 }
 
 .list-group-item {
@@ -887,15 +871,6 @@ a:hover {
 
 .btn.btn-secondary.show_ticket_embedding_info {
   border-color: transparent;
-}
-
-.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
-  color: var(--primary-color);
-  margin-right: 4px;
-}
-
-.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
-  color: var(--warning);
 }
 
 .day_mode .navbar_wrapper {

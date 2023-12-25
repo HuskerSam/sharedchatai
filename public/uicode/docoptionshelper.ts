@@ -11,6 +11,7 @@ import {
 import {
     getAuth,
 } from "firebase/auth";
+import SlimSelect from "slim-select";
 
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
 export default class DocOptionsHelper {
@@ -65,6 +66,7 @@ export default class DocOptionsHelper {
     options_model_lock: any;
     docfield_include_prompts_in_context: any;
     show_embeddings_popup: any;
+    documentLabelsSlimSelect: SlimSelect;
 
     /**
      * @param { any } app BaseApp derived application instance
@@ -148,19 +150,24 @@ export default class DocOptionsHelper {
             this.logoutGame();
         });
 
-        (<any>window).$(".edit_options_document_labels").select2({
-            tags: true,
-            placeHolder: "Add labels...",
+        this.documentLabelsSlimSelect = new SlimSelect({
+            select: ".edit_options_document_labels",
+            events: {
+                afterChange: () => this.saveDocumentLabels(),
+            },
+            settings: {
+                placeholderText: "Add labels...",
+            },
         });
-        (<any>window).$(".edit_options_document_labels").on("change", () => this.saveDocumentLabels());
-        const field: any = document.body.querySelector("#owner_tab_view .select2-search__field");
-        field.addEventListener("keydown", (event: any) => {
-            if (event.key === ",") {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-        });
-
+        /*
+                const field: any = document.body.querySelector("#owner_tab_view .-search__field");
+                field.addEventListener("keydown", (event: any) => {
+                    if (event.key === ",") {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                });
+        */
         this.session_header_link_button = document.querySelector(".session_header_link_button");
 
         this.export_only_selected_prompts = this.modalContainer.querySelector(".export_only_selected_prompts");
@@ -571,19 +578,26 @@ export default class DocOptionsHelper {
         </div>
     </div>`;
     }
-    /** use jquery to extract label list from select2 */
-    saveDocumentLabels() {
-        if (this.noLabelSave) return;
-        const data = (<any>window).$(".edit_options_document_labels").select2("data");
+    /** get user label pick list comma delimited
+* @return { string } label list
+*/
+    scrapeLabelList(): string {
+        const data = this.documentLabelsSlimSelect.getData();
         const labels: Array<string> = [];
         data.forEach((item: any) => {
             const text = item.text.trim().replaceAll(",", "").substring(0, 30);
             if (text) labels.push(text);
         });
 
-        const newLabel = labels.join(",");
-        if (newLabel !== this.docData.label) {
-            this.docData.label = newLabel;
+        return labels.join(",");
+    }
+    /** use to extract label list from  */
+    saveDocumentLabels() {
+        if (this.noLabelSave) return;
+        const labels = this.scrapeLabelList();
+
+        if (labels !== this.docData.label) {
+            this.docData.label = labels;
             this.app.saveDocumentOwnerOption(this.chatDocumentId, "label", this.docData);
         }
     }
@@ -804,47 +818,18 @@ feedback: support@unacog.com`);
         }
 
         if (this.isOwner) {
-            const queryLabelSelect2 = (<any>window).$(".edit_options_document_labels");
-            this.noLabelSave = true;
-            queryLabelSelect2.html("");
-            queryLabelSelect2.val(null).trigger("change");
-
-            try {
-                let labelString = doc.label;
-                if (!labelString) labelString = "";
-                const labelArray = labelString.split(",");
-                labelArray.forEach((label: string) => {
-                    if (label !== "") {
-                        if (queryLabelSelect2.find("option[value='" + label + "']").length) {
-                            this.noLabelSave = true;
-                            queryLabelSelect2.val(label).trigger("change");
-                            this.noLabelSave = false;
-                        } else {
-                            // Create a DOM Option and pre-select by default
-                            const newOption = new Option(label, label, true, true);
-                            // Append it to the select
-                            this.noLabelSave = true;
-                            queryLabelSelect2.append(newOption).trigger("change");
-                            this.noLabelSave = false;
-                        }
-                    }
-                });
-
-
-                let profileLabelString = this.app.profile.documentLabels;
-                if (!profileLabelString) profileLabelString = "";
-                const profileLabelArray = profileLabelString.split(",");
-                profileLabelArray.forEach((label: string) => {
-                    if (label !== "" && labelArray.indexOf(label) === -1) {
-                        const newOption = new Option(label, label, false, false);
-                        queryLabelSelect2.append(newOption).trigger("change");
-                    }
-                });
-            } catch (error) {
-                this.noLabelSave = false;
-                console.log(error);
-            }
-            this.noLabelSave = false;
+            let labelString = this.app.profile.documentLabels;
+            if (!labelString) labelString = "";
+            const labelArray = labelString.split(",");
+            
+            let docLabelString = doc.label;
+            if (!docLabelString) docLabelString = "";
+            // const docLabels = docLabelString.split(",");
+            const selectItems: any[] = [];
+            labelArray.forEach((label: string) => selectItems.push({
+                text: label,
+            }));
+            this.documentLabelsSlimSelect.setData(selectItems);
         }
         this.app.sessionDeleting = false;
         if (this.app.profile.optionsDialogExportFormat) {

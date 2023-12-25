@@ -4,6 +4,7 @@ import {
   getAuth,
 } from "firebase/auth";
 import Handlebars from "handlebars";
+import SlimSelect from "slim-select";
 
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
 export default class DocCreateHelper {
@@ -60,6 +61,7 @@ export default class DocCreateHelper {
   create_dialog_model: any;
   create_model_lock: any;
   create_include_prompts_in_context: any;
+  createLabelsSlimSelect: SlimSelect;
 
   /**
    * @param { any } app BaseApp derived application instance
@@ -137,9 +139,11 @@ export default class DocCreateHelper {
     this.bulk_create_options = this.modalContainer.querySelector("#bulk_create_options");
     this.bulk_create_options.addEventListener("click", () => this.tabChangeHandler(3));
 
-    (<any>window).$(".create_document_label_options").select2({
-      tags: true,
-      placeHolder: "Add labels...",
+    this.createLabelsSlimSelect = new SlimSelect({
+      select: ".create_document_label_options",
+      settings: {
+        placeholderText: "Add labels...",
+      },
     });
 
     this.bulk_email_template_field = this.modalContainer.querySelector(".bulk_email_template_field");
@@ -756,7 +760,7 @@ export default class DocCreateHelper {
   * @return { string } comma delimited list
   */
   scrapeLabels(): string {
-    const data = (<any>window).$(".create_document_label_options").select2("data");
+    const data = this.createLabelsSlimSelect.getData();
     const labels: Array<string> = [];
     data.forEach((item: any) => {
       if (item.text.trim()) labels.push(item.text.trim());
@@ -784,21 +788,15 @@ export default class DocCreateHelper {
       return;
     }
 
-    const queryLabelSelect2 = (<any>window).$(".create_document_label_options");
-    queryLabelSelect2.html("");
-    queryLabelSelect2.val(null).trigger("change");
-
     let labelString = this.app.profile.documentLabels;
     if (!labelString) labelString = "";
     const labelArray = labelString.split(",");
-    labelArray.forEach((label: string) => {
-      if (label !== "") {
-        // Create a DOM Option and pre-select by default
-        const newOption = new Option(label, label, false, false);
-        // Append it to the select
-        queryLabelSelect2.append(newOption).trigger("change");
-      }
-    });
+    const selectItems: any[] = [];
+    labelArray.forEach((label: string) => selectItems.push({
+      text: label,
+    }));
+    this.createLabelsSlimSelect.setData(selectItems);
+
     this.insert_todaylabel_default_checkbox.checked = this.app.profile.insertTodayAsLabel === true;
     if (this.app.profile.insertTodayAsLabel) this.addTodayAsLabel();
     if (label) this.addTodayAsLabel(label);
@@ -939,15 +937,8 @@ export default class DocCreateHelper {
    * @param { string } label overrides today to be added
   */
   addTodayAsLabel(label = "") {
-    let today = this.getLocal8DigitDate();
-    if (label) today = label;
-    const queryLabelSelect2 = (<any>window).$(".create_document_label_options");
+    // let today = this.getLocal8DigitDate();
+    // if (label) today = label;
 
-    if (queryLabelSelect2.find("option[value='" + today + "']").length) {
-      queryLabelSelect2.val(today).trigger("change");
-    } else {
-      const newOption = new Option(today, today, true, true);
-      queryLabelSelect2.append(newOption).trigger("change");
-    }
   }
 }
