@@ -47,8 +47,6 @@
     <link rel="stylesheet" href="https://unpkg.com/slim-select@latest/dist/slimselect.css" />
 
     <link rel="stylesheet" href="/css/base.css">
-    <link rel="stylesheet" href="/css/modal.css">
-    <link rel="stylesheet" href="/css/home.css">
     <script src="/uicode/models/bundle.js"></script>
 </head>
 
@@ -57,11 +55,9 @@
         if (localStorage.getItem("niteMode") !== "true") document.body.classList.add("day_mode");
         else document.body.classList.add("nite_mode");
     </script>
-    <div class="standard_header_bar_container"></div>
-
-    <div class="main_container" style="flex-direction:column;">
-
-        <div class="homepage_container">
+    <div class="main_wrapper app_panel">
+        <div class="standard_header_bar_container"></div>
+        <div class="main_container" style="overflow:auto;">
             <section class="homepage_section homepage_section_background">
                 <div class="container">
                     <div class="row">
@@ -71,7 +67,6 @@
                 </div>
             </section>
 
-            <!-- intro unacog-->
             <section class="homepage_section homepage_section_background">
                 <div class="container">
                     <div class="row align-items-center">
@@ -170,7 +165,6 @@
                     </div>
                 </div>
             </section>
-
             <section class="homepage_gif_section pt-5">
                 <div class="container">
                     <div class="row align-items-center">
@@ -334,7 +328,8 @@
                             <h2 class="display-5">Most Flexible Way to Prompt
                             </h2>
                             <p class="fs-5">Collaborate in real-time with many LLMs with no subscription needed</p>
-                            <a href="https://unacog.com/content/credits/" class="btn btn-primary btn-lg">Learn More</a>
+                            <a href="https://unacog.com/content/credits/" class="btn btn-primary btn-lg">Learn
+                                More</a>
                         </div>
                         <div class="col-lg-6">
                             <a href="https://unacog.com/content/credits/"
@@ -356,7 +351,8 @@
                             <div class="card border-0 p-2 p-md-3 p-lg-5 homepage_section_background">
                                 <div class="border-0 text-center py-3 px-4">
                                     <h2>Need to Talk?</h2>
-                                    <p> We're here to help! If you encounter any bugs or have questions, the best way to
+                                    <p> We're here to help! If you encounter any bugs or have questions, the best
+                                        way to
                                         currently reach us is by email at <a href="mailto:support@unacog.com"
                                             target="_blank">Support@unacog.com</a>.</p>
                                 </div>
@@ -398,10 +394,9 @@
                 </div>
             </section>
 
+            <div class="standard_footer_bar_container"></div>
         </div>
     </div>
-
-    <div style="flex:1"></div>
 </body>
 
 </html>

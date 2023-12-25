@@ -1,10 +1,3 @@
-body,
-html {
-  min-height: unset;
-  height: 100%;
-  overflow: hidden;
-}
-
 .styled_csv_table {
   width: 100%;
   flex: 1;
@@ -221,7 +214,6 @@ select.upsert_documents_list.form-select:active {
 
 .embedding_second_header_bar {
   padding: 8px;
-  padding-top: 70px;
   flex: 1;
   overflow: hidden;
   display: flex;

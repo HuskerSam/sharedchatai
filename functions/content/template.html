@@ -40,9 +40,8 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 
     <link rel="stylesheet" href="/css/base.css" />
-    <link rel="stylesheet" href="/css/modal.css" />
-    <link rel="stylesheet" href="/css/home.css" />
     <link rel="stylesheet" href="/css/content.css" />
+    <script src="/uicode/models/bundle.js"></script>
 </head>
 
 <body class="basic_page_wrapper">
@@ -50,14 +49,15 @@
         if (localStorage.getItem("niteMode") !== "true") document.body.classList.add("day_mode");
         else document.body.classList.add("nite_mode");
     </script>
-    <div class="standard_header_bar_container"></div>
-    <div class="main_container">
-        <div class="container content_section">
-            {{{ content }}}
+    <div class="main_wrapper">
+        <div class="standard_header_bar_container"></div>
+        <div class="main_container" style="overflow:auto;">
+            <div class="container content_section">
+                {{{ content }}}
+            </div>
+            <div class="standard_footer_bar_container"></div>    
         </div>
     </div>
-        
-    <script src="/uicode/models/bundle.js"></script>
 </body>
 <!-- Swiper JS -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>

@@ -33,14 +33,13 @@ export class DashboardApp extends BaseApp {
   help_show_modal: any = document.querySelector(".help_show_modal");
   menu_toggle_button: any = document.querySelector(".menu_toggle_button");
   show_create_modal: any = document.querySelector(".show_create_modal");
-  footer_container_div: any = null;
   account_status_display: any = document.querySelector(".account_status_display");
   navigateHandled = false;
   scroll_to_top_icon: any = document.querySelector(".scroll_to_top_icon");
 
   /** */
   constructor() {
-    super(true);
+    super();
     this.showLoginModal = false;
     this.memberRefreshBufferTime = 1000;
     this.document_label_filter.addEventListener("input", async () => {

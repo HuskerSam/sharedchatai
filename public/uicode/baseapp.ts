@@ -80,6 +80,7 @@ export default class BaseApp {
   menu_profile_user_name_span: any = null;
   credits_left: any = null;
   standard_header_bar_container: any = document.querySelector(".standard_header_bar_container");
+  standard_footer_bar_container: any = document.querySelector(".standard_footer_bar_container");
 
   isOfflineForDatabase = {
     state: "offline",
@@ -98,16 +99,15 @@ export default class BaseApp {
   /**
  * @param { boolean } addFooter add footer (true by default)
  */
-  constructor(addFooter = true) {
+  constructor() {
     if (this.standard_header_bar_container) {
       this.standard_header_bar_container.innerHTML = this.getHeaderBarHTML();
       this.credits_left = document.querySelector(".credits_left");
-      // hide white blink from nav-link navigation
-      this.standard_header_bar_container.querySelector(".header_tabs .nav-link").addEventListener("click",
-        () => {
-          (<any>document.querySelector(".navbar_wrapper")).style.visibility = "hidden";
-        });
     }
+    if (this.standard_footer_bar_container) {
+      this.standard_footer_bar_container.innerHTML = this.getFooterTemplate();
+    }
+
     this.menu_profile_user_image_span = document.querySelector(".menu_profile_user_image_span");
     this.menu_profile_user_name_span = document.querySelector(".menu_profile_user_name_span");
 
@@ -121,12 +121,6 @@ export default class BaseApp {
     getAuth().onAuthStateChanged((u: any) => this.authHandleEvent(u));
     this.signInWithURL();
 
-    if (addFooter && this.html_body_container) {
-      const element = document.createElement("div");
-      element.classList.add("footer_container_div");
-      element.innerHTML = this.getFooterTemplate();
-      this.html_body_container.appendChild(element);
-    }
     if (this.signin_show_modal) {
       this.signin_show_modal.addEventListener("click", (e: any) => {
         e.stopPropagation();
