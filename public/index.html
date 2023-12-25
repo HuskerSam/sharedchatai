@@ -42,6 +42,41 @@
     <link rel="stylesheet" href="https://unpkg.com/slim-select@latest/dist/slimselect.css" />
 
     <link rel="stylesheet" href="/css/base.css">
+    <style>
+        .dropdown-toggle {
+            outline: 0;
+        }
+
+        .dropstart .dropdown-toggle::before {
+            display: inline-block;
+            margin-right: 0;
+            vertical-align: 0;
+            content: none;
+            border-top: none;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .btn.btn-secondary.dropdown-toggle.dashboard_menu_toggle {
+            background: none;
+            border: none;
+            border-left: solid 1px var(--secondary-color);
+            border-radius: 0;
+            padding-top: 3px;
+            padding-bottom: 3px;
+            margin-top: -3px;
+            margin-bottom: -3px;
+            border-radius: 6px;
+        }
+
+        .btn.btn-secondary.dropdown-toggle.dashboard_menu_toggle {
+            border-left: none;
+        }
+
+        .btn.btn-secondary.dropdown-toggle.dashboard_menu_toggle.show {
+            background: var(--secondary-color);
+        }
+    </style>
 </head>
 
 <body class="basic_page_wrapper homepage">

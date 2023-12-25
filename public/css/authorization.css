@@ -1,0 +1,39 @@
+.not_logged_in {
+    display: none;
+}
+
+.auth_inited.app_signed_out .not_logged_in {
+    display: block;
+}
+
+.signed_out_flex {
+    display: none;
+}
+
+.app_signed_out .signed_out_flex {
+    display: flex;
+}
+
+/* Default, for visibility on all states */
+p.alert.alert-warning {
+    display: block;
+}
+
+/* When signed out */
+body.app_signed_out p.alert.alert-danger.signed_in_anonymous {
+    display: block;
+}
+
+/* When signed in anonymously */
+body.signed_in_anonymous p.alert.alert-danger.signed_in_anonymous {
+    display: block;
+}
+
+body.signed_in_anonymous p.alert.alert-warning {
+    display: none;
+}
+
+/* When signed in as a verified user */
+body.app_signed_in p.alert.alert-danger.signed_in_anonymous {
+    display: none;
+}
