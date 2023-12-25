@@ -901,8 +901,7 @@ export default class BaseApp {
     const pathName = location.pathname;
     const homeHref = (pathName === "/") ? "" : `href="/"`;
     const embeddingHref = (pathName === "/embedding/") ? "" : `href="/embedding/"`;
-    const aboutHref = (pathName === "/about/") ? "" : `href="/about/"`;
-    const helpHref = (pathName === "/help/") ? "" : `href="/help/"`;
+    const helpHref = (pathName === "/media/") ? "" : `href="/media/"`;
     return `<nav class="navbar navbar-light navbar_wrapper" style="background:transparent!important;">
     <ul class="navbar-nav container-fluid d-flex flex-row justify-content-end justify-content-sm-between">
         <li class="" style="margin-left: 20px;width:70px;">
@@ -919,17 +918,12 @@ export default class BaseApp {
             <ul class="header_tabs nav" role="tablist">
                 <li class="nav-item" role="presentation">
                     <a class="nav-link ${homeHref === "" ? "active" : ""}" ${homeHref} role="tab">
-                        <span class="tab_label">Sessions</span>
+                        <span class="tab_label">Prompt</span>
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
                   <a class="nav-link ${embeddingHref === "" ? "active" : ""}" ${embeddingHref} role="tab">
-                    <span class="tab_label">Embedding</span>
-                  </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <a class="nav-link ${aboutHref === "" ? "active" : ""}" ${aboutHref} role="tab">
-                    <span class="tab_label">About</span>
+                    <span class="tab_label">Embed</span>
                   </a>
                 </li>
                 <li class="nav-item" role="presentation">

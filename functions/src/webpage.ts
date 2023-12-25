@@ -24,6 +24,7 @@ export default class WebPage {
         const content = contentFile.toString();
         return res.status(200).send(template({
             content,
+            contentItem,
         }));
     }
     /** http endpoint for generating homepage
