@@ -1,7 +1,6 @@
 import BaseApp from "./baseapp";
 import DocOptionsHelper from "./docoptionshelper";
 import ChatDocument from "./chatdocument";
-import AccountHelper from "./accounthelper";
 import {
   collection,
   getDocs,
@@ -27,7 +26,6 @@ export class DashboardApp extends BaseApp {
   checkTemplateURL = false;
   lastTicketsSnapshot: any = null;
   lastAssistsSnapshot: any = null;
-  usageWatchInited: any = null;
   assistsLookup: any = {};
   document_label_filter: any = document.querySelector(".document_label_filter");
   profile_menu_anchor: any = document.querySelector(".profile_menu_anchor");
@@ -157,16 +155,6 @@ export class DashboardApp extends BaseApp {
       this.initRTDBPresence();
       this.initUsageWatch();
     }
-  }
-  /** */
-  initUsageWatch() {
-    if (this.usageWatchInited) return;
-    this.usageWatchInited = true;
-
-    AccountHelper.accountInfoUpdate(this, (usageData: any) => {
-      const availableBalance = usageData.availableCreditBalance;
-      this.credits_left.innerHTML = Math.floor(availableBalance) + "<br><span>Credits</span>";
-    });
   }
   /** init listening events on games store to populate feeds in realtime */
   async initGameFeeds() {

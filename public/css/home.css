@@ -1051,7 +1051,8 @@ ol li,
   font-family: "MonospaceTTF";
   text-align: right;
   min-width: 3em;
-  font-size: .9em;
+  font-size: 12px;
+  padding-top: 4px;
   display: inline-block;
   white-space: nowrap;
   align-self: center;

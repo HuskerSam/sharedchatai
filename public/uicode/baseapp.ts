@@ -4,6 +4,7 @@ import DocCreateHelper from "./doccreatehelper";
 import BuyCreditsHelper from "./buycreditshelper";
 import SharedWithBackend from "./sharedwithbackend";
 import PineconeHelper from "./embeddinghelper";
+import AccountHelper from "./accounthelper";
 import {
   getIdToken,
   GoogleAuthProvider,
@@ -62,6 +63,7 @@ export default class BaseApp {
   userStatusDatabaseRef: any;
   documentStatusDatabaseRef: any;
   sessionDocumentData: any = null;
+  usageWatchInited: any = null;
   showLoginModal = true;
   profileHelper = new ProfileHelper(this);
   login = new LoginHelper(this);
@@ -181,6 +183,7 @@ export default class BaseApp {
     if (this.profile) {
       this.updateUserStatus();
       this.updateUserNamesImages();
+      this.initUsageWatch();
 
       if (this.profile.textOptionsLarge) document.body.classList.add("profile_text_option_large");
       else document.body.classList.remove("profile_text_option_large");
@@ -190,6 +193,18 @@ export default class BaseApp {
       else document.body.classList.remove("profile_text_less_token_details");
     }
   }
+    /** */
+    initUsageWatch() {
+      if (this.usageWatchInited) return;
+      this.usageWatchInited = true;
+  
+      if (this.credits_left) {
+        AccountHelper.accountInfoUpdate(this, (usageData: any) => {
+          const availableBalance = usageData.availableCreditBalance;
+          this.credits_left.innerHTML = Math.floor(availableBalance) + "<br><span>Credits</span>";
+        });
+      }
+    }
   /** firebase authorization event handler
    * @param { any } user logged in user - or null if not logged in
    */
@@ -903,8 +918,9 @@ export default class BaseApp {
     const embeddingHref = (pathName === "/embedding/") ? "" : `href="/embedding/"`;
     const helpHref = (pathName === "/media/") ? "" : `href="/media/"`;
     return `<nav class="navbar navbar-light navbar_wrapper">
-    <ul class="navbar-nav container-fluid d-flex flex-row justify-content-end justify-content-sm-between">
-        <li class="" style="margin-left: 20px;width:70px;">
+    <ul class="navbar-nav container-fluid d-flex flex-row justify-content-end justify-content-sm-between container" 
+      style="padding:0;">
+        <li class="" style="margin-left: 20px;width:120px;">
             <a class="navbar_brand hover_yellow" style="text-decoration: none;" href="/">
               <span class="navbar_logo" style="background-image: url('/images/logo64.png'); top:2px;"></span>
               <div class=" scroll_to_top_icon">
@@ -938,7 +954,7 @@ export default class BaseApp {
                 <span class="menu_profile_user_image_span member_profile_image hover_yellow"> </span>
             </a>
         </li>
-        <li class="nav-item mobile_hide signed_out_list_item">
+        <li class="nav-item mobile_hide signed_out_list_item" style="width:0;overflow:visible">
           <button class="signin_cta_navbar hover_yellow btn btn-primary" type="button"><span
                   class="mobile_hide">Login</span><span class="mobile_show"><i class="material-icons"
                       style="position: relative;top: 3px;">login</i></span>
