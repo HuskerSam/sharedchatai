@@ -902,7 +902,7 @@ export default class BaseApp {
     const homeHref = (pathName === "/") ? "" : `href="/"`;
     const embeddingHref = (pathName === "/embedding/") ? "" : `href="/embedding/"`;
     const helpHref = (pathName === "/media/") ? "" : `href="/media/"`;
-    return `<nav class="navbar navbar-light navbar_wrapper" style="background:transparent!important;">
+    return `<nav class="navbar navbar-light navbar_wrapper">
     <ul class="navbar-nav container-fluid d-flex flex-row justify-content-end justify-content-sm-between">
         <li class="" style="margin-left: 20px;width:70px;">
             <a class="navbar_brand hover_yellow" style="text-decoration: none;" href="/">
