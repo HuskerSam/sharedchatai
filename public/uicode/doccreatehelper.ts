@@ -807,7 +807,7 @@ export default class DocCreateHelper {
         });
       }
     });
-    
+
     this.createLabelsSlimSelect.setData(selectItems);
 
     this.insert_todaylabel_default_checkbox.checked = this.app.profile.insertTodayAsLabel === true;

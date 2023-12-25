@@ -356,7 +356,8 @@ export default class DocOptionsHelper {
      * @return { string } html template as string
      */
     getModalTemplate(): string {
-        return `<div class="modal fade scrollable_modal" data-bs-focus="false" id="editDocumentModal" tabindex="-1" aria-labelledby="editDocumentModalLabel"
+        return `<div class="modal fade scrollable_modal"
+         data-bs-focus="false" id="editDocumentModal" tabindex="-1" aria-labelledby="editDocumentModalLabel"
         aria-hidden="true">
         <div class="modal-dialog app_panel modal-lg">
             <div class="modal-content app_panel">

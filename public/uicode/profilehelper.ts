@@ -206,7 +206,8 @@ export default class ProfileHelper {
      * @return { string } html template as string
      */
     getModalTemplate(): string {
-        return `<div class="modal fade" data-bs-focus="false" id="userProfileModal" tabindex="-1" aria-labelledby="userProfileModalLabel" aria-hidden="true">
+        return `<div class="modal fade" data-bs-focus="false"
+         id="userProfileModal" tabindex="-1" aria-labelledby="userProfileModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content app_panel">
                 <div class="modal-header">
