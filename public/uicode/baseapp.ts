@@ -102,14 +102,14 @@ export default class BaseApp {
     if (this.standard_header_bar_container) {
       this.standard_header_bar_container.innerHTML = this.getHeaderBarHTML();
       this.credits_left = document.querySelector(".credits_left");
-      this.menu_profile_user_image_span = document.querySelector(".menu_profile_user_image_span");
-      this.menu_profile_user_name_span = document.querySelector(".menu_profile_user_name_span");
       // hide white blink from nav-link navigation
       this.standard_header_bar_container.querySelector(".header_tabs .nav-link").addEventListener("click",
         () => {
           (<any>document.querySelector(".navbar_wrapper")).style.visibility = "hidden";
         });
     }
+    this.menu_profile_user_image_span = document.querySelector(".menu_profile_user_image_span");
+    this.menu_profile_user_name_span = document.querySelector(".menu_profile_user_name_span");
 
     window.addEventListener("beforeinstallprompt", (e: any) => {
       e.preventDefault();
@@ -277,6 +277,7 @@ export default class BaseApp {
   }
   /** update user auth status, username/email etc */
   updateUserStatus() {
+    console.log(this.menu_profile_user_image_span);
     if (this.menu_profile_user_image_span) this.menu_profile_user_image_span.setAttribute("uid", this.uid);
     if (this.menu_profile_user_name_span) this.menu_profile_user_name_span.setAttribute("uid", this.uid);
   }
