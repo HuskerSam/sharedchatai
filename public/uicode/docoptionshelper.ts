@@ -35,7 +35,6 @@ export default class DocOptionsHelper {
     session_header_link_button: any;
     wrapperClass = "";
     prompt_for_new_note: any;
-    noLabelSave = false;
     lastReportData: any;
     modal_send_email_button: any;
     export_data_popup_preview: any;
@@ -154,20 +153,21 @@ export default class DocOptionsHelper {
             select: ".edit_options_document_labels",
             events: {
                 afterChange: () => this.saveDocumentLabels(),
+                addable: (value: string): string | false => {
+                    if (value === "") return false;
+                    return value;
+                },
             },
             settings: {
                 placeholderText: "Add labels...",
+                hideSelected: true,
+                searchPlaceholder: "Add Labels",
+                allowDeselect: true,
+                closeOnSelect: false,
+                searchText: "",
             },
         });
-        /*
-                const field: any = document.body.querySelector("#owner_tab_view .-search__field");
-                field.addEventListener("keydown", (event: any) => {
-                    if (event.key === ",") {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                });
-        */
+
         this.session_header_link_button = document.querySelector(".session_header_link_button");
 
         this.export_only_selected_prompts = this.modalContainer.querySelector(".export_only_selected_prompts");
@@ -356,7 +356,7 @@ export default class DocOptionsHelper {
      * @return { string } html template as string
      */
     getModalTemplate(): string {
-        return `<div class="modal fade scrollable_modal" id="editDocumentModal" tabindex="-1" aria-labelledby="editDocumentModalLabel"
+        return `<div class="modal fade scrollable_modal" data-bs-focus="false" id="editDocumentModal" tabindex="-1" aria-labelledby="editDocumentModalLabel"
         aria-hidden="true">
         <div class="modal-dialog app_panel modal-lg">
             <div class="modal-content app_panel">
@@ -583,17 +583,18 @@ export default class DocOptionsHelper {
 */
     scrapeLabelList(): string {
         const data = this.documentLabelsSlimSelect.getData();
-        const labels: Array<string> = [];
+        const labelsMap: any = {};
         data.forEach((item: any) => {
-            const text = item.text.trim().replaceAll(",", "").substring(0, 30);
-            if (text) labels.push(text);
+            if (item.selected) {
+                const text = item.text.trim().replaceAll(",", "").substring(0, 30);
+                if (text) labelsMap[text] = true;
+            }
         });
 
-        return labels.join(",");
+        return Object.keys(labelsMap).join(",");
     }
     /** use to extract label list from  */
     saveDocumentLabels() {
-        if (this.noLabelSave) return;
         const labels = this.scrapeLabelList();
 
         if (labels !== this.docData.label) {
@@ -818,17 +819,38 @@ feedback: support@unacog.com`);
         }
 
         if (this.isOwner) {
-            let labelString = this.app.profile.documentLabels;
-            if (!labelString) labelString = "";
-            const labelArray = labelString.split(",");
-            
+            let profileLabelString = this.app.profile.documentLabels;
+            if (!profileLabelString) profileLabelString = "";
+            const profileLabels = profileLabelString.split(",");
+
             let docLabelString = doc.label;
             if (!docLabelString) docLabelString = "";
-            // const docLabels = docLabelString.split(",");
+            const docLabels = docLabelString.split(",");
             const selectItems: any[] = [];
-            labelArray.forEach((label: string) => selectItems.push({
-                text: label,
-            }));
+            docLabels.forEach((label: string) => {
+                if (label.trim()) {
+                    selectItems.push({
+                        text: label.trim(),
+                        selected: true,
+                    });
+                }
+            });
+
+            profileLabels.forEach((label: string) => {
+                if (label.trim()) {
+                    let newLabel = true;
+                    selectItems.forEach((item: any) => {
+                        if (item.text === label.trim()) newLabel = false;
+                    });
+                    if (newLabel) {
+                        selectItems.push({
+                            text: label.trim(),
+                            selected: false,
+                        });
+                    }
+                }
+            });
+
             this.documentLabelsSlimSelect.setData(selectItems);
         }
         this.app.sessionDeleting = false;

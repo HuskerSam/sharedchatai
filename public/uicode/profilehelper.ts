@@ -178,6 +178,7 @@ export default class ProfileHelper {
                 searchPlaceholder: "Add Labels",
                 allowDeselect: true,
                 closeOnSelect: false,
+                searchText: "",
             },
         });
 

@@ -141,8 +141,19 @@ export default class DocCreateHelper {
 
     this.createLabelsSlimSelect = new SlimSelect({
       select: ".create_document_label_options",
+      events: {
+        addable: (value: string): string | false => {
+          if (value === "") return false;
+          return value;
+        },
+      },
       settings: {
-        placeholderText: "Add labels...",
+        placeholderText: "Add labels",
+        hideSelected: true,
+        searchPlaceholder: "Add Labels",
+        allowDeselect: true,
+        closeOnSelect: false,
+        searchText: "",
       },
     });
 
@@ -418,7 +429,7 @@ export default class DocCreateHelper {
    * @return { string } html template as string
    */
   getModalTemplate(): string {
-    return `<div class="modal fade scrollable_modal" id="createDocumentModal" tabindex="-1"
+    return `<div class="modal fade scrollable_modal" data-bs-focus="false" id="createDocumentModal" tabindex="-1"
     aria-labelledby="createDocumentModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content app_panel">
@@ -473,10 +484,7 @@ export default class DocCreateHelper {
                           <button class="btn btn-secondary add_date_as_label_button">Add Today</button>
                           <input class="form-check-input insert_todaylabel_default_checkbox" type="checkbox">
                           <label class="form-label labels_label">Labels</label>
-                          <div style="text-align:center;margin-left: -6px;padding-right: 3px;width: 99.8%;">
-                              <select class="create_document_label_options" multiple="multiple"
-                                  style="width:100%;"></select>
-                          </div>
+                          <select class="create_document_label_options" multiple="multiple"></select>
                         </div>
                         <hr>
                         <div>
@@ -792,9 +800,14 @@ export default class DocCreateHelper {
     if (!labelString) labelString = "";
     const labelArray = labelString.split(",");
     const selectItems: any[] = [];
-    labelArray.forEach((label: string) => selectItems.push({
-      text: label,
-    }));
+    labelArray.forEach((label: string) => {
+      if (label.trim()) {
+        selectItems.push({
+          text: label.trim(),
+        });
+      }
+    });
+    
     this.createLabelsSlimSelect.setData(selectItems);
 
     this.insert_todaylabel_default_checkbox.checked = this.app.profile.insertTodayAsLabel === true;
@@ -937,8 +950,20 @@ export default class DocCreateHelper {
    * @param { string } label overrides today to be added
   */
   addTodayAsLabel(label = "") {
-    // let today = this.getLocal8DigitDate();
-    // if (label) today = label;
+    let today = this.getLocal8DigitDate();
+    if (label) today = label;
 
+    const data = this.createLabelsSlimSelect.getData();
+    let newLabel = true;
+    data.forEach((item: any) => {
+      if (item.text === label) newLabel = false;
+    });
+    if (newLabel) {
+      data.push(<any>{
+        text: today,
+        selected: true,
+      });
+      this.createLabelsSlimSelect.setData(data);
+    }
   }
 }
