@@ -2,6 +2,7 @@ import BaseApp from "./baseapp";
 import {
   getAuth,
 } from "firebase/auth";
+import Papa from "papaparse";
 
 /** static functions for UI and api calls  */
 export default class ChatDocument {
@@ -90,7 +91,7 @@ From
       if (formatFilter === "json") {
         records = JSON.parse(fileContent);
       } else {
-        const result = (<any>window).Papa.parse(fileContent, {
+        const result = Papa.parse(fileContent, {
           header: true,
         });
         records = result.data;

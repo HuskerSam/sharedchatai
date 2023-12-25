@@ -3,6 +3,7 @@ import ChatDocument from "./chatdocument";
 import {
   getAuth,
 } from "firebase/auth";
+import Handlebars from "handlebars";
 
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
 export default class DocCreateHelper {
@@ -269,8 +270,8 @@ export default class DocCreateHelper {
     this.app.saveProfileField("bulkSendEmails", bulkSendEmails);
 
     try {
-      this.bulkEmailBodyTemplate = (<any>window).Handlebars.compile(body);
-      this.bulkEmailSubjectTemplate = (<any>window).Handlebars.compile(subject);
+      this.bulkEmailBodyTemplate = Handlebars.compile(body);
+      this.bulkEmailSubjectTemplate = Handlebars.compile(subject);
     } catch (err: any) {
       console.log(err);
       alert("Error compiling body or subject, check the console; send failed");
