@@ -81,7 +81,7 @@ const newsList = [
     link: "/content/managingcontext/",
     title: "Managing Context",
     description: "Control what the LLM sees to limit costs and generate better results",
-    image: "/content/overview/costtracking.png",
+    image: "/images/costtracking.png",
     date: "08-07-2023",
   },
   {
@@ -96,7 +96,7 @@ const newsList = [
     link: "/content/outputformatting/",
     title: "Output Formatting",
     description: "Formatting equations, code and markdown",
-    image: "/content/outputformatting/outputformatting.png",
+    image: "/images/outputformatting.png",
     date: "08-03-2023",
   },
   {
@@ -125,7 +125,7 @@ const newsList = [
     link: "/content/overview/",
     title: "Technical Overview",
     description: "Architecture, frameworks, APIs and passing data to LLM APIs",
-    image: "/content/overview/firebasecloud.png",
+    image: "/images/firebasecloud.png",
     date: "06-28-2023",
   },
   {
