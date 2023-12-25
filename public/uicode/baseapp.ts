@@ -197,7 +197,7 @@ export default class BaseApp {
     initUsageWatch() {
       if (this.usageWatchInited) return;
       this.usageWatchInited = true;
-  
+
       if (this.credits_left) {
         AccountHelper.accountInfoUpdate(this, (usageData: any) => {
           const availableBalance = usageData.availableCreditBalance;
