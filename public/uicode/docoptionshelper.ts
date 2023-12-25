@@ -479,7 +479,7 @@ export default class DocOptionsHelper {
                             </div>
                             <hr>
                             <div>
-                                <div class="form-check">
+                                <div style="font-size:1.5em;display:inline-block;">
                                     <label class="form-check-label">
                                     <input class="form-check-input docfield_include_prompts_in_context" type="checkbox" value="">
                                         Include prompts in context
@@ -496,7 +496,7 @@ export default class DocOptionsHelper {
                             <div>
 
                                 <div style="display:flex;flex-direction:row">
-                                    <div class="form-check" style="flex:1">
+                                    <div style="flex:1;font-size:1.5em;">
                                         <label class="form-check-label">
                                             <input class="form-check-input docfield_enable_embedding_checkbox" type="checkbox" value="">
                                             Enable embedding

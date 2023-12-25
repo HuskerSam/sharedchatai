@@ -74,7 +74,7 @@ export default class LoginHelper {
                 <button class="btn btn-primary" id="login_email_anchor">Log in with Email Link</button>
               <hr>
               <button class="btn btn-primary" id="login_google">
-                Log in with Google &nbsp;<img class="google_logo" src="/images/google_signin.png"></button>
+                Log in with Google &nbsp;<img class="login_helper_google_logo" src="/images/google_signin.png"></button>
               </div>
               <hr>
               <div style="text-align:center;line-height: 3em;">

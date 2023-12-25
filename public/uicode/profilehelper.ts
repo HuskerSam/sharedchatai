@@ -27,7 +27,7 @@ export default class ProfileHelper {
     app: any = null;
     modal_close_button: any = null;
     modalContainer: any = null;
-    logged_in_status: any;
+    profile_modal_logged_in_status: any;
     sign_out_button: any;
     reset_profile: any;
     profile_display_name: any;
@@ -94,7 +94,7 @@ export default class ProfileHelper {
 
         this.modal_close_button = this.modalContainer.querySelector(".modal_close_button");
 
-        this.logged_in_status = document.querySelector(".logged_in_status");
+        this.profile_modal_logged_in_status = document.querySelector(".profile_modal_logged_in_status");
         this.sign_out_button = document.querySelector(".sign_out_button");
         this.reset_profile = document.querySelector(".reset_profile");
         this.profile_display_name = document.querySelector(".profile_display_name");
@@ -213,7 +213,7 @@ export default class ProfileHelper {
                 <div class="modal-header">
                     <h5 class="modal-title" id="userProfileModalLabel" style="display:flex;flex-direction:row;width:100%;overflow:hidden;">
                         <span class="dialog_header_icon"><i class="material-icons">account_circle</i></span>
-                        <span class="logged_in_status" style="flex:1"></span>
+                        <span class="profile_modal_logged_in_status" style="flex:1"></span>
                         <a class="btn btn-secondary show_modal_profile_help" href="/help/#profile" target="help"><i
                         class="material-icons">help_outline</i></a>
                     </h5>
@@ -664,7 +664,7 @@ export default class ProfileHelper {
         let email = getAuth().currentUser?.email;
         if (!email) email = "Logged in as: Anonymous";
 
-        this.logged_in_status.innerHTML = email;
+        this.profile_modal_logged_in_status.innerHTML = email;
 
         let profileLabelsPacked = this.app.profile.documentLabels;
         if (!profileLabelsPacked) profileLabelsPacked = "";
