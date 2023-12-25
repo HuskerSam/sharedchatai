@@ -47,7 +47,33 @@
                     <button class="btn btn-secondary remove_project_btn">
                         <i class="material-icons">delete</i></button>
                 </div>
-                <div style="flex:1"></div>
+                <div style="flex:1">
+                    <ul class="nav nav-pills" role="tablist" style="padding-left:16px;">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="upsert_embedding_tab_btn" data-bs-toggle="tab"
+                                href="#upsert_embedding_tab_view" role="tab" aria-controls="upsert_embedding_tab_view"
+                                aria-selected="true">Documents</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="options_embedding_tab_btn" data-bs-toggle="tab"
+                                href="#options_embedding_tab_view" role="tab" aria-controls="options_embedding_tab_view"
+                                aria-selected="false">Options</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="test_embedding_tab_btn" data-bs-toggle="tab" href="#test_embedding_tab_view"
+                                role="tab" aria-controls="test_embedding_tab_view" aria-selected="false">Test</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="parse_embedding_tab_btn" data-bs-toggle="tab"
+                                href="#parse_embedding_tab_view" role="tab" aria-controls="pase_embedding_tab_view"
+                                aria-selected="false">Parse</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="help_embedding_tab_btn" data-bs-toggle="tab" href="#help_embedding_tab_view"
+                                role="tab" aria-controls="help_embedding_tab_view" aria-selected="false">Help</a>
+                        </li>
+                    </ul>        
+                </div>
                 <div class="pinecone_stats_label">Index:<br>Vectors: </div>
                 <div class="pinecone_index_name"></div>
                 <div style="padding-top: 8px;">
@@ -57,31 +83,6 @@
                     </button>
                 </div>
             </div>
-            <ul class="nav nav-tabs" role="tablist" style="margin-top:8px;">
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="upsert_embedding_tab_btn" data-bs-toggle="tab"
-                        href="#upsert_embedding_tab_view" role="tab" aria-controls="upsert_embedding_tab_view"
-                        aria-selected="true">Documents</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="options_embedding_tab_btn" data-bs-toggle="tab"
-                        href="#options_embedding_tab_view" role="tab" aria-controls="options_embedding_tab_view"
-                        aria-selected="false">Options</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="test_embedding_tab_btn" data-bs-toggle="tab" href="#test_embedding_tab_view"
-                        role="tab" aria-controls="test_embedding_tab_view" aria-selected="false">Test</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="parse_embedding_tab_btn" data-bs-toggle="tab"
-                        href="#parse_embedding_tab_view" role="tab" aria-controls="pase_embedding_tab_view"
-                        aria-selected="false">Parse</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="help_embedding_tab_btn" data-bs-toggle="tab" href="#help_embedding_tab_view"
-                        role="tab" aria-controls="help_embedding_tab_view" aria-selected="false">Help</a>
-                </li>
-            </ul>
             <div class="tab-content"
                 style="overflow:hidden;display:flex;text-align: left;flex: 1;flex-direction: column;">
                 <div class="tab-pane fade show active" id="upsert_embedding_tab_view" role="tabpanel"
