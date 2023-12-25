@@ -76,6 +76,7 @@ export class EmbeddingApp extends BaseApp {
     upload_embedding_document_batchsize: any = document.querySelector(".upload_embedding_document_batchsize");
     next_table_page_btn: any = document.querySelector(".next_table_page_btn");
     upsert_next_loop_checkbox: any = document.querySelector(".upsert_next_loop_checkbox");
+    options_embedding_tab_btn: any = document.querySelector("#options_embedding_tab_btn");
     actionRunning = false;
     tableQueryFirstRow = 1;
     tableIdSortDirection = "";
@@ -653,12 +654,12 @@ export class EmbeddingApp extends BaseApp {
         const json = await fResult.json();
 
         if (json.success === false) {
-            this.pinecone_index_name.innerHTML = json.errorMessage;
+            this.pinecone_index_name.innerHTML = "Error: " + json.errorMessage;
             return;
         }
 
         this.pinecone_index_stats_display.innerHTML = JSON.stringify(json, null, "\t");
-        this.pinecone_index_name.innerHTML = pineconeIndex + "<br>" + json.indexDescription.totalRecordCount;
+        this.pinecone_index_name.innerHTML = "Vectors: " + json.indexDescription.totalRecordCount;
     }
     /** */
     async fetchPineconeVector() {
@@ -1208,6 +1209,7 @@ export class EmbeddingApp extends BaseApp {
         const selectedRadio: any = document.body.querySelector(`input[name="table_filter_radio"]:checked`);
         const filterValue = selectedRadio.value;
         const firstRow = this.first_table_row.value;
+        this.options_embedding_tab_btn.innerHTML = "Project: <b>" + projectId + "</b>";
 
         if (this.selectedProjectId === projectId && this.selectedFilter === filterValue &&
             this.tableQueryFirstRow === firstRow && forceRefresh === false) return;

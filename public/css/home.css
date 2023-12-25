@@ -893,7 +893,7 @@ select.document_label_filter.form-select:active {
 }
 
 .nav-pills .nav-link {
-  filter: grayscale(90%);
+  color: var(--primary-color);
 }
 
 .navbar-light .nav .nav-link.active,

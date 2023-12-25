@@ -9,7 +9,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined">
-    
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -28,57 +28,38 @@
         if (localStorage.getItem("niteMode") !== "true") document.body.classList.add("day_mode");
         else document.body.classList.add("nite_mode");
     </script>
-    <div style="height: 100%;display: flex; flex-direction: column;overflow: hidden;">
+    <div style="height: 100%;display: flex; flex-direction: column;overflow: hidden;" class="app_panel">
         <div class="standard_header_bar_container"></div>
-        <div class="app_panel"
-            style="padding: 8px;padding-top: 70px;flex: 1;overflow: hidden;display: flex;flex-direction: column;">
-            <div class="pinecone_status_bar container">
-                <div style="padding-top:6px;">Project:&nbsp;</div>
-                <div style="padding:0">
-                    <select class="upsert_documents_list form-select">
-                        <option value="">Loading...</option>
-                    </select>
-                </div>
-                <div style="padding-left:16px;padding-top: 4px;">
-                    <button class="btn btn-secondary add_project_btn">
-                        <i class="material-icons">add</i></button>
-                    &nbsp;
-                    &nbsp;
-                    <button class="btn btn-secondary remove_project_btn">
-                        <i class="material-icons">delete</i></button>
-                </div>
+        <div class="embedding_second_header_bar">
+            <div class="pinecone_status_bar container" style="position:relative;">
                 <div style="flex:1">
-                    <ul class="nav nav-pills" role="tablist" style="padding-left:16px;">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="options_embedding_tab_btn" data-bs-toggle="tab"
+                                href="#options_embedding_tab_view" role="tab" aria-controls="options_embedding_tab_view"
+                                aria-selected="false">Project: </a>
+                        </li>
                         <li class="nav-item" role="presentation">
                             <a class="nav-link active" id="upsert_embedding_tab_btn" data-bs-toggle="tab"
                                 href="#upsert_embedding_tab_view" role="tab" aria-controls="upsert_embedding_tab_view"
                                 aria-selected="true">Documents</a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" id="options_embedding_tab_btn" data-bs-toggle="tab"
-                                href="#options_embedding_tab_view" role="tab" aria-controls="options_embedding_tab_view"
-                                aria-selected="false">Options</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" id="test_embedding_tab_btn" data-bs-toggle="tab" href="#test_embedding_tab_view"
-                                role="tab" aria-controls="test_embedding_tab_view" aria-selected="false">Test</a>
+                            <a class="nav-link" id="test_embedding_tab_btn" data-bs-toggle="tab"
+                                href="#test_embedding_tab_view" role="tab" aria-controls="test_embedding_tab_view"
+                                aria-selected="false">Test</a>
                         </li>
                         <li class="nav-item" role="presentation">
                             <a class="nav-link" id="parse_embedding_tab_btn" data-bs-toggle="tab"
                                 href="#parse_embedding_tab_view" role="tab" aria-controls="pase_embedding_tab_view"
                                 aria-selected="false">Parse</a>
                         </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" id="help_embedding_tab_btn" data-bs-toggle="tab" href="#help_embedding_tab_view"
-                                role="tab" aria-controls="help_embedding_tab_view" aria-selected="false">Help</a>
-                        </li>
-                    </ul>        
+                    </ul>
                 </div>
-                <div class="pinecone_stats_label">Index:<br>Vectors: </div>
-                <div class="pinecone_index_name"></div>
-                <div style="padding-top: 8px;">
+                <div class="vector_count_floating_status">
+                    <span class="pinecone_index_name"></span>
                     &nbsp;
-                    <button class="btn btn-secondary fetch_pinecone_index_stats_btn">
+                    <button class="btn fetch_pinecone_index_stats_btn" style="position:relative;top:-3px;">
                         <i class="material-icons">sync</i>
                     </button>
                 </div>
@@ -86,46 +67,49 @@
             <div class="tab-content"
                 style="overflow:hidden;display:flex;text-align: left;flex: 1;flex-direction: column;">
                 <div class="tab-pane fade show active" id="upsert_embedding_tab_view" role="tabpanel"
-                    aria-labelledby="upsert_embedding_tab_btn" style="flex:1;flex-direction: column;overflow:hidden;">
+                    aria-labelledby="upsert_embedding_tab_btn">
                     <div style="padding: 8px;display:flex;flex-direction:row" class="container">
-                        <div style="padding-top: 4px;">
-                            <label class="form-check-label csv_choice_label">
+                        <div style="padding-top: 12px;">
+                            <label class="form-check-label">
                                 <input type="radio" class="form-radio-input" name="table_filter_radio" value="All">
                                 All (<span class="table_all_count"> &nbsp; </span>)
                             </label>
-                            <label class="form-check-label csv_choice_label">
+                            &nbsp;
+                            <label class="form-check-label">
                                 <input type="radio" class="form-radio-input" checked name="table_filter_radio"
                                     value="New">
                                 New (<span class="table_new_count"> &nbsp; </span>)
                             </label>
-                            <label class="form-check-label csv_choice_label">
+                            &nbsp;
+                            <label class="form-check-label">
                                 <input type="radio" class="form-radio-input" name="table_filter_radio" value="Done">
                                 Done (<span class="table_done_count"> &nbsp; </span>)
                             </label>
-                            <label class="form-check-label csv_choice_label">
+                            &nbsp;
+                            <label class="form-check-label">
                                 <input type="radio" class="form-radio-input" name="table_filter_radio" value="Error">
                                 Errors (<span class="table_error_count"> &nbsp; </span>)
                             </label>
                             &nbsp;
-                        </div>
-                        <div class="upsert_result_status_bar"></div>
-                        <div>
-
                             &nbsp;
                         </div>
                         <div>
                             <a class="btn btn-secondary upload_document_list_button" href="importrows">
-                                <i class="material-icons">upload_file</i> Import Rows
+                                <i class="material-icons">upload_file</i> Import
                             </a>
                             <a class="btn btn-secondary download_json_results_btn" href="exportjson">
-                                <i class="material-icons">file_download</i> Export Rows
+                                <i class="material-icons">file_download</i> Export
                             </a>
                             <a class="btn btn-secondary add_row_btn" href="addrow">
-                                <i class="material-icons">add</i> Add Row
+                                <i class="material-icons">add</i> Add
                             </a>
                         </div>
+                        <div class="upsert_result_status_bar"></div>
                         <input class="embedding_list_file_dom" style="display:none;" type="file" accept=".json,.csv">
                         <div class="document_list_file_name" style="display:none;"></div>
+                    </div>
+                    <div class="tabulator_documents_border_wrapper">
+                        <div class="preview_embedding_documents_table"></div>
                     </div>
                     <div style="display:flex;flex-direction:row;padding:8px;" class="container">
                         <div>
@@ -153,166 +137,163 @@
                                     <option>50</option>
                                 </select>
                             </div>
-                            <label class="form-check-label" style="font-size:1.25em;display:inline-block;position:relative;top:4px;">
+                            <label class="form-check-label"
+                                style="font-size:1.25em;display:inline-block;position:relative;top:4px;">
                                 <input class="form-check-input upsert_next_loop_checkbox" type="checkbox" value="">
                                 Loop
                             </label>
                         </div>
                     </div>
-                    <div style="flex:1;overflow: auto;">
-                        <div class="preview_embedding_documents_table"></div>
-                    </div>
                 </div>
                 <div class="tab-pane fade" id="options_embedding_tab_view" role="tabpanel"
                     aria-labelledby="options_embedding_tab_btn" style="flex: 1;flex-direction: column;overflow: auto;">
-                    <table class="embedding_options_table">
-                        <tr>
-                            <td>Index Name </td>
-                            <td><input class="batch_id form-control" type="text" value=""></td>
-                            <td><button class="delete_index btn btn-primary"><i
-                                        class="material-icons">delete</i></button>
-                            </td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td colspan="4">Must be lower case only and can include "-"</td>
-                        </tr>
-                        <tr>
-                            <td>API Key </td>
-                            <td><input class="pinecone_key form-control" type="text" value=""></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Environment </td>
-                            <td><input class="pinecone_environment form-control" type="text" value=""></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Chunk Size</td>
-                            <td><input class="chunk_size_default form-control" type="text" value=""></td>
-                            <td>tokens</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" style="text-align: right;padding: 8px;">
-                                <button class="btn btn-primary save_pineconeoptions_btn">Save Options</button>
-                            </td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td colspan="4">
-                                <hr>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Vector Id </td>
-                            <td>
-                                <input class="pinecone_id_to_delete form-control" type="text" value="">
-                            </td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" style="text-align: right;padding: 8px;">
-                                <button class="btn btn-primary fetch_pinecone_vector_id">Fetch Vector</button>
-                                <button class="btn btn-primary delete_pinecone_vector_id">Delete Vector</button>
-                            </td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td colspan="4">
-                                <div class="fetch_vector_results"></div>
-                                <hr>
-                            </td>
-                        </tr>
-                    </table>
-                    <div class="pinecone_index_stats_display"></div>
+                    <div class="container">
+                        <table class="embedding_options_table">
+                            <tr>
+                                <td colspan="4">
+                                    Project:
+                                    &nbsp;
+                                    <div style="display: inline-block;position:relative;top:4px;">
+                                        <select class="upsert_documents_list form-select">
+                                            <option value="">Loading...</option>
+                                        </select>
+                                    </div>
+                                    &nbsp;
+                                    &nbsp;
+                                    <button class="btn btn-secondary add_project_btn">
+                                        <i class="material-icons">add</i> Project</button>
+                                    &nbsp;
+                                    &nbsp;
+                                    <button class="btn btn-secondary remove_project_btn">
+                                        <i class="material-icons">delete</i> Project</button>
+                                    <hr>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Index Name </td>
+                                <td><input class="batch_id form-control" type="text" value=""></td>
+                                <td><button class="delete_index btn btn-primary"><i
+                                            class="material-icons">delete</i></button>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">Must be lower case only and can include "-"</td>
+                            </tr>
+                            <tr>
+                                <td>API Key </td>
+                                <td><input class="pinecone_key form-control" type="text" value=""></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Environment </td>
+                                <td><input class="pinecone_environment form-control" type="text" value=""></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Chunk Size</td>
+                                <td><input class="chunk_size_default form-control" type="text" value=""></td>
+                                <td>tokens</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="text-align: right;padding: 8px;">
+                                    <button class="btn btn-primary save_pineconeoptions_btn">Save Options</button>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <hr>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Vector Id </td>
+                                <td>
+                                    <input class="pinecone_id_to_delete form-control" type="text" value="">
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="text-align: right;padding: 8px;">
+                                    <button class="btn btn-primary fetch_pinecone_vector_id">Fetch Vector</button>
+                                    <button class="btn btn-primary delete_pinecone_vector_id">Delete Vector</button>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <div class="fetch_vector_results"></div>
+                                    <hr>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="pinecone_index_stats_display"></div>
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="test_embedding_tab_view" role="tabpanel"
                     aria-labelledby="test_embedding_tab_btn" style="padding: 10px;">
-                    <textarea class="prompt_area form-control" rows="6"></textarea>
-                    <div style="text-align: right;line-height: 3.5em">
-                        (top K = 10)
-                        <button class="run_prompt btn btn-primary">Query Documents for Prompt</button>
-                    </div>
-                    <div class="embedding_query_results_table_wrapper styled_csv_table" style="margin-top: 8px;">
-                    </div>
-                    <div style="text-align: right;">
-                        <button class="copy_results_to_clipboard btn btn-primary"><i
-                                class="material-icons">content_copy</i>
-                            Prompt</button>
-                        <button class="results_open_new_window btn btn-primary"><i
-                                class="material-icons">open_in_new</i></button>
-                        &nbsp;
-                        &nbsp;
-                        <button class="copy_resultdoclist_to_clipboard btn btn-primary"><i
-                                class="material-icons">content_copy</i> JSON</button>
+                    <div class="container">
+                        <textarea class="prompt_area form-control" rows="6"></textarea>
+                        <div style="text-align: right;line-height: 3.5em">
+                            (top K = 10)
+                            <button class="run_prompt btn btn-primary">Query Documents for Prompt</button>
+                        </div>
+                        <div class="embedding_query_results_table_wrapper styled_csv_table" style="margin-top: 8px;">
+                        </div>
+                        <div style="text-align: right;">
+                            <button class="copy_results_to_clipboard btn btn-primary"><i
+                                    class="material-icons">content_copy</i>
+                                Prompt</button>
+                            <button class="results_open_new_window btn btn-primary"><i
+                                    class="material-icons">open_in_new</i></button>
+                            &nbsp;
+                            &nbsp;
+                            <button class="copy_resultdoclist_to_clipboard btn btn-primary"><i
+                                    class="material-icons">content_copy</i> JSON</button>
+                        </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="parse_embedding_tab_view" role="tabpanel"
                     aria-labelledby="parse_embedding_tab_btn" style="overflow:auto;">
-                    <br>
-                    <h4>Enter URL (html, pdf or mp3) to parse</h4>
-                    <div class="parse_stretch_div">
-                        <div style="padding-top:6px;">URL</div>
-                        <div style="flex:1">
-                            <input type="text" class="parse_url_path_input form-control">
+                    <div class="container">
+                        <br>
+                        <h4>Enter URL (html, pdf or mp3) to parse</h4>
+                        <div class="parse_stretch_div">
+                            <div style="padding-top:6px;">URL</div>
+                            <div style="flex:1">
+                                <input type="text" class="parse_url_path_input form-control">
+                            </div>
+                            <div style="padding-top:6px;">
+                                Options
+                            </div>
+                            <div style="flex:0.5">
+                                <input type="text" class="parse_url_path_options form-control">
+                            </div>
+                            <div>
+                                <button class="parse_url_parse_button btn btn-primary">Parse</button>
+                            </div>
                         </div>
-                        <div style="padding-top:6px;">
-                            Options
+                        <h4 class="parsed_text_results_h4">Parsed Text Results</h4>
+                        <textarea class="form-control parse_url_text_results"></textarea>
+                        <h4>Splice into chunks</h4>
+                        <div class="parse_stretch_div">
+                            <div>
+                                <input type="text" class="parse_url_chunk_tokens form-control" value="1000">
+                            </div>
+                            <div style="padding-top:6px;">max size (tokens)</div>
+                            <div>
+                                <button class="parse_chunks_parse_button btn btn-primary">Chunk</button>
+                            </div>
+                            <div style="flex:1"></div>
                         </div>
-                        <div style="flex:0.5">
-                            <input type="text" class="parse_url_path_options form-control">
-                        </div>
-                        <div>
-                            <button class="parse_url_parse_button btn btn-primary">Parse</button>
-                        </div>
+                        <h4>Chunked Results</h4>
+                        <div class="chunking_results_wrapper styled_csv_table"></div>
                     </div>
-                    <h4 class="parsed_text_results_h4">Parsed Text Results</h4>
-                    <textarea class="form-control parse_url_text_results"></textarea>
-                    <h4>Splice into chunks</h4>
-                    <div class="parse_stretch_div">
-                        <div>
-                            <input type="text" class="parse_url_chunk_tokens form-control" value="1000">
-                        </div>
-                        <div style="padding-top:6px;">max size (tokens)</div>
-                        <div>
-                            <button class="parse_chunks_parse_button btn btn-primary">Chunk</button>
-                        </div>
-                        <div style="flex:1"></div>
-                    </div>
-                    <h4>Chunked Results</h4>
-                    <div class="chunking_results_wrapper styled_csv_table"></div>
                 </div>
-                <div class="tab-pane fade" id="help_embedding_tab_view" role="tabpanel"
-                    aria-labelledby="help_embedding_tab_btn">
-                    <label>url</label> - serves as the link in UI, location to scrape (optional) and id
-                    <br>
-                    <label>id</label> - (optional) overrides the url as the id
-                    <br>
-                    <label>title</label> - (optional) override the scraped title
-                    <br>
-                    <label>options</label> - (optional)
-                    <br>
-                    <label>text</label> - (optional) no scrape use this text
-                    <br>
-                    <label>prefix</label> - (optional) prefix meta text for scrape or text
-                    <br><br>
-                    If you want to remove files, delete the index, uploading will upsert documents using url as unique
-                    id,
-                    or id if supplied
-                    <br><br><br>
-
-                    wait 20-30 seconds before testing after upserting documents
-                    <br><br>
-
-                    <br>
-                    Delete index to remove all documents from pinecone storage
-                    <br><br>
-                </div>
-
             </div>
         </div>
     </div>
