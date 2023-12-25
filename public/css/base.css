@@ -123,6 +123,7 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  background-color: unset;
 }
 
 html .nite_mode,
@@ -186,6 +187,8 @@ a {
 .navbar {
   text-align: left;
   background: var(--background-accent) !important;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .day_mode .card {
@@ -931,7 +934,7 @@ h5 {
   flex: 1;
   width: 100%;
   padding-left: 8px;
-  font-size: 16px;
+  font-size: 12px;
   margin-bottom: -16px;
   position: relative;
   top: -4px;
@@ -2450,11 +2453,6 @@ ul.recent_documents_list li a {
   color: var(--primary-color);
 }
 
-.navbar {
-  padding-top: 0;
-  padding-bottom: 0;
-}
-
 .document_name {
   flex: 1;
   text-align: left;
@@ -2936,6 +2934,7 @@ select.document_label_filter.form-select:active {
   .header_tabs {
     margin-bottom: -4px;
     top: 0;
+    font-size: 16px;
   }
 
   .filter_bar_wrapper {
@@ -2944,11 +2943,13 @@ select.document_label_filter.form-select:active {
 }
 
 .header_tabs li a {
-  display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 8em;
+  width: 5em;
+  display: inline-block;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 
 .tab_label {
@@ -2967,17 +2968,6 @@ select.document_label_filter.form-select:active {
   opacity: 0;
   width: 0%;
   transition: width 0.3s ease, opacity 0.3s ease;
-}
-
-.header_tabs li .material-icons {
-  font-size: 2em;
-  margin-bottom: 4px;
-}
-
-@media (min-width: 350px) {
-  .header_tabs li .material-icons {
-    font-size: 2.5em;
-  }
 }
 
 .nav-pills .nav-link {
@@ -3110,14 +3100,6 @@ h3,
 ol li,
 .display-4 {
   color: var(--primary-color);
-}
-
-.header_tabs a {
-  display: inline-block;
-  padding-left: 4px;
-  padding-right: 4px;
-  width: 100%;
-  max-width: 5em;
 }
 
 .account_status_display {
@@ -3494,12 +3476,6 @@ ol li,
 
   .template_list_wrapper li a .title {
     display: inline-block;
-  }
-
-  .header_tabs li .material-icons {
-    margin-bottom: 0;
-    font-size: 1.5em;
-    text-decoration: none;
   }
 
   .navbar-light .nav .nav-link.active,
