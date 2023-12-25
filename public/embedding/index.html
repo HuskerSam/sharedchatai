@@ -32,7 +32,7 @@
         <div class="standard_header_bar_container"></div>
         <div class="app_panel"
             style="padding: 8px;padding-top: 70px;flex: 1;overflow: hidden;display: flex;flex-direction: column;">
-            <div class="pinecone_status_bar">
+            <div class="pinecone_status_bar container">
                 <div style="padding-top:6px;">Project:&nbsp;</div>
                 <div style="padding:0">
                     <select class="upsert_documents_list form-select">
@@ -47,16 +47,17 @@
                     <button class="btn btn-secondary remove_project_btn">
                         <i class="material-icons">delete</i></button>
                 </div>
+                <div style="flex:1"></div>
                 <div class="pinecone_stats_label">Index:<br>Vectors: </div>
                 <div class="pinecone_index_name"></div>
-                <div style="padding-top: 8px;flex:1">
+                <div style="padding-top: 8px;">
                     &nbsp;
                     <button class="btn btn-secondary fetch_pinecone_index_stats_btn">
                         <i class="material-icons">sync</i>
                     </button>
                 </div>
             </div>
-            <ul class="nav nav-tabs" role="tablist">
+            <ul class="nav nav-tabs" role="tablist" style="margin-top:8px;">
                 <li class="nav-item" role="presentation">
                     <a class="nav-link active" id="upsert_embedding_tab_btn" data-bs-toggle="tab"
                         href="#upsert_embedding_tab_view" role="tab" aria-controls="upsert_embedding_tab_view"
@@ -85,7 +86,7 @@
                 style="overflow:hidden;display:flex;text-align: left;flex: 1;flex-direction: column;">
                 <div class="tab-pane fade show active" id="upsert_embedding_tab_view" role="tabpanel"
                     aria-labelledby="upsert_embedding_tab_btn" style="flex:1;flex-direction: column;overflow:hidden;">
-                    <div style="padding: 8px;display:flex;flex-direction:row">
+                    <div style="padding: 8px;display:flex;flex-direction:row" class="container">
                         <div style="padding-top: 4px;">
                             <label class="form-check-label csv_choice_label">
                                 <input type="radio" class="form-radio-input" name="table_filter_radio" value="All">
@@ -128,7 +129,7 @@
                     <div style="flex:1;overflow: auto;">
                         <div class="preview_embedding_documents_table"></div>
                     </div>
-                    <div style="display:flex;flex-direction:row;padding:8px;">
+                    <div style="display:flex;flex-direction:row;padding:8px;" class="container">
                         <div>
                             <label class="form-label">Start After Id: &nbsp;</label>
                             <input class="first_table_row form-control" value=""
