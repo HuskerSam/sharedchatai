@@ -22,6 +22,9 @@ import {
     startAfter,
     documentId,
 } from "firebase/firestore";
+import {
+    TabulatorFull,
+} from "tabulator-tables";
 
 /** Embedding upload app class */
 export class EmbeddingApp extends BaseApp {
@@ -216,11 +219,11 @@ export class EmbeddingApp extends BaseApp {
         this.profileHelper.noAuthPage = false;
 
         // init table
-        this.csvUploadDocumentsTabulator = new (<any>window).Tabulator(".preview_embedding_documents_table", {
+        this.csvUploadDocumentsTabulator = new TabulatorFull(".preview_embedding_documents_table", {
             data: [],
             height: "100%",
             layout: "fitDataStretch",
-            columns: this.tableColumns,
+            columns: <any>this.tableColumns,
         });
         this.csvUploadDocumentsTabulator.on("cellClick", async (e: any, cell: any) => {
             const field = cell.getField();

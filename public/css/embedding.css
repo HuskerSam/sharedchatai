@@ -1,4 +1,5 @@
 @import "base.css";
+@import "tabulator.css";
 
 .styled_csv_table {
   width: 100%;
