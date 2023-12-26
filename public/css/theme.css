@@ -354,3 +354,125 @@ a:hover {
 .modal-title {
   color: var(--primary-color);
 }
+.navbar-light .navbar-toggler.menu_toggle_button {
+  background: none;
+  top: 9px;
+}
+
+.nav-pills .nav-link {
+  color: var(--primary-color);
+}
+
+.navbar-light .nav .nav-link.active,
+.nav .nav-link.active,
+.nav .show>.nav-link {
+  background-color: transparent;
+  color: var(--highlight);
+}
+
+
+.day_mode .nav-pills .nav-link.active,
+.day_mode .nav-pills .show>.nav-link {
+  background-color: var(--secondary-color);
+  color: var(--highlight);
+  line-height: initial;
+}
+
+
+.nav .nav-link.active .tab_label::before,
+.nav .nav-link:hover .tab_label::before {
+  width: 100%;
+  opacity: 1;
+}
+
+h3,
+ol li,
+.display-4 {
+  color: var(--primary-color);
+}
+
+.disabled_link {
+  pointer-events: none;
+  cursor: default;
+  color: gray;
+  text-decoration: none;
+}
+
+.help_coming_pill {
+  font-size: 0.5em;
+}
+
+.homepage_logo_spacing {
+  top: -8px;
+  display: inline-block;
+}
+
+
+.anchor_row a {
+  margin-top: 4px;
+  padding-top: 8px;
+  padding-bottom: 12px;
+  display: inline-block;
+}
+
+
+table.number {
+  text-align: right;
+}
+
+table.number td {
+  font-family: "MonospaceTTF";
+  padding-left: 8px;
+}
+
+table.number th {
+  font-weight: normal;
+}
+
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
+  font-size: .9em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+.prompt-text {
+  font-weight: bold;
+  white-space: pre-wrap;
+}
+
+.completion-text {
+  white-space: pre-wrap;
+}
+
+.day_mode .show_modal_profile_help,
+.day_mode .show_token_threshold_dialog_help,
+.day_mode .show_create_dialog_help {
+  border: none;
+}
+
+.document_list_item {
+  display: block;
+  min-height: 3.75em;
+  display: flex;
+  flex-direction: row;
+  color: var(--primary-color-2);
+  padding-left: 0;
+  padding-right: 0;
+  background-color: var(--background-accent);
+  margin-top: 0.35em;
+  margin-bottom: .35em;
+}
+
+.day_mode .document_list_item {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+.document_list_item .delete {
+  display: none;
+}
