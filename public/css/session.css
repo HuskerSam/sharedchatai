@@ -26,49 +26,6 @@
   }
 }
 
-.session_feed_inited_flex {
-  display: none;
-}
-
-.session_feed_inited .session_feed_inited_flex,
-.app_signed_out .session_feed_inited_flex {
-  display: flex;
-}
-
-.document_name {
-  flex: 1;
-  text-align: left;
-  max-height: 3em;
-  overflow: hidden;
-  margin-top: auto;
-  margin-bottom: auto;
-  color: var(--primary-color);
-}
-
-.document_status {
-  display: block;
-  clear: both;
-  white-space: nowrap;
-  overflow: visible;
-  align-self: center;
-  min-width: 3.25em;
-  padding-left: 0.25em;
-}
-
-.profile_text_option_large .document_name {
-  font-size: 1.3em;
-  line-height: 1.75em;
-  max-height: 3.5em;
-}
-
-.profile_text_option_large .document_list_item {
-  min-height: 5.6em;
-}
-
-.profile_text_option_large .session_labels_column {
-  font-size: 1.3em;
-}
-
 .session_sidebar_splitter_div {
   display: flex;
   flex: 1;
@@ -387,16 +344,6 @@ ul.recent_documents_list li a {
   text-decoration: none;
 }
 
-.recent_documents_list .activity_date {
-  background-color: var(--recent-document-activity-date);
-  position: absolute;
-  right: -10px;
-  top: 2px;
-  border-radius: 5px;
-  z-index: 100;
-  padding: 2px 8px;
-}
-
 ul.recent_documents_list {
   width: 100%;
   margin-top: 6px;
@@ -433,6 +380,16 @@ ul.recent_documents_list li a:active {
 
 .day_mode .recent_documents_list .activity_date {
   background-color: rgba(230, 230, 230);
+}
+
+.recent_documents_list .activity_date {
+  background-color: var(--recent-document-activity-date);
+  position: absolute;
+  right: -10px;
+  top: 2px;
+  border-radius: 5px;
+  z-index: 100;
+  padding: 2px 8px;
 }
 
 .sidebar_tree_recent_title {

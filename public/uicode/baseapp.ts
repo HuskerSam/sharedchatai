@@ -95,6 +95,7 @@ export default class BaseApp {
   buy_credits_cta_btn: any = document.querySelector(".buy_credits_cta_btn");
   tokenizedStringCache: any = {};
   tokenEncode: any = null;
+  account_status_display: any;
 
   /**
  * @param { boolean } addFooter add footer (true by default)
@@ -110,11 +111,22 @@ export default class BaseApp {
 
     this.menu_profile_user_image_span = document.querySelector(".menu_profile_user_image_span");
     this.profile_menu_anchor = document.querySelector(".profile_menu_anchor");
-    this.profile_menu_anchor.addEventListener("click", (event: any) => {
-      event.stopPropagation();
-      event.preventDefault();
-      this.profileHelper.show();
-    });
+    if (this.profile_menu_anchor) {
+      this.profile_menu_anchor.addEventListener("click", (event: any) => {
+        event.stopPropagation();
+        event.preventDefault();
+        this.profileHelper.show();
+      });
+    }
+
+    this.account_status_display = document.querySelector(".account_status_display");
+    if (this.account_status_display) {
+      this.account_status_display.addEventListener("click", (e: any) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.profileHelper.show(true);
+      });
+    }
 
     window.addEventListener("beforeinstallprompt", (e: any) => {
       e.preventDefault();

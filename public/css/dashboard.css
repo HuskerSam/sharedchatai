@@ -290,3 +290,45 @@ select.document_label_filter.form-select:active {
 .dashboard_feed_owner_user.document_list_item .leave {
   display: none;
 }
+.session_feed_inited_flex {
+    display: none;
+  }
+  
+  .session_feed_inited .session_feed_inited_flex,
+  .app_signed_out .session_feed_inited_flex {
+    display: flex;
+  }
+  
+  .document_name {
+    flex: 1;
+    text-align: left;
+    max-height: 3em;
+    overflow: hidden;
+    margin-top: auto;
+    margin-bottom: auto;
+    color: var(--primary-color);
+  }
+  
+  .document_status {
+    display: block;
+    clear: both;
+    white-space: nowrap;
+    overflow: visible;
+    align-self: center;
+    min-width: 3.25em;
+    padding-left: 0.25em;
+  }
+  
+  .profile_text_option_large .document_name {
+    font-size: 1.3em;
+    line-height: 1.75em;
+    max-height: 3.5em;
+  }
+  
+  .profile_text_option_large .document_list_item {
+    min-height: 5.6em;
+  }
+  
+  .profile_text_option_large .session_labels_column {
+    font-size: 1.3em;
+  }

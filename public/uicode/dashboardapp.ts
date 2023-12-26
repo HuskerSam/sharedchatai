@@ -30,7 +30,6 @@ export class DashboardApp extends BaseApp {
   help_show_modal: any = document.querySelector(".help_show_modal");
   menu_toggle_button: any = document.querySelector(".menu_toggle_button");
   show_create_modal: any = document.querySelector(".show_create_modal");
-  account_status_display: any = document.querySelector(".account_status_display");
   navigateHandled = false;
   scroll_to_top_icon: any = document.querySelector(".scroll_to_top_icon");
 
@@ -52,12 +51,6 @@ export class DashboardApp extends BaseApp {
       event.stopPropagation();
       event.preventDefault();
       this.documentCreate.show(this.getCustomSelectedLabel());
-    });
-
-    this.account_status_display.addEventListener("click", (e: any) => {
-      e.preventDefault();
-      e.stopPropagation();
-      this.profileHelper.show(true);
     });
 
     window.addEventListener("scroll", () => {

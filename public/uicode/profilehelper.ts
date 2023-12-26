@@ -53,7 +53,7 @@ export default class ProfileHelper {
     credits_row: any;
     noAuthPage = false;
     nite_mode_input: any;
-    account_tab_button: any;
+    profile_labels_tab_button: any;
     available_balance: any;
     change_subscription: any;
     tokenUsageUpdates = false;
@@ -184,7 +184,7 @@ export default class ProfileHelper {
 
         this.nite_mode_input = document.querySelector(".nite_mode_input");
         this.nite_mode_input.addEventListener("input", () => this.app.toggleDayMode(this.nite_mode_input.checked));
-        this.account_tab_button = document.querySelector(".account_tab_button");
+        this.profile_labels_tab_button = document.querySelector("#profile_labels_tab_button");
 
         this.usage_select_view = this.modalContainer.querySelector(".usage_select_view");
         this.usage_view_this_month = this.modalContainer.querySelector(".usage_view_this_month");
@@ -692,7 +692,7 @@ export default class ProfileHelper {
         this.updateUsageStatsTab();
         this.app.updateUserNamesImages();
         this.updateTokenUsage();
-        if (showAccountTab) this.account_tab_button.click();
+        if (showAccountTab) this.profile_labels_tab_button.click();
         this.modal.show();
     }
     /** */
