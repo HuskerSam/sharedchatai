@@ -166,7 +166,7 @@ body {
   .navbar-light .nav .nav-link.active,
   .nav .nav-link.active,
   .nav .show>.nav-link {
-    border-bottom: none;
+    border-bottom-color: var(--background-accent-2);
   }
 }
 

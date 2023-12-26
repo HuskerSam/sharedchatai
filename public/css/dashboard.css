@@ -271,6 +271,7 @@ select.document_label_filter.form-select:active {
   z-index: 90;
   position: relative;
   top: 4px;
+  padding-top: 12px;
 }
 
 .list_loaded .filter_bar_wrapper {
