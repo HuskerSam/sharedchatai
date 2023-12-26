@@ -248,19 +248,6 @@ i.copy_green {
     position: relative;
 }
 
-.tab_label::before {
-    content: "";
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background-color: var(--highlight);
-    opacity: 0;
-    width: 0%;
-    transition: width 0.3s ease, opacity 0.3s ease;
-}
-
 .account_status_display {
     color: var(--primary-color);
     white-space: nowrap;
