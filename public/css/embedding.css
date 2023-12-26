@@ -1,3 +1,5 @@
+@import "base.css";
+
 .styled_csv_table {
   width: 100%;
   flex: 1;
