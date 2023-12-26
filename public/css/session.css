@@ -1557,3 +1557,9 @@ select.docfield_model:active {
     display: none;
   }
 }
+
+.edit_response_textarea {
+  height: 50vh;
+  flex: 1;
+  width: 100%;
+}

@@ -334,3 +334,27 @@ a:hover {
 .nite_mode .show_nite_mode {
   display: block;
 }
+
+.day_mode .app_panel .form-check-input:checked {
+  background-color: var(--options-tab-color);
+  color: var(--primary-color);
+}
+
+.day_mode .modal .nav-tabs .nav-item.show .nav-link,
+.modal .nav-tabs .nav-link.active {
+  border-bottom: solid 1px var(--secondary-color);
+}
+
+.nite_mode .modal .nav-tabs .nav-item.show .nav-link,
+.nite_mode .modal .nav-tabs .nav-link.active {
+  border-bottom: solid 1px var(--modal-background);
+}
+
+
+.day_mode .modal-dialog .btn-secondary {
+  border-color: var(--primary-color);
+}
+
+.modal-title {
+  color: var(--primary-color);
+}

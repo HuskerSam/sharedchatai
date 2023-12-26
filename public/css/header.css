@@ -162,3 +162,7 @@ button.shared_status_withothers,
     padding-left: 4px;
     padding-right: 4px;
 }
+
+i.copy_green {
+  color: var(--member-online-green);
+}

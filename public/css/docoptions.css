@@ -167,31 +167,82 @@
 }
 
 .token_usage_document_limit_header {
-  float: left;
-  padding-right: 4px;
+    float: left;
+    padding-right: 4px;
 }
 
 .export_size {
-  position: relative;
-  top: 3px;
+    position: relative;
+    top: 3px;
 }
 
 .app_panel .form-check-input.docfield_archived_checkbox,
 .app_panel .form-check-input.docfield_include_user_names_checkbox {
-  width: 24px;
-  height: 24px;
-  border-color: var(--secondary-color-2);
+    width: 24px;
+    height: 24px;
+    border-color: var(--secondary-color-2);
 }
 
 .day_mode .app_panel .form-check-input.docfield_archived_checkbox,
 .day_mode .app_panel .form-check-input.docfield_include_user_names_checkbox {
-  width: 24px;
-  height: 24px;
-  border-color: var(--primary-color);
+    width: 24px;
+    height: 24px;
+    border-color: var(--primary-color);
 }
 
 #editDocumentModal .tab-pane {
-  overflow: auto;
-  flex: 1;
-  flex-direction: column;
+    overflow: auto;
+    flex: 1;
+    flex-direction: column;
+}
+
+.dialog_header_member_image {
+    margin-left: 8px;
+    margin-right: 2px;
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    border-radius: 6px;
+    flex: none;
+}
+
+.dialog_header_member_name {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.doc_total_usage {
+    min-width: 75px;
+}
+
+#editDocumentModalLabel {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    line-height: 2em;
+    flex: 1;
+}
+
+.owner_note_display_div {
+    min-height: 1.5em;
+}
+
+.btn-125 {
+    min-width: 125px;
+}
+
+.export_format_select {
+    display: inline-block;
+    width: auto;
+    margin-left: 4px;
+    margin-right: 12px;
+}
+
+.export_only_selected_prompts {
+    position: relative;
+    top: 7px;
 }

@@ -46,3 +46,66 @@
   text-align: left;
   margin-bottom: 24px;
 }
+
+.dialog_header_icon {
+  padding-right: 5px;
+  color: var(--warning);
+}
+
+.dialog_header_icon i {
+  position: relative;
+}
+
+#userProfileModal .dialog_header_icon {
+  color: var(--secondary-green);
+}
+
+#userProfileModal .dialog_header_icon i {
+  top: 6px;
+  font-size: 20px;
+}
+
+#userProfileModal .app_panel .form-check-input {
+  width: 24px;
+  height: 24px;
+  border-color: var(--primary-color-2);
+}
+
+#profile_user_usage_view {
+  text-align: left;
+}
+
+.chat_token_usage_display {
+  width: 100%;
+  text-align: right;
+}
+.chat_token_usage_display tr td:first-child {
+  text-align: left;
+}
+
+.change_subscription {
+  position: relative;
+  top: -3px;
+}
+
+.summary_panel .summary_column {
+  width: 7.5em;
+  display: inline-block;
+  font-family: "MonospaceTTF";
+}
+
+.day_mode #userProfileModal .app_panel .form-check-input {
+  color: var(--primary-color-3);
+  border-color: var(--primary-color-3);
+}
+
+.change_email_panel {
+  display: flex;
+  flex-direction: row;
+  margin-top: 8px;
+}
+
+.change_email_button {
+  white-space: nowrap;
+  margin-left: 8px;
+}
