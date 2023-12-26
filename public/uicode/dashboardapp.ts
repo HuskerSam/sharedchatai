@@ -18,8 +18,6 @@ export class DashboardApp extends BaseApp {
   dashboard_documents_view: any = document.querySelector(".dashboard_documents_view");
   new_game_type_wrappers: any = document.querySelectorAll(".new_game_type_wrapper");
   basic_options: any = document.querySelector(".basic_options");
-  dashboard_create_game: any = document.querySelector(".dashboard_create_game");
-  dashboard_create_game_mobile: any = document.querySelector(".dashboard_create_game_mobile");
   gameFeedSubscription: any;
   lastGamesFeedSnapshot: any;
   gameFeedInited = false;
@@ -28,7 +26,6 @@ export class DashboardApp extends BaseApp {
   lastAssistsSnapshot: any = null;
   assistsLookup: any = {};
   document_label_filter: any = document.querySelector(".document_label_filter");
-  profile_menu_anchor: any = document.querySelector(".profile_menu_anchor");
   documentOptions = new DocOptionsHelper(this, "dashboard_options_view");
   help_show_modal: any = document.querySelector(".help_show_modal");
   menu_toggle_button: any = document.querySelector(".menu_toggle_button");
@@ -50,11 +47,6 @@ export class DashboardApp extends BaseApp {
         merge: true,
       });
       this.updateSessionFeed(null);
-    });
-    this.profile_menu_anchor.addEventListener("click", (event: any) => {
-      event.stopPropagation();
-      event.preventDefault();
-      this.profileHelper.show();
     });
     this.show_create_modal.addEventListener("click", (event: any) => {
       event.stopPropagation();

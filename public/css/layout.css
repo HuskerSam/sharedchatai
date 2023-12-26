@@ -51,3 +51,72 @@ body {
 .card_shadow_sm {
     box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075)
 }
+
+.scrollable_modal .modal-content {
+  flex: 1;
+  overflow: hidden;
+}
+
+.scrollable_modal .modal-dialog {
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.scrollable_modal .modal-body {
+  overflow: auto;
+}
+
+.modal .btn svg {
+  position: relative;
+  top: -2px;
+}
+
+.modal .btn i {
+  position: relative;
+  top: 4px;
+  font-size: 20px;
+}
+
+
+.show_create_dialog_help,
+.show_modal_profile_help,
+.show_export_tickets_help {
+  background: none;
+  border-color: transparent;
+}
+
+.show_create_dialog_help i,
+.show_export_tickets_help i,
+.show_modal_profile_help i {
+  position: relative;
+  top: 4px;
+  left: 0;
+}
+
+.modal .modal-dialog .btn-close {
+  background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' stroke='rgb%28240,240,240%29' fill='%23000'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+}
+
+.modal .modal-header,
+.modal .modal-footer {
+  border-color: var(--secondary-color-4);
+}
+
+.app_panel.modal-content label {
+  color: var(--primary-color);
+}
+
+.app_panel.modal-content .btn-check:checked+.btn-outline-primary label {
+  color: var(--prompt-message);
+}
+
+.modal-dialog .app_panel {
+  background: var(--modal-background);
+}
+
+.modal-dialog {
+  border-radius: 0.5em;
+  text-align: left;
+}

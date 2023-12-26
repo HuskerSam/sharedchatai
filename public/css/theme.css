@@ -280,3 +280,57 @@ button.btn-primary:active {
   background-color: var(--highlight-session);
   border-color: var(--highlight-session);
 }
+
+.btn.btn-secondary.hover_yellow:focus,
+.btn.btn-secondary.hover_yellow:hover,
+.hover_yellow:focus,
+.hover_yellow:hover {
+  background-color: var(--secondary-color);
+  border-color: transparent;
+  color: var(--highlight);
+}
+
+.hover_yellow:hover svg,
+.hover_yellow:hover i {
+  color: var(--highlight);
+}
+
+a:hover {
+  color: var(--highlight);
+}
+
+.btn-secondary {
+  color: var(--primary-color);
+  background-color: var(--secondary-color-1);
+  border-color: var(--primary-color-1);
+}
+
+.day_mode .btn.btn-secondary.hover_yellow:focus,
+.day_mode .btn.btn-secondary.hover_yellow:hover,
+.day_mode .hover_yellow:focus,
+.day_mode .hover_yellow:hover {
+  background-color: var(--secondary-color-3);
+  color: var(--highlight);
+}
+.show_day_mode,
+.show_nite_mode,
+.show_day_mode_inline_block,
+.show_nite_mode_inline_block {
+  display: none;
+}
+
+.day_mode .show_day_mode_inline_block {
+  display: inline-block;
+}
+
+.nite_mode .show_nite_mode_inline_block {
+  display: inline-block;
+}
+
+.day_mode .show_day_mode {
+  display: block;
+}
+
+.nite_mode .show_nite_mode {
+  display: block;
+}

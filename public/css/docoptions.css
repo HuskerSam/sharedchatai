@@ -1,0 +1,197 @@
+.export_data_popup_preview {
+    background: inherit;
+    color: inherit;
+    width: 100%;
+    min-height: 5em;
+    flex: 1;
+    overflow: auto;
+    padding: 8px;
+    margin-top: 12px;
+    background-color: var(--background-accent-3);
+}
+
+.json_preview .export_data_popup_preview,
+.text_preview .export_data_popup_preview {
+    white-space: pre-wrap;
+}
+
+.csv_preview .export_data_popup_preview {
+    white-space: pre;
+}
+
+.export_bottom_bar {
+    text-align: right;
+    margin-top: 8px;
+    line-height: 3em;
+}
+
+.modal_options_shared_user #owner_tab_view,
+.modal_options_shared_user #owner_tab_button {
+    display: none;
+}
+
+.modal_options_shared_user .delete_game {
+    display: none;
+}
+
+.owner_archived_input_wrapper {
+    display: inline-block;
+    width: auto;
+    margin-bottom: 16px;
+    padding-right: 0;
+    margin-top: 4px;
+}
+
+.owner_archived_input_wrapper .form-check-label {
+    margin-right: 0px;
+}
+
+.modal_options_shared_user .owner_archived_input_wrapper {
+    display: none;
+}
+
+.modal_options_owner_user .leave_game {
+    display: none;
+}
+
+.shared_archived_status_wrapper {
+    line-height: 1.75em;
+    font-weight: bold;
+    font-size: 1.5em;
+    display: inline-block;
+    padding-right: 2em;
+    color: var(--prompt-message);
+    margin-bottom: 13px;
+    margin-top: 0px;
+}
+
+.modal_options_owner_user .shared_archived_status_wrapper {
+    display: none;
+}
+
+.modal_options_owner_user .prompt_for_new_title {
+    display: inline-block;
+}
+
+.modal_options_owner_user .prompt_for_new_usage {
+    display: inline-block;
+}
+
+.modal_options_owner_user .owner_only {
+    display: inline-block;
+}
+
+.shared_usage_limit_div {
+    line-height: 2em;
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+    overflow: visible;
+    font-family: "MonospaceTTF";
+}
+
+.prompt_for_new_usage {
+    display: none;
+    position: relative;
+    top: -4px;
+}
+
+.prompt_for_new_title,
+.prompt_for_new_system_message {
+    display: none;
+    position: relative;
+    float: right;
+}
+
+.prompt_for_new_system_message {
+    display: inline-block;
+}
+
+#editDocumentModal textarea.document_title.form-control {
+    height: 125px;
+}
+
+.copy_export_clipboard {
+    background-color: transparent;
+}
+
+.copy_export_clipboard span {
+    top: 3px;
+    position: relative;
+}
+
+.session_header_link_button {
+    background: none;
+    border-color: transparent;
+    position: relative;
+    top: -2px;
+}
+
+.day_mode .session_header_link_button,
+.day_mode .modal-dialog .show_export_tickets_help.btn-secondary {
+    border: none;
+}
+
+.delete_game i {
+    color: var(--warning);
+}
+
+.doc_options_import_rows_preview {
+    display: inline-block;
+    width: 70px;
+}
+
+
+.text_preview .download_export_button,
+.html_preview .download_export_button {
+    display: none;
+}
+
+.json_preview .copy_export_clipboard,
+.csv_preview .copy_export_clipboard {
+    display: none;
+}
+
+.document_usage_stats_line {
+    text-align: right;
+    margin-right: 12px;
+    float: right;
+}
+
+.document_usage_stats_line span {
+    display: inline-block;
+    width: 4em;
+    text-align: right;
+    position: relative;
+    left: -12px;
+}
+
+.token_usage_document_limit_header {
+  float: left;
+  padding-right: 4px;
+}
+
+.export_size {
+  position: relative;
+  top: 3px;
+}
+
+.app_panel .form-check-input.docfield_archived_checkbox,
+.app_panel .form-check-input.docfield_include_user_names_checkbox {
+  width: 24px;
+  height: 24px;
+  border-color: var(--secondary-color-2);
+}
+
+.day_mode .app_panel .form-check-input.docfield_archived_checkbox,
+.day_mode .app_panel .form-check-input.docfield_include_user_names_checkbox {
+  width: 24px;
+  height: 24px;
+  border-color: var(--primary-color);
+}
+
+#editDocumentModal .tab-pane {
+  overflow: auto;
+  flex: 1;
+  flex-direction: column;
+}

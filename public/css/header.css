@@ -1,0 +1,164 @@
+.navbar-light .navbar-nav .nav-link:focus,
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link:focus i,
+.navbar-light .navbar-nav .nav-link:hover i,
+.navbar-light .navbar-nav .nav-link:focus svg,
+.navbar-light .navbar-nav .nav-link:hover svg {
+    color: var(--highlight);
+}
+
+.navbar-light .navbar-brand:focus,
+.navbar-light .navbar-brand:hover {
+    background-color: var(--secondary-color-2);
+}
+
+.mobile_custom_icon_label i {
+    position: relative;
+    font-size: 48px;
+}
+
+.navbar-light .navbar-nav .nav-link.profile_menu_anchor {
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-bottom: 4px;
+}
+
+.mobile_custom_icon_label {
+    display: inline-block;
+}
+
+.navbar-brand img {
+    width: 100px;
+    position: relative;
+    top: -4px;
+}
+
+.member_profile_name {
+    position: relative;
+    left: 6px;
+}
+
+.menu_profile_user_image_span {
+    border-radius: 12px;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-position: center center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+@media (min-width: 992px) {
+    .menu_profile_user_image_span {
+        float: none;
+        display: inline-block;
+    }
+}
+
+.mobile_custom_icon_label i {
+    top: 3px;
+    position: relative;
+    font-size: 36px;
+}
+
+.mobile_custom_icon_label .add_icon {
+    font-size: 36px;
+}
+
+.shared_status_not {
+    color: var(--primary-color-2);
+}
+
+button.shared_status_withusers,
+.shared_status_withusers,
+.shared_status_withusers.hover_yellow {
+    color: var(--shared_status_owner);
+}
+
+button.shared_status_withothers,
+.shared_status_withothers,
+.shared_status_withothers.hover_yellow {
+    color: var(--shared_status_user);
+}
+
+.navbar-light .navbar-toggler {
+    position: fixed;
+    right: 4px;
+    z-index: 1000;
+    top: 10px;
+    color: var(--primary-color-2);
+    border-color: transparent;
+}
+
+.navbar-light .navbar-toggler span {
+    font-size: 2em;
+}
+
+.navbar-light .navbar-nav .nav-link,
+.navbar-light .navbar-brand {
+    color: var(--primary-color-2);
+}
+
+.member_online_status {
+    border-radius: 100%;
+    width: 14px;
+    height: 14px;
+    background: var(--secondary-color-2);
+    border: solid 1px var(--primary-color-3);
+    display: inline-block;
+    align-self: center;
+    position: relative;
+    left: -10px;
+    top: 8px;
+    transition: background-color 1s linear;
+}
+
+.notransition .member_online_status {
+    transition: none;
+}
+
+.member_online_status.online {
+    background: var(--member-online-yellow);
+}
+
+.member_online_status.online.activesession {
+    background: var(--member-online-green);
+}
+
+.day_mode .navbar_wrapper {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+    border-bottom: 1px solid rgba(127, 127, 127, .4);
+}
+
+.header_tabs {
+    text-align: center;
+    display: inline-flex;
+    justify-content: center;
+    flex: 1;
+    width: 100%;
+    padding-left: 8px;
+    font-size: 12px;
+    margin-bottom: -16px;
+    position: relative;
+    top: -4px;
+}
+
+
+@media (min-width: 768px) {
+    .header_tabs {
+        margin-bottom: -4px;
+        top: 0;
+        font-size: 16px;
+    }
+}
+
+.header_tabs li a {
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 5em;
+    display: inline-block;
+    padding-left: 4px;
+    padding-right: 4px;
+}

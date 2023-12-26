@@ -1,0 +1,20 @@
+
+.tab-pane {
+    width: 100%;
+  }
+
+  .navbar-nav .nav-link {
+    height: 100%;
+  }
+    
+
+@media (max-width: 992px) {
+  .container {
+    max-width: 100%;
+  }
+}
+
+
+.tab-content {
+  position: relative;
+}

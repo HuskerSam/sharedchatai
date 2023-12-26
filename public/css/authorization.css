@@ -1,3 +1,12 @@
+body {
+    visibility: hidden;
+    padding-right: 0px !important;
+}
+
+body.body_loaded {
+    visibility: visible;
+}
+
 .not_logged_in {
     display: none;
 }
@@ -36,4 +45,114 @@ body.signed_in_anonymous p.alert.alert-warning {
 /* When signed in as a verified user */
 body.app_signed_in p.alert.alert-danger.signed_in_anonymous {
     display: none;
+}
+
+.mobile_hide {
+    display: none;
+}
+
+.mobile_show {
+    display: block;
+}
+
+@media (min-width: 992px) {
+    .mobile_hide {
+        display: inline-block;
+    }
+
+    .mobile_show {
+        display: none;
+    }
+}
+
+.signed_out_options_block {
+    display: none;
+    height: 0;
+}
+
+.app_signed_out .signed_out_options_block {
+    display: block;
+    height: unset;
+}
+
+.app_signed_out .signed_out_options_list_item {
+    display: list-item;
+}
+
+.signed_in_options,
+.main_container .flex_change_responsive.signed_in_options {
+    display: none;
+}
+
+.signed_in_visible {
+    visibility: hidden;
+}
+
+.app_signed_in .signed_in_visible {
+    visibility: visible;
+}
+
+.signed_in_list_item {
+    display: none;
+}
+
+.auth_inited .spacer_not_authed {
+    display: none;
+}
+
+.app_signed_in .signed_in_list_item {
+    display: list-item;
+}
+
+.app_signed_in .signed_in_options {
+    display: block;
+}
+
+.app_signed_in .main_container .flex_change_responsive.signed_in_options {
+    display: flex;
+}
+
+.navbar div.signed_in_inline_block.container,
+.signed_in_inline_block,
+.signed_in_inline_block,
+.signed_out_inline_block {
+    display: none;
+}
+
+.app_signed_in .navbar div.signed_in_inline_block.container,
+.app_signed_in .signed_in_inline_block,
+.app_signed_out .signed_out_inline_block {
+    display: inline-block;
+}
+
+.signed_in_list_item {
+    display: none;
+}
+
+.app_signed_in .signed_in_list_item {
+    display: list-item;
+}
+
+.signed_out_list_item {
+    display: none;
+}
+
+.app_signed_out .signed_out_list_item {
+    display: list-item;
+}
+
+div.signed_in_flex {
+    display: none;
+}
+
+.app_signed_in div.signed_in_flex {
+    display: flex;
+}
+
+div.signed_out_flex {
+    display: none;
+}
+
+.app_signed_out div.signed_out_flex {
+    display: flex;
 }

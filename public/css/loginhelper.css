@@ -3,3 +3,7 @@
     height: 20px;
   }
   
+.login_modal_container {
+  background: var(--modal-background);
+  color: var(--primary-color-3);
+}

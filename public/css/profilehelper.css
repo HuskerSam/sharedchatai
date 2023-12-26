@@ -1,6 +1,48 @@
 .profile_modal_logged_in_status {
-    text-align: left;
-    white-space: nowrap;
-    text-align: left;
-    overflow: hidden;
-  }
+  text-align: left;
+  white-space: nowrap;
+  text-align: left;
+  overflow: hidden;
+}
+
+.sign_out_button i {
+  color: var(--warning);
+}
+
+.randomize_name {
+  white-space: nowrap;
+  margin-left: 12px;
+}
+
+.profile_display_name {
+  flex-grow: 1;
+  overflow: hidden;
+  align-self: center;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.profile_display_image {
+  flex-grow: 1;
+  width: 45px;
+  height: 45px;
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+  margin-right: 12px;
+  border-radius: 6px;
+  position: relative;
+  top: 16px;
+}
+
+.profile_display_image_clear.btn.btn-secondary,
+.profile_display_image_randomize.btn.btn-secondary {
+  margin-right: 6px;
+}
+
+#userProfileModal .form-check-label {
+  min-width: 145px;
+  text-align: left;
+  margin-bottom: 24px;
+}

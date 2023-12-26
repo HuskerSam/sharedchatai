@@ -1,0 +1,109 @@
+.nav-link.show_create_modal.hover_yellow i {
+    position: relative;
+}
+
+.nav-link.show_create_modal.hover_yellow:hover i {
+    color: var(--highlight);
+}
+
+
+.nav-link.show_create_modal.hover_yellow svg {
+    top: -6px;
+    left: 3px;
+}
+
+
+.nav-link.show_create_modal.homepage {
+    display: inline-block;
+    position: relative;
+    top: 2px;
+}
+
+.show_create_modal i {
+    font-size: 36px;
+    margin-top: -8px;
+    margin-bottom: -8px;
+    top: 8px;
+}
+
+
+.create_modal_title_field {
+    width: calc(100%);
+}
+
+.document_usage_cap_field,
+.create_modal_note_field {
+    width: 125px;
+    display: inline-block;
+}
+
+.modal_document_title_display,
+.modal_document_system_message_display {
+    white-space: pre-wrap;
+    display: block;
+    min-height: 3em;
+    color: var(--primary-color-2);
+    background: rgba(0, 0, 0, .3);
+    padding: 5px;
+    margin-right: 60px;
+    border-radius: 6px;
+    max-height: 40vh;
+    overflow: auto;
+}
+
+.day_mode .modal_document_title_display,
+.modal_document_system_message_display {
+    background: var(--background-accent-3);
+}
+
+.upload_wrapper {
+  display: flex;
+  margin-bottom: 12px;
+  padding-top: 4px;
+  padding-left: 4px;
+}
+
+.parsed_file_name,
+.parsed_list_file_name,
+.parsed_file_status,
+.parsed_list_file_status {
+  margin-left: 12px;
+  align-self: center;
+}
+
+.parsed_file_name,
+.parsed_list_file_name {
+  flex: 1;
+}
+
+.labels_label {
+    margin-top: 10px;
+    margin-bottom: 4px;
+  }
+  
+.tab-content>#export_tab_view.active,
+.tab-content>#template_create_options_view.active,
+.tab-content>#bulk_create_options_view.active {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-top: 12px;
+  margin-top: -12px;
+}
+
+.add_date_as_label_button {
+  align-self: center;
+  float: right;
+  margin-right: 4px;
+}
+
+.app_panel .form-check-input.insert_todaylabel_default_checkbox {
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+    align-self: center;
+    float: right;
+    position: relative;
+    top: 2px;
+  }
+  

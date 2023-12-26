@@ -77,8 +77,8 @@ export default class BaseApp {
   documentId = "";
   memberRefreshBufferTime = 500;
   menu_profile_user_image_span: any = null;
-  menu_profile_user_name_span: any = null;
   credits_left: any = null;
+  profile_menu_anchor: any = null;
   standard_header_bar_container: any = document.querySelector(".standard_header_bar_container");
   standard_footer_bar_container: any = document.querySelector(".standard_footer_bar_container");
 
@@ -109,7 +109,12 @@ export default class BaseApp {
     }
 
     this.menu_profile_user_image_span = document.querySelector(".menu_profile_user_image_span");
-    this.menu_profile_user_name_span = document.querySelector(".menu_profile_user_name_span");
+    this.profile_menu_anchor = document.querySelector(".profile_menu_anchor");
+    this.profile_menu_anchor.addEventListener("click", (event: any) => {
+      event.stopPropagation();
+      event.preventDefault();
+      this.profileHelper.show();
+    });
 
     window.addEventListener("beforeinstallprompt", (e: any) => {
       e.preventDefault();
@@ -273,7 +278,6 @@ export default class BaseApp {
   updateUserStatus() {
     console.log(this.menu_profile_user_image_span);
     if (this.menu_profile_user_image_span) this.menu_profile_user_image_span.setAttribute("uid", this.uid);
-    if (this.menu_profile_user_name_span) this.menu_profile_user_name_span.setAttribute("uid", this.uid);
   }
   /** google sign in handler
    * @param { any } e dom event - preventDefault is called if passed

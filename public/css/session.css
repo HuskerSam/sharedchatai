@@ -408,6 +408,10 @@ pre code {
   z-index: 1;
 }
 
+.btn.btn-secondary.show_ticket_embedding_info {
+  border-color: transparent;
+}
+
 .copy_response_block_button i,
 .show_ticket_embedding_info i,
 .edit_response_block_button i {
@@ -1221,11 +1225,6 @@ li.mb-1 button.btn.btn-toggle:before {
   top: 1px;
 }
 
-.mobile_layout_mode .menu_profile_user_name_span {
-  position: relative;
-  left: 0px;
-  top: -6px;
-}
 
 .ticket_count_seperator {
   margin-left: -6px;
@@ -1377,7 +1376,7 @@ li.mb-1 button.btn.btn-toggle:before {
 }
 
 @media (min-width: 1200px) {
-  .assist_section > div {
+  .assist_section>div {
     margin-right: 6%;
   }
 }
@@ -1426,7 +1425,7 @@ li.mb-1 button.btn.btn-toggle:before {
   width: 100px;
 }
 
-.copy_embedded_prompt_to_clipboard i  {
+.copy_embedded_prompt_to_clipboard i {
   position: relative;
   top: 2px;
   font-size: 16px;
@@ -1444,7 +1443,8 @@ li.mb-1 button.btn.btn-toggle:before {
   word-break: break-all;
 }
 
-.ticket_embedding_details_table td, .ticket_embedding_details_table th {
+.ticket_embedding_details_table td,
+.ticket_embedding_details_table th {
   white-space: nowrap;
   overflow: hidden;
   width: 50%;
@@ -1524,4 +1524,36 @@ select.docfield_model:active {
   cursor: pointer;
   position: relative;
   top: -5px;
+}
+
+.navbar .navbar-toggler span.hamburger_span,
+.navbar-toggler span.hamburger_span {
+  width: 44px;
+  height: 44px;
+  background-size: contain;
+  background-position: center center;
+  background-image: url('/images/logo64.png');
+  display: inline-block;
+  position: relative;
+}
+
+.menu_bar_doc_title_wrapper {
+  display: flex;
+  height: 3em;
+  overflow: hidden;
+  width: 100%;
+}
+
+.menu_bar_mobile_spacer {
+  width: 80px;
+}
+
+@media (min-width: 992px) {
+  .mobile_bar_button_wrapper {
+    display: none;
+  }
+
+  .menu_bar_doc_title_wrapper {
+    display: none;
+  }
 }
