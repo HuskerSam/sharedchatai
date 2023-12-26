@@ -1,12 +1,4 @@
 import BaseApp from "./baseapp";
-import {
-    collection,
-    orderBy,
-    query,
-    onSnapshot,
-    limit,
-    getFirestore,
-} from "firebase/firestore";
 import SharedWithBackend from "./sharedwithbackend";
 
 /** app class for content pages */
@@ -14,7 +6,6 @@ export class StaticPageApp extends BaseApp {
     show_profile_modal: any = document.querySelector(".show_profile_modal");
     help_show_modal: any = document.querySelector(".help_show_modal");
     sign_out_homepage: any = document.querySelector(".sign_out_homepage");
-    recent_documents_list: any = document.querySelector(".recent_documents_list");
     pricing_type_display: any = document.querySelector(".pricing_type_display");
     bulk_credits_wrapper: any = document.querySelector(".bulk_credits_wrapper");
     power_user_wrapper: any = document.querySelector(".power_user_wrapper");
@@ -89,44 +80,6 @@ export class StaticPageApp extends BaseApp {
     /** override event that happens after authentication resolution */
     authUpdateStatusUI(): void {
         super.authUpdateStatusUI();
-        if (this.profile) {
-            if (this.recent_documents_list) this.initRecentDocumentsFeed();
-        }
-    }
-    /** setup data listener for recent document feed */
-    async initRecentDocumentsFeed() {
-        if (this.recentDocumentFeedRegistered) return;
-        this.recentDocumentFeedRegistered = true;
-
-        if (this.recentDocumentsSubscription) this.recentDocumentsSubscription();
-        const chatsRef = collection(getFirestore(), "Games");
-        const chatsQuery = query(chatsRef, orderBy(`members.${this.uid}`, "desc"), limit(5));
-        this.recentDocumentsSubscription = onSnapshot(chatsQuery, (snapshot: any) => this.updateRecentDocumentFeed(snapshot));
-    }
-    /** paint recent document feed
-* @param { any } snapshot firestore query data snapshot
-*/
-    updateRecentDocumentFeed(snapshot: any = null) {
-        if (snapshot) this.lastDocumentsSnapshot = snapshot;
-        else if (this.lastDocumentsSnapshot) snapshot = this.lastDocumentsSnapshot;
-        else return;
-
-        let html = "";
-        this.lastDocumentsSnapshot.forEach((doc: any) => {
-            const data = doc.data();
-            let title = BaseApp.escapeHTML(data.title);
-            if (!title) title = "untitled";
-            // const activityDate = data.created.substring(5, 16).replace("T", " ").replace("-", "/");
-            title = title.substring(0, 100);
-            const activityDate = this.showGmailStyleDate(new Date(data.lastActivity));
-            const rowHTML = `<li>
-        <a href="/session/${doc.id}" class="hover_yellow">
-          <div class="sidebar_tree_recent_title title">${title}</div>
-          <div class="activity_date">${activityDate}</div>
-        </a></li>`;
-            html += rowHTML;
-        });
-        this.recent_documents_list.innerHTML = html;
     }
     /** populate anchor navigation links  */
     populateAnchorLinks() {

@@ -79,10 +79,6 @@ body.app_signed_in p.alert.alert-danger.signed_in_anonymous {
     display: list-item;
 }
 
-.signed_in_options,
-.main_container .flex_change_responsive.signed_in_options {
-    display: none;
-}
 
 .signed_in_visible {
     visibility: hidden;
@@ -108,9 +104,7 @@ body.app_signed_in p.alert.alert-danger.signed_in_anonymous {
     display: block;
 }
 
-.app_signed_in .main_container .flex_change_responsive.signed_in_options {
-    display: flex;
-}
+
 
 .navbar div.signed_in_inline_block.container,
 .signed_in_inline_block,

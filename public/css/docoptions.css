@@ -246,3 +246,7 @@
     position: relative;
     top: 7px;
 }
+
+.owner_only {
+  display: none;
+}

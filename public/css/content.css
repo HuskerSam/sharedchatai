@@ -87,3 +87,58 @@
 
 @media (min-width: 1400px) {}
 
+
+
+.coming-soon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1em 3em;
+    border-radius: 6px;
+    color: var(--primary-color-1);
+    flex: 1;
+  }
+  
+  .coming-soon .coming-soon-header {
+    color: var(--primary-color-2);
+    font-weight: 300;
+    margin-bottom: 1.5em;
+  }
+  
+  .coming-soon p,
+  .coming-soon li {
+    text-align: left;
+  }
+  
+  .coming-soon strong {
+    color: var(--highlight);
+  }
+
+  .header_recent_document {
+    color: var(--primary-color);
+    font-size: 1.75em;
+    text-align: left;
+    padding-left: 4px;
+    font-weight: 500;
+    margin-bottom: .5em;
+  }
+  
+
+  @media (max-width: 767px) {
+    .coming-soon {
+      padding: 0em;
+    }
+  
+    .coming-soon-descr {
+      font-size: 1.2em;
+    }
+  
+    .header_recent_document {
+      font-size: 1.5em;
+    }
+  
+    .help-buttons button {
+      font-size: 14px;
+    }
+  }
+    

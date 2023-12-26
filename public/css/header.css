@@ -47,6 +47,7 @@
     background-size: contain;
     background-repeat: no-repeat;
     position: relative;
+    top: 2px;
 }
 
 @media (min-width: 992px) {
@@ -67,7 +68,7 @@
 }
 
 .shared_status_not {
-    color: var(--primary-color-2);
+    color: var(--primary-color-3);
 }
 
 button.shared_status_withusers,
@@ -126,6 +127,27 @@ button.shared_status_withothers,
     background: var(--member-online-green);
 }
 
+.navbar_wrapper {
+    z-index: 100;
+    width: 100%;
+    font-size: 18px;
+    min-height: 60px;
+}
+
+.navbar_wrapper .navbar {
+    max-width: 1100px;
+    min-height: 70px;
+    padding-left: 12px;
+    display: inline-flex;
+    width: 100%;
+}
+
+@media (min-width: 992px) {
+    .navbar_wrapper .navbar {
+        width: 90%;
+    }
+}
+
 .day_mode .navbar_wrapper {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
     border-bottom: 1px solid rgba(127, 127, 127, .4);
@@ -164,5 +186,128 @@ button.shared_status_withothers,
 }
 
 i.copy_green {
-  color: var(--member-online-green);
+    color: var(--member-online-green);
+}
+
+.nav-item a:hover {
+    color: var(--highlight);
+}
+
+.navbar_brand {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 1.5em;
+    color: var(--primary-color-3);
+    font-weight: 600;
+    text-decoration: none;
+    padding: 2px;
+    height: 60px;
+    display: block;
+}
+
+.navbar_logo {
+    width: 46px;
+    height: 46px;
+    background-size: contain;
+    background-position: center center;
+    display: inline-block;
+    position: relative;
+    background-repeat: no-repeat;
+    background-image: url('/images/logo64.png');
+    top: 2px;
+}
+
+.home_navbar_name_color {
+    color: var(--impact-green);
+}
+
+.home_navbar_name {
+    top: -6px;
+    color: var(--primary-color);
+}
+
+.home_navbar_name:hover {
+    color: var(--primary-color);
+}
+
+.dashboard_user_image {
+    margin-left: 8px;
+    margin-right: 2px;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    border-radius: 6px;
+    flex: none;
+}
+
+.tab_label {
+    font-size: 1.2em;
+    position: relative;
+}
+
+.tab_label::before {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: var(--highlight);
+    opacity: 0;
+    width: 0%;
+    transition: width 0.3s ease, opacity 0.3s ease;
+}
+
+.account_status_display {
+    color: var(--primary-color);
+    white-space: nowrap;
+    display: inline-flex;
+    text-decoration: none;
+}
+
+.signed_in_anonymous .account_status_display {
+    opacity: 0;
+}
+
+.credits_left {
+    text-align: right;
+    min-width: 3em;
+    font-size: 12px;
+    padding-top: 4px;
+    display: inline-block;
+    white-space: nowrap;
+    align-self: center;
+}
+
+.credits_left span {
+    font-size: .9em;
+    display: inline-block;
+    position: relative;
+    top: -2px;
+}
+.scroll_to_top_icon {
+  position: absolute;
+  display: none;
+}
+
+.scroll_to_top_icon span {
+  font-size: 20px;
+  position: relative;
+  top: -4px;
+}
+
+.not_scrolled_top .scroll_to_top_icon {
+  display: inline-block;
+}
+
+@media(min-width: 992px) {
+  .scroll_to_top_icon span {
+    position: relative;
+    left: 0px;
+    top: -4px;
+    font-size: 20px;
+  }
 }

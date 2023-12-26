@@ -1,0 +1,10 @@
+
+
+.supported_model {
+    color: var(--document-title);
+  }
+  
+  .upcoming_model {
+    color: var(--options-tab-color);
+  }
+  

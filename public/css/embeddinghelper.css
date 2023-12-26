@@ -1,0 +1,25 @@
+
+.pinecone_inputs_table {
+    width: 100%;
+  }
+  
+  .pinecone_inputs_table td {
+    font-size: 1em;
+  }
+  
+  .pinecone_inputs_table tr td:nth-child(1) {
+    white-space: nowrap;
+    padding-right: 8px;
+    font-weight: bold;
+  }
+  
+  .pinecone_inputs_table tr td:nth-child(3) {
+    white-space: nowrap;
+    text-align: right;
+  }
+  
+  .pinecone_inputs_table tr td:nth-child(2) {
+    width: 90%;
+    padding: 2px;
+  }
+  
