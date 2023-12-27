@@ -392,13 +392,6 @@ a:hover {
   line-height: initial;
 }
 
-
-.nav .nav-link.active .tab_label::before,
-.nav .nav-link:hover .tab_label::before {
-  width: 100%;
-  opacity: 1;
-}
-
 h3,
 ol li,
 .display-4 {

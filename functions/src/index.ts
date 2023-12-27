@@ -23,7 +23,7 @@ const heavyOpts: functions.RuntimeOptions = {
 };
 const homeOpts: functions.RuntimeOptions = {
     timeoutSeconds: 60,
-    memory: "512MB",
+    memory: "256MB",
 };
 
 const sitemapOpts: functions.RuntimeOptions = {
@@ -41,13 +41,18 @@ contentPagesApp.use(cors({
     origin: true,
 }));
 
+export const contentPage = functions.runWith(homeOpts).https.onRequest(contentPagesApp);
+export const mediaPage = functions.runWith({
+    timeoutSeconds: 60,
+    memory: "256MB",
+    minInstances: 1,
+}).https.onRequest(WebPage.mediaHTML);
+export const aboutPage = functions.runWith(homeOpts).https.onRequest(WebPage.aboutHTML);
+
 export const lobbyApi = functions.runWith(runtimeOpts).https.onRequest(gameAPIApp);
 export const embeddingApi = functions.runWith(heavyOpts).https.onRequest(embeddingAPIApp);
-export const contentPage = functions.runWith(homeOpts).https.onRequest(contentPagesApp);
 export const updateDisplayNames = functions.firestore
-    .document("Users/{uid}").onWrite(async (change, context) => GameAPI.updateUserMetaData(change, context));
-export const mediaPage = functions.runWith(homeOpts).https.onRequest(WebPage.mediaHTML);
-export const aboutPage = functions.runWith(homeOpts).https.onRequest(WebPage.aboutHTML);
+.document("Users/{uid}").onWrite(async (change, context) => GameAPI.updateUserMetaData(change, context));
 export const siteMap = functions.runWith(sitemapOpts).https.onRequest(WebPage.generateSiteXMLMap);
 
 gameAPIApp.post("/games/create", async (req, res) => GameAPI.create(req, res));
