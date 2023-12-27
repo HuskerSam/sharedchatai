@@ -36,6 +36,7 @@ import {
 } from "firebase/app";
 import ReactDOM from "react-dom";
 import ReactHeader from "./components/header/header.jsx";
+import ReactFooter from "./components/footer/footer.jsx";
 import React from "react";
 
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
@@ -105,11 +106,11 @@ export default class BaseApp {
  */
   constructor() {
     if (this.standard_header_bar_container) {
-      this.injectHeader(this.standard_header_bar_container);
+      ReactDOM.render(React.createElement(ReactHeader), this.standard_header_bar_container);
       this.credits_left = document.querySelector(".credits_left");
     }
     if (this.standard_footer_bar_container) {
-      this.standard_footer_bar_container.innerHTML = this.getFooterTemplate();
+      ReactDOM.render(React.createElement(ReactFooter), this.standard_footer_bar_container);
     }
 
     this.menu_profile_user_image_span = document.querySelector(".menu_profile_user_image_span");
@@ -825,42 +826,7 @@ export default class BaseApp {
     const doc = new DOMParser().parseFromString(html, "text/html");
     return doc.body.textContent || "";
   }
-  /** get footer template
- * @return { string } html
-*/
-  getFooterTemplate(): string {
-    return `<div class="container">
-      <footer class="app_panel main_block">
-                <div class="row">
-                    <div class="mb-3 mb-md-0 text-center text-md-start" style="flex:1">
-                        <h5><span>Una<span class="home_navbar_name_color"">cog</span></span></h5>
-                        <p>
-                        We are a dedicated team based in Lincoln, Nebraska, USA. Please reach out
-                        at <a href=" mailto:support@unacog.com"
-                            target="_blank">support@unacog.com</a> for any questions, feedback, or partnership inquiry.
-                        </p>
-                    </div>
-                    <div class="col-md-2 mb-md-0">
-                        <h5>Company</h5>
-                        <ul class="nav flex-column" style="font-size: 1.2em;">
-<li class="nav-item mb-2"><a href="/content/about/" class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25
-                                    link-underline-opacity-100-hover">About</a></li>
-<li class="nav-item mb-2"><a href="/content/privacy/" class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25
-                                    link-underline-opacity-100-hover">Privacy</a></li>
-<li class="nav-item mb-2"><a class="p-1 nav-link link-secondary link-offset-2 link-underline-opacity-25
-                                    link-underline-opacity-100-hover" href="/content/pricing/">Pricing</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-md-4 mb-3">
 
-                    </div>
-                </div>
-                <div class="d-flex flex-column flex-sm-row justify-content-center py-2 border-top">
-                    <p class="my-1"> © 2023, All Rights Reserved</p>
-                </div>
-            </footer>
-            </div>`;
-  }
   /**  On page load, unless on help page, set the day mode based on user preference
    * @return { number } 1 for dark mode, 0 for day
   */
@@ -922,13 +888,5 @@ export default class BaseApp {
     }
 
     return this.tokenizedStringCache[str];
-  }
-  /**
-   * @param { any } domElement
-  */
-  injectHeader(domElement: any) {
-    ReactDOM.render(React.createElement(ReactHeader), domElement);
-    // React.createElement(getHeader()),
-   // document.getElementById('AppContainer')
   }
 }
