@@ -8,17 +8,13 @@ export default class HeaderBar extends React.Component {
       tokenCount: 0,
     };
     let pathName = window.location.pathname;
-    this.homeHref = (pathName === "/") ? false : `href="/"`;
-    this.embeddingHref = (pathName === "/embedding/") ? false : `href="/embedding/"`;
-    this.helpHref = (pathName === "/media/") ? false : `href="/media/"`;
+    this.homeHref = (pathName === "/") ? false : `/`;
+    this.embeddingHref = (pathName === "/embedding/") ? false : `/embedding/;
+    this.helpHref = (pathName === "/media/") ? false : `/media/`;
     this.homeActive = this.homeHref === "";
     this.embedActive = this.embeddingHref === "";
     this.helpActive = this.helpHref === "";
    }
-
-  componentDidMount() {
-    console.log("did mount");
-  }
   render() {
     return (<nav class="navbar navbar-light navbar_wrapper">
       <ul class="navbar-nav container-fluid d-flex flex-row justify-content-end justify-content-sm-between container"
