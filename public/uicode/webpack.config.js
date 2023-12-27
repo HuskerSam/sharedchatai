@@ -13,14 +13,21 @@ module.exports = {
     modules: [
       __dirname + '/node_modules'
     ],
-    extensions: ['.ts', '.js']
+    extensions: ['.ts', '.js', '.jsx']
   },
   module: {
     rules: [
       {
         test: /\.ts$/,
         loader: 'ts-loader'
-      }
+      },
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader'
+        }
+      },
     ]
   },
   node: {
