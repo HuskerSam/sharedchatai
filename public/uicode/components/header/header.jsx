@@ -9,7 +9,7 @@ export default class HeaderBar extends React.Component {
     };
     let pathName = window.location.pathname;
     this.homeHref = (pathName === "/") ? false : `/`;
-    this.embeddingHref = (pathName === "/embedding/") ? false : `/embedding/;
+    this.embeddingHref = (pathName === "/embedding/") ? false : `/embedding/`;
     this.helpHref = (pathName === "/media/") ? false : `/media/`;
     this.homeActive = this.homeHref === "";
     this.embedActive = this.embeddingHref === "";
@@ -32,17 +32,17 @@ export default class HeaderBar extends React.Component {
         <li style={{ background: "none", flex: "1" }} class="app_panel">
           <ul class="header_tabs nav" role="tablist">
             <li class="nav-item" role="presentation">
-              <a class="nav-link {{this.homeActive}}" href={this.homeHref} role="tab">
+              <a class={"nav-link" + " " + this.homeActive} href={this.homeHref} role="tab">
                 <span class="tab_label">Prompt</span>
               </a>
             </li>
             <li class="nav-item" role="presentation">
-              <a class="nav-link {{this.embedActive}}" href={this.embeddingHref} role="tab">
+              <a class={"nav-link" + " " + this.embedActive}  href={this.embeddingHref} role="tab">
                 <span class="tab_label">Embed</span>
               </a>
             </li>
             <li class="nav-item" role="presentation">
-              <a class="nav-link {{this.helpActive}}" href={this.helpHref} role="tab">
+              <a class={"nav-link" + " " + this.helpActive}  href={this.helpHref} role="tab">
                 <span class="tab_label">Learn</span>
               </a>
             </li>
