@@ -166,6 +166,11 @@ a {
   flex-direction: column;
 }
 
+.theme_panel {
+  background: var(--background-accent-2);
+  color: var(--primary-color);
+}
+
 .list-group-item {
   color: var(--primary-color-1);
 }

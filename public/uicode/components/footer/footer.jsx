@@ -1,6 +1,5 @@
 import React from "react";
 
-
 export default class FooterBar extends React.Component {
     constructor() {
         super();
