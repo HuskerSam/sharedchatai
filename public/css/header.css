@@ -161,25 +161,12 @@ button.shared_status_withothers,
     width: 100%;
     padding-left: 8px;
     font-size: 12px;
-    margin-bottom: -16px;
-    position: relative;
-    top: -4px;
-}
-
-
-@media (min-width: 768px) {
-    .header_tabs {
-        margin-bottom: -4px;
-        top: 0;
-        font-size: 16px;
-    }
 }
 
 .header_tabs li a {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 5em;
     display: inline-block;
     padding-left: 4px;
     padding-right: 4px;
@@ -244,8 +231,12 @@ i.copy_green {
 }
 
 .tab_label {
-    font-size: 1.2em;
     position: relative;
+    top: 0;
+    font-size: 16px;
+    display: inline-block;
+    padding-left: 8px;
+    padding-right: 8px;
 }
 
 .account_status_display {
@@ -275,26 +266,56 @@ i.copy_green {
     position: relative;
     top: -2px;
 }
+
 .scroll_to_top_icon {
-  position: absolute;
-  display: none;
+    position: absolute;
+    display: none;
 }
 
 .scroll_to_top_icon span {
-  font-size: 20px;
-  position: relative;
-  top: -4px;
+    font-size: 20px;
+    position: relative;
+    top: -4px;
 }
 
 .not_scrolled_top .scroll_to_top_icon {
-  display: inline-block;
+    display: inline-block;
 }
 
 @media(min-width: 992px) {
-  .scroll_to_top_icon span {
-    position: relative;
-    left: 0px;
-    top: -4px;
-    font-size: 20px;
-  }
+    .scroll_to_top_icon span {
+        position: relative;
+        left: 0px;
+        top: -4px;
+        font-size: 20px;
+    }
+}
+
+.navbar_profile_li {
+    display: none;
+}
+
+.navbar_logo_li {
+    margin-left: 4px;
+}
+
+.navbar_statusinfo_li {
+    width: 60px;
+}
+
+@media(min-width: 768px) {
+    .navbar_logo_li {
+        margin-left: 20px;
+        width: 120px;
+    }
+
+    .navbar_statusinfo_li {
+        background: none;
+        width: 70px;
+    }
+
+    .navbar_profile_li {
+        display: list-item;
+        width: 70px;
+    }
 }

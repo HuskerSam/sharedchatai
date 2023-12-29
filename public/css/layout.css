@@ -228,7 +228,6 @@ body {
   padding-top: 0;
   text-align: left;
   flex: 1;
-  overflow: auto;
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
@@ -430,7 +429,6 @@ body {
 .feature_group_list .feature_group_item a,
 .recent_content_flyers_ul_list .news_group_item a {
   padding: .5em;
-  height: 320px;
   padding-top: 0;
   padding-bottom: 8px;
 }

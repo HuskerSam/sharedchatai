@@ -18,7 +18,7 @@ export default class HeaderBar extends React.Component {
     return (<nav class="navbar navbar-light navbar_wrapper">
       <ul class="navbar-nav container-fluid d-flex flex-row justify-content-end justify-content-sm-between container"
         style={{ padding: "0" }}>
-        <li class="" style={{ marginLeft: "20px", width: "120px" }}>
+        <li className="navbar_logo_li">
           <a class="navbar_brand hover_yellow" style={{ textDecoration: "none" }} href="/">
             <span class="navbar_logo" style={{ backgroundImage: "url('/images/logo64.png')", top: "2px;" }}></span>
             <div class=" scroll_to_top_icon">
@@ -47,7 +47,7 @@ export default class HeaderBar extends React.Component {
             </li>
           </ul >
         </li >
-        <li class="nav-item" style={{ width: "70px" }}>
+        <li class="nav-item navbar_profile_li" style={{ width: "70px" }}>
           <a class="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
             <span class="menu_profile_user_image_span member_profile_image hover_yellow"> </span>
           </a>
@@ -58,7 +58,7 @@ export default class HeaderBar extends React.Component {
               style={{ position: "relative", top: "3px" }}>login</i></span>
           </button>
         </li>
-        <li style={{ background: "none", width: "70px" }} class="app_panel">
+        <li class="navbar_statusinfo_li">
           <a class="account_status_display" href="showaccountinfo">
             <div class="credits_left"></div>
           </a>
