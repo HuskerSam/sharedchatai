@@ -58,7 +58,7 @@ export default class HeaderBar extends React.Component {
               style={{ position: "relative", top: "3px" }}>login</i></span>
           </button>
         </li>
-        <li class="navbar_statusinfo_li">
+        <li class="navbar_statusinfo_li signed_in_list_item">
           <a class="account_status_display" href="showaccountinfo">
             <div class="credits_left"></div>
           </a>

@@ -50,8 +50,8 @@ export default class LoginHelper {
     const modal: any = document.getElementById("loginModal");
     modal?.addEventListener("hidden.bs.modal", () => {
       if (this.disableReload) return;
-      if (this.app.isSessionApp) window.location.href = "/";
-      else window.location.reload();
+      if (window.location.href === "/") window.location.reload();
+      else window.location.href = "/";
     });
   }
   /** get modal template

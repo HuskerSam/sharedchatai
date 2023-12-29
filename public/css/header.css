@@ -299,7 +299,7 @@ i.copy_green {
     margin-left: 4px;
 }
 
-.navbar_statusinfo_li {
+.account_status_display {
     width: 60px;
 }
 
@@ -309,8 +309,7 @@ i.copy_green {
         width: 120px;
     }
 
-    .navbar_statusinfo_li {
-        background: none;
+    .account_status_display {
         width: 70px;
     }
 

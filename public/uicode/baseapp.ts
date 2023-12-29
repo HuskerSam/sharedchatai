@@ -48,7 +48,7 @@ export default class BaseApp {
   basePath = `https://us-central1-${this.projectId}.cloudfunctions.net/`;
   urlParams = new URLSearchParams(window.location.search);
   signin_show_modal: any = document.querySelector(".signin_show_modal");
-  signin_cta_navbar: any = document.querySelector(".signin_cta_navbar");
+  signin_cta_navbar: any;
   muted = false;
   uid: any = null;
   profile: any = null;
@@ -108,6 +108,7 @@ export default class BaseApp {
     if (this.standard_header_bar_container) {
       ReactDOM.render(React.createElement(ReactHeader), this.standard_header_bar_container);
       this.credits_left = document.querySelector(".credits_left");
+      this.signin_cta_navbar = document.querySelector(".signin_cta_navbar");
     }
     if (this.standard_footer_bar_container) {
       ReactDOM.render(React.createElement(ReactFooter), this.standard_footer_bar_container);
