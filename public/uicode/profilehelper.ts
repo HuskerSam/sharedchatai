@@ -51,7 +51,6 @@ export default class ProfileHelper {
     prompts_row: any;
     total_row: any;
     credits_row: any;
-    noAuthPage = false;
     nite_mode_input: any;
     profile_labels_tab_button: any;
     available_balance: any;
@@ -568,7 +567,7 @@ export default class ProfileHelper {
 
             this.app.uid = null;
 
-            if (this.noAuthPage) window.location.reload();
+            if (!this.app.showLoginModal) window.location.reload();
             else window.location.href = "/";
         }
     }

@@ -13,13 +13,18 @@ export default class FooterBar extends React.Component {
                 <hr />
                 <div style={{ flex: "1" }}>
                     <h2><span>Una<span class="home_navbar_name_color">cog</span></span></h2>
-                    <a href=" mailto:support@unacog.com"
-                        target="_blank">
+                    <div style={{ fontSize: "1.5em", padding: "12px" }}>
+                        <a href="/help/">Reference</a>
+                        &nbsp;
+                        &nbsp;
+                        <a href="/about/">About</a>
+                    </div>
+                    <a href="mailto:support@unacog.com" target="_blank">
                         support@unacog.com</a>
                     &nbsp;
-                    <a href="/content/about/" class="">About</a>
                     &nbsp;
                     <a href="/content/privacy/" class="">Privacy</a>
+                    &nbsp;
                     &nbsp;
                     <a class="" href="/content/pricing/">Pricing</a>
                 </div>

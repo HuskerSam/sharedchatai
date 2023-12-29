@@ -43,11 +43,11 @@ import React from "react";
 export default class BaseApp {
   timeSinceRedraw = 300;
   feedLimit = 10;
+  showLoginModal = true;
   deferredPWAInstallPrompt: any = null;
   projectId = getApp().options.projectId;
   basePath = `https://us-central1-${this.projectId}.cloudfunctions.net/`;
   urlParams = new URLSearchParams(window.location.search);
-  signin_show_modal: any = document.querySelector(".signin_show_modal");
   signin_cta_navbar: any;
   muted = false;
   uid: any = null;
@@ -68,7 +68,6 @@ export default class BaseApp {
   documentStatusDatabaseRef: any;
   sessionDocumentData: any = null;
   usageWatchInited: any = null;
-  showLoginModal = true;
   profileHelper = new ProfileHelper(this);
   login = new LoginHelper(this);
   documentCreate = new DocCreateHelper(this);
@@ -86,6 +85,7 @@ export default class BaseApp {
   standard_header_bar_container: any = document.querySelector(".standard_header_bar_container");
   standard_footer_bar_container: any = document.querySelector(".standard_footer_bar_container");
 
+  show_profile_modal: any;
   isOfflineForDatabase = {
     state: "offline",
     last_changed: serverTimestamp(),
@@ -107,12 +107,13 @@ export default class BaseApp {
   constructor() {
     if (this.standard_header_bar_container) {
       ReactDOM.render(React.createElement(ReactHeader), this.standard_header_bar_container);
-      this.credits_left = document.querySelector(".credits_left");
-      this.signin_cta_navbar = document.querySelector(".signin_cta_navbar");
     }
     if (this.standard_footer_bar_container) {
       ReactDOM.render(React.createElement(ReactFooter), this.standard_footer_bar_container);
     }
+    this.credits_left = document.querySelector(".credits_left");
+    this.signin_cta_navbar = document.querySelector(".signin_cta_navbar");
+    this.show_profile_modal = document.querySelector(".show_profile_modal");
 
     this.menu_profile_user_image_span = document.querySelector(".menu_profile_user_image_span");
     this.profile_menu_anchor = document.querySelector(".profile_menu_anchor");
@@ -143,21 +144,22 @@ export default class BaseApp {
     getAuth().onAuthStateChanged((u: any) => this.authHandleEvent(u));
     this.signInWithURL();
 
-    if (this.signin_show_modal) {
-      this.signin_show_modal.addEventListener("click", (e: any) => {
-        e.stopPropagation();
-        e.preventDefault();
-        this.login.show();
-      });
-    }
     if (this.signin_cta_navbar) {
       this.signin_cta_navbar.addEventListener("click", (e: any) => {
         e.stopPropagation();
         e.preventDefault();
+        alert("signinclick");
         this.login.show();
       });
     }
+    if (this.show_profile_modal) {
+      this.show_profile_modal.addEventListener("click", (event: any) => {
+          event.stopPropagation();
+          event.preventDefault();
 
+          this.profileHelper.show();
+      });
+  }
     this.themeIndex = BaseApp.initDayMode();
     document.body.classList.add("body_loaded");
     this.load();

@@ -88,23 +88,13 @@ body.app_signed_in p.alert.alert-danger.signed_in_anonymous {
     visibility: visible;
 }
 
-.signed_in_list_item {
-    display: none;
-}
-
 .auth_inited .spacer_not_authed {
     display: none;
-}
-
-.app_signed_in .signed_in_list_item {
-    display: list-item;
 }
 
 .app_signed_in .signed_in_options {
     display: block;
 }
-
-
 
 .navbar div.signed_in_inline_block.container,
 .signed_in_inline_block,

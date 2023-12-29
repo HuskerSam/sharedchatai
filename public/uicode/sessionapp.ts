@@ -87,7 +87,6 @@ export class SessionApp extends BaseApp {
   token_visualizer_preview: any = document.querySelector(".token_visualizer_preview");
 
   show_document_options_modal: any = document.querySelector(".show_document_options_modal");
-  show_profile_modal: any = document.querySelector(".show_profile_modal");
   show_create_modal: any = document.querySelector(".show_create_modal");
 
   session_hamburger: any = document.querySelector(".session_hamburger");
@@ -200,13 +199,6 @@ export class SessionApp extends BaseApp {
       document.body.classList.remove("show_send_bar_display_header");
     });
 
-    this.show_profile_modal.addEventListener("click", (event: any) => {
-      event.stopPropagation();
-      event.preventDefault();
-      document.body.classList.remove("side_bar_opened");
-
-      this.profileHelper.show();
-    });
     this.show_create_modal.addEventListener("click", (event: any) => {
       event.stopPropagation();
       event.preventDefault();

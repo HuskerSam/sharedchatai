@@ -3,7 +3,6 @@ import SharedWithBackend from "./sharedwithbackend";
 
 /** app class for content pages */
 export class StaticPageApp extends BaseApp {
-    show_profile_modal: any = document.querySelector(".show_profile_modal");
     help_show_modal: any = document.querySelector(".help_show_modal");
     sign_out_homepage: any = document.querySelector(".sign_out_homepage");
     pricing_type_display: any = document.querySelector(".pricing_type_display");
@@ -34,16 +33,6 @@ export class StaticPageApp extends BaseApp {
     constructor() {
         super();
         this.showLoginModal = false;
-        this.profileHelper.noAuthPage = true;
-
-        if (this.show_profile_modal) {
-            this.show_profile_modal.addEventListener("click", (event: any) => {
-                event.stopPropagation();
-                event.preventDefault();
-
-                this.profileHelper.show();
-            });
-        }
 
         if (this.sign_out_homepage) {
             this.sign_out_homepage.addEventListener("click", (e: any) => {

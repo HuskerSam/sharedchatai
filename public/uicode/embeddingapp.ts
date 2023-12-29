@@ -28,7 +28,6 @@ import {
 
 /** Embedding upload app class */
 export class EmbeddingApp extends BaseApp {
-    show_profile_modal: any = document.querySelector(".show_profile_modal");
     help_show_modal: any = document.querySelector(".help_show_modal");
     sign_out_homepage: any = document.querySelector(".sign_out_homepage");
     upload_embedding_documents_btn: any = document.querySelector(".upload_embedding_documents_btn");
@@ -215,8 +214,7 @@ export class EmbeddingApp extends BaseApp {
     /** */
     constructor() {
         super();
-        this.showLoginModal = true;
-        this.profileHelper.noAuthPage = false;
+        this.showLoginModal = false;
 
         // init table
         this.csvUploadDocumentsTabulator = new TabulatorFull(".preview_embedding_documents_table", {
@@ -303,15 +301,6 @@ export class EmbeddingApp extends BaseApp {
         this.copy_results_to_clipboard.addEventListener("click", () => {
             navigator.clipboard.writeText(this.primedPrompt);
         });
-
-        if (this.show_profile_modal) {
-            this.show_profile_modal.addEventListener("click", (event: any) => {
-                event.stopPropagation();
-                event.preventDefault();
-
-                this.profileHelper.show();
-            });
-        }
 
         this.upload_document_list_button.addEventListener("click", (event: any) => {
             this.embedding_list_file_dom.value = "";

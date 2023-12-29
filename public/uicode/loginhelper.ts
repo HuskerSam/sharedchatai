@@ -103,11 +103,6 @@ export default class LoginHelper {
     let email = "";
     if (this.login_email) email = this.login_email.value;
 
-    /*
-    if (!email) {
-      email = window.prompt("Please provide your email to send link");
-    }*/
-
     if (!email) {
       alert("A valid email is required for sending a link");
       return;
