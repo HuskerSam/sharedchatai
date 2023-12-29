@@ -295,6 +295,10 @@ i.copy_green {
     display: none;
 }
 
+.nav_signin_li {
+    width: 70px;
+}
+
 .navbar_logo_li {
     margin-left: 4px;
 }
@@ -316,5 +320,9 @@ i.copy_green {
     .navbar_profile_li {
         display: list-item;
         width: 70px;
+    }
+
+    .nav_signin_li {
+        width: 140px;
     }
 }

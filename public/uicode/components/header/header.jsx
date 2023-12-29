@@ -47,15 +47,13 @@ export default class HeaderBar extends React.Component {
             </li>
           </ul >
         </li >
-        <li class="nav-item navbar_profile_li" style={{ width: "70px" }}>
+        <li class="nav-item navbar_profile_li signed_in_list_item" style={{ width: "70px" }}>
           <a class="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
             <span class="menu_profile_user_image_span member_profile_image hover_yellow"> </span>
           </a>
         </li>
-        <li class="nav-item mobile_hide signed_out_list_item" style={{ width: 0, marginRight: "40px", overflow: "visible" }}>
-          <button class="signin_cta_navbar hover_yellow btn btn-primary" type="button"><span
-            class="mobile_hide">Login</span><span class="mobile_show"><i class="material-icons"
-              style={{ position: "relative", top: "3px" }}>login</i></span>
+        <li class="nav-item nav_signin_li signed_out_list_item">
+          <button class="signin_cta_navbar hover_yellow btn btn-primary" type="button">Login
           </button>
         </li>
         <li class="navbar_statusinfo_li signed_in_list_item">
@@ -63,6 +61,7 @@ export default class HeaderBar extends React.Component {
             <div class="credits_left"></div>
           </a>
         </li>
+        <li class="nav-item nav_signin_li loading_li_spacer"></li>
       </ul >
     </nav >);
   }

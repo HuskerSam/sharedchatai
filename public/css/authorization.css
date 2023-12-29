@@ -109,19 +109,19 @@ body.app_signed_in p.alert.alert-danger.signed_in_anonymous {
     display: inline-block;
 }
 
-.signed_in_list_item {
+li.signed_in_list_item {
     display: none;
 }
 
-.app_signed_in .signed_in_list_item {
+.app_signed_in li.signed_in_list_item {
     display: list-item;
 }
 
-.signed_out_list_item {
+li.signed_out_list_item {
     display: none;
 }
 
-.app_signed_out .signed_out_list_item {
+.app_signed_out li.signed_out_list_item {
     display: list-item;
 }
 
@@ -139,4 +139,13 @@ div.signed_out_flex {
 
 .app_signed_out div.signed_out_flex {
     display: flex;
+}
+
+.loading_li_spacer {
+    display: list-item;
+}
+
+.app_signed_in .loading_li_spacer,
+.app_signed_out .loading_li_spacer {
+    display: none;
 }
