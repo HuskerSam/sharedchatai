@@ -24,6 +24,7 @@ const heavyOpts: functions.RuntimeOptions = {
 const homeOpts: functions.RuntimeOptions = {
     timeoutSeconds: 60,
     memory: "256MB",
+    minInstances: 1,
 };
 
 const sitemapOpts: functions.RuntimeOptions = {
@@ -42,11 +43,7 @@ contentPagesApp.use(cors({
 }));
 
 export const contentPage = functions.runWith(homeOpts).https.onRequest(contentPagesApp);
-export const mediaPage = functions.runWith({
-    timeoutSeconds: 60,
-    memory: "256MB",
-    minInstances: 1,
-}).https.onRequest(WebPage.mediaHTML);
+export const mediaPage = functions.runWith(homeOpts).https.onRequest(WebPage.mediaHTML);
 export const aboutPage = functions.runWith(homeOpts).https.onRequest(WebPage.aboutHTML);
 
 export const lobbyApi = functions.runWith(runtimeOpts).https.onRequest(gameAPIApp);

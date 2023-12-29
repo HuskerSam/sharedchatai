@@ -52,7 +52,7 @@ export default class HeaderBar extends React.Component {
             <span class="menu_profile_user_image_span member_profile_image hover_yellow"> </span>
           </a>
         </li>
-        <li class="nav-item mobile_hide signed_out_list_item" style={{ width: 0, overflow: "visible" }}>
+        <li class="nav-item mobile_hide signed_out_list_item" style={{ width: 0, marginRight: "40px", overflow: "visible" }}>
           <button class="signin_cta_navbar hover_yellow btn btn-primary" type="button"><span
             class="mobile_hide">Login</span><span class="mobile_show"><i class="material-icons"
               style={{ position: "relative", top: "3px" }}>login</i></span>

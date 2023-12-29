@@ -185,12 +185,24 @@ export default class SharedWithBackend {
   static getNews(): any {
     return newsList;
   }
+  /**
+ * Shuffles array in place. ES6 version
+ * @param { any[] } a items An array containing the items.
+ * @return { any[] }
+ */
+  static shuffle(a: any[]): any[] {
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
   /** get content list template
 * @return { string } html footer
 */
   static getFlyerListTemplate(): string {
     let items = "";
-    newsList.forEach((item: any) => {
+    SharedWithBackend.shuffle(newsList).forEach((item: any) => {
       if (item.disabled) return;
       items += `<li class="news_group_item hover_yellow"><a class="d-flex flex-column" href="${item.link}">
                 <div class="d-flex flex-column" style="flex:1">
