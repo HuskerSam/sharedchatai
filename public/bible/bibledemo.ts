@@ -392,8 +392,11 @@ export class BibleDemoApp {
     } else {
       console.log(promptResult);
     }
-    this.full_augmented_response.innerHTML = this.escapeHTML(promptResult.assist.assist.choices["0"].message.content);
-
+    if (promptResult.assist.error) {
+      this.full_augmented_response.innerHTML = this.escapeHTML(promptResult.assist.error);
+    } else {
+      this.full_augmented_response.innerHTML = this.escapeHTML(promptResult.assist.assist.choices["0"].message.content);
+    }
   }
   embedPrompt(prompt: string, matches: any[], queryDetails: any): string {
     const promptTemplate = this.prompt_template_text_area.value;
