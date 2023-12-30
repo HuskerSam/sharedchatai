@@ -72,12 +72,6 @@
   top: 4px;
 }
 
-.upsert_result_status_bar {
-  flex: 1;
-  padding-left: 16px;
-  padding-top: 8px;
-}
-
 .embedding_query_results_table_wrapper {
   min-height: 10vh;
   min-height: 10vh;
@@ -236,9 +230,13 @@ select.upsert_documents_list.form-select:active {
 }
 
 .vector_count_floating_status {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 1;
-  white-space: nowrap;
+  padding-left: 16px;
+  padding-top: 6px;
+  padding-right: 16px;
+}
+
+.upsert_result_status_bar {
+  flex: 1;
+  padding-left: 16px;
+  padding-top: 12px;
 }

@@ -55,17 +55,15 @@
                         </li>
                         <li class="nav-item" role="presentation">
                             <a class="nav-link" id="parse_embedding_tab_btn" data-bs-toggle="tab"
-                                href="#parse_embedding_tab_view" role="tab" aria-controls="pase_embedding_tab_view"
+                                href="#parse_embedding_tab_view" role="tab" aria-controls="pasre_embedding_tab_view"
                                 aria-selected="false">Parse</a>
                         </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="publish_embedding_tab_btn" data-bs-toggle="tab"
+                                href="#publish_embedding_tab_view" role="tab" aria-controls="publish_embedding_tab_view"
+                                aria-selected="false">Publish</a>
+                        </li>
                     </ul>
-                </div>
-                <div class="vector_count_floating_status">
-                    <span class="pinecone_index_name"></span>
-                    &nbsp;
-                    <button class="btn fetch_pinecone_index_stats_btn" style="position:relative;top:-3px;">
-                        <i class="material-icons">sync</i>
-                    </button>
                 </div>
             </div>
             <div class="tab-content"
@@ -98,6 +96,13 @@
                             &nbsp;
                         </div>
                         <div class="upsert_result_status_bar"></div>
+                        <div class="vector_count_floating_status">
+                            <span class="pinecone_index_name"></span>
+                            &nbsp;
+                            <button class="btn fetch_pinecone_index_stats_btn" style="position:relative;top:-3px;">
+                                <i class="material-icons">sync</i>
+                            </button>
+                        </div>
                         <div>
                             <a class="btn btn-secondary upload_document_list_button" href="importrows">
                                 <i class="material-icons">upload_file</i> Import
@@ -297,6 +302,10 @@
                         <h4>Chunked Results</h4>
                         <div class="chunking_results_wrapper styled_csv_table"></div>
                     </div>
+                </div>
+                <div class="tab-pane fade" id="publish_embedding_tab_view" role="tabpanel"
+                aria-labelledby="publish_embedding_tab_btn" style="overflow:auto;">
+                publish documents for use in a unacog session
                 </div>
             </div>
         </div>
