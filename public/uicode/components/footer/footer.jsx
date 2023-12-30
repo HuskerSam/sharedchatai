@@ -10,7 +10,6 @@ export default class FooterBar extends React.Component {
     render() {
         return (<div class="container">
             <footer class="app_panel">
-                <hr />
                 <div style={{ flex: "1" }}>
                     <h2 style={{display: "inline-block"}}><span>Una<span class="home_navbar_name_color">cog</span></span></h2>
                     <div style={{ fontSize: "1.5em", padding: "12px", display: "inline-block", margin: "12px" }}>
