@@ -19,7 +19,7 @@ export default class HeaderBar extends React.Component {
       <ul class="navbar-nav container-fluid d-flex flex-row justify-content-end justify-content-sm-between container"
         style={{ padding: "0" }}>
         <li className="navbar_logo_li">
-          <a class="navbar_brand hover_yellow" style={{ textDecoration: "none" }} href="/">
+          <a class="navbar_brand hover_yellow" style={{ textDecoration: "none" }}>
             <span class="navbar_logo" style={{ backgroundImage: "url('/images/logo64.png')", top: "2px;" }}></span>
             <div class=" scroll_to_top_icon">
               <span class="material-icons-outlined">

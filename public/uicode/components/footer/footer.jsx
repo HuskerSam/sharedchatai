@@ -12,24 +12,30 @@ export default class FooterBar extends React.Component {
             <footer class="app_panel">
                 <hr />
                 <div style={{ flex: "1" }}>
-                    <h2><span>Una<span class="home_navbar_name_color">cog</span></span></h2>
-                    <div style={{ fontSize: "1.5em", padding: "12px" }}>
+                    <h2 style={{display: "inline-block"}}><span>Una<span class="home_navbar_name_color">cog</span></span></h2>
+                    <div style={{ fontSize: "1.5em", padding: "12px", display: "inline-block", margin: "12px" }}>
                         <a href="/help/">Reference</a>
                         &nbsp;
                         &nbsp;
                         <a href="/about/">About</a>
                     </div>
-                    <a href="mailto:support@unacog.com" target="_blank">
-                        support@unacog.com</a>
-                    &nbsp;
-                    &nbsp;
-                    <a href="/content/privacy/" class="">Privacy</a>
-                    &nbsp;
-                    &nbsp;
-                    <a class="" href="/content/pricing/">Pricing</a>
-                </div>
-                <div class="d-flex flex-column flex-sm-row justify-content-center py-2">
-                    <p class="my-1"> © 2023, All Rights Reserved</p>
+                    <div style={{ textAlign: "center", lineHeight: "3em", paddingBottom: "12px" }}>
+                        <div style={{ whiteSpace: "nowrap", display: "inline-block" }}>
+                            &nbsp;
+                            &nbsp;
+                            <a href="mailto:support@unacog.com" target="_blank">
+                                support@unacog.com</a>
+                            &nbsp;
+                            &nbsp;
+                            <a href="/content/privacy/" class="">Privacy</a>
+                            &nbsp;
+                            &nbsp;
+                            <a class="" href="/content/pricing/">Pricing</a>
+                            &nbsp;
+                            &nbsp;
+                        </div>
+                        <div style={{display: "inline-block", whiteSpace: "nowrap" }}>© 2023, All Rights Reserved</div>
+                    </div>
                 </div>
             </footer >
         </div >);
