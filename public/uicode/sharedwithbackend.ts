@@ -328,4 +328,18 @@ export default class SharedWithBackend {
   static async tokenEncodeFunction(): Promise<any> {
     return encode;
   }
+  /**
+ * Returns a hash code from a string
+  * @param  {string} str The string to hash.
+  * @return {number}    A 32bit integer
+  */
+  static hashCode(str: string): number {
+    let hash = 0;
+    for (let i = 0, len = str.length; i < len; i++) {
+      let chr = str.charCodeAt(i);
+      hash = (hash << 5) - hash + chr;
+      hash |= 0;
+    }
+    return hash;
+  }
 }

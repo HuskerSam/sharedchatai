@@ -223,7 +223,7 @@ export class EmbeddingApp extends BaseApp {
             data: [],
             height: "100%",
             layout: "fitDataStretch",
-            columns: <any> this.tableColumns,
+            columns: <any>this.tableColumns,
         });
         this.csvUploadDocumentsTabulator.on("cellClick", async (e: any, cell: any) => {
             const field = cell.getField();
@@ -1258,14 +1258,29 @@ export class EmbeddingApp extends BaseApp {
             this.csvUploadDocumentsTabulator.setData(this.fileListToUpload);
         });
 
-        /*
+        const pineconeData = this.scrapeData();
+        let keyHash = 9999999999999;
+        let indexHash = 99999999999999;
+        keyHash = SharedWithBackend.hashCode(pineconeData.pineconeKey.slice(-8));
+        indexHash = SharedWithBackend.hashCode(pineconeData.pineconeIndex.slice(-8));
         const sessionsRef = collection(getFirestore(), `Games`);
-        const sessionsQuery = query(sessionsRef, limit(100), where("createUser", "==", this.uid),
-           where("") )
-        this.connectedSessionsFirestore = onSnapshot(
+        const sessionsQuery = query(sessionsRef,
+            limit(20),
+            orderBy("createUser"),
+            orderBy("hashed_pineconeKey"),
+            orderBy("hashed_pineconeIndex"),
+            where("createUser", "==", this.uid),
+            where("hashed_pineconeKey", "==", keyHash),
+            where("hashed_pineconeIndex", "==", indexHash));
 
-        );
-        */
+        this.connectedSessionsFirestore = onSnapshot(sessionsQuery, (snapshot: any) => {
+            let html = "";
+            console.log("result", snapshot);
+            snapshot.forEach((doc: any) => {
+                html += `<div>${doc.id} ${doc.data().title}</div>`
+            });
+            this.connected_sessions_list.innerHTML = html;
+        });
     }
     /** */
     async watchProjectList() {

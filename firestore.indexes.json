@@ -24,6 +24,24 @@
       "queryScope": "COLLECTION",
       "fields": [
         {
+          "fieldPath": "createUser",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "hashed_pineconeIndex",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "hashed_pineconeKey",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Games",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
           "fieldPath": "players",
           "arrayConfig": "CONTAINS"
         },

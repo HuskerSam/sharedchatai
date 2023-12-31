@@ -7,6 +7,7 @@ import ChatDocument from "./uicode/sharedwithbackend";
 import {
   FieldValue,
 } from "firebase-admin/firestore";
+import SharedWithBackend from "./uicode/sharedwithbackend";
 
 /** GameAPI for managing game records and base functions for 2D games */
 export default class GameAPI {
@@ -428,7 +429,20 @@ export default class GameAPI {
       return BaseClass.respondError(res, "Must be owner to view owner only information");
     }
 
-    await firebaseAdmin.firestore().doc(`Games/${gameNumber}/ownerPrivate/internalPineconeConfiguration`).set(req.body.updatePacket, {
+    const privateUpdatePacket: any = Object.assign({}, req.body.updatePacket);
+    const keys = Object.keys(privateUpdatePacket);
+    const sessionUpdatePacket: any = {};
+    keys.forEach((key: string) => {
+      const sessionKey = "hashed_" + key;
+      const data = privateUpdatePacket[key].slice(-8);
+      sessionUpdatePacket[sessionKey] = SharedWithBackend.hashCode(data);
+    });
+
+    await firebaseAdmin.firestore().doc(`Games/${gameNumber}/ownerPrivate/internalPineconeConfiguration`).set(privateUpdatePacket, {
+      merge: true,
+    });
+
+    await firebaseAdmin.firestore().doc(`Games/${gameNumber}`).set(sessionUpdatePacket, {
       merge: true,
     });
 
