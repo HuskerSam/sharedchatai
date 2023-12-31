@@ -223,7 +223,7 @@ export class EmbeddingApp extends BaseApp {
             data: [],
             height: "100%",
             layout: "fitDataStretch",
-            columns: <any>this.tableColumns,
+            columns: <any> this.tableColumns,
         });
         this.csvUploadDocumentsTabulator.on("cellClick", async (e: any, cell: any) => {
             const field = cell.getField();
@@ -1277,7 +1277,7 @@ export class EmbeddingApp extends BaseApp {
             let html = "";
             console.log("result", snapshot);
             snapshot.forEach((doc: any) => {
-                html += `<div>${doc.id} ${doc.data().title}</div>`
+                html += `<div>${doc.id} ${doc.data().title}</div>`;
             });
             this.connected_sessions_list.innerHTML = html;
         });

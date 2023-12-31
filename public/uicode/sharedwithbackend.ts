@@ -336,8 +336,7 @@ export default class SharedWithBackend {
   static hashCode(str: string): number {
     let hash = 0;
     for (let i = 0, len = str.length; i < len; i++) {
-      let chr = str.charCodeAt(i);
-      hash = (hash << 5) - hash + chr;
+      hash = (hash << 5) - hash + str.charCodeAt(i);
       hash |= 0;
     }
     return hash;

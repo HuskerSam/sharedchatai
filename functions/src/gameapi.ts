@@ -3,11 +3,10 @@ import {
   BaseClass,
 } from "./baseclass";
 import SessionAPI from "./sessionapi";
-import ChatDocument from "./uicode/sharedwithbackend";
+import SharedWithBackend from "./uicode/sharedwithbackend";
 import {
   FieldValue,
 } from "firebase-admin/firestore";
-import SharedWithBackend from "./uicode/sharedwithbackend";
 
 /** GameAPI for managing game records and base functions for 2D games */
 export default class GameAPI {
@@ -146,7 +145,7 @@ export default class GameAPI {
         model_lock: modelLock,
         includePromptsInContext,
       });
-    const modelDefaults = ChatDocument.getModelMeta(model);
+    const modelDefaults = SharedWithBackend.getModelMeta(model);
     Object.assign(game, modelDefaults.defaults);
 
     if (req.body.visibility) game.visibility = req.body.visibility;
