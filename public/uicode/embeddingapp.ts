@@ -79,10 +79,12 @@ export class EmbeddingApp extends BaseApp {
     next_table_page_btn: any = document.querySelector(".next_table_page_btn");
     upsert_next_loop_checkbox: any = document.querySelector(".upsert_next_loop_checkbox");
     options_embedding_tab_btn: any = document.querySelector("#options_embedding_tab_btn");
+    connected_sessions_list: any = document.querySelector(".connected_sessions_list");
     actionRunning = false;
     tableQueryFirstRow = 1;
     tableIdSortDirection = "";
     fileUpsertListFirestore: any = null;
+    connectedSessionsFirestore: any = null;
     embeddingProjects: any = {};
     selectedProjectId = "";
     selectedFilter = "";
@@ -1217,6 +1219,8 @@ export class EmbeddingApp extends BaseApp {
 
         if (this.fileUpsertListFirestore) this.fileUpsertListFirestore();
         this.fileUpsertListFirestore = null;
+        if (this.connectedSessionsFirestore) this.connectedSessionsFirestore();
+        this.connectedSessionsFirestore = null;
         if (!this.selectedProjectId) return;
 
         const options = this.getPineconeOptions();
@@ -1253,6 +1257,15 @@ export class EmbeddingApp extends BaseApp {
 
             this.csvUploadDocumentsTabulator.setData(this.fileListToUpload);
         });
+
+        /*
+        const sessionsRef = collection(getFirestore(), `Games`);
+        const sessionsQuery = query(sessionsRef, limit(100), where("createUser", "==", this.uid),
+           where("") )
+        this.connectedSessionsFirestore = onSnapshot(
+
+        );
+        */
     }
     /** */
     async watchProjectList() {

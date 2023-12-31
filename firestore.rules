@@ -25,7 +25,7 @@ service cloud.firestore {
       allow read: if true;
     }
 
-    match /Games/{id}/ownerPrivate/data {
+    match /Games/{id}/ownerPrivate/internalPineconeConfiguration {
       allow read, write: if false;
     }
 

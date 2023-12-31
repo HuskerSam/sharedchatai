@@ -390,7 +390,7 @@ export default class GameAPI {
       return BaseClass.respondError(res, "Must be owner to view owner only information");
     }
 
-    const ownerDataQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}/ownerPrivate/data`).get();
+    const ownerDataQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}/ownerPrivate/internalPineconeConfiguration`).get();
     let ownerData = ownerDataQuery.data();
     if (!ownerData) ownerData = {};
     return res.status(200).send({
@@ -428,7 +428,7 @@ export default class GameAPI {
       return BaseClass.respondError(res, "Must be owner to view owner only information");
     }
 
-    await firebaseAdmin.firestore().doc(`Games/${gameNumber}/ownerPrivate/data`).set(req.body.updatePacket, {
+    await firebaseAdmin.firestore().doc(`Games/${gameNumber}/ownerPrivate/internalPineconeConfiguration`).set(req.body.updatePacket, {
       merge: true,
     });
 

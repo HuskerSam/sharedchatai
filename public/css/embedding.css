@@ -231,12 +231,17 @@ select.upsert_documents_list.form-select:active {
 
 .vector_count_floating_status {
   padding-left: 16px;
-  padding-top: 6px;
   padding-right: 16px;
 }
 
 .upsert_result_status_bar {
   flex: 1;
   padding-left: 16px;
-  padding-top: 12px;
+  padding-top: 10px;
+}
+
+.vector_count_floating_status .pinecone_index_name {
+  position: relative;
+  top: 4px;
+  display: inline-block;
 }

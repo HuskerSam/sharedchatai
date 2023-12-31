@@ -71,7 +71,7 @@
                 <div class="tab-pane fade show active" id="upsert_embedding_tab_view" role="tabpanel"
                     aria-labelledby="upsert_embedding_tab_btn">
                     <div style="padding: 8px;display:flex;flex-direction:row" class="container">
-                        <div style="padding-top: 12px;">
+                        <div style="padding-top: 10px;">
                             <label class="form-check-label">
                                 <input type="radio" class="form-radio-input" name="table_filter_radio" value="All">
                                 All (<span class="table_all_count"> &nbsp; </span>)
@@ -99,7 +99,7 @@
                         <div class="vector_count_floating_status">
                             <span class="pinecone_index_name"></span>
                             &nbsp;
-                            <button class="btn fetch_pinecone_index_stats_btn" style="position:relative;top:-3px;">
+                            <button class="btn btn-secondary fetch_pinecone_index_stats_btn">
                                 <i class="material-icons">sync</i>
                             </button>
                         </div>
@@ -305,7 +305,10 @@
                 </div>
                 <div class="tab-pane fade" id="publish_embedding_tab_view" role="tabpanel"
                 aria-labelledby="publish_embedding_tab_btn" style="overflow:auto;">
-                publish documents for use in a unacog session
+                    <div class="container">
+                        <h4>Connected Sessions</h4>
+                        <div class="connected_sessions_list"></div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -264,8 +264,8 @@ export default class SessionAPI {
             try {
                 includeTickets = [];
                 const messageQuery = ticket.message;
-
-                const ownerPrivateQuery = await firebaseAdmin.firestore().doc(`Games/${gameNumber}/ownerPrivate/data`).get();
+                const ownerPrivateQuery = await firebaseAdmin.firestore()
+                    .doc(`Games/${gameNumber}/ownerPrivate/internalPineconeConfiguration`).get();
                 let privateData: any = ownerPrivateQuery.data();
                 if (!privateData) privateData = {};
 
@@ -1126,42 +1126,47 @@ export default class SessionAPI {
     * @param { Response } res http response object
     */
     static async externalVectorQuery(req: Request, res: Response) {
-        const sessionId = req.body.sessionId;
-        const apiToken = req.body.apiToken;
-        const message = req.body.message;
-        let topK = req.body.topK;
-        const authResults = await SessionAPI._validateExternalRequest(sessionId, apiToken);
-        const sessionDocumentData = authResults.sessionDocumentData;
-        if (!authResults.success) {
-            return BaseClass.respondError(res, authResults.errorMessage);
+        try {
+            const sessionId = req.body.sessionId;
+            const apiToken = req.body.apiToken;
+            const message = req.body.message;
+            let topK = req.body.topK;
+            const authResults = await SessionAPI._validateExternalRequest(sessionId, apiToken);
+            const sessionDocumentData = authResults.sessionDocumentData;
+            if (!authResults.success) {
+                return BaseClass.respondError(res, authResults.errorMessage);
+            }
+            if (!message || !apiToken || !sessionId) {
+                return BaseClass.respondError(res, "Please supply message, apiToken and sessionId");
+            }
+
+            const localInstance = BaseClass.newLocalInstance();
+            await localInstance.init();
+
+            const ownerPrivateQuery = await firebaseAdmin.firestore()
+                .doc(`Games/${sessionId}/ownerPrivate/internalPineconeConfiguration`).get();
+            let privateData: any = ownerPrivateQuery.data();
+            if (!privateData) privateData = {};
+
+            if (!topK) topK = BaseClass.getNumberOrDefault(privateData.pineconeTopK, 3);
+            const pineconeKey = String(privateData.pineconeKey);
+            const pineconeIndex = String(privateData.pineconeIndex);
+            const pineconeEnvironment = String(privateData.pineconeEnvironment);
+            const chatGptKey = localInstance.privateConfig.chatGPTKey;
+
+            if (!pineconeKey || !pineconeIndex || !pineconeEnvironment) {
+                return {
+                    success: false,
+                    errorMessage: "Pinecone must have index, key and environment configured when embedding is enabled",
+                };
+            }
+            const embeddingResult = await SessionAPI.processEmbedding(message, topK,
+                chatGptKey, sessionDocumentData.createUser, pineconeKey, pineconeEnvironment, pineconeIndex);
+
+            return res.status(200).send(embeddingResult);
+        } catch (err: any) {
+            return BaseClass.respondError(res, err.message, err);
         }
-        if (!message || !apiToken || !sessionId) {
-            return BaseClass.respondError(res, "Please supply message, apiToken and sessionId");
-        }
-
-        const localInstance = BaseClass.newLocalInstance();
-        await localInstance.init();
-
-        const ownerPrivateQuery = await firebaseAdmin.firestore().doc(`Games/${sessionId}/ownerPrivate/data`).get();
-        let privateData: any = ownerPrivateQuery.data();
-        if (!privateData) privateData = {};
-
-        if (!topK) topK = BaseClass.getNumberOrDefault(privateData.pineconeTopK, 3);
-        const pineconeKey = String(privateData.pineconeKey);
-        const pineconeIndex = String(privateData.pineconeIndex);
-        const pineconeEnvironment = String(privateData.pineconeEnvironment);
-        const chatGptKey = localInstance.privateConfig.chatGPTKey;
-
-        if (!pineconeKey || !pineconeIndex || !pineconeEnvironment) {
-            return {
-                success: false,
-                errorMessage: "Pinecone must have index, key and environment configured when embedding is enabled",
-            };
-        }
-        const embeddingResult = await SessionAPI.processEmbedding(message, topK,
-            chatGptKey, sessionDocumentData.createUser, pineconeKey, pineconeEnvironment, pineconeIndex);
-
-        return res.status(200).send(embeddingResult);
     }
     /**
      * @param { string } sessionId
@@ -1178,7 +1183,7 @@ export default class SessionAPI {
             };
         }
 
-        const ownerDataQuery = await firebaseAdmin.firestore().doc(`Games/${sessionId}/ownerPrivate/data`).get();
+        const ownerDataQuery = await firebaseAdmin.firestore().doc(`Games/${sessionId}/ownerPrivate/internalPineconeConfiguration`).get();
         const ownerData: any = ownerDataQuery.data();
         if (!ownerData && !ownerData.externalSessionAPIKey) {
             return {

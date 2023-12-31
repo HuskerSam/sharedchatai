@@ -13,9 +13,9 @@ export class BibleDemoApp {
   prompt_template_select_preset: any = document.body.querySelector(".prompt_template_select_preset");
   reset_template_options_button: any = document.body.querySelector(".reset_template_options_button");
   bibleData: any[] = [];
-  byVerseAPIToken = "76acdd7d-609c-4a39-ab89-bc73b0c2c531";
+  byVerseAPIToken = "2525ae99-368d-41c7-8256-99b64d64a2b6";
   byVerseSessionId = "vkuyk8lg74nq";
-  byChapterToken = "bcdc6f90-80f8-49bc-94ed-f82b43305af2";
+  byChapterToken = "6ac33c7b-5d2e-4518-9e05-664d04661929";
   byChapterSessionId = "07yt1fqvoj9q";
   promptUrl = `https://us-central1-promptplusai.cloudfunctions.net/lobbyApi/session/external/message`;
   queryUrl = `https://us-central1-promptplusai.cloudfunctions.net/lobbyApi/session/external/vectorquery`;
@@ -110,7 +110,7 @@ export class BibleDemoApp {
     let result = await this.getMatchingVectors(message, 10, this.byVerseAPIToken, this.byVerseSessionId);
     if (!result.success) {
       console.log("error", result);
-      alert(result.errorMessage);
+      this.full_augmented_response.innerHTML = result.errorMessage;
       return;
     } else {
       console.log(result);
@@ -165,7 +165,7 @@ export class BibleDemoApp {
     let result = await this.getMatchingVectors(message, 5, this.byChapterToken, this.byChapterSessionId);
     if (!result.success) {
       console.log("error", result);
-      alert(result.errorMessage);
+      this.full_augmented_response.innerHTML = result.errorMessage;
       return;
     } else {
       console.log(result);
@@ -191,7 +191,7 @@ export class BibleDemoApp {
       e.preventDefault();
       if (a.dataset.link === "book") {
         const bookIndex = Number(a.dataset.bookindex);
-        alert(bookIndex)
+        alert(bookIndex);
       }
       if (a.dataset.link === "chapter") {
         const bookIndex = Number(a.dataset.bookindex);
@@ -326,7 +326,7 @@ export class BibleDemoApp {
 
     if (!result.success) {
       console.log("error", result);
-      alert(result.errorMessage);
+      this.full_augmented_response.innerHTML = result.errorMessage;
       return;
     } else {
       console.log(result);
@@ -387,7 +387,7 @@ export class BibleDemoApp {
     const promptResult = await fetchResults.json();
     if (!promptResult.success) {
       console.log("error", promptResult);
-      alert(promptResult.errorMessage);
+      this.full_augmented_response.innerHTML = result.errorMessage;
       return;
     } else {
       console.log(promptResult);

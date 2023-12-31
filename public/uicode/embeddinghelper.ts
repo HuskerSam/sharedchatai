@@ -66,6 +66,7 @@ export default class PineconeHelper {
   async setExternalSecret(clear = false) {
     let newSecret = this.app.uuidv4();
     if (clear) newSecret = "";
+    console.log("externalSessionAPIKey", newSecret);
     await ChatDocument.setOwnerOnlyField(this.chatDocumentId, this.app.basePath, "externalSessionAPIKey", newSecret);
     await this.updateDisplayData();
   }
@@ -94,7 +95,6 @@ export default class PineconeHelper {
         cancel = true;
       }
     }
-
     if (!cancel) {
       await ChatDocument.setOwnerOnlyField(this.chatDocumentId, this.app.basePath, field, newValue);
       await this.updateDisplayData();
