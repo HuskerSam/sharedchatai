@@ -245,3 +245,19 @@ select.upsert_documents_list.form-select:active {
   top: 4px;
   display: inline-block;
 }
+
+.connected_session_row {
+  width: 100%;
+  padding: 8px;
+  border-radius: 12px;
+  margin-bottom: 2px;
+  margin-top: 2px;
+  border: solid 1px silver;
+  display: block;
+  text-decoration: none;
+}
+
+.connected_sessions_list {
+  height: 200px;
+  overflow: auto;
+}

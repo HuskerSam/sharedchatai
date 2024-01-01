@@ -84,7 +84,7 @@ export default class DocCreateHelper {
       if (e.key === "Enter" && e.shiftKey === false) {
         e.preventDefault();
         e.stopPropagation();
-        this.createNewGame();
+        this.createNewSession();
       }
     });
     this.system_message_field = this.modalContainer.querySelector(".system_message_field");
@@ -116,7 +116,7 @@ export default class DocCreateHelper {
       this.updateBulkBatchStatus();
     });
     this.create_game_afterfeed_button = this.modalContainer.querySelector(".create_game_afterfeed_button");
-    this.create_game_afterfeed_button.addEventListener("click", () => this.createNewGame());
+    this.create_game_afterfeed_button.addEventListener("click", () => this.createNewSession());
 
     this.create_bulk_sessions_button = this.modalContainer.querySelector(".create_bulk_sessions_button");
     this.create_bulk_sessions_button.addEventListener("click", () => this.createBulkSessions());
@@ -354,7 +354,7 @@ export default class DocCreateHelper {
     const note = email;
     let labels = label;
     if (row["label"]) labels = labels + "," + row["label"];
-    const result = await this.createNewGame(title, note, true, labels);
+    const result = await this.createNewSession(title, note, true, labels);
 
     const link = location.origin + "/session/" + result.gameNumber;
     const displayName = BaseApp.escapeHTML(this.app.userMetaFromDocument(this.app.uid).name);
@@ -689,7 +689,7 @@ export default class DocCreateHelper {
    * @param { boolean } bulkMode false default
    * @param { string } bulkLabel label to add
   */
-  async createNewGame(title = "", note = "", bulkMode = false, bulkLabel = ""): Promise<any> {
+  async createNewSession(title = "", note = "", bulkMode = false, bulkLabel = ""): Promise<any> {
     if (!bulkMode && this.creatingNewRecord) return;
     if (!this.app.profile) return;
     this.creatingNewRecord = true;
@@ -724,12 +724,12 @@ export default class DocCreateHelper {
       body.creditUsageLimit = this.document_usage_cap_field.value.trim();
     }
 
-    const token = await getAuth().currentUser?.getIdToken();
+    const token = await getAuth().currentUser?.getIdToken() as string;
     const fResult = await fetch(this.app.basePath + "lobbyApi/games/create", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
-      headers: <HeadersInit>{
+      headers: {
         "Content-Type": "application/json",
         token,
       },

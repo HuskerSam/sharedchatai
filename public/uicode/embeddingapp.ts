@@ -80,6 +80,7 @@ export class EmbeddingApp extends BaseApp {
     upsert_next_loop_checkbox: any = document.querySelector(".upsert_next_loop_checkbox");
     options_embedding_tab_btn: any = document.querySelector("#options_embedding_tab_btn");
     connected_sessions_list: any = document.querySelector(".connected_sessions_list");
+    create_connected_session: any = document.querySelector(".create_connected_session");
     actionRunning = false;
     tableQueryFirstRow = 1;
     tableIdSortDirection = "";
@@ -355,6 +356,8 @@ export class EmbeddingApp extends BaseApp {
             this.first_table_row.value = nextId;
             this.updateWatchUpsertRows();
         });
+
+        this.create_connected_session.addEventListener("click", () => this.addConnectedSession());
     }
     /**
      * @param { any } event
@@ -1266,6 +1269,7 @@ export class EmbeddingApp extends BaseApp {
         const sessionsRef = collection(getFirestore(), `Games`);
         const sessionsQuery = query(sessionsRef,
             limit(20),
+            orderBy("lastActivity"),
             orderBy("createUser"),
             orderBy("hashed_pineconeKey"),
             orderBy("hashed_pineconeIndex"),
@@ -1275,9 +1279,10 @@ export class EmbeddingApp extends BaseApp {
 
         this.connectedSessionsFirestore = onSnapshot(sessionsQuery, (snapshot: any) => {
             let html = "";
-            console.log("result", snapshot);
             snapshot.forEach((doc: any) => {
-                html += `<div>${doc.id} ${doc.data().title}</div>`;
+                const activityDate = this.showGmailStyleDate(new Date(doc.data().lastActivity));
+                html += `<a class="connected_session_row" target="_blank"
+                 href="/session/${doc.id}">${doc.data().title} | ${activityDate} | ${doc.id}</a>`;
             });
             this.connected_sessions_list.innerHTML = html;
         });
@@ -1315,5 +1320,53 @@ export class EmbeddingApp extends BaseApp {
 
             this.updateWatchUpsertRows();
         });
+    }
+    /** */
+    async addConnectedSession() {
+        if (!this.selectedProjectId) return;
+
+        const body: any = {
+            documentType: "chatSession",
+            model: "gpt-3.5-turbo-16k",
+            title: this.selectedProjectId,
+            label: "",
+            note: "",
+            includePromptsInContext: false,
+            model_lock: true,
+            firstPrompt: "",
+          };
+
+        const token = await getAuth().currentUser?.getIdToken() as string;
+        const fResult = await fetch(this.basePath + "lobbyApi/games/create", {
+          method: "POST",
+          mode: "cors",
+          cache: "no-cache",
+          headers: {
+            "Content-Type": "application/json",
+            token,
+          },
+          body: JSON.stringify(body),
+        });
+        const json = await fResult.json();
+        if (!json.success) {
+          console.log(json.errorMessage, json);
+          alert(json.errorMessage);
+          return;
+        }
+        const sessionId = json.gameNumber;
+
+        const embeddingOptions = this.getPineconeOptions();
+        await Promise.all([
+            ChatDocument.setOwnerOnlyField(sessionId, this.basePath, "pineconeIndex", embeddingOptions.pineconeIndex),
+            ChatDocument.setOwnerOnlyField(sessionId, this.basePath, "pineconeEnvironment", embeddingOptions.pineconeEnvironment),
+            ChatDocument.setOwnerOnlyField(sessionId, this.basePath, "pineconeKey", embeddingOptions.pineconeKey),
+        ]);
+
+        const a = document.createElement("a");
+        a.setAttribute("href", `/session/${json.gameNumber}`);
+        a.setAttribute("target", "_blank");
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
     }
 }
