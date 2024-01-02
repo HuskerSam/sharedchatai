@@ -107,10 +107,8 @@ export class SessionApp extends BaseApp {
   reset_engine_options_button: any = document.querySelector(".reset_engine_options_button");
   engine_sidebar_menu_button: any = document.querySelector(".engine_sidebar_menu_button");
   users_sidebar_menu_button: any = document.querySelector(".users_sidebar_menu_button");
-  recent_sidebar_menu_button: any = document.querySelector(".recent_sidebar_menu_button");
   sidebar_engine_panel: any = document.querySelector("#sidebar_engine_panel");
   sidebar_users_panel: any = document.querySelector("#sidebar_users_panel");
-  sidebar_recent_panel: any = document.querySelector("#sidebar_recent_panel");
 
   temperature_slider_label: any = document.querySelector(".temperature_slider_label");
   top_p_slider_label: any = document.querySelector(".top_p_slider_label");
@@ -118,7 +116,6 @@ export class SessionApp extends BaseApp {
   frequency_penalty_slider_label: any = document.querySelector(".frequency_penalty_slider_label");
   top_k_slider_label: any = document.querySelector(".top_k_slider_label");
   max_tokens_slider_label: any = document.querySelector(".max_tokens_slider_label");
-  recent_documents_list: any = document.querySelector(".recent_documents_list");
   sidebar_document_title: any = document.querySelector(".sidebar_document_title");
   menu_bar_doc_title: any = document.querySelector(".menu_bar_doc_title");
 
@@ -224,13 +221,6 @@ export class SessionApp extends BaseApp {
         this.saveProfileField("sidebarUsersExpanded", false);
       } else {
         this.saveProfileField("sidebarUsersExpanded", true);
-      }
-    });
-    this.recent_sidebar_menu_button.addEventListener("click", () => {
-      if (this.recent_sidebar_menu_button.getAttribute("aria-expanded") === "false") {
-        this.saveProfileField("sidebarRecentExpanded", false);
-      } else {
-        this.saveProfileField("sidebarRecentExpanded", true);
       }
     });
     this.sidebarusers_link_copy.addEventListener("click", () => BaseApp.copyGameLink(this.documentId, this.sidebarusers_link_copy));
@@ -362,44 +352,6 @@ export class SessionApp extends BaseApp {
     const assistsRef = collection(getFirestore(), `Games/${this.documentId}/assists`);
     const assistsQuery = query(assistsRef, orderBy(`created`, "desc"), limit(500));
     this.assistsSubscription = onSnapshot(assistsQuery, (snapshot: any) => this.updateAssistsFeed(snapshot));
-  }
-  /** setup data listener for recent document feed */
-  async initRecentDocumentsFeed() {
-    if (this.recentDocumentFeedRegistered) return;
-    this.recentDocumentFeedRegistered = true;
-
-    if (this.recentDocumentsSubscription) this.recentDocumentsSubscription();
-    const chatsRef = collection(getFirestore(), "Games");
-    const chatsQuery = query(chatsRef, orderBy(`members.${this.uid}`, "desc"), limit(6));
-    this.recentDocumentsSubscription = onSnapshot(chatsQuery,
-      (snapshot: any) => this.updateRecentDocumentFeed(snapshot));
-  }
-  /** paint recent document feed
-  * @param { any } snapshot firestore query data snapshot
-  */
-  updateRecentDocumentFeed(snapshot: any = null) {
-    if (snapshot) this.lastDocumentsSnapshot = snapshot;
-    else if (this.lastDocumentsSnapshot) snapshot = this.lastDocumentsSnapshot;
-    else return;
-
-    let html = "";
-    this.lastDocumentsSnapshot.forEach((doc: any) => {
-      if (doc.id !== this.documentId) {
-        const data = doc.data();
-        let title = BaseApp.escapeHTML(data.title);
-        if (!title) title = "untitled";
-        // const activityDate = data.created.substring(5, 16).replace("T", " ").replace("-", "/");
-        title = title.substring(0, 100);
-        const activityDate = this.showGmailStyleDate(new Date(data.lastActivity));
-        const rowHTML = `<li>
-        <a href="/session/${doc.id}">
-          <div class="sidebar_tree_recent_title title">${title}</div>
-          <div class="activity_date">${activityDate}</div>
-        </a></li>`;
-        html += rowHTML;
-      }
-    });
-    this.recent_documents_list.innerHTML = html;
   }
   /** paint user message feed
   * @param { any } snapshot firestore query data snapshot
@@ -1262,7 +1214,6 @@ export class SessionApp extends BaseApp {
           });
 
         this.initTicketFeed();
-        this.initRecentDocumentsFeed();
       }
 
       this.threshold_auto_exclude_checkbox.checked = this.profile.autoExclude;
@@ -1277,7 +1228,6 @@ export class SessionApp extends BaseApp {
   setSidebarTreeState() {
     this.engine_sidebar_menu_button.classList.add("suppress_transition");
     this.users_sidebar_menu_button.classList.add("suppress_transition");
-    this.recent_sidebar_menu_button.classList.add("suppress_transition");
 
     if (this.profile.sidebarEngineExpanded === false) {
       this.engine_sidebar_menu_button.classList.add("collapsed");
@@ -1297,19 +1247,9 @@ export class SessionApp extends BaseApp {
       this.users_sidebar_menu_button.setAttribute("aria-expanded", "true");
       this.sidebar_users_panel.classList.add("show");
     }
-    if (this.profile.sidebarRecentExpanded === false) {
-      this.recent_sidebar_menu_button.classList.add("collapsed");
-      this.recent_sidebar_menu_button.setAttribute("aria-expanded", "false");
-      this.sidebar_recent_panel.classList.remove("show");
-    } else {
-      this.recent_sidebar_menu_button.classList.remove("collapsed");
-      this.recent_sidebar_menu_button.setAttribute("aria-expanded", "true");
-      this.sidebar_recent_panel.classList.add("show");
-    }
     setTimeout(() => {
       this.engine_sidebar_menu_button.classList.remove("suppress_transition");
       this.users_sidebar_menu_button.classList.remove("suppress_transition");
-      this.recent_sidebar_menu_button.classList.remove("suppress_transition");
     }, 50);
   }
   /** paint game data (game document change handler)
