@@ -714,17 +714,11 @@ export default class BaseApp {
     if (fieldKey === "model_lock") {
       updatePacket.model_lock = data.model_lock;
     }
-    if (fieldKey === "pineconeKey") {
-      updatePacket.pineconeKey = data.pineconeKey;
-    }
     if (fieldKey === "pineconeEnvironment") {
       updatePacket.pineconeEnvironment = data.pineconeEnvironment;
     }
     if (fieldKey === "pineconeTopK") {
       updatePacket.pineconeTopK = data.pineconeTopK;
-    }
-    if (fieldKey === "pineconeIndex") {
-      updatePacket.pineconeIndex = data.pineconeIndex;
     }
     if (fieldKey === "externalSessionAPIKey") {
       updatePacket.externalSessionAPIKey = data.externalSessionAPIKey;

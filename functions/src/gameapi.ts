@@ -340,6 +340,8 @@ export default class GameAPI {
       "includeUserNames",
       "includePromptsInContext",
       "enableEmbedding",
+      "promptMainTemplate",
+      "promptDocumentTemplate",
     ];
     const updatePacket: any = {};
     fieldsFilter.forEach((field: string) => {

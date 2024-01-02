@@ -144,6 +144,18 @@ const models: any = {
 
 /** static functions for UI and api calls  */
 export default class SharedWithBackend {
+  /** */
+  static get defaultPromptMainTemplate() {
+    return `Please respond to the prompt below using the following chapters as guidance:
+{{documents}}
+Respond to this prompt:
+{{prompt}}`;
+  }
+  /** */
+  static get defaultPromptDocumentTemplate() {
+    return `Chapter ({{title}}):
+ {{text}}`;
+  }
   /** min and max returned in multiples of 20
    * @param { string } name model name
    * @return { any } returns model meta (contextualLimit, completionMax, completionMin)
