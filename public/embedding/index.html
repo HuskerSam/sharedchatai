@@ -54,11 +54,6 @@
                                 aria-selected="false">Test</a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" id="parse_embedding_tab_btn" data-bs-toggle="tab"
-                                href="#parse_embedding_tab_view" role="tab" aria-controls="pasre_embedding_tab_view"
-                                aria-selected="false">Parse</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
                             <a class="nav-link" id="publish_embedding_tab_btn" data-bs-toggle="tab"
                                 href="#publish_embedding_tab_view" role="tab" aria-controls="publish_embedding_tab_view"
                                 aria-selected="false">Publish</a>
@@ -249,7 +244,7 @@
                         <textarea class="prompt_area form-control" rows="6"></textarea>
                         <div style="text-align: right;line-height: 3.5em">
                             (top K = 10)
-                            <button class="run_prompt btn btn-primary">Query Documents for Prompt</button>
+                            <button class="run_prompt btn btn-secondary">Retrieve Documents</button>
                         </div>
                         <div class="embedding_query_results_table_wrapper styled_csv_table" style="margin-top: 8px;">
                         </div>
@@ -264,43 +259,6 @@
                             <button class="copy_resultdoclist_to_clipboard btn btn-primary"><i
                                     class="material-icons">content_copy</i> JSON</button>
                         </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="parse_embedding_tab_view" role="tabpanel"
-                    aria-labelledby="parse_embedding_tab_btn" style="overflow:auto;">
-                    <div class="container">
-                        <br>
-                        <h4>Enter URL (html, pdf or mp3) to parse</h4>
-                        <div class="parse_stretch_div">
-                            <div style="padding-top:6px;">URL</div>
-                            <div style="flex:1">
-                                <input type="text" class="parse_url_path_input form-control">
-                            </div>
-                            <div style="padding-top:6px;">
-                                Options
-                            </div>
-                            <div style="flex:0.5">
-                                <input type="text" class="parse_url_path_options form-control">
-                            </div>
-                            <div>
-                                <button class="parse_url_parse_button btn btn-primary">Parse</button>
-                            </div>
-                        </div>
-                        <h4 class="parsed_text_results_h4">Parsed Text Results</h4>
-                        <textarea class="form-control parse_url_text_results"></textarea>
-                        <h4>Splice into chunks</h4>
-                        <div class="parse_stretch_div">
-                            <div>
-                                <input type="text" class="parse_url_chunk_tokens form-control" value="1000">
-                            </div>
-                            <div style="padding-top:6px;">max size (tokens)</div>
-                            <div>
-                                <button class="parse_chunks_parse_button btn btn-primary">Chunk</button>
-                            </div>
-                            <div style="flex:1"></div>
-                        </div>
-                        <h4>Chunked Results</h4>
-                        <div class="chunking_results_wrapper styled_csv_table"></div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="publish_embedding_tab_view" role="tabpanel"

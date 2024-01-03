@@ -132,16 +132,6 @@ table tr td.table_cell_sizer {
   display: flex;
 }
 
-.parse_stretch_div {
-  display: flex;
-  flex-direction: row;
-}
-
-.parse_stretch_div div {
-  padding-left: 8px;
-  padding-right: 8px;
-}
-
 .parse_url_text_results {
   height: 150px;
   margin: 4px;
@@ -243,7 +233,10 @@ select.upsert_documents_list.form-select:active {
 .vector_count_floating_status .pinecone_index_name {
   position: relative;
   top: 4px;
-  display: inline-block;
+  display: inline-block;    
+  white-space: nowrap;
+  max-width: 200px;
+  overflow: hidden;
 }
 
 .connected_session_row {

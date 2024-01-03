@@ -25,6 +25,9 @@ import {
 import {
     TabulatorFull,
 } from "tabulator-tables";
+import ReactDOM from "react-dom";
+import DialogParseURL from "./components/dialogparseurl/dialogparseurl.jsx";
+import React from "react";
 
 /** Embedding upload app class */
 export class EmbeddingApp extends BaseApp {
@@ -55,15 +58,6 @@ export class EmbeddingApp extends BaseApp {
     pinecone_id_to_delete: any = document.querySelector(".pinecone_id_to_delete");
     upsert_embedding_tab_btn: any = document.querySelector("#upsert_embedding_tab_btn");
     add_row_btn: any = document.querySelector(".add_row_btn");
-    chunking_results_wrapper: any = document.querySelector(".chunking_results_wrapper");
-    parse_url_parse_button: any = document.querySelector(".parse_url_parse_button");
-    parse_url_path_input: any = document.querySelector(".parse_url_path_input");
-    parse_url_text_results: any = document.querySelector(".parse_url_text_results");
-    parse_url_path_options: any = document.querySelector(".parse_url_path_options");
-    parse_embedding_tab_btn: any = document.querySelector("#parse_embedding_tab_btn");
-    parsed_text_results_h4: any = document.querySelector(".parsed_text_results_h4");
-    parse_chunks_parse_button: any = document.querySelector(".parse_chunks_parse_button");
-    parse_url_chunk_tokens: any = document.querySelector(".parse_url_chunk_tokens");
     fetch_pinecone_vector_id: any = document.querySelector(".fetch_pinecone_vector_id");
     fetch_vector_results: any = document.querySelector(".fetch_vector_results");
     upsert_documents_list: any = document.querySelector(".upsert_documents_list");
@@ -105,6 +99,8 @@ export class EmbeddingApp extends BaseApp {
     resultChunks: Array<any> = [];
     userPreferencesInited = false;
     newUpsertDocumentCount = 0;
+    dialogParseURL: React.ReactElement;
+    dialogParseURLProps: any = {};
     first_table_row: any = document.querySelector(".first_table_row");
     tableColumns = [
         {
@@ -224,7 +220,7 @@ export class EmbeddingApp extends BaseApp {
             data: [],
             height: "100%",
             layout: "fitDataStretch",
-            columns: <any> this.tableColumns,
+            columns: <any>this.tableColumns,
         });
         this.csvUploadDocumentsTabulator.on("cellClick", async (e: any, cell: any) => {
             const field = cell.getField();
@@ -260,10 +256,10 @@ export class EmbeddingApp extends BaseApp {
                 setTimeout(() => cell.getElement().firstChild.innerHTML = `<i class="material-icons">content_copy</i>`, 800);
             }
             if (field === "parser") {
-                this.parse_url_path_input.value = data.url;
-                this.parse_url_path_options.value = data.options;
-                this.parse_embedding_tab_btn.click();
-                this.parse_url_parse_button.click();
+                this.dialogParseURL.props.setParseOptions(data.options);
+                this.dialogParseURL.props.setParseURL(data.url);
+                this.dialogParseURL.props.setShow(true);
+                this.dialogParseURL.props.setBasePath(this.basePath);
             }
             if (field === "deleteRow") {
                 this.deleteTableRow(data.id);
@@ -328,9 +324,6 @@ export class EmbeddingApp extends BaseApp {
         this.add_row_btn.addEventListener("click", (e: any) => this.addEmptyTableRow(e));
         this.updateQueriedDocumentList();
 
-        this.parse_url_parse_button.addEventListener("click", () => this.scrapeSingleURL());
-        this.parse_chunks_parse_button.addEventListener("click", () => this.parseText());
-        this.updateResultChunksTable();
         this.setTableTheme();
 
         this.fetch_pinecone_vector_id.addEventListener("click", () => this.fetchPineconeVector());
@@ -358,6 +351,11 @@ export class EmbeddingApp extends BaseApp {
         });
 
         this.create_connected_session.addEventListener("click", () => this.addConnectedSession());
+
+        const div = document.createElement("div");
+        document.body.appendChild(div);
+        this.dialogParseURL = React.createElement(DialogParseURL, this.dialogParseURLProps);
+        ReactDOM.render(this.dialogParseURL, div);
     }
     /**
      * @param { any } event
@@ -433,7 +431,6 @@ export class EmbeddingApp extends BaseApp {
                 let sortDir = this.profile.embedding_tableIdSortDirection;
                 this.tableIdSortDirection = sortDir;
                 if (sortDir !== "asc" && sortDir !== "desc") sortDir = "asc";
-                console.log("sortDir", sortDir);
                 this.csvUploadDocumentsTabulator.setSort([
                     {
                         column: "id",
@@ -735,14 +732,6 @@ export class EmbeddingApp extends BaseApp {
         });
     }
     /** */
-    async parseText() {
-        const threshold = Number(this.parse_url_chunk_tokens.value);
-        const fullText = this.parse_url_text_results.value;
-
-        this.resultChunks = await SharedWithBackend.parseBreakTextIntoChunks(threshold, fullText);
-        this.updateResultChunksTable();
-    }
-    /** */
     async queryEmbeddings() {
         const data = this.scrapeData();
         await this._queryEmbeddings(data.pineconePrompt, data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
@@ -908,52 +897,6 @@ export class EmbeddingApp extends BaseApp {
             pineconePrompt,
             pineconeChunkSize,
         };
-    }
-    /** */
-    async scrapeSingleURL() {
-        const url = this.parse_url_path_input.value;
-        const options = this.parse_url_path_options.value;
-        this.parse_url_parse_button.innerHTML = "Parsing...";
-        this.parse_url_text_results.value = "";
-        this.parsed_text_results_h4.innerHTML = "Processing...";
-        if (!url) {
-            alert("URL required");
-            return;
-        }
-
-        const body = {
-            url,
-            options,
-        };
-
-        const token = await getAuth().currentUser?.getIdToken();
-        const fResult = await fetch(this.basePath + "embeddingApi/scrapeurl", {
-            method: "POST",
-            mode: "cors",
-            cache: "no-cache",
-            headers: <HeadersInit>{
-                "Content-Type": "application/json",
-                token,
-            },
-            body: JSON.stringify(body),
-        });
-        this.parse_url_parse_button.innerHTML = "Parse";
-        const result = await fResult.json();
-        if (!result.success) {
-            this.parsed_text_results_h4.innerHTML = JSON.stringify(result, null, "\t");
-        } else {
-            const text = result.text;
-            this.parse_url_text_results.value = text;
-            let statusResult = `Parsed Text Results (${text.length} chars, `;
-            if (result.duration) {
-                const credits = result.encodingCredits;
-                statusResult += `${Math.ceil(result.duration)} seconds, ${credits} credits)`;
-            } else {
-                const tokens = this.tokenEncode(text);
-                statusResult += `${tokens.length} tokens)`;
-            }
-            this.parsed_text_results_h4.innerHTML = statusResult;
-        }
     }
     /** */
     setTableTheme() {
@@ -1146,31 +1089,6 @@ export class EmbeddingApp extends BaseApp {
         });
     }
     /** */
-    updateResultChunksTable() {
-        let fileContent = "<table class=\"chunked_text_results_table\">";
-        const keys = ["text", "tokens", "textSize"];
-        fileContent += "<tr>";
-        fileContent += `<th>row</th>`;
-        keys.forEach((key: string) => fileContent += `<th>${key}</th>`);
-        fileContent += "</tr>";
-
-        this.resultChunks.forEach((row: any, index: number) => {
-            fileContent += "<tr>";
-            fileContent += `<th>${index + 1}</th>`;
-            keys.forEach((key: string) => {
-                let value = row[key];
-                value = BaseApp.escapeHTML(value);
-
-                fileContent += `<td class="table_cell_sizer"><div>${value}</div></td>`;
-            });
-            fileContent += "</tr>";
-        });
-
-        fileContent += `</table>`;
-
-        this.chunking_results_wrapper.innerHTML = fileContent;
-    }
-    /** */
     async updateRowsCountFromFirestore() {
         const rowsPath = `Users/${this.uid}/embedding/${this.selectedProjectId}/data`;
         this.saveProfileField("selectedEmbeddingProjectId", this.selectedProjectId);
@@ -1334,24 +1252,24 @@ export class EmbeddingApp extends BaseApp {
             includePromptsInContext: false,
             model_lock: true,
             firstPrompt: "",
-          };
+        };
 
         const token = await getAuth().currentUser?.getIdToken() as string;
         const fResult = await fetch(this.basePath + "lobbyApi/games/create", {
-          method: "POST",
-          mode: "cors",
-          cache: "no-cache",
-          headers: {
-            "Content-Type": "application/json",
-            token,
-          },
-          body: JSON.stringify(body),
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            headers: {
+                "Content-Type": "application/json",
+                token,
+            },
+            body: JSON.stringify(body),
         });
         const json = await fResult.json();
         if (!json.success) {
-          console.log(json.errorMessage, json);
-          alert(json.errorMessage);
-          return;
+            console.log(json.errorMessage, json);
+            alert(json.errorMessage);
+            return;
         }
         const sessionId = json.gameNumber;
 

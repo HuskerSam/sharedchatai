@@ -295,7 +295,6 @@ export default class BaseApp {
   }
   /** update user auth status, username/email etc */
   updateUserStatus() {
-    console.log(this.menu_profile_user_image_span);
     if (this.menu_profile_user_image_span) this.menu_profile_user_image_span.setAttribute("uid", this.uid);
   }
   /** google sign in handler
