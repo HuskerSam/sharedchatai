@@ -220,7 +220,7 @@ export class EmbeddingApp extends BaseApp {
             data: [],
             height: "100%",
             layout: "fitDataStretch",
-            columns: <any>this.tableColumns,
+            columns: <any>(this.tableColumns),
         });
         this.csvUploadDocumentsTabulator.on("cellClick", async (e: any, cell: any) => {
             const field = cell.getField();
