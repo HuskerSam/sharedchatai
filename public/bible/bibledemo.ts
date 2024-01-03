@@ -13,10 +13,10 @@ export class BibleDemoApp {
   prompt_template_select_preset: any = document.body.querySelector(".prompt_template_select_preset");
   reset_template_options_button: any = document.body.querySelector(".reset_template_options_button");
   bibleData: any[] = [];
-  byVerseAPIToken = "2525ae99-368d-41c7-8256-99b64d64a2b6";
-  byVerseSessionId = "vkuyk8lg74nq";
-  byChapterToken = "6ac33c7b-5d2e-4518-9e05-664d04661929";
-  byChapterSessionId = "07yt1fqvoj9q";
+  byVerseAPIToken = "fc98f4ac-5652-41ee-a9b0-30f075a52e75";
+  byVerseSessionId = "1tcj94j3xci8";
+  byChapterToken = "e9c41497-6bca-4b29-99b5-7d14d0b9f66b";
+  byChapterSessionId = "2awh61527jpf";
   promptUrl = `https://us-central1-promptplusai.cloudfunctions.net/lobbyApi/session/external/message`;
   queryUrl = `https://us-central1-promptplusai.cloudfunctions.net/lobbyApi/session/external/vectorquery`;
 
