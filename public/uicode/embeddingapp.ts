@@ -100,7 +100,6 @@ export class EmbeddingApp extends BaseApp {
     userPreferencesInited = false;
     newUpsertDocumentCount = 0;
     dialogParseURL: React.ReactElement;
-    dialogParseURLProps: any = {};
     first_table_row: any = document.querySelector(".first_table_row");
     tableColumns = [
         {
@@ -354,7 +353,7 @@ export class EmbeddingApp extends BaseApp {
 
         const div = document.createElement("div");
         document.body.appendChild(div);
-        this.dialogParseURL = React.createElement(DialogParseURL, this.dialogParseURLProps);
+        this.dialogParseURL = React.createElement(DialogParseURL, {});
         ReactDOM.render(this.dialogParseURL, div);
     }
     /**
