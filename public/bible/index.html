@@ -24,14 +24,9 @@
   </script>
 </head>
 
-<body style="padding:20px;text-align: center;">
-  <div style="max-width:60em;padding-top:1em;display:inline-block;width:100%;text-align:left;">
-    <textarea class="analyze_prompt_textarea form-control" style="height:8em;"></textarea>
-    <br>
-    <button class="analyze_prompt_button btn-primary" style="float:right;width:10em;">Analyze Prompt</button>
-    <br>
-    <br>
-    <ul class="nav nav-tabs justify-content-center" role="tablist" style="width:100%;">
+<body style="padding:20px;text-align: center;max-height: 100vh;margin: 0;padding: 0;height: 100%;">
+  <div class=" d-flex flex-column" style="max-height: 100vh;">
+    <ul class="nav nav-tabs bg-light" role="tablist" style="width:100%;border-bottom: solid 1px #ddd; display: flex;flex: 0 0 auto;">
       <li class="nav-item" role="presentation">
         <a class="nav-link active" id="augmented_response_button" data-bs-toggle="tab" href="#augmented_response_view"
           role="tab" aria-controls="augmented_response_view" aria-selected="true">
@@ -69,7 +64,7 @@
         </a>
       </li>
     </ul>
-    <div class="tab-content">
+    <div class="tab-content" style="overflow-y: scroll;height: 90vh;">
       <div class="tab-pane fade" id="verses_view" role="tabpanel" aria-labelledby="verses_view_button">
         <div class="lookup_verse_response_feed"></div>
       </div>
@@ -116,7 +111,10 @@
         <div class="full_augmented_prompt"></div>
       </div>
     </div>
-
+    <div class="" style="position: relative;display: flex;justify-content: space-around;padding: 10px;background: #f1f1f1;border-top: solid 1px #ddd;">
+      <textarea class="analyze_prompt_textarea form-control" style="height:4em;"></textarea>
+      <button class="analyze_prompt_button btn-primary m-1" style="float:right;width:10em;">Analyze Prompt</button>
+    </div>
   </div>
   <style>
     .verse_card {
