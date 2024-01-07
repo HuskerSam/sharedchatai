@@ -105,7 +105,9 @@ export default function DialogParseURL(props) {
                 <button class="parse_url_parse_button btn btn-primary" onClick={scrapeSingleURL}>Parse</button>
                 <br />
                 <h4>Parsed Text Results</h4>
-                <div>{{parseStatus}}</div>
+                <div>
+                    { parseStatus }
+                </div>
                 <FormControl as="textarea" value={parseResult}>
                 </FormControl>
             </Modal.Body>
