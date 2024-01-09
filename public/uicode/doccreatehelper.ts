@@ -5,6 +5,7 @@ import {
 } from "firebase/auth";
 import Handlebars from "handlebars";
 import SlimSelect from "slim-select";
+import Papa from "papaparse";
 
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */
 export default class DocCreateHelper {
@@ -196,7 +197,7 @@ export default class DocCreateHelper {
         }),
       })]);
     } else {
-      const csvText = (<any>window).Papa.unparse(this.lastEmailRows);
+      const csvText = Papa.unparse(this.lastEmailRows);
       const file = new File([csvText], "bulkResults.csv", {
         type: "application/csv",
       });
