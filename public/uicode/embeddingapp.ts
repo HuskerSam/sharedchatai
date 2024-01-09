@@ -28,6 +28,7 @@ import {
 import ReactDOM from "react-dom";
 import DialogParseURL from "./components/dialogparseurl/dialogparseurl.jsx";
 import React from "react";
+import Papa from "papaparse";
 
 /** Embedding upload app class */
 export class EmbeddingApp extends BaseApp {
@@ -592,7 +593,7 @@ export class EmbeddingApp extends BaseApp {
         let fileName = "";
         if (csv) {
             fileName = "upsertResults.csv";
-            resultText = (<any>window).Papa.unparse(this.fileListToUpload);
+            resultText = Papa.unparse(this.fileListToUpload);
         } else {
             type = "application/json";
             fileName = "upsertResults.json";
