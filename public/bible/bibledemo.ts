@@ -2,7 +2,6 @@ export class BibleDemoApp {
   running = false;
   analyze_prompt_button: any = document.body.querySelector(".analyze_prompt_button");
   lookup_verse_response_feed: any = document.body.querySelector(".lookup_verse_response_feed");
-  augmented_chapters_view: any = document.body.querySelector("#augmented_chapters_view");
   full_augmented_prompt: any = document.body.querySelector(".full_augmented_prompt");
   full_augmented_response: any = document.body.querySelector(".full_augmented_response");
   analyze_prompt_textarea: any = document.body.querySelector(".analyze_prompt_textarea");
@@ -13,10 +12,10 @@ export class BibleDemoApp {
   prompt_template_select_preset: any = document.body.querySelector(".prompt_template_select_preset");
   reset_template_options_button: any = document.body.querySelector(".reset_template_options_button");
   bibleData: any[] = [];
-  byVerseAPIToken = "6ac33c7b-5d2e-4518-9e05-664d04661929";
-  byVerseSessionId = "07yt1fqvoj9q";
-  byChapterToken = "a1316745-313f-4bdf-b073-3705bf11a0e7";
-  byChapterSessionId = "vkuyk8lg74nq";
+  byVerseAPIToken = "9b2b6dcc-900d-4051-9947-a42830853d86";
+  byVerseSessionId = "lh3a4fui9n7j";
+  byChapterToken = "f4c8053f-fce6-40ae-a289-70c0a652dd54";
+  byChapterSessionId = "86t9gu1ho3di";
   promptUrl = `https://us-central1-promptplusai.cloudfunctions.net/lobbyApi/session/external/message`;
   queryUrl = `https://us-central1-promptplusai.cloudfunctions.net/lobbyApi/session/external/vectorquery`;
 
@@ -314,7 +313,6 @@ export class BibleDemoApp {
     localStorage.setItem("queryIndex", this.embedding_type_select.selectedIndex);
 
     this.full_augmented_response.innerHTML = "";
-    this.augmented_chapters_view.innerHTML = "";
     const message = this.analyze_prompt_textarea.value.trim();
     if (!message) {
       alert("please supply a message");
@@ -366,7 +364,6 @@ export class BibleDemoApp {
       chaptersText.push(chapterDetails.text);
     });
 
-    this.augmented_chapters_view.innerHTML = chaptersHTML;
     const prompt = this.embedPrompt(message, matches, queryDetails);
     this.full_augmented_prompt.innerHTML = prompt;
 
