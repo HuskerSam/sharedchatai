@@ -26,16 +26,15 @@ import {
     TabulatorFull,
 } from "tabulator-tables";
 import ReactDOM from "react-dom";
-import DialogParseURL from "./components/dialogparseurl/dialogparseurl.jsx";
 import React from "react";
+import DialogParseURL from "./components/dialogparseurl/dialogparseurl.jsx";
+import DialogTestPinecone from "./components/dialogtestpinecone/dialogtestpinecone.jsx";
 
 /** Embedding upload app class */
 export class EmbeddingApp extends BaseApp {
     help_show_modal: any = document.querySelector(".help_show_modal");
     sign_out_homepage: any = document.querySelector(".sign_out_homepage");
     upload_embedding_documents_btn: any = document.querySelector(".upload_embedding_documents_btn");
-    copy_results_to_clipboard: any = document.querySelector(".copy_results_to_clipboard");
-    run_prompt: any = document.querySelector(".run_prompt");
     delete_index: any = document.querySelector(".delete_index");
     embedding_query_results_table_wrapper: any = document.querySelector(".embedding_query_results_table_wrapper");
     batch_id: any = document.querySelector(".batch_id");
@@ -49,8 +48,6 @@ export class EmbeddingApp extends BaseApp {
     download_json_results_btn: any = document.querySelector(".download_json_results_btn");
     upsert_result_status_bar: any = document.querySelector(".upsert_result_status_bar");
     save_pineconeoptions_btn: any = document.querySelector(".save_pineconeoptions_btn");
-    copy_resultdoclist_to_clipboard: any = document.querySelector(".copy_resultdoclist_to_clipboard");
-    results_open_new_window: any = document.querySelector(".results_open_new_window");
     fetch_pinecone_index_stats_btn: any = document.querySelector(".fetch_pinecone_index_stats_btn");
     pinecone_index_stats_display: any = document.querySelector(".pinecone_index_stats_display");
     pinecone_index_name: any = document.querySelector(".pinecone_index_name");
@@ -75,6 +72,7 @@ export class EmbeddingApp extends BaseApp {
     options_embedding_tab_btn: any = document.querySelector("#options_embedding_tab_btn");
     connected_sessions_list: any = document.querySelector(".connected_sessions_list");
     create_connected_session: any = document.querySelector(".create_connected_session");
+    test_pinecone_dialog_btn: any = document.querySelector(".test_pinecone_dialog_btn");
     actionRunning = false;
     tableQueryFirstRow = 1;
     tableIdSortDirection = "";
@@ -84,7 +82,6 @@ export class EmbeddingApp extends BaseApp {
     selectedProjectId = "";
     selectedFilter = "";
     watchProjectListFirestore: any = null;
-    queryDocumentsResultRows: any = [];
     fileListToUpload: Array<any> = [];
     parsedTextChunks: Array<string> = [];
     pineconeQueryResults: any = {};
@@ -100,6 +97,7 @@ export class EmbeddingApp extends BaseApp {
     userPreferencesInited = false;
     newUpsertDocumentCount = 0;
     dialogParseURL: React.ReactElement;
+    dialogTestPinecone: React.ReactElement;
     first_table_row: any = document.querySelector(".first_table_row");
     tableColumns = [
         {
@@ -294,11 +292,7 @@ export class EmbeddingApp extends BaseApp {
                 }
             }
         });
-        this.run_prompt.addEventListener("click", () => this.queryEmbeddings());
         this.delete_index.addEventListener("click", () => this.deleteIndex());
-        this.copy_results_to_clipboard.addEventListener("click", () => {
-            navigator.clipboard.writeText(this.primedPrompt);
-        });
 
         this.upload_document_list_button.addEventListener("click", (event: any) => {
             this.embedding_list_file_dom.value = "";
@@ -312,17 +306,11 @@ export class EmbeddingApp extends BaseApp {
             const data = this.scrapeData();
             this._fetchIndexStats(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
         });
-        this.copy_resultdoclist_to_clipboard.addEventListener("click", () => this.copyQueryResultsToClipboard());
-        this.results_open_new_window.addEventListener("click", () => {
-            const wnd = window.open("about:blank", "", "_blank");
-            (<any>wnd).document.write(`<div style="white-space: pre-wrap">${this.primedPrompt}</div>`);
-        });
+
         this.fetch_pinecone_index_stats_btn.addEventListener("click", () => this.fetchIndexStats());
         this.delete_pinecone_vector_id.addEventListener("click", () => this.deletePineconeVector());
 
         this.add_row_btn.addEventListener("click", (e: any) => this.addEmptyTableRow(e));
-        this.updateQueriedDocumentList();
-
         this.setTableTheme();
 
         this.fetch_pinecone_vector_id.addEventListener("click", () => this.fetchPineconeVector());
@@ -355,6 +343,19 @@ export class EmbeddingApp extends BaseApp {
         document.body.appendChild(div);
         this.dialogParseURL = React.createElement(DialogParseURL, {});
         ReactDOM.render(this.dialogParseURL, div);
+
+        const div2 = document.createElement("div");
+        document.body.appendChild(div2);
+        this.dialogTestPinecone = React.createElement(DialogTestPinecone, {});
+        ReactDOM.render(this.dialogTestPinecone, div2);
+
+        this.test_pinecone_dialog_btn.addEventListener("click", (e: any) => {
+            e.preventDefault();
+            this.dialogTestPinecone.props.queryEmbeddings = (prompt: string) => {
+                return this.queryEmbeddings(prompt);
+            };
+            this.dialogTestPinecone.props.setShow(true);
+        });
     }
     /**
      * @param { any } event
@@ -442,11 +443,6 @@ export class EmbeddingApp extends BaseApp {
             this.watchProjectList();
             this.initUsageWatch();
         }
-    }
-    /** */
-    copyQueryResultsToClipboard() {
-        const jsonStr = JSON.stringify(this.pineconeQueryResults, null, "\t");
-        navigator.clipboard.writeText(jsonStr);
     }
     /** */
     async deleteIndex() {
@@ -698,7 +694,6 @@ export class EmbeddingApp extends BaseApp {
         let pineconeIndex = "";
         let pineconeKey = "";
         let pineconeEnvironment = "";
-        let pineconePrompt = "";
         let pineconeChunkSize = "";
         // 0c0df79a-cc2c-4efd-9835-fdaeb66df843
         if (this.selectedProjectId) {
@@ -707,7 +702,6 @@ export class EmbeddingApp extends BaseApp {
                 if (projectSettings.pineconeIndex !== undefined) pineconeIndex = projectSettings.pineconeIndex;
                 if (projectSettings.pineconeKey !== undefined) pineconeKey = projectSettings.pineconeKey;
                 if (projectSettings.pineconeEnvironment !== undefined) pineconeEnvironment = projectSettings.pineconeEnvironment;
-                if (projectSettings.pineconePrompt !== undefined) pineconePrompt = projectSettings.pineconePrompt;
                 if (projectSettings.pineconeChunkSize !== undefined) pineconeChunkSize = projectSettings.pineconeChunkSize;
             }
         }
@@ -716,7 +710,6 @@ export class EmbeddingApp extends BaseApp {
             pineconeIndex,
             pineconeKey,
             pineconeEnvironment,
-            pineconePrompt,
             pineconeChunkSize,
         };
     }
@@ -730,10 +723,12 @@ export class EmbeddingApp extends BaseApp {
             this.credits_left.innerHTML = Math.floor(availableBalance) + "<br><span>Credits</span>";
         });
     }
-    /** */
-    async queryEmbeddings() {
+    /**
+     * @param { string } prompt
+     */
+    async queryEmbeddings(prompt: string) {
         const data = this.scrapeData();
-        await this._queryEmbeddings(data.pineconePrompt, data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
+        await this._queryEmbeddings(prompt, data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
     }
     /** query matching vector documents
      * @param { string } query
@@ -750,11 +745,7 @@ export class EmbeddingApp extends BaseApp {
             alert("already running");
             return;
         }
-        this.queryDocumentsResultRows = [];
-        this.updateQueriedDocumentList();
-        this.primedPrompt = "";
 
-        this.run_prompt.innerHTML = "Processing...";
         this.vectorQueryRunning = true;
         const body = {
             query,
@@ -780,19 +771,8 @@ export class EmbeddingApp extends BaseApp {
         this.pineconeQueryResults = json;
 
         const resultRows = json.queryResponse.matches;
-        this.queryDocumentsResultRows = resultRows;
-        let primedPrompt = "";
-        resultRows.forEach((row: any) => {
-            const text = row.metadata.text;
-            primedPrompt += "Question: " + query +
-                "\n\nAnswer: " + text + "\n\n";
-        });
-        primedPrompt += "Question: " + query;
-        this.primedPrompt = primedPrompt;
-        this.updateQueriedDocumentList();
-
         this.vectorQueryRunning = false;
-        this.run_prompt.innerHTML = "Run Query";
+        return resultRows;
     }
     /**
  * @param { string } field
@@ -821,9 +801,6 @@ export class EmbeddingApp extends BaseApp {
                 this.saveEmbeddingField("pineconeKey", options.pineconeKey),
                 this.saveEmbeddingField("pineconeEnvironment", options.pineconeEnvironment),
             ]);
-        }
-        if (options.pineconePrompt !== profileOptions.pineconePrompt) {
-            await this.saveEmbeddingField("pineconePrompt", options.pineconePrompt);
         }
 
         if (options.pineconeChunkSize !== profileOptions.pineconeChunkSize) {
@@ -878,14 +855,12 @@ export class EmbeddingApp extends BaseApp {
         const pineconeIndex = this.batch_id.value;
         const pineconeKey = this.pinecone_key.value;
         const pineconeEnvironment = this.pinecone_environment.value;
-        const pineconePrompt = this.prompt_area.value;
         const pineconeChunkSize = this.chunk_size_default.value;
 
         this.savePineconeOptions({
             pineconeIndex,
             pineconeKey,
             pineconeEnvironment,
-            pineconePrompt,
             pineconeChunkSize,
         });
         return {
@@ -893,7 +868,6 @@ export class EmbeddingApp extends BaseApp {
             pineconeIndex,
             pineconeKey,
             pineconeEnvironment,
-            pineconePrompt,
             pineconeChunkSize,
         };
     }
@@ -1047,47 +1021,6 @@ export class EmbeddingApp extends BaseApp {
         this.updateWatchUpsertRows(true);
     }
     /** */
-    updateQueriedDocumentList() {
-        let fileContent = "<table class=\"query_result_documents_list\">";
-        const keys = ["similarity", "id", "url", "title", "text", "copy", "size", "encodingCredits"];
-        fileContent += "<tr>";
-        fileContent += `<th>row</th>`;
-        keys.forEach((key: string) => fileContent += `<th>${key}</th>`);
-        fileContent += "</tr>";
-
-        this.queryDocumentsResultRows.forEach((row: any, index: number) => {
-            fileContent += "<tr>";
-            fileContent += `<th>${index + 1}</th>`;
-            const newRow: any = {};
-            keys.forEach((key: string) => {
-                let value = row.metadata[key];
-                const rawValue = value;
-                value = BaseApp.escapeHTML(value);
-                if (key === "id") value = row.id;
-                if (key === "similarity") value = row.score;
-                if (key === "encodingCredits") value = rawValue.toString().substring(0, 6);
-                if (key === "size") value = row.metadata.text.length;
-                if (key === "url") value = `<a href="${rawValue}" target="_blank">${rawValue}</a>`;
-                if (key === "copy") {
-                    value = `<i class="material-icons">content_copy</i>`;
-                }
-                fileContent += `<td class="table_cell_sizer"><div>${value}</div></td>`;
-                newRow[key] = value;
-            });
-            fileContent += "</tr>";
-        });
-
-        fileContent += `</table>`;
-        this.embedding_query_results_table_wrapper.innerHTML = fileContent;
-        this.embedding_query_results_table_wrapper.querySelectorAll(".doc_text_copy_btn").forEach((btn: any) => {
-            btn.addEventListener("click", () => {
-                const index = btn.dataset.index;
-                const row = this.queryDocumentsResultRows[index];
-                navigator.clipboard.writeText(row.metadata.text);
-            });
-        });
-    }
-    /** */
     async updateRowsCountFromFirestore() {
         const rowsPath = `Users/${this.uid}/embedding/${this.selectedProjectId}/data`;
         this.saveProfileField("selectedEmbeddingProjectId", this.selectedProjectId);
@@ -1147,7 +1080,6 @@ export class EmbeddingApp extends BaseApp {
         this.batch_id.value = options.pineconeIndex;
         this.pinecone_key.value = options.pineconeKey;
         this.pinecone_environment.value = options.pineconeEnvironment;
-        this.prompt_area.value = options.pineconePrompt;
         this.chunk_size_default.value = options.pineconeChunkSize;
         this.fetchIndexStats();
         this.fileListToUpload = [];
@@ -1190,7 +1122,6 @@ export class EmbeddingApp extends BaseApp {
             orderBy("createUser"),
             orderBy("hashed_pineconeKey"),
             orderBy("hashed_pineconeIndex"),
-            where("createUser", "==", this.uid),
             where("hashed_pineconeKey", "==", keyHash),
             where("hashed_pineconeIndex", "==", indexHash));
 

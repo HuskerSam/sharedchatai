@@ -254,7 +254,7 @@ From
           system: "",
         });
       });
-      const csvText = (<any>window).Papa.unparse(rows);
+      const csvText = Papa.unparse(rows);
       resultText = csvText;
       displayText = BaseApp.escapeHTML(resultText);
     } else if (fileFormat === "Text") {

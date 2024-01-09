@@ -49,11 +49,6 @@
                                 aria-selected="true">Documents</a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" id="test_embedding_tab_btn" data-bs-toggle="tab"
-                                href="#test_embedding_tab_view" role="tab" aria-controls="test_embedding_tab_view"
-                                aria-selected="false">Test</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
                             <a class="nav-link" id="publish_embedding_tab_btn" data-bs-toggle="tab"
                                 href="#publish_embedding_tab_view" role="tab" aria-controls="publish_embedding_tab_view"
                                 aria-selected="false">Publish</a>
@@ -99,6 +94,9 @@
                             </button>
                         </div>
                         <div>
+                            <a class="btn btn-secondary test_pinecone_dialog_btn" href="testpinecone">
+                                Test
+                            </a>
                             <a class="btn btn-secondary upload_document_list_button" href="importrows">
                                 <i class="material-icons">upload_file</i> Import
                             </a>
@@ -236,29 +234,6 @@
                             </tr>
                         </table>
                         <div class="pinecone_index_stats_display"></div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="test_embedding_tab_view" role="tabpanel"
-                    aria-labelledby="test_embedding_tab_btn" style="padding: 10px;">
-                    <div class="container">
-                        <textarea class="prompt_area form-control" rows="6"></textarea>
-                        <div style="text-align: right;line-height: 3.5em">
-                            (top K = 10)
-                            <button class="run_prompt btn btn-secondary">Retrieve Documents</button>
-                        </div>
-                        <div class="embedding_query_results_table_wrapper styled_csv_table" style="margin-top: 8px;">
-                        </div>
-                        <div style="text-align: right;">
-                            <button class="copy_results_to_clipboard btn btn-primary"><i
-                                    class="material-icons">content_copy</i>
-                                Prompt</button>
-                            <button class="results_open_new_window btn btn-primary"><i
-                                    class="material-icons">open_in_new</i></button>
-                            &nbsp;
-                            &nbsp;
-                            <button class="copy_resultdoclist_to_clipboard btn btn-primary"><i
-                                    class="material-icons">content_copy</i> JSON</button>
-                        </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="publish_embedding_tab_view" role="tabpanel"

@@ -46,6 +46,28 @@
       "queryScope": "COLLECTION",
       "fields": [
         {
+          "fieldPath": "hashed_pineconeIndex",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "hashed_pineconeKey",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "lastActivity",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createUser",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Games",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
           "fieldPath": "players",
           "arrayConfig": "CONTAINS"
         },
