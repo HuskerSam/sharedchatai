@@ -3,7 +3,7 @@ import {
   BaseClass,
 } from "./baseclass";
 import SessionAPI from "./sessionapi";
-import SharedWithBackend from "./uicode/sharedwithbackend";
+import SharedWithBackend from "./../../public/uicode/sharedwithbackend";
 import {
   FieldValue,
 } from "firebase-admin/firestore";
