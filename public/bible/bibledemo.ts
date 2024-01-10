@@ -139,7 +139,7 @@ export class BibleDemoApp {
       console.log(result);
     }
 
-    let html = "";
+    let html = "Most Relevant Verses...<br>";
     result.matches.forEach((match) => {
       const metaData = JSON.stringify(match.metadata, null, "\n");
       const block = `<div class="verse_card">
@@ -194,7 +194,7 @@ export class BibleDemoApp {
       console.log(result);
     }
 
-    let html = "";
+    let html = "Most Relevant Chapters...<br>";
     result.matches.forEach((match) => {
       const metaData = JSON.stringify(match.metadata, null, "\n");
       const block = `<div class="verse_card">
@@ -404,10 +404,10 @@ export class BibleDemoApp {
     const showLessButton = document.createElement("button");
     showLessButton.innerHTML = "Less";
     showLessButton.addEventListener("click", () => {
-      this.full_augmented_prompt.innerHTML = prompt.slice(0, 250) + "...";
+      this.full_augmented_prompt.innerHTML = prompt.slice(0, 500) + "...";
       this.full_augmented_prompt.appendChild(showMoreButton);
     });
-    this.full_augmented_prompt.innerHTML = prompt.slice(0, 250) + "...";
+    this.full_augmented_prompt.innerHTML = prompt.slice(0, 500) + "...";
     this.full_augmented_prompt.appendChild(showMoreButton);
 
    
