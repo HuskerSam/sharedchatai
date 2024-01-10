@@ -7,6 +7,7 @@ export class BibleDemoApp {
   analyze_prompt_textarea: any = document.body.querySelector(".analyze_prompt_textarea");
   lookup_chapter_response_feed: any = document.body.querySelector(".lookup_chapter_response_feed");
   embedding_type_select: any = document.body.querySelector(".embedding_type_select");
+  embedding_diagram_img: any = document.body.querySelector(".embedding_diagram_img");
   prompt_template_text_area: any = document.body.querySelector(".prompt_template_text_area");
   document_template_text_area: any = document.body.querySelector(".document_template_text_area");
   prompt_template_select_preset: any = document.body.querySelector(".prompt_template_select_preset");
@@ -43,6 +44,29 @@ export class BibleDemoApp {
     if (templateIndex && templateIndex > 0) this.prompt_template_select_preset.selectedIndex = templateIndex;
     let queryIndex: any = localStorage.getItem("queryIndex");
     if (queryIndex && queryIndex > 0) this.embedding_type_select.selectedIndex = queryIndex;
+
+    /*select correct embedding_diagram_img based on saved embedding_type_select value from local storage*/
+    if (this.embedding_type_select.selectedIndex === 0) {
+      this.embedding_diagram_img.src = "img/ragChapterVerses.png";
+    }
+    if (this.embedding_type_select.selectedIndex === 1) {
+      this.embedding_diagram_img.src = "img/ragVerses.png";
+    } if (this.embedding_type_select.selectedIndex === 2) {
+      this.embedding_diagram_img.src = "img/ragChapters.png";
+    }
+    /*change embedding_diagram_img when embedding_type_select value is changed*/
+    this.embedding_type_select.addEventListener("input", () => {
+      if (this.embedding_type_select.selectedIndex === 0) {
+        this.embedding_diagram_img.src = "img/ragChapterVerses.png";
+      }
+      if (this.embedding_type_select.selectedIndex === 1) {
+        this.embedding_diagram_img.src = "img/ragVerses.png";
+      } if (this.embedding_type_select.selectedIndex === 2) {
+        this.embedding_diagram_img.src = "img/ragChapters.png";
+      }
+    }); 
+
+
 
     this.populatePromptTemplates(0);
     this.analyze_prompt_textarea.addEventListener("keydown", (e: any) => {
@@ -312,7 +336,7 @@ export class BibleDemoApp {
     localStorage.setItem("templateIndex", this.prompt_template_select_preset.selectedIndex);
     localStorage.setItem("queryIndex", this.embedding_type_select.selectedIndex);
 
-    this.full_augmented_response.innerHTML = "";
+    this.full_augmented_response.innerHTML = "Processing Query...";
     const message = this.analyze_prompt_textarea.value.trim();
     if (!message) {
       alert("please supply a message");
@@ -364,8 +388,29 @@ export class BibleDemoApp {
       chaptersText.push(chapterDetails.text);
     });
 
+    
+
+    
     const prompt = this.embedPrompt(message, matches, queryDetails);
     this.full_augmented_prompt.innerHTML = prompt;
+/* shorten full_augmented_prompt text to show only first and last 100 characters, hiding the rest; create show more button; switch show more button to show less button*/
+    const showMoreButton = document.createElement("button");
+    showMoreButton.innerHTML = "More";
+    showMoreButton.addEventListener("click", () => {
+      this.full_augmented_prompt.innerHTML = prompt;
+      this.full_augmented_prompt.appendChild(showLessButton);
+      showMoreButton.classList.add("showLessButton");
+    });
+    const showLessButton = document.createElement("button");
+    showLessButton.innerHTML = "Less";
+    showLessButton.addEventListener("click", () => {
+      this.full_augmented_prompt.innerHTML = prompt.slice(0, 250) + "...";
+      this.full_augmented_prompt.appendChild(showMoreButton);
+    });
+    this.full_augmented_prompt.innerHTML = prompt.slice(0, 250) + "...";
+    this.full_augmented_prompt.appendChild(showMoreButton);
+
+   
 
     const body = {
       message: prompt,
@@ -434,7 +479,7 @@ export class BibleDemoApp {
 
 const promptTemplates = [
   {
-    mainPrompt: `Please respond to the following prompt using these Biblical chapters as guidance:
+    mainPrompt: `Respond to the following prompt using these Biblical chapters as guidance:
 {{documents}}
 Respond to prompt using Biblical language:
 {{prompt}}`,
@@ -444,7 +489,7 @@ Respond to prompt using Biblical language:
 `,
   },
   {
-    mainPrompt: `Please write a new chapter using these Biblical chapters as guidance:
+    mainPrompt: `Write a new chapter using these Biblical chapters as guidance:
 {{documents}}
 As primary guidance use:
 {{prompt}}`,
@@ -454,7 +499,7 @@ As primary guidance use:
 `,
   },
   {
-    mainPrompt: `Please spiritual guidance using a Biblical voice using these chapters as reference:
+    mainPrompt: `Provide spiritual guidance using a Biblical voice using these chapters as reference:
 {{documents}}
 This is the specific prompt to respond to:
 {{prompt}}`,
@@ -464,7 +509,7 @@ This is the specific prompt to respond to:
 `,
   },
   {
-    mainPrompt: `Please provide a subject score in a range of 1-10 for political correctness for high school students in the USA for the following documents:
+    mainPrompt: `Provide a subject score in a range of 1-10 for political correctness for high school students in the USA for the following documents:
 {{documents}}
 Please respond with json and only json in this format:
 {

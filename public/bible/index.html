@@ -24,72 +24,86 @@
   </script>
 </head>
 
-<body style="padding:20px;text-align: center;max-height: 100vh;margin: 0;padding: 0;height: 100%;">
-  <div class=" d-flex flex-column" style="max-height: 100vh;">
-    <ul class="nav nav-tabs bg-light" role="tablist" style="width:100%;border-bottom: solid 1px #ddd; display: flex;flex: 0 0 auto;">
-      <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="augmented_response_button" data-bs-toggle="tab" href="#augmented_response_view"
-          role="tab" aria-controls="augmented_response_view" aria-selected="true">
-          Response
-        </a>
-      </li>
-      <li class="nav-item" role="presentation">
-        <a class="nav-link" id="verses_view_button" data-bs-toggle="tab" href="#verses_view" role="tab"
-          aria-controls="verses_view" aria-selected="false">
-          Chapters by Verse
-        </a>
-      </li>
-      <li class="nav-item" role="presentation">
-        <a class="nav-link" id="chapters_view_button" data-bs-toggle="tab" href="#chapters_view" role="tab"
-          aria-controls="chapters_view" aria-selected="false">
-          Chapters
-        </a>
-      </li>
-      <li class="nav-item" role="presentation">
-        <a class="nav-link" id="augmented_template_button" data-bs-toggle="tab" href="#augmented_template_view"
-          role="tab" aria-controls="augmented_template_view" aria-selected="false">
-          Prompt Template
-        </a>
-      </li>
-      <li class="nav-item" role="presentation">
-        <a class="nav-link" id="augmented_fullprompt_button" data-bs-toggle="tab" href="#augmented_fullprompt_view"
-          role="tab" aria-controls="augmented_fullprompt_view" aria-selected="false">
-          Embedded Prompt
-        </a>
-      </li>
-    </ul>
-    
-    <div class="tab-content" style="overflow-y: scroll;height: 90vh;">
-      <div class="tab-pane fade" id="verses_view" role="tabpanel" aria-labelledby="verses_view_button">
-        <div class="lookup_verse_response_feed"></div>
+<body class="d-flex h-100 text-center text-white bg-dark">
+  <div class="cover-container container-xl d-flex flex-column h-100 w-100 p-3 mx-auto">
+
+    <header class="mb-2">
+      <div>
+        <h3 class="float-md-start mb-0">Bible Lookup</h3>
+        <ul class="nav nav-tabs nav-masthead justify-content-center float-md-end" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a class="nav-link active" id="augmented_response_button" data-bs-toggle="tab" href="#augmented_response_view"
+            role="tab" aria-controls="augmented_response_view" aria-selected="true">
+            Chat
+          </a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="augmented_template_button" data-bs-toggle="tab" href="#augmented_template_view"
+            role="tab" aria-controls="augmented_template_view" aria-selected="false">
+            Template
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+            aria-expanded="false">Sources</a>
+          <ul class="dropdown-menu">
+            <li><a class="nav-link" id="verses_view_button" data-bs-toggle="tab" href="#verses_view" role="tab"
+                aria-controls="verses_view" aria-selected="false">
+                by Verses
+              </a></li>
+            <li><a class="nav-link" id="chapters_view_button" data-bs-toggle="tab" href="#chapters_view" role="tab"
+                aria-controls="chapters_view" aria-selected="false">
+                by Chapters
+              </a></li>
+          </ul>
+        </li>
+      </ul>
       </div>
-      <div class="tab-pane fade" id="chapters_view" role="tabpanel" aria-labelledby="chapters_view_button">
-        <div class="lookup_chapter_response_feed"></div>
-      </div>
-      <div class="tab-pane fade show active" id="augmented_response_view" role="tabpanel"
+    </header>
+
+  
+
+    <div class="tab-content px-3">
+
+
+      <div class="tab-pane fade show active py-4" id="augmented_response_view" role="tabpanel"
         aria-labelledby="augmented_response_button">
-        <div class="full_augmented_response"></div>
+        <div class="row align-items-md-stretch text-start">
+          <div class="col-md-6 p-2">
+            <div class="h-100 p-4 bg-light rounded-3 text-dark border border-primary">
+              <div class="small mb-4 text-muted">Actual Prompt, Template + Embedded Data</div>
+              <div class="my-1">
+                <div class="full_augmented_prompt px-2"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 p-2">
+            <div class="h-100 p-4 bg-dark border rounded-3 text-white">
+              <div class="small mb-4 text-muted">Retrieval Augmented Response</div>
+              <div class="my-1">
+                <div class="full_augmented_response"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="input-group pt-4">
+          <textarea class="analyze_prompt_textarea form-control" style="height:4em;" placeholder="Enter your prompt"
+            type="text"></textarea>
+          <button class="analyze_prompt_button btn btn-primary" type="submit">Analyze</button>
+        </div>
       </div>
+
+
       <div class="tab-pane fade" id="augmented_template_view" role="tabpanel"
         aria-labelledby="augmented_template_button" style="padding-left: 5%">
-        <br>
-        <button class="reset_template_options_button btn btn-secondary" style="float:right;">Reset</button>
-        <label>Type of Embedding: </label>
-        <select class="form-select embedding_type_select" style="width:auto;display:inline-block;">
-          <option>Query Verses to Embed Chapters</option>
-          <option>Query Verses to Embed Verses</option>
-          <option>Query Chapter to Embed Chapter</option>
-        </select>
-        <br>
-        <br>
         <label>Preset Prompts</label>
-        <select class="form-select prompt_template_select_preset" style="width:auto;display:inline-block;">
+        <select class="form-select prompt_template_select_preset">
           <option selected>Augmented Response</option>
           <option>Write a new chapter</option>
           <option>Provide guidance</option>
           <option>Judge if embeds politically correct</option>
         </select>
-        <br>
         <br>
         <label>Prompt Template: </label><br>
         <textarea style="height:15em;width:90%;" class="prompt_template_text_area"></textarea>
@@ -97,18 +111,57 @@
         <br>
         <label>Embed Template: </label><br>
         <textarea style="height:5em;width:90%;" class="document_template_text_area"></textarea>
+        <label>Embedding Type: </label>
+        <select class="form-select embedding_type_select">
+          <option>Query Verses to Embed Chapters</option>
+          <option>Query Verses to Embed Verses</option>
+          <option>Query Chapter to Embed Chapter</option>
+        </select>
+        <button class="reset_template_options_button btn btn-secondary">Default Settings</button>
+        <div id="" class="form-text">
+          Select the type of embedding you want to use.
+        </div>
+
+        <div>
+          <img class="embedding_diagram_img" src="" alt="" width="50%" height="50%">
+        </div>
+
+
       </div>
-      <div class="tab-pane fade" id="augmented_fullprompt_view" role="tabpanel"
-        aria-labelledby="augmented_fullprompt_button">
-        <div class="full_augmented_prompt"></div>
+
+
+      <div class="tab-pane fade" id="verses_view" role="tabpanel" aria-labelledby="verses_view_button">
+        <figure class="figure">
+          <img src="img/retrievalVerses.png" alt="Verses" width="100%" height="100%" class="p-3"
+            style="max-width: 60vh;">
+          <figcaption class="figure-caption">Retrieval by Verses</figcaption>
+        </figure><br>
+        <div class="text-start small p-1">Results:</div>
+        <div class="lookup_verse_response_feed"></div>
+      </div>
+      <div class="tab-pane fade" id="chapters_view" role="tabpanel" aria-labelledby="chapters_view_button">
+        <figure class="figure">
+          <img src="img/retrievalChapters.png" alt="Chapters" width="100%" height="100%" class="p-3"
+            style="max-width: 60vh;">
+          <figcaption class="figure-caption">Retrieval by Chapters</figcaption>
+        </figure><br>
+        <div class="text-start small p-1">Results:</div>
+        <div class="lookup_chapter_response_feed"></div>
       </div>
     </div>
-    <div class="" style="position: relative;display: flex;justify-content: space-around;padding: 10px;background: #f1f1f1;border-top: solid 1px #ddd;">
-      <textarea class="analyze_prompt_textarea form-control" style="height:4em;"></textarea>
-      <button class="analyze_prompt_button btn-primary m-1" style="float:right;width:10em;">Analyze Prompt</button>
-    </div>
+
+
+    <footer class="mt-auto text-white-50">
+      <p>A Bible RAG Demo by <a href="https://unacog.com" class="text-white">Unacog</a>.</p>
+    </footer>
   </div>
+
+
   <style>
+    html {
+      height: 100%;
+    }
+
     .verse_card {
       margin: 12px;
       border-radius: 12px;
