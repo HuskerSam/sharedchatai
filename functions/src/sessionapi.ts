@@ -16,7 +16,7 @@ import {
     encode,
     decode,
 } from "gpt-tokenizer";
-import SharedWithBackend from "./uicode/sharedwithbackend";
+import SharedWithBackend from "./../../public/uicode/sharedwithbackend";
 import type {
     Request,
     Response,
@@ -74,8 +74,8 @@ export default class SessionAPI {
     static processPrompt(vectorResults: Array<any>, pineconeThreshold: number,
         maxTokens: number, query: string): any {
         let tokensIncluded = 0;
-        const textAnswers = [];
-        const matchesIncluded = [];
+        const textAnswers: any = [];
+        const matchesIncluded: any = [];
         for (let c = 0, l = vectorResults.length; c < l; c++) {
             if (vectorResults[c].score >= pineconeThreshold) {
                 const text = vectorResults[c].metadata.text;

@@ -2,7 +2,7 @@ import * as firebaseAdmin from "firebase-admin";
 import {
     BaseClass,
 } from "./baseclass";
-import SharedWithBackend from "./uicode/sharedwithbackend";
+import SharedWithBackend from "./../../public/uicode/sharedwithbackend";
 import type {
     Request,
     Response,

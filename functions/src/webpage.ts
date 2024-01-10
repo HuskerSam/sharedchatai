@@ -1,7 +1,7 @@
 import fs from "fs";
 import fsp from "fs/promises";
 import Handlebars from "handlebars";
-import SharedWithBackend from "./uicode/sharedwithbackend";
+import SharedWithBackend from "./../../public/uicode/sharedwithbackend";
 
 /** */
 export default class WebPage {
