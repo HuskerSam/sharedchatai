@@ -24,7 +24,7 @@
   </script>
 </head>
 
-<body class="d-flex h-100 text-center text-white bg-dark">
+<body class="d-flex h-100 text-center text-black">
   <div class="cover-container container-xl d-flex flex-column h-100 w-100 p-3 mx-auto">
 
     <header class="mb-2">
@@ -40,7 +40,7 @@
         <li class="nav-item" role="presentation">
           <a class="nav-link" id="augmented_template_button" data-bs-toggle="tab" href="#augmented_template_view"
             role="tab" aria-controls="augmented_template_view" aria-selected="false">
-            Template
+            Option
           </a>
         </li>
         <li class="nav-item dropdown">
@@ -70,9 +70,9 @@
         aria-labelledby="augmented_response_button">
         <div class="row align-items-md-stretch text-start">
           <div class="col-md-6 p-2">
-            <div class="h-100 p-4 bg-light rounded-3 text-dark border border-primary">
+            <div class="h-100 p-4 bg-light rounded-3 text-dark border border-secondary">
               <div class="small mb-4 text-muted">Actual Prompt, Template + Embedded Data</div>
-              <div class="my-1">
+              <div class="my-1" style="min-height:200px">
                 <div class="full_augmented_prompt px-2"></div>
               </div>
             </div>
@@ -80,14 +80,14 @@
           <div class="col-md-6 p-2">
             <div class="h-100 p-4 bg-dark border rounded-3 text-white">
               <div class="small mb-4 text-muted">Retrieval Augmented Response</div>
-              <div class="my-1">
+              <div class="my-1" style="min-height:200px">
                 <div class="full_augmented_response"></div>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="input-group pt-4">
+        <div class="input-group input-group-lg pt-4">
           <textarea class="analyze_prompt_textarea form-control" style="height:4em;" placeholder="Enter your prompt"
             type="text"></textarea>
           <button class="analyze_prompt_button btn btn-primary" type="submit">Analyze</button>
@@ -95,38 +95,42 @@
       </div>
 
 
-      <div class="tab-pane fade" id="augmented_template_view" role="tabpanel"
-        aria-labelledby="augmented_template_button" style="padding-left: 5%">
-        <label>Preset Prompts</label>
-        <select class="form-select prompt_template_select_preset">
-          <option selected>Augmented Response</option>
-          <option>Write a new chapter</option>
-          <option>Provide guidance</option>
-          <option>Judge if embeds politically correct</option>
-        </select>
-        <br>
-        <label>Prompt Template: </label><br>
-        <textarea style="height:15em;width:90%;" class="prompt_template_text_area"></textarea>
-        <br>
-        <br>
-        <label>Embed Template: </label><br>
-        <textarea style="height:5em;width:90%;" class="document_template_text_area"></textarea>
-        <label>Embedding Type: </label>
-        <select class="form-select embedding_type_select">
-          <option>Query Verses to Embed Chapters</option>
-          <option>Query Verses to Embed Verses</option>
-          <option>Query Chapter to Embed Chapter</option>
-        </select>
-        <button class="reset_template_options_button btn btn-secondary">Default Settings</button>
-        <div id="" class="form-text">
-          Select the type of embedding you want to use.
+      <div class="tab-pane fade text-start py-4" id="augmented_template_view" role="tabpanel"
+        aria-labelledby="augmented_template_button">
+        <div class="row align-items-md-stretch">
+          <div class="col-md-6 p-2">
+            <div class="h-100 p-4 bg-light rounded-3 border border-secondary">
+              <div class="small mb-4 text-muted">Embedding Type</div>
+              <select class="form-select embedding_type_select">
+                <option>Query Verses to Embed Chapters</option>
+                <option>Query Verses to Embed Verses</option>
+                <option>Query Chapter to Embed Chapter</option>
+              </select>
+              <img class="embedding_diagram_img img-fluid pt-2" src="" alt="" width="100%" height="100%">
+            </div>
+          </div>
+          <div class="col-md-6 p-2">
+            <div class="h-100 p-4 bg-light rounded-3 border border-secondary">
+              <div class="small mb-4 text-muted">Prompt Templates</div>
+              <select class="form-select prompt_template_select_preset">
+                <option selected>Augmented Response</option>
+                <option>Write a new chapter</option>
+                <option>Provide guidance</option>
+                <option>Judge if embeds politically correct</option>
+              </select>
+              <br>
+              <label>Prompt Template: </label><br>
+              <textarea style="height:15em;width:100%;" class="prompt_template_text_area"></textarea>
+              <br>
+              <br>
+              <label>Embed Template: </label><br>
+              <textarea style="height:5em;width:100%;" class="document_template_text_area"></textarea>
+              <button class="reset_template_options_button btn btn-secondary">Default Settings</button>
+              <br>
+              <br>
+            </div>
+          </div>
         </div>
-
-        <div>
-          <img class="embedding_diagram_img" src="" alt="" width="50%" height="50%">
-        </div>
-
-
       </div>
 
 
@@ -151,8 +155,8 @@
     </div>
 
 
-    <footer class="mt-auto text-white-50">
-      <p>A Bible RAG Demo by <a href="https://unacog.com" class="text-white">Unacog</a>.</p>
+    <footer class="mt-auto text-muted">
+      <p>A Bible RAG Demo by <a href="https://unacog.com" class="text-black">Unacog</a>.</p>
     </footer>
   </div>
 
