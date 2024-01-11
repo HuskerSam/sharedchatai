@@ -24,10 +24,10 @@
   </script>
 </head>
 
-<body class="d-flex h-100 text-center text-black">
+<body class="d-flex h-100 text-center text-black initial">
   <div class="cover-container container-xl d-flex flex-column h-100 w-100 p-3 mx-auto">
 
-    <header class="mb-2">
+    <header>
       <div>
         <h3 class="float-md-start mb-0">Bible Lookup</h3>
         <ul class="nav nav-tabs nav-masthead justify-content-center float-md-end" role="tablist">
@@ -43,23 +43,11 @@
               Option
             </a>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-              aria-expanded="false">Sources</a>
-            <ul class="dropdown-menu">
-              <li><a class="nav-link" id="verses_view_button" data-bs-toggle="tab" href="#verses_view" role="tab"
-                  aria-controls="verses_view" aria-selected="false">
-                  by Verses
-                </a></li>
-              <li><a class="nav-link" id="chapters_view_button" data-bs-toggle="tab" href="#chapters_view" role="tab"
-                  aria-controls="chapters_view" aria-selected="false">
-                  by Chapters
-                </a></li>
-            </ul>
-          </li>
         </ul>
       </div>
     </header>
+
+
 
 
     <div class="tab-content px-3">
@@ -68,16 +56,54 @@
         <div class="row align-items-md-stretch text-start">
           <div class="col-md-6 p-2">
             <div class="h-100 p-4 bg-light rounded-3 text-dark border border-secondary">
-              <div class="small mb-4 text-muted">Actual Prompt, Template + Embedded Data</div>
-              <div class="my-1" style="min-height:200px">
-                <div class="full_augmented_prompt px-2 text-muted"></div>
+              <div class="my-1 tab-content" style="height:50vh;overflow: auto;overflow-x: unset;">
+
+                <div class="tab-pane fade show active" id="chapters_view" role="tabpanel"
+                  aria-labelledby="chapters_view_button">
+                  <div class="initial_user_message">Enter a Prompt to Continue</div>
+                  <div class="lookup_chapter_response_feed"></div>
+                  <a type="button" class="nav-link text-center pipeline_detail_anchor_hide" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Chapter Fetch Pipeline Detail
+                  </a>
+                </div>
+                <div class="tab-pane fade" id="verses_view" role="tabpanel" aria-labelledby="verses_view_button">
+                  <div class="initial_user_message">Enter a Prompt to Continue</div>
+                  <div class="lookup_verse_response_feed"></div>
+                  <a type="button" class="nav-link text-center pipeline_detail_anchor_hide" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                    Verse Fetch Pipeline Detail
+                  </a>
+                </div>
+                <div class="tab-pane fade" id="full_augmented_prompt_view" role="tabpanel"
+                  aria-labelledby="full_augmented_prompt_view">
+                  <div class="initial_user_message">Enter a Prompt to Continue</div>
+                  <div class="summary_details"></div>
+                </div>
               </div>
+              <ul class="nav nav-pills justify-content-center">
+                <li class="nav-item"><a class="nav-link active" id="chapters_view_button" data-bs-toggle="tab"
+                    href="#chapters_view" role="tab" aria-controls="chapters_view" aria-selected="true">
+                    Chapters
+                  </a></li>
+                <li class="nav-item">
+                  <a class="nav-link" id="verses_view_button" data-bs-toggle="tab" href="#verses_view" role="tab"
+                    aria-controls="verses_view" aria-selected="false">
+                    Verses
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="full_augmented_prompt_button" data-bs-toggle="tab"
+                    href="#full_augmented_prompt_view" role="tab" aria-controls="full_augmented_prompt_view"
+                    aria-selected="false">
+                    Details
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
           <div class="col-md-6 p-2">
             <div class="h-100 p-4 bg-dark border rounded-3 text-white">
               <div class="small mb-4 text-muted">Retrieval Augmented Response</div>
-              <div class="my-1" style="min-height:200px">
+              <div class="my-1" style="height:50vh;overflow: auto;overflow-x: unset;">
                 <div class="full_augmented_response"></div>
               </div>
             </div>
@@ -121,32 +147,10 @@
                 <option>Query Verses to Embed Verses</option>
                 <option>Query Chapter to Embed Chapter</option>
               </select>
-              <img class="embedding_diagram_img img-fluid pt-4" src="" alt="" width="100%" height="100%">
+              <a target="_blank" class="embedding_diagram_anchor"><img class="embedding_diagram_img img-fluid pt-4" src="" alt="" width="100%" height="100%"></a>
               <div class="text-muted small">Different techniques such as small-to big retrieval as shown here can
                 improve quality of results</div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="tab-pane fade" id="verses_view" role="tabpanel" aria-labelledby="verses_view_button">
-        <div class="lookup_verse_response_feed"></div>
-        <div class="p-2">
-          <div class="p-3 bg-light rounded-3 text-dark border border-secondary">
-            <div class="small mb-4 text-muted">Enter Prompt, Retrieve Most Relevant Verses</div>
-            <img src="img/retrievalVerses.png" alt="Verses" width="100%" height="100%" class="p-3 img-fluid"
-              style="max-width: 60vh;">
-          </div>
-        </div>
-      </div>
-
-      <div class="tab-pane fade" id="chapters_view" role="tabpanel" aria-labelledby="chapters_view_button">
-        <div class="lookup_chapter_response_feed"></div>
-        <div class="p-2">
-          <div class="p-3 bg-light rounded-3 text-dark border border-secondary">
-            <div class="small mb-4 text-muted">Enter Prompt, Retrieve Most Relevant Chapters</div>
-            <img src="img/retrievalChapters.png" alt="Chapters" width="100%" height="100%" class="p-3"
-              style="max-width: 60vh;">
           </div>
         </div>
       </div>
@@ -157,6 +161,41 @@
     </footer>
   </div>
 
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Retrieve by Chapter</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <img src="img/retrievalChapters.png" alt="Chapters" width="100%" height="100%" class="p-3">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel2">Retrieve by Verse</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <img src="img/retrievalVerses.png" alt="Verses" width="100%" height="100%" class="p-3 img-fluid">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <style>
     html {
@@ -188,6 +227,24 @@
 
     label {
       font-weight: bold;
+    }
+
+    .raw_prompt {
+      white-space: pre-wrap;
+    }
+
+   .pipeline_detail_anchor_hide {
+      display: none;
+    }
+    .running .pipeline_detail_anchor_hide,
+    .complete .pipeline_detail_anchor_hide {
+      display: block;
+    }
+    .initial .initial_user_message {
+      display: block;
+    }
+    .initial_user_message {
+      display: none;
     }
   </style>
 </body>

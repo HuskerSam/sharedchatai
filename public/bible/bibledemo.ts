@@ -2,12 +2,13 @@ export class BibleDemoApp {
   running = false;
   analyze_prompt_button: any = document.body.querySelector(".analyze_prompt_button");
   lookup_verse_response_feed: any = document.body.querySelector(".lookup_verse_response_feed");
-  full_augmented_prompt: any = document.body.querySelector(".full_augmented_prompt");
+  summary_details: any = document.body.querySelector(".summary_details");
   full_augmented_response: any = document.body.querySelector(".full_augmented_response");
   analyze_prompt_textarea: any = document.body.querySelector(".analyze_prompt_textarea");
   lookup_chapter_response_feed: any = document.body.querySelector(".lookup_chapter_response_feed");
   embedding_type_select: any = document.body.querySelector(".embedding_type_select");
   embedding_diagram_img: any = document.body.querySelector(".embedding_diagram_img");
+  embedding_diagram_anchor: any = document.body.querySelector(".embedding_diagram_anchor");
   prompt_template_text_area: any = document.body.querySelector(".prompt_template_text_area");
   document_template_text_area: any = document.body.querySelector(".document_template_text_area");
   prompt_template_select_preset: any = document.body.querySelector(".prompt_template_select_preset");
@@ -29,7 +30,11 @@ export class BibleDemoApp {
       }
       this.analyze_prompt_button.setAttribute("disabled", "");
       this.analyze_prompt_button.innerHTML = "Analyzing...";
+      this.summary_details.innerHTML = "Loading...";
       this.running = true;
+      document.body.classList.remove("initial");
+      document.body.classList.add("running");
+      document.body.classList.remove("complete");
       await Promise.all([
         this.lookupChaptersByVerse(),
         this.lookupChapters(),
@@ -38,6 +43,8 @@ export class BibleDemoApp {
       this.analyze_prompt_button.removeAttribute("disabled");
       this.analyze_prompt_button.innerHTML = "Analyze Prompt";
       this.running = false;
+      document.body.classList.add("complete");
+      document.body.classList.remove("running");
     });
     this.prompt_template_select_preset.addEventListener("input", () => this.populatePromptTemplates());
     let templateIndex: any = localStorage.getItem("templateIndex");
@@ -48,21 +55,27 @@ export class BibleDemoApp {
     /*select correct embedding_diagram_img based on saved embedding_type_select value from local storage*/
     if (this.embedding_type_select.selectedIndex === 0) {
       this.embedding_diagram_img.src = "img/ragChapterVerses.png";
+      this.embedding_diagram_anchor.href = "img/ragChapterVerses.png";
     }
     if (this.embedding_type_select.selectedIndex === 1) {
       this.embedding_diagram_img.src = "img/ragVerses.png";
+      this.embedding_diagram_anchor.href = "img/ragVerses.png";
     } if (this.embedding_type_select.selectedIndex === 2) {
       this.embedding_diagram_img.src = "img/ragChapters.png";
+      this.embedding_diagram_anchor.href = "img/ragChapters.png";
     }
     /*change embedding_diagram_img when embedding_type_select value is changed*/
     this.embedding_type_select.addEventListener("input", () => {
       if (this.embedding_type_select.selectedIndex === 0) {
         this.embedding_diagram_img.src = "img/ragChapterVerses.png";
+        this.embedding_diagram_anchor.href = "img/ragChapterVerses.png";
       }
       if (this.embedding_type_select.selectedIndex === 1) {
         this.embedding_diagram_img.src = "img/ragVerses.png";
+        this.embedding_diagram_anchor.href = "img/ragVerses.png";
       } if (this.embedding_type_select.selectedIndex === 2) {
         this.embedding_diagram_img.src = "img/ragChapters.png";
+        this.embedding_diagram_anchor.href = "img/ragChapters.png";
       }
     }); 
 
@@ -223,22 +236,7 @@ export class BibleDemoApp {
       }
     })));
   }
-  escapeHTML(str: string): string {
-    if (str === undefined || str === null) str = "";
-    str = str.toString();
-    return str.replace(/[&<>'"]/g,
-      (match) => {
-        switch (match) {
-          case "&": return "&amp;";
-          case "<": return "&lt;";
-          case ">": return "&gt;";
-          case "'": return "&#39;";
-          case "\"": return "&quot;";
-        }
 
-        return match;
-      });
-  }
   getChapter(bookIndex: string, chapterIndex: string, verseIndex = -1): any {
     let verses = this.bibleData.filter((verse) => {
       if (verse.bookIndex.toString() === bookIndex &&
@@ -392,24 +390,13 @@ export class BibleDemoApp {
 
     
     const prompt = this.embedPrompt(message, matches, queryDetails);
-    this.full_augmented_prompt.innerHTML = prompt;
-/* shorten full_augmented_prompt text to show only first and last 100 characters, hiding the rest; create show more button; switch show more button to show less button*/
-    const showMoreButton = document.createElement("button");
-    showMoreButton.innerHTML = "More";
-    showMoreButton.addEventListener("click", () => {
-      this.full_augmented_prompt.innerHTML = prompt;
-      this.full_augmented_prompt.appendChild(showLessButton);
-      showMoreButton.classList.add("showLessButton");
-    });
-    const showLessButton = document.createElement("button");
-    showLessButton.innerHTML = "Less";
-    showLessButton.addEventListener("click", () => {
-      this.full_augmented_prompt.innerHTML = prompt.slice(0, 500) + "...";
-      this.full_augmented_prompt.appendChild(showMoreButton);
-    });
-    this.full_augmented_prompt.innerHTML = prompt.slice(0, 500) + "...";
-    this.full_augmented_prompt.appendChild(showMoreButton);
-
+    const diagram = this.embedding_diagram_img.src;
+    this.summary_details.innerHTML = `<a target="_blank" class="embedding_diagram_anchor" href="${diagram}"><img style="width:100px;float:right" class="embedding_diagram_img" src="${diagram}" alt=""></a>
+    <label>Pinecone Source</label>: ${this.embedding_type_select.selectedIndex < 2 ? "Verse" : "Chapter"}<br>
+    <label>Small to Big</label>: ${this.embedding_type_select.selectedIndex === 0 ? "True" : "False"}<br>
+    <label>Top K</label>: ${queryDetails.topK}<br>
+    <label>Include K</label>: ${queryDetails.includeK}<br>
+    <label>Full Raw Prompt</label>: <div class="raw_prompt">${prompt}</div><br>`;
    
 
     const body = {
@@ -435,9 +422,9 @@ export class BibleDemoApp {
       console.log(promptResult);
     }
     if (promptResult.assist.error) {
-      this.full_augmented_response.innerHTML = this.escapeHTML(promptResult.assist.error);
+      this.full_augmented_response.innerHTML = promptResult.assist.error;
     } else {
-      this.full_augmented_response.innerHTML = this.escapeHTML(promptResult.assist.assist.choices["0"].message.content);
+      this.full_augmented_response.innerHTML = promptResult.assist.assist.choices["0"].message.content;
     }
   }
   embedPrompt(prompt: string, matches: any[], queryDetails: any): string {
