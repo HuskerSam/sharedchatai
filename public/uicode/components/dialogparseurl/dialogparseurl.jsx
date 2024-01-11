@@ -40,7 +40,6 @@ export default function DialogParseURL(props) {
     props.setBasePath = setBasePath;
 
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
 
     /** */
     const scrapeSingleURL = async () => {
