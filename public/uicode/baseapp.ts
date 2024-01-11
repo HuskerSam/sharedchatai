@@ -390,7 +390,7 @@ export default class BaseApp {
    * @param { boolean } amFormat use am and pm for time if true
    * @return { string } formatted date
   */
-  showGmailStyleDate(dt: Date, amFormat = false): string {
+  static showGmailStyleDate(dt: Date, amFormat = false): string {
     if (Date.now() - dt.getTime() < 24 * 60 * 60 * 1000) {
       if (amFormat) return BaseApp.formatAMPM(dt);
 
@@ -579,7 +579,7 @@ export default class BaseApp {
 
       let dateDisplay: string;
       if (useGmailStyle) {
-        dateDisplay = this.showGmailStyleDate(new Date(isoTime));
+        dateDisplay = BaseApp.showGmailStyleDate(new Date(isoTime));
       } else {
         dateDisplay = this.timeSince(new Date(isoTime), (showSeconds === "1")).replaceAll(" ago", "");
       }

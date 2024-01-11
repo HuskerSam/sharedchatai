@@ -48,11 +48,6 @@
                                 href="#upsert_embedding_tab_view" role="tab" aria-controls="upsert_embedding_tab_view"
                                 aria-selected="true">Documents</a>
                         </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" id="publish_embedding_tab_btn" data-bs-toggle="tab"
-                                href="#publish_embedding_tab_view" role="tab" aria-controls="publish_embedding_tab_view"
-                                aria-selected="false">Publish</a>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -94,6 +89,9 @@
                             </button>
                         </div>
                         <div>
+                            <a class="btn btn-secondary publish_pinecone_dialog_btn" href="publish">
+                                Publish
+                            </a>
                             <a class="btn btn-secondary test_pinecone_dialog_btn" href="testpinecone">
                                 Test
                             </a>
@@ -234,15 +232,6 @@
                             </tr>
                         </table>
                         <div class="pinecone_index_stats_display"></div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="publish_embedding_tab_view" role="tabpanel"
-                aria-labelledby="publish_embedding_tab_btn" style="overflow:auto;">
-                    <div class="container">
-                        <h4>Connected Sessions</h4>
-                        <div class="connected_sessions_list"></div>
-                        <br>
-                        <button class="btn btn-primary create_connected_session">Create Connected Session</button>
                     </div>
                 </div>
             </div>
