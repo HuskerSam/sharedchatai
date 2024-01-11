@@ -29,7 +29,7 @@ export class BibleDemoApp {
         return;
       }
       this.analyze_prompt_button.setAttribute("disabled", "");
-      this.analyze_prompt_button.innerHTML = "Analyzing...";
+      this.analyze_prompt_button.innerHTML = "Retrieving results...";
       this.summary_details.innerHTML = "Loading...";
       this.running = true;
       document.body.classList.remove("initial");
@@ -41,7 +41,7 @@ export class BibleDemoApp {
         this.sendPromptToLLM(),
       ]);
       this.analyze_prompt_button.removeAttribute("disabled");
-      this.analyze_prompt_button.innerHTML = "Analyze Prompt";
+      this.analyze_prompt_button.innerHTML = "Bible Lookup";
       this.running = false;
       document.body.classList.add("complete");
       document.body.classList.remove("running");
@@ -155,19 +155,23 @@ export class BibleDemoApp {
     let html = "Most Relevant Verses...<br>";
     result.matches.forEach((match) => {
       const metaData = JSON.stringify(match.metadata, null, "\n");
+
       const block = `<div class="verse_card">
             <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="book">${match.metadata.book}</a>
             <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="chapter"
                       data-chapterindex="${match.metadata.chapterIndex}">${Number(match.metadata.chapterIndex) + 1}</a>
-            <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="verse"
+            <span class="fw-bold" href="" data-bookindex="${match.metadata.bookIndex}" data-link="verse"
             data-chapterindex="${match.metadata.chapterIndex}"
-            data-verseindex="${match.metadata.verseIndex}">${Number(match.metadata.verseIndex) + 1}</a>
-              ${(match.score * 100).toFixed()}%
+            data-verseindex="${match.metadata.verseIndex}">${Number(match.metadata.verseIndex) + 1}</span>
+            <span style="float: right;">Match: ${(match.score * 100).toFixed()}%</span>
               <br>
               <div>${match.metadata.text}</div>
             </div>`;
       html += block;
     });
+
+
+
 
     this.lookup_verse_response_feed.innerHTML = html;
 
@@ -212,9 +216,9 @@ export class BibleDemoApp {
       const metaData = JSON.stringify(match.metadata, null, "\n");
       const block = `<div class="verse_card">
           <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="book">${match.metadata.book}</a>
-          <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="chapter"
-                    data-chapterindex="${match.metadata.chapterIndex}">${Number(match.metadata.chapterIndex) + 1}</a>
-            ${(match.score * 100).toFixed()}%
+          <span class="fw-bold" href="" data-bookindex="${match.metadata.bookIndex}" data-link="chapter"
+                    data-chapterindex="${match.metadata.chapterIndex}">${Number(match.metadata.chapterIndex) + 1}</span>
+          <span style="float: right;">Match: ${(match.score * 100).toFixed()}%</span>
             <br>
             <div>${match.metadata.text}</div>
           </div>`;

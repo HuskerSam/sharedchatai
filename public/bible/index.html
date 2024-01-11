@@ -25,31 +25,31 @@
 </head>
 
 <body class="d-flex h-100 text-center text-black initial">
-  <div class="container-xl d-flex flex-column h-100 w-100 p-3 mx-auto">
+  <div class="container-xl d-flex flex-column h-100 w-100 mx-auto">
 
 
     <div class="tab-content" style="margin-top:auto;margin-bottom:auto;">
       <div class="tab-pane fade show active" id="augmented_response_view" role="tabpanel"
         aria-labelledby="augmented_response_button">
-        <div class="input-group input-group">
-          <textarea class="analyze_prompt_textarea form-control" style="" placeholder="Enter your prompt"
+        <div class="d-grid gap-2 pt-4 pt-sm-2">
+          <textarea class="analyze_prompt_textarea form-control-lg" style="" placeholder="Enter your prompt"
             type="text"></textarea>
-          <button class="analyze_prompt_button btn btn-primary" type="submit">Process</button>
+          <button class="analyze_prompt_button btn btn-success" type="submit">Process Bible Lookup</button>
         </div>
-        <div class="row align-items-md-stretch text-start">
-          <div class="col-md-6 p-2">
-            <div class="h-100 p-4 bg-light rounded-3 text-dark border border-secondary">
+        <div class="row align-items-md-stretch text-start py-3">
+          <div class="col-md-6 pe-md-1">
+            <div class="h-100 p-3 bg-light text-dark border rounded border-2" style="background-image: var(--bs-gradient);">
               <div class="my-1 tab-content" style="height:50vh;overflow: auto;overflow-x: unset;">
                 <div class="tab-pane fade show active" id="chapters_view" role="tabpanel"
                   aria-labelledby="chapters_view_button">
-                  <div class="initial_user_message">Enter a Prompt to Continue</div>
+                  <div class="initial_user_message text-muted" style="cursor: not-allowed;">Enter a prompt to discover most relevant bible chapters</div>
                   <div class="lookup_chapter_response_feed"></div>
                   <a type="button" class="nav-link text-center pipeline_detail_anchor_hide" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Chapter Fetch Pipeline Detail
                   </a>
                 </div>
                 <div class="tab-pane fade" id="verses_view" role="tabpanel" aria-labelledby="verses_view_button">
-                  <div class="initial_user_message">Enter a Prompt to Continue</div>
+                  <div class="initial_user_message text-muted" style="cursor: not-allowed;">Enter a prompt to discover most relevant bible verses</div>
                   <div class="lookup_verse_response_feed"></div>
                   <a type="button" class="nav-link text-center pipeline_detail_anchor_hide" data-bs-toggle="modal" data-bs-target="#exampleModal2">
                     Verse Fetch Pipeline Detail
@@ -57,11 +57,11 @@
                 </div>
                 <div class="tab-pane fade" id="full_augmented_prompt_view" role="tabpanel"
                   aria-labelledby="full_augmented_prompt_view">
-                  <div class="initial_user_message">Enter a Prompt to Continue</div>
+                  <div class="initial_user_message text-muted" style="cursor: not-allowed;">Enter a prompt to see details</div>
                   <div class="summary_details"></div>
                 </div>
               </div>
-              <ul class="nav nav-pills justify-content-center">
+              <ul class="nav nav-pills justify-content-center border-top pt-3">
                 <li class="nav-item"><a class="nav-link active" id="chapters_view_button" data-bs-toggle="tab"
                     href="#chapters_view" role="tab" aria-controls="chapters_view" aria-selected="true">
                     Chapters
@@ -82,11 +82,13 @@
               </ul>
             </div>
           </div>
-          <div class="col-md-6 p-2">
-            <div class="h-100 p-4 bg-dark border rounded-3 text-white">
-              <div class="small mb-4 text-muted">Retrieval Augmented Response</div>
+          <div class="col-md-6 ps-md-1 pt-md-0 pt-2">
+            <div class="h-100 p-3 bg-dark text-white border border-secondary border-2 rounded" style="background-image: var(--bs-gradient);">
               <div class="my-1" style="height:50vh;overflow: auto;overflow-x: unset;">
                 <div class="full_augmented_response"></div>
+              </div>
+              <div class="augmented_response_user_msg text-center border-top pt-3 border-secondary">
+                Your Augmented Response
               </div>
             </div>
           </div>
@@ -126,7 +128,7 @@
                 <option>Query Chapter to Embed Chapter</option>
               </select>
               <a target="_blank" class="embedding_diagram_anchor"><img class="embedding_diagram_img img-fluid pt-4" src="" alt="" width="100%" height="100%"></a>
-              <div class="text-muted small">Your results will vary based on the retrieval technique</div>
+              <div class="text-muted small text-center pt-1">Your results will vary based on the retrieval technique</div>
             </div>
           </div>
         </div>
@@ -234,6 +236,7 @@
     }
     .initial .initial_user_message {
       display: block;
+      text-align: center;
     }
     .initial_user_message {
       display: none;
