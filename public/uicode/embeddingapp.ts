@@ -29,6 +29,7 @@ import ReactDOM from "react-dom";
 import React from "react";
 import DialogParseURL from "./components/dialogparseurl/dialogparseurl.jsx";
 import DialogTestPinecone from "./components/dialogtestpinecone/dialogtestpinecone.jsx";
+import DialogPublishEmbedding from "./components/dialogpublishembedding/dialogpublishembedding.jsx";
 import Papa from "papaparse";
 
 /** Embedding upload app class */
@@ -71,9 +72,8 @@ export class EmbeddingApp extends BaseApp {
     next_table_page_btn: any = document.querySelector(".next_table_page_btn");
     upsert_next_loop_checkbox: any = document.querySelector(".upsert_next_loop_checkbox");
     options_embedding_tab_btn: any = document.querySelector("#options_embedding_tab_btn");
-    connected_sessions_list: any = document.querySelector(".connected_sessions_list");
-    create_connected_session: any = document.querySelector(".create_connected_session");
     test_pinecone_dialog_btn: any = document.querySelector(".test_pinecone_dialog_btn");
+    publish_pinecone_dialog_btn: any = document.querySelector(".publish_pinecone_dialog_btn");
     actionRunning = false;
     tableQueryFirstRow = 1;
     tableIdSortDirection = "";
@@ -98,6 +98,7 @@ export class EmbeddingApp extends BaseApp {
     newUpsertDocumentCount = 0;
     dialogParseURL: React.ReactElement;
     dialogTestPinecone: React.ReactElement;
+    dialogPublishEmbedding: React.ReactElement;
     first_table_row: any = document.querySelector(".first_table_row");
     tableColumns = [
         {
@@ -337,8 +338,6 @@ export class EmbeddingApp extends BaseApp {
             this.updateWatchUpsertRows();
         });
 
-        this.create_connected_session.addEventListener("click", () => this.addConnectedSession());
-
         const div = document.createElement("div");
         document.body.appendChild(div);
         this.dialogParseURL = React.createElement(DialogParseURL, {});
@@ -355,6 +354,19 @@ export class EmbeddingApp extends BaseApp {
                 return this.queryEmbeddings(prompt);
             };
             this.dialogTestPinecone.props.setShow(true);
+        });
+
+        const div3 = document.createElement("div");
+        document.body.appendChild(div3);
+        this.dialogPublishEmbedding = React.createElement(DialogPublishEmbedding, {});
+        ReactDOM.render(this.dialogPublishEmbedding, div3);
+
+        this.publish_pinecone_dialog_btn.addEventListener("click", (e: any) => {
+            e.preventDefault();
+            this.dialogPublishEmbedding.props.addConnectedSession = async () => {
+                return this.addConnectedSession();
+            };
+            this.dialogPublishEmbedding.props.setShow(true);
         });
     }
     /**
@@ -1127,14 +1139,10 @@ export class EmbeddingApp extends BaseApp {
             where("hashed_pineconeKey", "==", keyHash),
             where("hashed_pineconeIndex", "==", indexHash));
 
-        this.connectedSessionsFirestore = onSnapshot(sessionsQuery, (snapshot: any) => {
-            let html = "";
-            snapshot.forEach((doc: any) => {
-                const activityDate = this.showGmailStyleDate(new Date(doc.data().lastActivity));
-                html += `<a class="connected_session_row" target="_blank"
-                 href="/session/${doc.id}">${doc.data().title} | ${activityDate} | ${doc.id}</a>`;
-            });
-            this.connected_sessions_list.innerHTML = html;
+        this.connectedSessionsFirestore = onSnapshot(sessionsQuery, (snapshot: any) => {    
+            const array: any = [];
+            snapshot.forEach((doc: any) => array.push(doc));      
+            this.dialogPublishEmbedding.props.setSessions(array);
         });
     }
     /** */
