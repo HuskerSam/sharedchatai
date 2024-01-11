@@ -79,8 +79,6 @@ export class BibleDemoApp {
       }
     }); 
 
-
-
     this.populatePromptTemplates(0);
     this.analyze_prompt_textarea.addEventListener("keydown", (e: any) => {
       if (e.key === "Enter" && e.shiftKey === false) {
@@ -112,6 +110,8 @@ export class BibleDemoApp {
       localStorage.setItem("promptTemplate", this.prompt_template_text_area.value);
       localStorage.setItem("documentTemplate", this.document_template_text_area.value);
     });
+    this.analyze_prompt_textarea.focus();
+    this.analyze_prompt_textarea.select();
   }
   async getMatchingVectors(message: string, topK: number, apiToken: string, sessionId: string): Promise<any> {
     const body = {
@@ -392,7 +392,7 @@ export class BibleDemoApp {
     const prompt = this.embedPrompt(message, matches, queryDetails);
     const diagram = this.embedding_diagram_img.src;
     this.summary_details.innerHTML = `<a target="_blank" class="embedding_diagram_anchor" href="${diagram}"><img style="width:100px;float:right" class="embedding_diagram_img" src="${diagram}" alt=""></a>
-    <label>Pinecone Source</label>: ${this.embedding_type_select.selectedIndex < 2 ? "Verse" : "Chapter"}<br>
+    <label>Granularity Level</label>: ${this.embedding_type_select.selectedIndex < 2 ? "Verse" : "Chapter"}<br>
     <label>Small to Big</label>: ${this.embedding_type_select.selectedIndex === 0 ? "True" : "False"}<br>
     <label>Top K</label>: ${queryDetails.topK}<br>
     <label>Include K</label>: ${queryDetails.includeK}<br>

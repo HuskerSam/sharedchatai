@@ -27,32 +27,15 @@
 <body class="d-flex h-100 text-center text-black initial">
   <div class="cover-container container-xl d-flex flex-column h-100 w-100 p-3 mx-auto">
 
-    <header>
-      <div>
-        <h3 class="float-md-start mb-0">Bible Lookup</h3>
-        <ul class="nav nav-tabs nav-masthead justify-content-center float-md-end" role="tablist">
-          <li class="nav-item" role="presentation">
-            <a class="nav-link active" id="augmented_response_button" data-bs-toggle="tab"
-              href="#augmented_response_view" role="tab" aria-controls="augmented_response_view" aria-selected="true">
-              Chat
-            </a>
-          </li>
-          <li class="nav-item" role="presentation">
-            <a class="nav-link" id="augmented_template_button" data-bs-toggle="tab" href="#augmented_template_view"
-              role="tab" aria-controls="augmented_template_view" aria-selected="false">
-              Option
-            </a>
-          </li>
-        </ul>
-      </div>
-    </header>
 
-
-
-
-    <div class="tab-content px-3">
-      <div class="tab-pane fade show active py-4" id="augmented_response_view" role="tabpanel"
+    <div class="tab-content">
+      <div class="tab-pane fade show active py-3" id="augmented_response_view" role="tabpanel"
         aria-labelledby="augmented_response_button">
+        <div class="input-group input-group">
+          <textarea class="analyze_prompt_textarea form-control" style="height:4em;" placeholder="Enter your prompt"
+            type="text"></textarea>
+          <button class="analyze_prompt_button btn btn-primary" type="submit">Process</button>
+        </div>
         <div class="row align-items-md-stretch text-start">
           <div class="col-md-6 p-2">
             <div class="h-100 p-4 bg-light rounded-3 text-dark border border-secondary">
@@ -109,15 +92,9 @@
             </div>
           </div>
         </div>
-
-        <div class="input-group input-group-lg pt-4">
-          <textarea class="analyze_prompt_textarea form-control" style="height:4em;" placeholder="Enter your prompt"
-            type="text"></textarea>
-          <button class="analyze_prompt_button btn btn-primary" type="submit">Analyze Prompt</button>
-        </div>
       </div>
 
-      <div class="tab-pane fade text-start py-4" id="augmented_template_view" role="tabpanel"
+      <div class="tab-pane fade text-start py-2" id="augmented_template_view" role="tabpanel"
         aria-labelledby="augmented_template_button">
         <div class="row align-items-md-stretch">
           <div class="col-md-6 p-2">
@@ -155,6 +132,21 @@
         </div>
       </div>
     </div>
+
+    <ul class="nav nav-tabs nav-masthead justify-content-center float-md-end" role="tablist">
+      <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="augmented_response_button" data-bs-toggle="tab"
+          href="#augmented_response_view" role="tab" aria-controls="augmented_response_view" aria-selected="true">
+          Chat
+        </a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="augmented_template_button" data-bs-toggle="tab" href="#augmented_template_view"
+          role="tab" aria-controls="augmented_template_view" aria-selected="false">
+          Option
+        </a>
+      </li>
+    </ul>
 
     <footer class="mt-auto text-muted">
       <p>A Bible RAG Demo by <a href="https://unacog.com" class="text-black">Unacog</a>.</p>
