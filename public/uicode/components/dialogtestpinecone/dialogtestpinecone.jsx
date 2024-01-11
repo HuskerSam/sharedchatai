@@ -29,18 +29,19 @@ import {
 export default function DialogTestPinecone(props) {
     const [show, setShow] = React.useState(false);
     const [prompt, setPrompt] = React.useState("");
+    const [pineconeResults, setPineconeResults] = React.useState([]);
+    const tableFields = ["similarity", "id", "url", "title", "text", "copy", "size", "encodingCredits"];
 
     props.setShow = setShow;
 
     const handleClose = () => setShow(false);
     const handleQuery = async () => {
         let queryResults = await props.queryEmbeddings(prompt);
-        console.log("QR", queryResults);
+        setPineconeResults(queryResults);
     };
 
     const updateQueriedDocumentList = () => {
         let fileContent = "<table class=\"query_result_documents_list\">";
-        const keys = ["similarity", "id", "url", "title", "text", "copy", "size", "encodingCredits"];
         fileContent += "<tr>";
         fileContent += `<th>row</th>`;
         keys.forEach((key) => fileContent += `<th>${key}</th>`);
@@ -91,7 +92,7 @@ export default function DialogTestPinecone(props) {
     };
 
     return (
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={show} onHide={handleClose} size="lg">
             <Modal.Header closeButton className="theme_panel">
                 <Modal.Title>Test Pinecone</Modal.Title>
             </Modal.Header>
@@ -102,6 +103,29 @@ export default function DialogTestPinecone(props) {
                     <Button variant="secondary" onClick={handleQuery}>Retrieve Documents</Button>
                 </div>
                 <div class="embedding_query_results_table_wrapper styled_csv_table" style={{ marginTop: "8px" }}>
+                <table>
+                    <tr>
+                    {
+                    tableFields.map((fieldName) => (
+                        <th key={fieldName}>{fieldName}</th>
+                    ))
+                    }
+                    </tr>
+                    {pineconeResults.map((row) => (
+                        <tr key={row.id}>
+                            <td>{row.score}</td>
+                            <td>{row.id}</td>
+                            <td>{row.metadata["url"]}</td>
+                            <td>{row.metadata["title"]}</td>
+                            <td className="table_cell_sizer"><div>{row.metadata["text"]}</div></td>
+                            <td onClick={() => navigator.clipboard.writeText(row.metadata.text)}>
+                                <i class="material-icons">content_copy</i>
+                            </td>
+                            <td>{row.metadata.text.length}</td>
+                            <td>{row.metadata["encodingCredits"].toString().substring(0, 6)}</td>                            
+                        </tr>
+                    ))}
+                </table>
                 </div>
             </Modal.Body>
             <Modal.Footer className="theme_panel">

@@ -85,7 +85,6 @@ export class EmbeddingApp extends BaseApp {
     watchProjectListFirestore: any = null;
     fileListToUpload: Array<any> = [];
     parsedTextChunks: Array<string> = [];
-    pineconeQueryResults: any = {};
     csvUploadDocumentsTabulator: any = null;
     usageWatchInited = false;
     vectorQueryRunning = false;
@@ -352,7 +351,7 @@ export class EmbeddingApp extends BaseApp {
 
         this.test_pinecone_dialog_btn.addEventListener("click", (e: any) => {
             e.preventDefault();
-            this.dialogTestPinecone.props.queryEmbeddings = (prompt: string) => {
+            this.dialogTestPinecone.props.queryEmbeddings = async (prompt: string) => {
                 return this.queryEmbeddings(prompt);
             };
             this.dialogTestPinecone.props.setShow(true);
@@ -726,18 +725,21 @@ export class EmbeddingApp extends BaseApp {
     }
     /**
      * @param { string } prompt
+     * @return { Promise<any> }
      */
-    async queryEmbeddings(prompt: string) {
+    async queryEmbeddings(prompt: string): Promise<any> {
         const data = this.scrapeData();
-        await this._queryEmbeddings(prompt, data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
+        return await this._queryEmbeddings(prompt, data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
     }
     /** query matching vector documents
      * @param { string } query
      * @param { string } pineconeIndex grouping key
      * @param { string } pineconeKey
      * @param { string } pineconeEnvironment
+     * @return { Promise<any> }
     */
-    async _queryEmbeddings(query: string, pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string) {
+    async _queryEmbeddings(query: string, pineconeIndex: string, pineconeKey: string,
+        pineconeEnvironment: string): Promise<any> {
         if (!getAuth().currentUser) {
             alert("login on homepage to use this");
             return;
@@ -769,7 +771,6 @@ export class EmbeddingApp extends BaseApp {
         });
 
         const json = await fResult.json();
-        this.pineconeQueryResults = json;
 
         const resultRows = json.queryResponse.matches;
         this.vectorQueryRunning = false;
