@@ -28,185 +28,124 @@
             <h1>
                 Embedding overview
             </h1>
-            Check out our demo where the Bible is split into verses 
-            and loaded into a vector database for queries to 
+            Check out our demo where the Bible is split into verses
+            and loaded into a vector database for queries to
             embed in prompts!
             <br><br>
             <a style="font-size:1.5em" href="/bible">Visit Bible Demo</a>
         </div>
         <div class="embedding_second_header_bar signed_in_flex">
-            <div class="pinecone_status_bar container" style="position:relative;">
-                <div style="flex:1">
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" id="options_embedding_tab_btn" data-bs-toggle="tab"
-                                href="#options_embedding_tab_view" role="tab" aria-controls="options_embedding_tab_view"
-                                aria-selected="false">Project: </a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link active" id="upsert_embedding_tab_btn" data-bs-toggle="tab"
-                                href="#upsert_embedding_tab_view" role="tab" aria-controls="upsert_embedding_tab_view"
-                                aria-selected="true">Documents</a>
-                        </li>
-                    </ul>
+            <div class="container" style="display:flex;flex-direction:row">
+                <div>
+                    Project:
+                    &nbsp;
+                    <div style="display: inline-block;position:relative;top:4px;">
+                        <select class="upsert_documents_list form-select">
+                            <option value="">Loading...</option>
+                        </select>
+                    </div>
+                    &nbsp;
+                    &nbsp;
+                    <button class="btn btn-secondary add_project_btn">
+                        <i class="material-icons">add</i> Project</button>
+                    &nbsp;
+                    &nbsp;
+                    <button class="btn btn-secondary remove_project_btn">
+                        <i class="material-icons">delete</i> Project</button>
+                </div>
+                <div class="upsert_result_status_bar"></div>
+                <div class="pinecone_index_stats_display"></div>
+                <div class="vector_count_floating_status">
+                    <span class="pinecone_index_name"></span>
+                    &nbsp;
+                    <button class="btn btn-secondary fetch_pinecone_index_stats_btn">
+                        <i class="material-icons">sync</i>
+                    </button>
                 </div>
             </div>
-            <div class="tab-content"
-                style="overflow:hidden;display:flex;text-align: left;flex: 1;flex-direction: column;">
-                <div class="tab-pane fade show active" id="upsert_embedding_tab_view" role="tabpanel"
-                    aria-labelledby="upsert_embedding_tab_btn">
-                    <div class="container">
-                        Project:
-                        &nbsp;
-                        <div style="display: inline-block;position:relative;top:4px;">
-                            <select class="upsert_documents_list form-select">
-                                <option value="">Loading...</option>
-                            </select>
-                        </div>
-                        &nbsp;
-                        &nbsp;
-                        <button class="btn btn-secondary add_project_btn">
-                            <i class="material-icons">add</i> Project</button>
-                        &nbsp;
-                        &nbsp;
-                        <button class="btn btn-secondary remove_project_btn">
-                            <i class="material-icons">delete</i> Project</button>
-                    </div>
-                    <div style="padding: 8px;display:flex;flex-direction:row" class="container">
-                        <div style="padding-top: 10px;">
-                            <label class="form-check-label">
-                                <input type="radio" class="form-radio-input" name="table_filter_radio" value="All">
-                                All (<span class="table_all_count"> &nbsp; </span>)
-                            </label>
-                            &nbsp;
-                            <label class="form-check-label">
-                                <input type="radio" class="form-radio-input" checked name="table_filter_radio"
-                                    value="New">
-                                New (<span class="table_new_count"> &nbsp; </span>)
-                            </label>
-                            &nbsp;
-                            <label class="form-check-label">
-                                <input type="radio" class="form-radio-input" name="table_filter_radio" value="Done">
-                                Done (<span class="table_done_count"> &nbsp; </span>)
-                            </label>
-                            &nbsp;
-                            <label class="form-check-label">
-                                <input type="radio" class="form-radio-input" name="table_filter_radio" value="Error">
-                                Errors (<span class="table_error_count"> &nbsp; </span>)
-                            </label>
-                            &nbsp;
-                            &nbsp;
-                        </div>
-                        <div class="upsert_result_status_bar"></div>
-                        <div class="pinecone_index_stats_display"></div>
-                        <div class="vector_count_floating_status">
-                            <span class="pinecone_index_name"></span>
-                            &nbsp;
-                            <button class="btn btn-secondary fetch_pinecone_index_stats_btn">
-                                <i class="material-icons">sync</i>
-                            </button>
-                        </div>
-                        <div>
-                            <a class="btn btn-secondary vector_inspect_dialog_btn" href="publish">
-                                Inspect
-                            </a>
-                            <a class="btn btn-secondary publish_pinecone_dialog_btn" href="publish">
-                                Publish
-                            </a>
-                            <a class="btn btn-secondary test_pinecone_dialog_btn" href="testpinecone">
-                                Test
-                            </a>
-                            <a class="btn btn-secondary upload_document_list_button" href="importrows">
-                                <i class="material-icons">upload_file</i> Import
-                            </a>
-                            <a class="btn btn-secondary download_json_results_btn" href="exportjson">
-                                <i class="material-icons">file_download</i> Export
-                            </a>
-                            <a class="btn btn-secondary add_row_btn" href="addrow">
-                                <i class="material-icons">add</i> Add
-                            </a>
-                        </div>
-                        <input class="embedding_list_file_dom" style="display:none;" type="file" accept=".json,.csv">
-                        <div class="document_list_file_name" style="display:none;"></div>
-                    </div>
-                    <div class="tabulator_documents_border_wrapper">
-                        <div class="preview_embedding_documents_table"></div>
-                    </div>
-                    <div style="display:flex;flex-direction:row;padding:8px;" class="container">
-                        <div>
-                            <label class="form-label">Start After Id: &nbsp;</label>
-                            <input class="first_table_row form-control" value=""
-                                style="width:150px;display:inline-block">
-                            <button class="btn btn-secondary next_table_page_btn">Next</button>
-                            &nbsp;
-                            <span>
-                                200 row limit
-                            </span>
-                        </div>
-                        <div class="firebase_record_count_status" style="flex:1">&nbsp;</div>
-                        <div>
-
-                            <button class="upload_embedding_documents_btn btn btn-primary">
-                                <i class="material-icons">cloud_upload</i> <span>Upsert Next</span>
-                            </button>
-                            <div style="display:inline-block;padding-right: 8px;position:relative;top:2px;">
-                                <select class="upload_embedding_document_batchsize form-select">
-                                    <option selected>1</option>
-                                    <option>5</option>
-                                    <option>10</option>
-                                    <option>20</option>
-                                    <option>50</option>
-                                </select>
-                            </div>
-                            <label class="form-check-label"
-                                style="font-size:1.25em;display:inline-block;position:relative;top:4px;">
-                                <input class="form-check-input upsert_next_loop_checkbox" type="checkbox" value="">
-                                Loop
-                            </label>
-                        </div>
-                    </div>
+            <div style="padding: 8px;display:flex;flex-direction:row" class="container">
+                <div style="padding-top: 10px;">
+                    <label class="form-check-label">
+                        <input type="radio" class="form-radio-input" name="table_filter_radio" value="All">
+                        All (<span class="table_all_count"> &nbsp; </span>)
+                    </label>
+                    &nbsp;
+                    <label class="form-check-label">
+                        <input type="radio" class="form-radio-input" checked name="table_filter_radio" value="New">
+                        New (<span class="table_new_count"> &nbsp; </span>)
+                    </label>
+                    &nbsp;
+                    <label class="form-check-label">
+                        <input type="radio" class="form-radio-input" name="table_filter_radio" value="Done">
+                        Done (<span class="table_done_count"> &nbsp; </span>)
+                    </label>
+                    &nbsp;
+                    <label class="form-check-label">
+                        <input type="radio" class="form-radio-input" name="table_filter_radio" value="Error">
+                        Errors (<span class="table_error_count"> &nbsp; </span>)
+                    </label>
+                    &nbsp;
+                    &nbsp;
                 </div>
-                <div class="tab-pane fade" id="options_embedding_tab_view" role="tabpanel"
-                    aria-labelledby="options_embedding_tab_btn" style="flex: 1;flex-direction: column;overflow: auto;">
-                    <div class="container">
-                        <table class="embedding_options_table">
-                            <tr>
-                                <td>Index Name </td>
-                                <td><input class="batch_id form-control" type="text" value=""></td>
-                                <td><button class="delete_index btn btn-primary"><i
-                                            class="material-icons">delete</i></button>
-                                </td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td colspan="4">Must be lower case only and can include "-"</td>
-                            </tr>
-                            <tr>
-                                <td>API Key </td>
-                                <td><input class="pinecone_key form-control" type="text" value=""></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Environment </td>
-                                <td><input class="pinecone_environment form-control" type="text" value=""></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Chunk Size</td>
-                                <td><input class="chunk_size_default form-control" type="text" value=""></td>
-                                <td>tokens</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td colspan="3" style="text-align: right;padding: 8px;">
-                                    <button class="btn btn-primary save_pineconeoptions_btn">Save Options</button>
-                                </td>
-                                <td></td>
-                            </tr>
-                        </table>
+                <div>
+                    <a class="btn btn-secondary embedding_options_dialog_btn" href="options">
+                        Options
+                    </a>
+                    <a class="btn btn-secondary vector_inspect_dialog_btn" href="publish">
+                        Inspect
+                    </a>
+                    <a class="btn btn-secondary publish_pinecone_dialog_btn" href="publish">
+                        Publish
+                    </a>
+                    <a class="btn btn-secondary test_pinecone_dialog_btn" href="testpinecone">
+                        Test
+                    </a>
+                    <a class="btn btn-secondary upload_document_list_button" href="importrows">
+                        <i class="material-icons">upload_file</i> Import
+                    </a>
+                    <a class="btn btn-secondary download_json_results_btn" href="exportjson">
+                        <i class="material-icons">file_download</i> Export
+                    </a>
+                    <a class="btn btn-secondary add_row_btn" href="addrow">
+                        <i class="material-icons">add</i> Add
+                    </a>
+                </div>
+                <input class="embedding_list_file_dom" style="display:none;" type="file" accept=".json,.csv">
+                <div class="document_list_file_name" style="display:none;"></div>
+            </div>
+            <div class="tabulator_documents_border_wrapper">
+                <div class="preview_embedding_documents_table"></div>
+            </div>
+            <div style="display:flex;flex-direction:row;padding:8px;" class="container">
+                <div>
+                    <label class="form-label">Start After Id: &nbsp;</label>
+                    <input class="first_table_row form-control" value="" style="width:150px;display:inline-block">
+                    <button class="btn btn-secondary next_table_page_btn">Next</button>
+                    &nbsp;
+                    <span>
+                        200 row limit
+                    </span>
+                </div>
+                <div class="firebase_record_count_status" style="flex:1">&nbsp;</div>
+                <div>
+
+                    <button class="upload_embedding_documents_btn btn btn-primary">
+                        <i class="material-icons">cloud_upload</i> <span>Upsert Next</span>
+                    </button>
+                    <div style="display:inline-block;padding-right: 8px;position:relative;top:2px;">
+                        <select class="upload_embedding_document_batchsize form-select">
+                            <option selected>1</option>
+                            <option>5</option>
+                            <option>10</option>
+                            <option>20</option>
+                            <option>50</option>
+                        </select>
                     </div>
+                    <label class="form-check-label"
+                        style="font-size:1.25em;display:inline-block;position:relative;top:4px;">
+                        <input class="form-check-input upsert_next_loop_checkbox" type="checkbox" value="">
+                        Loop
+                    </label>
                 </div>
             </div>
         </div>
