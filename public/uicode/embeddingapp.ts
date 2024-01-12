@@ -30,6 +30,7 @@ import React from "react";
 import DialogParseURL from "./components/dialogparseurl/dialogparseurl.jsx";
 import DialogTestPinecone from "./components/dialogtestpinecone/dialogtestpinecone.jsx";
 import DialogPublishEmbedding from "./components/dialogpublishembedding/dialogpublishembedding.jsx";
+import DialogVectorInspect from "./components/dialogvectorinspect.jsx";
 import Papa from "papaparse";
 
 /** Embedding upload app class */
@@ -53,12 +54,8 @@ export class EmbeddingApp extends BaseApp {
     fetch_pinecone_index_stats_btn: any = document.querySelector(".fetch_pinecone_index_stats_btn");
     pinecone_index_stats_display: any = document.querySelector(".pinecone_index_stats_display");
     pinecone_index_name: any = document.querySelector(".pinecone_index_name");
-    delete_pinecone_vector_id: any = document.querySelector(".delete_pinecone_vector_id");
-    pinecone_id_to_delete: any = document.querySelector(".pinecone_id_to_delete");
     upsert_embedding_tab_btn: any = document.querySelector("#upsert_embedding_tab_btn");
     add_row_btn: any = document.querySelector(".add_row_btn");
-    fetch_pinecone_vector_id: any = document.querySelector(".fetch_pinecone_vector_id");
-    fetch_vector_results: any = document.querySelector(".fetch_vector_results");
     upsert_documents_list: any = document.querySelector(".upsert_documents_list");
     add_project_btn: any = document.querySelector(".add_project_btn");
     remove_project_btn: any = document.querySelector(".remove_project_btn");
@@ -74,6 +71,7 @@ export class EmbeddingApp extends BaseApp {
     options_embedding_tab_btn: any = document.querySelector("#options_embedding_tab_btn");
     test_pinecone_dialog_btn: any = document.querySelector(".test_pinecone_dialog_btn");
     publish_pinecone_dialog_btn: any = document.querySelector(".publish_pinecone_dialog_btn");
+    vector_inspect_dialog_btn: any = document.querySelector(".vector_inspect_dialog_btn");
     actionRunning = false;
     tableQueryFirstRow = 1;
     tableIdSortDirection = "";
@@ -99,6 +97,7 @@ export class EmbeddingApp extends BaseApp {
     dialogParseURL: React.ReactElement;
     dialogTestPinecone: React.ReactElement;
     dialogPublishEmbedding: React.ReactElement;
+    dialogVectorInspect: React.ReactElement;
     first_table_row: any = document.querySelector(".first_table_row");
     tableColumns = [
         {
@@ -309,12 +308,8 @@ export class EmbeddingApp extends BaseApp {
         });
 
         this.fetch_pinecone_index_stats_btn.addEventListener("click", () => this.fetchIndexStats());
-        this.delete_pinecone_vector_id.addEventListener("click", () => this.deletePineconeVector());
-
         this.add_row_btn.addEventListener("click", (e: any) => this.addEmptyTableRow(e));
         this.setTableTheme();
-
-        this.fetch_pinecone_vector_id.addEventListener("click", () => this.fetchPineconeVector());
 
         this.upsert_documents_list.addEventListener("change", () => this.updateWatchUpsertRows());
         this.add_project_btn.addEventListener("click", () => this.addProject());
@@ -368,6 +363,18 @@ export class EmbeddingApp extends BaseApp {
             };
             this.dialogPublishEmbedding.props.setShow(true);
         });
+        
+        const div4 = document.createElement("div");
+        document.body.appendChild(div4);
+        this.dialogVectorInspect = React.createElement(DialogVectorInspect, {});
+        ReactDOM.render(this.dialogVectorInspect, div4);
+
+        this.vector_inspect_dialog_btn.addEventListener("click", (e: any) => {
+            e.preventDefault();
+            this.dialogVectorInspect.props.fetchVector = async (id: string) => this.fetchPineconeVector(id);
+            this.dialogVectorInspect.props.deleteVector = async (id: string) => this.deletePineconeVector(id);
+            this.dialogVectorInspect.props.setShow(true);
+        })
     }
     /**
      * @param { any } event
@@ -506,11 +513,10 @@ export class EmbeddingApp extends BaseApp {
             alert(json.errorMessage);
         }
     }
-    /** */
-    async deletePineconeVector() {
-        this.fetch_vector_results.innerHTML = "";
-
-        const id = this.pinecone_id_to_delete.value.trim();
+    /**
+     * @param { string } id
+     */
+    async deletePineconeVector(id: string) {
         if (id === "") {
             alert("Please supply a vector id");
             return;
@@ -662,13 +668,14 @@ export class EmbeddingApp extends BaseApp {
         this.pinecone_index_stats_display.innerHTML = JSON.stringify(json, null, "\t");
         this.pinecone_index_name.innerHTML = "Vectors: " + json.indexDescription.totalRecordCount;
     }
-    /** */
-    async fetchPineconeVector() {
-        this.fetch_vector_results.innerHTML = "fetching...";
-        const id = this.pinecone_id_to_delete.value.trim();
+    /**
+     * @param { string } id
+     * @return { Promise<string> }
+     */
+    async fetchPineconeVector(id: string): Promise<string> {
         if (id === "") {
             alert("Please supply a vector id");
-            return;
+            return "Please supply a vector id";
         }
 
         const data = this.scrapeData();
@@ -694,7 +701,7 @@ export class EmbeddingApp extends BaseApp {
         });
 
         const json = await fResult.json();
-        this.fetch_vector_results.innerHTML = JSON.stringify(json, (k: any, v: any) => {
+        return JSON.stringify(json, (k: any, v: any) => {
             if (v instanceof Array && k === "values") return JSON.stringify(v, null, 1).replace(/\n/g, " ");
             return v;
         }, 2);
