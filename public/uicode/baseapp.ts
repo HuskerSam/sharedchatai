@@ -35,8 +35,8 @@ import {
   getApp,
 } from "firebase/app";
 import ReactDOM from "react-dom";
-import ReactHeader from "./components/header/header.jsx";
-import ReactFooter from "./components/footer/footer.jsx";
+import ReactHeader from "./components/header.jsx";
+import ReactFooter from "./components/footer.jsx";
 import React from "react";
 
 /** Base class for all pages - handles authorization and low level routing for api calls, etc */

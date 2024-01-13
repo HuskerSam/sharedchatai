@@ -53,14 +53,14 @@ export class EmbeddingApp extends BaseApp {
     upsert_embedding_tab_btn: any = document.querySelector("#upsert_embedding_tab_btn");
     add_row_btn: any = document.querySelector(".add_row_btn");
     upsert_documents_list: any = document.querySelector(".upsert_documents_list");
-    add_project_btn: any = document.querySelector(".add_project_btn");
-    remove_project_btn: any = document.querySelector(".remove_project_btn");
-    table_filter_radios = document.querySelectorAll(`input[name="table_filter_radio"]`);
-    firebase_record_count_status: any = document.querySelector(".firebase_record_count_status");
-    table_all_count: any = document.querySelector(".table_all_count");
-    table_new_count: any = document.querySelector(".table_new_count");
-    table_done_count: any = document.querySelector(".table_done_count");
-    table_error_count: any = document.querySelector(".table_error_count");
+    add_project_btn = document.querySelector(".add_project_btn") as HTMLAnchorElement;
+    remove_project_btn = document.querySelector(".remove_project_btn") as HTMLAnchorElement;
+    table_filter_select = document.querySelector(".table_filter_select") as HTMLSelectElement;
+    firebase_record_count_status = document.querySelector(".firebase_record_count_status") as HTMLDivElement;
+    table_all_count = document.querySelector(".table_all_count") as HTMLOptionElement;
+    table_new_count = document.querySelector(".table_new_count") as HTMLOptionElement;
+    table_done_count = document.querySelector(".table_done_count") as HTMLOptionElement;
+    table_error_count = document.querySelector(".table_error_count") as HTMLOptionElement;
     upload_embedding_document_batchsize: any = document.querySelector(".upload_embedding_document_batchsize");
     next_table_page_btn: any = document.querySelector(".next_table_page_btn");
     upsert_next_loop_checkbox: any = document.querySelector(".upsert_next_loop_checkbox");
@@ -298,25 +298,28 @@ export class EmbeddingApp extends BaseApp {
             this.embedding_list_file_dom.click();
             event.preventDefault();
         });
-        this.embedding_list_file_dom.addEventListener("change", (e: any) => this.uploadUpsertListFile(e));
+        this.embedding_list_file_dom.addEventListener("change", (e: Event) => this.uploadUpsertListFile(e));
 
-        this.download_json_results_btn.addEventListener("click", (e: any) => this.downloadResultsFile(e));
+        this.download_json_results_btn.addEventListener("click", (e: Event) => this.downloadResultsFile(e));
 
         this.fetch_pinecone_index_stats_btn.addEventListener("click", () => this.fetchIndexStats());
-        this.add_row_btn.addEventListener("click", (e: any) => this.addEmptyTableRow(e));
+        this.add_row_btn.addEventListener("click", (e: Event) => this.addEmptyTableRow(e));
         this.setTableTheme();
 
         this.upsert_documents_list.addEventListener("change", () => this.updateWatchUpsertRows());
-        this.add_project_btn.addEventListener("click", () => this.addProject());
-        this.remove_project_btn.addEventListener("click", () => this.deleteProject());
+        this.add_project_btn.addEventListener("click", (e: Event) => {
+            e.preventDefault();
+            this.addProject();
+        });
+        this.remove_project_btn.addEventListener("click", (e: Event) => {
+            e.preventDefault();
+            this.deleteProject();
+        });
 
-        this.table_filter_radios.forEach((btn: any) => btn.addEventListener("input", () => {
-            const selectedRadio: any = document.body.querySelector(`input[name="table_filter_radio"]:checked`);
-            const filterValue = selectedRadio.value;
-
-            this.saveProfileField("embeddingPageTableFilterValue", filterValue);
+        this.table_filter_select.addEventListener("input", () => {
+            this.saveProfileField("embeddingPageTableFilterValue", this.table_filter_select.value);
             this.updateWatchUpsertRows();
-        }));
+        });
 
         this.first_table_row.addEventListener("input", () => this.updateWatchUpsertRows());
         this.next_table_page_btn.addEventListener("click", () => {
@@ -378,7 +381,7 @@ export class EmbeddingApp extends BaseApp {
             this.dialogEmbeddingOptions.props.setPineconeEnvironment(this.pineconeEnvironment);
             this.dialogEmbeddingOptions.props.setPineconeIndex(this.pineconeIndex);
             this.dialogEmbeddingOptions.props.setPineconeChunkSize(this.pineconeChunkSize);
-            this.dialogEmbeddingOptions.props.savePineconeOptions = 
+            this.dialogEmbeddingOptions.props.savePineconeOptions =
                 (pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string, pineconeChunkSize: number) =>
                     this.savePineconeOptions(pineconeIndex, pineconeKey, pineconeEnvironment, pineconeChunkSize);
             this.dialogEmbeddingOptions.props.setShow(true);
@@ -443,9 +446,8 @@ export class EmbeddingApp extends BaseApp {
         if (this.profile) {
             if (!this.userPreferencesInited) {
                 this.userPreferencesInited = true;
-                this.table_filter_radios.forEach((radio: any) => {
-                    if (radio.value === this.profile.embeddingPageTableFilterValue) radio.click();
-                });
+                this.table_filter_select.value = this.profile.embeddingPageTableFilterValue;
+                if (this.table_filter_select.selectedIndex === -1) this.table_filter_select.selectedIndex = 0;
 
                 let rowCount = Number(this.profile.upsertEmbeddingRowCount);
                 if (isNaN(rowCount)) rowCount = 1;
@@ -1024,10 +1026,10 @@ export class EmbeddingApp extends BaseApp {
         const errorCount = errorSnapshot.data().count;
 
         this.newUpsertDocumentCount = newCount;
-        this.table_new_count.innerHTML = newCount;
-        this.table_all_count.innerHTML = totalRows;
-        this.table_done_count.innerHTML = doneCount;
-        this.table_error_count.innerHTML = errorCount;
+        this.table_new_count.innerHTML = `New (${newCount})`;
+        this.table_all_count.innerHTML = `All (${totalRows})`;
+        this.table_done_count.innerHTML = `Done (${doneCount})`;
+        this.table_error_count.innerHTML = `Errors (${errorCount})`;
     }
     /**
      * @param { boolean } forceRefresh
@@ -1035,8 +1037,7 @@ export class EmbeddingApp extends BaseApp {
     async updateWatchUpsertRows(forceRefresh = false) {
         if (this.actionRunning) return;
         const projectId = this.upsert_documents_list.value;
-        const selectedRadio: any = document.body.querySelector(`input[name="table_filter_radio"]:checked`);
-        const filterValue = selectedRadio.value;
+        const filterValue = this.table_filter_select.value;
         const firstRow = this.first_table_row.value;
 
         if (this.selectedProjectId === projectId && this.selectedFilter === filterValue &&

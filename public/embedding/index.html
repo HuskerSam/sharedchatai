@@ -39,20 +39,62 @@
                 <div>
                     Project:
                     &nbsp;
-                    <div style="display: inline-block;position:relative;top:4px;">
+                    <div style="display: inline-block;">
                         <select class="upsert_documents_list form-select">
                             <option value="">Loading...</option>
                         </select>
                     </div>
-                    &nbsp;
-                    &nbsp;
-                    <button class="btn btn-secondary add_project_btn">
-                        <i class="material-icons">add</i> Project</button>
-                    &nbsp;
-                    &nbsp;
-                    <button class="btn btn-secondary remove_project_btn">
-                        <i class="material-icons">delete</i> Project</button>
                 </div>
+                <div>
+                    <select class="form-select table_filter_select">
+                        <option value="All" class="table_all_count">All</option>
+                        <option value="New" class="table_new_count">New</option>
+                        <option value="Done" class="table_done_count">Done</option>
+                        <option value="Error" class="table_error_count">Errors</option>
+                    </select>
+                </div>
+                <div style="flex:1;text-align: left;padding-left: 12px;">
+                    <div class="dropdown" style="display: inline-block">
+                        <button class="btn btn-secondary dropdown-toggle" type="button"
+                            id="embeddingOptionsDropdown_btn" data-bs-toggle="dropdown" aria-expanded="false">
+                            Actions
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="embeddingOptionsDropdown_btn">
+                            <li>
+                                <a class="dropdown-item add_project_btn">
+                                    Add Project</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item remove_project_btn">
+                                    Delete Project</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item embedding_options_dialog_btn" href="options"> Project Options
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item vector_inspect_dialog_btn" href="publish"> Inspect Vector </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item publish_pinecone_dialog_btn" href="publish"> Publish Project
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item test_pinecone_dialog_btn" href="testpinecone"> Test Project </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item upload_document_list_button" href="importrows"> Import
+                                    Rows </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item download_json_results_btn" href="exportjson"> Export Rows
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <input class="embedding_list_file_dom" style="display:none;" type="file" accept=".json,.csv">
+                <div class="document_list_file_name" style="display:none;"></div>
                 <div class="upsert_result_status_bar"></div>
                 <div class="pinecone_index_stats_display"></div>
                 <div class="vector_count_floating_status">
@@ -62,56 +104,6 @@
                         <i class="material-icons">sync</i>
                     </button>
                 </div>
-            </div>
-            <div style="padding: 8px;display:flex;flex-direction:row" class="container">
-                <div style="padding-top: 10px;">
-                    <label class="form-check-label">
-                        <input type="radio" class="form-radio-input" name="table_filter_radio" value="All">
-                        All (<span class="table_all_count"> &nbsp; </span>)
-                    </label>
-                    &nbsp;
-                    <label class="form-check-label">
-                        <input type="radio" class="form-radio-input" checked name="table_filter_radio" value="New">
-                        New (<span class="table_new_count"> &nbsp; </span>)
-                    </label>
-                    &nbsp;
-                    <label class="form-check-label">
-                        <input type="radio" class="form-radio-input" name="table_filter_radio" value="Done">
-                        Done (<span class="table_done_count"> &nbsp; </span>)
-                    </label>
-                    &nbsp;
-                    <label class="form-check-label">
-                        <input type="radio" class="form-radio-input" name="table_filter_radio" value="Error">
-                        Errors (<span class="table_error_count"> &nbsp; </span>)
-                    </label>
-                    &nbsp;
-                    &nbsp;
-                </div>
-                <div>
-                    <a class="btn btn-secondary embedding_options_dialog_btn" href="options">
-                        Options
-                    </a>
-                    <a class="btn btn-secondary vector_inspect_dialog_btn" href="publish">
-                        Inspect
-                    </a>
-                    <a class="btn btn-secondary publish_pinecone_dialog_btn" href="publish">
-                        Publish
-                    </a>
-                    <a class="btn btn-secondary test_pinecone_dialog_btn" href="testpinecone">
-                        Test
-                    </a>
-                    <a class="btn btn-secondary upload_document_list_button" href="importrows">
-                        <i class="material-icons">upload_file</i> Import
-                    </a>
-                    <a class="btn btn-secondary download_json_results_btn" href="exportjson">
-                        <i class="material-icons">file_download</i> Export
-                    </a>
-                    <a class="btn btn-secondary add_row_btn" href="addrow">
-                        <i class="material-icons">add</i> Add
-                    </a>
-                </div>
-                <input class="embedding_list_file_dom" style="display:none;" type="file" accept=".json,.csv">
-                <div class="document_list_file_name" style="display:none;"></div>
             </div>
             <div class="tabulator_documents_border_wrapper">
                 <div class="preview_embedding_documents_table"></div>
@@ -128,7 +120,9 @@
                 </div>
                 <div class="firebase_record_count_status" style="flex:1">&nbsp;</div>
                 <div>
-
+                    <a class="btn btn-secondary add_row_btn" href="addrow">
+                        <i class="material-icons">add</i> Row
+                    </a>
                     <button class="upload_embedding_documents_btn btn btn-primary">
                         <i class="material-icons">cloud_upload</i> <span>Upsert Next</span>
                     </button>

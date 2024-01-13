@@ -18,10 +18,6 @@ export default function DialogEmbeddingOptions(props) {
 
     const handleClose = () => setShow(false);
 
-    const saveData = () => {
-        ;
-    };
-
     return (
         <Modal show={show} onHide={handleClose} size="lg">
             <Modal.Header closeButton className="theme_panel">
@@ -49,7 +45,8 @@ export default function DialogEmbeddingOptions(props) {
                         <td>API Key </td>
                         <td>
                             <FormControl as="input" defaultValue={pineconeKey}
-                                onChange={(e) => setPineconeKey(e.target.value)}></FormControl>
+                                onChange={(e) => setPineconeKey(e.target.value)}>
+                            </FormControl>
                         </td>
                         <td></td>
                         <td></td>
@@ -58,7 +55,10 @@ export default function DialogEmbeddingOptions(props) {
                         <td>Environment </td>
                         <td>
                             <FormControl as="input" defaultValue={pineconeEnvironment}
-                                onChange={(e) => setPineconeEnvironment(e.target.value)}></FormControl>
+                                onChange={
+                                    (e) => setPineconeEnvironment(e.target.value)
+                                }>
+                            </FormControl>
                         </td>
                         <td></td>
                         <td></td>
@@ -67,7 +67,10 @@ export default function DialogEmbeddingOptions(props) {
                         <td>Chunk Size</td>
                         <td>
                             <FormControl as="input" defaultValue={pineconeChunkSize}
-                                onChange={(e) => setPineconeChunkSize(Number(e.target.value))}></FormControl>
+                                onChange={
+                                    (e) => setPineconeChunkSize(Number(e.target.value))
+                                }>
+                            </FormControl>
                         </td>
                         <td>tokens</td>
                         <td></td>
