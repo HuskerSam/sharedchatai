@@ -38,26 +38,32 @@
         </div>
         <div class="row align-items-md-stretch text-start py-3">
           <div class="col-md-6 pe-md-1">
-            <div class="h-100 p-3 bg-light text-dark border rounded border-2" style="background-image: var(--bs-gradient);">
+            <div class="h-100 p-3 bg-light text-dark border rounded border-2"
+              style="background-image: var(--bs-gradient);">
               <div class="my-1 tab-content" style="height:50vh;overflow: auto;overflow-x: unset;">
                 <div class="tab-pane fade show active" id="chapters_view" role="tabpanel"
                   aria-labelledby="chapters_view_button">
-                  <div class="initial_user_message text-muted" style="cursor: not-allowed;">Enter a prompt to discover most relevant bible chapters</div>
+                  <div class="initial_user_message text-muted" style="cursor: not-allowed;">Enter a prompt above to
+                    discover most relevant bible chapters</div>
                   <div class="lookup_chapter_response_feed"></div>
-                  <a type="button" class="nav-link text-center pipeline_detail_anchor_hide" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <a type="button" class="nav-link text-center pipeline_detail_anchor_hide" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal">
                     Chapter Fetch Pipeline Detail
                   </a>
                 </div>
                 <div class="tab-pane fade" id="verses_view" role="tabpanel" aria-labelledby="verses_view_button">
-                  <div class="initial_user_message text-muted" style="cursor: not-allowed;">Enter a prompt to discover most relevant bible verses</div>
+                  <div class="initial_user_message text-muted" style="cursor: not-allowed;">Enter a prompt above to
+                    discover most relevant bible verses</div>
                   <div class="lookup_verse_response_feed"></div>
-                  <a type="button" class="nav-link text-center pipeline_detail_anchor_hide" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                  <a type="button" class="nav-link text-center pipeline_detail_anchor_hide" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal2">
                     Verse Fetch Pipeline Detail
                   </a>
                 </div>
                 <div class="tab-pane fade" id="full_augmented_prompt_view" role="tabpanel"
                   aria-labelledby="full_augmented_prompt_view">
-                  <div class="initial_user_message text-muted" style="cursor: not-allowed;">Enter a prompt to see details</div>
+                  <div class="initial_user_message text-muted" style="cursor: not-allowed;">Enter a prompt above to see
+                    details</div>
                   <div class="summary_details"></div>
                 </div>
               </div>
@@ -83,7 +89,8 @@
             </div>
           </div>
           <div class="col-md-6 ps-md-1 pt-md-0 pt-2">
-            <div class="h-100 p-3 bg-dark text-white border border-secondary border-2 rounded" style="background-image: var(--bs-gradient);">
+            <div class="h-100 p-3 bg-dark text-white border border-secondary border-2 rounded"
+              style="background-image: var(--bs-gradient);">
               <div class="my-1" style="height:50vh;overflow: auto;overflow-x: unset;">
                 <div class="full_augmented_response"></div>
               </div>
@@ -127,9 +134,58 @@
                 <option>Query Verses to Embed Verses</option>
                 <option>Query Chapter to Embed Chapter</option>
               </select>
-              <a target="_blank" class="embedding_diagram_anchor"><img class="embedding_diagram_img img-fluid pt-4" src="" alt="" width="100%" height="100%"></a>
-              <div class="text-muted small text-center pt-1">Your results will vary based on the retrieval technique</div>
+              <a target="_blank" class="embedding_diagram_anchor"><img class="embedding_diagram_img img-fluid pt-4"
+                  src="" alt="" width="100%" height="100%"></a>
+              <div class="text-muted small text-center pt-1">Your results will vary based on the retrieval technique
+              </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade text-start py-2" id="learn_tab_view" role="tabpanel"
+        aria-labelledby="augmented_template_button">
+        <div class="row align-items-md-stretch">
+          <div class="col p-2">
+            <p>
+              This demo was created to demonstrate how RAG (Retrieval-Augmented Generation) works and how different
+              approaches to retrieval can affect the quality of the generated response. RAG systems retrieve relevant
+              information from a given knowledge base, thereby allowing it to generate
+              factual, contextually relevant, and domain-specific information. It is currently the best method for
+              implementing case-specific GenAI applications that are reliable enough to be used.
+            </p>
+            <p>
+              RAG involves the process of loading and indexing your data to prepare it for queries. In this case, bible
+              chapters and
+              verses were indexed (using an Embedding Model like ada-002) and loaded into a database (Pinecone, vector
+              DB). This allows us to run user queries against the index to retrieve the most relevant chapters and
+              verses. The chunk of text that is returned is then embedded into the prompt and sent then to the LLM for a
+              response.
+            </p>
+            <figure class="figure">
+              <img src="img/ragChapters.png" class="figure-img img-fluid rounded" alt="RAG">
+              <figcaption class="figure-caption">Embedding most relevant bible Chapters as reference source</figcaption>
+            </figure>
+            <p>There are two important facets to consider in practice when optimizing LLM results in RAG systems.
+            </p>
+            <p>The first part, we can refer to as prompt engineering. We know that
+              things like defining a role for the bot, asking for a specific output (formating), or telling
+              the LLM to use a specific framework radically changes the generated response. Similarily, when working with
+              RAG systems, we must use the prompt to tell the LLM what to do with the embedded data we give it. 
+              Consider that when a user processes a prompt in the "chat" tab, what they entered into the prompt text area is actually only
+              part of what gets sent to the LLM. The rest of the instructions or prompt lies in the prompt template. 
+            </p>
+            <p>There are 3 options for retrieval: 1. match by and embed chapter, 2. Match by and embed verse, 3. match
+              by verse but embed chapter.
+              These three options demonstrate how different retrieval techniques affect the quality of the generated
+              response. The first two option shows the basic RAG pipeline, where we retrieve and embed the exact chunk
+              of text as we matched with the index
+              (i.e. if we match with a chapter, we embed the chapter). The third option shows how we can use a retrieval
+              technique called, "small-to-big," where we match on a smaller chunk of text (i.e. a verse) but embed a larger
+              chunk of text (i.e. a chapter). The idea here is that we can use a smaller chunk of text to provide a more specific query but
+              then embed the larger chunk of text to provide more context to the LLM. Techniques like small-to-big and context overlapping are
+              some ways we can improve the quality and relevancy of embedded data.
+            </p>
           </div>
         </div>
       </div>
@@ -137,8 +193,8 @@
 
     <ul class="nav nav-tabs justify-content-center float-md-end pt-2 p-sm-0" role="tablist">
       <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="augmented_response_button" data-bs-toggle="tab"
-          href="#augmented_response_view" role="tab" aria-controls="augmented_response_view" aria-selected="true">
+        <a class="nav-link active" id="augmented_response_button" data-bs-toggle="tab" href="#augmented_response_view"
+          role="tab" aria-controls="augmented_response_view" aria-selected="true">
           Chat
         </a>
       </li>
@@ -146,6 +202,12 @@
         <a class="nav-link" id="augmented_template_button" data-bs-toggle="tab" href="#augmented_template_view"
           role="tab" aria-controls="augmented_template_view" aria-selected="false">
           Option
+        </a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="augmented_template_button" data-bs-toggle="tab" href="#learn_tab_view" role="tab"
+          aria-controls="augmented_template_view" aria-selected="false">
+          Learn
         </a>
       </li>
     </ul>
@@ -227,17 +289,20 @@
       white-space: pre-wrap;
     }
 
-   .pipeline_detail_anchor_hide {
+    .pipeline_detail_anchor_hide {
       display: none;
     }
+
     .running .pipeline_detail_anchor_hide,
     .complete .pipeline_detail_anchor_hide {
       display: block;
     }
+
     .initial .initial_user_message {
       display: block;
       text-align: center;
     }
+
     .initial_user_message {
       display: none;
     }
