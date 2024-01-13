@@ -30,6 +30,8 @@ import React from "react";
 import DialogParseURL from "./components/dialogparseurl/dialogparseurl.jsx";
 import DialogTestPinecone from "./components/dialogtestpinecone/dialogtestpinecone.jsx";
 import DialogPublishEmbedding from "./components/dialogpublishembedding/dialogpublishembedding.jsx";
+import DialogVectorInspect from "./components/dialogvectorinspect.jsx";
+import DialogEmbeddingOptions from "./components/dialogembeddingoptions.jsx";
 import Papa from "papaparse";
 
 /** Embedding upload app class */
@@ -37,11 +39,7 @@ export class EmbeddingApp extends BaseApp {
     help_show_modal: any = document.querySelector(".help_show_modal");
     sign_out_homepage: any = document.querySelector(".sign_out_homepage");
     upload_embedding_documents_btn: any = document.querySelector(".upload_embedding_documents_btn");
-    delete_index: any = document.querySelector(".delete_index");
     embedding_query_results_table_wrapper: any = document.querySelector(".embedding_query_results_table_wrapper");
-    batch_id: any = document.querySelector(".batch_id");
-    pinecone_key: any = document.querySelector(".pinecone_key");
-    pinecone_environment: any = document.querySelector(".pinecone_environment");
     chunk_size_default: any = document.querySelector(".chunk_size_default");
     prompt_area: any = document.querySelector(".prompt_area");
     document_list_file_name: any = document.querySelector(".document_list_file_name");
@@ -49,16 +47,11 @@ export class EmbeddingApp extends BaseApp {
     upload_document_list_button: any = document.querySelector(".upload_document_list_button");
     download_json_results_btn: any = document.querySelector(".download_json_results_btn");
     upsert_result_status_bar: any = document.querySelector(".upsert_result_status_bar");
-    save_pineconeoptions_btn: any = document.querySelector(".save_pineconeoptions_btn");
     fetch_pinecone_index_stats_btn: any = document.querySelector(".fetch_pinecone_index_stats_btn");
     pinecone_index_stats_display: any = document.querySelector(".pinecone_index_stats_display");
     pinecone_index_name: any = document.querySelector(".pinecone_index_name");
-    delete_pinecone_vector_id: any = document.querySelector(".delete_pinecone_vector_id");
-    pinecone_id_to_delete: any = document.querySelector(".pinecone_id_to_delete");
     upsert_embedding_tab_btn: any = document.querySelector("#upsert_embedding_tab_btn");
     add_row_btn: any = document.querySelector(".add_row_btn");
-    fetch_pinecone_vector_id: any = document.querySelector(".fetch_pinecone_vector_id");
-    fetch_vector_results: any = document.querySelector(".fetch_vector_results");
     upsert_documents_list: any = document.querySelector(".upsert_documents_list");
     add_project_btn: any = document.querySelector(".add_project_btn");
     remove_project_btn: any = document.querySelector(".remove_project_btn");
@@ -71,9 +64,10 @@ export class EmbeddingApp extends BaseApp {
     upload_embedding_document_batchsize: any = document.querySelector(".upload_embedding_document_batchsize");
     next_table_page_btn: any = document.querySelector(".next_table_page_btn");
     upsert_next_loop_checkbox: any = document.querySelector(".upsert_next_loop_checkbox");
-    options_embedding_tab_btn: any = document.querySelector("#options_embedding_tab_btn");
     test_pinecone_dialog_btn: any = document.querySelector(".test_pinecone_dialog_btn");
     publish_pinecone_dialog_btn: any = document.querySelector(".publish_pinecone_dialog_btn");
+    vector_inspect_dialog_btn: any = document.querySelector(".vector_inspect_dialog_btn");
+    embedding_options_dialog_btn: any = document.querySelector(".embedding_options_dialog_btn");
     actionRunning = false;
     tableQueryFirstRow = 1;
     tableIdSortDirection = "";
@@ -99,7 +93,13 @@ export class EmbeddingApp extends BaseApp {
     dialogParseURL: React.ReactElement;
     dialogTestPinecone: React.ReactElement;
     dialogPublishEmbedding: React.ReactElement;
+    dialogVectorInspect: React.ReactElement;
+    dialogEmbeddingOptions: React.ReactElement;
     first_table_row: any = document.querySelector(".first_table_row");
+    pineconeIndex = "";
+    pineconeEnvironment = "";
+    pineconeKey = "";
+    pineconeChunkSize = 1000;
     tableColumns = [
         {
             title: "",
@@ -293,8 +293,6 @@ export class EmbeddingApp extends BaseApp {
                 }
             }
         });
-        this.delete_index.addEventListener("click", () => this.deleteIndex());
-
         this.upload_document_list_button.addEventListener("click", (event: any) => {
             this.embedding_list_file_dom.value = "";
             this.embedding_list_file_dom.click();
@@ -303,18 +301,10 @@ export class EmbeddingApp extends BaseApp {
         this.embedding_list_file_dom.addEventListener("change", (e: any) => this.uploadUpsertListFile(e));
 
         this.download_json_results_btn.addEventListener("click", (e: any) => this.downloadResultsFile(e));
-        this.save_pineconeoptions_btn.addEventListener("click", () => {
-            const data = this.scrapeData();
-            this._fetchIndexStats(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
-        });
 
         this.fetch_pinecone_index_stats_btn.addEventListener("click", () => this.fetchIndexStats());
-        this.delete_pinecone_vector_id.addEventListener("click", () => this.deletePineconeVector());
-
         this.add_row_btn.addEventListener("click", (e: any) => this.addEmptyTableRow(e));
         this.setTableTheme();
-
-        this.fetch_pinecone_vector_id.addEventListener("click", () => this.fetchPineconeVector());
 
         this.upsert_documents_list.addEventListener("change", () => this.updateWatchUpsertRows());
         this.add_project_btn.addEventListener("click", () => this.addProject());
@@ -347,7 +337,6 @@ export class EmbeddingApp extends BaseApp {
         document.body.appendChild(div2);
         this.dialogTestPinecone = React.createElement(DialogTestPinecone, {});
         ReactDOM.render(this.dialogTestPinecone, div2);
-
         this.test_pinecone_dialog_btn.addEventListener("click", (e: any) => {
             e.preventDefault();
             this.dialogTestPinecone.props.queryEmbeddings = async (prompt: string) => {
@@ -360,13 +349,39 @@ export class EmbeddingApp extends BaseApp {
         document.body.appendChild(div3);
         this.dialogPublishEmbedding = React.createElement(DialogPublishEmbedding, {});
         ReactDOM.render(this.dialogPublishEmbedding, div3);
-
         this.publish_pinecone_dialog_btn.addEventListener("click", (e: any) => {
             e.preventDefault();
             this.dialogPublishEmbedding.props.addConnectedSession = async () => {
                 return this.addConnectedSession();
             };
             this.dialogPublishEmbedding.props.setShow(true);
+        });
+
+        const div4 = document.createElement("div");
+        document.body.appendChild(div4);
+        this.dialogVectorInspect = React.createElement(DialogVectorInspect, {});
+        ReactDOM.render(this.dialogVectorInspect, div4);
+        this.vector_inspect_dialog_btn.addEventListener("click", (e: any) => {
+            e.preventDefault();
+            this.dialogVectorInspect.props.fetchVector = async (id: string) => this.fetchPineconeVector(id);
+            this.dialogVectorInspect.props.deleteVector = async (id: string) => this.deletePineconeVector(id);
+            this.dialogVectorInspect.props.setShow(true);
+        });
+
+        const div5 = document.createElement("div");
+        document.body.appendChild(div5);
+        this.dialogEmbeddingOptions = React.createElement(DialogEmbeddingOptions, {});
+        ReactDOM.render(this.dialogEmbeddingOptions, div5);
+        this.embedding_options_dialog_btn.addEventListener("click", (e: any) => {
+            e.preventDefault();
+            this.dialogEmbeddingOptions.props.setPineconeKey(this.pineconeKey);
+            this.dialogEmbeddingOptions.props.setPineconeEnvironment(this.pineconeEnvironment);
+            this.dialogEmbeddingOptions.props.setPineconeIndex(this.pineconeIndex);
+            this.dialogEmbeddingOptions.props.setPineconeChunkSize(this.pineconeChunkSize);
+            this.dialogEmbeddingOptions.props.savePineconeOptions = 
+                (pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string, pineconeChunkSize: number) =>
+                    this.savePineconeOptions(pineconeIndex, pineconeKey, pineconeEnvironment, pineconeChunkSize);
+            this.dialogEmbeddingOptions.props.setShow(true);
         });
     }
     /**
@@ -459,9 +474,8 @@ export class EmbeddingApp extends BaseApp {
     /** */
     async deleteIndex() {
         if (!confirm("Are you sure you want to delete this index?")) return;
-        const data = this.scrapeData();
-        await this._deleteIndex(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
-        this._fetchIndexStats(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
+        await this._deleteIndex(this.pineconeIndex, this.pineconeKey, this.pineconeEnvironment);
+        this.fetchIndexStats();
     }
     /** delete index
      * @param { string } pineconeIndex grouping key
@@ -506,20 +520,18 @@ export class EmbeddingApp extends BaseApp {
             alert(json.errorMessage);
         }
     }
-    /** */
-    async deletePineconeVector() {
-        this.fetch_vector_results.innerHTML = "";
-
-        const id = this.pinecone_id_to_delete.value.trim();
+    /**
+     * @param { string } id
+     */
+    async deletePineconeVector(id: string) {
         if (id === "") {
             alert("Please supply a vector id");
             return;
         }
 
-        const data = this.scrapeData();
-        const pineconeIndex = data.pineconeIndex;
-        const pineconeEnvironment = data.pineconeEnvironment;
-        const pineconeKey = data.pineconeKey;
+        const pineconeIndex = this.pineconeIndex;
+        const pineconeEnvironment = this.pineconeEnvironment;
+        const pineconeKey = this.pineconeKey;
         const body = {
             pineconeIndex,
             pineconeEnvironment,
@@ -624,19 +636,10 @@ export class EmbeddingApp extends BaseApp {
     }
     /** */
     async fetchIndexStats() {
-        const data = this.scrapeData();
-        await this._fetchIndexStats(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
-    }
-    /** fetch index stats
-     * @param { string } pineconeIndex grouping key
-     * @param { string } pineconeKey
-     * @param { string } pineconeEnvironment
-    */
-    async _fetchIndexStats(pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string) {
         const body = {
-            pineconeIndex,
-            pineconeEnvironment,
-            pineconeKey,
+            pineconeIndex: this.pineconeIndex,
+            pineconeEnvironment: this.pineconeEnvironment,
+            pineconeKey: this.pineconeKey,
         };
         this.pinecone_index_stats_display.innerHTML = "fetching...";
         this.pinecone_index_name.innerHTML = "fetching...";
@@ -662,19 +665,19 @@ export class EmbeddingApp extends BaseApp {
         this.pinecone_index_stats_display.innerHTML = JSON.stringify(json, null, "\t");
         this.pinecone_index_name.innerHTML = "Vectors: " + json.indexDescription.totalRecordCount;
     }
-    /** */
-    async fetchPineconeVector() {
-        this.fetch_vector_results.innerHTML = "fetching...";
-        const id = this.pinecone_id_to_delete.value.trim();
+    /**
+     * @param { string } id
+     * @return { Promise<string> }
+     */
+    async fetchPineconeVector(id: string): Promise<string> {
         if (id === "") {
             alert("Please supply a vector id");
-            return;
+            return "Please supply a vector id";
         }
 
-        const data = this.scrapeData();
-        const pineconeIndex = data.pineconeIndex;
-        const pineconeEnvironment = data.pineconeEnvironment;
-        const pineconeKey = data.pineconeKey;
+        const pineconeIndex = this.pineconeIndex;
+        const pineconeEnvironment = this.pineconeEnvironment;
+        const pineconeKey = this.pineconeKey;
         const body = {
             pineconeIndex,
             pineconeEnvironment,
@@ -694,36 +697,27 @@ export class EmbeddingApp extends BaseApp {
         });
 
         const json = await fResult.json();
-        this.fetch_vector_results.innerHTML = JSON.stringify(json, (k: any, v: any) => {
+        return JSON.stringify(json, (k: any, v: any) => {
             if (v instanceof Array && k === "values") return JSON.stringify(v, null, 1).replace(/\n/g, " ");
             return v;
         }, 2);
     }
-    /**
-    * @return { any }
-    */
-    getPineconeOptions(): any {
-        let pineconeIndex = "";
-        let pineconeKey = "";
-        let pineconeEnvironment = "";
-        let pineconeChunkSize = "";
-        // 0c0df79a-cc2c-4efd-9835-fdaeb66df843
+    /** */
+    getPineconeOptions() {
+        this.pineconeIndex = "";
+        this.pineconeKey = "";
+        this.pineconeEnvironment = "";
+        this.pineconeChunkSize = 0;
+
         if (this.selectedProjectId) {
             const projectSettings = this.embeddingProjects[this.selectedProjectId];
             if (projectSettings) {
-                if (projectSettings.pineconeIndex !== undefined) pineconeIndex = projectSettings.pineconeIndex;
-                if (projectSettings.pineconeKey !== undefined) pineconeKey = projectSettings.pineconeKey;
-                if (projectSettings.pineconeEnvironment !== undefined) pineconeEnvironment = projectSettings.pineconeEnvironment;
-                if (projectSettings.pineconeChunkSize !== undefined) pineconeChunkSize = projectSettings.pineconeChunkSize;
+                if (projectSettings.pineconeIndex !== undefined) this.pineconeIndex = projectSettings.pineconeIndex;
+                if (projectSettings.pineconeKey !== undefined) this.pineconeKey = projectSettings.pineconeKey;
+                if (projectSettings.pineconeEnvironment !== undefined) this.pineconeEnvironment = projectSettings.pineconeEnvironment;
+                if (projectSettings.pineconeChunkSize !== undefined) this.pineconeChunkSize = projectSettings.pineconeChunkSize;
             }
         }
-
-        return {
-            pineconeIndex,
-            pineconeKey,
-            pineconeEnvironment,
-            pineconeChunkSize,
-        };
     }
     /** */
     initUsageWatch() {
@@ -740,8 +734,7 @@ export class EmbeddingApp extends BaseApp {
      * @return { Promise<any> }
      */
     async queryEmbeddings(prompt: string): Promise<any> {
-        const data = this.scrapeData();
-        return await this._queryEmbeddings(prompt, data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
+        return await this._queryEmbeddings(prompt, this.pineconeIndex, this.pineconeKey, this.pineconeEnvironment);
     }
     /** query matching vector documents
      * @param { string } query
@@ -803,23 +796,22 @@ export class EmbeddingApp extends BaseApp {
         });
     }
     /**
- * @param { any } options
- */
-    async savePineconeOptions(options: any) {
-        const profileOptions = this.getPineconeOptions();
-        if (options.pineconeIndex !== profileOptions.pineconeIndex ||
-            options.pineconeKey !== profileOptions.pineconeKey ||
-            options.pineconeEnvironment !== profileOptions.pineconeEnvironment) {
-            await Promise.all([
-                this.saveEmbeddingField("pineconeIndex", options.pineconeIndex),
-                this.saveEmbeddingField("pineconeKey", options.pineconeKey),
-                this.saveEmbeddingField("pineconeEnvironment", options.pineconeEnvironment),
-            ]);
-        }
-
-        if (options.pineconeChunkSize !== profileOptions.pineconeChunkSize) {
-            await this.saveEmbeddingField("pineconeChunkSize", options.pineconeChunkSize);
-        }
+     * @param { string } pineconeIndex
+     * @param { string } pineconeKey
+     * @param { string } pineconeEnvironment
+     * @param { number } pineconeChunkSize
+     */
+    async savePineconeOptions(pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string, pineconeChunkSize: number) {
+        this.pineconeIndex = pineconeIndex;
+        this.pineconeKey = pineconeKey;
+        this.pineconeEnvironment = pineconeEnvironment;
+        this.pineconeChunkSize = pineconeChunkSize;
+        await Promise.all([
+            this.saveEmbeddingField("pineconeIndex", pineconeIndex),
+            this.saveEmbeddingField("pineconeKey", pineconeKey),
+            this.saveEmbeddingField("pineconeEnvironment", pineconeEnvironment),
+            this.saveEmbeddingField("pineconeChunkSize", pineconeChunkSize)
+        ]);
     }
     /**
  * @param { any } updateData
@@ -862,29 +854,6 @@ export class EmbeddingApp extends BaseApp {
             errors,
         };
     }
-    /**
-     * @return { any }
-    */
-    scrapeData(): any {
-        const pineconeIndex = this.batch_id.value;
-        const pineconeKey = this.pinecone_key.value;
-        const pineconeEnvironment = this.pinecone_environment.value;
-        const pineconeChunkSize = this.chunk_size_default.value;
-
-        this.savePineconeOptions({
-            pineconeIndex,
-            pineconeKey,
-            pineconeEnvironment,
-            pineconeChunkSize,
-        });
-        return {
-            urls: "",
-            pineconeIndex,
-            pineconeKey,
-            pineconeEnvironment,
-            pineconeChunkSize,
-        };
-    }
     /** */
     setTableTheme() {
         if (this.tableThemeLinkDom) this.tableThemeLinkDom.remove();
@@ -905,13 +874,12 @@ export class EmbeddingApp extends BaseApp {
      * @param { string } singleRowId
      */
     async upsertTableRowsToPinecone(singleRowId = "") {
-        const data = this.scrapeData();
         const rowCount = this.upload_embedding_document_batchsize.value;
         this.saveProfileField("upsertEmbeddingRowCount", rowCount);
 
-        await this._upsertTableRowsToPinecone(this.selectedProjectId, data.pineconeIndex, data.pineconeKey,
-            data.pineconeEnvironment, data.pineconeChunkSize, rowCount, singleRowId);
-        this._fetchIndexStats(data.pineconeIndex, data.pineconeKey, data.pineconeEnvironment);
+        await this._upsertTableRowsToPinecone(this.selectedProjectId, this.pineconeIndex, this.pineconeKey,
+            this.pineconeEnvironment, this.pineconeChunkSize, rowCount, singleRowId);
+        this.fetchIndexStats();
         await this.updateRowsCountFromFirestore();
     }
     /** scrape URLs for embedding
@@ -1070,7 +1038,6 @@ export class EmbeddingApp extends BaseApp {
         const selectedRadio: any = document.body.querySelector(`input[name="table_filter_radio"]:checked`);
         const filterValue = selectedRadio.value;
         const firstRow = this.first_table_row.value;
-        this.options_embedding_tab_btn.innerHTML = "Project: <b>" + projectId + "</b>";
 
         if (this.selectedProjectId === projectId && this.selectedFilter === filterValue &&
             this.tableQueryFirstRow === firstRow && forceRefresh === false) return;
@@ -1090,11 +1057,7 @@ export class EmbeddingApp extends BaseApp {
         this.connectedSessionsFirestore = null;
         if (!this.selectedProjectId) return;
 
-        const options = this.getPineconeOptions();
-        this.batch_id.value = options.pineconeIndex;
-        this.pinecone_key.value = options.pineconeKey;
-        this.pinecone_environment.value = options.pineconeEnvironment;
-        this.chunk_size_default.value = options.pineconeChunkSize;
+        this.getPineconeOptions();
         this.fetchIndexStats();
         this.fileListToUpload = [];
         this.csvUploadDocumentsTabulator.setData(this.fileListToUpload);
@@ -1124,11 +1087,10 @@ export class EmbeddingApp extends BaseApp {
             this.csvUploadDocumentsTabulator.setData(this.fileListToUpload);
         });
 
-        const pineconeData = this.scrapeData();
         let keyHash = 9999999999999;
         let indexHash = 99999999999999;
-        keyHash = SharedWithBackend.hashCode(pineconeData.pineconeKey.slice(-8));
-        indexHash = SharedWithBackend.hashCode(pineconeData.pineconeIndex.slice(-8));
+        keyHash = SharedWithBackend.hashCode(this.pineconeKey.slice(-8));
+        indexHash = SharedWithBackend.hashCode(this.pineconeIndex.slice(-8));
         const sessionsRef = collection(getFirestore(), `Games`);
         const sessionsQuery = query(sessionsRef,
             limit(20),
@@ -1139,9 +1101,9 @@ export class EmbeddingApp extends BaseApp {
             where("hashed_pineconeKey", "==", keyHash),
             where("hashed_pineconeIndex", "==", indexHash));
 
-        this.connectedSessionsFirestore = onSnapshot(sessionsQuery, (snapshot: any) => {    
+        this.connectedSessionsFirestore = onSnapshot(sessionsQuery, (snapshot: any) => {
             const array: any = [];
-            snapshot.forEach((doc: any) => array.push(doc));      
+            snapshot.forEach((doc: any) => array.push(doc));
             this.dialogPublishEmbedding.props.setSessions(array);
         });
     }
@@ -1213,11 +1175,10 @@ export class EmbeddingApp extends BaseApp {
         }
         const sessionId = json.gameNumber;
 
-        const embeddingOptions = this.getPineconeOptions();
         await Promise.all([
-            ChatDocument.setOwnerOnlyField(sessionId, this.basePath, "pineconeIndex", embeddingOptions.pineconeIndex),
-            ChatDocument.setOwnerOnlyField(sessionId, this.basePath, "pineconeEnvironment", embeddingOptions.pineconeEnvironment),
-            ChatDocument.setOwnerOnlyField(sessionId, this.basePath, "pineconeKey", embeddingOptions.pineconeKey),
+            ChatDocument.setOwnerOnlyField(sessionId, this.basePath, "pineconeIndex", this.pineconeIndex),
+            ChatDocument.setOwnerOnlyField(sessionId, this.basePath, "pineconeEnvironment", this.pineconeEnvironment),
+            ChatDocument.setOwnerOnlyField(sessionId, this.basePath, "pineconeKey", this.pineconeKey),
         ]);
 
         const a = document.createElement("a");

@@ -168,10 +168,6 @@ table tr td.table_cell_sizer {
   position: relative;
 }
 
-.fetch_vector_results {
-  white-space: pre-wrap;
-}
-
 select.upsert_documents_list.form-select {
   border: 1px solid var(--primary-color-4);
   color: var(--primary-color);
