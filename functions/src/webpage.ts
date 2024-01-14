@@ -127,6 +127,30 @@ export default class WebPage {
           <changefreq>daily</changefreq>
           <priority>1</priority>
       </url>
+      <url>
+      <loc>https://unacog.com/media/</loc>
+      <lastmod>${new Date().toISOString().substring(0, 10)}</lastmod>
+      <changefreq>daily</changefreq>
+      <priority>1</priority>
+      </url>
+      <url>
+      <loc>https://unacog.com/help/</loc>
+      <lastmod>${new Date().toISOString().substring(0, 10)}</lastmod>
+      <changefreq>daily</changefreq>
+      <priority>1</priority>
+    </url>
+     <url>
+          <loc>https://unacog.com/embedding/</loc>
+          <lastmod>${new Date().toISOString().substring(0, 10)}</lastmod>
+          <changefreq>daily</changefreq>
+          <priority>1</priority>
+      </url>
+      <url>
+      <loc>https://unacog.com/about/</loc>
+      <lastmod>${new Date().toISOString().substring(0, 10)}</lastmod>
+      <changefreq>daily</changefreq>
+      <priority>1</priority>
+  </url>
       ${rowsXML}
   </urlset>`;
     }

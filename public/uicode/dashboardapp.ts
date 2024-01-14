@@ -31,7 +31,6 @@ export class DashboardApp extends BaseApp {
   menu_toggle_button: any = document.querySelector(".menu_toggle_button");
   show_create_modal: any = document.querySelector(".show_create_modal");
   navigateHandled = false;
-  scroll_to_top_icon: any = document.querySelector(".scroll_to_top_icon");
 
   /** */
   constructor() {
@@ -52,26 +51,8 @@ export class DashboardApp extends BaseApp {
       event.preventDefault();
       this.documentCreate.show(this.getCustomSelectedLabel());
     });
-
-    window.addEventListener("scroll", () => {
-      if (document.documentElement.scrollTop > 0 || document.body.scrollTop > 0) {
-        document.body.classList.add("not_scrolled_top");
-        document.body.classList.remove("scrolled_top");
-      } else {
-        document.body.classList.remove("not_scrolled_top");
-        document.body.classList.add("scrolled_top");
-      }
-    });
-
-    this.scroll_to_top_icon.addEventListener("click", (e: any) => {
-      e.preventDefault();
-      e.stopPropagation();
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-      history.pushState("", document.title, window.location.pathname +
-        window.location.search);
-    });
   }
+  
   /**
    * @return { string } label if custom, "" if not (all or unlabeled)
    */

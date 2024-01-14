@@ -74,12 +74,6 @@
             display: inline-block;
         }
 
-        .pricing_calculator_wrapper {
-            width: 100%;
-            overflow: auto;
-            text-align: left;
-        }
-
         .bulk_calc_input {
             width: 5em;
             display: inline-block;
@@ -254,131 +248,126 @@
                 </div>
             </section>
 
-            <section class="pricing_calculator_wrapper homepage_section homepage_section_background"
-                id="pricingcalculator">
-                <div class="container">
-                    <div class="text-center">
-                        <h2 class="display-5">Cost Calculator</h2>
-                        <hr>
-                        <div class="pb-3">
-                            <select class="pricing_type_display form-select bulk_calc_input fs-5"
-                                style="width:auto;display:inline-block">
-                                <option selected value="bulk_credits_wrapper">Bulk Credits</option>
-                                <option value="power_user_wrapper">Power User</option>
-                                <option value="model_prices_wrapper">Model Prices</option>
-                                <option value="tokens_per_credit">Tokens Per Credit</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="bulk_credits_wrapper text-center">
-                        <div class="calc_description pb-3">
-                            This calculator is for a team leader or professor to determine the cost
-                            of multiple projects. A token is ~3/4 of a word for comparison.
-                        </div>
-                        <div>
-                            <div style="display: inline-block" class="text-start card p-2 mb-4 shadow-sm">
-                                <label class="form-label bulk_calc_label">Tokens Per Project</label>
-                                <input class="bulk_tokens_count bulk_calc_input" type="text" value="10000">
-                                <br>
-                                <label class="form-label bulk_calc_label">Project Count</label>
-                                <input class="bulk_project_count bulk_calc_input" type="text" value="25">
-                                <br>
-                                <label class="form-label bulk_calc_label">Input:Output Ratio</label>
-                                <select class="tokens_per_credit_ratio form-select"
-                                    style="width:auto;display:inline-block">
-                                    <option value="1">1:1</option>
-                                    <option selected value="2">2:1</option>
-                                    <option value="3">3:1</option>
-                                    <option value="4">4:1</option>
-                                    <option value="5">5:1</option>
-                                </select>
-                                <hr>
-                                <label class="form-label bulk_calc_label">Total Tokens</label>
-                                <span class="bulk_calc_total_tokens" style="padding:4px;display:inline-block"></span>
-                            </div>
-                            <br>
-                            <div>
-                                <div class="card shadow-sm">
-                                    <table class="bulk_credits_table price_table">
-                                    </table>
-                                </div>
-                                <div class="recommended"> &nbsp; gpt-3.5-turbo recommended as best value</div>
-                                <div> &nbsp; * Cost based on purchasing credits in $100 amounts</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="power_user_wrapper text-center">
-                        <div class="calc_description pb-3">
-                            For mixing models to build context cheaper but still get the
-                            best quality final results.
-                        </div>
-                        <div>
-                            <div style="display: inline-block" class="card p-2 mb-4 text-start shadow-sm">
-                                <label class="form-label bulk_calc_label">Tokens Per Project</label>
-                                <input class="power_tokens_count power_user_calc_input" type="text" value="20000">
-                                <br>
-                                <label class="form-label bulk_calc_label">Project Count</label>
-                                <input class="power_project_count power_user_calc_input" type="text" value="50">
-                                <br>
-                                <label class="form-label bulk_calc_label">Total Tokens</label>
-                                <span class="power_user_calc_total_tokens"></span>
-                                <br>
-                                <label class="form-label bulk_calc_label">Primary Model</label>
-                                <select class="form-select primary_model_select"
-                                    style="width:auto;display:inline-block"></select>
-                                <br>
-                                <label class="form-label bulk_calc_label">Secondary Model</label>
-                                <select class="form-select secondary_model_select"
-                                    style="width:auto;display:inline-block"></select>
-                                <br>
-                                <label class="form-label bulk_calc_label">Primary Usage</label>
-                                <input type="number" min="0" max="100"
-                                    class="form-control primary_usage_level bulk_calc_input" value="80">
-                                %
-                            </div>
-                            <br>
-                            <div style="max-width:45em;display:inline-block;width:100%;">
-                                <div class="card shadow-sm">
-                                    <table class="power_user_credits_table price_table">
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="model_prices_wrapper" style="text-align:center">
-                        <div class="calc_description pb-3">
-                            Wholesale cost, these are directly from the API vendors.
-                        </div>
-                        <div style="max-width:45em;display:inline-block;width:100%;">
-                            <div class="card shadow-sm">
-                                <table class="price_table">
-                                    {{{rawPrices}}}
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tokens_per_credit" style="text-align:center">
-                        <div class="calc_description pb-3">
-                            Number of tokens per Unacog credit based on the API cost.
-                        </div>
-                        <div style="max-width:45em;display:inline-block;width:100%;">
-                            <div class="card shadow-sm">
-                                <table class="price_table">
-                                    {{{tokensPerCredit}}}
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="display-5">Cost Calculator</h2>
                     <hr>
-                    <div class="col align-items-center" style="display:none;">
-                        <div class="py-3" style="text-align:center;font-size:1.5em;">
-                            <button class="btn btn-primary btn-lg buy_credits_pricing" type="button">Buy
-                                Credits</button>
+                    <div class="pb-3">
+                        <select class="pricing_type_display form-select bulk_calc_input fs-5"
+                            style="width:auto;display:inline-block">
+                            <option selected value="bulk_credits_wrapper">Bulk Credits</option>
+                            <option value="power_user_wrapper">Power User</option>
+                            <option value="model_prices_wrapper">Model Prices</option>
+                            <option value="tokens_per_credit">Tokens Per Credit</option>
+                        </select>
+                    </div>
+                </div>
+        
+                <div class="bulk_credits_wrapper text-center">
+                    <div class="calc_description pb-3">
+                        This calculator is for a team leader or professor to determine the cost
+                        of multiple projects. A token is ~3/4 of a word for comparison.
+                    </div>
+                    <div>
+                        <div style="display: inline-block" class="text-start card p-2 mb-4 shadow-sm">
+                            <label class="form-label bulk_calc_label">Tokens Per Project</label>
+                            <input class="bulk_tokens_count bulk_calc_input" type="text" value="10000">
+                            <br>
+                            <label class="form-label bulk_calc_label">Project Count</label>
+                            <input class="bulk_project_count bulk_calc_input" type="text" value="25">
+                            <br>
+                            <label class="form-label bulk_calc_label">Input:Output Ratio</label>
+                            <select class="tokens_per_credit_ratio form-select" style="width:auto;display:inline-block">
+                                <option value="1">1:1</option>
+                                <option selected value="2">2:1</option>
+                                <option value="3">3:1</option>
+                                <option value="4">4:1</option>
+                                <option value="5">5:1</option>
+                            </select>
+                            <hr>
+                            <label class="form-label bulk_calc_label">Total Tokens</label>
+                            <span class="bulk_calc_total_tokens" style="padding:4px;display:inline-block"></span>
+                        </div>
+                        <br>
+                        <div>
+                            <div class="card shadow-sm">
+                                <table class="bulk_credits_table price_table">
+                                </table>
+                            </div>
+                            <div class="recommended"> &nbsp; gpt-3.5-turbo recommended as best value</div>
+                            <div> &nbsp; * Cost based on purchasing credits in $100 amounts</div>
                         </div>
                     </div>
                 </div>
-            </section>
+                <div class="power_user_wrapper text-center">
+                    <div class="calc_description pb-3">
+                        For mixing models to build context cheaper but still get the
+                        best quality final results.
+                    </div>
+                    <div>
+                        <div style="display: inline-block" class="card p-2 mb-4 text-start shadow-sm">
+                            <label class="form-label bulk_calc_label">Tokens Per Project</label>
+                            <input class="power_tokens_count power_user_calc_input" type="text" value="20000">
+                            <br>
+                            <label class="form-label bulk_calc_label">Project Count</label>
+                            <input class="power_project_count power_user_calc_input" type="text" value="50">
+                            <br>
+                            <label class="form-label bulk_calc_label">Total Tokens</label>
+                            <span class="power_user_calc_total_tokens"></span>
+                            <br>
+                            <label class="form-label bulk_calc_label">Primary Model</label>
+                            <select class="form-select primary_model_select" style="width:auto;display:inline-block"></select>
+                            <br>
+                            <label class="form-label bulk_calc_label">Secondary Model</label>
+                            <select class="form-select secondary_model_select" style="width:auto;display:inline-block"></select>
+                            <br>
+                            <label class="form-label bulk_calc_label">Primary Usage</label>
+                            <input type="number" min="0" max="100" class="form-control primary_usage_level bulk_calc_input"
+                                value="80">
+                            %
+                        </div>
+                        <br>
+                        <div style="max-width:45em;display:inline-block;width:100%;">
+                            <div class="card shadow-sm">
+                                <table class="power_user_credits_table price_table">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="model_prices_wrapper" style="text-align:center">
+                    <div class="calc_description pb-3">
+                        Wholesale cost, these are directly from the API vendors.
+                    </div>
+                    <div style="max-width:45em;display:inline-block;width:100%;">
+                        <div class="card shadow-sm">
+                            <table class="price_table">
+                                {{{rawPrices}}}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tokens_per_credit" style="text-align:center">
+                    <div class="calc_description pb-3">
+                        Number of tokens per Unacog credit based on the API cost.
+                    </div>
+                    <div style="max-width:45em;display:inline-block;width:100%;">
+                        <div class="card shadow-sm">
+                            <table class="price_table">
+                                {{{tokensPerCredit}}}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="col align-items-center" style="display:none;">
+                    <div class="py-3" style="text-align:center;font-size:1.5em;">
+                        <button class="btn btn-primary btn-lg buy_credits_pricing" type="button">Buy
+                            Credits</button>
+                    </div>
+                </div>
+            </div>
+        
             <section class="homepage_section ">
                 <div class="container">
                     <div class="row align-items-center">

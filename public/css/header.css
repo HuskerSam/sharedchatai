@@ -266,29 +266,6 @@ i.copy_green {
     top: -2px;
 }
 
-.scroll_to_top_icon {
-    position: absolute;
-    display: none;
-}
-
-.scroll_to_top_icon span {
-    font-size: 20px;
-    position: relative;
-    top: -4px;
-}
-
-.not_scrolled_top .scroll_to_top_icon {
-    display: inline-block;
-}
-
-@media(min-width: 992px) {
-    .scroll_to_top_icon span {
-        position: relative;
-        left: 0px;
-        top: -4px;
-        font-size: 20px;
-    }
-}
 
 .navbar_profile_li {
     display: none;
