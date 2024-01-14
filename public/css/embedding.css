@@ -206,12 +206,6 @@ select.upsert_documents_list.form-select:active {
   border: solid 1px var(--secondary-color-4);
 }
 
-.upsert_result_status_bar {
-  flex: 1;
-  padding-left: 16px;
-  padding-top: 10px;
-}
-
 .pinecone_index_name {
   white-space: nowrap;
   max-width: 100px;
