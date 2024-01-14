@@ -145,168 +145,202 @@
 
       <div class="tab-pane fade text-start py-2" id="learn_tab_view" role="tabpanel"
         aria-labelledby="augmented_template_button">
-        <div class="row align-items-md-stretch">
-          <div class="col p-2">
-            <p>
-              This demo was created to demonstrate how RAG (Retrieval-Augmented Generation) works and how different
-              approaches to retrieval can affect the quality of the generated response. RAG systems retrieve relevant
-              information from a given knowledge base, thereby allowing it to generate
-              factual, contextually relevant, and domain-specific information. It is currently the best method for
-              implementing case-specific GenAI applications that are reliable enough to be used.
-            </p>
-            <p>
-              RAG involves the process of loading and indexing your data to prepare it for queries. In this case, bible
-              chapters and
-              verses were indexed (using an Embedding Model like ada-002) and loaded into a database (Pinecone, vector
-              DB). This allows us to run user queries against the index to retrieve the most relevant chapters and
-              verses. The chunk of text that is returned is then embedded into the prompt and sent then to the LLM for a
-              response.
-            </p>
+        <div>
+          <ul>
+            <li>what is RAG?
+              <strong>RAG (Retrieval-Augmented Generation) systems</strong> retrieve relevant information from a given
+              knowledge base, thereby allowing LLMs to generate factual, contextually relevant, and domain-specific
+              information. The efficacy of a RAG system directly hinges on the precision of its retrieval phase as
+              failure to find the pertinent documents
+              can significantly affect the quality of the generated response.
+            </li>
             <figure class="figure">
               <img src="img/ragChapters.png" class="figure-img img-fluid rounded" alt="RAG">
               <figcaption class="figure-caption">Embedding most relevant bible Chapters as reference source</figcaption>
             </figure>
-            <p>There are two important facets to consider in practice when optimizing LLM results in RAG systems.
-            </p>
-            <p>The first part, we can refer to as prompt engineering. We know that
-              things like defining a role for the bot, asking for a specific output (formating), or telling
-              the LLM to use a specific framework radically changes the generated response. Similarily, when working with
-              RAG systems, we must use the prompt to tell the LLM what to do with the embedded data we give it. 
-              Consider that when a user processes a prompt in the "chat" tab, what they entered into the prompt text area is actually only
-              part of what gets sent to the LLM. The rest of the instructions or prompt lies in the prompt template. 
-            </p>
-            <p>There are 3 options for retrieval: 1. match by and embed chapter, 2. Match by and embed verse, 3. match
-              by verse but embed chapter.
-              These three options demonstrate how different retrieval techniques affect the quality of the generated
-              response. The first two option shows the basic RAG pipeline, where we retrieve and embed the exact chunk
-              of text as we matched with the index
-              (i.e. if we match with a chapter, we embed the chapter). The third option shows how we can use a retrieval
-              technique called, "small-to-big," where we match on a smaller chunk of text (i.e. a verse) but embed a larger
-              chunk of text (i.e. a chapter). The idea here is that we can use a smaller chunk of text to provide a more specific query but
-              then embed the larger chunk of text to provide more context to the LLM. Techniques like small-to-big and context overlapping are
-              some ways we can improve the quality and relevancy of embedded data.
-            </p>
+            <li>
+              <strong>RAG uses embedding models retrieve similar chunks of text.</strong> Embedding models are types of
+              neural networks that convert data into vectors. They do this by identifying and learning the relationships
+              between different data points. This information is then used to create a vector database, which clusters
+              related items together. A vector represents a piece of data such as a word or an image. It is an array of
+              numerical values that indicates its position in a multidimensional space. This structure promotes
+              efficiency in data retrieval, allowing systems to find data based on similarity rather than exact matches.
+              The number of dimensions are defined by the machine learning model used to generate the vector embeddings,
+              and how it represents input features based on its internal model and complexity. More dimensions (“wider”
+              vectors) may provide more accuracy at the cost of compute and memory resources, as well as latency (speed)
+              of vector search. For example, OpenAI's ada-002 is one such embedding model that uses 1536 dimensions to
+              represent the semantic meaning of text. Embedding models have traditionally been used in recommendation and 
+              search algorithms. 
+            </li>
+            <li> We use ada-002 but there are many other embedding models that are
+              proving to be competitive in the space. Differnt embedding models may be better for specific use case</li>
+            <li>
+              <strong> RAG systems rely on vector databases to store and index data.</strong> Traditional databases like
+              relational and NoSQL systems have been fundamental for organizing business-related structured data, but
+              they often have difficulties managing unstructured, high-dimensional data like images, audio and text.
+              These databases can also encounter performance issues due to increased data volume and velocity. Vector
+              databases offer a new alternative, storing, and indexing data as mathematical vectors, which improves
+              similarity searches and management of complex data types. This "vectorization" is particularly effective
+              for handling images, audio, video, and natural language.
+            </li>
+            <li>
+              While many traditional databases support storing vector embeddings to enable vector search,<strong> vector
+                databases are AI-native,</strong> which means they are optimized to conduct lightning-fast vector
+              searches at scale. Because vector search requires the calculation of the distances between the search
+              query and every
+              data object, a classical K-Nearest-Neighbor algorithm is computationally expensive. Vector databases use
+              vector indexing to pre-calculate the distances to enable faster retrieval at query time. Thus, vector
+              databases allow users to find and retrieve similar objects quickly at scale in production. For
+              applications that require real-time user interaction, like chatbots or virtual assistants, vector
+              databases can ensure that response generation, which might depend on fetching relevant context or
+              information represented as vectors, is quick.</li>
+            <li>WHy is rag important?
+              LLMS have limited context windows. The intuitive response is to increase the size of that context window,
+              but researchers at Stanford found that doing so actually doesn't correlate to performance (measured by
+              accuracy).
+              So in order to maximize this window, we need to use Retrieval Augmented Generation. The better the
+              retrieval method, the better the response.
+            </li>
+            <li>
+              Should I choose RAG over fine-tuning?
+              Fine-tuning could be a good option if you are looking to refine LLM's behavior for a task-specific
+              purpose.
+              If you are looking to incorporate up-to-date or specific knowledge into your LLM, RAG is the way to go.
+              This
+              is not to say that RAG is a replacement for fine-tuning. In fact, RAG can be used in conjunction with
+              fine-tuning
+              to further improve the performance of your LLM. Our bible example uses GPT-3.5-turbo-16k, however, you are
+              free
+              to use any LLM you want.
+            </li>
+            <li>
+
+            </li>
+
+
+
+
+          </ul>
+
+        </div>
+      </div>
+
+      <ul class="nav nav-tabs justify-content-center float-md-end" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a class="nav-link active" id="augmented_response_button" data-bs-toggle="tab" href="#augmented_response_view"
+            role="tab" aria-controls="augmented_response_view" aria-selected="true">
+            Chat
+          </a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="augmented_template_button" data-bs-toggle="tab" href="#augmented_template_view"
+            role="tab" aria-controls="augmented_template_view" aria-selected="false">
+            Option
+          </a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="augmented_template_button" data-bs-toggle="tab" href="#learn_tab_view" role="tab"
+            aria-controls="augmented_template_view" aria-selected="false">
+            Learn
+          </a>
+        </li>
+      </ul>
+
+      <footer class="mt-auto text-muted pt-2 p-sm-0">
+        <p>A Bible RAG Demo by <a href="https://unacog.com" class="text-black">Unacog</a>.</p>
+      </footer>
+    </div>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Retrieve by Chapter</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <img src="img/retrievalChapters.png" alt="Chapters" width="100%" height="100%" class="p-3">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel2">Retrieve by Verse</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <img src="img/retrievalVerses.png" alt="Verses" width="100%" height="100%" class="p-3 img-fluid">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
     </div>
 
-    <ul class="nav nav-tabs justify-content-center float-md-end pt-2 p-sm-0" role="tablist">
-      <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="augmented_response_button" data-bs-toggle="tab" href="#augmented_response_view"
-          role="tab" aria-controls="augmented_response_view" aria-selected="true">
-          Chat
-        </a>
-      </li>
-      <li class="nav-item" role="presentation">
-        <a class="nav-link" id="augmented_template_button" data-bs-toggle="tab" href="#augmented_template_view"
-          role="tab" aria-controls="augmented_template_view" aria-selected="false">
-          Option
-        </a>
-      </li>
-      <li class="nav-item" role="presentation">
-        <a class="nav-link" id="augmented_template_button" data-bs-toggle="tab" href="#learn_tab_view" role="tab"
-          aria-controls="augmented_template_view" aria-selected="false">
-          Learn
-        </a>
-      </li>
-    </ul>
+    <style>
+      html {
+        height: 100%;
+      }
 
-    <footer class="mt-auto text-muted pt-2 p-sm-0">
-      <p>A Bible RAG Demo by <a href="https://unacog.com" class="text-black">Unacog</a>.</p>
-    </footer>
-  </div>
+      .verse_card {
+        margin: 12px;
+        border-radius: 12px;
+        border: solid 1px black;
+        padding: 12px;
+      }
 
+      .message_text,
+      .augmented_message_text {
+        width: 100%;
+        height: 5em;
+        margin-bottom: 12px;
+      }
 
+      .verse_card .selected {
+        font-weight: bold;
+      }
 
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Retrieve by Chapter</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <img src="img/retrievalChapters.png" alt="Chapters" width="100%" height="100%" class="p-3">
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel2">Retrieve by Verse</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <img src="img/retrievalVerses.png" alt="Verses" width="100%" height="100%" class="p-3 img-fluid">
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
+      .full_augmented_prompt,
+      .full_augmented_response {
+        white-space: pre-wrap;
+      }
 
-  <style>
-    html {
-      height: 100%;
-    }
+      label {
+        font-weight: bold;
+      }
 
-    .verse_card {
-      margin: 12px;
-      border-radius: 12px;
-      border: solid 1px black;
-      padding: 12px;
-    }
+      .raw_prompt {
+        white-space: pre-wrap;
+      }
 
-    .message_text,
-    .augmented_message_text {
-      width: 100%;
-      height: 5em;
-      margin-bottom: 12px;
-    }
+      .pipeline_detail_anchor_hide {
+        display: none;
+      }
 
-    .verse_card .selected {
-      font-weight: bold;
-    }
+      .running .pipeline_detail_anchor_hide,
+      .complete .pipeline_detail_anchor_hide {
+        display: block;
+      }
 
-    .full_augmented_prompt,
-    .full_augmented_response {
-      white-space: pre-wrap;
-    }
+      .initial .initial_user_message {
+        display: block;
+        text-align: center;
+      }
 
-    label {
-      font-weight: bold;
-    }
-
-    .raw_prompt {
-      white-space: pre-wrap;
-    }
-
-    .pipeline_detail_anchor_hide {
-      display: none;
-    }
-
-    .running .pipeline_detail_anchor_hide,
-    .complete .pipeline_detail_anchor_hide {
-      display: block;
-    }
-
-    .initial .initial_user_message {
-      display: block;
-      text-align: center;
-    }
-
-    .initial_user_message {
-      display: none;
-    }
-  </style>
+      .initial_user_message {
+        display: none;
+      }
+    </style>
 </body>
 
 </html>
