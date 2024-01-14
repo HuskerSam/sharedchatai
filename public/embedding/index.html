@@ -35,15 +35,14 @@
             <a style="font-size:1.5em" href="/bible">Visit Bible Demo</a>
         </div>
         <div class="embedding_second_header_bar signed_in_flex">
-            <div class="container" style="display:flex;flex-direction:row">
+            <div class="container header_tool_bar">
                 <div>
                     Project:
-                    &nbsp;
-                    <div style="display: inline-block;">
-                        <select class="upsert_documents_list form-select">
-                            <option value="">Loading...</option>
-                        </select>
-                    </div>
+                </div>
+                <div>
+                    <select class="upsert_documents_list form-select">
+                        <option value="">Loading...</option>
+                    </select>
                 </div>
                 <div>
                     <select class="form-select table_filter_select">
@@ -53,57 +52,54 @@
                         <option value="Error" class="table_error_count">Errors</option>
                     </select>
                 </div>
-                <div style="flex:1;text-align: left;padding-left: 12px;">
-                    <div class="dropdown" style="display: inline-block">
-                        <button class="btn btn-secondary dropdown-toggle" type="button"
-                            id="embeddingOptionsDropdown_btn" data-bs-toggle="dropdown" aria-expanded="false">
-                            Actions
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="embeddingOptionsDropdown_btn">
-                            <li>
-                                <a class="dropdown-item add_project_btn">
-                                    Add Project</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item remove_project_btn">
-                                    Delete Project</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item embedding_options_dialog_btn" href="options"> Project Options
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item vector_inspect_dialog_btn" href="publish"> Inspect Vector </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item publish_pinecone_dialog_btn" href="publish"> Publish Project
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item test_pinecone_dialog_btn" href="testpinecone"> Test Project </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item upload_document_list_button" href="importrows"> Import
-                                    Rows </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item download_json_results_btn" href="exportjson"> Export Rows
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <a class="btn btn-secondary add_row_btn" href="addrow">
+                <div class="dropdown" style="display: inline-block;margin-top:-4px">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="embeddingOptionsDropdown_btn"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Actions
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="embeddingOptionsDropdown_btn">
+                        <li>
+                            <a class="dropdown-item add_project_btn">
+                                Add Project</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item remove_project_btn">
+                                Delete Project</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item embedding_options_dialog_btn" href="options"> Project Options
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item vector_inspect_dialog_btn" href="publish"> Inspect Vector </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item publish_pinecone_dialog_btn" href="publish"> Publish Project
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item test_pinecone_dialog_btn" href="testpinecone"> Test Project </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item upload_document_list_button" href="importrows"> Import
+                                Rows </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item download_json_results_btn" href="exportjson"> Export Rows
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <button class="btn btn-secondary add_row_btn" style="margin-top:-8px">
                         <i class="material-icons">add</i> Row
-                    </a>
+                    </button>
                 </div>
                 <input class="embedding_list_file_dom" style="display:none;" type="file" accept=".json,.csv">
-                <div class="document_list_file_name" style="display:none;"></div>
-                <div class="upsert_result_status_bar"></div>
-                <div class="pinecone_index_stats_display"></div>
-                <div class="vector_count_floating_status">
-                    <span class="pinecone_index_name"></span>
-                    &nbsp;
-                    <button class="btn btn-secondary fetch_pinecone_index_stats_btn">
+                <div class="upsert_result_status_bar" style="flex:1"></div>
+                <div class="pinecone_index_name"></div>
+                <div>
+                    <button class="btn btn-secondary fetch_pinecone_index_stats_btn" style="margin-top:-8px">
                         <i class="material-icons">sync</i>
                     </button>
                 </div>

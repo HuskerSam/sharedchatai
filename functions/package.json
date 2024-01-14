@@ -11,9 +11,9 @@
     "logs": "firebase functions:log"
   },
   "engines": {
-    "node": "16"
+    "node": "18"
   },
-  "main": "lib/index.js",
+  "main": "lib/functions/src/index.js",
   "dependencies": {
     "@ffprobe-installer/ffprobe": "^2.1.2",
     "@google-ai/generativelanguage": "^0.2.0",

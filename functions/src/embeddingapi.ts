@@ -117,17 +117,16 @@ export default class EmbeddingAPI {
                 mergeBlock["include"] = false;
                 mergeBlock["vectorCount"] = 0;
                 mergeBlock["status"] = "Error";
-                mergeBlock["upsertResult"] = row;
             } else {
                 mergeBlock["errorMessage"] = "";
                 mergeBlock["pineconeTitle"] = row["title"];
                 mergeBlock["pineconeId"] = row["id"];
                 mergeBlock["size"] = row["textSize"];
+                if (savedRow["text"]) mergeBlock["text"] = savedRow["text"];
                 mergeBlock["upsertedDate"] = lastActivity;
                 mergeBlock["include"] = false;
                 mergeBlock["vectorCount"] = row["idList"].length;
                 mergeBlock["status"] = "Done";
-                mergeBlock["upsertResult"] = row;
             }
             const rowId = row.originalId;
             promises.push(

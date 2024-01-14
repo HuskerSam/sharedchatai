@@ -42,14 +42,12 @@ export class EmbeddingApp extends BaseApp {
     embedding_query_results_table_wrapper: any = document.querySelector(".embedding_query_results_table_wrapper");
     chunk_size_default: any = document.querySelector(".chunk_size_default");
     prompt_area: any = document.querySelector(".prompt_area");
-    document_list_file_name: any = document.querySelector(".document_list_file_name");
     embedding_list_file_dom: any = document.querySelector(".embedding_list_file_dom");
     upload_document_list_button: any = document.querySelector(".upload_document_list_button");
     download_json_results_btn: any = document.querySelector(".download_json_results_btn");
     upsert_result_status_bar: any = document.querySelector(".upsert_result_status_bar");
     fetch_pinecone_index_stats_btn: any = document.querySelector(".fetch_pinecone_index_stats_btn");
-    pinecone_index_stats_display: any = document.querySelector(".pinecone_index_stats_display");
-    pinecone_index_name: any = document.querySelector(".pinecone_index_name");
+    pinecone_index_name = document.querySelector(".pinecone_index_name") as HTMLDivElement;
     upsert_embedding_tab_btn: any = document.querySelector("#upsert_embedding_tab_btn");
     add_row_btn: any = document.querySelector(".add_row_btn");
     upsert_documents_list: any = document.querySelector(".upsert_documents_list");
@@ -643,7 +641,6 @@ export class EmbeddingApp extends BaseApp {
             pineconeEnvironment: this.pineconeEnvironment,
             pineconeKey: this.pineconeKey,
         };
-        this.pinecone_index_stats_display.innerHTML = "fetching...";
         this.pinecone_index_name.innerHTML = "fetching...";
         const token = await getAuth().currentUser?.getIdToken();
         const fResult = await fetch(this.basePath + "embeddingApi/indexstats", {
@@ -664,7 +661,6 @@ export class EmbeddingApp extends BaseApp {
             return;
         }
 
-        this.pinecone_index_stats_display.innerHTML = JSON.stringify(json, null, "\t");
         this.pinecone_index_name.innerHTML = "Vectors: " + json.indexDescription.totalRecordCount;
     }
     /**
@@ -960,9 +956,6 @@ export class EmbeddingApp extends BaseApp {
             alert("action running already");
             return;
         }
-        let fileName = "";
-        if (this.embedding_list_file_dom.files[0]) fileName = this.embedding_list_file_dom.files[0].name;
-        this.document_list_file_name.innerHTML = fileName;
 
         this.upsert_result_status_bar.innerHTML = `Uploading data file ...`;
         this.actionRunning = true;

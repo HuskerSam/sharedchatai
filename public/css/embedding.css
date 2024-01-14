@@ -95,11 +95,6 @@ table tr td.table_cell_sizer {
   word-break: break-all;
 }
 
-.pinecone_index_stats_display {
-  white-space: pre-wrap;
-  display: none;
-}
-
 .pinecone_status_bar {
   display: flex;
   flex-direction: row;
@@ -108,10 +103,6 @@ table tr td.table_cell_sizer {
 
 .pinecone_status_bar div button {
   margin: -8px;
-}
-
-.pinecone_index_name {
-  display: inline-block;
 }
 
 .pinecone_index_count {
@@ -215,23 +206,9 @@ select.upsert_documents_list.form-select:active {
   border: solid 1px var(--secondary-color-4);
 }
 
-.vector_count_floating_status {
-  padding-left: 16px;
-  padding-right: 16px;
-}
-
-.upsert_result_status_bar {
-  flex: 1;
-  padding-left: 16px;
-  padding-top: 10px;
-}
-
-.vector_count_floating_status .pinecone_index_name {
-  position: relative;
-  top: 4px;
-  display: inline-block;    
+.pinecone_index_name {
   white-space: nowrap;
-  max-width: 200px;
+  max-width: 100px;
   overflow: hidden;
 }
 
@@ -249,4 +226,16 @@ select.upsert_documents_list.form-select:active {
 .connected_sessions_list {
   height: 200px;
   overflow: auto;
+}
+
+.header_tool_bar {
+  display: flex;
+  flex-direction: row;
+  line-height: 2.5em;
+  padding-bottom: 4px;
+}
+
+.header_tool_bar > div {
+  padding-left: 4px;
+  padding-right: 4px;
 }
