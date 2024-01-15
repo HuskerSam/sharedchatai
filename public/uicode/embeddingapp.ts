@@ -203,6 +203,11 @@ export class EmbeddingApp extends BaseApp {
             field: "text",
             editor: "textarea",
             headerSort: false,
+        }, {
+            title: "error",
+            width: 100,
+            field: "errorMessage",
+            headerSort: false,
         },
     ];
 

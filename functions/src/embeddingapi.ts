@@ -90,7 +90,6 @@ export default class EmbeddingAPI {
                     .get();
 
                 nextQuery.forEach((doc: any) => {
-                    console.log(doc.id);
                     promises.push(EmbeddingAPI.upsertFileData(doc.data(), pineconeIndex, chatGptKey,
                         uid, pIndex, tokenThreshold));
                 });
@@ -104,6 +103,7 @@ export default class EmbeddingAPI {
         fileUploadResults.forEach((row: any) => {
             const lastActivity = new Date().toISOString();
             const savedRow = JSON.parse(JSON.stringify(row));
+            console.log(savedRow);
             const mergeBlock: any = {
                 lastActivity,
                 upsertResult: savedRow,
@@ -120,7 +120,7 @@ export default class EmbeddingAPI {
             } else {
                 mergeBlock["errorMessage"] = "";
                 mergeBlock["pineconeTitle"] = row["title"];
-                mergeBlock["pineconeId"] = row["id"];
+                mergeBlock["pineconeId"] = row["ids"];
                 mergeBlock["size"] = row["textSize"];
                 if (savedRow["text"]) mergeBlock["text"] = savedRow["text"];
                 mergeBlock["upsertedDate"] = lastActivity;
@@ -128,9 +128,9 @@ export default class EmbeddingAPI {
                 mergeBlock["vectorCount"] = row["idList"].length;
                 mergeBlock["status"] = "Done";
             }
-            const rowId = row.originalId;
+            console.log("id", row.id);
             promises.push(
-                firebaseAdmin.firestore().doc(`Users/${uid}/embedding/${projectId}/data/${rowId}`)
+                firebaseAdmin.firestore().doc(`Users/${uid}/embedding/${projectId}/data/${row.id}`)
                     .set(mergeBlock, {
                         merge: true,
                     }));
@@ -400,6 +400,7 @@ export default class EmbeddingAPI {
             return await EmbeddingAPI._upsertFileData(fileDesc, pineconeIndex, chatGptKey, uid, pIndex, tokenThreshold);
         } catch (error: any) {
             return {
+                id: fileDesc.id,
                 success: false,
                 errorMessage: error.message,
                 error,
@@ -420,6 +421,7 @@ export default class EmbeddingAPI {
         const id = fileDesc.id;
         if (id === "") {
             return {
+                id,
                 success: false,
                 errorMessage: "id or url required",
             };
@@ -434,6 +436,7 @@ export default class EmbeddingAPI {
             text = scrapeResult.text;
             if (!text) {
                 return {
+                    id,
                     success: false,
                     errorMessage: "url scrape failed to return data",
                 };
@@ -442,6 +445,7 @@ export default class EmbeddingAPI {
             html = scrapeResult.html;
         } else if (!text && !url) {
             return {
+                id,
                 success: false,
                 errorMessage: "text or url required",
             };
@@ -496,7 +500,7 @@ export default class EmbeddingAPI {
 
         return {
             success: true,
-            id: idList.join(","),
+            ids: idList.join(","),
             url,
             text,
             title,
@@ -504,7 +508,7 @@ export default class EmbeddingAPI {
             encodingTokens,
             encodingCredits,
             idList,
-            originalId: fileDesc.id,
+            id,
         };
     }
     /**
