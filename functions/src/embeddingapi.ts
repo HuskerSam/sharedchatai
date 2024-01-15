@@ -103,10 +103,8 @@ export default class EmbeddingAPI {
         fileUploadResults.forEach((row: any) => {
             const lastActivity = new Date().toISOString();
             const savedRow = JSON.parse(JSON.stringify(row));
-            console.log(savedRow);
             const mergeBlock: any = {
                 lastActivity,
-                upsertResult: savedRow,
             };
             if (row["errorMessage"]) {
                 mergeBlock["errorMessage"] = row["errorMessage"];
@@ -119,16 +117,16 @@ export default class EmbeddingAPI {
                 mergeBlock["status"] = "Error";
             } else {
                 mergeBlock["errorMessage"] = "";
-                mergeBlock["pineconeTitle"] = row["title"];
-                mergeBlock["pineconeId"] = row["ids"];
-                mergeBlock["size"] = row["textSize"];
+                if (savedRow["title"]) mergeBlock["title"] = savedRow["title"];
+                mergeBlock["ids"] = savedRow["ids"];
+                mergeBlock["size"] = savedRow["textSize"];
                 if (savedRow["text"]) mergeBlock["text"] = savedRow["text"];
+                mergeBlock["chunkMap"] = savedRow["chunkMap"];
                 mergeBlock["upsertedDate"] = lastActivity;
                 mergeBlock["include"] = false;
                 mergeBlock["vectorCount"] = row["idList"].length;
                 mergeBlock["status"] = "Done";
             }
-            console.log("id", row.id);
             promises.push(
                 firebaseAdmin.firestore().doc(`Users/${uid}/embedding/${projectId}/data/${row.id}`)
                     .set(mergeBlock, {
@@ -430,7 +428,6 @@ export default class EmbeddingAPI {
         const options = fileDesc.options;
         let text = fileDesc.text;
         let title = "";
-        let html = "";
         if (!text && url !== "") {
             const scrapeResult = await EmbeddingAPI._processURL(uid, chatGptKey, url, options);
             text = scrapeResult.text;
@@ -442,7 +439,6 @@ export default class EmbeddingAPI {
                 };
             }
             title = scrapeResult.title;
-            html = scrapeResult.html;
         } else if (!text && !url) {
             return {
                 id,
@@ -470,12 +466,14 @@ export default class EmbeddingAPI {
         const promises: any = [];
         const chunkCount = textChunks.length;
         const idList: Array<string> = [];
+        const chunkMap: any = {};
         textChunks.forEach((chunk: any, index: number) => {
             let pId = id;
             if (chunkCount > 1) pId += "_" + (index + 1) + "_" + chunkCount;
             promises.push(EmbeddingAPI.upsertChunkToPinecone(prefix, chunk, chatGptKey, uid,
                 pId, title, url, pIndex, additionalMetaData));
             idList.push(pId);
+            chunkMap[pId] = chunk.text;
         });
 
         let encodingCredits = 0;
@@ -485,18 +483,6 @@ export default class EmbeddingAPI {
             encodingTokens += result.encodingTokens;
             encodingCredits += result.encodingCredits;
         });
-
-        await firebaseAdmin.firestore().doc(`Embeddings/${pineconeIndex}/html/${id}`)
-            .set({
-                html,
-                text,
-                textChunks,
-                title,
-                textSize,
-                encodingTokens,
-                encodingCredits,
-                idList,
-            });
 
         return {
             success: true,
@@ -509,6 +495,7 @@ export default class EmbeddingAPI {
             encodingCredits,
             idList,
             id,
+            chunkMap,
         };
     }
     /**

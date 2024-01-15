@@ -198,15 +198,20 @@ export class EmbeddingApp extends BaseApp {
             },
             hozAlign: "center",
         }, {
-            title: "text",
-            width: 200,
-            field: "text",
-            editor: "textarea",
+            title: "id List",
+            width: 50,
+            field: "ids",
             headerSort: false,
         }, {
             title: "error",
             width: 100,
             field: "errorMessage",
+            headerSort: false,
+        }, {
+            title: "text",
+            width: 200,
+            field: "text",
+            editor: "textarea",
             headerSort: false,
         },
     ];
