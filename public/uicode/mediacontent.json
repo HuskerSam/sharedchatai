@@ -8,11 +8,6 @@
     },
     {
         "disabled": true,
-        "link": "/content/about/",
-        "title": "About"
-    },
-    {
-        "disabled": true,
         "link": "/content/edushare/",
         "title": "Flyer"
     },
