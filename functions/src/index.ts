@@ -80,6 +80,7 @@ embeddingAPIApp.post("/indexstats", async (req, res) => EmbeddingAPI.getPinecone
 embeddingAPIApp.post("/deletevector", async (req, res) => EmbeddingAPI.deleteVectorById(req, res));
 embeddingAPIApp.post("/fetchvector", async (req, res) => EmbeddingAPI.fetchVectorById(req, res));
 embeddingAPIApp.post("/scrapeurl", async (req, res) => EmbeddingAPI.scrapeURL(req, res));
+embeddingAPIApp.post("/generatelookup", async (req, res) => EmbeddingAPI.generateLookup(req, res));
 
 gameAPIApp.post("/session/external/message", async (req, res) => SessionAPI.externalMessageRequest(req, res));
 gameAPIApp.post("/session/external/vectorquery", async (req, res) => SessionAPI.externalVectorQuery(req, res));

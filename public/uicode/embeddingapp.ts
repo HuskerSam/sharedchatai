@@ -45,6 +45,7 @@ export class EmbeddingApp extends BaseApp {
     embedding_list_file_dom: any = document.querySelector(".embedding_list_file_dom");
     upload_document_list_button: any = document.querySelector(".upload_document_list_button");
     download_json_results_btn: any = document.querySelector(".download_json_results_btn");
+    generate_lookup_db = document.querySelector(".generate_lookup_db") as HTMLAnchorElement;
     upsert_result_status_bar: any = document.querySelector(".upsert_result_status_bar");
     fetch_pinecone_index_stats_btn: any = document.querySelector(".fetch_pinecone_index_stats_btn");
     pinecone_index_name = document.querySelector(".pinecone_index_name") as HTMLDivElement;
@@ -98,6 +99,7 @@ export class EmbeddingApp extends BaseApp {
     pineconeEnvironment = "";
     pineconeKey = "";
     pineconeChunkSize = 1000;
+    includeTextInMeta = false;
     tableColumns = [
         {
             title: "",
@@ -309,6 +311,9 @@ export class EmbeddingApp extends BaseApp {
         this.embedding_list_file_dom.addEventListener("change", (e: Event) => this.uploadUpsertListFile(e));
 
         this.download_json_results_btn.addEventListener("click", (e: Event) => this.downloadResultsFile(e));
+        this.generate_lookup_db.addEventListener("click", (e: Event) => {
+            e.preventDefault();
+        });
 
         this.fetch_pinecone_index_stats_btn.addEventListener("click", () => this.fetchIndexStats());
         this.add_row_btn.addEventListener("click", (e: Event) => this.addEmptyTableRow(e));
@@ -389,9 +394,11 @@ export class EmbeddingApp extends BaseApp {
             this.dialogEmbeddingOptions.props.setPineconeEnvironment(this.pineconeEnvironment);
             this.dialogEmbeddingOptions.props.setPineconeIndex(this.pineconeIndex);
             this.dialogEmbeddingOptions.props.setPineconeChunkSize(this.pineconeChunkSize);
+            this.dialogEmbeddingOptions.props.setIncludeTextInMeta(this.includeTextInMeta);
             this.dialogEmbeddingOptions.props.savePineconeOptions =
-                (pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string, pineconeChunkSize: number) =>
-                    this.savePineconeOptions(pineconeIndex, pineconeKey, pineconeEnvironment, pineconeChunkSize);
+                (pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string,
+                    pineconeChunkSize: number, includeTextInMeta: boolean) =>
+                    this.savePineconeOptions(pineconeIndex, pineconeKey, pineconeEnvironment, pineconeChunkSize, includeTextInMeta);
             this.dialogEmbeddingOptions.props.setShow(true);
         });
     }
@@ -716,6 +723,7 @@ export class EmbeddingApp extends BaseApp {
         this.pineconeKey = "";
         this.pineconeEnvironment = "";
         this.pineconeChunkSize = 0;
+        this.includeTextInMeta = false;
 
         if (this.selectedProjectId) {
             const projectSettings = this.embeddingProjects[this.selectedProjectId];
@@ -724,6 +732,7 @@ export class EmbeddingApp extends BaseApp {
                 if (projectSettings.pineconeKey !== undefined) this.pineconeKey = projectSettings.pineconeKey;
                 if (projectSettings.pineconeEnvironment !== undefined) this.pineconeEnvironment = projectSettings.pineconeEnvironment;
                 if (projectSettings.pineconeChunkSize !== undefined) this.pineconeChunkSize = projectSettings.pineconeChunkSize;
+                if (projectSettings.includeTextInMeta !== undefined) this.includeTextInMeta = projectSettings.includeTextInMeta;
             }
         }
     }
@@ -808,17 +817,22 @@ export class EmbeddingApp extends BaseApp {
      * @param { string } pineconeKey
      * @param { string } pineconeEnvironment
      * @param { number } pineconeChunkSize
+     * @param { boolean } includeTextInMeta
      */
-    async savePineconeOptions(pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string, pineconeChunkSize: number) {
+    async savePineconeOptions(pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string,
+         pineconeChunkSize: number, includeTextInMeta: boolean) {
         this.pineconeIndex = pineconeIndex;
         this.pineconeKey = pineconeKey;
         this.pineconeEnvironment = pineconeEnvironment;
         this.pineconeChunkSize = pineconeChunkSize;
+        this.includeTextInMeta = includeTextInMeta;
+
         await Promise.all([
             this.saveEmbeddingField("pineconeIndex", pineconeIndex),
             this.saveEmbeddingField("pineconeKey", pineconeKey),
             this.saveEmbeddingField("pineconeEnvironment", pineconeEnvironment),
-            this.saveEmbeddingField("pineconeChunkSize", pineconeChunkSize)
+            this.saveEmbeddingField("pineconeChunkSize", pineconeChunkSize),
+            this.saveEmbeddingField("includeTextInMeta", includeTextInMeta),
         ]);
     }
     /**
@@ -886,7 +900,7 @@ export class EmbeddingApp extends BaseApp {
         this.saveProfileField("upsertEmbeddingRowCount", rowCount);
 
         await this._upsertTableRowsToPinecone(this.selectedProjectId, this.pineconeIndex, this.pineconeKey,
-            this.pineconeEnvironment, this.pineconeChunkSize, rowCount, singleRowId);
+            this.pineconeEnvironment, this.pineconeChunkSize, this.includeTextInMeta, rowCount, singleRowId);
         this.fetchIndexStats();
         await this.updateRowsCountFromFirestore();
     }
@@ -896,11 +910,12 @@ export class EmbeddingApp extends BaseApp {
      * @param { string } pineconeKey
      * @param { string } pineconeEnvironment
      * @param { number } tokenThreshold
+     * @param { boolean } includeTextInMeta
      * @param { number } rowCount
      * @param { string } singleRowId
     */
     async _upsertTableRowsToPinecone(projectId: string, pineconeIndex: string, pineconeKey: string,
-        pineconeEnvironment: string, tokenThreshold: number, rowCount: number, singleRowId = "") {
+        pineconeEnvironment: string, tokenThreshold: number, includeTextInMeta = false, rowCount: number, singleRowId = "") {
         if (!getAuth().currentUser) {
             alert("login on homepage to use this");
             return;
@@ -918,6 +933,7 @@ export class EmbeddingApp extends BaseApp {
             pineconeKey,
             pineconeEnvironment,
             tokenThreshold,
+            includeTextInMeta,
             rowCount,
             singleRowId,
         };

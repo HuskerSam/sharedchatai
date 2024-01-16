@@ -41,6 +41,7 @@ export default class EmbeddingAPI {
         const pineconeKey = req.body.pineconeKey;
         const pineconeEnvironment = req.body.pineconeEnvironment;
         const tokenThreshold = req.body.tokenThreshold;
+        const includeTextInMeta = req.body.includeTextInMeta === true;
         const projectId = req.body.projectId;
         const singleRowId = req.body.singleRowId;
         let rowCount = Number(req.body.rowCount);
@@ -78,7 +79,7 @@ export default class EmbeddingAPI {
                 let doc = singleQuery.data();
                 if (!doc) doc = {};
                 promises.push(EmbeddingAPI.upsertFileData(doc, pineconeIndex, chatGptKey,
-                    uid, pIndex, tokenThreshold));
+                    uid, pIndex, tokenThreshold, includeTextInMeta));
             } else {
                 // get oldest 50 new
                 const nextQuery = await firebaseAdmin.firestore()
@@ -91,7 +92,7 @@ export default class EmbeddingAPI {
 
                 nextQuery.forEach((doc: any) => {
                     promises.push(EmbeddingAPI.upsertFileData(doc.data(), pineconeIndex, chatGptKey,
-                        uid, pIndex, tokenThreshold));
+                        uid, pIndex, tokenThreshold, includeTextInMeta));
                 });
             }
             fileUploadResults = await Promise.all(promises);
@@ -345,11 +346,12 @@ export default class EmbeddingAPI {
      * @param { string } url
      * @param { any } pIndex
      * @param { any } additionalMetaData
+     * @param { boolean } includeTextInMeta
      * @return { Promise<any> }
      */
     static async upsertChunkToPinecone(prefix: string, chunk: any, chatGptKey: string, uid: string,
         id: string, title: string, url: string, pIndex: any,
-        additionalMetaData: any = {}): Promise<any> {
+        additionalMetaData: any = {}, includeTextInMeta = true): Promise<any> {
         let text = chunk.text;
         if (prefix) text = prefix.trim() + "\n" + text;
 
@@ -359,13 +361,11 @@ export default class EmbeddingAPI {
         const encodingCredits = embeddingModelResult.encodingCredits;
 
         const metadata: any = {
-            text,
             url,
             title,
-            encodingTokens,
-            encodingCredits,
         };
 
+        if (includeTextInMeta) metadata.text = text;
         Object.assign(metadata, additionalMetaData);
         const pEmbedding = {
             metadata,
@@ -390,12 +390,14 @@ export default class EmbeddingAPI {
      * @param { string } uid
      * @param { any } pIndex
      * @param { number } tokenThreshold
+     * @param { boolean } includeTextInMeta
      * @return { any } success: true - otherwise errorMessage: string is in map
     */
     static async upsertFileData(fileDesc: any, pineconeIndex: string, chatGptKey: string, uid: string, pIndex: any,
-        tokenThreshold: number) {
+        tokenThreshold: number, includeTextInMeta = true) {
         try {
-            return await EmbeddingAPI._upsertFileData(fileDesc, pineconeIndex, chatGptKey, uid, pIndex, tokenThreshold);
+            return await EmbeddingAPI._upsertFileData(fileDesc, pineconeIndex, chatGptKey, uid,
+                 pIndex, tokenThreshold, includeTextInMeta);
         } catch (error: any) {
             return {
                 id: fileDesc.id,
@@ -412,10 +414,11 @@ export default class EmbeddingAPI {
      * @param { string } uid
      * @param { any } pIndex
      * @param { number } tokenThreshold
+     * @param { boolean } includeTextInMeta
      * @return { any } success: true - otherwise errorMessage: string is in map
     */
     static async _upsertFileData(fileDesc: any, pineconeIndex: string, chatGptKey: string, uid: string, pIndex: any,
-        tokenThreshold: number) {
+        tokenThreshold: number, includeTextInMeta = true) {
         const id = fileDesc.id;
         if (id === "") {
             return {
@@ -471,7 +474,7 @@ export default class EmbeddingAPI {
             let pId = id;
             if (chunkCount > 1) pId += "_" + (index + 1) + "_" + chunkCount;
             promises.push(EmbeddingAPI.upsertChunkToPinecone(prefix, chunk, chatGptKey, uid,
-                pId, title, url, pIndex, additionalMetaData));
+                pId, title, url, pIndex, additionalMetaData, includeTextInMeta));
             idList.push(pId);
             chunkMap[pId] = chunk.text;
         });
@@ -853,6 +856,44 @@ export default class EmbeddingAPI {
                 });
             });
             pdfParser.parseBuffer(buff);
+        });
+    }
+    /**
+     * @param { Request } req http request object
+     * @param { Response } res http response object
+     */
+    static async generateLookup(req: Request, res: Response) {
+        const authResults = await BaseClass.validateCredentials(<string>req.headers.token);
+        if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
+        const uid = authResults.uid;
+
+        const localInstance = BaseClass.newLocalInstance();
+        await localInstance.init();
+
+        const projectId = req.body.projectId;
+        const lookupMap: any = {};
+        let docsSnapshot = await firebaseAdmin.firestore().collection(`Users/${uid}/embedding/${projectId}/data`).limit(10000).get();
+        while (docsSnapshot.size > 0) {
+            docsSnapshot.forEach((doc: FirebaseFirestore.DocumentSnapshot) => {
+                const chunkMap = doc.data()?.chunkMap;
+                if (chunkMap) {
+                    Object.assign(lookupMap, chunkMap);
+                } else {
+                    console.log("MISSING CHUNK MAP", doc.id);
+                }
+            });
+
+            const lastVisible = docsSnapshot.docs[docsSnapshot.docs.length - 1];
+            docsSnapshot = await firebaseAdmin.firestore().collection(`Users/${uid}/embedding/${projectId}/data`)
+                .startAfter(lastVisible)
+                .limit(10000)
+                .get();
+        }
+
+        return res.send({
+            success: true,
+            lookupMap,
+            projectId,
         });
     }
 }
