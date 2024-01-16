@@ -60,6 +60,7 @@ export default class EmbeddingAPI {
                     name: pineconeIndex,
                     dimension: 1536,
                     metric: "cosine",
+                    pods: 1,
                     waitUntilReady: true,
                 });
             } catch (createError: any) {
