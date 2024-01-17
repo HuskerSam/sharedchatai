@@ -284,6 +284,10 @@ i.copy_green {
     margin-left: -20px;
 }
 
+.header_tabs .nav-link.active {
+    cursor: default;
+}
+
 @media(min-width: 768px) {
     .account_status_display {
         width: 70px;

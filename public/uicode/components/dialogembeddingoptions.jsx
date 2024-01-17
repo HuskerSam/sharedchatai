@@ -2,6 +2,7 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import FormControl from 'react-bootstrap/FormControl';
+import Form from 'react-bootstrap/Form';
 
 export default function DialogEmbeddingOptions(props) {
     const [show, setShow] = React.useState(false);
@@ -9,17 +10,23 @@ export default function DialogEmbeddingOptions(props) {
     const [pineconeEnvironment, setPineconeEnvironment] = React.useState("");
     const [pineconeIndex, setPineconeIndex] = React.useState("");
     const [pineconeChunkSize, setPineconeChunkSize] = React.useState(1000);
+    const [includeTextInMeta, setIncludeTextInMeta] = React.useState(false);
 
     props.setShow = setShow;
     props.setPineconeKey = setPineconeKey;
     props.setPineconeEnvironment = setPineconeEnvironment;
     props.setPineconeIndex = setPineconeIndex;
     props.setPineconeChunkSize = setPineconeChunkSize;
+    props.setIncludeTextInMeta = setIncludeTextInMeta;
 
     const handleClose = () => setShow(false);
+    const handleSave = () => {
+        props.savePineconeOptions(pineconeIndex, pineconeKey, pineconeEnvironment, pineconeChunkSize, includeTextInMeta);
+        setShow(false);
+    };
 
     return (
-        <Modal show={show} onHide={handleClose} size="lg">
+        <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton className="theme_panel">
                 <Modal.Title>Embedding Options</Modal.Title>
             </Modal.Header>
@@ -76,16 +83,26 @@ export default function DialogEmbeddingOptions(props) {
                         <td></td>
                     </tr>
                     <tr>
-                        <td colspan="3" style={{ textAlign: "right", padding: "8px" }}>
-                            <Button variant="primary" onClick={
-                                () => props.savePineconeOptions(pineconeIndex, pineconeKey, pineconeEnvironment, pineconeChunkSize)
-                            }>Save Options</Button>
-                        </td>
                         <td></td>
+                        <td colspan="3">
+                            <Form.Check
+                                inline
+                                label="Include Text in Metadata"
+                                type="switch"
+                                checked={includeTextInMeta}
+                                onChange={
+                                    (e) => setIncludeTextInMeta(e.target.checked)
+                                }
+                            />
+                        </td>
                     </tr>
                 </table>
             </Modal.Body>
             <Modal.Footer className="theme_panel">
+                <Button variant="primary" onClick={handleSave}>
+                    Save
+                </Button>
+                &nbsp;
                 <Button variant="secondary" onClick={handleClose}>
                     Close
                 </Button>

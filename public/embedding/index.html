@@ -59,11 +59,11 @@
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="embeddingOptionsDropdown_btn">
                         <li>
-                            <a class="dropdown-item add_project_btn">
+                            <a class="dropdown-item add_project_btn" href="addproject">
                                 Add Project</a>
                         </li>
                         <li>
-                            <a class="dropdown-item remove_project_btn">
+                            <a class="dropdown-item remove_project_btn" href="deleteproject">
                                 Delete Project</a>
                         </li>
                         <li>
@@ -74,11 +74,11 @@
                             <a class="dropdown-item vector_inspect_dialog_btn" href="publish"> Inspect Vector </a>
                         </li>
                         <li>
-                            <a class="dropdown-item publish_pinecone_dialog_btn" href="publish"> Publish Project
+                            <a class="dropdown-item publish_pinecone_dialog_btn" href="publish"> Connected Sessions
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item test_pinecone_dialog_btn" href="testpinecone"> Test Project </a>
+                            <a class="dropdown-item test_pinecone_dialog_btn" href="testpinecone"> Query Pinecone </a>
                         </li>
                         <li>
                             <a class="dropdown-item upload_document_list_button" href="importrows"> Import
@@ -86,6 +86,10 @@
                         </li>
                         <li>
                             <a class="dropdown-item download_json_results_btn" href="exportjson"> Export Rows
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item generate_lookup_db" href="generatelookup"> Generate Lookup
                             </a>
                         </li>
                     </ul>
@@ -119,8 +123,8 @@
                 </div>
                 <div class="firebase_record_count_status" style="flex:1">&nbsp;</div>
                 <div>
-                    <button class="upload_embedding_documents_btn btn btn-primary">
-                        <i class="material-icons">cloud_upload</i> <span>Upsert Next</span>
+                    <button class="upload_embedding_documents_btn btn btn-secondary">
+                        <span>Upsert Next</span>
                     </button>
                     <div style="display:inline-block;padding-right: 8px;position:relative;top:2px;">
                         <select class="upload_embedding_document_batchsize form-select">

@@ -52,7 +52,6 @@ export class DashboardApp extends BaseApp {
       this.documentCreate.show(this.getCustomSelectedLabel());
     });
   }
-  
   /**
    * @return { string } label if custom, "" if not (all or unlabeled)
    */
