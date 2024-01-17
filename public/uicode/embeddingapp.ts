@@ -397,7 +397,7 @@ export class EmbeddingApp extends BaseApp {
             this.dialogEmbeddingOptions.props.setPineconeChunkSize(this.pineconeChunkSize);
             this.dialogEmbeddingOptions.props.setIncludeTextInMeta(this.includeTextInMeta);
             this.dialogEmbeddingOptions.props.deleteIndex =
-                () => this.deleteIndex(); 
+                () => this.deleteIndex();
             this.dialogEmbeddingOptions.props.savePineconeOptions =
                 (pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string,
                     pineconeChunkSize: number, includeTextInMeta: boolean) =>
@@ -429,7 +429,7 @@ export class EmbeddingApp extends BaseApp {
             alert(json.errorMessage);
             return;
         }
- 
+
         navigator.clipboard.writeText(json.publicPath);
         alert("Lookup file path copied to clipboard");
     }

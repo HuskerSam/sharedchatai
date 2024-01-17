@@ -894,13 +894,13 @@ export default class EmbeddingAPI {
         const options = {
             resumable: false,
             metadata: {
-              contentType: "application/json"
-            }
+              contentType: "application/json",
+            },
           };
 
-        let filePath = `projectLookups/${uid}/${projectId}/lookup.json`;
-        let file = bucket.file(filePath);
-        let jsonString = JSON.stringify(lookupMap);
+        const filePath = `projectLookups/${uid}/${projectId}/lookup.json`;
+        const file = bucket.file(filePath);
+        const jsonString = JSON.stringify(lookupMap);
         await file.save(jsonString, options);
         await file.makePublic();
         const encodedPath = encodeURIComponent(filePath);
