@@ -22,7 +22,7 @@ import {
     startAfter,
     documentId,
 } from "firebase/firestore";
-import BaseApp from '../../baseapp';
+import BaseApp from '../baseapp';
 
 export default function DialogPublishEmbedding(props) {
     const [show, setShow] = React.useState(false);
@@ -36,11 +36,13 @@ export default function DialogPublishEmbedding(props) {
     return (
         <Modal show={show} onHide={handleClose} size="lg">
             <Modal.Header closeButton className="theme_panel">
-                <Modal.Title>Publish Embedding</Modal.Title>
+                <Modal.Title>Connected Sessions</Modal.Title>
             </Modal.Header>
             <Modal.Body className="theme_panel">
-                <h4>Connected Sessions</h4>
-                <div class="connected_sessions_list">
+                <div style={{
+                    height: "50vh",
+                    overflow: "auto"
+                }}>
                     {sessions.map((doc) => (
                         <a className="connected_session_row" target="_blank"
                             href={`/session/${doc.id}`}>{doc.data().title} |
@@ -49,10 +51,11 @@ export default function DialogPublishEmbedding(props) {
                         </a>
                     ))}
                 </div>
-                <br />
-                <button class="btn btn-primary" onClick={() => props.addConnectedSession()}>Create Connected Session</button>
             </Modal.Body>
             <Modal.Footer className="theme_panel">
+                <Button onClick={() => props.addConnectedSession()}>
+                    Create Session
+                </Button>
                 <Button variant="secondary" onClick={handleClose}>
                     Close
                 </Button>

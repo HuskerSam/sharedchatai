@@ -223,11 +223,6 @@ select.upsert_documents_list.form-select:active {
   text-decoration: none;
 }
 
-.connected_sessions_list {
-  height: 200px;
-  overflow: auto;
-}
-
 .header_tool_bar {
   display: flex;
   flex-direction: row;

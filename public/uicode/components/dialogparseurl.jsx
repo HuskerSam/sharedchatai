@@ -6,23 +6,6 @@ import {
     getAuth,
 } from "firebase/auth";
 import {
-    collection,
-    doc,
-    setDoc,
-    deleteDoc,
-    where,
-    limit,
-    getDoc,
-    getDocs,
-    onSnapshot,
-    getCountFromServer,
-    query,
-    orderBy,
-    getFirestore,
-    startAfter,
-    documentId,
-} from "firebase/firestore";
-import {
     encode,
   } from "gpt-tokenizer";
 

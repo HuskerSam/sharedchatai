@@ -27,9 +27,9 @@ import {
 } from "tabulator-tables";
 import ReactDOM from "react-dom";
 import React from "react";
-import DialogParseURL from "./components/dialogparseurl/dialogparseurl.jsx";
-import DialogTestPinecone from "./components/dialogtestpinecone/dialogtestpinecone.jsx";
-import DialogPublishEmbedding from "./components/dialogpublishembedding/dialogpublishembedding.jsx";
+import DialogParseURL from "./components/dialogparseurl.jsx";
+import DialogTestPinecone from "./components/dialogtestpinecone.jsx";
+import DialogPublishEmbedding from "./components/dialogpublishembedding.jsx";
 import DialogVectorInspect from "./components/dialogvectorinspect.jsx";
 import DialogEmbeddingOptions from "./components/dialogembeddingoptions.jsx";
 import Papa from "papaparse";
