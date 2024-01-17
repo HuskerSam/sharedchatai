@@ -159,23 +159,6 @@ table tr td.table_cell_sizer {
   position: relative;
 }
 
-select.upsert_documents_list.form-select {
-  border: 1px solid var(--primary-color-4);
-  color: var(--primary-color);
-  font-size: 18px;
-  background-color: var(--secondary-color);
-  padding: 4px;
-  padding-left: 8px;
-  padding-right: 24px;
-  width: 200px;
-}
-
-select.upsert_documents_list.form-select:hover,
-select.upsert_documents_list.form-select:focus,
-select.upsert_documents_list.form-select:active {
-  background-color: var(--background-accent-3);
-}
-
 .btn_icon {
   border: none;
   background: none;
