@@ -890,10 +890,26 @@ export default class EmbeddingAPI {
                 .limit(10000)
                 .get();
         }
+        const bucket = firebaseAdmin.storage().bucket();
+        const options = {
+            resumable: false,
+            metadata: {
+              contentType: "application/json"
+            }
+          };
 
+        let filePath = `projectLookups/${uid}/${projectId}/lookup.json`;
+        let file = bucket.file(filePath);
+        let jsonString = JSON.stringify(lookupMap);
+        await file.save(jsonString, options);
+        await file.makePublic();
+        const encodedPath = encodeURIComponent(filePath);
+        const publicPath = `https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/${encodedPath}?alt=media`;
+        console.log(publicPath);
         return res.send({
             success: true,
-            lookupMap,
+            filePath,
+            publicPath,
             projectId,
         });
     }

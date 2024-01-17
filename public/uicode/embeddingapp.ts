@@ -313,6 +313,7 @@ export class EmbeddingApp extends BaseApp {
         this.download_json_results_btn.addEventListener("click", (e: Event) => this.downloadResultsFile(e));
         this.generate_lookup_db.addEventListener("click", (e: Event) => {
             e.preventDefault();
+            this.generateLookupDB();
         });
 
         this.fetch_pinecone_index_stats_btn.addEventListener("click", () => this.fetchIndexStats());
@@ -403,6 +404,34 @@ export class EmbeddingApp extends BaseApp {
                     this.savePineconeOptions(pineconeIndex, pineconeKey, pineconeEnvironment, pineconeChunkSize, includeTextInMeta);
             this.dialogEmbeddingOptions.props.setShow(true);
         });
+    }
+    /** */
+    async generateLookupDB() {
+        if (!this.selectedProjectId) return;
+
+        const body: any = {
+            projectId: this.selectedProjectId,
+        };
+        const token = await getAuth().currentUser?.getIdToken() as string;
+        const fResult = await fetch(this.basePath + "embeddingApi/generatelookup", {
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            headers: {
+                "Content-Type": "application/json",
+                token,
+            },
+            body: JSON.stringify(body),
+        });
+        const json = await fResult.json();
+        if (!json.success) {
+            console.log(json.errorMessage, json);
+            alert(json.errorMessage);
+            return;
+        }
+ 
+        navigator.clipboard.writeText(json.publicPath);
+        alert("Lookup file path copied to clipboard");
     }
     /**
      * @param { any } event
