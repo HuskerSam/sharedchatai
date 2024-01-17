@@ -6,6 +6,7 @@ export class BibleDemoApp {
   full_augmented_response: any = document.body.querySelector(".full_augmented_response");
   analyze_prompt_textarea: any = document.body.querySelector(".analyze_prompt_textarea");
   lookup_chapter_response_feed: any = document.body.querySelector(".lookup_chapter_response_feed");
+  nav_link = document.body.querySelectorAll(".nav-link");
   embedding_type_select: any = document.body.querySelector(".embedding_type_select");
   embedding_diagram_img: any = document.body.querySelector(".embedding_diagram_img");
   embedding_diagram_anchor: any = document.body.querySelector(".embedding_diagram_anchor");
@@ -29,9 +30,13 @@ export class BibleDemoApp {
         return;
       }
       this.analyze_prompt_button.setAttribute("disabled", "");
-      this.analyze_prompt_button.innerHTML = "Retrieving results...";
+      this.analyze_prompt_button.innerHTML = "Retrieving...";
       this.summary_details.innerHTML = "Loading...";
       this.running = true;
+      for (let i = 0; i < this.nav_link.length; i++) {
+        this.nav_link[i].classList.remove("disabled");
+        this.nav_link[i].setAttribute("aria-disabled", "false");
+      }
       document.body.classList.remove("initial");
       document.body.classList.add("running");
       document.body.classList.remove("complete");
@@ -41,11 +46,12 @@ export class BibleDemoApp {
         this.sendPromptToLLM(),
       ]);
       this.analyze_prompt_button.removeAttribute("disabled");
-      this.analyze_prompt_button.innerHTML = "Bible Lookup";
+      this.analyze_prompt_button.innerHTML = "Send";
       this.running = false;
       document.body.classList.add("complete");
       document.body.classList.remove("running");
     });
+
     this.prompt_template_select_preset.addEventListener("input", () => this.populatePromptTemplates());
     let templateIndex: any = localStorage.getItem("templateIndex");
     if (templateIndex && templateIndex > 0) this.prompt_template_select_preset.selectedIndex = templateIndex;
@@ -152,7 +158,7 @@ export class BibleDemoApp {
       console.log(result);
     }
 
-    let html = "Most Relevant Verses...<br>";
+    let html = '<span class="small text-muted">Most Relevant Verses...</span><br>';
     result.matches.forEach((match) => {
       const metaData = JSON.stringify(match.metadata, null, "\n");
 
@@ -211,7 +217,7 @@ export class BibleDemoApp {
       console.log(result);
     }
 
-    let html = "Most Relevant Chapters...<br>";
+    let html = '<span class="small text-muted">Most Relevant Chapters...<span><br>';
     result.matches.forEach((match) => {
       const metaData = JSON.stringify(match.metadata, null, "\n");
       const block = `<div class="verse_card">
