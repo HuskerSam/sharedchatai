@@ -5,15 +5,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Bible Embedding Example</title>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
   <script type="module">
     import { loadModule } from 'https://klesun.github.io/ts-browser/src/ts-browser.js';
     window.addEventListener("load", async () => {
@@ -22,11 +21,10 @@
       window.appInstance = new mod.BibleDemoApp();
     });
   </script>
-  <script src="offcanvas.js"></script>
 </head>
 
 <body class="initial">
-  <nav class="navbar navbar-light" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+  <nav class="navbar navbar-light navbar-expand-lg" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
   border-bottom: 1px solid rgba(127, 127, 127, .4);" aria-label="Main navigation">
     <div class="container-fluid">
       <button class="navbar-toggler p-0 border-0" type="button" data-bs-toggle="offcanvas"
@@ -36,30 +34,31 @@
       <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample"
         aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasExampleLabel">Bible Lookup</h5>
-          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          <h5 class="offcanvas-title" id="offcanvasExampleLabel">Bible GPT</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body pt-0">
-          <ul class="navbar-nav nav">
+          <ul class="navbar-nav nav d-flex justify-content-center w-100">
             <li class="nav-item"><a class="nav-link active" id="chapters_view_button" data-bs-toggle="tab"
-                href="#full_augmented_response" role="tab" aria-controls="chapters_view" aria-selected="true">
+                href="#full_augmented_response" aria-current="page" role="tab" aria-controls="chapters_view"
+                aria-selected="true">
                 Send Query
               </a>
             </li>
-            <li class="nav-item ms-3">
+            <li class="nav-item ms-3 ms-lg-0">
               <a class="nav-link disabled" id="full_augmented_prompt_button" data-bs-toggle="tab"
                 href="#full_augmented_prompt_view" role="tab" aria-controls="full_augmented_prompt_view"
                 aria-selected="false" aria-disabled="true">
                 Details
               </a>
             </li>
-            <li class="nav-item ms-3">
+            <li class="nav-item ms-3 ms-lg-0">
               <a class="nav-link disabled" id="chapters_view_button" data-bs-toggle="tab" href="#chapters_view"
                 role="tab" aria-controls="chapters_view" aria-selected="false" aria-disabled="true">
                 Chapters
               </a>
             </li>
-            <li class="nav-item ms-3">
+            <li class="nav-item ms-3 ms-lg-0">
               <a class="nav-link disabled" id="verses_view_button" data-bs-toggle="tab" href="#verses_view" role="tab"
                 aria-controls="verses_view" aria-selected="false" aria-disabled="true">
                 Verses
@@ -96,40 +95,33 @@
         role="tabpanel" aria-labelledby="full_augmented_response_button">
         <div class="d-flex flex-column bg-light" style="background-image: var(--bs-gradient);">
           <div class="prompt_response_area text-start p-1 d-flex flex-column">
-            <div class="initial_user_message text-muted text-start p-sm-1" style="cursor: not-allowed;">
-              This demo uses RAG (Retrieval-Augmented Generation) to augment LLM with Bible knowledge.
-              <ul class="mt-3">
-                <li>
-                  Enter prompt for an augmented response.
-                </li>
-                <li>
-                  Search most relevant chapter and verses.
-                </li>
-                <li>
-                  Modify templates to adjust response.
-                </li>
-                <li>
-                  View Details to see embedded prompt.
-                </li>
-              </ul>
-              <span class="muted small">Check Pipeline details to understand result generation.</span>
+            <div class="full_augmented_response m-2 small-caps"></div>
+            <div class="initial_user_message text-muted text-start p-3 mt-auto mb-auto small-caps fs-4"
+              style="cursor: not-allowed;">
+              <span class="onboarding_text">Enter a prompt to begin.</span>
+              <br><br>Adjust templates to modify results.
+              <br><br>Retrieve most similar chapter and verses.
             </div>
-            <div class="full_augmented_response m-2"></div>
+            <span class="muted small mt-auto"></span>
+            <div></div>
           </div>
           <div class="w-100 border border-secondary d-flex flex-row rounded" style="position: absolute; bottom: 0;">
             <div class="textarea-wrapper" style="position: relative; width: 100%;">
-              <textarea class="analyze_prompt_textarea form-control me-1" style="padding-right: 70px;"
+              <textarea class="analyze_prompt_textarea form-control me-1" style="padding-right: 70px;height: 13vh;"
                 placeholder="Enter your prompt" type="text"></textarea>
-              <button class="analyze_prompt_button btn btn-success" type="submit"
-                style="position: absolute; right: 12px; top: 16px;">Send</button>
+              <button class="analyze_prompt_button btn btn-primary p-2" type="submit"
+                style="position: absolute; right: 12px; top: 24px;">
+                <span class="material-icons-outlined mt-1">
+                  send
+                </span>
+              </button>
             </div>
           </div>
         </div>
       </div>
       <div class="tab-pane fade h-100" id="chapters_view" role="tabpanel" aria-labelledby="chapters_view_button">
         <div class="d-flex flex-column" style="background-image: var(--bs-gradient);">
-          <div class="text-start py-1 d-flex flex-column" style="height:87vh; overflow: auto;">
-            <div class="initial_user_message text-muted" style="cursor: not-allowed;">You must enter a query first</div>
+          <div class="text-start py-2 d-flex flex-column" style="height:87vh; overflow: auto;">
             <div class="lookup_chapter_response_feed"></div>
             <a type="button" class="nav-link text-center pipeline_detail_anchor_hide" data-bs-toggle="modal"
               data-bs-target="#exampleModal">
@@ -140,8 +132,7 @@
       </div>
       <div class="tab-pane fade h-100" id="verses_view" role="tabpanel" aria-labelledby="verses_view_button">
         <div class="d-flex flex-column" style="background-image: var(--bs-gradient);">
-          <div class="text-start py-1 d-flex flex-column" style="height:87vh; overflow: auto;">
-            <div class="initial_user_message text-muted" style="cursor: not-allowed;">You must enter a query first</div>
+          <div class="text-start py-2 d-flex flex-column" style="height:87vh; overflow: auto;">
             <div class="lookup_verse_response_feed"></div>
             <a type="button" class="nav-link text-center pipeline_detail_anchor_hide" data-bs-toggle="modal"
               data-bs-target="#exampleModal">
@@ -155,8 +146,7 @@
         aria-labelledby="full_augmented_prompt_view">
         <div class="d-flex flex-column" style="background-image: var(--bs-gradient);">
           <div class="text-start py-1 d-flex flex-column" style="height:87vh; overflow: auto;">
-            <div class="initial_user_message text-muted" style="cursor: not-allowed;">You must enter a query first</div>
-            <div class="summary_details"></div>
+            <div class="summary_details p-3"></div>
           </div>
         </div>
       </div>
@@ -183,19 +173,23 @@
       <div class="tab-pane fade text-start h-100" id="augmented_template_view" role="tabpanel"
         aria-labelledby="augmented_template_button">
         <div class="d-flex flex-column" style="background-image: var(--bs-gradient);">
-          <div class="text-start py-1 d-flex flex-column gap-2" style="height:87vh; overflow: auto;position: relative;">
+          <div class="text-start pt-2 d-flex flex-column gap-2" style="height:87vh; overflow: auto;position: relative;">
             <label>Prompt Template: </label>
             <select class="form-select prompt_template_select_preset">
-              <option selected>Augmented Response</option>
-              <option>Write a new chapter</option>
-              <option>Provide guidance</option>
-              <option>Judge if embeds politically correct</option>
+              <option selected>Provide Guidance</option>
+              <option>Search</option>
+              <option>Rate embed text for political correctness</option>
+              <option>Write a poem</option>
+              <option>Love Counsel</option>
+              <option>Children's Story</option>
             </select>
-            <textarea style="height:15em;width:100%;" class="prompt_template_text_area"></textarea>
-            <span class="small text-info" style="position: relative;top:-12px">{{documents}} refers to embedded
+            <textarea style="height:15em;width:100%;"
+              class="prompt_template_text_area monospace form-control"></textarea>
+            <span class="small text-info ms-3" style="position: relative;top:-12px">{{documents}} refers to embedded
               text.</span>
             <label class="mt-3">Embed Template: </label>
-            <textarea style="height:7em;width:100%;" class="document_template_text_area"></textarea>
+            <textarea style="height:7em;width:100%;"
+              class="document_template_text_area monospace form-control"></textarea>
             <div class="text-center">
               <button class="reset_template_options_button btn btn-warning">Reset Templates</button>
             </div>
@@ -210,7 +204,7 @@
         aria-labelledby="augmented_template_button">
         <div class="d-flex flex-column" style="background-image: var(--bs-gradient);">
           <div class="text-start py-1 d-flex flex-column gap-2" style="height:87vh; overflow: auto;">
-            <div class="accordion" id="accordionPanelsStayOpenExample">
+            <div class="accordion accordion-flush" id="accordionPanelsStayOpenExample">
               <div class="accordion-item">
                 <h2 class="accordion-header" id="panelsStayOpen-headingOne">
                   <button class="accordion-button" type="button" data-bs-toggle="collapse"
@@ -243,7 +237,7 @@
                     LLMs are limited by their context window size. While the intuitive response may be to increase the
                     size of the context window, researchers have
                     found that doing so actually doesn't correlate to performance (measured by accuracy). To maximize
-                    the effectiveness of LLMs, we actually need to
+                    the effectiveness of LLMs, we need to
                     provide them with the most relevant context. This is where RAG comes in. RAG systems automatically
                     retrieve and helps you search through relevant information
                     from a given knowledge base based on user query, thereby allowing LLMs to generate factual,
@@ -434,6 +428,8 @@
       border-top: solid 1px gray;
       padding: 8px;
       color: black;
+      font-variant: small-caps;
+      font-size: 18px;
     }
 
     .message_text,
@@ -456,8 +452,17 @@
       font-weight: bold;
     }
 
+    .monospace {
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    .small-caps {
+      font-variant: small-caps;
+    }
+
     .raw_prompt {
       white-space: pre-wrap;
+      font-family: 'Courier New', Courier, monospace;
     }
 
     .pipeline_detail_anchor_hide {
@@ -483,20 +488,35 @@
     }
 
     .prompt_response_area {
-      height: 74vh;
+      height: 73vh;
       overflow: auto;
     }
+    @keyframes fade-in-left {
+  0% {
+    transform: translateX(-10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.onboarding_text {
+  display: inline-block;
+  animation: fade-in-left 1s ease-out;
+}
 
     @media (min-height: 790px) {
       .prompt_response_area {
-        height: 80vh;
+        height: 77vh;
       }
     }
 
 
     @media (min-height: 1200px) {
       .prompt_response_area {
-        height: 83vh;
+        height: 81vh;
       }
     }
   </style>

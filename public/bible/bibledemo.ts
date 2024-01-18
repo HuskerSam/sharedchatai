@@ -46,7 +46,9 @@ export class BibleDemoApp {
         this.sendPromptToLLM(),
       ]);
       this.analyze_prompt_button.removeAttribute("disabled");
-      this.analyze_prompt_button.innerHTML = "Send";
+      this.analyze_prompt_button.innerHTML = `<span class="material-icons-outlined">
+      send
+      </span>`;
       this.running = false;
       document.body.classList.add("complete");
       document.body.classList.remove("running");
@@ -405,7 +407,7 @@ export class BibleDemoApp {
     <label>Granularity Level</label>: ${this.embedding_type_select.selectedIndex < 2 ? "Verse" : "Chapter"}<br>
     <label>Small to Big</label>: ${this.embedding_type_select.selectedIndex === 0 ? "True" : "False"}<br>
     <label>Top K</label>: ${queryDetails.topK}<br>
-    <label>Include K</label>: ${queryDetails.includeK}<br>
+    <label>Include K</label>: ${queryDetails.includeK}<br><br>
     <label>Full Raw Prompt</label>: <div class="raw_prompt">${prompt}</div><br>`;
 
 
@@ -476,31 +478,23 @@ export class BibleDemoApp {
 
 const promptTemplates = [
   {
-    mainPrompt: `Respond to the following prompt using these Biblical chapters as guidance:
-{{documents}}
-Respond to prompt using Biblical language:
-{{prompt}}`,
-    documentPrompt: `Chapter ({{title}}):
+    mainPrompt: `These chapters convey significant biblical lessons and mysteries:
+    {{documents}}
+    
+Quote and cite the documents, then use their teachings in your answer to the following theological question:
+    {{prompt}}`, 
+    documentPrompt: `({{title}}):
 {{text}}
 
 `,
   },
   {
-    mainPrompt: `Write a new chapter using these Biblical chapters as guidance:
-{{documents}}
-As primary guidance use:
-{{prompt}}`,
-    documentPrompt: `{{title}}:
-{{text}}
-
-`,
-  },
-  {
-    mainPrompt: `Provide spiritual guidance using a Biblical voice using these chapters as reference:
-{{documents}}
-This is the specific prompt to respond to:
-{{prompt}}`,
-    documentPrompt: `{{title}}:
+    mainPrompt: `Summarize in bibliography fashion the following biblical chapters or verses:
+    {{documents}}
+    
+Cite and Explain how it relates to the following prompt:
+    {{prompt}}`,
+    documentPrompt: `({{title}}):
 {{text}}
 
 `,
@@ -514,6 +508,39 @@ Please respond with json and only json in this format:
   "politicalCorrectnessScore": 0,
 }`,
     documentPrompt: `Document Id: {{id}}  Index: {{matchIndex}}  Title: {{title}}:
+{{text}}
+
+`,
+  },
+  {
+    mainPrompt: `The following Bible chapters serve as a source of inspiration for a poem:
+    {{documents}}
+
+Your task is to input biblical references into functioning parts of the poem:
+    {{prompt}}`,
+    documentPrompt: `{{title}}:
+{{text}}
+
+`,
+  },
+  {
+    mainPrompt: `The following biblical chapters explore the concept of love:
+    {{documents}}
+    
+    Express biblical love in the following relationship advice prompt; cite the bible in your answer:
+    {{prompt}}`,
+    documentPrompt: `{{title}}:
+{{text}}
+
+`,
+  },
+  {
+    mainPrompt: ` Draw heartwarming lessons from the following biblical accounts:
+    {{documents}}
+    
+From these lessons, tell a charming, funny tale for kids around the following prompt:
+    {{prompt}}`,
+    documentPrompt: `{{title}}:
 {{text}}
 
 `,
