@@ -30,7 +30,7 @@ export class BibleDemoApp {
         return;
       }
       this.analyze_prompt_button.setAttribute("disabled", "");
-      this.analyze_prompt_button.innerHTML = "Retrieving...";
+      this.analyze_prompt_button.innerHTML = `...`;
       this.summary_details.innerHTML = "Loading...";
       this.running = true;
       for (let i = 0; i < this.nav_link.length; i++) {
@@ -83,7 +83,7 @@ export class BibleDemoApp {
         this.embedding_diagram_img.src = "img/ragChapters.png";
         this.embedding_diagram_anchor.href = "img/ragChapters.png";
       }
-    }); 
+    });
 
     this.populatePromptTemplates(0);
     this.analyze_prompt_textarea.addEventListener("keydown", (e: any) => {
@@ -108,7 +108,7 @@ export class BibleDemoApp {
     if (promptTemplate) this.prompt_template_text_area.value = promptTemplate;
     const documentTemplate = localStorage.getItem("documentTemplate");
     if (documentTemplate) this.document_template_text_area.value = documentTemplate;
-    
+
     this.reset_template_options_button.addEventListener("click", () => {
       this.prompt_template_select_preset.selectedIndex = 0;
       this.embedding_type_select.selectedIndex = 0;
@@ -396,9 +396,9 @@ export class BibleDemoApp {
       chaptersText.push(chapterDetails.text);
     });
 
-    
 
-    
+
+
     const prompt = this.embedPrompt(message, matches, queryDetails);
     const diagram = this.embedding_diagram_img.src;
     this.summary_details.innerHTML = `<a target="_blank" class="embedding_diagram_anchor" href="${diagram}"><img style="width:100px;float:right" class="embedding_diagram_img" src="${diagram}" alt=""></a>
@@ -407,7 +407,7 @@ export class BibleDemoApp {
     <label>Top K</label>: ${queryDetails.topK}<br>
     <label>Include K</label>: ${queryDetails.includeK}<br>
     <label>Full Raw Prompt</label>: <div class="raw_prompt">${prompt}</div><br>`;
-   
+
 
     const body = {
       message: prompt,
