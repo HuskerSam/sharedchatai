@@ -610,7 +610,6 @@ export default class EmbeddingAPI {
     /**
      * @param { any } pineconeVectorData
      * @param { string } pineconeKey
-     * @param { string } pineconeEnvironment
      * @param { string } pineconeTopK
      * @param { string } pineconeIndex
      * @return { Promise<any> }
