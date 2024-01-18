@@ -48,7 +48,7 @@ export default class SessionAPI {
         }
         const encodingTokens = encodingResult.fullResult.usage.total_tokens;
         const messageVectors = encodingResult.vectorResult;
-        const pineconeQueryResults = await EmbeddingAPI.queryPineconeDocuments(messageVectors, pineconeKey, pineconeEnvironment,
+        const pineconeQueryResults = await EmbeddingAPI.queryPineconeDocuments(messageVectors, pineconeKey,
             topK, pineconeIndex);
         if (!pineconeQueryResults.success) {
             return {

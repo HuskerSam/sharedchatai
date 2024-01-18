@@ -39,7 +39,7 @@ export default class EmbeddingAPI {
         if (!pineconeIndex.trim()) BaseClass.respondError(res, "index name required");
         const chatGptKey = localInstance.privateConfig.chatGPTKey;
         const pineconeKey = req.body.pineconeKey;
-        const pineconeEnvironment = req.body.pineconeEnvironment;
+        // const pineconeEnvironment = req.body.pineconeEnvironment;
         const tokenThreshold = req.body.tokenThreshold;
         const includeTextInMeta = req.body.includeTextInMeta === true;
         const projectId = req.body.projectId;
@@ -51,17 +51,17 @@ export default class EmbeddingAPI {
 
         const pinecone = new Pinecone({
             apiKey: pineconeKey,
-            environment: pineconeEnvironment,
         });
-        const indexList = await pinecone.listIndexes();
+        const indexList: any = await pinecone.listIndexes();
         if (!EmbeddingAPI.testIfIndexExists(indexList, pineconeIndex)) {
             try {
                 await pinecone.createIndex({
                     name: pineconeIndex,
                     dimension: 1536,
                     metric: "cosine",
-                    pods: 1,
                     waitUntilReady: true,
+                    suppressConflicts: true,
+                    spec: null,
                 });
             } catch (createError: any) {
                 return BaseClass.respondError(res, createError.message, createError);
@@ -537,12 +537,10 @@ export default class EmbeddingAPI {
             const json = await response.json();
             const vectorQuery = json["data"][0]["embedding"];
             const pineconeKey = req.body.pineconeKey;
-            const pineconeEnvironment = req.body.pineconeEnvironment;
             const pinecone = new Pinecone({
                 apiKey: pineconeKey,
-                environment: pineconeEnvironment,
             });
-            const indexList = await pinecone.listIndexes();
+            const indexList: any = await pinecone.listIndexes();
             if (!EmbeddingAPI.testIfIndexExists(indexList, pineconeIndex)) {
                 return BaseClass.respondError(res, "Index not found or not ready");
             }
@@ -617,15 +615,14 @@ export default class EmbeddingAPI {
      * @param { string } pineconeIndex
      * @return { Promise<any> }
      */
-    static async queryPineconeDocuments(pineconeVectorData: any, pineconeKey: string, pineconeEnvironment: string,
+    static async queryPineconeDocuments(pineconeVectorData: any, pineconeKey: string,
         pineconeTopK: number, pineconeIndex: string): Promise<any> {
         let queryResponse = null;
         try {
             const pinecone = new Pinecone({
                 apiKey: pineconeKey,
-                environment: pineconeEnvironment,
             });
-            const indexList = await pinecone.listIndexes();
+            const indexList: any = await pinecone.listIndexes();
             if (!EmbeddingAPI.testIfIndexExists(indexList, pineconeIndex)) {
                 return {
                     success: false,
@@ -669,13 +666,11 @@ export default class EmbeddingAPI {
         if (!pineconeIndex.trim()) BaseClass.respondError(res, "index name required");
 
         const pineconeKey = req.body.pineconeKey;
-        const pineconeEnvironment = req.body.pineconeEnvironment;
 
         const pinecone = new Pinecone({
             apiKey: pineconeKey,
-            environment: pineconeEnvironment,
         });
-        const indexList = await pinecone.listIndexes();
+        const indexList: any = await pinecone.listIndexes();
         if (!EmbeddingAPI.testIfIndexExists(indexList, pineconeIndex)) {
             return BaseClass.respondError(res, "Index not found or not ready");
         }
@@ -687,13 +682,13 @@ export default class EmbeddingAPI {
         });
     }
     /**
-     * @param { Array<any> } indexList
+     * @param { any } indexList
      * @param { string } indexName
      * @return { boolean }
     */
-    static testIfIndexExists(indexList: Array<any>, indexName: string): boolean {
+    static testIfIndexExists(indexList: any, indexName: string): boolean {
         let exists = false;
-        indexList.forEach((i: any) => {
+        indexList.indexes.forEach((i: any) => {
             if (i.name === indexName) exists = true;
         });
 
@@ -713,18 +708,17 @@ export default class EmbeddingAPI {
         const pineconeIndex = req.body.pineconeIndex.toString().trim();
         if (!pineconeIndex.trim()) return BaseClass.respondError(res, "Index name required");
         const pineconeKey = req.body.pineconeKey;
-        const pineconeEnvironment = req.body.pineconeEnvironment;
+        // const pineconeEnvironment = req.body.pineconeEnvironment;
 
-        if (pineconeIndex === "" || pineconeEnvironment === "" || pineconeKey === "") {
+        if (pineconeIndex === "" || pineconeKey === "") {
             return BaseClass.respondError(res, "Name, Environment or Key is empty");
         }
 
         try {
             const pinecone = new Pinecone({
                 apiKey: pineconeKey,
-                environment: pineconeEnvironment,
             });
-            const indexList = await pinecone.listIndexes();
+            const indexList: any = await pinecone.listIndexes();
             if (!EmbeddingAPI.testIfIndexExists(indexList, pineconeIndex)) {
                 return BaseClass.respondError(res, `Index: [${pineconeIndex}] not found or not ready`);
             }
@@ -759,14 +753,13 @@ export default class EmbeddingAPI {
 
         const vectorId = req.body.vectorId.toString().trim();
         const pineconeKey = req.body.pineconeKey;
-        const pineconeEnvironment = req.body.pineconeEnvironment;
+        // const pineconeEnvironment = req.body.pineconeEnvironment;
 
         try {
             const pinecone = new Pinecone({
                 apiKey: pineconeKey,
-                environment: pineconeEnvironment,
             });
-            const indexList = await pinecone.listIndexes();
+            const indexList: any = await pinecone.listIndexes();
             if (!EmbeddingAPI.testIfIndexExists(indexList, pineconeIndex)) {
                 return BaseClass.respondError(res, `Index: [${pineconeIndex}] not found or not ready`);
             }
@@ -800,14 +793,13 @@ export default class EmbeddingAPI {
 
         const vectorId = req.body.vectorId.toString().trim();
         const pineconeKey = req.body.pineconeKey;
-        const pineconeEnvironment = req.body.pineconeEnvironment;
+        // const pineconeEnvironment = req.body.pineconeEnvironment;
 
         try {
             const pinecone = new Pinecone({
                 apiKey: pineconeKey,
-                environment: pineconeEnvironment,
             });
-            const indexList = await pinecone.listIndexes();
+            const indexList: any = await pinecone.listIndexes();
             if (!EmbeddingAPI.testIfIndexExists(indexList, pineconeIndex)) {
                 return BaseClass.respondError(res, `Index: [${pineconeIndex}] not found or not ready`);
             }

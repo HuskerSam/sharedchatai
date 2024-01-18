@@ -7,7 +7,7 @@ export default function DialogTestPinecone(props) {
     const [show, setShow] = React.useState(false);
     const [prompt, setPrompt] = React.useState("");
     const [pineconeResults, setPineconeResults] = React.useState([]);
-    const tableFields = ["similarity", "id", "url", "title", "text", "copy", "size", "encodingCredits"];
+    const tableFields = ["similarity", "id", "url", "title", "text", "copy", "size"];
 
     props.setShow = setShow;
 
@@ -47,8 +47,7 @@ export default function DialogTestPinecone(props) {
                             <td onClick={() => navigator.clipboard.writeText(row.metadata.text)}>
                                 <i class="material-icons">content_copy</i>
                             </td>
-                            <td>{row.metadata.text.length}</td>
-                            <td>{row.metadata["encodingCredits"].toString().substring(0, 6)}</td>                            
+                            <td>{row.metadata.text.length}</td>                          
                         </tr>
                     ))}
                 </table>
