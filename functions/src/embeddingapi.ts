@@ -39,7 +39,7 @@ export default class EmbeddingAPI {
         if (!pineconeIndex.trim()) BaseClass.respondError(res, "index name required");
         const chatGptKey = localInstance.privateConfig.chatGPTKey;
         const pineconeKey = req.body.pineconeKey;
-        // const pineconeEnvironment = req.body.pineconeEnvironment;
+        const pineconeEnvironment = req.body.pineconeEnvironment;
         const tokenThreshold = req.body.tokenThreshold;
         const includeTextInMeta = req.body.includeTextInMeta === true;
         const projectId = req.body.projectId;
@@ -61,7 +61,13 @@ export default class EmbeddingAPI {
                     metric: "cosine",
                     waitUntilReady: true,
                     suppressConflicts: true,
-                    spec: null,
+                    spec: {
+                        pod: {
+                          environment: 'us-east4-gcp',
+                          pods: 1,
+                          podType: 'p1.x1',
+                        },
+                    },
                 });
             } catch (createError: any) {
                 return BaseClass.respondError(res, createError.message, createError);
