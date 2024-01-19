@@ -31,20 +31,27 @@ export class BibleDemoApp {
       }
       this.analyze_prompt_button.setAttribute("disabled", "");
       this.analyze_prompt_button.innerHTML = `...`;
-      this.summary_details.innerHTML = "Loading...";
+      this.summary_details.innerHTML = "Compiling Prompt...";
       this.running = true;
-      for (let i = 0; i < this.nav_link.length; i++) {
-        this.nav_link[i].classList.remove("disabled");
-        this.nav_link[i].setAttribute("aria-disabled", "false");
-      }
+     
+      this.nav_link.forEach((tab) => {
+        tab.classList.remove('disabled');
+        tab.setAttribute('aria-disabled', 'false');
+      });
+
       document.body.classList.remove("initial");
       document.body.classList.add("running");
       document.body.classList.remove("complete");
       await Promise.all([
-        this.lookupChaptersByVerse(),
-        this.lookupChapters(),
-        this.sendPromptToLLM(),
-      ]);
+        this.lookupChaptersByVerse().then(() => {
+          this.full_augmented_response.innerHTML += "<br><br>Similar verses retrieved...<br>";
+        }),
+        this.lookupChapters().then(() => {
+          this.full_augmented_response.innerHTML += "<br>Similar chapters retrieved...<br>";
+        }),
+        this.sendPromptToLLM()
+      ])
+
       this.analyze_prompt_button.removeAttribute("disabled");
       this.analyze_prompt_button.innerHTML = `<span class="material-icons-outlined">
       send
@@ -315,7 +322,7 @@ export class BibleDemoApp {
     if (this.embedding_type_select.selectedIndex === 0) {
       return {
         topK: 10,
-        includeK: 2,
+        includeK: 1,
         include: "chapter",
         pineconeDB: "verse",
         apiToken: this.byVerseAPIToken,
