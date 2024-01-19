@@ -63,7 +63,7 @@ export default class EmbeddingAPI {
                     suppressConflicts: true,
                     spec: {
                         pod: {
-                          environment: 'us-east4-gcp',
+                          environment: pineconeEnvironment,
                           pods: 1,
                           podType: 'p1.x1',
                         },
@@ -713,7 +713,6 @@ export default class EmbeddingAPI {
         const pineconeIndex = req.body.pineconeIndex.toString().trim();
         if (!pineconeIndex.trim()) return BaseClass.respondError(res, "Index name required");
         const pineconeKey = req.body.pineconeKey;
-        // const pineconeEnvironment = req.body.pineconeEnvironment;
 
         if (pineconeIndex === "" || pineconeKey === "") {
             return BaseClass.respondError(res, "Name, Environment or Key is empty");
@@ -758,7 +757,6 @@ export default class EmbeddingAPI {
 
         const vectorId = req.body.vectorId.toString().trim();
         const pineconeKey = req.body.pineconeKey;
-        // const pineconeEnvironment = req.body.pineconeEnvironment;
 
         try {
             const pinecone = new Pinecone({
@@ -798,7 +796,6 @@ export default class EmbeddingAPI {
 
         const vectorId = req.body.vectorId.toString().trim();
         const pineconeKey = req.body.pineconeKey;
-        // const pineconeEnvironment = req.body.pineconeEnvironment;
 
         try {
             const pinecone = new Pinecone({

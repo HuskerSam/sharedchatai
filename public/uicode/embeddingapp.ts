@@ -522,15 +522,14 @@ export class EmbeddingApp extends BaseApp {
     /** */
     async deleteIndex() {
         if (!confirm("Are you sure you want to delete this index?")) return;
-        await this._deleteIndex(this.pineconeIndex, this.pineconeKey, this.pineconeEnvironment);
+        await this._deleteIndex(this.pineconeIndex, this.pineconeKey);
         this.fetchIndexStats();
     }
     /** delete index
      * @param { string } pineconeIndex grouping key
      * @param { string } pineconeKey
-     * @param { string } pineconeEnvironment
     */
-    async _deleteIndex(pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string) {
+    async _deleteIndex(pineconeIndex: string, pineconeKey: string) {
         if (!getAuth().currentUser) {
             alert("login on homepage to use this");
             return;
@@ -543,7 +542,6 @@ export class EmbeddingApp extends BaseApp {
         this.indexDeleteRunning = true;
         const body = {
             pineconeIndex,
-            pineconeEnvironment,
             pineconeKey,
         };
 
