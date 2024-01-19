@@ -43,10 +43,15 @@ export class BibleDemoApp {
       document.body.classList.add("running");
       document.body.classList.remove("complete");
       await Promise.all([
-        this.lookupChaptersByVerse(),
-        this.lookupChapters(),
-        this.sendPromptToLLM(),
-      ]);
+        this.lookupChaptersByVerse().then(() => {
+          this.full_augmented_response.innerHTML += "<br><br>Similar verses retrieved...<br>";
+        }),
+        this.lookupChapters().then(() => {
+          this.full_augmented_response.innerHTML += "<br>Similar chapters retrieved...<br>";
+        }),
+        this.sendPromptToLLM()
+      ])
+
       this.analyze_prompt_button.removeAttribute("disabled");
       this.analyze_prompt_button.innerHTML = `<span class="material-icons-outlined">
       send
@@ -348,7 +353,7 @@ export class BibleDemoApp {
     localStorage.setItem("templateIndex", this.prompt_template_select_preset.selectedIndex);
     localStorage.setItem("queryIndex", this.embedding_type_select.selectedIndex);
 
-    this.full_augmented_response.innerHTML = "Processing Query...<br><br>";
+    this.full_augmented_response.innerHTML = "Processing Query...";
     const message = this.analyze_prompt_textarea.value.trim();
     if (!message) {
       alert("please supply a message");
@@ -360,11 +365,9 @@ export class BibleDemoApp {
 
     if (!result.success) {
       console.log("error", result);
-      this.full_augmented_response.innerHTML += result.errorMessage + "<br>";
+      this.full_augmented_response.innerHTML = result.errorMessage;
       return;
     } else {
-      this.full_augmented_response.innerHTML += "Similar verses retrieved...<br><br>";
-      this.full_augmented_response.innerHTML += "Similar chapters retrieved...<br><br>";
       console.log(result);
     }
 
@@ -402,9 +405,10 @@ export class BibleDemoApp {
       chaptersText.push(chapterDetails.text);
     });
 
-    const prompt = this.embedPrompt(message, matches, queryDetails);
-    this.full_augmented_response.innerHTML += "Embedding prompt...<br><br>";
 
+
+
+    const prompt = this.embedPrompt(message, matches, queryDetails);
     const diagram = this.embedding_diagram_img.src;
     this.summary_details.innerHTML = `<a target="_blank" class="embedding_diagram_anchor" href="${diagram}"><img style="width:100px;float:right" class="embedding_diagram_img" src="${diagram}" alt=""></a>
     <label>Granularity Level</label>: ${this.embedding_type_select.selectedIndex < 2 ? "Verse" : "Chapter"}<br>
@@ -413,7 +417,6 @@ export class BibleDemoApp {
     <label>Include K</label>: ${queryDetails.includeK}<br><br>
     <label>Full Raw Prompt</label>: <div class="raw_prompt">${prompt}</div><br>`;
 
-    
 
     const body = {
       message: prompt,
