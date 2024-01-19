@@ -31,12 +31,14 @@ export class BibleDemoApp {
       }
       this.analyze_prompt_button.setAttribute("disabled", "");
       this.analyze_prompt_button.innerHTML = `...`;
-      this.summary_details.innerHTML = "Loading...";
+      this.summary_details.innerHTML = "Compiling Prompt...";
       this.running = true;
-      for (let i = 0; i < this.nav_link.length; i++) {
-        this.nav_link[i].classList.remove("disabled");
-        this.nav_link[i].setAttribute("aria-disabled", "false");
-      }
+     
+      this.nav_link.forEach((tab) => {
+        tab.classList.remove('disabled');
+        tab.setAttribute('aria-disabled', 'false');
+      });
+
       document.body.classList.remove("initial");
       document.body.classList.add("running");
       document.body.classList.remove("complete");
@@ -315,7 +317,7 @@ export class BibleDemoApp {
     if (this.embedding_type_select.selectedIndex === 0) {
       return {
         topK: 10,
-        includeK: 2,
+        includeK: 1,
         include: "chapter",
         pineconeDB: "verse",
         apiToken: this.byVerseAPIToken,
@@ -346,7 +348,7 @@ export class BibleDemoApp {
     localStorage.setItem("templateIndex", this.prompt_template_select_preset.selectedIndex);
     localStorage.setItem("queryIndex", this.embedding_type_select.selectedIndex);
 
-    this.full_augmented_response.innerHTML = "Processing Query...";
+    this.full_augmented_response.innerHTML = "Processing Query...<br><br>";
     const message = this.analyze_prompt_textarea.value.trim();
     if (!message) {
       alert("please supply a message");
@@ -358,9 +360,11 @@ export class BibleDemoApp {
 
     if (!result.success) {
       console.log("error", result);
-      this.full_augmented_response.innerHTML = result.errorMessage;
+      this.full_augmented_response.innerHTML += result.errorMessage + "<br>";
       return;
     } else {
+      this.full_augmented_response.innerHTML += "Similar verses retrieved...<br><br>";
+      this.full_augmented_response.innerHTML += "Similar chapters retrieved...<br><br>";
       console.log(result);
     }
 
@@ -398,10 +402,9 @@ export class BibleDemoApp {
       chaptersText.push(chapterDetails.text);
     });
 
-
-
-
     const prompt = this.embedPrompt(message, matches, queryDetails);
+    this.full_augmented_response.innerHTML += "Embedding prompt...<br><br>";
+
     const diagram = this.embedding_diagram_img.src;
     this.summary_details.innerHTML = `<a target="_blank" class="embedding_diagram_anchor" href="${diagram}"><img style="width:100px;float:right" class="embedding_diagram_img" src="${diagram}" alt=""></a>
     <label>Granularity Level</label>: ${this.embedding_type_select.selectedIndex < 2 ? "Verse" : "Chapter"}<br>
@@ -410,6 +413,7 @@ export class BibleDemoApp {
     <label>Include K</label>: ${queryDetails.includeK}<br><br>
     <label>Full Raw Prompt</label>: <div class="raw_prompt">${prompt}</div><br>`;
 
+    
 
     const body = {
       message: prompt,

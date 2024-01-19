@@ -31,6 +31,37 @@
         data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
         <span class="navbar-toggler-icon"></span>
       </button>
+
+      <div class="d-block d-lg-none w-75">
+        <ul class="navbar-nav nav d-flex flex-row justify-content-around">
+          <li class="nav-item ms-3 ms-lg-0">
+            <a class="nav-link active" id="chapters_view_button" data-bs-toggle="tab" href="#full_augmented_response"
+              aria-current="page" role="tab" aria-controls="chapters_view" aria-selected="true">
+              <span class="material-icons-outlined nav-icon-mobile">send</span>
+            </a>
+          </li>
+          <li class="nav-item ms-3 ms-lg-0">
+            <a class="nav-link disabled" id="full_augmented_prompt_button" data-bs-toggle="tab"
+              href="#full_augmented_prompt_view" role="tab" aria-controls="full_augmented_prompt_view"
+              aria-selected="false" aria-disabled="true">
+              <span class="material-icons-outlined nav-icon-mobile">settings_applications</span>
+            </a>
+          </li>
+          <li class="nav-item ms-3 ms-lg-0">
+            <a class="nav-link disabled" id="chapters_view_button" data-bs-toggle="tab" href="#chapters_view" role="tab"
+              aria-controls="chapters_view" aria-selected="false" aria-disabled="true">
+              <span class="material-icons-outlined nav-icon-mobile">article</span>
+            </a>
+          </li>
+          <li class="nav-item ms-3 ms-lg-0">
+            <a class="nav-link disabled" id="verses_view_button" data-bs-toggle="tab" href="#verses_view" role="tab"
+              aria-controls="verses_view" aria-selected="false" aria-disabled="true">
+              <span class="material-icons-outlined nav-icon-mobile">format_list_numbered</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
       <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample"
         aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header">
@@ -38,50 +69,52 @@
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body pt-0">
-          <ul class="navbar-nav nav d-flex justify-content-center w-100">
-            <li class="nav-item"><a class="nav-link active" id="chapters_view_button" data-bs-toggle="tab"
-                href="#full_augmented_response" aria-current="page" role="tab" aria-controls="chapters_view"
-                aria-selected="true">
-                Send Query
-              </a>
-            </li>
-            <li class="nav-item ms-3 ms-lg-0">
-              <a class="nav-link disabled" id="full_augmented_prompt_button" data-bs-toggle="tab"
-                href="#full_augmented_prompt_view" role="tab" aria-controls="full_augmented_prompt_view"
-                aria-selected="false" aria-disabled="true">
-                Details
-              </a>
-            </li>
-            <li class="nav-item ms-3 ms-lg-0">
-              <a class="nav-link disabled" id="chapters_view_button" data-bs-toggle="tab" href="#chapters_view"
-                role="tab" aria-controls="chapters_view" aria-selected="false" aria-disabled="true">
-                Chapters
-              </a>
-            </li>
-            <li class="nav-item ms-3 ms-lg-0">
-              <a class="nav-link disabled" id="verses_view_button" data-bs-toggle="tab" href="#verses_view" role="tab"
-                aria-controls="verses_view" aria-selected="false" aria-disabled="true">
-                Verses
-              </a>
-            </li>
-            <li class="nav-item" role="presentation">
-              <a class="nav-link" id="augmented_template_button" data-bs-toggle="tab" href="#augmented_template_view"
-                role="tab" aria-controls="augmented_template_view" aria-selected="false">
-                Prompt Template
-              </a>
-            </li>
-            <li class="nav-item" role="presentation">
-              <a class="nav-link" id="embedding_template_button" data-bs-toggle="tab" href="#embedding_template_view"
-                role="tab" aria-controls="embedding_template_view" aria-selected="false">
-                Embedding Type
-              </a>
-            </li>
-            <li class="nav-item" role="presentation">
-              <a class="nav-link" id="augmented_template_button" data-bs-toggle="tab" href="#learn_tab_view" role="tab"
-                aria-controls="learn_tab_view" aria-selected="false">
-                Learn More
-              </a>
-            </li>
+          <ul class="navbar-nav nav d-flex justify-content-between w-100">
+            <div class="d-flex flex-column flex-lg-row">
+              <li class="nav-item"><a class="nav-link active" id="chapters_view_button" data-bs-toggle="tab"
+                  href="#full_augmented_response" aria-current="page" role="tab" aria-controls="chapters_view"
+                  aria-selected="true">
+                  <span class="material-icons-outlined nav-icon">send</span>
+                  <span class="nav-text">Send Query</span>
+                </a>
+              </li>
+              <li class="nav-item ms-3 ms-lg-0">
+                <a class="nav-link disabled" id="full_augmented_prompt_button" data-bs-toggle="tab"
+                  href="#full_augmented_prompt_view" role="tab" aria-controls="full_augmented_prompt_view"
+                  aria-selected="false" aria-disabled="true">
+                  <span class="material-icons-outlined nav-icon">settings_applications</span>
+                  <span class="nav-text">Details</span>
+                </a>
+              </li>
+              <li class="nav-item ms-3 ms-lg-0">
+                <a class="nav-link disabled" id="chapters_view_button" data-bs-toggle="tab" href="#chapters_view"
+                  role="tab" aria-controls="chapters_view" aria-selected="false" aria-disabled="true">
+                  <span class="material-icons-outlined nav-icon">article</span>
+                  <span class="nav-text">Chapters</span>
+                </a>
+              </li>
+              <li class="nav-item ms-3 ms-lg-0">
+                <a class="nav-link disabled" id="verses_view_button" data-bs-toggle="tab" href="#verses_view" role="tab"
+                  aria-controls="verses_view" aria-selected="false" aria-disabled="true">
+                  <span class="material-icons-outlined nav-icon">format_list_numbered</span>
+                  <span class="nav-text">Verses</span>
+                </a>
+              </li>
+            </div>
+            <div class="d-flex flex-column flex-lg-row">
+              <li class="nav-item" role="presentation">
+                <a class="nav-link" id="augmented_template_button" data-bs-toggle="tab" href="#augmented_template_view"
+                  role="tab" aria-controls="augmented_template_view" aria-selected="false">
+                  <span class="nav-text">Embedding Option</span>
+                </a>
+              </li>
+              <li class="nav-item" role="presentation">
+                <a class="nav-link" id="augmented_template_button" data-bs-toggle="tab" href="#learn_tab_view"
+                  role="tab" aria-controls="learn_tab_view" aria-selected="false">
+                  <span class="nav-text">Learn More</span>
+                </a>
+              </li>
+            </div>
           </ul>
         </div>
       </div>
@@ -151,29 +184,22 @@
         </div>
       </div>
 
-      <div class="tab-pane fade text-start h-100" id="embedding_template_view" role="tabpanel"
-        aria-labelledby="embedding_template_button">
+      <div class="tab-pane fade text-start h-100" id="augmented_template_view" role="tabpanel"
+        aria-labelledby="augmented_template_button" style="overflow: auto;">
         <div class="d-flex flex-column" style="background-image: var(--bs-gradient);">
-          <div class="text-start py-1 d-flex flex-column gap-2" style="height:87vh; overflow: auto;">
+          <div class="text-start p-2 d-flex flex-column gap-2">
             <label>Embedding Type:</label>
             <select class="form-select embedding_type_select">
               <option>Query Verses to Embed Chapters</option>
               <option>Query Verses to Embed Verses</option>
               <option>Query Chapter to Embed Chapter</option>
             </select>
-            <div class="text-muted small text-center pt-1">Change what text gets matched and embedded</div>
-            <a target="_blank" class="embedding_diagram_anchor text-center"><img
-                class="embedding_diagram_img img-fluid pt-4" src="" alt="" width="100%" height="100%"
-                style="max-width: 600px;"></a>
-
-          </div>
-        </div>
-      </div>
-
-      <div class="tab-pane fade text-start h-100" id="augmented_template_view" role="tabpanel"
-        aria-labelledby="augmented_template_button">
-        <div class="d-flex flex-column" style="background-image: var(--bs-gradient);">
-          <div class="text-start pt-2 d-flex flex-column gap-2" style="height:87vh; overflow: auto;position: relative;">
+              <div class="text-muted small text-center">
+              <a target="_blank" class="embedding_diagram_anchor text-center"><img
+                class="embedding_diagram_img img-fluid" src="" alt="" width="100%" height="100%"
+                style="max-width: 400px;"></a>
+              <div class="text-muted small text-center">Change what text gets matched and embedded</div>
+            </div>
             <label>Prompt Template: </label>
             <select class="form-select prompt_template_select_preset">
               <option selected>Provide Guidance</option>
@@ -195,10 +221,7 @@
             </div>
           </div>
         </div>
-
       </div>
-
-
 
       <div class="tab-pane fade text-start h-100" id="learn_tab_view" role="tabpanel"
         aria-labelledby="augmented_template_button">
@@ -493,6 +516,22 @@
     .prompt_response_area {
       height: 73vh;
       overflow: auto;
+    }
+
+    .nav-icon {
+      font-size: 24px;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+
+    .nav-icon-mobile {
+      font-size: 36px;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+
+    .nav-text {
+      vertical-align: middle;
     }
 
     @keyframes fade-in-left {
