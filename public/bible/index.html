@@ -26,42 +26,12 @@
 <body class="initial">
   <nav class="navbar navbar-light navbar-expand-lg" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
   border-bottom: 1px solid rgba(127, 127, 127, .4);" aria-label="Main navigation">
-    <div class="container-fluid">
+    <div class="container-xl">
+      <div class="navbar-brand">Bible GPT</div>
       <button class="navbar-toggler p-0 border-0" type="button" data-bs-toggle="offcanvas"
         data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
         <span class="navbar-toggler-icon"></span>
       </button>
-
-      <div class="d-block d-lg-none w-75">
-        <ul class="navbar-nav nav d-flex flex-row justify-content-around">
-          <li class="nav-item ms-3 ms-lg-0">
-            <a class="nav-link active" id="chapters_view_button" data-bs-toggle="tab" href="#full_augmented_response"
-              aria-current="page" role="tab" aria-controls="chapters_view" aria-selected="true">
-              <span class="material-icons-outlined nav-icon-mobile">send</span>
-            </a>
-          </li>
-          <li class="nav-item ms-3 ms-lg-0">
-            <a class="nav-link disabled" id="chapters_view_button" data-bs-toggle="tab" href="#chapters_view" role="tab"
-              aria-controls="chapters_view" aria-selected="false" aria-disabled="true">
-              <span class="material-icons-outlined nav-icon-mobile">article</span>
-            </a>
-          </li>
-          <li class="nav-item ms-3 ms-lg-0">
-            <a class="nav-link disabled" id="verses_view_button" data-bs-toggle="tab" href="#verses_view" role="tab"
-              aria-controls="verses_view" aria-selected="false" aria-disabled="true">
-              <span class="material-icons-outlined nav-icon-mobile">format_list_numbered</span>
-            </a>
-          </li>
-          <li class="nav-item ms-3 ms-lg-0">
-            <a class="nav-link disabled" id="full_augmented_prompt_button" data-bs-toggle="tab"
-              href="#full_augmented_prompt_view" role="tab" aria-controls="full_augmented_prompt_view"
-              aria-selected="false" aria-disabled="true">
-              <span class="material-icons-outlined nav-icon-mobile">settings_applications</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-
       <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample"
         aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header">
@@ -70,6 +40,7 @@
         </div>
         <div class="offcanvas-body pt-0">
           <ul class="navbar-nav nav d-flex justify-content-between w-100">
+            <div></div>
             <div class="d-flex flex-column flex-lg-row">
               <li class="nav-item"><a class="nav-link active" id="chapters_view_button" data-bs-toggle="tab"
                   href="#full_augmented_response" aria-current="page" role="tab" aria-controls="chapters_view"
@@ -96,18 +67,19 @@
                 <a class="nav-link disabled" id="full_augmented_prompt_button" data-bs-toggle="tab"
                   href="#full_augmented_prompt_view" role="tab" aria-controls="full_augmented_prompt_view"
                   aria-selected="false" aria-disabled="true">
-                  <span class="material-icons-outlined nav-icon">settings_applications</span>
+                  <span class="material-icons-outlined nav-icon">view_list</span>
                   <span class="nav-text">Details</span>
+                </a>
+              </li>
+              <li class="nav-item" role="presentation">
+                <a class="nav-link" id="augmented_template_button" data-bs-toggle="tab" href="#augmented_template_view"
+                  role="tab" aria-controls="augmented_template_view" aria-selected="false">
+                  <span class="material-icons-outlined nav-icon">settings_applications</span>
+                  <span class="nav-text">Template</span>
                 </a>
               </li>
             </div>
             <div class="d-flex flex-column flex-lg-row">
-              <li class="nav-item" role="presentation">
-                <a class="nav-link" id="augmented_template_button" data-bs-toggle="tab" href="#augmented_template_view"
-                  role="tab" aria-controls="augmented_template_view" aria-selected="false">
-                  <span class="nav-text">Embedding Option</span>
-                </a>
-              </li>
               <li class="nav-item" role="presentation">
                 <a class="nav-link" id="augmented_template_button" data-bs-toggle="tab" href="#learn_tab_view"
                   role="tab" aria-controls="learn_tab_view" aria-selected="false">
