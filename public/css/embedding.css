@@ -189,10 +189,11 @@ table tr td.table_cell_sizer {
   border: solid 1px var(--secondary-color-4);
 }
 
-.pinecone_index_name {
-  white-space: nowrap;
+.pinecone_index_status_display {
   max-width: 100px;
   overflow: hidden;
+  line-height: 1.1em;
+  max-height: 2.5em;
 }
 
 .connected_session_row {

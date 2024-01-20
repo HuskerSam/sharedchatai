@@ -47,7 +47,7 @@ export class EmbeddingApp extends BaseApp {
     generate_lookup_db = document.querySelector(".generate_lookup_db") as HTMLAnchorElement;
     upsert_result_status_bar: any = document.querySelector(".upsert_result_status_bar");
     fetch_pinecone_index_stats_btn: any = document.querySelector(".fetch_pinecone_index_stats_btn");
-    pinecone_index_name = document.querySelector(".pinecone_index_name") as HTMLDivElement;
+    pinecone_index_status_display = document.querySelector(".pinecone_index_status_display") as HTMLDivElement;
     upsert_embedding_tab_btn: any = document.querySelector("#upsert_embedding_tab_btn");
     add_row_btn: any = document.querySelector(".add_row_btn");
     upsert_documents_list: any = document.querySelector(".upsert_documents_list");
@@ -684,7 +684,7 @@ export class EmbeddingApp extends BaseApp {
             pineconeEnvironment: this.pineconeEnvironment,
             pineconeKey: this.pineconeKey,
         };
-        this.pinecone_index_name.innerHTML = "fetching...";
+        this.pinecone_index_status_display.innerHTML = "fetching...";
         const token = await getAuth().currentUser?.getIdToken();
         const fResult = await fetch(this.basePath + "embeddingApi/indexstats", {
             method: "POST",
@@ -700,11 +700,11 @@ export class EmbeddingApp extends BaseApp {
         const json = await fResult.json();
 
         if (json.success === false) {
-            this.pinecone_index_name.innerHTML = "Error: " + json.errorMessage;
+            this.pinecone_index_status_display.innerHTML = json.errorMessage;
             return;
         }
 
-        this.pinecone_index_name.innerHTML = "Vectors: " + json.indexDescription.totalRecordCount;
+        this.pinecone_index_status_display.innerHTML = "Vectors:<br>" + json.indexDescription.totalRecordCount;
     }
     /**
      * @param { string } id
