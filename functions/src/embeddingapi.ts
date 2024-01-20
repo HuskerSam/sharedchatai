@@ -65,7 +65,7 @@ export default class EmbeddingAPI {
                         pod: {
                           environment: pineconeEnvironment,
                           pods: 1,
-                          podType: 'p1.x1',
+                          podType: "p1.x1",
                         },
                     },
                 });
@@ -358,7 +358,7 @@ export default class EmbeddingAPI {
     static async upsertChunkToPinecone(chunk: any, chatGptKey: string, uid: string,
         id: string, title: string, url: string, pIndex: any,
         additionalMetaData: any = {}, includeTextInMeta = true): Promise<any> {
-        let text = chunk.text;
+        const text = chunk.text;
 
         const embeddingModelResult = await EmbeddingAPI.encodeEmbedding(text, chatGptKey, uid);
         const embedding = embeddingModelResult.vectorResult;

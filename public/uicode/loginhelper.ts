@@ -81,7 +81,8 @@ export default class LoginHelper {
                     </div>
                     <div class="d-flex flex-column align-items-center justify-content-center gap-2">
                         <div class="w-100">
-                            <button class="btn btn-outline-primary d-flex w-100 align-items-center justify-content-center" id="login_google">
+                            <button class="btn btn-outline-primary d-flex w-100 align-items-center justify-content-center"
+                              id="login_google">
                                 <img class="login_helper_google_logo"
                                     src="/images/google_signin.png">&nbsp; Log in with Google</button>
                         </div>
@@ -96,7 +97,9 @@ export default class LoginHelper {
                     </div>
                     <div class="d-flex flex-column align-items-center justify-content-center gap-2">
                         <div class="w-100">
-                            <button class="anon_login_anchor btn btn-outline-primary d-flex w-100 align-items-center justify-content-center">Log in Anonymously</button>
+                            <button 
+                            class="anon_login_anchor btn btn-outline-primary d-flex w-100 align-items-center justify-content-center"
+                            >Log in Anonymously</button>
                         </div>
                         <div class="w-100 small fw-light">
                             Your data may not be saved. Use for viewing only.

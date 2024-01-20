@@ -312,7 +312,7 @@ export class EmbeddingApp extends BaseApp {
         });
         this.embedding_list_file_dom.addEventListener("change", (e: Event) => this.uploadUpsertListFile(e));
 
-        this.download_json_results_btn.addEventListener("click", (e: Event) =>  {
+        this.download_json_results_btn.addEventListener("click", (e: Event) => {
             e.preventDefault();
             this.exportAllData();
         });
