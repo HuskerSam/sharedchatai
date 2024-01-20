@@ -33,24 +33,41 @@ export class BibleDemoApp {
       this.analyze_prompt_button.innerHTML = `...`;
       this.summary_details.innerHTML = "Compiling Prompt...";
       this.running = true;
-     
+
       this.nav_link.forEach((tab) => {
         tab.classList.remove('disabled');
         tab.setAttribute('aria-disabled', 'false');
       });
-
       document.body.classList.remove("initial");
       document.body.classList.add("running");
       document.body.classList.remove("complete");
-      await Promise.all([
-        this.lookupChaptersByVerse().then(() => {
-          this.full_augmented_response.innerHTML += "<br><br>Similar verses retrieved...<br>";
-        }),
-        this.lookupChapters().then(() => {
-          this.full_augmented_response.innerHTML += "<br>Similar chapters retrieved...<br>";
-        }),
-        this.sendPromptToLLM()
-      ])
+      this.full_augmented_response.innerHTML = "Processing Query...<br><br>";
+      await this.lookupChaptersByVerse();
+      this.full_augmented_response.innerHTML += "Similar chapters retrieved...<br><br>";
+      await this.lookupChapters();
+      this.full_augmented_response.innerHTML += "Similar verses retrieved...<br><br>";
+      this.full_augmented_response.innerHTML = await this.sendPromptToLLM();
+      this.full_augmented_response.innerHTML +=
+        `<div class="d-flex flex-column link-primary" style="white-space:normal;"><a class="response_verse_link p-2" href="see verses">Top Verses
+      </a><a class="response_chapter_link p-2" href="see chapter">Top Chapters 
+      </a><a class="response_detail_link p-2" href="see details">Prompt Details</a></div>`;
+
+      const verseLink = this.full_augmented_response.querySelector(".response_verse_link");
+      verseLink.addEventListener("click", (e: any) => {
+        e.preventDefault();
+        (<any>(document.getElementById("verses_view_button"))).click();
+      });
+      const chapterLink = this.full_augmented_response.querySelector(".response_chapter_link");
+      chapterLink.addEventListener("click", (e: any) => {
+        e.preventDefault();
+        (<any>(document.getElementById("chapters_view_button"))).click();
+      });
+      const detailLink = this.full_augmented_response.querySelector(".response_detail_link");
+      detailLink.addEventListener("click", (e: any) => {
+        e.preventDefault();
+        (<any>(document.getElementById("details_view_button"))).click();
+      });
+
 
       this.analyze_prompt_button.removeAttribute("disabled");
       this.analyze_prompt_button.innerHTML = `<span class="material-icons-outlined">
@@ -349,15 +366,12 @@ export class BibleDemoApp {
       sessionId: this.byChapterSessionId,
     };
   }
-  async sendPromptToLLM() {
+  async sendPromptToLLM(): Promise<string> {
     localStorage.setItem("templateIndex", this.prompt_template_select_preset.selectedIndex);
     localStorage.setItem("queryIndex", this.embedding_type_select.selectedIndex);
-
-    this.full_augmented_response.innerHTML = "Processing Query...";
     const message = this.analyze_prompt_textarea.value.trim();
     if (!message) {
-      alert("please supply a message");
-      return;
+      return "please supply a message";
     }
     const queryDetails = this.getQueryDetails();
 
@@ -365,8 +379,7 @@ export class BibleDemoApp {
 
     if (!result.success) {
       console.log("error", result);
-      this.full_augmented_response.innerHTML = result.errorMessage;
-      return;
+      return result.errorMessage;
     } else {
       console.log(result);
     }
@@ -435,15 +448,14 @@ export class BibleDemoApp {
     const promptResult = await fetchResults.json();
     if (!promptResult.success) {
       console.log("error", promptResult);
-      this.full_augmented_response.innerHTML = result.errorMessage;
-      return;
+      return result.errorMessage;
     } else {
       console.log(promptResult);
     }
     if (promptResult.assist.error) {
-      this.full_augmented_response.innerHTML = promptResult.assist.error;
+      return promptResult.assist.error;
     } else {
-      this.full_augmented_response.innerHTML = promptResult.assist.assist.choices["0"].message.content;
+      return promptResult.assist.assist.choices["0"].message.content;
     }
   }
   embedPrompt(prompt: string, matches: any[], queryDetails: any): string {
@@ -489,7 +501,7 @@ const promptTemplates = [
     {{documents}}
     
 Quote and cite the documents, then use their teachings in your answer to the following theological question:
-    {{prompt}}`, 
+    {{prompt}}`,
     documentPrompt: `({{title}}):
 {{text}}
 
