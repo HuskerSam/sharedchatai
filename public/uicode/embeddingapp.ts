@@ -85,7 +85,7 @@ export class EmbeddingApp extends BaseApp {
     primedPrompt = "";
     tableThemeLinkDom: any = null;
     saveChangesTimer: any = null;
-    editableTableFields = ["url", "title", "options", "text", "prefix", "status", "additionalMetaData"];
+    editableTableFields = ["url", "title", "options", "text", "status", "additionalMetaData"];
     resultChunks: Array<any> = [];
     userPreferencesInited = false;
     newUpsertDocumentCount = 0;
@@ -152,12 +152,6 @@ export class EmbeddingApp extends BaseApp {
             width: 100,
             headerSort: false,
         }, {
-            title: "prefix",
-            field: "prefix",
-            editor: "textarea",
-            width: 100,
-            headerSort: false,
-        }, {
             title: "",
             field: "copyJSON",
             headerSort: false,
@@ -167,9 +161,18 @@ export class EmbeddingApp extends BaseApp {
             hozAlign: "center",
         }, {
             title: "Activity",
-            field: "activity",
+            field: "lastActivity",
             hozAlign: "center",
             headerSort: false,
+            formatter: (cell: any) => {
+                let data = cell.getValue();
+                if (!data) {
+                    data = "";
+                } else {
+                    data = data.substring(0, 10);
+                }
+                return data;
+            },
         }, {
             title: "",
             field: "uploadToCloud",
@@ -201,7 +204,7 @@ export class EmbeddingApp extends BaseApp {
             hozAlign: "center",
         }, {
             title: "id List",
-            width: 50,
+            width: 75,
             field: "ids",
             headerSort: false,
         }, {
@@ -211,7 +214,7 @@ export class EmbeddingApp extends BaseApp {
             headerSort: false,
         }, {
             title: "text",
-            width: 200,
+            width: 100,
             field: "text",
             editor: "textarea",
             headerSort: false,
@@ -446,7 +449,6 @@ export class EmbeddingApp extends BaseApp {
         const data: any = {
             id: rowId,
             include: true,
-            prefix: "",
             text: "",
             url: "",
             options: "",
@@ -849,7 +851,7 @@ export class EmbeddingApp extends BaseApp {
      * @param { boolean } includeTextInMeta
      */
     async savePineconeOptions(pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string,
-         pineconeChunkSize: number, includeTextInMeta: boolean) {
+        pineconeChunkSize: number, includeTextInMeta: boolean) {
         this.pineconeIndex = pineconeIndex;
         this.pineconeKey = pineconeKey;
         this.pineconeEnvironment = pineconeEnvironment;
@@ -890,7 +892,7 @@ export class EmbeddingApp extends BaseApp {
                     error: "No id or url specified",
                 });
             } else {
-                const columnsToVerify = ["prefix", "text", "url", "options", "title"];
+                const columnsToVerify = ["text", "url", "options", "title"];
                 columnsToVerify.forEach((key: string) => {
                     if (!row[key]) row[key] = "";
                 });
