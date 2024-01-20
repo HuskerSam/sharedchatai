@@ -32,7 +32,6 @@ import DialogTestPinecone from "./components/dialogtestpinecone.jsx";
 import DialogPublishEmbedding from "./components/dialogpublishembedding.jsx";
 import DialogVectorInspect from "./components/dialogvectorinspect.jsx";
 import DialogEmbeddingOptions from "./components/dialogembeddingoptions.jsx";
-import Papa from "papaparse";
 
 /** Embedding upload app class */
 export class EmbeddingApp extends BaseApp {
@@ -313,7 +312,10 @@ export class EmbeddingApp extends BaseApp {
         });
         this.embedding_list_file_dom.addEventListener("change", (e: Event) => this.uploadUpsertListFile(e));
 
-        this.download_json_results_btn.addEventListener("click", (e: Event) => this.downloadResultsFile(e));
+        this.download_json_results_btn.addEventListener("click", (e: Event) =>  {
+            e.preventDefault();
+            this.exportAllData();
+        });
         this.generate_lookup_db.addEventListener("click", (e: Event) => {
             e.preventDefault();
             this.generateLookupDB();
@@ -433,6 +435,7 @@ export class EmbeddingApp extends BaseApp {
             return;
         }
 
+        console.log("lookup data", json.publicPath);
         navigator.clipboard.writeText(json.publicPath);
         alert("Lookup file path copied to clipboard");
     }
@@ -645,42 +648,34 @@ export class EmbeddingApp extends BaseApp {
         await deleteDoc(rowRef);
         this.updateRowsCountFromFirestore();
     }
-    /**
-     * @param { any } event
-     * @param { boolean } csv
-    */
-    downloadResultsFile(event: any, csv = false) {
-        if (event) event.preventDefault();
-        if (!this.fileListToUpload || this.fileListToUpload.length === 0) {
-            alert("no results to download");
+    /** */
+    async exportAllData() {
+        if (!this.selectedProjectId) return;
+
+        const body: any = {
+            projectId: this.selectedProjectId,
+        };
+        const token = await getAuth().currentUser?.getIdToken() as string;
+        const fResult = await fetch(this.basePath + "embeddingApi/exportjson", {
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            headers: {
+                "Content-Type": "application/json",
+                token,
+            },
+            body: JSON.stringify(body),
+        });
+        const json = await fResult.json();
+        if (!json.success) {
+            console.log(json.errorMessage, json);
+            alert(json.errorMessage);
             return;
         }
-        let type = "application/csv";
-        let resultText = "";
-        let fileName = "";
-        if (csv) {
-            fileName = "upsertResults.csv";
-            resultText = Papa.unparse(this.fileListToUpload);
-        } else {
-            type = "application/json";
-            fileName = "upsertResults.json";
-            resultText = JSON.stringify(this.fileListToUpload, null, "  ");
-        }
 
-        const file = new File([resultText], fileName, {
-            type,
-        });
-
-        const link = document.createElement("a");
-        const url = URL.createObjectURL(file);
-
-        link.href = url;
-        link.download = file.name;
-        document.body.appendChild(link);
-        link.click();
-
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
+        console.log("exported data", json.publicPath);
+        navigator.clipboard.writeText(json.publicPath);
+        alert("Exported data path copied to clipboard");
     }
     /** */
     async fetchIndexStats() {

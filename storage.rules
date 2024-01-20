@@ -14,5 +14,9 @@ service firebase.storage {
     match /projectLookups/{allPaths=**} {
     	allow read: if true;
     }
+
+    match /projectExports/{allPaths=**} {
+    	allow read: if true;
+    }
   }
 }

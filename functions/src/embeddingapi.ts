@@ -896,7 +896,53 @@ export default class EmbeddingAPI {
         await file.makePublic();
         const encodedPath = encodeURIComponent(filePath);
         const publicPath = `https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/${encodedPath}?alt=media`;
-        console.log(publicPath);
+
+        return res.send({
+            success: true,
+            filePath,
+            publicPath,
+            projectId,
+        });
+    }
+    /**
+     * @param { Request } req http request object
+     * @param { Response } res http response object
+     */
+    static async generateExport(req: Request, res: Response) {
+        const authResults = await BaseClass.validateCredentials(<string>req.headers.token);
+        if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
+        const uid = authResults.uid;
+
+        const projectId = req.body.projectId;
+        const exportMap: any = {};
+        let docsSnapshot = await firebaseAdmin.firestore().collection(`Users/${uid}/embedding/${projectId}/data`).limit(5000).get();
+        while (docsSnapshot.size > 0) {
+            docsSnapshot.forEach((doc: FirebaseFirestore.DocumentSnapshot) => {
+                exportMap[doc.id] = doc.data();
+            });
+
+            const lastVisible = docsSnapshot.docs[docsSnapshot.docs.length - 1];
+            docsSnapshot = await firebaseAdmin.firestore().collection(`Users/${uid}/embedding/${projectId}/data`)
+                .startAfter(lastVisible)
+                .limit(5000)
+                .get();
+        }
+        const bucket = firebaseAdmin.storage().bucket();
+        const options = {
+            resumable: false,
+            metadata: {
+              contentType: "application/json",
+            },
+          };
+
+        const filePath = `projectExports/${uid}/${projectId}/export.json`;
+        const file = bucket.file(filePath);
+        const jsonString = JSON.stringify(exportMap);
+        await file.save(jsonString, options);
+        await file.makePublic();
+        const encodedPath = encodeURIComponent(filePath);
+        const publicPath = `https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/${encodedPath}?alt=media`;
+
         return res.send({
             success: true,
             filePath,
