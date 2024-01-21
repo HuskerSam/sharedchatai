@@ -44,7 +44,7 @@ export default function DialogPublishEmbedding(props) {
                     overflow: "auto"
                 }}>
                     {sessions.map((doc) => (
-                        <a className="connected_session_row" target="_blank"
+                        <a key={doc.id} className="connected_session_row" target="_blank"
                             href={`/session/${doc.id}`}>{doc.data().title} |
                             {BaseApp.showGmailStyleDate(new Date(doc.data().lastActivity))} |
                             {doc.id}

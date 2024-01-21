@@ -623,7 +623,8 @@ export class EmbeddingApp extends BaseApp {
     /** */
     async deleteProject() {
         if (!this.selectedProjectId) return;
-        if (!confirm("Are you sure you want to delete this project?")) return;
+        if (!confirm("Are you sure you want to delete this project? " +
+        " Please wait until additional alert before leaving page.")) return;
         const deleteProjectId = this.selectedProjectId;
         const rowRef = doc(getFirestore(), `Users/${this.uid}/embedding/${deleteProjectId}`);
         await deleteDoc(rowRef);
@@ -638,9 +639,8 @@ export class EmbeddingApp extends BaseApp {
             if (nextChunk.size < 1) break;
 
             const promises: any[] = [];
-            nextChunk.forEach((doc: any) => {
-                const docPath = `Users/${this.uid}/embedding/${deleteProjectId}/data/${doc.id}`;
-                console.log(docPath);
+            nextChunk.forEach((d: any) => {
+                const docPath = `Users/${this.uid}/embedding/${deleteProjectId}/data/${d.id}`;
                 const rowRef = doc(getFirestore(), docPath                    );
                 promises.push(deleteDoc(rowRef));
             });
@@ -655,14 +655,15 @@ export class EmbeddingApp extends BaseApp {
             if (nextChunk.size < 1) break;
 
             const promises: any[] = [];
-            nextChunk.forEach((doc: any) => {
+            nextChunk.forEach((d: any) => {
                 const rowRef = doc(getFirestore(),
-                    `Users/${this.uid}/embedding/${deleteProjectId}/chunkMap/${doc.id}`);
+                    `Users/${this.uid}/embedding/${deleteProjectId}/chunkMap/${d.id}`);
                 promises.push(deleteDoc(rowRef));
             });
             await Promise.all(promises);
         }
 
+        alert("Project " + deleteProjectId + " finished deleting all records.");
     }
     /**
      * @param { string } id

@@ -595,8 +595,8 @@ export default class GameAPI {
       .where("members." + uid, ">", "").get();
 
     const promises: Array<any> = [];
-    gamesQuery.docs.forEach((doc) => {
-      promises.push(firebaseAdmin.firestore().collection(`Games`).doc(doc.id).set({
+    gamesQuery.docs.forEach((d) => {
+      promises.push(firebaseAdmin.firestore().collection(`Games`).doc(d.id).set({
         memberNames: {
           [uid]: name,
         },
@@ -622,8 +622,8 @@ export default class GameAPI {
       .where("members." + uid, ">", "").get();
 
     const promises: Array<any> = [];
-    gamesQuery.docs.forEach((doc) => {
-      promises.push(firebaseAdmin.firestore().collection(`Games`).doc(doc.id).set({
+    gamesQuery.docs.forEach((d) => {
+      promises.push(firebaseAdmin.firestore().collection(`Games`).doc(d.id).set({
         memberImages: {
           [uid]: image,
         },
