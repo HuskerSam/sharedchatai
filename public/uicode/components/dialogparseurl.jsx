@@ -16,11 +16,11 @@ export default function DialogParseURL(props) {
     const [parseResult, setParseResult] = React.useState("");
     const [parseStatus, setParseStatus] = React.useState("");
     const [basePath, setBasePath] = React.useState("");
-    
-    props.setShow = setShow;
-    props.setParseURL = setParseURL;
-    props.setParseOptions = setParseOptions;
-    props.setBasePath = setBasePath;
+
+    props.hooks.setShow = setShow;
+    props.hooks.setParseURL = setParseURL;
+    props.hooks.setParseOptions = setParseOptions;
+    props.hooks.setBasePath = setBasePath;
 
     const handleClose = () => setShow(false);
 

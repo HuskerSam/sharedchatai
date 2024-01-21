@@ -9,7 +9,7 @@ export default function DialogTestPinecone(props) {
     const [pineconeResults, setPineconeResults] = React.useState([]);
     const tableFields = ["similarity", "id", "url", "title", "text", "copy"];
 
-    props.setShow = setShow;
+    props.hooks.setShow = setShow;
 
     const handleClose = () => setShow(false);
     const handleQuery = async () => {

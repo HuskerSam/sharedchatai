@@ -8,10 +8,10 @@ export default class FooterBar extends React.Component {
         };
     }
     render() {
-        return (<div class="container">
-            <footer class="app_panel">
+        return (<div className="container">
+            <footer className="app_panel">
                 <div style={{ flex: "1" }}>
-                    <h2 style={{display: "inline-block"}}><span>Una<span class="home_navbar_name_color">cog</span></span></h2>
+                    <h2 style={{display: "inline-block"}}><span>Una<span className="home_navbar_name_color">cog</span></span></h2>
                     <div style={{ fontSize: "1.5em", padding: "12px", display: "inline-block", margin: "12px" }}>
                         <a href="/help/">Reference</a>
                         &nbsp;
@@ -26,10 +26,10 @@ export default class FooterBar extends React.Component {
                                 support@unacog.com</a>
                             &nbsp;
                             &nbsp;
-                            <a href="/content/privacy/" class="">Privacy</a>
+                            <a href="/content/privacy/" className="">Privacy</a>
                             &nbsp;
                             &nbsp;
-                            <a class="" href="/content/pricing/">Pricing</a>
+                            <a className="" href="/content/pricing/">Pricing</a>
                             &nbsp;
                             &nbsp;
                         </div>

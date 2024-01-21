@@ -28,8 +28,8 @@ export default function DialogPublishEmbedding(props) {
     const [show, setShow] = React.useState(false);
     const [sessions, setSessions] = React.useState([]);
 
-    props.setShow = setShow;
-    props.setSessions = setSessions;
+    props.hooks.setShow = setShow;
+    props.hooks.setSessions = setSessions;
 
     const handleClose = () => setShow(false);
 

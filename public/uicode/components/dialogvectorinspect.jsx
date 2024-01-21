@@ -8,7 +8,7 @@ export default function DialogVectorInspect(props) {
     const [id, setId] = React.useState("");
     const [fetchResults, setFetchResults] = React.useState("");
 
-    props.setShow = setShow;
+    props.hooks.setShow = setShow;
 
     const handleClose = () => setShow(false);
 

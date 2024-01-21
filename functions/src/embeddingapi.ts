@@ -129,7 +129,6 @@ export default class EmbeddingAPI {
                 mergeBlock["ids"] = savedRow["ids"];
                 mergeBlock["size"] = savedRow["textSize"];
                 if (savedRow["text"]) mergeBlock["text"] = savedRow["text"];
-                mergeBlock["chunkMap"] = savedRow["chunkMap"];
                 mergeBlock["upsertedDate"] = lastActivity;
                 mergeBlock["include"] = false;
                 mergeBlock["vectorCount"] = row["idList"].length;
@@ -139,7 +138,14 @@ export default class EmbeddingAPI {
                 firebaseAdmin.firestore().doc(`Users/${uid}/embedding/${projectId}/data/${row.id}`)
                     .set(mergeBlock, {
                         merge: true,
-                    }));
+                    }),
+                    firebaseAdmin.firestore().doc(`Users/${uid}/embedding/${projectId}/chunkMap/${row.id}`)
+                    .set({
+                        chunkMap: savedRow["chunkMap"],
+                    }, {
+                        merge: true,
+                    }),
+                    );
         });
         await Promise.all(promises);
 
@@ -864,7 +870,7 @@ export default class EmbeddingAPI {
 
         const projectId = req.body.projectId;
         const lookupMap: any = {};
-        let docsSnapshot = await firebaseAdmin.firestore().collection(`Users/${uid}/embedding/${projectId}/data`).limit(10000).get();
+        let docsSnapshot = await firebaseAdmin.firestore().collection(`Users/${uid}/embedding/${projectId}/chunkMap`).limit(10000).get();
         while (docsSnapshot.size > 0) {
             docsSnapshot.forEach((doc: FirebaseFirestore.DocumentSnapshot) => {
                 const chunkMap = doc.data()?.chunkMap;

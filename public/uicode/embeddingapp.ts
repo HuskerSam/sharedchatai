@@ -1,7 +1,6 @@
 import BaseApp from "./baseapp";
 import ChatDocument from "./chatdocument";
 import SharedWithBackend from "./sharedwithbackend";
-import AccountHelper from "./accounthelper";
 import {
     getAuth,
 } from "firebase/auth";
@@ -25,7 +24,7 @@ import {
 import {
     TabulatorFull,
 } from "tabulator-tables";
-import ReactDOM from "react-dom";
+import { createRoot } from 'react-dom/client';
 import React from "react";
 import DialogParseURL from "./components/dialogparseurl.jsx";
 import DialogTestPinecone from "./components/dialogtestpinecone.jsx";
@@ -266,10 +265,10 @@ export class EmbeddingApp extends BaseApp {
                 setTimeout(() => cell.getElement().firstChild.innerHTML = `<i class="material-icons">content_copy</i>`, 800);
             }
             if (field === "parser") {
-                this.dialogParseURL.props.setParseOptions(data.options);
-                this.dialogParseURL.props.setParseURL(data.url);
-                this.dialogParseURL.props.setShow(true);
-                this.dialogParseURL.props.setBasePath(this.basePath);
+                this.dialogParseURL.props.hooks.setParseOptions(data.options);
+                this.dialogParseURL.props.hooks.setParseURL(data.url);
+                this.dialogParseURL.props.hooks.setShow(true);
+                this.dialogParseURL.props.hooks.setBasePath(this.basePath);
             }
             if (field === "deleteRow") {
                 this.deleteTableRow(data.id);
@@ -352,62 +351,72 @@ export class EmbeddingApp extends BaseApp {
 
         const div = document.createElement("div");
         document.body.appendChild(div);
-        this.dialogParseURL = React.createElement(DialogParseURL, {});
-        ReactDOM.render(this.dialogParseURL, div);
+        this.dialogParseURL = React.createElement(DialogParseURL, {
+            hooks: {},
+        });
+        createRoot(div).render(this.dialogParseURL);
 
         const div2 = document.createElement("div");
         document.body.appendChild(div2);
-        this.dialogTestPinecone = React.createElement(DialogTestPinecone, {});
-        ReactDOM.render(this.dialogTestPinecone, div2);
+        this.dialogTestPinecone = React.createElement(DialogTestPinecone, {
+            hooks: {},
+        });
+        createRoot(div2).render(this.dialogTestPinecone);
         this.test_pinecone_dialog_btn.addEventListener("click", (e: any) => {
             e.preventDefault();
             this.dialogTestPinecone.props.queryEmbeddings = async (prompt: string) => {
                 return this.queryEmbeddings(prompt);
             };
-            this.dialogTestPinecone.props.setShow(true);
+            this.dialogTestPinecone.props.hooks.setShow(true);
         });
 
         const div3 = document.createElement("div");
         document.body.appendChild(div3);
-        this.dialogPublishEmbedding = React.createElement(DialogPublishEmbedding, {});
-        ReactDOM.render(this.dialogPublishEmbedding, div3);
+        this.dialogPublishEmbedding = React.createElement(DialogPublishEmbedding, {
+            hooks: {},
+        });
+        createRoot(div3).render(this.dialogPublishEmbedding);
         this.publish_pinecone_dialog_btn.addEventListener("click", (e: any) => {
             e.preventDefault();
             this.dialogPublishEmbedding.props.addConnectedSession = async () => {
                 return this.addConnectedSession();
             };
-            this.dialogPublishEmbedding.props.setShow(true);
+            this.dialogPublishEmbedding.props.hooks.setShow(true);
         });
 
         const div4 = document.createElement("div");
         document.body.appendChild(div4);
-        this.dialogVectorInspect = React.createElement(DialogVectorInspect, {});
-        ReactDOM.render(this.dialogVectorInspect, div4);
+        this.dialogVectorInspect = React.createElement(DialogVectorInspect, {
+            hooks: {},
+        });
+        createRoot(div4).render(this.dialogVectorInspect);
         this.vector_inspect_dialog_btn.addEventListener("click", (e: any) => {
             e.preventDefault();
             this.dialogVectorInspect.props.fetchVector = async (id: string) => this.fetchPineconeVector(id);
             this.dialogVectorInspect.props.deleteVector = async (id: string) => this.deletePineconeVector(id);
-            this.dialogVectorInspect.props.setShow(true);
+            this.dialogVectorInspect.props.hooks.setShow(true);
         });
 
         const div5 = document.createElement("div");
         document.body.appendChild(div5);
-        this.dialogEmbeddingOptions = React.createElement(DialogEmbeddingOptions, {});
-        ReactDOM.render(this.dialogEmbeddingOptions, div5);
+        this.dialogEmbeddingOptions = React.createElement(DialogEmbeddingOptions, {
+            hooks: {},
+        });
+        createRoot(div5).render(this.dialogEmbeddingOptions);
         this.embedding_options_dialog_btn.addEventListener("click", (e: any) => {
             e.preventDefault();
-            this.dialogEmbeddingOptions.props.setPineconeKey(this.pineconeKey);
-            this.dialogEmbeddingOptions.props.setPineconeEnvironment(this.pineconeEnvironment);
-            this.dialogEmbeddingOptions.props.setPineconeIndex(this.pineconeIndex);
-            this.dialogEmbeddingOptions.props.setPineconeChunkSize(this.pineconeChunkSize);
-            this.dialogEmbeddingOptions.props.setIncludeTextInMeta(this.includeTextInMeta);
+            this.dialogEmbeddingOptions.props.hooks.setPineconeKey(this.pineconeKey);
+            this.dialogEmbeddingOptions.props.hooks.setPineconeEnvironment(this.pineconeEnvironment);
+            this.dialogEmbeddingOptions.props.hooks.setPineconeIndex(this.pineconeIndex);
+            this.dialogEmbeddingOptions.props.hooks.setPineconeChunkSize(this.pineconeChunkSize);
+            this.dialogEmbeddingOptions.props.hooks.setIncludeTextInMeta(this.includeTextInMeta);
             this.dialogEmbeddingOptions.props.deleteIndex =
                 () => this.deleteIndex();
             this.dialogEmbeddingOptions.props.savePineconeOptions =
                 (pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string,
                     pineconeChunkSize: number, includeTextInMeta: boolean) =>
                     this.savePineconeOptions(pineconeIndex, pineconeKey, pineconeEnvironment, pineconeChunkSize, includeTextInMeta);
-            this.dialogEmbeddingOptions.props.setShow(true);
+            this.dialogEmbeddingOptions.props.hooks.setShow(true);
         });
     }
     /** */
@@ -521,7 +530,6 @@ export class EmbeddingApp extends BaseApp {
             }
 
             this.watchProjectList();
-            this.initUsageWatch();
         }
     }
     /** */
@@ -627,16 +635,34 @@ export class EmbeddingApp extends BaseApp {
             const docsQuery = query(docsCollection, limit(100));
             const nextChunk = await getDocs(docsQuery);
 
-            if (nextChunk.size < 1) return;
+            if (nextChunk.size < 1) break;
 
             const promises: any[] = [];
             nextChunk.forEach((doc: any) => {
-                const rowRef = doc(getFirestore(),
-                    `Users/${this.uid}/embedding/${deleteProjectId}/data/${doc.id}`);
+                const docPath = `Users/${this.uid}/embedding/${deleteProjectId}/data/${doc.id}`;
+                console.log(docPath);
+                const rowRef = doc(getFirestore(), docPath                    );
                 promises.push(deleteDoc(rowRef));
             });
             await Promise.all(promises);
         }
+        while (loop) {
+            const docsCollection = collection(getFirestore(),
+                `Users/${this.uid}/embedding/${deleteProjectId}/chunkMap`);
+            const docsQuery = query(docsCollection, limit(100));
+            const nextChunk = await getDocs(docsQuery);
+
+            if (nextChunk.size < 1) break;
+
+            const promises: any[] = [];
+            nextChunk.forEach((doc: any) => {
+                const rowRef = doc(getFirestore(),
+                    `Users/${this.uid}/embedding/${deleteProjectId}/chunkMap/${doc.id}`);
+                promises.push(deleteDoc(rowRef));
+            });
+            await Promise.all(promises);
+        }
+
     }
     /**
      * @param { string } id
@@ -762,16 +788,6 @@ export class EmbeddingApp extends BaseApp {
             }
         }
     }
-    /** */
-    initUsageWatch() {
-        if (this.usageWatchInited) return;
-        this.usageWatchInited = true;
-
-        AccountHelper.accountInfoUpdate(this, (usageData: any) => {
-            const availableBalance = usageData.availableCreditBalance;
-            this.credits_left.innerHTML = Math.floor(availableBalance) + "<br><span>Credits</span>";
-        });
-    }
     /**
      * @param { string } prompt
      * @return { Promise<any> }
@@ -866,12 +882,23 @@ export class EmbeddingApp extends BaseApp {
  * @param { string } id
  */
     async saveTableRowToFirestore(updateData: any, id: string) {
-        const rowPath = `Users/${this.uid}/embedding/${this.selectedProjectId}/data/${id}`;
-        updateData.lastActivity = new Date().toISOString();
-        const docRef = doc(getFirestore(), rowPath);
-        return setDoc(docRef, updateData, {
-            merge: true,
-        });
+        try {
+            const rowPath = `Users/${this.uid}/embedding/${this.selectedProjectId}/data/${id}`;
+            updateData.lastActivity = new Date().toISOString();
+            const docRef = doc(getFirestore(), rowPath);
+            await setDoc(docRef, updateData, {
+                merge: true,
+            });
+            return {
+                success: true,
+            }
+        } catch (err: any) {
+            return {
+                success: false,
+                error: err,
+                errorMessage: err.message,
+            }
+        }
     }
     /**
  * @param { any[] } rows
@@ -894,8 +921,15 @@ export class EmbeddingApp extends BaseApp {
                 promises.push(this.saveTableRowToFirestore(row, row.id));
             }
         });
-        await Promise.all(promises);
-
+        const results = await Promise.all(promises);
+        results.forEach((result: any, index: number) => {
+            if (!result.success) errors.push({
+                index,
+                error: result.error,
+            });
+            console.log(result);
+        })
+        if (errors.length > 0) console.log("Upload errors", errors);
         const success = errors.length === 0;
         return {
             success,
@@ -1150,7 +1184,7 @@ export class EmbeddingApp extends BaseApp {
         this.connectedSessionsFirestore = onSnapshot(sessionsQuery, (snapshot: any) => {
             const array: any = [];
             snapshot.forEach((doc: any) => array.push(doc));
-            this.dialogPublishEmbedding.props.setSessions(array);
+            this.dialogPublishEmbedding.props.hooks.setSessions(array);
         });
     }
     /** */

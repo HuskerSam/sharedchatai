@@ -34,7 +34,7 @@ import {
 import {
   getApp,
 } from "firebase/app";
-import ReactDOM from "react-dom";
+import { createRoot } from 'react-dom/client';
 import ReactHeader from "./components/header.jsx";
 import ReactFooter from "./components/footer.jsx";
 import React from "react";
@@ -106,33 +106,40 @@ export default class BaseApp {
  */
   constructor() {
     if (this.standard_header_bar_container) {
-      ReactDOM.render(React.createElement(ReactHeader), this.standard_header_bar_container);
+      createRoot(this.standard_header_bar_container).render(React.createElement(ReactHeader));
     }
     if (this.standard_footer_bar_container) {
-      ReactDOM.render(React.createElement(ReactFooter), this.standard_footer_bar_container);
+      createRoot(this.standard_footer_bar_container).render(React.createElement(ReactFooter));
     }
-    this.credits_left = document.querySelector(".credits_left");
-    this.signin_cta_navbar = document.querySelector(".signin_cta_navbar");
-    this.show_profile_modal = document.querySelector(".show_profile_modal");
-
-    this.menu_profile_user_image_span = document.querySelector(".menu_profile_user_image_span");
-    this.profile_menu_anchor = document.querySelector(".profile_menu_anchor");
-    if (this.profile_menu_anchor) {
+    setTimeout(() => {
+      this.credits_left = document.querySelector(".credits_left");
+      this.signin_cta_navbar = document.querySelector(".signin_cta_navbar");
+      this.show_profile_modal = document.querySelector(".show_profile_modal");
+      this.menu_profile_user_image_span = document.querySelector(".menu_profile_user_image_span");
+      this.profile_menu_anchor = document.querySelector(".profile_menu_anchor");
+      this.account_status_display = document.querySelector(".account_status_display");
       this.profile_menu_anchor.addEventListener("click", (event: any) => {
         event.stopPropagation();
         event.preventDefault();
         this.profileHelper.show();
       });
-    }
-
-    this.account_status_display = document.querySelector(".account_status_display");
-    if (this.account_status_display) {
       this.account_status_display.addEventListener("click", (e: any) => {
         e.preventDefault();
         e.stopPropagation();
         this.profileHelper.show(true);
       });
-    }
+      this.signin_cta_navbar.addEventListener("click", (e: any) => {
+        e.stopPropagation();
+        e.preventDefault();
+        alert("signinclick");
+        this.login.show();
+      });
+      this.show_profile_modal.addEventListener("click", (event: any) => {
+        event.stopPropagation();
+        event.preventDefault();
+        this.profileHelper.show();
+      });  
+    }, 0);
 
     window.addEventListener("beforeinstallprompt", (e: any) => {
       e.preventDefault();
@@ -144,26 +151,9 @@ export default class BaseApp {
     getAuth().onAuthStateChanged((u: any) => this.authHandleEvent(u));
     this.signInWithURL();
 
-    if (this.signin_cta_navbar) {
-      this.signin_cta_navbar.addEventListener("click", (e: any) => {
-        e.stopPropagation();
-        e.preventDefault();
-        alert("signinclick");
-        this.login.show();
-      });
-    }
-    if (this.show_profile_modal) {
-      this.show_profile_modal.addEventListener("click", (event: any) => {
-          event.stopPropagation();
-          event.preventDefault();
-
-          this.profileHelper.show();
-      });
-  }
     this.themeIndex = BaseApp.initDayMode();
     document.body.classList.add("body_loaded");
     this.load();
-
 
     if (this.buy_credits_cta_btn) {
       this.buy_credits_cta_btn.addEventListener("click", (e: any) => {

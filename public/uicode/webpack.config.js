@@ -1,5 +1,7 @@
 module.exports = {
-  entry: './index.ts',
+  entry: './index.ts', 
+  mode: 'development',
+  devtool: 'source-map',
   output: {
     path: __dirname + '/models',
     filename: 'bundle.js'

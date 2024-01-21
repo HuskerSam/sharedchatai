@@ -12,12 +12,12 @@ export default function DialogEmbeddingOptions(props) {
     const [pineconeChunkSize, setPineconeChunkSize] = React.useState(1000);
     const [includeTextInMeta, setIncludeTextInMeta] = React.useState(false);
 
-    props.setShow = setShow;
-    props.setPineconeKey = setPineconeKey;
-    props.setPineconeEnvironment = setPineconeEnvironment;
-    props.setPineconeIndex = setPineconeIndex;
-    props.setPineconeChunkSize = setPineconeChunkSize;
-    props.setIncludeTextInMeta = setIncludeTextInMeta;
+    props.hooks.setShow = setShow;
+    props.hooks.setPineconeKey = setPineconeKey;
+    props.hooks.setPineconeEnvironment = setPineconeEnvironment;
+    props.hooks.setPineconeIndex = setPineconeIndex;
+    props.hooks.setPineconeChunkSize = setPineconeChunkSize;
+    props.hooks.setIncludeTextInMeta = setIncludeTextInMeta;
 
     const handleClose = () => setShow(false);
     const handleSave = () => {

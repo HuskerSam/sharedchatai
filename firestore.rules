@@ -38,11 +38,11 @@ service cloud.firestore {
     }
 
     match /Users/{userId}/embedding/{projectid}/data/{rowid} {
-      allow read, write: if request.auth != null && request.auth.uid == userId
+      allow read, write, delete: if request.auth != null && request.auth.uid == userId
     }
 
-    match /Users/{userId}/embedding/{projectid}/responses/{responseid} {
-      allow read, write: if request.auth != null && request.auth.uid == userId
+    match /Users/{userId}/embedding/{projectid}/chunkMap/{responseid} {
+      allow read, write, delete: if request.auth != null && request.auth.uid == userId
     }
 
     match /Users/{userId}/internal/tokenUsage {
