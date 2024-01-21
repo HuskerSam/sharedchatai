@@ -63,9 +63,9 @@ export default class EmbeddingAPI {
                     suppressConflicts: true,
                     spec: {
                         pod: {
-                          environment: pineconeEnvironment,
-                          pods: 1,
-                          podType: "p1.x1",
+                            environment: pineconeEnvironment,
+                            pods: 1,
+                            podType: "p1.x1",
                         },
                     },
                 });
@@ -139,19 +139,19 @@ export default class EmbeddingAPI {
             if (!chunkMap) {
                 console.log("NO CHUNK MAP", savedRow);
                 chunkMap = {};
-            } 
+            }
             promises.push(
                 firebaseAdmin.firestore().doc(`Users/${uid}/embedding/${projectId}/data/${row.id}`)
                     .set(mergeBlock, {
                         merge: true,
                     }),
-                    firebaseAdmin.firestore().doc(`Users/${uid}/embedding/${projectId}/chunkMap/${row.id}`)
+                firebaseAdmin.firestore().doc(`Users/${uid}/embedding/${projectId}/chunkMap/${row.id}`)
                     .set({
                         chunkMap,
                     }, {
                         merge: true,
                     }),
-                    );
+            );
         });
         await Promise.all(promises);
 
@@ -414,7 +414,7 @@ export default class EmbeddingAPI {
         tokenThreshold: number, includeTextInMeta = true) {
         try {
             return await EmbeddingAPI._upsertFileData(fileDesc, pineconeIndex, chatGptKey, uid,
-                 pIndex, tokenThreshold, includeTextInMeta);
+                pIndex, tokenThreshold, includeTextInMeta);
         } catch (error: any) {
             return {
                 id: fileDesc.id,
@@ -888,7 +888,7 @@ export default class EmbeddingAPI {
             });
 
             const lastVisible = docsSnapshot.docs[docsSnapshot.docs.length - 1];
-            docsSnapshot = await firebaseAdmin.firestore().collection(`Users/${uid}/embedding/${projectId}/data`)
+            docsSnapshot = await firebaseAdmin.firestore().collection(`Users/${uid}/embedding/${projectId}/chunkMap`)
                 .startAfter(lastVisible)
                 .limit(10000)
                 .get();
@@ -897,9 +897,9 @@ export default class EmbeddingAPI {
         const options = {
             resumable: false,
             metadata: {
-              contentType: "application/json",
+                contentType: "application/json",
             },
-          };
+        };
 
         const filePath = `projectLookups/${uid}/${projectId}/lookup.json`;
         const file = bucket.file(filePath);
@@ -943,9 +943,9 @@ export default class EmbeddingAPI {
         const options = {
             resumable: false,
             metadata: {
-              contentType: "application/json",
+                contentType: "application/json",
             },
-          };
+        };
 
         const filePath = `projectExports/${uid}/${projectId}/export.json`;
         const file = bucket.file(filePath);
