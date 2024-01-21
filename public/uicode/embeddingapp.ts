@@ -410,9 +410,9 @@ export class EmbeddingApp extends BaseApp {
             this.dialogEmbeddingOptions.props.hooks.setPineconeIndex(this.pineconeIndex);
             this.dialogEmbeddingOptions.props.hooks.setPineconeChunkSize(this.pineconeChunkSize);
             this.dialogEmbeddingOptions.props.hooks.setIncludeTextInMeta(this.includeTextInMeta);
-            this.dialogEmbeddingOptions.props.deleteIndex =
+            this.dialogEmbeddingOptions.props.hooks.deleteIndex =
                 () => this.deleteIndex();
-            this.dialogEmbeddingOptions.props.savePineconeOptions =
+            this.dialogEmbeddingOptions.props.hooks.savePineconeOptions =
                 (pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string,
                     pineconeChunkSize: number, includeTextInMeta: boolean) =>
                     this.savePineconeOptions(pineconeIndex, pineconeKey, pineconeEnvironment, pineconeChunkSize, includeTextInMeta);
@@ -928,7 +928,6 @@ export class EmbeddingApp extends BaseApp {
                 index,
                 error: result.error,
             });
-            console.log(result);
         })
         if (errors.length > 0) console.log("Upload errors", errors);
         const success = errors.length === 0;

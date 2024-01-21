@@ -134,6 +134,12 @@ export default class EmbeddingAPI {
                 mergeBlock["vectorCount"] = row["idList"].length;
                 mergeBlock["status"] = "Done";
             }
+
+            let chunkMap = savedRow["chunkMap"];
+            if (!chunkMap) {
+                console.log("NO CHUNK MAP", savedRow);
+                chunkMap = {};
+            } 
             promises.push(
                 firebaseAdmin.firestore().doc(`Users/${uid}/embedding/${projectId}/data/${row.id}`)
                     .set(mergeBlock, {
@@ -141,7 +147,7 @@ export default class EmbeddingAPI {
                     }),
                     firebaseAdmin.firestore().doc(`Users/${uid}/embedding/${projectId}/chunkMap/${row.id}`)
                     .set({
-                        chunkMap: savedRow["chunkMap"],
+                        chunkMap,
                     }, {
                         merge: true,
                     }),
