@@ -7,20 +7,20 @@ export default function DialogTestPinecone(props) {
     const [show, setShow] = React.useState(false);
     const [prompt, setPrompt] = React.useState("");
     const [pineconeResults, setPineconeResults] = React.useState([]);
-    const tableFields = ["similarity", "id", "url", "title", "text", "copy"];
+    const tableFields = ["similarity", "id", "url", "title", "copy"];
 
     props.hooks.setShow = setShow;
 
     const handleClose = () => setShow(false);
     const handleQuery = async () => {
-        let queryResults = await props.queryEmbeddings(prompt);
+        let queryResults = await props.hooks.queryEmbeddings(prompt);
         setPineconeResults(queryResults);
     };
 
     return (
         <Modal show={show} onHide={handleClose} size="lg">
             <Modal.Header closeButton className="theme_panel">
-                <Modal.Title>Test Pinecone</Modal.Title>
+                <Modal.Title>Symantec Query</Modal.Title>
             </Modal.Header>
             <Modal.Body className="theme_panel">
                 <FormControl as="textarea" onChange={(e) => setPrompt(e.target.value) }></FormControl>
@@ -43,7 +43,6 @@ export default function DialogTestPinecone(props) {
                             <td>{row.id}</td>
                             <td>{row.metadata["url"]}</td>
                             <td>{row.metadata["title"]}</td>
-                            <td className="table_cell_sizer"><div>{row.metadata["text"]}</div></td>
                             <td onClick={() => navigator.clipboard.writeText(row.metadata.text)}>
                                 <i class="material-icons">content_copy</i>
                             </td>                         

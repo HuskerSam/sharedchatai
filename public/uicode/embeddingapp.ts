@@ -364,7 +364,7 @@ export class EmbeddingApp extends BaseApp {
         createRoot(div2).render(this.dialogTestPinecone);
         this.test_pinecone_dialog_btn.addEventListener("click", (e: any) => {
             e.preventDefault();
-            this.dialogTestPinecone.props.queryEmbeddings = async (prompt: string) => {
+            this.dialogTestPinecone.props.hooks.queryEmbeddings = async (prompt: string) => {
                 return this.queryEmbeddings(prompt);
             };
             this.dialogTestPinecone.props.hooks.setShow(true);
