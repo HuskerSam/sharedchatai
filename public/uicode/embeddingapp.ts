@@ -1081,9 +1081,10 @@ export class EmbeddingApp extends BaseApp {
         const importData = await ChatDocument.getImportDataFromDomFile(this.embedding_list_file_dom);
         const uploadDate = new Date().toISOString();
         const importedRows: any[] = [];
-        let rowsSkipped = 0;
+        const errorList: any[] = [];
         importData.forEach((item: any, index: number) => {
-            if (item.url || item.id) {
+            let text = item.text as string;
+            if ((item.url || item.id) && text.length < 900000) {
                 item.created = uploadDate;
                 if (!item.id) item.id = encodeURIComponent(item.url);
 
@@ -1099,15 +1100,16 @@ export class EmbeddingApp extends BaseApp {
                 if (!item.status) item.status = "New";
                 importedRows.push(item);
             } else {
-                if (index < importData.length - 1) rowsSkipped++;
+                errorList.push(item);
             }
         });
 
         await this.saveUpsertRowsToFirestore(importedRows);
         this.updateRowsCountFromFirestore();
         let alertMessage = importedRows.length + " row(s) imported ";
-        if (rowsSkipped) {
-            alertMessage += rowsSkipped + " row(s) skipped - a url or id field value is required for a row to be imported";
+        if (errorList.length > 0) {
+            alertMessage += errorList.length + " row(s) skipped - refer to browser console for more details";
+            console.log("File upload errored items", errorList);
         }
         this.actionRunning = false;
         this.upsert_result_status_bar.innerHTML = alertMessage;
