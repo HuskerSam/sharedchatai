@@ -98,8 +98,10 @@ export class EmbeddingApp extends BaseApp {
     pineconeIndex = "";
     pineconeEnvironment = "";
     pineconeKey = "";
+    chunkingType = "size";
     pineconeChunkSize = 1000;
     includeTextInMeta = false;
+    sentenceWindow = 1;
     tableColumns = [
         {
             title: "",
@@ -412,12 +414,17 @@ export class EmbeddingApp extends BaseApp {
             this.dialogEmbeddingOptions.props.hooks.setPineconeIndex(this.pineconeIndex);
             this.dialogEmbeddingOptions.props.hooks.setPineconeChunkSize(this.pineconeChunkSize);
             this.dialogEmbeddingOptions.props.hooks.setIncludeTextInMeta(this.includeTextInMeta);
+            this.dialogEmbeddingOptions.props.hooks.setChunkingType(this.chunkingType);
+            this.dialogEmbeddingOptions.props.hooks.setSentenceWindow(this.sentenceWindow);
+
             this.dialogEmbeddingOptions.props.hooks.deleteIndex =
                 () => this.deleteIndex();
             this.dialogEmbeddingOptions.props.hooks.savePineconeOptions =
                 (pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string,
-                    pineconeChunkSize: number, includeTextInMeta: boolean) =>
-                    this.savePineconeOptions(pineconeIndex, pineconeKey, pineconeEnvironment, pineconeChunkSize, includeTextInMeta);
+                    pineconeChunkSize: number, includeTextInMeta: boolean,
+                    chunkingType: string, sentenceWindow: number) =>
+                    this.savePineconeOptions(pineconeIndex, pineconeKey, pineconeEnvironment, pineconeChunkSize, 
+                        includeTextInMeta, chunkingType, sentenceWindow);
             this.dialogEmbeddingOptions.props.hooks.setShow(true);
         });
 
@@ -791,6 +798,8 @@ export class EmbeddingApp extends BaseApp {
         this.pineconeEnvironment = "";
         this.pineconeChunkSize = 0;
         this.includeTextInMeta = false;
+        this.chunkingType = "size";
+        this.sentenceWindow = 1;
 
         if (this.selectedProjectId) {
             const projectSettings = this.embeddingProjects[this.selectedProjectId];
@@ -800,6 +809,8 @@ export class EmbeddingApp extends BaseApp {
                 if (projectSettings.pineconeEnvironment !== undefined) this.pineconeEnvironment = projectSettings.pineconeEnvironment;
                 if (projectSettings.pineconeChunkSize !== undefined) this.pineconeChunkSize = projectSettings.pineconeChunkSize;
                 if (projectSettings.includeTextInMeta !== undefined) this.includeTextInMeta = projectSettings.includeTextInMeta;
+                if (projectSettings.chunkingType !== undefined) this.chunkingType = projectSettings.chunkingType;
+                if (projectSettings.sentenceWindow !== undefined) this.sentenceWindow = projectSettings.sentenceWindow;
             }
         }
     }
@@ -875,14 +886,17 @@ export class EmbeddingApp extends BaseApp {
      * @param { string } pineconeEnvironment
      * @param { number } pineconeChunkSize
      * @param { boolean } includeTextInMeta
+     * @param { string } chunkingType
      */
     async savePineconeOptions(pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string,
-        pineconeChunkSize: number, includeTextInMeta: boolean) {
+        pineconeChunkSize: number, includeTextInMeta: boolean, chunkingType: string, sentenceWindow: number) {
         this.pineconeIndex = pineconeIndex;
         this.pineconeKey = pineconeKey;
         this.pineconeEnvironment = pineconeEnvironment;
         this.pineconeChunkSize = pineconeChunkSize;
         this.includeTextInMeta = includeTextInMeta;
+        this.chunkingType = chunkingType;
+        this.sentenceWindow = sentenceWindow;
 
         await Promise.all([
             this.saveEmbeddingField("pineconeIndex", pineconeIndex),
@@ -890,6 +904,8 @@ export class EmbeddingApp extends BaseApp {
             this.saveEmbeddingField("pineconeEnvironment", pineconeEnvironment),
             this.saveEmbeddingField("pineconeChunkSize", pineconeChunkSize),
             this.saveEmbeddingField("includeTextInMeta", includeTextInMeta),
+            this.saveEmbeddingField("chunkingType", chunkingType),
+            this.saveEmbeddingField("sentenceWindow", sentenceWindow),            
         ]);
     }
     /**
