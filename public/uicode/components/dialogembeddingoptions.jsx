@@ -11,6 +11,8 @@ export default function DialogEmbeddingOptions(props) {
     const [pineconeIndex, setPineconeIndex] = React.useState("");
     const [pineconeChunkSize, setPineconeChunkSize] = React.useState(1000);
     const [includeTextInMeta, setIncludeTextInMeta] = React.useState(false);
+    const [chunkingType, setChunkingType] = React.useState("size");
+    const [sentenceWindow, setSentenceWindow] = React.useState(1);
 
     props.hooks.setShow = setShow;
     props.hooks.setPineconeKey = setPineconeKey;
@@ -18,10 +20,13 @@ export default function DialogEmbeddingOptions(props) {
     props.hooks.setPineconeIndex = setPineconeIndex;
     props.hooks.setPineconeChunkSize = setPineconeChunkSize;
     props.hooks.setIncludeTextInMeta = setIncludeTextInMeta;
+    props.hooks.setChunkingType = setChunkingType;
+    props.hooks.setSentenceWindow = setSentenceWindow;
 
     const handleClose = () => setShow(false);
     const handleSave = () => {
-        props.hooks.savePineconeOptions(pineconeIndex, pineconeKey, pineconeEnvironment, pineconeChunkSize, includeTextInMeta);
+        props.hooks.savePineconeOptions(pineconeIndex, pineconeKey, pineconeEnvironment, 
+            pineconeChunkSize, includeTextInMeta, chunkingType, sentenceWindow);
         setShow(false);
     };
 
@@ -72,6 +77,18 @@ export default function DialogEmbeddingOptions(props) {
                             <td></td>
                         </tr>
                         <tr>
+                            <td>Chunking Type</td>
+                            <td colSpan="2">
+                                <Form.Select defaultValue={chunkingType}
+                                    onChange={(e) => setChunkingType(e.target.value)}>
+                                    <option value="none">None</option>
+                                    <option value="size">By Size (tokens)</option>
+                                    <option value="sentence">By Sentence</option>
+                                </Form.Select>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
                             <td>Chunk Size</td>
                             <td>
                                 <FormControl as="input" defaultValue={pineconeChunkSize}
@@ -84,11 +101,23 @@ export default function DialogEmbeddingOptions(props) {
                             <td></td>
                         </tr>
                         <tr>
+                            <td>Sentence Window</td>
+                            <td>
+                                <FormControl as="input" defaultValue={sentenceWindow}
+                                    onChange={
+                                        (e) => setSentenceWindow(Number(e.target.value))
+                                    }>
+                                </FormControl>
+                            </td>
+                            <td>sentences</td>
+                            <td></td>
+                        </tr>
+                        <tr>
                             <td></td>
                             <td colSpan="3">
                                 <Form.Check
                                     inline
-                                    label="Include Text in Metadata"
+                                    label="Include Text in Metadata (small projects only)"
                                     type="switch"
                                     checked={includeTextInMeta}
                                     onChange={

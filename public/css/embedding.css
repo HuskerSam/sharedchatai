@@ -218,3 +218,7 @@ table tr td.table_cell_sizer {
   padding-left: 4px;
   padding-right: 4px;
 }
+
+.upsert_result_status_bar {
+  text-align: left;
+}

@@ -20,7 +20,7 @@ export default class HeaderBar extends React.Component {
         style={{ padding: "0" }}>
         <li className="navbar_logo_li">
           <a className="navbar_brand" style={{ textDecoration: "none" }}>
-            <span className="navbar_logo" style={{ backgroundImage: "url('/images/logo64.png')", top: "2px" }}></span>
+            <span className="navbar_logo"></span>
           </a>
         </li>
         <li style={{ background: "none", flex: "1" }} className="app_panel">

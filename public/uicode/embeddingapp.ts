@@ -31,6 +31,7 @@ import DialogTestPinecone from "./components/dialogtestpinecone.jsx";
 import DialogPublishEmbedding from "./components/dialogpublishembedding.jsx";
 import DialogVectorInspect from "./components/dialogvectorinspect.jsx";
 import DialogEmbeddingOptions from "./components/dialogembeddingoptions.jsx";
+import DialogGenerateResult from "./components/dialoggenerateresult.jsx";
 
 /** Embedding upload app class */
 export class EmbeddingApp extends BaseApp {
@@ -92,12 +93,15 @@ export class EmbeddingApp extends BaseApp {
     dialogPublishEmbedding: React.ReactElement;
     dialogVectorInspect: React.ReactElement;
     dialogEmbeddingOptions: React.ReactElement;
+    dialogGenerateResult: React.ReactElement;
     first_table_row: any = document.querySelector(".first_table_row");
     pineconeIndex = "";
     pineconeEnvironment = "";
     pineconeKey = "";
+    chunkingType = "size";
     pineconeChunkSize = 1000;
     includeTextInMeta = false;
+    sentenceWindow = 1;
     tableColumns = [
         {
             title: "",
@@ -410,19 +414,32 @@ export class EmbeddingApp extends BaseApp {
             this.dialogEmbeddingOptions.props.hooks.setPineconeIndex(this.pineconeIndex);
             this.dialogEmbeddingOptions.props.hooks.setPineconeChunkSize(this.pineconeChunkSize);
             this.dialogEmbeddingOptions.props.hooks.setIncludeTextInMeta(this.includeTextInMeta);
+            this.dialogEmbeddingOptions.props.hooks.setChunkingType(this.chunkingType);
+            this.dialogEmbeddingOptions.props.hooks.setSentenceWindow(this.sentenceWindow);
+
             this.dialogEmbeddingOptions.props.hooks.deleteIndex =
                 () => this.deleteIndex();
             this.dialogEmbeddingOptions.props.hooks.savePineconeOptions =
                 (pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string,
-                    pineconeChunkSize: number, includeTextInMeta: boolean) =>
-                    this.savePineconeOptions(pineconeIndex, pineconeKey, pineconeEnvironment, pineconeChunkSize, includeTextInMeta);
+                    pineconeChunkSize: number, includeTextInMeta: boolean,
+                    chunkingType: string, sentenceWindow: number) =>
+                    this.savePineconeOptions(pineconeIndex, pineconeKey, pineconeEnvironment, pineconeChunkSize, 
+                        includeTextInMeta, chunkingType, sentenceWindow);
             this.dialogEmbeddingOptions.props.hooks.setShow(true);
         });
+
+        const div6 = document.createElement("div");
+        document.body.appendChild(div6);
+        this.dialogGenerateResult = React.createElement(DialogGenerateResult, {
+            hooks: {},
+        });
+        createRoot(div6).render(this.dialogGenerateResult);
     }
     /** */
     async generateLookupDB() {
         if (!this.selectedProjectId) return;
-
+        this.upsert_result_status_bar.innerHTML = `Generating Lookup ...`;
+        
         const body: any = {
             projectId: this.selectedProjectId,
         };
@@ -444,9 +461,11 @@ export class EmbeddingApp extends BaseApp {
             return;
         }
 
+        this.upsert_result_status_bar.innerHTML = ``;
         console.log("lookup data", json.publicPath);
-        navigator.clipboard.writeText(json.publicPath);
-        alert("Lookup file path copied to clipboard");
+        this.dialogGenerateResult.props.hooks.setTitle("Lookup Database Cloud Path");
+        this.dialogGenerateResult.props.hooks.setPath(json.publicPath);
+        this.dialogGenerateResult.props.hooks.setShow(true);
     }
     /**
      * @param { any } event
@@ -678,7 +697,7 @@ export class EmbeddingApp extends BaseApp {
     /** */
     async exportAllData() {
         if (!this.selectedProjectId) return;
-
+        this.upsert_result_status_bar.innerHTML = `Exporting all data...`;
         const body: any = {
             projectId: this.selectedProjectId,
         };
@@ -701,8 +720,10 @@ export class EmbeddingApp extends BaseApp {
         }
 
         console.log("exported data", json.publicPath);
-        navigator.clipboard.writeText(json.publicPath);
-        alert("Exported data path copied to clipboard");
+        this.upsert_result_status_bar.innerHTML = ``;
+        this.dialogGenerateResult.props.hooks.setTitle("Exported Data Database Cloud Path");
+        this.dialogGenerateResult.props.hooks.setPath(json.publicPath);
+        this.dialogGenerateResult.props.hooks.setShow(true);
     }
     /** */
     async fetchIndexStats() {
@@ -777,6 +798,8 @@ export class EmbeddingApp extends BaseApp {
         this.pineconeEnvironment = "";
         this.pineconeChunkSize = 0;
         this.includeTextInMeta = false;
+        this.chunkingType = "size";
+        this.sentenceWindow = 1;
 
         if (this.selectedProjectId) {
             const projectSettings = this.embeddingProjects[this.selectedProjectId];
@@ -786,6 +809,8 @@ export class EmbeddingApp extends BaseApp {
                 if (projectSettings.pineconeEnvironment !== undefined) this.pineconeEnvironment = projectSettings.pineconeEnvironment;
                 if (projectSettings.pineconeChunkSize !== undefined) this.pineconeChunkSize = projectSettings.pineconeChunkSize;
                 if (projectSettings.includeTextInMeta !== undefined) this.includeTextInMeta = projectSettings.includeTextInMeta;
+                if (projectSettings.chunkingType !== undefined) this.chunkingType = projectSettings.chunkingType;
+                if (projectSettings.sentenceWindow !== undefined) this.sentenceWindow = projectSettings.sentenceWindow;
             }
         }
     }
@@ -861,14 +886,17 @@ export class EmbeddingApp extends BaseApp {
      * @param { string } pineconeEnvironment
      * @param { number } pineconeChunkSize
      * @param { boolean } includeTextInMeta
+     * @param { string } chunkingType
      */
     async savePineconeOptions(pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string,
-        pineconeChunkSize: number, includeTextInMeta: boolean) {
+        pineconeChunkSize: number, includeTextInMeta: boolean, chunkingType: string, sentenceWindow: number) {
         this.pineconeIndex = pineconeIndex;
         this.pineconeKey = pineconeKey;
         this.pineconeEnvironment = pineconeEnvironment;
         this.pineconeChunkSize = pineconeChunkSize;
         this.includeTextInMeta = includeTextInMeta;
+        this.chunkingType = chunkingType;
+        this.sentenceWindow = sentenceWindow;
 
         await Promise.all([
             this.saveEmbeddingField("pineconeIndex", pineconeIndex),
@@ -876,6 +904,8 @@ export class EmbeddingApp extends BaseApp {
             this.saveEmbeddingField("pineconeEnvironment", pineconeEnvironment),
             this.saveEmbeddingField("pineconeChunkSize", pineconeChunkSize),
             this.saveEmbeddingField("includeTextInMeta", includeTextInMeta),
+            this.saveEmbeddingField("chunkingType", chunkingType),
+            this.saveEmbeddingField("sentenceWindow", sentenceWindow),            
         ]);
     }
     /**
@@ -1051,9 +1081,10 @@ export class EmbeddingApp extends BaseApp {
         const importData = await ChatDocument.getImportDataFromDomFile(this.embedding_list_file_dom);
         const uploadDate = new Date().toISOString();
         const importedRows: any[] = [];
-        let rowsSkipped = 0;
+        const errorList: any[] = [];
         importData.forEach((item: any, index: number) => {
-            if (item.url || item.id) {
+            let text = item.text as string;
+            if ((item.url || item.id) && text.length < 900000) {
                 item.created = uploadDate;
                 if (!item.id) item.id = encodeURIComponent(item.url);
 
@@ -1069,15 +1100,16 @@ export class EmbeddingApp extends BaseApp {
                 if (!item.status) item.status = "New";
                 importedRows.push(item);
             } else {
-                if (index < importData.length - 1) rowsSkipped++;
+                errorList.push(item);
             }
         });
 
         await this.saveUpsertRowsToFirestore(importedRows);
         this.updateRowsCountFromFirestore();
         let alertMessage = importedRows.length + " row(s) imported ";
-        if (rowsSkipped) {
-            alertMessage += rowsSkipped + " row(s) skipped - a url or id field value is required for a row to be imported";
+        if (errorList.length > 0) {
+            alertMessage += errorList.length + " row(s) skipped - refer to browser console for more details";
+            console.log("File upload errored items", errorList);
         }
         this.actionRunning = false;
         this.upsert_result_status_bar.innerHTML = alertMessage;
@@ -1146,7 +1178,7 @@ export class EmbeddingApp extends BaseApp {
         if (sortDir !== "asc" && sortDir !== "desc") sortDir = "asc";
         const rowsPath = `Users/${this.uid}/embedding/${this.selectedProjectId}/data`;
         const docsCollection = collection(getFirestore(), rowsPath);
-        let docsQuery = query(docsCollection, orderBy(documentId(), <any>sortDir), limit(200));
+        let docsQuery = query(docsCollection, orderBy(documentId(), <any>sortDir), limit(100));
         if (firstRow) {
             docsQuery = query(docsQuery, startAfter(firstRow));
         }

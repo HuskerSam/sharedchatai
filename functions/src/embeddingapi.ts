@@ -458,6 +458,13 @@ export default class EmbeddingAPI {
                     errorMessage: "url scrape failed to return data",
                 };
             }
+            if (text.length > 900000) {
+                return {
+                    id,
+                    success: false,
+                    errorMessage: `scraped text over 900k - ${text.length}`,
+                };
+            }
             title = scrapeResult.title;
         } else if (!text && !url) {
             return {
