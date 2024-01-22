@@ -272,7 +272,7 @@ i.copy_green {
 }
 
 .nav_signin_li {
-    width: 70px;
+ padding-right: 8px;
 }
 
 .navbar_logo_li {
@@ -296,9 +296,5 @@ i.copy_green {
     .navbar_profile_li {
         display: list-item;
         width: 70px;
-    }
-
-    .nav_signin_li {
-        width: 140px;
     }
 }
