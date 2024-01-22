@@ -34,18 +34,21 @@ export class BibleDemoApp {
       this.summary_details.innerHTML = "Compiling Prompt...";
       this.running = true;
 
-      this.nav_link.forEach((tab) => {
-        tab.classList.remove('disabled');
-        tab.setAttribute('aria-disabled', 'false');
-      });
       document.body.classList.remove("initial");
       document.body.classList.add("running");
       document.body.classList.remove("complete");
+
       this.full_augmented_response.innerHTML = "Processing Query...<br><br>";
       await this.lookupChaptersByVerse();
       this.full_augmented_response.innerHTML += "Similar chapters retrieved...<br><br>";
       await this.lookupChapters();
       this.full_augmented_response.innerHTML += "Similar verses retrieved...<br><br>";
+
+      this.nav_link.forEach((tab) => {
+        tab.classList.remove('disabled');
+        tab.setAttribute('aria-disabled', 'false');
+      });
+      
       this.full_augmented_response.innerHTML = await this.sendPromptToLLM();
       this.full_augmented_response.innerHTML +=
         `<div class="d-flex flex-column link-primary" style="white-space:normal;"><a class="response_verse_link p-2" href="see verses">Top Verses
@@ -65,8 +68,10 @@ export class BibleDemoApp {
       const detailLink = this.full_augmented_response.querySelector(".response_detail_link");
       detailLink.addEventListener("click", (e: any) => {
         e.preventDefault();
-        (<any>(document.getElementById("details_view_button"))).click();
+        (<any>(document.getElementById("full_augmented_prompt_button"))).click();
       });
+
+
 
 
       this.analyze_prompt_button.removeAttribute("disabled");
