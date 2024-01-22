@@ -1176,7 +1176,7 @@ export class EmbeddingApp extends BaseApp {
         if (sortDir !== "asc" && sortDir !== "desc") sortDir = "asc";
         const rowsPath = `Users/${this.uid}/embedding/${this.selectedProjectId}/data`;
         const docsCollection = collection(getFirestore(), rowsPath);
-        let docsQuery = query(docsCollection, orderBy(documentId(), <any>sortDir), limit(200));
+        let docsQuery = query(docsCollection, orderBy(documentId(), <any>sortDir), limit(100));
         if (firstRow) {
             docsQuery = query(docsQuery, startAfter(firstRow));
         }
