@@ -31,6 +31,7 @@ import DialogTestPinecone from "./components/dialogtestpinecone.jsx";
 import DialogPublishEmbedding from "./components/dialogpublishembedding.jsx";
 import DialogVectorInspect from "./components/dialogvectorinspect.jsx";
 import DialogEmbeddingOptions from "./components/dialogembeddingoptions.jsx";
+import DialogGenerateResult from "./components/dialoggenerateresult.jsx";
 
 /** Embedding upload app class */
 export class EmbeddingApp extends BaseApp {
@@ -92,6 +93,7 @@ export class EmbeddingApp extends BaseApp {
     dialogPublishEmbedding: React.ReactElement;
     dialogVectorInspect: React.ReactElement;
     dialogEmbeddingOptions: React.ReactElement;
+    dialogGenerateResult: React.ReactElement;
     first_table_row: any = document.querySelector(".first_table_row");
     pineconeIndex = "";
     pineconeEnvironment = "";
@@ -418,11 +420,19 @@ export class EmbeddingApp extends BaseApp {
                     this.savePineconeOptions(pineconeIndex, pineconeKey, pineconeEnvironment, pineconeChunkSize, includeTextInMeta);
             this.dialogEmbeddingOptions.props.hooks.setShow(true);
         });
+
+        const div6 = document.createElement("div");
+        document.body.appendChild(div6);
+        this.dialogGenerateResult = React.createElement(DialogGenerateResult, {
+            hooks: {},
+        });
+        createRoot(div6).render(this.dialogGenerateResult);
     }
     /** */
     async generateLookupDB() {
         if (!this.selectedProjectId) return;
-
+        this.upsert_result_status_bar.innerHTML = `Generating Lookup ...`;
+        
         const body: any = {
             projectId: this.selectedProjectId,
         };
@@ -444,9 +454,11 @@ export class EmbeddingApp extends BaseApp {
             return;
         }
 
+        this.upsert_result_status_bar.innerHTML = ``;
         console.log("lookup data", json.publicPath);
-        navigator.clipboard.writeText(json.publicPath);
-        alert("Lookup file path copied to clipboard");
+        this.dialogGenerateResult.props.hooks.setTitle("Lookup Database Cloud Path");
+        this.dialogGenerateResult.props.hooks.setPath(json.publicPath);
+        this.dialogGenerateResult.props.hooks.setShow(true);
     }
     /**
      * @param { any } event
@@ -678,7 +690,7 @@ export class EmbeddingApp extends BaseApp {
     /** */
     async exportAllData() {
         if (!this.selectedProjectId) return;
-
+        this.upsert_result_status_bar.innerHTML = `Exporting all data...`;
         const body: any = {
             projectId: this.selectedProjectId,
         };
@@ -701,8 +713,10 @@ export class EmbeddingApp extends BaseApp {
         }
 
         console.log("exported data", json.publicPath);
-        navigator.clipboard.writeText(json.publicPath);
-        alert("Exported data path copied to clipboard");
+        this.upsert_result_status_bar.innerHTML = ``;
+        this.dialogGenerateResult.props.hooks.setTitle("Exported Data Database Cloud Path");
+        this.dialogGenerateResult.props.hooks.setPath(json.publicPath);
+        this.dialogGenerateResult.props.hooks.setShow(true);
     }
     /** */
     async fetchIndexStats() {
