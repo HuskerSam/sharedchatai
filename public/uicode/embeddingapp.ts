@@ -384,7 +384,7 @@ export class EmbeddingApp extends BaseApp {
         createRoot(div3).render(this.dialogPublishEmbedding);
         this.publish_pinecone_dialog_btn.addEventListener("click", (e: any) => {
             e.preventDefault();
-            this.dialogPublishEmbedding.props.addConnectedSession = async () => {
+            this.dialogPublishEmbedding.props.hooks.addConnectedSession = async () => {
                 return this.addConnectedSession();
             };
             this.dialogPublishEmbedding.props.hooks.setShow(true);
