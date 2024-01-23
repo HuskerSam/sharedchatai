@@ -35,130 +35,136 @@ export default class EmbeddingAPI {
         const localInstance = BaseClass.newLocalInstance();
         await localInstance.init();
 
-        const pineconeIndex = req.body.pineconeIndex.toString().trim();
-        if (!pineconeIndex.trim()) BaseClass.respondError(res, "index name required");
-        const chatGptKey = localInstance.privateConfig.chatGPTKey;
-        const pineconeKey = req.body.pineconeKey;
-        const pineconeEnvironment = req.body.pineconeEnvironment;
-        const tokenThreshold = req.body.tokenThreshold;
-        const includeTextInMeta = req.body.includeTextInMeta === true;
-        const projectId = req.body.projectId;
-        const singleRowId = req.body.singleRowId;
-        let rowCount = Number(req.body.rowCount);
-        if (isNaN(rowCount)) rowCount = 1;
-        if (rowCount < 1) rowCount = 1;
-        if (rowCount > 50) rowCount = 50;
-
-        const pinecone = new Pinecone({
-            apiKey: pineconeKey,
-        });
-        const indexList: any = await pinecone.listIndexes();
-        if (!EmbeddingAPI.testIfIndexExists(indexList, pineconeIndex)) {
-            try {
-                await pinecone.createIndex({
-                    name: pineconeIndex,
-                    dimension: 1536,
-                    metric: "cosine",
-                    waitUntilReady: true,
-                    suppressConflicts: true,
-                    spec: {
-                        pod: {
-                            environment: pineconeEnvironment,
-                            pods: 1,
-                            podType: "p1.x1",
-                        },
-                    },
-                });
-            } catch (createError: any) {
-                return BaseClass.respondError(res, createError.message, createError);
-            }
-        }
-        const pIndex = pinecone.index(pineconeIndex);
-
-        let fileUploadResults: any = [];
         try {
+            const pineconeIndex = req.body.pineconeIndex.toString().trim();
+            if (!pineconeIndex.trim()) BaseClass.respondError(res, "index name required");
+            const chatGptKey = localInstance.privateConfig.chatGPTKey;
+            const pineconeKey = req.body.pineconeKey;
+            const pineconeEnvironment = req.body.pineconeEnvironment;
+            const tokenThreshold = req.body.tokenThreshold;
+            const includeTextInMeta = req.body.includeTextInMeta === true;
+            const projectId = req.body.projectId;
+            const chunkingType = req.body.chunkingType;
+            const sentenceWindow = req.body.sentenceWindow;
+            const singleRowId = req.body.singleRowId;
+            let rowCount = Number(req.body.rowCount);
+            if (isNaN(rowCount)) rowCount = 1;
+            if (rowCount < 1) rowCount = 1;
+            if (rowCount > 50) rowCount = 50;
+
+            const pinecone = new Pinecone({
+                apiKey: pineconeKey,
+            });
+            const indexList: any = await pinecone.listIndexes();
+            if (!EmbeddingAPI.testIfIndexExists(indexList, pineconeIndex)) {
+                try {
+                    await pinecone.createIndex({
+                        name: pineconeIndex,
+                        dimension: 1536,
+                        metric: "cosine",
+                        waitUntilReady: true,
+                        suppressConflicts: true,
+                        spec: {
+                            pod: {
+                                environment: pineconeEnvironment,
+                                pods: 1,
+                                podType: "p1.x1",
+                            },
+                        },
+                    });
+                } catch (createError: any) {
+                    return BaseClass.respondError(res, createError.message, createError);
+                }
+            }
+            const pIndex = pinecone.index(pineconeIndex);
+
+            let fileUploadResults: any = [];
+            try {
+                const promises: any = [];
+                if (singleRowId) {
+                    // get the single
+                    const singleQuery = await firebaseAdmin.firestore()
+                        .doc(`Users/${uid}/embedding/${projectId}/data/${singleRowId}`)
+                        .get();
+                    let doc = singleQuery.data();
+                    if (!doc) doc = {};
+                    promises.push(EmbeddingAPI.upsertFileData(doc, chatGptKey,
+                        uid, pIndex, tokenThreshold, includeTextInMeta, chunkingType, sentenceWindow));
+                } else {
+                    // get oldest 50 new
+                    const nextQuery = await firebaseAdmin.firestore()
+                        .collection(`Users/${uid}/embedding/${projectId}/data`)
+                        .where(`status`, "!=", "Done")
+                        .orderBy("status")
+                        .orderBy("lastActivity", "asc")
+                        .limit(rowCount)
+                        .get();
+
+                    nextQuery.forEach((doc: any) => {
+                        promises.push(EmbeddingAPI.upsertFileData(doc.data(), chatGptKey,
+                            uid, pIndex, tokenThreshold, includeTextInMeta, chunkingType, sentenceWindow));
+                    });
+                }
+                fileUploadResults = await Promise.all(promises);
+            } catch (error: any) {
+                return BaseClass.respondError(res, error.message, error);
+            }
+
             const promises: any = [];
-            if (singleRowId) {
-                // get the single
-                const singleQuery = await firebaseAdmin.firestore()
-                    .doc(`Users/${uid}/embedding/${projectId}/data/${singleRowId}`)
-                    .get();
-                let doc = singleQuery.data();
-                if (!doc) doc = {};
-                promises.push(EmbeddingAPI.upsertFileData(doc, pineconeIndex, chatGptKey,
-                    uid, pIndex, tokenThreshold, includeTextInMeta));
-            } else {
-                // get oldest 50 new
-                const nextQuery = await firebaseAdmin.firestore()
-                    .collection(`Users/${uid}/embedding/${projectId}/data`)
-                    .where(`status`, "!=", "Done")
-                    .orderBy("status")
-                    .orderBy("lastActivity", "asc")
-                    .limit(rowCount)
-                    .get();
+            fileUploadResults.forEach((row: any) => {
+                const lastActivity = new Date().toISOString();
+                const savedRow = JSON.parse(JSON.stringify(row));
+                const mergeBlock: any = {
+                    lastActivity,
+                };
+                if (row["errorMessage"]) {
+                    mergeBlock["errorMessage"] = row["errorMessage"];
+                    mergeBlock["pineconeTitle"] = "";
+                    mergeBlock["pineconeId"] = "";
+                    mergeBlock["size"] = 0;
+                    mergeBlock["upsertedDate"] = lastActivity;
+                    mergeBlock["include"] = false;
+                    mergeBlock["vectorCount"] = 0;
+                    mergeBlock["status"] = "Error";
+                } else {
+                    mergeBlock["errorMessage"] = "";
+                    if (savedRow["title"]) mergeBlock["title"] = savedRow["title"];
+                    mergeBlock["ids"] = savedRow["ids"];
+                    mergeBlock["size"] = savedRow["textSize"];
+                    if (savedRow["text"]) mergeBlock["text"] = savedRow["text"];
+                    mergeBlock["upsertedDate"] = lastActivity;
+                    mergeBlock["include"] = false;
+                    mergeBlock["vectorCount"] = row["idList"].length;
+                    mergeBlock["status"] = "Done";
+                }
 
-                nextQuery.forEach((doc: any) => {
-                    promises.push(EmbeddingAPI.upsertFileData(doc.data(), pineconeIndex, chatGptKey,
-                        uid, pIndex, tokenThreshold, includeTextInMeta));
-                });
-            }
-            fileUploadResults = await Promise.all(promises);
-        } catch (error: any) {
-            return BaseClass.respondError(res, error.message, error);
+                let chunkMap = savedRow["chunkMap"];
+                if (!chunkMap) {
+                    console.log("NO CHUNK MAP", savedRow);
+                    chunkMap = {};
+                }
+                promises.push(
+                    firebaseAdmin.firestore().doc(`Users/${uid}/embedding/${projectId}/data/${row.id}`)
+                        .set(mergeBlock, {
+                            merge: true,
+                        }),
+                    firebaseAdmin.firestore().doc(`Users/${uid}/embedding/${projectId}/chunkMap/${row.id}`)
+                        .set({
+                            chunkMap,
+                        }, {
+                            merge: true,
+                        }),
+                );
+            });
+            await Promise.all(promises);
+
+            return res.send({
+                fileUploadResults,
+                success: true,
+            });
+        } catch (wrapperErr: any) {
+            return BaseClass.respondError(res, wrapperErr.message, wrapperErr);
         }
-
-        const promises: any = [];
-        fileUploadResults.forEach((row: any) => {
-            const lastActivity = new Date().toISOString();
-            const savedRow = JSON.parse(JSON.stringify(row));
-            const mergeBlock: any = {
-                lastActivity,
-            };
-            if (row["errorMessage"]) {
-                mergeBlock["errorMessage"] = row["errorMessage"];
-                mergeBlock["pineconeTitle"] = "";
-                mergeBlock["pineconeId"] = "";
-                mergeBlock["size"] = 0;
-                mergeBlock["upsertedDate"] = lastActivity;
-                mergeBlock["include"] = false;
-                mergeBlock["vectorCount"] = 0;
-                mergeBlock["status"] = "Error";
-            } else {
-                mergeBlock["errorMessage"] = "";
-                if (savedRow["title"]) mergeBlock["title"] = savedRow["title"];
-                mergeBlock["ids"] = savedRow["ids"];
-                mergeBlock["size"] = savedRow["textSize"];
-                if (savedRow["text"]) mergeBlock["text"] = savedRow["text"];
-                mergeBlock["upsertedDate"] = lastActivity;
-                mergeBlock["include"] = false;
-                mergeBlock["vectorCount"] = row["idList"].length;
-                mergeBlock["status"] = "Done";
-            }
-
-            let chunkMap = savedRow["chunkMap"];
-            if (!chunkMap) {
-                console.log("NO CHUNK MAP", savedRow);
-                chunkMap = {};
-            }
-            promises.push(
-                firebaseAdmin.firestore().doc(`Users/${uid}/embedding/${projectId}/data/${row.id}`)
-                    .set(mergeBlock, {
-                        merge: true,
-                    }),
-                firebaseAdmin.firestore().doc(`Users/${uid}/embedding/${projectId}/chunkMap/${row.id}`)
-                    .set({
-                        chunkMap,
-                    }, {
-                        merge: true,
-                    }),
-            );
-        });
-        await Promise.all(promises);
-
-        res.send({
-            fileUploadResults,
-            success: true,
-        });
     }
     /**
     * @param { Request } req http request object
@@ -373,6 +379,10 @@ export default class EmbeddingAPI {
         const text = chunk.text;
 
         const embeddingModelResult = await EmbeddingAPI.encodeEmbedding(text, chatGptKey, uid);
+        if (!embeddingModelResult.success) {
+            console.log(embeddingModelResult);
+            throw new Error("embedding failed");
+        }
         const embedding = embeddingModelResult.vectorResult;
         const encodingTokens = embeddingModelResult.encodingTokens;
         const encodingCredits = embeddingModelResult.encodingCredits;
@@ -402,19 +412,20 @@ export default class EmbeddingAPI {
     }
     /**
      * @param { any } fileDesc
-     * @param { string } pineconeIndex
      * @param { string } chatGptKey
      * @param { string } uid
      * @param { any } pIndex
      * @param { number } tokenThreshold
      * @param { boolean } includeTextInMeta
+     * @param { string } chunkingType
+     * @param { number } sentenceWindow
      * @return { any } success: true - otherwise errorMessage: string is in map
     */
-    static async upsertFileData(fileDesc: any, pineconeIndex: string, chatGptKey: string, uid: string, pIndex: any,
-        tokenThreshold: number, includeTextInMeta = true) {
+    static async upsertFileData(fileDesc: any, chatGptKey: string, uid: string, pIndex: any,
+        tokenThreshold: number, includeTextInMeta: boolean, chunkingType: string, sentenceWindow: number) {
         try {
-            return await EmbeddingAPI._upsertFileData(fileDesc, pineconeIndex, chatGptKey, uid,
-                pIndex, tokenThreshold, includeTextInMeta);
+            return await EmbeddingAPI._upsertFileData(fileDesc, chatGptKey, uid,
+                pIndex, tokenThreshold, includeTextInMeta, chunkingType, sentenceWindow);
         } catch (error: any) {
             return {
                 id: fileDesc.id,
@@ -426,16 +437,17 @@ export default class EmbeddingAPI {
     }
     /**
      * @param { any } fileDesc
-     * @param { string } pineconeIndex
      * @param { string } chatGptKey
      * @param { string } uid
      * @param { any } pIndex
      * @param { number } tokenThreshold
      * @param { boolean } includeTextInMeta
+     * @param { string } chunkingType
+     * @param { number } sentenceWindow
      * @return { any } success: true - otherwise errorMessage: string is in map
     */
-    static async _upsertFileData(fileDesc: any, pineconeIndex: string, chatGptKey: string, uid: string, pIndex: any,
-        tokenThreshold: number, includeTextInMeta = true) {
+    static async _upsertFileData(fileDesc: any, chatGptKey: string, uid: string, pIndex: any,
+        tokenThreshold: number, includeTextInMeta: boolean, chunkingType: string, sentenceWindow: number) {
         const id = fileDesc.id;
         if (id === "") {
             return {
@@ -482,7 +494,8 @@ export default class EmbeddingAPI {
             }
         });
 
-        const textChunks = await SharedWithBackend.parseBreakTextIntoChunks(tokenThreshold, text);
+        const textChunks = await SharedWithBackend.parseBreakTextIntoChunks(tokenThreshold, chunkingType,
+            sentenceWindow, text);
         const overrideTitle = fileDesc.title.trim();
         if (overrideTitle !== "") title = overrideTitle;
         if (title === "") title = url.substring(0, 100);
@@ -495,7 +508,8 @@ export default class EmbeddingAPI {
         const chunkMap: any = {};
         textChunks.forEach((chunk: any, index: number) => {
             let pId = id;
-            if (chunkCount > 1) pId += "_" + (index + 1) + "_" + chunkCount;
+            const paddedIndex = ("0000" + (index + 1)).slice(-5);
+            if (chunkCount > 1) pId += "_" + paddedIndex + "_" + chunkCount;
             promises.push(EmbeddingAPI.upsertChunkToPinecone(chunk, chatGptKey, uid,
                 pId, title, url, pIndex, additionalMetaData, includeTextInMeta));
             idList.push(pId);
