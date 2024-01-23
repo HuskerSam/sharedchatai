@@ -324,20 +324,17 @@ Respond to this prompt:
           for (let c = firstIndex; c <= lastIndex; c++) {
             chunkText += lines[c] + "\n";
           } 
-          chunks.push(chunkText);
+          if (chunkText.trim()) chunks.push(chunkText.trim());
         }
       } else {
-        chunks.push(line);
+        if (line.trim()) chunks.push(line.trim());
       }
     });
 
     const resultChunks: Array<any> = [];
     chunks.forEach((chunk: string) => {
-      const tokens = encode(chunk);
       resultChunks.push({
         text: chunk,
-        tokens: tokens.length,
-        rawTokens: tokens,
         textSize: chunk.length,
       });
     });

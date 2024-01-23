@@ -500,7 +500,7 @@ export default class EmbeddingAPI {
         const chunkMap: any = {};
         textChunks.forEach((chunk: any, index: number) => {
             let pId = id;
-            const paddedIndex = ("000" + (index + 1)).slice(-4);
+            const paddedIndex = ("0000" + (index + 1)).slice(-5);
             if (chunkCount > 1) pId += "_" + paddedIndex + "_" + chunkCount;
             promises.push(EmbeddingAPI.upsertChunkToPinecone(chunk, chatGptKey, uid,
                 pId, title, url, pIndex, additionalMetaData, includeTextInMeta));
