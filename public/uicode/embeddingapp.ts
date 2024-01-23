@@ -242,7 +242,7 @@ export class EmbeddingApp extends BaseApp {
             const data = cell.getRow().getData();
             if (field === "copyJSON") {
                 const docRef = doc(getFirestore(),
-                    `Users/${this.uid}/embedding/${this.selectedProjectId}/responses/${data["responseId"]}`);
+                    `Users/${this.uid}/embedding/${this.selectedProjectId}/data/${data["responseId"]}`);
                 const responseQuery = await getDoc(docRef);
                 const responseData = responseQuery.data();
                 const outData: any = Object.assign({}, data);
@@ -258,7 +258,7 @@ export class EmbeddingApp extends BaseApp {
             }
             if (field === "copyText") {
                 const docRef = doc(getFirestore(),
-                    `Users/${this.uid}/embedding/${this.selectedProjectId}/responses/${data["responseId"]}`);
+                    `Users/${this.uid}/embedding/${this.selectedProjectId}/data/${data["responseId"]}`);
                 const responseQuery = await getDoc(docRef);
 
                 const responseData = responseQuery.data();
