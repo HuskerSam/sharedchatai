@@ -379,6 +379,10 @@ export default class EmbeddingAPI {
         const text = chunk.text;
 
         const embeddingModelResult = await EmbeddingAPI.encodeEmbedding(text, chatGptKey, uid);
+        if (!embeddingModelResult.success) {
+            console.log(embeddingModelResult);
+            throw new Error("embedding failed");
+        }
         const embedding = embeddingModelResult.vectorResult;
         const encodingTokens = embeddingModelResult.encodingTokens;
         const encodingCredits = embeddingModelResult.encodingCredits;
