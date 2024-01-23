@@ -36,7 +36,9 @@ import {
 import {
   getApp,
 } from "firebase/app";
-import { createRoot } from 'react-dom/client';
+import {
+  createRoot,
+} from "react-dom/client";
 import ReactHeader from "./components/header.jsx";
 import ReactFooter from "./components/footer.jsx";
 import React from "react";
@@ -139,7 +141,7 @@ export default class BaseApp {
         event.stopPropagation();
         event.preventDefault();
         this.profileHelper.show();
-      });  
+      });
     }, 0);
 
     window.addEventListener("beforeinstallprompt", (e: any) => {

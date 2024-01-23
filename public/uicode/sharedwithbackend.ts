@@ -317,13 +317,13 @@ Respond to this prompt:
       if (sentenceWindow > 1) {
         let chunkText = "";
         const before = Math.ceil(sentenceWindow / 2) - 1;
-        let firstIndex = index - before;
-        let lastIndex = firstIndex + sentenceWindow;
+        const firstIndex = index - before;
+        const lastIndex = firstIndex + sentenceWindow;
 
         if (firstIndex >= 0 && lastIndex < total) {
           for (let c = firstIndex; c <= lastIndex; c++) {
             chunkText += lines[c] + "\n";
-          } 
+          }
           if (chunkText.trim()) chunks.push(chunkText.trim());
         }
       } else {

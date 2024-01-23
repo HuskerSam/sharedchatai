@@ -24,7 +24,9 @@ import {
 import {
     TabulatorFull,
 } from "tabulator-tables";
-import { createRoot } from 'react-dom/client';
+import {
+    createRoot,
+} from "react-dom/client";
 import React from "react";
 import DialogParseURL from "./components/dialogparseurl.jsx";
 import DialogTestPinecone from "./components/dialogtestpinecone.jsx";
@@ -423,7 +425,7 @@ export class EmbeddingApp extends BaseApp {
                 (pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string,
                     pineconeChunkSize: number, includeTextInMeta: boolean,
                     chunkingType: string, sentenceWindow: number) =>
-                    this.savePineconeOptions(pineconeIndex, pineconeKey, pineconeEnvironment, pineconeChunkSize, 
+                    this.savePineconeOptions(pineconeIndex, pineconeKey, pineconeEnvironment, pineconeChunkSize,
                         includeTextInMeta, chunkingType, sentenceWindow);
             this.dialogEmbeddingOptions.props.hooks.setShow(true);
         });
@@ -439,7 +441,7 @@ export class EmbeddingApp extends BaseApp {
     async generateLookupDB() {
         if (!this.selectedProjectId) return;
         this.upsert_result_status_bar.innerHTML = `Generating Lookup ...`;
-        
+
         const body: any = {
             projectId: this.selectedProjectId,
         };
@@ -643,7 +645,7 @@ export class EmbeddingApp extends BaseApp {
     async deleteProject() {
         if (!this.selectedProjectId) return;
         if (!confirm("Are you sure you want to delete this project? " +
-        " Please wait until additional alert before leaving page.")) return;
+            " Please wait until additional alert before leaving page.")) return;
         const deleteProjectId = this.selectedProjectId;
         const rowRef = doc(getFirestore(), `Users/${this.uid}/embedding/${deleteProjectId}`);
         await deleteDoc(rowRef);
@@ -660,7 +662,7 @@ export class EmbeddingApp extends BaseApp {
             const promises: any[] = [];
             nextChunk.forEach((d: any) => {
                 const docPath = `Users/${this.uid}/embedding/${deleteProjectId}/data/${d.id}`;
-                const rowRef = doc(getFirestore(), docPath                    );
+                const rowRef = doc(getFirestore(), docPath);
                 promises.push(deleteDoc(rowRef));
             });
             await Promise.all(promises);
@@ -890,6 +892,7 @@ export class EmbeddingApp extends BaseApp {
      * @param { number } pineconeChunkSize
      * @param { boolean } includeTextInMeta
      * @param { string } chunkingType
+     * @param { number } sentenceWindow
      */
     async savePineconeOptions(pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string,
         pineconeChunkSize: number, includeTextInMeta: boolean, chunkingType: string, sentenceWindow: number) {
@@ -908,7 +911,7 @@ export class EmbeddingApp extends BaseApp {
             this.saveEmbeddingField("pineconeChunkSize", pineconeChunkSize),
             this.saveEmbeddingField("includeTextInMeta", includeTextInMeta),
             this.saveEmbeddingField("chunkingType", chunkingType),
-            this.saveEmbeddingField("sentenceWindow", sentenceWindow),            
+            this.saveEmbeddingField("sentenceWindow", sentenceWindow),
         ]);
     }
     /**
@@ -925,13 +928,13 @@ export class EmbeddingApp extends BaseApp {
             });
             return {
                 success: true,
-            }
+            };
         } catch (err: any) {
             return {
                 success: false,
                 error: err,
                 errorMessage: err.message,
-            }
+            };
         }
     }
     /**
@@ -957,11 +960,13 @@ export class EmbeddingApp extends BaseApp {
         });
         const results = await Promise.all(promises);
         results.forEach((result: any, index: number) => {
-            if (!result.success) errors.push({
-                index,
-                error: result.error,
-            });
-        })
+            if (!result.success) {
+                errors.push({
+                    index,
+                    error: result.error,
+                });
+            }
+        });
         if (errors.length > 0) console.log("Upload errors", errors);
         const success = errors.length === 0;
         return {
@@ -993,7 +998,7 @@ export class EmbeddingApp extends BaseApp {
             alert("already running");
             return;
         }
-        
+
         let rowCount = this.upload_embedding_document_batchsize.value;
         this.saveProfileField("upsertEmbeddingRowCount", rowCount);
 
@@ -1008,7 +1013,7 @@ export class EmbeddingApp extends BaseApp {
             tokenThreshold: this.pineconeChunkSize,
             includeTextInMeta: this.includeTextInMeta,
             chunkingType: this.chunkingType,
-            sentenceWindow: this.sentenceWindow, 
+            sentenceWindow: this.sentenceWindow,
             rowCount,
             singleRowId,
         };
@@ -1070,8 +1075,8 @@ export class EmbeddingApp extends BaseApp {
         const uploadDate = new Date().toISOString();
         const importedRows: any[] = [];
         const errorList: any[] = [];
-        importData.forEach((item: any, index: number) => {
-            let text = item.text as string;
+        importData.forEach((item: any) => {
+            const text = item.text as string;
             if ((item.url || item.id) && text.length < 900000) {
                 item.created = uploadDate;
                 if (!item.id) item.id = encodeURIComponent(item.url);
