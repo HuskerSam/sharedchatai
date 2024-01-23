@@ -2,7 +2,9 @@ import ProfileHelper from "./profilehelper";
 import LoginHelper from "./loginhelper";
 import DocCreateHelper from "./doccreatehelper";
 import BuyCreditsHelper from "./buycreditshelper";
-import SharedWithBackend from "./sharedwithbackend";
+import {
+  encode,
+} from "gpt-tokenizer";
 import PineconeHelper from "./embeddinghelper";
 import AccountHelper from "./accounthelper";
 import {
@@ -98,7 +100,6 @@ export default class BaseApp {
   themeIndex = 0;
   buy_credits_cta_btn: any = document.querySelector(".buy_credits_cta_btn");
   tokenizedStringCache: any = {};
-  tokenEncode: any = null;
   account_status_display: any;
 
   /**
@@ -164,7 +165,6 @@ export default class BaseApp {
   }
   /** asynchronous loads - data setup  */
   async load() {
-    this.tokenEncode = await SharedWithBackend.tokenEncodeFunction();
     this.authUpdateStatusUI();
   }
   /** reads a json file async and sets window.varName to it's value
@@ -869,7 +869,7 @@ export default class BaseApp {
     let str = "";
     if (value !== undefined) str = value;
     if (!this.tokenizedStringCache[str]) {
-      this.tokenizedStringCache[str] = this.tokenEncode(str);
+      this.tokenizedStringCache[str] = encode(str);
       if (!this.tokenizedStringCache[str]) this.tokenizedStringCache[str] = [];
     }
 

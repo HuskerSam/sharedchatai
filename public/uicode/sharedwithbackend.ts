@@ -279,17 +279,81 @@ Respond to this prompt:
     return xString.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
   /**
+ * @param { number } threshold
+ * @param { string } chunkingType
+ * @param { string } sentenceWindow
+ * @param { string } fullText
+ * @return { Promise<Array<any>> }
+ */
+  static async parseBreakTextIntoChunks(threshold: number, chunkingType: string,
+    sentenceWindow: number, fullText: string): Promise<Array<any>> {
+    if (chunkingType === "size") {
+      return SharedWithBackend.sizeTextIntoChunks(threshold, fullText);
+    }
+    if (chunkingType === "sentence") {
+      return SharedWithBackend.sentenceTextIntoChunks(sentenceWindow, fullText);
+    }
+
+    // if (chunkingType === "none")
+    return [];
+  }
+  /**
+   * @param { number } sentenceWindow
+   * @param { string } fullText
+   * @return { Promise<Array<any>> }
+   */
+  static async sentenceTextIntoChunks(sentenceWindow: number, fullText: string): Promise<Array<any>> {
+    const rawLines = fullText.split(/[\n.]+/);
+    const lines: string[] = [];
+    if (sentenceWindow > 500) sentenceWindow = 500;
+    const chunks: string[] = [];
+
+    rawLines.forEach((line: string) => {
+      const l = line.trim();
+      if (l) lines.push(l);
+    });
+    const total = lines.length;
+    lines.forEach((line: string, index: number) => {
+      if (sentenceWindow > 1) {
+        let chunkText = "";
+        const before = Math.ceil(sentenceWindow / 2) - 1;
+        let firstIndex = index - before;
+        let lastIndex = firstIndex + sentenceWindow;
+
+        if (firstIndex >= 0 && lastIndex < total) {
+          for (let c = firstIndex; c <= lastIndex; c++) {
+            chunkText += lines[c] + "\n";
+          } 
+          chunks.push(chunkText);
+        }
+      } else {
+        chunks.push(line);
+      }
+    });
+
+    const resultChunks: Array<any> = [];
+    chunks.forEach((chunk: string) => {
+      const tokens = encode(chunk);
+      resultChunks.push({
+        text: chunk,
+        tokens: tokens.length,
+        rawTokens: tokens,
+        textSize: chunk.length,
+      });
+    });
+
+    return resultChunks;
+  }
+  /**
    * @param { number } threshold
    * @param { string } fullText
    * @return { Promise<Array<any>> }
    */
-  static async parseBreakTextIntoChunks(threshold: number, fullText: string): Promise<Array<any>> {
-    const encode = await SharedWithBackend.tokenEncodeFunction();
+  static async sizeTextIntoChunks(threshold: number, fullText: string): Promise<Array<any>> {
     if (isNaN(threshold)) threshold = 0;
     if (threshold > 1000000 || threshold <= 0) {
       threshold = 1000000;
     }
-
     const lines = fullText.split("\n");
     const chunks = [""];
     lines.forEach((line: string) => {
@@ -335,10 +399,6 @@ Respond to this prompt:
     });
 
     return resultChunks;
-  }
-  /** */
-  static async tokenEncodeFunction(): Promise<any> {
-    return encode;
   }
   /**
  * Returns a hash code from a string

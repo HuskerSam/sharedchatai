@@ -689,8 +689,11 @@ export class EmbeddingApp extends BaseApp {
      */
     async deleteTableRow(id: string) {
         if (!confirm("Are you sure you want to delete this row?")) return;
-        const rowRef = doc(getFirestore(),
+        let rowRef = doc(getFirestore(),
             `Users/${this.uid}/embedding/${this.selectedProjectId}/data/${id}`);
+        await deleteDoc(rowRef);
+        rowRef = doc(getFirestore(),
+            `Users/${this.uid}/embedding/${this.selectedProjectId}/chunkMap/${id}`);
         await deleteDoc(rowRef);
         this.updateRowsCountFromFirestore();
     }
@@ -986,44 +989,26 @@ export class EmbeddingApp extends BaseApp {
      * @param { string } singleRowId
      */
     async upsertTableRowsToPinecone(singleRowId = "") {
-        const rowCount = this.upload_embedding_document_batchsize.value;
-        this.saveProfileField("upsertEmbeddingRowCount", rowCount);
-
-        await this._upsertTableRowsToPinecone(this.selectedProjectId, this.pineconeIndex, this.pineconeKey,
-            this.pineconeEnvironment, this.pineconeChunkSize, this.includeTextInMeta, rowCount, singleRowId);
-        this.fetchIndexStats();
-        await this.updateRowsCountFromFirestore();
-    }
-    /** scrape URLs for embedding
-     * @param { string } projectId
-     * @param { string } pineconeIndex grouping key
-     * @param { string } pineconeKey
-     * @param { string } pineconeEnvironment
-     * @param { number } tokenThreshold
-     * @param { boolean } includeTextInMeta
-     * @param { number } rowCount
-     * @param { string } singleRowId
-    */
-    async _upsertTableRowsToPinecone(projectId: string, pineconeIndex: string, pineconeKey: string,
-        pineconeEnvironment: string, tokenThreshold: number, includeTextInMeta = false, rowCount: number, singleRowId = "") {
-        if (!getAuth().currentUser) {
-            alert("login on homepage to use this");
-            return;
-        }
         if (this.actionRunning) {
             alert("already running");
             return;
         }
+        
+        let rowCount = this.upload_embedding_document_batchsize.value;
+        this.saveProfileField("upsertEmbeddingRowCount", rowCount);
+
         if (singleRowId) rowCount = 1;
         this.upsert_result_status_bar.innerHTML = `Upserting next ${rowCount} rows ...`;
         this.actionRunning = true;
         const body = {
-            projectId,
-            pineconeIndex,
-            pineconeKey,
-            pineconeEnvironment,
-            tokenThreshold,
-            includeTextInMeta,
+            projectId: this.selectedProjectId,
+            pineconeIndex: this.pineconeIndex,
+            pineconeKey: this.pineconeKey,
+            pineconeEnvironment: this.pineconeEnvironment,
+            tokenThreshold: this.pineconeChunkSize,
+            includeTextInMeta: this.includeTextInMeta,
+            chunkingType: this.chunkingType,
+            sentenceWindow: this.sentenceWindow, 
             rowCount,
             singleRowId,
         };
@@ -1062,6 +1047,9 @@ export class EmbeddingApp extends BaseApp {
             this.upsert_result_status_bar.innerHTML = `${count} documents, ${vectorCount} vectors, ${errors} errors, 
                 ${credits.toFixed(3)} credits`;
         }
+
+        this.fetchIndexStats();
+        await this.updateRowsCountFromFirestore();
     }
     /** upload/import CSV file
      * @param { any } event
