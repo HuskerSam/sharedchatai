@@ -51,7 +51,7 @@ export default class EmbeddingAPI {
             if (isNaN(rowCount)) rowCount = 1;
             if (rowCount < 1) rowCount = 1;
             if (rowCount > 50) rowCount = 50;
-    
+
             const pinecone = new Pinecone({
                 apiKey: pineconeKey,
             });
@@ -77,7 +77,7 @@ export default class EmbeddingAPI {
                 }
             }
             const pIndex = pinecone.index(pineconeIndex);
-    
+
             let fileUploadResults: any = [];
             try {
                 const promises: any = [];
@@ -99,7 +99,7 @@ export default class EmbeddingAPI {
                         .orderBy("lastActivity", "asc")
                         .limit(rowCount)
                         .get();
-    
+
                     nextQuery.forEach((doc: any) => {
                         promises.push(EmbeddingAPI.upsertFileData(doc.data(), chatGptKey,
                             uid, pIndex, tokenThreshold, includeTextInMeta, chunkingType, sentenceWindow));
@@ -109,7 +109,7 @@ export default class EmbeddingAPI {
             } catch (error: any) {
                 return BaseClass.respondError(res, error.message, error);
             }
-    
+
             const promises: any = [];
             fileUploadResults.forEach((row: any) => {
                 const lastActivity = new Date().toISOString();
@@ -137,7 +137,7 @@ export default class EmbeddingAPI {
                     mergeBlock["vectorCount"] = row["idList"].length;
                     mergeBlock["status"] = "Done";
                 }
-    
+
                 let chunkMap = savedRow["chunkMap"];
                 if (!chunkMap) {
                     console.log("NO CHUNK MAP", savedRow);
@@ -157,12 +157,11 @@ export default class EmbeddingAPI {
                 );
             });
             await Promise.all(promises);
-    
+
             return res.send({
                 fileUploadResults,
                 success: true,
             });
-    
         } catch (wrapperErr: any) {
             return BaseClass.respondError(res, wrapperErr.message, wrapperErr);
         }
