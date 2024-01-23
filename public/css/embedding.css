@@ -222,3 +222,9 @@ table tr td.table_cell_sizer {
 .upsert_result_status_bar {
   text-align: left;
 }
+
+.hero_section_bg {
+  background: var(--home-panel-background);
+  
+}
+

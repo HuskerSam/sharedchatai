@@ -51,7 +51,7 @@ export class BibleDemoApp {
       
       this.full_augmented_response.innerHTML = await this.sendPromptToLLM();
       this.full_augmented_response.innerHTML +=
-        `<div class="d-flex flex-column link-primary" style="white-space:normal;"><a class="response_verse_link p-2" href="see verses">Top Verses
+        `<br><div class="d-flex flex-column link-primary" style="white-space:normal;"><a class="response_verse_link p-2" href="see verses">Top Verses
       </a><a class="response_chapter_link p-2" href="see chapter">Top Chapters 
       </a><a class="response_detail_link p-2" href="see details">Prompt Details</a></div>`;
 
