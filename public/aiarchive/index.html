@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Documents RAG Example</title>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <script type="module">
+    import { loadModule } from 'https://klesun.github.io/ts-browser/src/ts-browser.js';
+    window.addEventListener("load", async () => {
+      // I don't know no javascript - so I use typescript...
+      const mod = await loadModule('./aiarchive.ts');
+      window.appInstance = new mod.BibleDemoApp();
+    });
+  </script>
+</head>
+
+<body class="initial">
+  <nav class="navbar navbar-light navbar-expand-lg" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+  border-bottom: 1px solid rgba(127, 127, 127, .4);" aria-label="Main navigation">
+    <div class="container-xl">
+      <div class="navbar-brand">Bible GPT</div>
+      <button class="navbar-toggler p-0 border-0" type="button" data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample"
+        aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasExampleLabel">Bible GPT</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body pt-0">
+          <ul class="navbar-nav nav d-flex justify-content-between w-100">
+            <div></div>
+            <div class="d-flex flex-column flex-lg-row">
+              <li class="nav-item"><a class="nav-link active" id="full_augmented_response_button" data-bs-toggle="tab"
+                  href="#full_augmented_response" aria-current="page" role="tab" aria-controls="chapters_view"
+                  aria-selected="true">
+                  <span class="material-icons-outlined nav-icon">send</span>
+                  <span class="nav-text">Send Query</span>
+                </a>
+              </li>
+              <li class="nav-item ms-3 ms-lg-0">
+                <a class="nav-link disabled" id="chapters_view_button" data-bs-toggle="tab" href="#chapters_view"
+                  role="tab" aria-controls="chapters_view" aria-selected="false" aria-disabled="true">
+                  <span class="material-icons-outlined nav-icon">article</span>
+                  <span class="nav-text">Chapters</span>
+                </a>
+              </li>
+              <li class="nav-item ms-3 ms-lg-0">
+                <a class="nav-link disabled" id="verses_view_button" data-bs-toggle="tab" href="#verses_view" role="tab"
+                  aria-controls="verses_view" aria-selected="false" aria-disabled="true">
+                  <span class="material-icons-outlined nav-icon">format_list_numbered</span>
+                  <span class="nav-text">Verses</span>
+                </a>
+              </li>
+              <li class="nav-item ms-3 ms-lg-0">
+                <a class="nav-link disabled" id="full_augmented_prompt_button" data-bs-toggle="tab"
+                  href="#full_augmented_prompt_view" role="tab" aria-controls="full_augmented_prompt_view"
+                  aria-selected="false" aria-disabled="true">
+                  <span class="material-icons-outlined nav-icon">view_list</span>
+                  <span class="nav-text">Details</span>
+                </a>
+              </li>
+              <li class="nav-item" role="presentation">
+                <a class="nav-link" id="augmented_template_button" data-bs-toggle="tab" href="#augmented_template_view"
+                  role="tab" aria-controls="augmented_template_view" aria-selected="false">
+                  <span class="material-icons-outlined nav-icon">settings_applications</span>
+                  <span class="nav-text">Template</span>
+                </a>
+              </li>
+            </div>
+            <div class="d-flex flex-column flex-lg-row">
+              <li class="nav-item" role="presentation">
+                <a class="nav-link" id="augmented_template_button" data-bs-toggle="tab" href="#learn_tab_view"
+                  role="tab" aria-controls="learn_tab_view" aria-selected="false">
+                  <span class="nav-text">Learn More</span>
+                </a>
+              </li>
+            </div>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="container-xl mx-auto" style="height: 90vh;">
+    <div class="tab-content h-100" style="margin-bottom:auto;">
+      <div class="tab-pane fade show active h-100" style="position:relative" id="full_augmented_response"
+        role="tabpanel" aria-labelledby="full_augmented_response_button">
+        <div class="d-flex flex-column bg-light" style="background-image: var(--bs-gradient);">
+          <div class="prompt_response_area text-start p-1 d-flex flex-column overflow: auto;">
+            <div class="full_augmented_response m-2 small-caps"></div>
+            <div class="initial_user_message text-muted text-start p-3 mt-auto mb-auto small-caps fs-4"
+              style="cursor: not-allowed;">
+              <span class="onboarding_text">Enter a prompt to begin.</span>
+              <br><br>Adjust templates to modify results.
+              <br><br>Retrieve most similar chapter and verses.
+            </div>
+            <span class="muted small mt-auto"></span>
+            <div></div>
+          </div>
+          <div class="w-100 border border-secondary d-flex flex-row rounded" style="position: absolute; bottom: 0;">
+            <div class="textarea-wrapper" style="position: relative; width: 100%;">
+              <textarea class="analyze_prompt_textarea form-control me-1" style="padding-right: 70px;height: 13vh;"
+                placeholder="Enter your prompt" type="text"></textarea>
+              <button class="analyze_prompt_button btn btn-primary p-2" type="submit"
+                style="position: absolute; right: 12px; top: 24px;">
+                <span class="material-icons-outlined mt-1">
+                  send
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade h-100" id="chapters_view" role="tabpanel" aria-labelledby="chapters_view_button">
+        <div class="d-flex flex-column" style="background-image: var(--bs-gradient);">
+          <div class="text-start py-2 d-flex flex-column" style="height:87vh; overflow: auto;">
+            <div class="lookup_chapter_response_feed"></div>
+            <a type="button" class="nav-link text-center pipeline_detail_anchor_hide" data-bs-toggle="modal"
+              data-bs-target="#exampleModal">
+              Chapter Fetch Pipeline Detail
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade h-100" id="verses_view" role="tabpanel" aria-labelledby="verses_view_button">
+        <div class="d-flex flex-column" style="background-image: var(--bs-gradient);">
+          <div class="text-start py-2 d-flex flex-column" style="height:87vh; overflow: auto;">
+            <div class="lookup_verse_response_feed"></div>
+            <a type="button" class="nav-link text-center pipeline_detail_anchor_hide" data-bs-toggle="modal"
+              data-bs-target="#exampleModal">
+              Chapter Fetch Pipeline Detail
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade h-100" id="full_augmented_prompt_view" role="tabpanel"
+        aria-labelledby="full_augmented_prompt_view">
+        <div class="d-flex flex-column" style="background-image: var(--bs-gradient);">
+          <div class="text-start d-flex flex-column" style="height:87vh; overflow: auto;">
+            <div class="summary_details p-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade text-start h-100" id="augmented_template_view" role="tabpanel"
+        aria-labelledby="augmented_template_button" style="overflow: auto;">
+        <div class="d-flex flex-column" style="background-image: var(--bs-gradient);">
+          <div class="text-start p-2 d-flex flex-column gap-2">
+            <label>Embedding Type:</label>
+            <select class="form-select embedding_type_select">
+              <option>Query Multiple Document Chunks</option>
+              <option>Query Document and include context</option>
+            </select>
+              <div class="text-muted small text-center">
+              <a target="_blank" class="embedding_diagram_anchor text-center"><img
+                class="embedding_diagram_img img-fluid" src="" alt="" width="100%" height="100%"
+                style="max-width: 400px;"></a>
+              <div class="text-muted small text-center">Change what text gets matched and embedded</div>
+            </div>
+            <label>Prompt Template: </label>
+            <select class="form-select prompt_template_select_preset">
+              <option selected>Provide Guidance</option>
+              <option>Search</option>
+              <option>Rate embed text for political correctness</option>
+              <option>Write a poem</option>
+              <option>Love Counsel</option>
+              <option>Children's Story</option>
+            </select>
+            <textarea style="height:15em;width:100%;"
+              class="prompt_template_text_area monospace form-control"></textarea>
+            <span class="small text-info ms-3" style="position: relative;top:-12px">{{documents}} refers to embedded
+              text.</span>
+            <label class="mt-3">Embed Template: </label>
+            <textarea style="height:7em;width:100%;"
+              class="document_template_text_area monospace form-control"></textarea>
+            <div class="text-center">
+              <button class="reset_template_options_button btn btn-warning">Reset Templates</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade text-start h-100" id="learn_tab_view" role="tabpanel"
+        aria-labelledby="augmented_template_button">
+        <div class="d-flex flex-column" style="background-image: var(--bs-gradient);">
+          <div class="text-start py-1 d-flex flex-column gap-2" style="height:87vh; overflow: auto;">
+            <div class="accordion accordion-flush" id="accordionPanelsStayOpenExample">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                    aria-controls="panelsStayOpen-collapseOne">
+                    What does the RAG (retrieval augmented generation) approach solve?
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                  aria-labelledby="panelsStayOpen-headingOne">
+                  <div class="accordion-body">
+                    LLms are trained on a massive amount of data, but they are unfamiliar with your data. Instead of
+                    relying solely on
+                    knowledge derived from the training data, a RAG workflow pulls relevant information and connects
+                    static LLMs with real-time data retrieval.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                    aria-controls="panelsStayOpen-collapseTwo">
+                    LLM efficacy and RAG systems
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
+                  aria-labelledby="panelsStayOpen-headingTwo">
+                  <div class="accordion-body">
+                    LLMs are limited by their context window size. While the intuitive response may be to increase the
+                    size of the context window, researchers have
+                    found that doing so actually doesn't correlate to performance (measured by accuracy). To maximize
+                    the effectiveness of LLMs, we need to
+                    provide them with the most relevant context. This is where RAG comes in. RAG systems automatically
+                    retrieve and helps you search through relevant information
+                    from a given knowledge base based on user query, thereby allowing LLMs to generate factual,
+                    contextually relevant, and domain-specific information.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                    aria-controls="panelsStayOpen-collapseThree">
+                    Embedding Models and the RAG pipeline
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
+                  aria-labelledby="panelsStayOpen-headingThree">
+                  <div class="accordion-body">
+                    Embedding models have traditionally been used in recommendation and search algorithms to improve
+                    semantic queries. They are
+                    types of neural networks that convert data into vectors that make it possible for machines to
+                    identify and learn the relationships
+                    between different data points. The information generated from the embedding model is then used to
+                    create a vector database, which
+                    clusters related items together. A vector represents a piece of data such as a word or an image and
+                    is an
+                    array of numerical values that indicates its position in a multidimensional space. This structure
+                    promotes
+                    efficiency in data retrieval, allowing systems to find data based on similarity rather than exact
+                    matches. The number of dimensions are defined by the machine learning model used to generate the
+                    vector
+                    embeddings, and how it represents input features based on its internal model and complexity. More
+                    dimensions
+                    (“wider” vectors) may provide more accuracy at the cost of compute and memory resources, as well as
+                    latency
+                    (speed) of vector search. For example, OpenAI's ada-002 is one such embedding model that uses 1536
+                    dimensions to represent the semantic meaning of text. This demo uses ada-002 but there are many
+                    other embedding models that are
+                    proving to be competitive. Different embedding models may be better for specific use
+                    case.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingFour">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false"
+                    aria-controls="panelsStayOpen-collapseFour">
+                    What is a vector database?
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse"
+                  aria-labelledby="panelsStayOpen-headingFour">
+                  <div class="accordion-body">
+                    RAG systems rely on vector databases to store and index data. Traditional
+                    databases like relational and NoSQL systems have been fundamental for organizing business-related
+                    structured data,
+                    but they often have difficulties managing unstructured, high-dimensional data like images, audio and
+                    text. These databases can also encounter performance issues due to increased data volume and
+                    velocity.
+                    Vector databases offer a new alternative, storing, and indexing data as mathematical vectors, which
+                    improves similarity searches and management of complex data types. This "vectorization" is
+                    particularly
+                    effective for handling images, audio, video, and natural language.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingFive">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false"
+                    aria-controls="panelsStayOpen-collapseFive">
+                    Vector database are AI natives.
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse"
+                  aria-labelledby="panelsStayOpen-headingFive">
+                  <div class="accordion-body">
+                    While many traditional databases support storing vector embeddings to enable vector search,<strong>
+                      vector databases are AI-native,</strong> which means they are optimized to conduct lightning-fast
+                    vector
+                    searches at scale. Because vector search requires the calculation of the distances between the
+                    search query and every data object, a classical K-Nearest-Neighbor algorithm is computationally
+                    expensive.
+                    Vector databases use vector indexing to pre-calculate the distances to enable faster retrieval at
+                    query time. Thus,
+                    vector databases allow users to find and retrieve similar objects quickly at scale in production.
+                    For
+                    applications that require real-time user interaction, like chatbots or virtual assistants, vector
+                    databases can ensure that response generation, which might depend on fetching relevant context or
+                    information represented as vectors, is quick.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingSix">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseSix" aria-expanded="false"
+                    aria-controls="panelsStayOpen-collapseSix">
+                    Important considerations
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseSix" class="accordion-collapse collapse"
+                  aria-labelledby="panelsStayOpen-headingSix">
+                  <div class="accordion-body">
+                    Similar to how prompts greatly impact the quality of LLM responses, the efficacy of a RAG system
+                    directly hinges on the precision of its
+                    retrieval phase. Poor retrieval, the failure to find the pertinent documents, will give LLM the
+                    wrong context thereby significantly affecting the quality of the generated response.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingSeven">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseSeven" aria-expanded="false"
+                    aria-controls="panelsStayOpen-collapseSeven">
+                    When should I use RAG and when should I fine-tune the model?
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseSeven" class="accordion-collapse collapse"
+                  aria-labelledby="panelsStayOpen-headingSeven">
+                  <div class="accordion-body">
+                    RAG is the right place to start, being easy and possibly entirely sufficient for some use cases.
+                    Fine-tuning is most appropriate in a different situation, when one wants the LLM's behavior to
+                    change, or to learn a different "language." These are not mutually exclusive. As a future step, it's
+                    possible to consider fine-tuning a model to better understand domain language and the desired output
+                    form — and also use RAG to improve the quality and relevance of the response. For example, our bible
+                    example uses GPT-3.5-turbo-16k, however this could easily be replaced with any LLM, including
+                    fine-tuned ones.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="text-muted text-center small pt-1">
+    <span>A Bible RAG Demo by <a href="https://unacog.com" class="text-black">Unacog</a></span>
+  </footer>
+  </div>
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Retrieve by Chapter</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <img src="img/retrievalChapters.png" alt="Chapters" width="100%" height="100%" class="p-3">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel2">Retrieve by Verse</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <img src="img/retrievalVerses.png" alt="Verses" width="100%" height="100%" class="p-3 img-fluid">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .verse_card {
+      margin: 8px;
+      border-top: solid 1px gray;
+      padding: 8px;
+      color: black;
+      font-variant: small-caps;
+      font-size: 18px;
+    }
+
+    .message_text,
+    .augmented_message_text {
+      width: 100%;
+      height: 5em;
+      margin-bottom: 12px;
+    }
+
+    .verse_card .selected {
+      font-weight: bold;
+    }
+
+    .full_augmented_prompt,
+    .full_augmented_response {
+      white-space: pre-wrap;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    .monospace {
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    .small-caps {
+      font-variant: small-caps;
+    }
+
+    .raw_prompt {
+      white-space: pre-wrap;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    .pipeline_detail_anchor_hide {
+      display: none;
+    }
+
+    .running .pipeline_detail_anchor_hide,
+    .complete .pipeline_detail_anchor_hide {
+      display: block;
+    }
+
+    .initial .initial_user_message {
+      display: block;
+      text-align: center;
+    }
+
+    .initial_user_message {
+      display: none;
+    }
+
+    .nav_query_results {
+      margin-left: 24px;
+    }
+
+    .prompt_response_area {
+      height: 73vh;
+      overflow: auto;
+    }
+
+    .nav-icon {
+      font-size: 24px;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+
+    .nav-icon-mobile {
+      font-size: 36px;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+
+    .nav-text {
+      vertical-align: middle;
+    }
+
+    @keyframes fade-in-left {
+      0% {
+        transform: translateX(-10px);
+        opacity: 0;
+      }
+
+      100% {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .onboarding_text {
+      display: inline-block;
+      animation: fade-in-left 1s ease-out;
+    }
+
+    @media (min-height: 790px) {
+      .prompt_response_area {
+        height: 77vh;
+      }
+    }
+
+
+    @media (min-height: 1200px) {
+      .prompt_response_area {
+        height: 81vh;
+      }
+    }
+  </style>
+</body>
+
+</html>

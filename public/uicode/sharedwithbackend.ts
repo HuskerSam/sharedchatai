@@ -294,7 +294,13 @@ Respond to this prompt:
       return SharedWithBackend.sentenceTextIntoChunks(sentenceWindow, fullText);
     }
 
-    // if (chunkingType === "none")
+    if (chunkingType === "none") {
+      return [{
+        text: fullText,
+        textSize: fullText.length,
+      }];
+    }
+
     return [];
   }
   /**
@@ -303,7 +309,7 @@ Respond to this prompt:
    * @return { Promise<Array<any>> }
    */
   static async sentenceTextIntoChunks(sentenceWindow: number, fullText: string): Promise<Array<any>> {
-    const rawLines = fullText.split(/[\n.]+/);
+    const rawLines = fullText.split(".");
     const lines: string[] = [];
     if (sentenceWindow > 500) sentenceWindow = 500;
     const chunks: string[] = [];
@@ -322,7 +328,7 @@ Respond to this prompt:
 
         if (firstIndex >= 0 && lastIndex < total) {
           for (let c = firstIndex; c <= lastIndex; c++) {
-            chunkText += lines[c] + "\n";
+            chunkText += lines[c] + ". ";
           }
           if (chunkText.trim()) chunks.push(chunkText.trim());
         }

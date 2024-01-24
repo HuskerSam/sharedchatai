@@ -53,7 +53,7 @@ export default function DialogPublishEmbedding(props) {
                 </div>
             </Modal.Body>
             <Modal.Footer className="theme_panel">
-                <Button onClick={() => props.addConnectedSession()}>
+                <Button onClick={() => props.hooks.addConnectedSession()}>
                     Create Session
                 </Button>
                 <Button variant="secondary" onClick={handleClose}>
