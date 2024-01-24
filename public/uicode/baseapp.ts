@@ -135,7 +135,6 @@ export default class BaseApp {
       this.signin_cta_navbar.addEventListener("click", (e: any) => {
         e.stopPropagation();
         e.preventDefault();
-        alert("signinclick");
         this.login.show();
       });
       this.show_profile_modal.addEventListener("click", (event: any) => {

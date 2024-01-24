@@ -49,19 +49,13 @@ export class BibleDemoApp {
 
             this.full_augmented_response.innerHTML = await this.sendPromptToLLM();
             this.full_augmented_response.innerHTML +=
-                `<br><div class="d-flex flex-column link-primary" style="white-space:normal;"><a class="response_verse_link p-2" href="see verses">Top Verses
-        </a><a class="response_chapter_link p-2" href="see chapter">Top Chapters 
+                `<br><div class="d-flex flex-column link-primary" style="white-space:normal;"><a class="response_verse_link p-2" href="see verses">Top Search Results
         </a><a class="response_detail_link p-2" href="see details">Prompt Details</a></div>`;
 
             const verseLink = this.full_augmented_response.querySelector(".response_verse_link");
             verseLink.addEventListener("click", (e: any) => {
                 e.preventDefault();
                 (<any>(document.getElementById("verses_view_button"))).click();
-            });
-            const chapterLink = this.full_augmented_response.querySelector(".response_chapter_link");
-            chapterLink.addEventListener("click", (e: any) => {
-                e.preventDefault();
-                (<any>(document.getElementById("chapters_view_button"))).click();
             });
             const detailLink = this.full_augmented_response.querySelector(".response_detail_link");
             detailLink.addEventListener("click", (e: any) => {
@@ -188,32 +182,17 @@ export class BibleDemoApp {
 
         let html = '<span class="small text-muted">Most Relevant Verses...</span><br>';
         result.matches.forEach((match) => {
+            const textFrag = this.lookupData[match.id];
+            const dstring = match.metadata.published;
+            const d = dstring.slice(0, 4) + "-" + dstring.slice(4, 6) + "-" + dstring.slice(6, 8);
             const block = `<div class="verse_card">
-              <a href="" data-bookindex="${match.metadata.chunk_id}" data-link="book">${match.metadata.chunk_id}</a>
+              <a href="${match.metadata.url}" target="_blank">${match.metadata.title}</a> (${match.metadata.chunk_id}) ${d}<br>
+              <div class="verse_card_text">${textFrag}</div>
               </div>`;
             html += block;
         });
 
         this.lookup_verse_response_feed.innerHTML = html;
-
-        this.lookup_verse_response_feed.querySelectorAll("a").forEach(((a: any) => a.addEventListener("click", (e: any) => {
-            e.preventDefault();
-            if (a.dataset.link === "book") {
-                const bookIndex = Number(a.dataset.bookindex);
-                alert(bookIndex)
-            }
-            if (a.dataset.link === "chapter") {
-                const bookIndex = Number(a.dataset.bookindex);
-                const chapterIndex = Number(a.dataset.chapterindex);
-                alert(bookIndex + " : " + chapterIndex);
-            }
-            if (a.dataset.link === "verse") {
-                const bookIndex = Number(a.dataset.bookindex);
-                const chapterIndex = Number(a.dataset.chapterindex);
-                const verseIndex = Number(a.dataset.verseindex);
-                alert(bookIndex + " : " + chapterIndex + " : " + verseIndex);
-            }
-        })));
 
         return result.matches;
     }
@@ -294,11 +273,10 @@ export class BibleDemoApp {
 
 const promptTemplates = [
     {
-        mainPrompt: `These document fragments convey the most updated AI knowledge reference:
-      {{documents}}
-      
-  Quote and cite the documents, then use their teachings in your answer to the following technology question:
-      {{prompt}}`,
+        mainPrompt: `For reference, the following AI research papers: {{documents}} 
+        
+Use reference to answer to the following prompt: 
+{{prompt}}`,
         documentPrompt: `({{title}}):
   {{text}}
   `,
