@@ -223,8 +223,7 @@ table tr td.table_cell_sizer {
   text-align: left;
 }
 
-.hero_section_bg {
-  background: var(--home-panel-background);
-  
+.section_bg {
+  background: var(--background-accent-1);
 }
 
