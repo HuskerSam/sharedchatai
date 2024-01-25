@@ -43,7 +43,8 @@ export class BibleDemoApp {
         return;
       }
       this.analyze_prompt_button.setAttribute("disabled", "");
-      this.analyze_prompt_button.innerHTML = `...`;
+      this.analyze_prompt_button.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      <span class="visually-hidden">Loading...</span>`;
       this.summary_details.innerHTML = "Compiling Prompt...";
       this.running = true;
 
@@ -531,18 +532,20 @@ export class BibleDemoApp {
 
 const promptTemplates = [
   {
-    mainPrompt: `These chapters convey significant biblical lessons and mysteries:
-    {{documents}}
-    
-Quote and cite the documents, then use their teachings in your answer to the following theological question:
-    {{prompt}}`,
+    mainPrompt: `Context information is below.
+---------------------
+ {{documents}}
+---------------------
+Given the context information and not prior knowledge, answer the query.
+Query: {{prompt}}
+Answer:`,
     documentPrompt: `({{title}}):
 {{text}}
 
 `,
   },
   {
-    mainPrompt: `Summarize in bibliography fashion the following biblical chapters or verses:
+    mainPrompt: `Summarize in list fashion the following biblical chapters or verses:
     {{documents}}
     
 Cite and Explain how it relates to the following prompt:

@@ -53,14 +53,16 @@
     <div class="container-xl">
       <div class="navbar-brand">Bible GPT</div>
       <button class="navbar-toggler p-0 border-0" type="button" data-bs-toggle="offcanvas"
-        data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-        <span class="navbar-toggler-icon"></span>
+        data-bs-target="#offcanvasElement" aria-controls="offcanvasElement">
+        <span class="material-icons-outlined text-light" style="font-size: 1.75em;">
+          menu
+          </span>
       </button>
-      <div class="offcanvas offcanvas-start navbar-dark bg-dark" tabindex="-1" id="offcanvasExample"
-        aria-labelledby="offcanvasExampleLabel">
+      <div class="offcanvas offcanvas-start navbar-dark bg-dark" tabindex="-1" id="offcanvasElement"
+        aria-labelledby="offcanvasElementLabel">
         <div class="offcanvas-header">
-          <h5 class="offcanvas-title text-light" id="offcanvasExampleLabel">Bible GPT</h5>
-          <button type="button" class="btn-close btn_close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          <h5 class="offcanvas-title text-light" id="offcanvasElementLabel">Bible GPT</h5>
+          <button type="button" class="btn-close btn-close-white btn_close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body pt-0">
           <ul class="navbar-nav nav d-flex justify-content-between w-100">
@@ -116,10 +118,12 @@
       </div>
     </div>
   </nav>
-  <div class="loading_screen">
-    Loading... 
-    <br>
-    about 10 seconds
+  <div class="loading_screen text-center">
+    <div class="spinner-border text-dark" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <br><br>
+    <span class="text-muted">~3 seconds...</span>
   </div>
   <div class="container-xxl mx-auto heightflex tab_main_content">
     <div class="tab-content heightflex">
@@ -183,8 +187,8 @@
 
       <div class="tab-pane fade text-start heightflex" id="augmented_template_view" role="tabpanel"
         aria-labelledby="augmented_template_button" style="overflow: auto;overflow-x: hidden;">
-        <div class="row pt-lg-4 pt-3 gap-4">
-          <div class="d-flex flex-column col-11 col-lg-6 gap-3 ms-3 ms-xl-0">
+        <div class="row pt-lg-4 pt-3 gap-2" style="justify-content:space-evenly">
+          <div class="d-flex flex-column col-11 col-lg-6 gap-3">
             <label>Prompt Template: </label>
             <select class="form-select prompt_template_select_preset">
               <option selected>Provide Guidance</option>
@@ -202,7 +206,7 @@
             <textarea style="height:7em;width:100%;"
               class="document_template_text_area monospace form-control"></textarea>
           </div>
-          <div class="d-flex flex-column gap-3 col-11 col-lg-5 ms-3 ms-sm-0">
+          <div class="d-flex flex-column gap-3 col-11 col-lg-5">
             <label>Embedding Type:</label>
             <select class="form-select embedding_type_select">
               <option>Query Verses to Embed Chapters</option>

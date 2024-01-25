@@ -7,6 +7,12 @@ export class AIArchiveDemoApp {
     analyze_prompt_textarea: any = document.body.querySelector(".analyze_prompt_textarea");
     lookup_chapter_response_feed: any = document.body.querySelector(".lookup_chapter_response_feed");
     nav_link = document.body.querySelectorAll(".nav-link");
+    btn_close = document.body.querySelector(".btn-close") as HTMLButtonElement;
+    source_view_button = document.body.querySelector("#source_view_button") as HTMLButtonElement;
+    full_augmented_prompt_button = document.body.querySelector("#full_augmented_prompt_button") as HTMLButtonElement;
+    augmented_template_button = document.body.querySelector("#augmented_template_button") as HTMLButtonElement;
+    learn_tab_button = document.body.querySelector("#learn_more_button") as HTMLButtonElement;
+    full_augmented_response_button = document.body.querySelector("#full_augmented_response_button") as HTMLButtonElement;
     embedding_type_select: any = document.body.querySelector(".embedding_type_select");
     embedding_diagram_img: any = document.body.querySelector(".embedding_diagram_img");
     embedding_diagram_anchor: any = document.body.querySelector(".embedding_diagram_anchor");
@@ -30,7 +36,8 @@ export class AIArchiveDemoApp {
                 return;
             }
             this.analyze_prompt_button.setAttribute("disabled", "");
-            this.analyze_prompt_button.innerHTML = `...`;
+            this.analyze_prompt_button.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span class="visually-hidden">Loading...</span>`;
             this.summary_details.innerHTML = "Compiling Prompt...";
             this.running = true;
 
@@ -104,6 +111,19 @@ export class AIArchiveDemoApp {
                 this.embedding_diagram_anchor.href = "img/ragChapters.png";
             }
         });
+
+        this.full_augmented_prompt_button.addEventListener("click", () => {
+            this.btn_close.click();
+          });
+          this.full_augmented_response_button.addEventListener("click", () => {
+            this.btn_close.click();
+          });
+          this.augmented_template_button.addEventListener("click", () => {
+            this.btn_close.click();
+          });
+          this.learn_tab_button.addEventListener("click", () => {
+            this.btn_close.click();
+          });
 
         this.populatePromptTemplates(0);
         this.analyze_prompt_textarea.addEventListener("keydown", (e: any) => {
@@ -276,10 +296,13 @@ export class AIArchiveDemoApp {
 
 const promptTemplates = [
     {
-        mainPrompt: `For reference, the following AI research papers: {{documents}} 
-        
-Use reference to answer to the following prompt: 
-{{prompt}}`,
+        mainPrompt: `Context information is below.
+---------------------
+{{documents}}
+---------------------
+Given the context information and not prior knowledge, answer the query.
+Query: {{prompt}}
+Answer:`,
         documentPrompt: `({{title}}):
   {{text}}
   `,

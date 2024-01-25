@@ -48,19 +48,22 @@
 </head>
 
 <body class="initial heightflex">
-  <nav class="navbar navbar-light navbar-expand-lg" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+  <nav class="navbar navbar-dark bg-dark navbar-expand-lg" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
   border-bottom: 1px solid rgba(127, 127, 127, .4);" aria-label="Main navigation">
-    <div class="container-xl">
-      <div class="navbar-brand">AI Docs</div>
+    <div class="container-xxl">
+      <div class="navbar-brand text-light">AI Docs</div>
       <button class="navbar-toggler p-0 border-0" type="button" data-bs-toggle="offcanvas"
-        data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-        <span class="navbar-toggler-icon"></span>
+        data-bs-target="#offcanvasElement" aria-controls="offcanvasElement">
+        <span class="material-icons-outlined text-light" style="font-size: 1.75em;">
+          menu
+        </span>
       </button>
-      <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample"
-        aria-labelledby="offcanvasExampleLabel">
+      <div class="offcanvas offcanvas-start navbar-dark bg-dark" tabindex="-1" id="offcanvasElement"
+        aria-labelledby="offcanvasElementLabel">
         <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasExampleLabel">AI Docs</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          <h5 class="offcanvas-title text-light" id="offcanvasElementLabel">AI Docs</h5>
+          <button type="button" class="btn-close btn-close-white btn_close" data-bs-dismiss="offcanvas"
+            aria-label="Close"></button>
         </div>
         <div class="offcanvas-body pt-0">
           <ul class="navbar-nav nav d-flex justify-content-between w-100">
@@ -74,8 +77,8 @@
                 </a>
               </li>
               <li class="nav-item ms-3 ms-lg-0">
-                <a class="nav-link disabled" id="verses_view_button" data-bs-toggle="tab" href="#verses_view" role="tab"
-                  aria-controls="verses_view" aria-selected="false" aria-disabled="true">
+                <a class="nav-link disabled" id="source_view_button" data-bs-toggle="tab" href="#source_view" role="tab"
+                  aria-controls="source_view" aria-selected="false" aria-disabled="true">
                   <span class="material-icons-outlined nav-icon">format_list_numbered</span>
                   <span class="nav-text">Source</span>
                 </a>
@@ -98,8 +101,8 @@
             </div>
             <div class="d-flex flex-column flex-lg-row">
               <li class="nav-item" role="presentation">
-                <a class="nav-link" id="learn_more_button" data-bs-toggle="tab" href="#learn_tab_view"
-                  role="tab" aria-controls="learn_tab_view" aria-selected="false">
+                <a class="nav-link" id="learn_tab_button" data-bs-toggle="tab" href="#learn_tab_view" role="tab"
+                  aria-controls="learn_tab_view" aria-selected="false">
                   <span class="nav-text">Learn More</span>
                 </a>
               </li>
@@ -109,30 +112,37 @@
       </div>
     </div>
   </nav>
-  <div class="loading_screen">
-    Loading... 
-    <br>
-    about 10 seconds
+  <div class="loading_screen text-center">
+    <div class="spinner-border text-dark" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <br><br>
+    <span class="text-muted">~10 seconds...</span>
   </div>
-  <div class="container-xl mx-auto tab-content heightflex tab_main_content">
+  <div class="container-xxl mx-auto tab-content heightflex tab_main_content">
     <div class="tab-pane fade show active heightflex"
-      style="background-image: var(--bs-gradient);text-align: left;font-size:1.5em;"
-      id="full_augmented_response" role="tabpanel" aria-labelledby="full_augmented_response_button">
-      <div class="prompt_response_area" style="overflow:auto;flex:1">
-        <div class="full_augmented_response m-2 small-caps"></div>
-        <div class="initial_user_message" style="cursor: not-allowed;">
-          <span class="onboarding_text">Enter a prompt to begin.</span>
-          <br><br>Retrieve most relevant documents from our AI research library.
-          <br><br>Adjust templates to modify results.
+      style="background-image: var(--bs-gradient);text-align: left;font-size:1.25em;" id="full_augmented_response"
+      role="tabpanel" aria-labelledby="full_augmented_response_button">
+      <div class="heightflex" style="overflow:auto;">
+        <div class="full_augmented_response m-2"></div>
+        <div class="d-flex flex-column heightflex m-2" style="overflow: auto;">
+          <div></div>
+          <div class="initial_user_message" style="cursor: not-allowed;">
+            <span class="onboarding_text">Enter a prompt to begin.</span>
+            <br><br>Retrieve most relevant documents from our AI research library.
+            <br><br>Adjust templates to modify results.
+          </div>
+          <div></div>
         </div>
-        <span class="muted small mt-auto"></span>
         <div></div>
       </div>
-      <div style="display:flex;flex-direction:row">
-        <textarea class="analyze_prompt_textarea form-control me-1" style="height: 4em;flex:1"
-          placeholder="Enter your prompt" type="text"></textarea>
-        <div>
-          <button class="analyze_prompt_button btn btn-primary p-2">
+      <div class="w-100 border border-secondary d-flex flex-row rounded">
+        <div class="textarea-wrapper" style="position: relative; width: 100%;">
+          <textarea class="analyze_prompt_textarea form-control me-1"
+            style="padding-right: 70px;height: 5em;resize: none;" placeholder="Enter your prompt"
+            type="text"></textarea>
+          <button class="analyze_prompt_button btn btn-primary p-2" type="submit"
+            style="position: absolute; right: 12px; top: 24px;">
             <span class="material-icons-outlined mt-1">
               send
             </span>
@@ -140,7 +150,7 @@
         </div>
       </div>
     </div>
-    <div class="tab-pane fade" id="verses_view" style="flex:1" role="tabpanel" aria-labelledby="verses_view_button">
+    <div class="tab-pane fade" id="source_view" style="flex:1" role="tabpanel" aria-labelledby="source_view_button">
       <div class="d-flex flex-column" style="background-image: var(--bs-gradient);">
         <div class="text-start py-2 d-flex flex-column" style="height:87vh; overflow: auto;">
           <div class="lookup_verse_response_feed"></div>
@@ -161,8 +171,8 @@
       </div>
     </div>
 
-    <div class="tab-pane fade text-start" style="flex:1;width:100%;overflow:auto;" id="augmented_template_view" role="tabpanel"
-      aria-labelledby="augmented_template_button" style="overflow: auto;">
+    <div class="tab-pane fade text-start" style="flex:1;width:100%;overflow:auto;" id="augmented_template_view"
+      role="tabpanel" aria-labelledby="augmented_template_button" style="overflow: auto;">
       <div class="d-flex flex-column" style="background-image: var(--bs-gradient);width:100%">
         <div class="text-start p-2 d-flex flex-column gap-2">
           <label>Embedding Type:</label>
@@ -193,7 +203,7 @@
     </div>
 
     <div class="tab-pane fade text-start" style="flex:1" id="learn_tab_view" role="tabpanel"
-      aria-labelledby="learn_more_button">
+      aria-labelledby="learn_tab_button">
       <div class="d-flex flex-column" style="background-image: var(--bs-gradient);">
         <div class="text-start py-1 d-flex flex-column gap-2" style="height:87vh; overflow: auto;">
           <div class="accordion accordion-flush" id="accordionPanelsStayOpenExample">
@@ -367,10 +377,9 @@
         </div>
       </div>
     </div>
-  </div>
-  <footer class="text-muted text-center small pt-1">
-    <span>A Bible RAG Demo by <a href="https://unacog.com" class="text-black">Unacog</a></span>
-  </footer>
+    <footer class="text-muted text-center small pt-1">
+      <span>A Bible RAG Demo by <a href="https://unacog.com" class="text-black">Unacog</a></span>
+    </footer>
   </div>
 
   <!-- Modal -->
@@ -478,7 +487,7 @@
 
     .initial .initial_user_message {
       display: block;
-      text-align: center;
+      text-align: start;
     }
 
     .initial_user_message {
@@ -487,10 +496,6 @@
 
     .nav_query_results {
       margin-left: 24px;
-    }
-
-    .prompt_response_area {
-      overflow: auto;
     }
 
     .nav-icon {
@@ -526,20 +531,6 @@
       animation: fade-in-left 1s ease-out;
     }
 
-    @media (min-height: 790px) {
-      .prompt_response_area {
-        height: 77vh;
-      }
-    }
-
-
-    @media (min-height: 1200px) {
-      .prompt_response_area {
-        height: 81vh;
-      }
-    }
-
-    
     .loading_screen {
       display: block;
       margin: auto;
