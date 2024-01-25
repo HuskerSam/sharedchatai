@@ -1,4 +1,4 @@
-export class BibleDemoApp {
+export class AIArchiveDemoApp {
     running = false;
     analyze_prompt_button: any = document.body.querySelector(".analyze_prompt_button");
     lookup_verse_response_feed: any = document.body.querySelector(".lookup_verse_response_feed");
@@ -73,9 +73,9 @@ export class BibleDemoApp {
         });
 
         this.prompt_template_select_preset.addEventListener("input", () => this.populatePromptTemplates());
-        let templateIndex: any = localStorage.getItem("templateIndex");
+        let templateIndex: any = localStorage.getItem("ai_templateIndex");
         if (templateIndex && templateIndex > 0) this.prompt_template_select_preset.selectedIndex = templateIndex;
-        let queryIndex: any = localStorage.getItem("queryIndex");
+        let queryIndex: any = localStorage.getItem("ai_queryIndex");
         if (queryIndex && queryIndex > 0) this.embedding_type_select.selectedIndex = queryIndex;
 
         /*select correct embedding_diagram_img based on saved embedding_type_select value from local storage*/
@@ -114,27 +114,27 @@ export class BibleDemoApp {
             }
         });
         this.analyze_prompt_textarea.addEventListener("input", () => {
-            localStorage.setItem("lastPrompt", this.analyze_prompt_textarea.value);
+            localStorage.setItem("ai_lastPrompt", this.analyze_prompt_textarea.value);
         });
         this.prompt_template_text_area.addEventListener("input", () => {
-            localStorage.setItem("promptTemplate", this.prompt_template_text_area.value);
+            localStorage.setItem("ai_promptTemplate", this.prompt_template_text_area.value);
         });
         this.document_template_text_area.addEventListener("input", () => {
-            localStorage.setItem("documentTemplate", this.document_template_text_area.value);
+            localStorage.setItem("ai_documentTemplate", this.document_template_text_area.value);
         });
-        const lastPrompt = localStorage.getItem("lastPrompt");
+        const lastPrompt = localStorage.getItem("ai_lastPrompt");
         if (lastPrompt) this.analyze_prompt_textarea.value = lastPrompt;
-        const promptTemplate = localStorage.getItem("promptTemplate");
+        const promptTemplate = localStorage.getItem("ai_promptTemplate");
         if (promptTemplate) this.prompt_template_text_area.value = promptTemplate;
-        const documentTemplate = localStorage.getItem("documentTemplate");
+        const documentTemplate = localStorage.getItem("ai_documentTemplate");
         if (documentTemplate) this.document_template_text_area.value = documentTemplate;
 
         this.reset_template_options_button.addEventListener("click", () => {
             this.prompt_template_select_preset.selectedIndex = 0;
             this.embedding_type_select.selectedIndex = 0;
             this.populatePromptTemplates();
-            localStorage.setItem("promptTemplate", this.prompt_template_text_area.value);
-            localStorage.setItem("documentTemplate", this.document_template_text_area.value);
+            localStorage.setItem("ai_promptTemplate", this.prompt_template_text_area.value);
+            localStorage.setItem("ai_documentTemplate", this.document_template_text_area.value);
         });
         this.analyze_prompt_textarea.focus();
         this.analyze_prompt_textarea.select();
@@ -161,7 +161,10 @@ export class BibleDemoApp {
         const r = await fetch("https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/projectLookups%2FHlm0AZ9mUCeWrMF6hI7SueVPbrq1%2Faidata_target_starter%2Flookup.json?alt=media");
         this.lookupData = await r.json();
         this.loaded = true;
-        alert("ready");
+        const l: any = document.querySelector(".loading_screen")
+        l.style.display = "none";
+        const m: any = document.querySelector(".tab_main_content");
+        m.style.display = "flex";
     }
     async lookupAIDocumentChunks(): Promise<any[]> {
         this.lookup_verse_response_feed.innerHTML = "";
@@ -197,8 +200,8 @@ export class BibleDemoApp {
         return result.matches;
     }
     async sendPromptToLLM(): Promise<string> {
-        localStorage.setItem("templateIndex", this.prompt_template_select_preset.selectedIndex);
-        localStorage.setItem("queryIndex", this.embedding_type_select.selectedIndex);
+        localStorage.setItem("ai_templateIndex", this.prompt_template_select_preset.selectedIndex);
+        localStorage.setItem("ai_queryIndex", this.embedding_type_select.selectedIndex);
         const message = this.analyze_prompt_textarea.value.trim();
         if (!message) {
             return "please supply a message";
