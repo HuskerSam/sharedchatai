@@ -48,7 +48,7 @@
 </head>
 
 <body class="initial heightflex">
-  <nav class="navbar navbar-light navbar-expand-lg" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+  <nav class="navbar navbar-dark bg-dark navbar-expand-lg" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
   border-bottom: 1px solid rgba(127, 127, 127, .4);" aria-label="Main navigation">
     <div class="container-xl">
       <div class="navbar-brand">Bible GPT</div>
@@ -56,10 +56,10 @@
         data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample"
+      <div class="offcanvas offcanvas-start navbar-dark bg-dark" tabindex="-1" id="offcanvasExample"
         aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasExampleLabel">Bible GPT</h5>
+          <h5 class="offcanvas-title text-light" id="offcanvasExampleLabel">Bible GPT</h5>
           <button type="button" class="btn-close btn_close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body pt-0">
@@ -74,17 +74,17 @@
                 </a>
               </li>
               <li class="nav-item ms-3 ms-lg-0">
-                <a class="nav-link" id="chapters_view_button" data-bs-toggle="tab" href="#chapters_view"
-                  role="tab" aria-controls="chapters_view" aria-selected="false" aria-disabled="true">
-                  <span class="material-icons-outlined nav-icon">article</span>
-                  <span class="nav-text">Chapters</span>
-                </a>
-              </li>
-              <li class="nav-item ms-3 ms-lg-0">
-                <a class="nav-link" id="verses_view_button" data-bs-toggle="tab" href="#verses_view" role="tab"
+                <a class="nav-link disabled" id="verses_view_button" data-bs-toggle="tab" href="#verses_view" role="tab"
                   aria-controls="verses_view" aria-selected="false" aria-disabled="true">
                   <span class="material-icons-outlined nav-icon">format_list_numbered</span>
                   <span class="nav-text">Verses</span>
+                </a>
+              </li>
+              <li class="nav-item ms-3 ms-lg-0">
+                <a class="nav-link disabled" id="chapters_view_button" data-bs-toggle="tab" href="#chapters_view"
+                  role="tab" aria-controls="chapters_view" aria-selected="false" aria-disabled="true">
+                  <span class="material-icons-outlined nav-icon">article</span>
+                  <span class="nav-text">Chapters</span>
                 </a>
               </li>
               <li class="nav-item ms-3 ms-lg-0">
