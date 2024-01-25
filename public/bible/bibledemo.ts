@@ -17,8 +17,8 @@ export class BibleDemoApp {
   bibleData: any[] = [];
   byVerseAPIToken = "9b2b6dcc-900d-4051-9947-a42830853d86";
   byVerseSessionId = "lh3a4fui9n7j";
-  byChapterToken = "f4c8053f-fce6-40ae-a289-70c0a652dd54";
-  byChapterSessionId = "86t9gu1ho3di";
+  byChapterToken = "a1316745-313f-4bdf-b073-3705bf11a0e7";
+  byChapterSessionId = "vkuyk8lg74nq";
   promptUrl = `https://us-central1-promptplusai.cloudfunctions.net/lobbyApi/session/external/message`;
   queryUrl = `https://us-central1-promptplusai.cloudfunctions.net/lobbyApi/session/external/vectorquery`;
 
@@ -27,6 +27,11 @@ export class BibleDemoApp {
     this.analyze_prompt_button.addEventListener("click", async () => {
       if (this.running) {
         alert("already running");
+        return;
+      }
+      const message = this.analyze_prompt_textarea.value.trim();
+      if (!message) {
+        alert("please supply a message");
         return;
       }
       this.analyze_prompt_button.setAttribute("disabled", "");
@@ -116,7 +121,6 @@ export class BibleDemoApp {
       }
     });
 
-    this.populatePromptTemplates(0);
     this.analyze_prompt_textarea.addEventListener("keydown", (e: any) => {
       if (e.key === "Enter" && e.shiftKey === false) {
         e.preventDefault();
@@ -125,13 +129,13 @@ export class BibleDemoApp {
       }
     });
     this.analyze_prompt_textarea.addEventListener("input", () => {
-      localStorage.setItem("lastPrompt", this.analyze_prompt_textarea.value);
+      this.saveLocalStorage();
     });
     this.prompt_template_text_area.addEventListener("input", () => {
-      localStorage.setItem("promptTemplate", this.prompt_template_text_area.value);
+      this.saveLocalStorage();
     });
     this.document_template_text_area.addEventListener("input", () => {
-      localStorage.setItem("documentTemplate", this.document_template_text_area.value);
+      this.saveLocalStorage();
     });
     const lastPrompt = localStorage.getItem("lastPrompt");
     if (lastPrompt) this.analyze_prompt_textarea.value = lastPrompt;
@@ -144,8 +148,8 @@ export class BibleDemoApp {
       this.prompt_template_select_preset.selectedIndex = 0;
       this.embedding_type_select.selectedIndex = 0;
       this.populatePromptTemplates();
-      localStorage.setItem("promptTemplate", this.prompt_template_text_area.value);
-      localStorage.setItem("documentTemplate", this.document_template_text_area.value);
+
+      this.saveLocalStorage();
     });
     this.analyze_prompt_textarea.focus();
     this.analyze_prompt_textarea.select();
@@ -175,10 +179,6 @@ export class BibleDemoApp {
   async lookupChaptersByVerse() {
     this.lookup_verse_response_feed.innerHTML = "";
     const message = this.analyze_prompt_textarea.value.trim();
-    if (!message) {
-      alert("please supply a message");
-      return;
-    }
 
     let result = await this.getMatchingVectors(message, 10, this.byVerseAPIToken, this.byVerseSessionId);
     if (!result.success) {
@@ -191,25 +191,20 @@ export class BibleDemoApp {
 
     let html = '<span class="small text-muted">Most Relevant Verses...</span><br>';
     result.matches.forEach((match) => {
-      const metaData = JSON.stringify(match.metadata, null, "\n");
-
+      const verse = this.getVerse(match.metadata.bookIndex, match.metadata.chapterIndex, match.metadata.verseIndex).text;
       const block = `<div class="verse_card">
-            <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="book">${match.metadata.book}</a>
-            <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="chapter"
+            <a data-bookindex="${match.metadata.bookIndex}" data-link="book">${match.metadata.book}</a>
+            <a data-bookindex="${match.metadata.bookIndex}" data-link="chapter"
                       data-chapterindex="${match.metadata.chapterIndex}">${Number(match.metadata.chapterIndex) + 1}</a>
-            <span class="fw-bold" href="" data-bookindex="${match.metadata.bookIndex}" data-link="verse"
+            <span class="fw-bold" data-bookindex="${match.metadata.bookIndex}" data-link="verse"
             data-chapterindex="${match.metadata.chapterIndex}"
             data-verseindex="${match.metadata.verseIndex}">${Number(match.metadata.verseIndex) + 1}</span>
             <span style="float: right;">Match: ${(match.score * 100).toFixed()}%</span>
               <br>
-              <div>${match.metadata.text}</div>
+              <div>${verse}</div>
             </div>`;
       html += block;
     });
-
-
-
-
     this.lookup_verse_response_feed.innerHTML = html;
 
     this.lookup_verse_response_feed.querySelectorAll("a").forEach(((a: any) => a.addEventListener("click", (e: any) => {
@@ -250,14 +245,15 @@ export class BibleDemoApp {
 
     let html = '<span class="small text-muted">Most Relevant Chapters...<span><br>';
     result.matches.forEach((match) => {
-      const metaData = JSON.stringify(match.metadata, null, "\n");
+      const verse = this.getChapter(match.metadata.bookIndex, match.metadata.chapterIndex, match.metadata.verseIndex).text;
+      
       const block = `<div class="verse_card">
-          <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="book">${match.metadata.book}</a>
-          <span class="fw-bold" href="" data-bookindex="${match.metadata.bookIndex}" data-link="chapter"
+          <a data-bookindex="${match.metadata.bookIndex}" data-link="book">${match.metadata.book}</a>
+          <span class="fw-bold" data-bookindex="${match.metadata.bookIndex}" data-link="chapter"
                     data-chapterindex="${match.metadata.chapterIndex}">${Number(match.metadata.chapterIndex) + 1}</span>
           <span style="float: right;">Match: ${(match.score * 100).toFixed()}%</span>
             <br>
-            <div>${match.metadata.text}</div>
+            <div>${verse}</div>
           </div>`;
       html += block;
     });
@@ -277,7 +273,6 @@ export class BibleDemoApp {
       }
     })));
   }
-
   getChapter(bookIndex: string, chapterIndex: string, verseIndex = -1): any {
     let verses = this.bibleData.filter((verse) => {
       if (verse.bookIndex.toString() === bookIndex &&
@@ -302,6 +297,19 @@ export class BibleDemoApp {
     return {
       text,
       html,
+    };
+  }
+  getVerse(bookIndex: string, chapterIndex: string, verseIndex: string): any {
+    let verses = this.bibleData.filter((verse) => {
+      if (verse.bookIndex.toString() === bookIndex &&
+        verse.chapterIndex.toString() === chapterIndex &&
+        verse.verseIndex.toString() === verseIndex)
+        return true;
+      return false;
+    });
+    let text = verses[0].verse;
+    return {
+      text,
     };
   }
   getBooks(): any {
@@ -372,8 +380,7 @@ export class BibleDemoApp {
     };
   }
   async sendPromptToLLM(): Promise<string> {
-    localStorage.setItem("templateIndex", this.prompt_template_select_preset.selectedIndex);
-    localStorage.setItem("queryIndex", this.embedding_type_select.selectedIndex);
+    this.saveLocalStorage();
     const message = this.analyze_prompt_textarea.value.trim();
     if (!message) {
       return "please supply a message";
@@ -402,29 +409,6 @@ export class BibleDemoApp {
         }
       }
     }
-
-    let chaptersHTML = "";
-    let chaptersText: any[] = [];
-    matches.forEach((match) => {
-      let chapterDetails = this.getChapter(match.metadata.bookIndex, match.metadata.chapterIndex, match.metadata.verseIndex);
-
-      const block = `<div class="verse_card">
-            <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="book">${match.metadata.book}</a>
-            <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="chapter"
-                      data-chapterindex="${match.metadata.chapterIndex}">${Number(match.metadata.chapterIndex) + 1}</a>
-            <a href="" data-bookindex="${match.metadata.bookIndex}" data-link="verse"
-            data-chapterindex="${match.metadata.chapterIndex}"
-            data-verseindex="${match.metadata.verseIndex}">${Number(match.metadata.verseIndex) + 1}</a>
-              ${(match.score * 100).toFixed()}%
-              <br>
-              <div>${chapterDetails.html}</div>
-            </div>`;
-      chaptersHTML += block;
-      chaptersText.push(chapterDetails.text);
-    });
-
-
-
 
     const prompt = this.embedPrompt(message, matches, queryDetails);
     const diagram = this.embedding_diagram_img.src;
@@ -490,13 +474,23 @@ export class BibleDemoApp {
       return this.getChapter(match.metadata.bookIndex, match.metadata.chapterIndex).text;
     }
     // else return the verse
-    return match.metadata.text;
+    return this.getVerse(match.metadata.bookIndex, match.metadata.chapterIndex, match.metadata.verseIndex).text;
   }
   populatePromptTemplates(templateIndex: number = -1) {
     if (templateIndex < 0) templateIndex = this.prompt_template_select_preset.selectedIndex;
 
     this.prompt_template_text_area.value = promptTemplates[templateIndex].mainPrompt;
     this.document_template_text_area.value = promptTemplates[templateIndex].documentPrompt;
+    this.saveLocalStorage();
+  }
+
+  saveLocalStorage() {
+    localStorage.setItem("templateIndex", this.prompt_template_select_preset.selectedIndex);
+    localStorage.setItem("queryIndex", this.embedding_type_select.selectedIndex);
+    localStorage.setItem("lastPrompt", this.analyze_prompt_textarea.value);
+    localStorage.setItem("promptTemplate", this.prompt_template_text_area.value);
+    localStorage.setItem("documentTemplate", this.document_template_text_area.value);
+    localStorage.setItem("templateIndex", this.prompt_template_select_preset.selectedIndex);
   }
 }
 
