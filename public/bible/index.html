@@ -207,7 +207,7 @@
               class="document_template_text_area monospace form-control"></textarea>
           </div>
           <div class="d-flex flex-column gap-3 col-11 col-lg-5">
-            <label>Embedding Type:</label>
+            <label>Retrieval Pipeline</label>
             <select class="form-select embedding_type_select">
               <option>Query Verses to Embed Chapters</option>
               <option>Query Verses to Embed Verses</option>
@@ -217,7 +217,7 @@
               <a target="_blank" class="embedding_diagram_anchor text-center">
                 <figure class="figure border rounded">
                   <img src="..." class="figure-img img-fluid rounded embedding_diagram_img p-3" alt="...">
-                  <figcaption class="figure-caption link-primary text-decoration-underline">Modify RAG pipeline</figcaption>
+                  <figcaption class="figure-caption link-primary text-decoration-underline">Modify what text is matched and embedded</figcaption>
                 </figure>
               </a>
             </div>
@@ -513,6 +513,8 @@
       height: 100%;
       overflow: hidden;
       font-family: Georgia, 'Times New Roman', Times, serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     .default_font {

@@ -86,7 +86,12 @@ export class AIArchiveDemoApp {
 
         this.prompt_template_select_preset.addEventListener("input", () => this.populatePromptTemplates());
         let templateIndex: any = localStorage.getItem("ai_templateIndex");
-        if (templateIndex && templateIndex > 0) this.prompt_template_select_preset.selectedIndex = templateIndex;
+        if (templateIndex && templateIndex > 0) {
+            this.prompt_template_select_preset.selectedIndex = templateIndex;
+            this.populatePromptTemplates(templateIndex);
+        } else {
+            this.populatePromptTemplates(0);
+        }
         let queryIndex: any = localStorage.getItem("ai_queryIndex");
         if (queryIndex && queryIndex > 0) this.embedding_type_select.selectedIndex = queryIndex;
 
@@ -139,13 +144,13 @@ export class AIArchiveDemoApp {
             }
         });
         this.analyze_prompt_textarea.addEventListener("input", () => {
-            localStorage.setItem("ai_lastPrompt", this.analyze_prompt_textarea.value);
+            this.saveLocalStorage();
         });
         this.prompt_template_text_area.addEventListener("input", () => {
-            localStorage.setItem("ai_promptTemplate", this.prompt_template_text_area.value);
+            this.saveLocalStorage();
         });
         this.document_template_text_area.addEventListener("input", () => {
-            localStorage.setItem("ai_documentTemplate", this.document_template_text_area.value);
+            this.saveLocalStorage();
         });
         const lastPrompt = localStorage.getItem("ai_lastPrompt");
         if (lastPrompt) this.analyze_prompt_textarea.value = lastPrompt;
@@ -158,8 +163,7 @@ export class AIArchiveDemoApp {
             this.prompt_template_select_preset.selectedIndex = 0;
             this.embedding_type_select.selectedIndex = 0;
             this.populatePromptTemplates();
-            localStorage.setItem("ai_promptTemplate", this.prompt_template_text_area.value);
-            localStorage.setItem("ai_documentTemplate", this.document_template_text_area.value);
+            this.saveLocalStorage();
         });
         this.analyze_prompt_textarea.focus();
         this.analyze_prompt_textarea.select();
@@ -222,8 +226,7 @@ export class AIArchiveDemoApp {
         return result.matches;
     }
     async sendPromptToLLM(): Promise<string> {
-        localStorage.setItem("ai_templateIndex", this.prompt_template_select_preset.selectedIndex);
-        localStorage.setItem("ai_queryIndex", this.embedding_type_select.selectedIndex);
+        this.saveLocalStorage();
         const message = this.analyze_prompt_textarea.value.trim();
         if (!message) {
             return "please supply a message";
@@ -233,7 +236,6 @@ export class AIArchiveDemoApp {
         const diagram = this.embedding_diagram_img.src;
         this.summary_details.innerHTML = `<a target="_blank" class="embedding_diagram_anchor" href="${diagram}"><img style="width:100px;float:right" class="embedding_diagram_img" src="${diagram}" alt=""></a>
       <label>Granularity Level</label>: ${this.embedding_type_select.selectedIndex < 2 ? "Verse" : "Chapter"}<br>
-      <label>Small to Big</label>: ${this.embedding_type_select.selectedIndex === 0 ? "True" : "False"}<br>
       <label>Full Raw Prompt</label>: <div class="raw_prompt">${prompt}</div><br>`;
 
       console.log(prompt);
@@ -293,7 +295,16 @@ export class AIArchiveDemoApp {
 
         this.prompt_template_text_area.value = promptTemplates[templateIndex].mainPrompt;
         this.document_template_text_area.value = promptTemplates[templateIndex].documentPrompt;
+        this.saveLocalStorage();
     }
+
+  saveLocalStorage() {
+    localStorage.setItem("ai_templateIndex", this.prompt_template_select_preset.selectedIndex);
+    localStorage.setItem("ai_queryIndex", this.embedding_type_select.selectedIndex);
+    localStorage.setItem("ai_lastPrompt", this.analyze_prompt_textarea.value);
+    localStorage.setItem("ai_promptTemplate", this.prompt_template_text_area.value);
+    localStorage.setItem("ai_documentTemplate", this.document_template_text_area.value);
+  }
 }
 
 const promptTemplates = [
@@ -302,7 +313,7 @@ const promptTemplates = [
 ---------------------
 {{documents}}
 ---------------------
-Given the context information and not prior knowledge, answer the query.
+Given the context information, answer the query.
 Query: {{prompt}}
 Answer:`,
         documentPrompt: `({{title}}):
