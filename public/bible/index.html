@@ -47,7 +47,7 @@
   </script>
 </head>
 
-<body class="initial">
+<body class="initial heightflex">
   <nav class="navbar navbar-light navbar-expand-lg" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
   border-bottom: 1px solid rgba(127, 127, 127, .4);" aria-label="Main navigation">
     <div class="container-xl">
@@ -60,7 +60,7 @@
         aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header">
           <h5 class="offcanvas-title" id="offcanvasExampleLabel">Bible GPT</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          <button type="button" class="btn-close btn_close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body pt-0">
           <ul class="navbar-nav nav d-flex justify-content-between w-100">
@@ -105,7 +105,7 @@
             </div>
             <div class="d-flex flex-column flex-lg-row">
               <li class="nav-item" role="presentation">
-                <a class="nav-link" id="augmented_template_button" data-bs-toggle="tab" href="#learn_tab_view"
+                <a class="nav-link" id="learn_tab_button" data-bs-toggle="tab" href="#learn_tab_view"
                   role="tab" aria-controls="learn_tab_view" aria-selected="false">
                   <span class="nav-text">Learn More</span>
                 </a>
@@ -116,12 +116,11 @@
       </div>
     </div>
   </nav>
-  <div class="container-xl mx-auto" style="height: 90vh;">
-    <div class="tab-content h-100" style="margin-bottom:auto;">
-      <div class="tab-pane fade show active h-100" style="position:relative" id="full_augmented_response"
+  <div class="container-xl mx-auto heightflex">
+    <div class="tab-content heightflex">
+      <div class="tab-pane fade show active heightflex" style="position:relative" id="full_augmented_response"
         role="tabpanel" aria-labelledby="full_augmented_response_button">
-        <div class="d-flex flex-column bg-light" style="background-image: var(--bs-gradient);">
-          <div class="prompt_response_area text-start p-1 d-flex flex-column overflow: auto;">
+          <div class="prompt_response_area text-start p-1 d-flex flex-column heightflex" style="overflow: auto;">
             <div class="full_augmented_response m-2 small-caps"></div>
             <div class="initial_user_message text-muted text-start p-3 mt-auto mb-auto small-caps fs-4"
               style="cursor: not-allowed;">
@@ -132,9 +131,9 @@
             <span class="muted small mt-auto"></span>
             <div></div>
           </div>
-          <div class="w-100 border border-secondary d-flex flex-row rounded" style="position: absolute; bottom: 0;">
+          <div class="w-100 border border-secondary d-flex flex-row rounded">
             <div class="textarea-wrapper" style="position: relative; width: 100%;">
-              <textarea class="analyze_prompt_textarea form-control me-1" style="padding-right: 70px;height: 13vh;"
+              <textarea class="analyze_prompt_textarea form-control me-1" style="padding-right: 70px;height: 5em;resize: none;"
                 placeholder="Enter your prompt" type="text"></textarea>
               <button class="analyze_prompt_button btn btn-primary p-2" type="submit"
                 style="position: absolute; right: 12px; top: 24px;">
@@ -143,7 +142,6 @@
                 </span>
               </button>
             </div>
-          </div>
         </div>
       </div>
       <div class="tab-pane fade h-100" id="chapters_view" role="tabpanel" aria-labelledby="chapters_view_button">
@@ -180,7 +178,7 @@
 
       <div class="tab-pane fade text-start h-100" id="augmented_template_view" role="tabpanel"
         aria-labelledby="augmented_template_button" style="overflow: auto;overflow-x: hidden;">
-        <div class="row pt-lg-4 pt-3 gap-4">
+        <div class="row pt-lg-5 pt-3 gap-4">
           <div class="d-flex flex-column col-11 col-lg-6 gap-3 ms-2 ms-md-0">
             <label>Prompt Template: </label>
             <select class="form-select prompt_template_select_preset">
@@ -223,7 +221,7 @@
       </div>
 
       <div class="tab-pane fade text-start h-100" id="learn_tab_view" role="tabpanel"
-        aria-labelledby="augmented_template_button">
+        aria-labelledby="learn_tab_button">
         <div class="d-flex flex-column" style="background-image: var(--bs-gradient);">
           <div class="text-start py-1 d-flex flex-column gap-2" style="height:87vh; overflow: auto;">
             <div>
@@ -502,11 +500,21 @@
   </div>
 
   <style>
-    body {
-      display: flex;
-      flex-direction: column;
+     html,
+     body {
       height: 100%;
       overflow: hidden;
+    }
+
+    .heightflex {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .tab-content>.active {
+      display: flex;
     }
 
     .verse_card {
@@ -573,11 +581,6 @@
       margin-left: 24px;
     }
 
-    .prompt_response_area {
-      height: 73vh;
-      overflow: auto;
-    }
-
     .nav-icon {
       font-size: 24px;
       vertical-align: middle;
@@ -611,11 +614,6 @@
       animation: fade-in-left 1s ease-out;
     }
 
-    @media (min-height: 790px) {
-      .prompt_response_area {
-        height: 76vh;
-      }
-    }
   </style>
 </body>
 
