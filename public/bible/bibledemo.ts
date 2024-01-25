@@ -28,6 +28,7 @@ export class BibleDemoApp {
   byChapterSessionId = "vkuyk8lg74nq";
   promptUrl = `https://us-central1-promptplusai.cloudfunctions.net/lobbyApi/session/external/message`;
   queryUrl = `https://us-central1-promptplusai.cloudfunctions.net/lobbyApi/session/external/vectorquery`;
+  loaded = false;
 
   constructor() {
     this.load();
@@ -165,9 +166,11 @@ export class BibleDemoApp {
     });
     const lastPrompt = localStorage.getItem("lastPrompt");
     if (lastPrompt) this.analyze_prompt_textarea.value = lastPrompt;
-    const promptTemplate = localStorage.getItem("promptTemplate");
+    let promptTemplate = localStorage.getItem("promptTemplate");
+    if (!promptTemplate) promptTemplate = promptTemplates[0].mainPrompt;
     if (promptTemplate) this.prompt_template_text_area.value = promptTemplate;
-    const documentTemplate = localStorage.getItem("documentTemplate");
+    let documentTemplate = localStorage.getItem("documentTemplate");
+    if (!documentTemplate) documentTemplate = promptTemplates[0].documentPrompt;
     if (documentTemplate) this.document_template_text_area.value = documentTemplate;
 
     this.reset_template_options_button.addEventListener("click", () => {
@@ -201,7 +204,13 @@ export class BibleDemoApp {
   async load() {
     const bibleDataResponse = await fetch("flattenedbible.json");
     this.bibleData = await bibleDataResponse.json();
+    this.loaded = true;
+    const l: any = document.querySelector(".loading_screen")
+    l.style.display = "none";
+    const m: any = document.querySelector(".tab_main_content");
+    m.style.display = "flex";
   }
+
   async lookupChaptersByVerse() {
     this.lookup_verse_response_feed.innerHTML = "";
     const message = this.analyze_prompt_textarea.value.trim();
@@ -219,15 +228,15 @@ export class BibleDemoApp {
     result.matches.forEach((match) => {
       const verse = this.getVerse(match.metadata.bookIndex, match.metadata.chapterIndex, match.metadata.verseIndex).text;
       const block = `<div class="verse_card">
-            <a data-bookindex="${match.metadata.bookIndex}" data-link="book">${match.metadata.book}</a>
+            <a data-bookindex="${match.metadata.bookIndex}" data-link="book">${match.metadata.book}</a> 
             <a data-bookindex="${match.metadata.bookIndex}" data-link="chapter"
-                      data-chapterindex="${match.metadata.chapterIndex}">${Number(match.metadata.chapterIndex) + 1}</a>
-            <span class="fw-bold" data-bookindex="${match.metadata.bookIndex}" data-link="verse"
+                      data-chapterindex="${match.metadata.chapterIndex}">${Number(match.metadata.chapterIndex) + 1}</a>:
+            <span data-bookindex="${match.metadata.bookIndex}" data-link="verse"
             data-chapterindex="${match.metadata.chapterIndex}"
             data-verseindex="${match.metadata.verseIndex}">${Number(match.metadata.verseIndex) + 1}</span>
             <span style="float: right;">Match: ${(match.score * 100).toFixed()}%</span>
               <br>
-              <div>${verse}</div>
+              <div class="small-caps">${verse}</div>
             </div>`;
       html += block;
     });
@@ -275,11 +284,11 @@ export class BibleDemoApp {
       
       const block = `<div class="verse_card">
           <a data-bookindex="${match.metadata.bookIndex}" data-link="book">${match.metadata.book}</a>
-          <span class="fw-bold" data-bookindex="${match.metadata.bookIndex}" data-link="chapter"
+          <span data-bookindex="${match.metadata.bookIndex}" data-link="chapter"
                     data-chapterindex="${match.metadata.chapterIndex}">${Number(match.metadata.chapterIndex) + 1}</span>
           <span style="float: right;">Match: ${(match.score * 100).toFixed()}%</span>
-            <br>
-            <div>${verse}</div>
+            <hr>
+            <div class="small-caps">${verse}</div>
           </div>`;
       html += block;
     });
