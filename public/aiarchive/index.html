@@ -127,14 +127,16 @@
         <div class="full_augmented_response m-2"></div>
         <div class="d-flex flex-column heightflex m-2" style="overflow: auto; justify-content: center;">
           <div></div>
-          <div class="initial_user_message d-flex flex-column justify-content-between"
+          <div class="initial_user_message"
             style="cursor: not-allowed;flex: 1;">
-            <div><span class="onboarding_text">Enter a prompt to begin.</span>
-              <br><br>Retrieve results from over 400 AI research papers.
-            </div>
-            <div class="mt-auto clear-fix text-muted" style="font-size: .6em;">
-              <span class="float-start">Article source: <a href="https://arxiv.org/">arxiv.org</a></span>
-              <span class="float-end"> Cutoff date: 07-18-2023</span>
+            <div class="d-flex flex-column justify-content-between"  style="height: 100%;">
+              <div><span class="onboarding_text">Enter a prompt to begin.</span>
+                <br><br>Retrieve results from over 400 AI research papers.
+              </div>
+              <div class="mt-auto clear-fix text-muted" style="font-size: .6em;">
+                <span class="float-start">Article source: <a href="https://arxiv.org/">arxiv.org</a></span>
+                <span class="float-end"> Cutoff date: 07-18-2023</span>
+              </div>
             </div>
           </div>
           <div></div>
@@ -144,8 +146,8 @@
       <div class="w-100 border border-secondary d-flex flex-row rounded">
         <div class="textarea-wrapper" style="position: relative; width: 100%;">
           <textarea class="analyze_prompt_textarea form-control me-1"
-            style="padding-right: 70px;height: 5em;resize: none;" placeholder="Enter your prompt"
-            type="text"></textarea>
+            style="padding-right: 70px;height: 5em;resize: none;"
+            placeholder="what are some best practices for prompt engineering?" type="text"></textarea>
           <button class="analyze_prompt_button btn btn-primary p-2" type="submit"
             style="position: absolute; right: 12px; top: 24px;">
             <span class="material-icons-outlined mt-1">
@@ -383,7 +385,7 @@
       </div>
     </div>
     <footer class="text-muted text-center small pt-1">
-      <span>A Bible RAG Demo by <a href="https://unacog.com" class="text-black">Unacog</a></span>
+      <span>RAG Demos <a href="https://unacog.com/embedding/" class="text-black">Unacog</a></span>
     </footer>
   </div>
 
@@ -447,7 +449,6 @@
       border-top: solid 1px gray;
       padding: 8px;
       color: black;
-      font-variant: small-caps;
       font-size: 18px;
     }
 
