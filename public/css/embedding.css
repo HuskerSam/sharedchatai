@@ -223,7 +223,12 @@ table tr td.table_cell_sizer {
   text-align: left;
 }
 
-.section_bg {
-  background: var(--background-accent-1);
+.ai_demo_bg_img {
+  min-height: 420px;
+  background-image: url(/aiarchive/img/chunk_sentences.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url(/aiarchive/img/chunk_sentences.png);
 }
 

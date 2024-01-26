@@ -57,12 +57,6 @@ export class BibleDemoApp {
       this.full_augmented_response.innerHTML += "Similar chapters retrieved...<br><br>";
       await this.lookupChapters();
       this.full_augmented_response.innerHTML += "Similar verses retrieved...<br><br>";
-
-      this.nav_link.forEach((tab) => {
-        tab.classList.remove('disabled');
-        tab.setAttribute('aria-disabled', 'false');
-      });
-      
       this.full_augmented_response.innerHTML = await this.sendPromptToLLM();
       this.full_augmented_response.innerHTML +=
         `<br><div class="d-flex flex-column link-primary" style="white-space:normal;"><a class="response_verse_link p-2" href="see verses">Top Verses
