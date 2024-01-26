@@ -11,7 +11,7 @@ export class AIArchiveDemoApp {
     source_view_button = document.body.querySelector("#source_view_button") as HTMLButtonElement;
     full_augmented_prompt_button = document.body.querySelector("#full_augmented_prompt_button") as HTMLButtonElement;
     augmented_template_button = document.body.querySelector("#augmented_template_button") as HTMLButtonElement;
-    learn_tab_button = document.body.querySelector("#learn_more_button") as HTMLButtonElement;
+    learn_tab_button = document.body.querySelector("#learn_tab_button") as HTMLButtonElement;
     full_augmented_response_button = document.body.querySelector("#full_augmented_response_button") as HTMLButtonElement;
     embedding_type_select: any = document.body.querySelector(".embedding_type_select");
     embedding_diagram_img: any = document.body.querySelector(".embedding_diagram_img");
@@ -27,6 +27,7 @@ export class AIArchiveDemoApp {
     promptUrl = `https://us-central1-promptplusai.cloudfunctions.net/lobbyApi/session/external/message`;
     queryUrl = `https://us-central1-promptplusai.cloudfunctions.net/lobbyApi/session/external/vectorquery`;
     loaded = false;
+    lookUpKeys: string[] = [];
 
     constructor() {
         this.load();
@@ -35,7 +36,7 @@ export class AIArchiveDemoApp {
                 alert("already running");
                 return;
             }
-         const message = this.analyze_prompt_textarea.value.trim();
+            const message = this.analyze_prompt_textarea.value.trim();
             if (!message) {
                 alert("please supply a message");
                 return [];
@@ -67,7 +68,7 @@ export class AIArchiveDemoApp {
             const verseLink = this.full_augmented_response.querySelector(".response_verse_link");
             verseLink.addEventListener("click", (e: any) => {
                 e.preventDefault();
-                (<any>(document.getElementById("verses_view_button"))).click();
+                (<any>(document.getElementById("source_view_button"))).click();
             });
             const detailLink = this.full_augmented_response.querySelector(".response_detail_link");
             detailLink.addEventListener("click", (e: any) => {
@@ -124,16 +125,16 @@ export class AIArchiveDemoApp {
 
         this.full_augmented_prompt_button.addEventListener("click", () => {
             this.btn_close.click();
-          });
-          this.full_augmented_response_button.addEventListener("click", () => {
+        });
+        this.full_augmented_response_button.addEventListener("click", () => {
             this.btn_close.click();
-          });
-          this.augmented_template_button.addEventListener("click", () => {
+        });
+        this.augmented_template_button.addEventListener("click", () => {
             this.btn_close.click();
-          });
-          this.learn_tab_button.addEventListener("click", () => {
+        });
+        this.learn_tab_button.addEventListener("click", () => {
             this.btn_close.click();
-          });
+        });
 
         this.populatePromptTemplates(0);
         this.analyze_prompt_textarea.addEventListener("keydown", (e: any) => {
@@ -194,13 +195,14 @@ export class AIArchiveDemoApp {
         l.style.display = "none";
         const m: any = document.querySelector(".tab_main_content");
         m.style.display = "flex";
+        this.lookUpKeys = Object.keys(this.lookupData).sort();
     }
     async lookupAIDocumentChunks(): Promise<any[]> {
         this.lookup_verse_response_feed.innerHTML = "";
         const message = this.analyze_prompt_textarea.value.trim();
 
 
-        let result = await this.getMatchingVectors(message, 10, this.dataAPIToken, this.sessionId);
+        let result = await this.getMatchingVectors(message, 5, this.dataAPIToken, this.sessionId);
         if (!result.success) {
             console.log("error", result);
             this.full_augmented_response.innerHTML = result.errorMessage;
@@ -238,7 +240,6 @@ export class AIArchiveDemoApp {
       <label>Granularity Level</label>: ${this.embedding_type_select.selectedIndex < 2 ? "Verse" : "Chapter"}<br>
       <label>Full Raw Prompt</label>: <div class="raw_prompt">${prompt}</div><br>`;
 
-      console.log(prompt);
         const body = {
             message: prompt,
             apiToken: this.dataAPIToken,
@@ -267,22 +268,45 @@ export class AIArchiveDemoApp {
         }
     }
     embedPrompt(prompt: string, matches: any[]): string {
+        const embedIndex = this.embedding_type_select.selectedIndex;
         const promptTemplate = this.prompt_template_text_area.value;
         const documentTemplate = this.document_template_text_area.value;
         const promptT = (<any>window).Handlebars.compile(promptTemplate);
         const docT = (<any>window).Handlebars.compile(documentTemplate);
-
         let documentsEmbedText = "";
-        matches.forEach((match: any, index: number) => {
+        if (embedIndex === 0) {
+            matches.forEach((match: any, index: number) => {
+                const merge = Object.assign({}, match.metadata);
+                merge.id = match.id;
+                merge.matchIndex = index;
+                console.log(this.lookupData, match.id);
+                merge.text = this.lookupData[match.id];
+
+                console.log(merge);
+                documentsEmbedText += (<any>docT)(merge);
+            });
+        } else if (embedIndex === 1) {
+            const match = matches[0];
             const merge = Object.assign({}, match.metadata);
             merge.id = match.id;
-            merge.matchIndex = index;
-            console.log(this.lookupData, match.id);
-            merge.text = this.lookupData[match.id];
-
-            console.log(merge);
+            merge.matchIndex = 0;
+            const lookUpIndex = this.lookUpKeys.indexOf(match.id);
+            let firstIndex = lookUpIndex - 2;
+            let lastIndex = lookUpIndex + 2;
+            if (firstIndex < 0) firstIndex = 0;
+            if (lastIndex > this.lookUpKeys.length - 1) lastIndex = this.lookUpKeys.length - 1;
+            const docID = merge.doc_id;
+            for (let i = firstIndex; i <= lastIndex; i++) {
+                const chunkKey = this.lookUpKeys[i];
+                if (chunkKey.indexOf(docID) === 0) {
+                    merge.text += this.lookupData[chunkKey] + "\n";
+                }
+            }
             documentsEmbedText += (<any>docT)(merge);
-        });
+        }
+
+
+
 
         const mainMerge = {
             documents: documentsEmbedText,
@@ -298,13 +322,13 @@ export class AIArchiveDemoApp {
         this.saveLocalStorage();
     }
 
-  saveLocalStorage() {
-    localStorage.setItem("ai_templateIndex", this.prompt_template_select_preset.selectedIndex);
-    localStorage.setItem("ai_queryIndex", this.embedding_type_select.selectedIndex);
-    localStorage.setItem("ai_lastPrompt", this.analyze_prompt_textarea.value);
-    localStorage.setItem("ai_promptTemplate", this.prompt_template_text_area.value);
-    localStorage.setItem("ai_documentTemplate", this.document_template_text_area.value);
-  }
+    saveLocalStorage() {
+        localStorage.setItem("ai_templateIndex", this.prompt_template_select_preset.selectedIndex);
+        localStorage.setItem("ai_queryIndex", this.embedding_type_select.selectedIndex);
+        localStorage.setItem("ai_lastPrompt", this.analyze_prompt_textarea.value);
+        localStorage.setItem("ai_promptTemplate", this.prompt_template_text_area.value);
+        localStorage.setItem("ai_documentTemplate", this.document_template_text_area.value);
+    }
 }
 
 const promptTemplates = [
