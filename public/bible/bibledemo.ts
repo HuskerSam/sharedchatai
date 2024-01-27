@@ -526,11 +526,11 @@ export class BibleDemoApp {
 
 const promptTemplates = [
   {
-    mainPrompt: `Context information is below.
+    mainPrompt: `Biblical context information is below.
 ---------------------
  {{documents}}
 ---------------------
-Given the context information and not prior knowledge, answer the query.
+Given the context information, answer user query using biblical language.
 Query: {{prompt}}
 Answer:`,
     documentPrompt: `({{title}}):

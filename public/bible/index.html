@@ -155,7 +155,6 @@
       </div>
       <div class="tab-pane fade heightflex" id="chapters_view" role="tabpanel" aria-labelledby="chapters_view_button">
           <div class="text-start py-2 d-flex flex-column heightflex" style="overflow: auto;">
-            <div class="lookup_chapter_response_feed"></div>
             <a type="button" class="nav-link text-center" data-bs-toggle="modal"
               data-bs-target="#exampleModal">
               <figure class="figure border rounded">
@@ -163,11 +162,12 @@
                 <figcaption class="figure-caption link-primary text-decoration-underline">Loading and Indexing chapters</figcaption>
               </figure>
             </a>
+            <div class="initial_user_message small-caps pt-4 fs-5">Enter a query to retrieve similar chapters</div>
+            <div class="lookup_chapter_response_feed"></div>
           </div>
       </div>
       <div class="tab-pane fade heightflex" id="verses_view" role="tabpanel" aria-labelledby="verses_view_button">
           <div class="text-start py-2 d-flex flex-column heightflex" style="overflow: auto;">
-            <div class="lookup_verse_response_feed"></div>
             <a type="button" class="nav-link text-center" data-bs-toggle="modal"
               data-bs-target="#exampleModal">
               <figure class="figure border rounded">
@@ -175,13 +175,16 @@
                 <figcaption class="figure-caption link-primary text-decoration-underline">Loading and Indexing verses</figcaption>
               </figure>
             </a>
+            <div class="initial_user_message small-caps pt-4 fs-5">Enter a query to retrieve similar verses</div>
+            <div class="lookup_verse_response_feed"></div>
           </div>
       </div>
 
       <div class="tab-pane fade heightflex" id="full_augmented_prompt_view" role="tabpanel"
         aria-labelledby="full_augmented_prompt_view">
         <div class="d-flex flex-column heightflex" style="background-image: var(--bs-gradient);overflow: auto;">
-            <div class="summary_details p-2">Enter a Prompt for more details</div>
+            <div class="initial_user_message small-caps pt-5 fs-5">Enter a query to retrieve similar verses</div>
+            <div class="summary_details p-2"></div>
         </div>
       </div>
 
@@ -467,7 +470,7 @@
     </div>
   </div>
   <footer class="text-muted text-center small pt-1">
-    <span>A Bible RAG Demo by <a href="https://unacog.com" class="text-black">Unacog</a></span>
+    <span>RAG Demos <a href="https://unacog.com/embedding/" class="text-black">Unacog</a></span>
   </footer>
   </div>
 

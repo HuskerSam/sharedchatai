@@ -165,23 +165,24 @@
             data-bs-target="#exampleModal">
             Chapter Fetch Pipeline Detail
           </a>
+          <div class="initial_user_message small-caps pt-4 fs-5">Enter a query to retrieve similar verses<br><br></div>
         </div>
       </div>
     </div>
 
-    <div class="tab-pane fade" style="flex:1" id="full_augmented_prompt_view" role="tabpanel"
+    <div class="tab-pane fade heightflex" style="flex:1" id="full_augmented_prompt_view" role="tabpanel"
       aria-labelledby="full_augmented_prompt_view">
-      <div class="d-flex flex-column" style="background-image: var(--bs-gradient);">
-        <div class="text-start d-flex flex-column" style="height:87vh; overflow: auto;">
+      <div class="d-flex flex-column heightflex" style="background-image: var(--bs-gradient);">
+        <div class="text-start d-flex flex-column heightflex" style="overflow: auto;">
           <div class="summary_details p-2"></div>
+          <div class="initial_user_message small-caps pt-5 fs-5">Enter a query to retrieve similar verses<br><br></div>
         </div>
       </div>
     </div>
 
-    <div class="tab-pane fade text-start" style="flex:1;width:100%;overflow:auto;" id="augmented_template_view"
-      role="tabpanel" aria-labelledby="augmented_template_button" style="overflow: auto;">
-      <div class="d-flex flex-column" style="background-image: var(--bs-gradient);width:100%">
-        <div class="text-start p-2 d-flex flex-column gap-2">
+    <div class="tab-pane fade text-start heightflex" style="flex:1;width:100%;overflow:auto;" id="augmented_template_view"
+      role="tabpanel" aria-labelledby="augmented_template_button">
+      <div class="d-flex flex-column heightflex text-start gap-2" style="overflow: auto;">
           <label>Retrieval Pipeline:</label>
           <select class="form-select embedding_type_select">
             <option>Embed 5 Document Chunks</option>
@@ -205,14 +206,12 @@
           <div class="text-center">
             <button class="reset_template_options_button btn btn-warning">Reset Templates</button>
           </div>
-        </div>
       </div>
     </div>
 
-    <div class="tab-pane fade text-start" style="flex:1" id="learn_tab_view" role="tabpanel"
+    <div class="tab-pane fade text-start heightflex" style="flex:1" id="learn_tab_view" role="tabpanel"
       aria-labelledby="learn_tab_button">
-      <div class="d-flex flex-column" style="background-image: var(--bs-gradient);">
-        <div class="text-start py-1 d-flex flex-column gap-2" style="height:87vh; overflow: auto;">
+      <div class="d-flex flex-column heightflex gap-2" style="overflow: auto;">
           <div class="accordion accordion-flush" id="accordionPanelsStayOpenExample">
             <div class="accordion-item">
               <h2 class="accordion-header" id="panelsStayOpen-headingOne">
@@ -381,7 +380,6 @@
               </div>
             </div>
           </div>
-        </div>
       </div>
     </div>
     <footer class="text-muted text-center small pt-1">
