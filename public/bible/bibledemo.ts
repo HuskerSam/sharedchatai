@@ -419,8 +419,8 @@ export class BibleDemoApp {
       };
     } else {
       return {
-        topK: 2,
-        includeK: 2,
+        topK: 5,
+        includeK: 1,
         include: "chapter",
         pineconeDB: "chapter",
         apiToken: this.byChapterToken,

@@ -279,7 +279,6 @@ export class AIArchiveDemoApp {
                 const merge = Object.assign({}, match.metadata);
                 merge.id = match.id;
                 merge.matchIndex = index;
-                console.log(this.lookupData, match.id);
                 merge.text = this.lookupData[match.id];
 
                 console.log(merge);
@@ -304,9 +303,6 @@ export class AIArchiveDemoApp {
             }
             documentsEmbedText += (<any>docT)(merge);
         }
-
-
-
 
         const mainMerge = {
             documents: documentsEmbedText,
