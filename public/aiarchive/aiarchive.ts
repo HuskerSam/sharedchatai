@@ -16,6 +16,7 @@ export class AIArchiveDemoApp {
     embedding_type_select: any = document.body.querySelector(".embedding_type_select");
     embedding_diagram_img: any = document.body.querySelector(".embedding_diagram_img");
     embedding_diagram_anchor: any = document.body.querySelector(".embedding_diagram_anchor");
+    embedding_diagram_img_caption: any = document.body.querySelector(".embedding_diagram_img_caption");
     prompt_template_text_area: any = document.body.querySelector(".prompt_template_text_area");
     document_template_text_area: any = document.body.querySelector(".document_template_text_area");
     prompt_template_select_preset: any = document.body.querySelector(".prompt_template_select_preset");
@@ -98,28 +99,26 @@ export class AIArchiveDemoApp {
 
         /*select correct embedding_diagram_img based on saved embedding_type_select value from local storage*/
         if (this.embedding_type_select.selectedIndex === 0) {
-            this.embedding_diagram_img.src = "img/ragChapterVerses.png";
-            this.embedding_diagram_anchor.href = "img/ragChapterVerses.png";
+            this.embedding_diagram_img.src = "img/rag_basic.png";
+            this.embedding_diagram_anchor.href = "img/rag_basic.png";
+            this.embedding_diagram_img_caption.innerHTML = "Embed top 5 results";
         }
         if (this.embedding_type_select.selectedIndex === 1) {
-            this.embedding_diagram_img.src = "img/ragVerses.png";
-            this.embedding_diagram_anchor.href = "img/ragVerses.png";
-        } if (this.embedding_type_select.selectedIndex === 2) {
-            this.embedding_diagram_img.src = "img/ragChapters.png";
-            this.embedding_diagram_anchor.href = "img/ragChapters.png";
+            this.embedding_diagram_img.src = "img/rag_stb.png";
+            this.embedding_diagram_anchor.href = "img/rag_stb.png";
+            this.embedding_diagram_img_caption.innerHTML = "Embed only top 1 match with expanded context";
         }
         /*change embedding_diagram_img when embedding_type_select value is changed*/
         this.embedding_type_select.addEventListener("input", () => {
             if (this.embedding_type_select.selectedIndex === 0) {
-                this.embedding_diagram_img.src = "img/ragChapterVerses.png";
-                this.embedding_diagram_anchor.href = "img/ragChapterVerses.png";
+                this.embedding_diagram_img.src = "img/rag_basic.png";
+                this.embedding_diagram_anchor.href = "img/rag_basic.png";
+                this.embedding_diagram_img_caption.innerHTML = "Embed top 5 results";
             }
             if (this.embedding_type_select.selectedIndex === 1) {
-                this.embedding_diagram_img.src = "img/ragVerses.png";
-                this.embedding_diagram_anchor.href = "img/ragVerses.png";
-            } if (this.embedding_type_select.selectedIndex === 2) {
-                this.embedding_diagram_img.src = "img/ragChapters.png";
-                this.embedding_diagram_anchor.href = "img/ragChapters.png";
+                this.embedding_diagram_img.src = "img/rag_stb.png";
+                this.embedding_diagram_anchor.href = "img/rag_stb.png";
+                this.embedding_diagram_img_caption.innerHTML = "Embed top 5 results";
             }
         });
 

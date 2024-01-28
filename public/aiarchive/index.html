@@ -157,25 +157,28 @@
         </div>
       </div>
     </div>
-    <div class="tab-pane fade" id="source_view" style="flex:1" role="tabpanel" aria-labelledby="source_view_button">
-      <div class="d-flex flex-column" style="background-image: var(--bs-gradient);">
-        <div class="text-start py-2 d-flex flex-column" style="height:87vh; overflow: auto;">
+    <div class="tab-pane fade heightflex" id="source_view" style="flex:1" role="tabpanel" aria-labelledby="source_view_button">
+      <div class="d-flex flex-column heightflex" style="background-image: var(--bs-gradient);">
+        <div class="text-start py-2 d-flex flex-column heightflex" style="overflow: auto;">
           <div class="lookup_verse_response_feed"></div>
-          <a type="button" class="nav-link text-center pipeline_detail_anchor_hide" data-bs-toggle="modal"
-            data-bs-target="#exampleModal">
-            Chapter Fetch Pipeline Detail
-          </a>
-          <div class="initial_user_message small-caps pt-4 fs-5">Enter a query to retrieve similar verses<br><br></div>
+          <div class="initial_user_message small-caps pt-2 pb-4 fs-5">Enter a query to see relevant articles</div>
+          <a type="button" class="nav-link text-center" data-bs-toggle="modal"
+          data-bs-target="#chapterExpModal">
+          <figure class="figure border rounded">
+            <img class="p-3 img-fluid" src="img/chunk_sentences.png" alt="verse retrieval diagram" style="width: 600px;">
+            <figcaption class="figure-caption link-primary text-decoration-underline">Loading and Indexing chapters</figcaption>
+          </figure>
+        </a>
         </div>
       </div>
     </div>
 
-    <div class="tab-pane fade heightflex" style="flex:1" id="full_augmented_prompt_view" role="tabpanel"
+    <div class="tab-pane fade heightflex" id="full_augmented_prompt_view" role="tabpanel"
       aria-labelledby="full_augmented_prompt_view">
       <div class="d-flex flex-column heightflex" style="background-image: var(--bs-gradient);">
         <div class="text-start d-flex flex-column heightflex" style="overflow: auto;">
           <div class="summary_details p-2"></div>
-          <div class="initial_user_message small-caps pt-5 fs-5">Enter a query to retrieve similar verses<br><br></div>
+          <div class="initial_user_message small-caps pt-2 fs-5">Enter a query to retrieve similar verses</div>
         </div>
       </div>
     </div>
@@ -193,7 +196,7 @@
           <div class="text-muted small text-center">
             <a target="_blank" class="embedding_diagram_anchor text-center"><img class="embedding_diagram_img img-fluid"
                 src="" alt="" width="100%" height="100%" style="max-width: 400px;"></a>
-            <div class="text-muted small text-center">Change what text gets matched and embedded</div>
+            <div class="text-muted small text-center embedding_diagram_img_caption"></div>
           </div>
           <label>Prompt Template: </label>
           <div style="padding:4px">
