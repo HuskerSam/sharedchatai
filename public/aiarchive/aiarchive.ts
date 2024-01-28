@@ -11,12 +11,11 @@ export class AIArchiveDemoApp {
     source_view_button = document.body.querySelector("#source_view_button") as HTMLButtonElement;
     full_augmented_prompt_button = document.body.querySelector("#full_augmented_prompt_button") as HTMLButtonElement;
     augmented_template_button = document.body.querySelector("#augmented_template_button") as HTMLButtonElement;
-    learn_tab_button = document.body.querySelector("#learn_tab_button") as HTMLButtonElement;
+learn_tab_button = document.body.querySelector("#learn_tab_button") as HTMLButtonElement;
     full_augmented_response_button = document.body.querySelector("#full_augmented_response_button") as HTMLButtonElement;
     embedding_type_select: any = document.body.querySelector(".embedding_type_select");
     embedding_diagram_img: any = document.body.querySelector(".embedding_diagram_img");
     embedding_diagram_anchor: any = document.body.querySelector(".embedding_diagram_anchor");
-    embedding_diagram_img_caption: any = document.body.querySelector(".embedding_diagram_img_caption");
     prompt_template_text_area: any = document.body.querySelector(".prompt_template_text_area");
     document_template_text_area: any = document.body.querySelector(".document_template_text_area");
     prompt_template_select_preset: any = document.body.querySelector(".prompt_template_select_preset");
@@ -101,24 +100,20 @@ export class AIArchiveDemoApp {
         if (this.embedding_type_select.selectedIndex === 0) {
             this.embedding_diagram_img.src = "img/rag_basic.png";
             this.embedding_diagram_anchor.href = "img/rag_basic.png";
-            this.embedding_diagram_img_caption.innerHTML = "Embed top 5 results";
         }
         if (this.embedding_type_select.selectedIndex === 1) {
             this.embedding_diagram_img.src = "img/rag_stb.png";
             this.embedding_diagram_anchor.href = "img/rag_stb.png";
-            this.embedding_diagram_img_caption.innerHTML = "Embed only top 1 match with expanded context";
         }
         /*change embedding_diagram_img when embedding_type_select value is changed*/
         this.embedding_type_select.addEventListener("input", () => {
             if (this.embedding_type_select.selectedIndex === 0) {
                 this.embedding_diagram_img.src = "img/rag_basic.png";
                 this.embedding_diagram_anchor.href = "img/rag_basic.png";
-                this.embedding_diagram_img_caption.innerHTML = "Embed top 5 results";
             }
             if (this.embedding_type_select.selectedIndex === 1) {
                 this.embedding_diagram_img.src = "img/rag_stb.png";
                 this.embedding_diagram_anchor.href = "img/rag_stb.png";
-                this.embedding_diagram_img_caption.innerHTML = "Embed top 5 results";
             }
         });
 
@@ -131,7 +126,7 @@ export class AIArchiveDemoApp {
         this.augmented_template_button.addEventListener("click", () => {
             this.btn_close.click();
         });
-        this.learn_tab_button.addEventListener("click", () => {
+this.learn_tab_button.addEventListener("click", () => {
             this.btn_close.click();
         });
 

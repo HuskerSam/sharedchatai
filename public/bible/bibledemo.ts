@@ -13,7 +13,7 @@ export class BibleDemoApp {
   full_augmented_prompt_button = document.body.querySelector("#full_augmented_prompt_button") as HTMLButtonElement;
   full_augmented_response_button = document.body.querySelector("#full_augmented_response_button") as HTMLButtonElement;
   augmented_template_button = document.body.querySelector("#augmented_template_button") as HTMLButtonElement;
-  learn_tab_button = document.body.querySelector("#learn_tab_button") as HTMLButtonElement;
+learn_tab_button = document.body.querySelector("#learn_tab_button") as HTMLButtonElement;
   embedding_type_select: any = document.body.querySelector(".embedding_type_select");
   embedding_diagram_img: any = document.body.querySelector(".embedding_diagram_img");
   embedding_diagram_anchor: any = document.body.querySelector(".embedding_diagram_anchor");
@@ -116,7 +116,7 @@ export class BibleDemoApp {
     this.augmented_template_button.addEventListener("click", () => {
       this.btn_close.click();
     });
-    this.learn_tab_button.addEventListener("click", () => {
+this.learn_tab_button.addEventListener("click", () => {
       this.btn_close.click();
     });
 
@@ -160,19 +160,19 @@ export class BibleDemoApp {
     if (this.embedding_type_select.selectedIndex === 0) {
       this.embedding_diagram_img.src = "img/ragChapterVerses.png";
       this.embedding_diagram_anchor.href = "img/ragChapterVerses.png";
-      this.embedding_diagram_img_caption.innerHTML = "match most relevant verse, embed full chapter";
+      this.embedding_diagram_img_caption.innerHTML = "Match most relevant verse, embed full chapter";
     } else if (this.embedding_type_select.selectedIndex === 1) {
       this.embedding_diagram_img.src = "img/ragChunks.png";
       this.embedding_diagram_anchor.href = "img/ragChunks.png";
-      this.embedding_diagram_img_caption.innerHTML = "match most relevant verse, embed surrounding verses";
+      this.embedding_diagram_img_caption.innerHTML = "Match most relevant verse, embed surrounding verses";
     } else if (this.embedding_type_select.selectedIndex === 2) {
       this.embedding_diagram_img.src = "img/ragVerses.png";
       this.embedding_diagram_anchor.href = "img/ragVerses.png";
-      this.embedding_diagram_img_caption.innerHTML = "embed top matching verses";
+      this.embedding_diagram_img_caption.innerHTML = "Embed top matching verses";
     } else if (this.embedding_type_select.selectedIndex === 3) {
       this.embedding_diagram_img.src = "img/ragChapters.png";
       this.embedding_diagram_anchor.href = "img/ragChapters.png";
-      this.embedding_diagram_img_caption.innerHTML = "embed top matching chapter";
+      this.embedding_diagram_img_caption.innerHTML = "Embed top matching chapter";
     }
   }
   async getMatchingVectors(message: string, topK: number, apiToken: string, sessionId: string): Promise<any> {

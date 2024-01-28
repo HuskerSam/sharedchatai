@@ -51,7 +51,7 @@
   <nav class="navbar navbar-dark bg-dark navbar-expand-lg" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
   border-bottom: 1px solid rgba(127, 127, 127, .4);" aria-label="Main navigation">
     <div class="container-xxl">
-      <div class="navbar-brand text-light">AI Docs</div>
+      <div class="navbar-brand text-light">AI Papers</div>
       <button class="navbar-toggler p-0 border-0" type="button" data-bs-toggle="offcanvas"
         data-bs-target="#offcanvasElement" aria-controls="offcanvasElement">
         <span class="material-icons-outlined text-light" style="font-size: 1.75em;">
@@ -61,7 +61,7 @@
       <div class="offcanvas offcanvas-start navbar-dark bg-dark" tabindex="-1" id="offcanvasElement"
         aria-labelledby="offcanvasElementLabel">
         <div class="offcanvas-header">
-          <h5 class="offcanvas-title text-light" id="offcanvasElementLabel">AI Docs</h5>
+          <h5 class="offcanvas-title text-light" id="offcanvasElementLabel">AI Papers</h5>
           <button type="button" class="btn-close btn-close-white btn_close" data-bs-dismiss="offcanvas"
             aria-label="Close"></button>
         </div>
@@ -127,9 +127,8 @@
         <div class="full_augmented_response m-2"></div>
         <div class="d-flex flex-column heightflex m-2" style="overflow: auto; justify-content: center;">
           <div></div>
-          <div class="initial_user_message"
-            style="flex: 1;">
-            <div class="d-flex flex-column justify-content-between"  style="height: 100%;">
+          <div class="initial_user_message" style="flex: 1;">
+            <div class="d-flex flex-column justify-content-between" style="height: 100%;">
               <div><span class="onboarding_text">Enter a prompt to begin.</span>
                 <br><br>Retrieve results from over 400 AI research papers.
               </div>
@@ -146,8 +145,8 @@
       <div class="w-100 d-flex flex-row rounded">
         <div class="textarea-wrapper" style="position: relative; width: 100%;padding: 4px;">
           <textarea class="analyze_prompt_textarea form-control me-1 border border-secondary"
-            style="padding-right: 70px;height: 5em;resize: none;"
-            placeholder="please provide prompt concerning ai..." type="text"></textarea>
+            style="padding-right: 70px;height: 5em;resize: none;" placeholder="please provide prompt concerning ai..."
+            type="text"></textarea>
           <button class="analyze_prompt_button btn btn-primary p-2" type="submit"
             style="position: absolute; right: 12px; top: 24px;height: 50px;width: 42px;">
             <span class="material-icons-outlined mt-1">
@@ -157,18 +156,20 @@
         </div>
       </div>
     </div>
-    <div class="tab-pane fade heightflex" id="source_view" style="flex:1" role="tabpanel" aria-labelledby="source_view_button">
+    <div class="tab-pane fade heightflex" id="source_view" style="flex:1" role="tabpanel"
+      aria-labelledby="source_view_button">
       <div class="d-flex flex-column heightflex" style="background-image: var(--bs-gradient);">
         <div class="text-start py-2 d-flex flex-column heightflex" style="overflow: auto;">
           <div class="lookup_verse_response_feed"></div>
-          <div class="initial_user_message small-caps pt-2 pb-4 fs-5">Enter a query to see relevant articles</div>
-          <a type="button" class="nav-link text-center" data-bs-toggle="modal"
-          data-bs-target="#chapterExpModal">
-          <figure class="figure border rounded">
-            <img class="p-3 img-fluid" src="img/chunk_sentences.png" alt="verse retrieval diagram" style="width: 600px;">
-            <figcaption class="figure-caption link-primary text-decoration-underline">Loading and Indexing chapters</figcaption>
-          </figure>
-        </a>
+          <div class="initial_user_message pt-2 pb-4 fs-5 text-center">Enter a query to see relevant articles</div>
+          <a type="button" class="nav-link text-center" data-bs-toggle="modal" data-bs-target="#chapterExpModal">
+            <figure class="figure border rounded">
+              <img class="p-3 img-fluid" src="img/chunk_sentences.png" alt="verse retrieval diagram"
+                style="width: 600px;">
+              <figcaption class="figure-caption text-center">Loading and Indexing chapters
+              </figcaption>
+            </figure>
+          </a>
         </div>
       </div>
     </div>
@@ -178,14 +179,15 @@
       <div class="d-flex flex-column heightflex" style="background-image: var(--bs-gradient);">
         <div class="text-start d-flex flex-column heightflex" style="overflow: auto;">
           <div class="summary_details p-2"></div>
-          <div class="initial_user_message small-caps pt-2 fs-5">Enter a query to retrieve similar verses</div>
+          <div class="initial_user_message pt-2 fs-5 text-center">Enter a query see prompt details</div>
         </div>
       </div>
     </div>
 
-    <div class="tab-pane fade text-start heightflex" style="flex:1;width:100%;overflow:auto;" id="augmented_template_view"
-      role="tabpanel" aria-labelledby="augmented_template_button">
-      <div class="d-flex flex-column heightflex text-start gap-2" style="overflow: auto;">
+    <div class="tab-pane fade text-start heightflex" style="flex:1;width:100%;overflow:auto;overflow-x: hidden;"
+      id="augmented_template_view" role="tabpanel" aria-labelledby="augmented_template_button">
+      <div class="row py-3" style="justify-content:space-evenly">
+        <div class="d-flex flex-column col-12 col-lg-6 gap-3">
           <label>Retrieval Pipeline:</label>
           <div style="padding:4px;">
             <select class="form-select embedding_type_select">
@@ -195,207 +197,46 @@
           </div>
           <div class="text-muted small text-center">
             <a target="_blank" class="embedding_diagram_anchor text-center"><img class="embedding_diagram_img img-fluid"
-                src="" alt="" width="100%" height="100%" style="max-width: 400px;"></a>
-            <div class="text-muted small text-center embedding_diagram_img_caption"></div>
+                src="" alt="" width="100%" height="100%" style="max-width: 600px;"></a>
           </div>
-          <label>Prompt Template: </label>
+        </div>
+        <div class="d-flex flex-column gap-3 col-12 col-lg-6">
+          <label class="pt-3 pt-lg-0">Prompt Template: </label>
           <div style="padding:4px">
             <select class="form-select prompt_template_select_preset">
               <option selected>Use Reference Documents</option>
             </select>
           </div>
           <div style="padding:4px;">
-            <textarea style="height:15em;width:100%;" class="prompt_template_text_area monospace form-control"></textarea>
+            <textarea style="height:15em;width:100%;"
+              class="prompt_template_text_area monospace form-control"></textarea>
           </div>
           <span class="small text-info ms-3" style="position: relative;top:-12px">{{documents}} refers to embedded
             text.</span>
-          <label class="mt-3">Embed Template: </label>
+          <label>Embed Template: </label>
           <div style="padding:4px;">
             <textarea style="height:7em;width:100%;"
-            class="document_template_text_area monospace form-control"></textarea>
+              class="document_template_text_area monospace form-control"></textarea>
           </div>
-          <div class="text-center">
-            <button class="reset_template_options_button btn btn-warning">Reset Templates</button>
-          </div>
+        </div>
+        <div class="text-center py-3">
+          <button class="reset_template_options_button btn btn-warning">Reset Templates</button>
+        </div>
       </div>
     </div>
-
-    <div class="tab-pane fade text-start heightflex" style="flex:1" id="learn_tab_view" role="tabpanel"
+    <div class="tab-pane fade text-start heightflex" id="learn_tab_view" role="tabpanel"
       aria-labelledby="learn_tab_button">
-      <div class="d-flex flex-column heightflex gap-2" style="overflow: auto;">
-          <div class="accordion accordion-flush" id="accordionPanelsStayOpenExample">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
-                  aria-controls="panelsStayOpen-collapseOne">
-                  What does the RAG (retrieval augmented generation) approach solve?
-                </button>
-              </h2>
-              <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
-                aria-labelledby="panelsStayOpen-headingOne">
-                <div class="accordion-body">
-                  LLms are trained on a massive amount of data, but they are unfamiliar with your data. Instead of
-                  relying solely on
-                  knowledge derived from the training data, a RAG workflow pulls relevant information and connects
-                  static LLMs with real-time data retrieval.
-                </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
-                  aria-controls="panelsStayOpen-collapseTwo">
-                  LLM efficacy and RAG systems
-                </button>
-              </h2>
-              <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
-                aria-labelledby="panelsStayOpen-headingTwo">
-                <div class="accordion-body">
-                  LLMs are limited by their context window size. While the intuitive response may be to increase the
-                  size of the context window, researchers have
-                  found that doing so actually doesn't correlate to performance (measured by accuracy). To maximize
-                  the effectiveness of LLMs, we need to
-                  provide them with the most relevant context. This is where RAG comes in. RAG systems automatically
-                  retrieve and helps you search through relevant information
-                  from a given knowledge base based on user query, thereby allowing LLMs to generate factual,
-                  contextually relevant, and domain-specific information.
-                </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
-                  aria-controls="panelsStayOpen-collapseThree">
-                  Embedding Models and the RAG pipeline
-                </button>
-              </h2>
-              <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
-                aria-labelledby="panelsStayOpen-headingThree">
-                <div class="accordion-body">
-                  Embedding models have traditionally been used in recommendation and search algorithms to improve
-                  semantic queries. They are
-                  types of neural networks that convert data into vectors that make it possible for machines to
-                  identify and learn the relationships
-                  between different data points. The information generated from the embedding model is then used to
-                  create a vector database, which
-                  clusters related items together. A vector represents a piece of data such as a word or an image and
-                  is an
-                  array of numerical values that indicates its position in a multidimensional space. This structure
-                  promotes
-                  efficiency in data retrieval, allowing systems to find data based on similarity rather than exact
-                  matches. The number of dimensions are defined by the machine learning model used to generate the
-                  vector
-                  embeddings, and how it represents input features based on its internal model and complexity. More
-                  dimensions
-                  (“wider” vectors) may provide more accuracy at the cost of compute and memory resources, as well as
-                  latency
-                  (speed) of vector search. For example, OpenAI's ada-002 is one such embedding model that uses 1536
-                  dimensions to represent the semantic meaning of text. This demo uses ada-002 but there are many
-                  other embedding models that are
-                  proving to be competitive. Different embedding models may be better for specific use
-                  case.
-                </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="panelsStayOpen-headingFour">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false"
-                  aria-controls="panelsStayOpen-collapseFour">
-                  What is a vector database?
-                </button>
-              </h2>
-              <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse"
-                aria-labelledby="panelsStayOpen-headingFour">
-                <div class="accordion-body">
-                  RAG systems rely on vector databases to store and index data. Traditional
-                  databases like relational and NoSQL systems have been fundamental for organizing business-related
-                  structured data,
-                  but they often have difficulties managing unstructured, high-dimensional data like images, audio and
-                  text. These databases can also encounter performance issues due to increased data volume and
-                  velocity.
-                  Vector databases offer a new alternative, storing, and indexing data as mathematical vectors, which
-                  improves similarity searches and management of complex data types. This "vectorization" is
-                  particularly
-                  effective for handling images, audio, video, and natural language.
-                </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="panelsStayOpen-headingFive">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false"
-                  aria-controls="panelsStayOpen-collapseFive">
-                  Vector database are AI natives.
-                </button>
-              </h2>
-              <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse"
-                aria-labelledby="panelsStayOpen-headingFive">
-                <div class="accordion-body">
-                  While many traditional databases support storing vector embeddings to enable vector search,<strong>
-                    vector databases are AI-native,</strong> which means they are optimized to conduct lightning-fast
-                  vector
-                  searches at scale. Because vector search requires the calculation of the distances between the
-                  search query and every data object, a classical K-Nearest-Neighbor algorithm is computationally
-                  expensive.
-                  Vector databases use vector indexing to pre-calculate the distances to enable faster retrieval at
-                  query time. Thus,
-                  vector databases allow users to find and retrieve similar objects quickly at scale in production.
-                  For
-                  applications that require real-time user interaction, like chatbots or virtual assistants, vector
-                  databases can ensure that response generation, which might depend on fetching relevant context or
-                  information represented as vectors, is quick.
-                </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="panelsStayOpen-headingSix">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#panelsStayOpen-collapseSix" aria-expanded="false"
-                  aria-controls="panelsStayOpen-collapseSix">
-                  Important considerations
-                </button>
-              </h2>
-              <div id="panelsStayOpen-collapseSix" class="accordion-collapse collapse"
-                aria-labelledby="panelsStayOpen-headingSix">
-                <div class="accordion-body">
-                  Similar to how prompts greatly impact the quality of LLM responses, the efficacy of a RAG system
-                  directly hinges on the precision of its
-                  retrieval phase. Poor retrieval, the failure to find the pertinent documents, will give LLM the
-                  wrong context thereby significantly affecting the quality of the generated response.
-                </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="panelsStayOpen-headingSeven">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#panelsStayOpen-collapseSeven" aria-expanded="false"
-                  aria-controls="panelsStayOpen-collapseSeven">
-                  When should I use RAG and when should I fine-tune the model?
-                </button>
-              </h2>
-              <div id="panelsStayOpen-collapseSeven" class="accordion-collapse collapse"
-                aria-labelledby="panelsStayOpen-headingSeven">
-                <div class="accordion-body">
-                  RAG is the right place to start, being easy and possibly entirely sufficient for some use cases.
-                  Fine-tuning is most appropriate in a different situation, when one wants the LLM's behavior to
-                  change, or to learn a different "language." These are not mutually exclusive. As a future step, it's
-                  possible to consider fine-tuning a model to better understand domain language and the desired output
-                  form — and also use RAG to improve the quality and relevance of the response. For example, our bible
-                  example uses GPT-3.5-turbo-16k, however this could easily be replaced with any LLM, including
-                  fine-tuned ones.
-                </div>
-              </div>
-            </div>
-          </div>
+      <div class="d-flex flex-column heightflex" style="background-image: var(--bs-gradient);">
+        <div class="text-start py-1 d-flex flex-column gap-2" style="overflow: auto;">
+
+
+        </div>
       </div>
     </div>
     <footer class="text-muted text-center small pt-1">
       <span>RAG Demos <a href="https://unacog.com/embedding/" class="text-black">Unacog</a></span>
     </footer>
+  </div>
   </div>
 
   <!-- Modal -->
@@ -483,10 +324,6 @@
 
     .monospace {
       font-family: 'Courier New', Courier, monospace;
-    }
-
-    .small-caps {
-      font-variant: small-caps;
     }
 
     .raw_prompt {
