@@ -77,7 +77,7 @@ export class AIArchiveDemoApp {
             });
 
             this.analyze_prompt_button.removeAttribute("disabled");
-            this.analyze_prompt_button.innerHTML = `<span class="material-icons-outlined">
+            this.analyze_prompt_button.innerHTML = `<span class="material-icons-outlined mt-1">
         send
         </span>`;
             this.running = false;
@@ -279,7 +279,6 @@ export class AIArchiveDemoApp {
                 const merge = Object.assign({}, match.metadata);
                 merge.id = match.id;
                 merge.matchIndex = index;
-                console.log(this.lookupData, match.id);
                 merge.text = this.lookupData[match.id];
 
                 console.log(merge);
@@ -304,9 +303,6 @@ export class AIArchiveDemoApp {
             }
             documentsEmbedText += (<any>docT)(merge);
         }
-
-
-
 
         const mainMerge = {
             documents: documentsEmbedText,
