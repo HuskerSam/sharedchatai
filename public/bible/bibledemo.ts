@@ -97,32 +97,8 @@ export class BibleDemoApp {
     let queryIndex: any = localStorage.getItem("queryIndex");
     if (queryIndex && queryIndex > 0) this.embedding_type_select.selectedIndex = queryIndex;
 
-    /*select correct embedding_diagram_img based on saved embedding_type_select value from local storage*/
-    if (this.embedding_type_select.selectedIndex === 0) {
-      this.embedding_diagram_img.src = "img/ragChapterVerses.png";
-      this.embedding_diagram_anchor.href = "img/ragChapterVerses.png";
-    }
-    if (this.embedding_type_select.selectedIndex === 1) {
-      this.embedding_diagram_img.src = "img/ragVerses.png";
-      this.embedding_diagram_anchor.href = "img/ragVerses.png";
-    } if (this.embedding_type_select.selectedIndex === 2) {
-      this.embedding_diagram_img.src = "img/ragChapters.png";
-      this.embedding_diagram_anchor.href = "img/ragChapters.png";
-    }
-    /*change embedding_diagram_img when embedding_type_select value is changed*/
-    this.embedding_type_select.addEventListener("input", () => {
-      if (this.embedding_type_select.selectedIndex === 0) {
-        this.embedding_diagram_img.src = "img/ragChapterVerses.png";
-        this.embedding_diagram_anchor.href = "img/ragChapterVerses.png";
-      }
-      if (this.embedding_type_select.selectedIndex === 1) {
-        this.embedding_diagram_img.src = "img/ragVerses.png";
-        this.embedding_diagram_anchor.href = "img/ragVerses.png";
-      } if (this.embedding_type_select.selectedIndex === 2) {
-        this.embedding_diagram_img.src = "img/ragChapters.png";
-        this.embedding_diagram_anchor.href = "img/ragChapters.png";
-      }
-    });
+    this.updateRAGImages();
+    this.embedding_type_select.addEventListener("input", () => this.updateRAGImages());
 
     this.chapters_view_button.addEventListener("click", () => {
       this.btn_close.click();
@@ -178,6 +154,22 @@ export class BibleDemoApp {
     this.analyze_prompt_textarea.focus();
     this.analyze_prompt_textarea.select();
   }
+  /** select correct embedding_diagram_img based on saved embedding_type_select value from local storage */
+  updateRAGImages() {
+    if (this.embedding_type_select.selectedIndex === 0) {
+      this.embedding_diagram_img.src = "img/ragChapterVerses.png";
+      this.embedding_diagram_anchor.href = "img/ragChapterVerses.png";
+    } else if (this.embedding_type_select.selectedIndex === 1) {
+      this.embedding_diagram_img.src = "img/ragChunks.png";
+      this.embedding_diagram_anchor.href = "img/ragChunks.png";
+    } else if (this.embedding_type_select.selectedIndex === 2) {
+      this.embedding_diagram_img.src = "img/ragVerses.png";
+      this.embedding_diagram_anchor.href = "img/ragVerses.png";
+    } else if (this.embedding_type_select.selectedIndex === 3) {
+      this.embedding_diagram_img.src = "img/ragChapters.png";
+      this.embedding_diagram_anchor.href = "img/ragChapters.png";
+    }
+  }
   async getMatchingVectors(message: string, topK: number, apiToken: string, sessionId: string): Promise<any> {
     const body = {
       message,
@@ -215,8 +207,6 @@ export class BibleDemoApp {
       console.log("error", result);
       this.full_augmented_response.innerHTML = result.errorMessage;
       return;
-    } else {
-      console.log(result);
     }
 
     let html = '<span class="small text-muted">Most Relevant Verses...</span><br>';
@@ -269,14 +259,12 @@ export class BibleDemoApp {
       console.log("error", result);
       this.full_augmented_response.innerHTML = result.errorMessage;
       return;
-    } else {
-      console.log(result);
     }
 
     let html = '<span class="small text-muted">Most Relevant Chapters...<span><br>';
     result.matches.forEach((match) => {
       const verse = this.getChapter(match.metadata.bookIndex, match.metadata.chapterIndex, match.metadata.verseIndex).text;
-      
+
       const block = `<div class="verse_card">
           <a data-bookindex="${match.metadata.bookIndex}" data-link="book">${match.metadata.book}</a>
           <span data-bookindex="${match.metadata.bookIndex}" data-link="chapter"
@@ -342,6 +330,29 @@ export class BibleDemoApp {
       text,
     };
   }
+  /** returns 5 verse chunk - less if first or last verse */
+  getVersesChunk(bookIndex: string, chapterIndex: string, verseIndex: string): any {
+    // get verses for chapter
+    let verses = this.bibleData.filter((verse) => {
+      if (verse.bookIndex.toString() === bookIndex &&
+        verse.chapterIndex.toString() === chapterIndex)
+        return true;
+      return false;
+    });
+    let localVerses = verses.sort((a: any, b: any) => {
+      if (a.verseIndex > b.verseIndex) return 1;
+      if (a.verseIndex < b.verseIndex) return -1;
+      return 0;
+    });
+    let text = "";
+    let vIndex = Number(verseIndex);
+    for (let c = 0, l = localVerses.length; c < l; c++) {
+      if (c >= vIndex - 2 && c <= vIndex + 2) text += verses[c].verse + " ";
+    }
+    return {
+      text,
+    };
+  }
   getBooks(): any {
     const books = {};
     this.bibleData.forEach((row) => {
@@ -388,8 +399,16 @@ export class BibleDemoApp {
         apiToken: this.byVerseAPIToken,
         sessionId: this.byVerseSessionId,
       };
-    }
-    if (this.embedding_type_select.selectedIndex === 1) {
+    } else if (this.embedding_type_select.selectedIndex === 1) {
+      return {
+        topK: 10,
+        includeK: 10,
+        include: "verseChunk",
+        pineconeDB: "verse",
+        apiToken: this.byVerseAPIToken,
+        sessionId: this.byVerseSessionId,
+      };
+    } else if (this.embedding_type_select.selectedIndex === 2) {
       return {
         topK: 10,
         includeK: 10,
@@ -398,16 +417,16 @@ export class BibleDemoApp {
         apiToken: this.byVerseAPIToken,
         sessionId: this.byVerseSessionId,
       };
+    } else {
+      return {
+        topK: 2,
+        includeK: 2,
+        include: "chapter",
+        pineconeDB: "chapter",
+        apiToken: this.byChapterToken,
+        sessionId: this.byChapterSessionId,
+      };
     }
-
-    return {
-      topK: 2,
-      includeK: 2,
-      include: "chapter",
-      pineconeDB: "chapter",
-      apiToken: this.byChapterToken,
-      sessionId: this.byChapterSessionId,
-    };
   }
   async sendPromptToLLM(): Promise<string> {
     this.saveLocalStorage();
@@ -422,10 +441,7 @@ export class BibleDemoApp {
     if (!result.success) {
       console.log("error", result);
       return result.errorMessage;
-    } else {
-      console.log(result);
     }
-
     let matches: any[] = result.matches;
     if (queryDetails.topK !== queryDetails.includeK) {
       matches = [result.matches[0]];
@@ -443,8 +459,8 @@ export class BibleDemoApp {
     const prompt = this.embedPrompt(message, matches, queryDetails);
     const diagram = this.embedding_diagram_img.src;
     this.summary_details.innerHTML = `<a target="_blank" class="embedding_diagram_anchor" href="${diagram}"><img style="width:100px;float:right" class="embedding_diagram_img" src="${diagram}" alt=""></a>
-    <label>Granularity Level</label>: ${this.embedding_type_select.selectedIndex < 2 ? "Verse" : "Chapter"}<br>
-    <label>Small to Big</label>: ${this.embedding_type_select.selectedIndex === 0 ? "True" : "False"}<br>
+    <label>Granularity Level</label>: ${this.embedding_type_select.selectedIndex < 3 ? "Verse" : "Chapter"}<br>
+    <label>Small to Big</label>: ${this.embedding_type_select.selectedIndex < 2 ? "True" : "False"}<br>
     <label>Top K</label>: ${queryDetails.topK}<br>
     <label>Include K</label>: ${queryDetails.includeK}<br><br>
     <label>Full Raw Prompt</label>: <div class="raw_prompt">${prompt}</div><br>`;
@@ -468,8 +484,6 @@ export class BibleDemoApp {
     if (!promptResult.success) {
       console.log("error", promptResult);
       return result.errorMessage;
-    } else {
-      console.log(promptResult);
     }
     if (promptResult.assist.error) {
       return promptResult.assist.error;
@@ -489,7 +503,6 @@ export class BibleDemoApp {
       merge.id = match.id;
       merge.matchIndex = index;
       merge.text = this.getTextForMatch(match, queryDetails);
-      console.log(merge);
       documentsEmbedText += (<any>docT)(merge);
     });
 
@@ -502,9 +515,11 @@ export class BibleDemoApp {
   getTextForMatch(match: any, queryDetails: any) {
     if (queryDetails.include === "chapter") {
       return this.getChapter(match.metadata.bookIndex, match.metadata.chapterIndex).text;
+    } else if (queryDetails.include === "verseChunk") {
+      return this.getVersesChunk(match.metadata.bookIndex, match.metadata.chapterIndex, match.metadata.verseIndex).text;
+    } else {
+      return this.getVerse(match.metadata.bookIndex, match.metadata.chapterIndex, match.metadata.verseIndex).text;
     }
-    // else return the verse
-    return this.getVerse(match.metadata.bookIndex, match.metadata.chapterIndex, match.metadata.verseIndex).text;
   }
   populatePromptTemplates(templateIndex: number = -1) {
     if (templateIndex < 0) templateIndex = this.prompt_template_select_preset.selectedIndex;
@@ -513,7 +528,6 @@ export class BibleDemoApp {
     this.document_template_text_area.value = promptTemplates[templateIndex].documentPrompt;
     this.saveLocalStorage();
   }
-
   saveLocalStorage() {
     localStorage.setItem("templateIndex", this.prompt_template_select_preset.selectedIndex);
     localStorage.setItem("queryIndex", this.embedding_type_select.selectedIndex);
