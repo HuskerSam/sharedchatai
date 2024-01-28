@@ -77,7 +77,7 @@ export class AIArchiveDemoApp {
             });
 
             this.analyze_prompt_button.removeAttribute("disabled");
-            this.analyze_prompt_button.innerHTML = `<span class="material-icons-outlined">
+            this.analyze_prompt_button.innerHTML = `<span class="material-icons-outlined mt-1">
         send
         </span>`;
             this.running = false;
