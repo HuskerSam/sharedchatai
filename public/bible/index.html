@@ -190,10 +190,7 @@
 
       <div class="tab-pane fade text-start heightflex" id="augmented_template_view" role="tabpanel"
         aria-labelledby="augmented_template_button" style="overflow: auto;overflow-x: hidden;">
-        <div class="text-center" style="padding:4px">
-          <button class="reset_template_options_button btn btn-warning">&nbsp; Reset Templates &nbsp;</button>
-        </div>
-        <div class="row gap-2" style="justify-content:space-evenly">
+        <div class="row gap-2 py-3" style="justify-content:space-evenly">
           <div class="d-flex flex-column col-11 col-lg-6 gap-3">
             <label>Prompt Template: </label>
             <select class="form-select prompt_template_select_preset">
@@ -227,9 +224,12 @@
               <a target="_blank" class="embedding_diagram_anchor text-center">
                 <figure class="figure border rounded">
                   <img src="" class="figure-img img-fluid rounded embedding_diagram_img p-3" alt="">
-                  <figcaption class="figure-caption link-primary text-decoration-underline">Modify what text is matched and embedded</figcaption>
+                  <figcaption class="figure-caption link-primary text-decoration-underline embedding_diagram_img_caption"></figcaption>
                 </figure>
               </a>
+            </div>
+            <div class="text-center" style="padding:4px">
+              <button class="reset_template_options_button btn btn-warning w-100">&nbsp; Reset Templates &nbsp;</button>
             </div>
           </div>
         </div>

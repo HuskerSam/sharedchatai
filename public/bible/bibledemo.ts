@@ -17,6 +17,7 @@ export class BibleDemoApp {
   embedding_type_select: any = document.body.querySelector(".embedding_type_select");
   embedding_diagram_img: any = document.body.querySelector(".embedding_diagram_img");
   embedding_diagram_anchor: any = document.body.querySelector(".embedding_diagram_anchor");
+  embedding_diagram_img_caption: any = document.body.querySelector(".embedding_diagram_img_caption");
   prompt_template_text_area: any = document.body.querySelector(".prompt_template_text_area");
   document_template_text_area: any = document.body.querySelector(".document_template_text_area");
   prompt_template_select_preset: any = document.body.querySelector(".prompt_template_select_preset");
@@ -159,15 +160,19 @@ export class BibleDemoApp {
     if (this.embedding_type_select.selectedIndex === 0) {
       this.embedding_diagram_img.src = "img/ragChapterVerses.png";
       this.embedding_diagram_anchor.href = "img/ragChapterVerses.png";
+      this.embedding_diagram_img_caption.innerHTML = "match most relevant verse, embed full chapter";
     } else if (this.embedding_type_select.selectedIndex === 1) {
       this.embedding_diagram_img.src = "img/ragChunks.png";
       this.embedding_diagram_anchor.href = "img/ragChunks.png";
+      this.embedding_diagram_img_caption.innerHTML = "match most relevant verse, embed surrounding verses";
     } else if (this.embedding_type_select.selectedIndex === 2) {
       this.embedding_diagram_img.src = "img/ragVerses.png";
       this.embedding_diagram_anchor.href = "img/ragVerses.png";
+      this.embedding_diagram_img_caption.innerHTML = "embed top matching verses";
     } else if (this.embedding_type_select.selectedIndex === 3) {
       this.embedding_diagram_img.src = "img/ragChapters.png";
       this.embedding_diagram_anchor.href = "img/ragChapters.png";
+      this.embedding_diagram_img_caption.innerHTML = "embed top matching chapter";
     }
   }
   async getMatchingVectors(message: string, topK: number, apiToken: string, sessionId: string): Promise<any> {
