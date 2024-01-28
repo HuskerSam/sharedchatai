@@ -402,7 +402,7 @@ export class BibleDemoApp {
     } else if (this.embedding_type_select.selectedIndex === 1) {
       return {
         topK: 10,
-        includeK: 10,
+        includeK: 5,
         include: "verseChunk",
         pineconeDB: "verse",
         apiToken: this.byVerseAPIToken,
