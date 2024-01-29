@@ -578,12 +578,12 @@ This context serves as the source of inspiration for a poem based on the followi
 `,
   },
   {
-    mainPrompt: `Use Bible verses below as context:
+    mainPrompt: `You are a relationship advice columnist. Use Bible verses below as context:
 ---------------------
 {{documents}}
 ---------------------
 
-Use the context for relationship advice as it relates to the following prompt:
+Refer to lessons from context to give relationship advice for the following situation:
     {{prompt}}`,
     documentPrompt: `{{title}}:
 {{text}}
