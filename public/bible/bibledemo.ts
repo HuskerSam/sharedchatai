@@ -13,7 +13,6 @@ export class BibleDemoApp {
   full_augmented_prompt_button = document.body.querySelector("#full_augmented_prompt_button") as HTMLButtonElement;
   full_augmented_response_button = document.body.querySelector("#full_augmented_response_button") as HTMLButtonElement;
   augmented_template_button = document.body.querySelector("#augmented_template_button") as HTMLButtonElement;
-learn_tab_button = document.body.querySelector("#learn_tab_button") as HTMLButtonElement;
   embedding_type_select: any = document.body.querySelector(".embedding_type_select");
   embedding_diagram_img: any = document.body.querySelector(".embedding_diagram_img");
   embedding_diagram_anchor: any = document.body.querySelector(".embedding_diagram_anchor");
@@ -114,9 +113,6 @@ learn_tab_button = document.body.querySelector("#learn_tab_button") as HTMLButto
       this.btn_close.click();
     });
     this.augmented_template_button.addEventListener("click", () => {
-      this.btn_close.click();
-    });
-this.learn_tab_button.addEventListener("click", () => {
       this.btn_close.click();
     });
 
