@@ -541,27 +541,15 @@ export class BibleDemoApp {
 
 const promptTemplates = [
   {
-    mainPrompt: `Biblical context information is below.
+    mainPrompt: `Use Bible verses below as context:
 ---------------------
  {{documents}}
 ---------------------
-Given the context information, answer user query using biblical language.
+Given the context information and using biblical language, provide guidance to the following prompt:
 Query: {{prompt}}
 Answer:`,
     documentPrompt: `({{title}}):
 {{text}}
-
-`,
-  },
-  {
-    mainPrompt: `Summarize in list fashion the following biblical chapters or verses:
-    {{documents}}
-    
-Cite and Explain how it relates to the following prompt:
-    {{prompt}}`,
-    documentPrompt: `({{title}}):
-{{text}}
-
 `,
   },
   {
@@ -578,10 +566,11 @@ Please respond with json and only json in this format:
 `,
   },
   {
-    mainPrompt: `The following Bible chapters serve as a source of inspiration for a poem:
-    {{documents}}
-
-Your task is to input biblical references into functioning parts of the poem:
+    mainPrompt: `Use Bible verses below as context: 
+---------------------
+{{documents}}
+---------------------
+This context serves as the source of inspiration for a poem based on the following prompt:
     {{prompt}}`,
     documentPrompt: `{{title}}:
 {{text}}
@@ -589,10 +578,12 @@ Your task is to input biblical references into functioning parts of the poem:
 `,
   },
   {
-    mainPrompt: `The following biblical chapters explore the concept of love:
-    {{documents}}
-    
-    Express biblical love in the following relationship advice prompt; cite the bible in your answer:
+    mainPrompt: `Use Bible verses below as context:
+---------------------
+{{documents}}
+---------------------
+
+Use the context for relationship advice as it relates to the following prompt:
     {{prompt}}`,
     documentPrompt: `{{title}}:
 {{text}}
@@ -600,10 +591,12 @@ Your task is to input biblical references into functioning parts of the poem:
 `,
   },
   {
-    mainPrompt: ` Draw heartwarming lessons from the following biblical accounts:
-    {{documents}}
+    mainPrompt: `Use Bible verses below as context:
+---------------------
+{{documents}}
+---------------------
     
-From these lessons, tell a charming, funny tale for kids around the following prompt:
+Using this context, tell a charming, funny tale for kids around the following prompt:
     {{prompt}}`,
     documentPrompt: `{{title}}:
 {{text}}
