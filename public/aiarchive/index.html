@@ -166,7 +166,7 @@
             <figure class="figure border rounded">
               <img class="p-3 img-fluid" src="img/chunk_sentences.png" alt="verse retrieval diagram"
                 style="width: 600px;">
-              <figcaption class="figure-caption text-center">Loading and Indexing chapters
+              <figcaption class="figure-caption text-center">Loading and Indexing articles
               </figcaption>
             </figure>
           </a>
@@ -226,11 +226,60 @@
     </div>
     <div class="tab-pane fade text-start heightflex" id="learn_tab_view" role="tabpanel"
       aria-labelledby="learn_tab_button">
-      <div class="d-flex flex-column heightflex" style="background-image: var(--bs-gradient);">
-        <div class="text-start py-1 d-flex flex-column gap-2" style="overflow: auto;">
-
-
-        </div>
+      <div class="heightflex" style="overflow: auto;">
+        <p class="lead">Preparing the Semantic Database</p>
+        <figure class="figure">
+          <img class="p-3 img-fluid" src="img/chunk_sentencesEXP.png" alt="verse retrieval diagram"
+            style="width: 600px;">
+          <figcaption class="figure-caption text-center">Loading Pinecone with chunks of text
+          </figcaption>
+        </figure>
+        <p>
+          <ol>
+            <li>Pre-process data to prepare documents; for this example we used <a href="https://huggingface.co/datasets/jamescalam/ai-arxiv-chunked">
+              ai-arxiv-chunked</a></li>
+            <li>Chunks contained 14 sentences, created by adding 2 succeeding and preceding sentences to each 10 sentence chunk</li>
+            <li>text-embedding-ada-002 was used to vectorize chunks, allowing for semantic search</li>
+            <li>These vector embeddings and associated metadata were stored in Pinecone Database</li>
+          </ol> 
+        </p>
+        <p class="lead">Querying Database for Augmented Generation</p>
+        <p>
+          Users have two options for how to query the database, depicted in the 2 diagrams below:
+        </p>
+        <p>
+          Step 1-3 are the same on both diagrams: 
+          <ol>
+            <li>User enters a query as a prompt</li>
+            <li>query sent through text-embedding-ada-002, creates vector embedding</li>
+            <li>prompt vectors are compared to database to determine most similar</li>
+          </ol> 
+        </p>
+        <figure class="figure">
+          <img class="p-3 img-fluid" src="img/rag_basicEXP.png" alt="verse retrieval diagram"
+            style="width: 600px;">
+          <figcaption class="figure-caption text-center">
+          </figcaption>
+        </figure>
+        <p>
+          The figure above shows the "basic" RAG pipeline, where a number of similar chunks are injected "as is" into the prompt.<br>
+          <span class="ms-2">4. 5 chunks are injected based on prompt template</span><br>
+          <span class="ms-2">5. augmented prompt is sent to LLM for result</span><br><br>
+          Depending on the use case, however we may want to add additional context to the match chunk. 
+        </p>
+        <figure class="figure">
+          <img class="p-3 img-fluid" src="img/rag_stbEXP.png" alt="verse retrieval diagram"
+            style="width: 600px;">
+          <figcaption class="figure-caption text-center">
+          </figcaption>
+        </figure>
+        <p>
+          The figure demonstrates how to add additional context, a technique often referred to as "small to big."<br>
+          <span class="ms-2">4. #1 match of the top 5 results is used retrieve additional context</span><br>
+          <span class="ms-2">5. retrieve surrounding context</span><br>
+          <span class="ms-2">6. inject retrieved text (original chunk + expanded context) into prompt</span><br>
+          <span class="ms-2">7. augmented prompt is sent to LLM for result</span><br><br>
+        </p>
       </div>
     </div>
     <footer class="text-muted text-center small pt-1">
