@@ -320,13 +320,24 @@ export class AIArchiveDemoApp {
 
 const promptTemplates = [
     {
-        mainPrompt: `Context information is below.
+        mainPrompt: `You are an AI research assistant. Your job is to answer my prompt based on the context information provided below:
 ---------------------
 {{documents}}
 ---------------------
-Given the context information, answer the query.
-Query: {{prompt}}
-Answer:`,
+Answer the following prompt:
+Prompt: {{prompt}}`,
+        documentPrompt: `({{title}}):
+  {{text}}
+  `,
+    },
+    {
+        mainPrompt: `You are an AI research assistant. Your job is to answer my prompt based on the context information provided below:
+---------------------
+{{documents}}
+---------------------
+
+Answer the following prompt using the provided context only, do not use pre-training; if you cannot answer the question, please state that you cannot answer the question:
+Prompt: {{prompt}}`,
         documentPrompt: `({{title}}):
   {{text}}
   `,
