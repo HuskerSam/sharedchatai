@@ -80,7 +80,6 @@ export default class BaseApp {
   sessionDeleting = false;
   isSessionApp = false;
   rtdbInstance = getDatabase(getApp());
-  signin_cta_content: any = null;
 
   documentId = "";
   memberRefreshBufferTime = 500;
@@ -162,13 +161,6 @@ export default class BaseApp {
       this.buy_credits_cta_btn.addEventListener("click", (e: any) => {
         e.preventDefault();
         this.buyCredits.show();
-      });
-    }
-    this.signin_cta_content = document.querySelector(".signin_cta_content");
-    if (this.signin_cta_content) {
-      this.signin_cta_content.addEventListener("click", (e: any) => {
-        e.preventDefault();
-        this.login.show();
       });
     }
   }
