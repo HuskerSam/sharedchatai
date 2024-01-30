@@ -546,8 +546,7 @@ const promptTemplates = [
  {{documents}}
 ---------------------
 Given the context information and using biblical language, provide guidance to the following prompt:
-Query: {{prompt}}
-Answer:`,
+{{prompt}}`,
     documentPrompt: `({{title}}):
 {{text}}
 `,
