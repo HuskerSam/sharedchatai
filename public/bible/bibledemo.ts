@@ -469,8 +469,8 @@ export class BibleDemoApp {
 
     const body = {
       message: prompt,
-      apiToken: this.byVerseAPIToken,
-      sessionId: this.byVerseSessionId,
+      apiToken: queryDetails.apiToken,
+      sessionId: queryDetails.sessionId,
     };
     const fetchResults = await fetch(this.promptUrl, {
       method: "POST",
