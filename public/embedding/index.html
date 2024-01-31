@@ -25,6 +25,58 @@
     <div class="main_wrapper app_panel">
         <div class="standard_header_bar_container"></div>
         <div class="signed_out_options_block" style="overflow:auto; overflow-x: hidden;">
+            <section>
+                <div class="container-xl col-xl-12 col-xxl-10 px-4 px-lg-0 pb-5">
+                    <div class="row align-items-center g-lg-5 py-5">
+                        <div class="col-xl-6 text-center text-xl-start">
+                            <h3 class="display-5 fw-bold lh-1 mb-5">Leave us message to get started.</h3>
+                            <p class="col-xl-10 fs-4">Our team is currently seeking exciting projects involving
+                                LLM pipeline work, including embedding vector databases or API results into LLM
+                                prompt templates.</p>
+                            <p class="lead mb-5">We promise get back to you in under 24.</p>
+                        </div>
+                        <div class="mx-auto col-xl-6">
+                            <form onsubmit="event.preventDefault(); return false;"
+                                class="contact_us_form p-4 p-md-5 border rounded-3 bg-light">
+                                <h5 class="card-title">Free Discovery</h5>
+                                <p class="card-text">Connect with us for a no-charge initial discovery
+                                    consultation.</p>
+                                <div class="row g-3">
+                                    <div class="col-lg-6">
+                                        <label for="name" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="name">
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="email" class="form-label">Email*</label>
+                                        <input type="email" class="form-control" id="email" required>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="organization" class="form-label">Organization</label>
+                                        <input type="text" class="form-control" id="organization">
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="reason" class="form-label">Reason for Contact*</label>
+                                        <select class="form-select" id="reason" required>
+                                            <option selected value="0">I need a LLM pipeline</option>
+                                            <option value="1">I need a Pinecone database loaded</option>
+                                            <option value="2">I need firebase integration</option>
+                                            <option value="3">I need a multi-user application</option>
+                                            <option value="3">Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="message" class="form-label">Message*</label>
+                                        <textarea class="form-control" id="message" rows="5" required></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn-primary contact_us_btn w-50">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
             <section class="py-5 text-dark rounded" style="background: linear-gradient(to right, #f9f9f9, #e9ecef);">
                 <div class="container">
                     <div class="row justify-content-center">
@@ -40,48 +92,13 @@
                     </div>
                 </div>
             </section>
-            <section class="container">
-                <div class="container my-4">
-                    <div class="row justify-content-center">
-                        <div class="col-10">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title text-center">Spotlight</h5>
-                                    <hr>
-                                    <p class="card-text text-center">We're currently seeking exciting projects involving
-                                        LLM pipeline work, including embedding vector databases or API results into LLM
-                                        prompt templates.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
             <section class="container my-4">
                 <div class="container mt-4">
-                    <div class="row mt-4">
-                        <div class="col-md-4 mb-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">API Implementation</h5>
-                                    <p class="card-text"></p>
-                                </div>
-                            </div>
-                        </div>
-
+                    <div class="row mt-5">
                         <div class="col-md-4 mb-4">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">LLM Integration</h5>
-                                    <p class="card-text"></p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4 mb-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Payment Processing</h5>
                                     <p class="card-text"></p>
                                 </div>
                             </div>
@@ -103,71 +120,71 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Google Sheets</h5>
-                                    <p class="card-text"></p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </section>
             <section>
                 <div class="container">
-                    <div class="col">
-                        <div class="card text-center p-3 mb-5 bg-light">
-                            <div class="card-body">
-                                <h5 class="card-title">Free Consultation</h5>
-                                <p class="card-text">Connect with our experts for a no-charge initial discovery
-                                    consultation. Discuss your project now!</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section>
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-12 text-start">
-                            <form onsubmit="event.preventDefault(); return false;" class="contact_us_form bg-light rounded p-4 shadow-sm">
-                                <div class="row g-3">
-                                    <div class="col-lg-6">
-                                        <label for="name" class="form-label">Name</label>
-                                        <input type="text" class="form-control" id="name">
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <label for="email" class="form-label">Email*</label>
-                                        <input type="email" class="form-control" id="email" required>
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="organization" class="form-label">Organization</label>
-                                        <input type="text" class="form-control" id="organization">
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="reason" class="form-label">Reason for Contact</label>
-                                        <select class="form-select" id="reason">
-                                            <option selected value="0">I need a LLM pipeline</option>
-                                            <option value="1">I need a Pinecone database loaded</option>
-                                            <option value="2">I need firebase integration</option>
-                                            <option value="3">I need a multi-user application</option>
-                                            <option value="3">Other</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="message" class="form-label">Message*</label>
-                                        <textarea class="form-control" id="message" rows="5" required></textarea>
-                                    </div>
-                                    <div class="col-12">
-                                        <button class="btn btn-primary contact_us_btn">Submit</button>
-                                    </div>
+                    <div class="row align-items-md-stretch">
+                        <p class="lead text-start">See recent examples:</p>
+                        <div class="col-md-6">
+                          <div class="h-100 p-5 text-white bg-dark rounded-3">
+                            <div class="text-center d-flex flex-column gap-3 justify-content-center py-4">
+                                <div class="d-flex flex-column gap-1 text-center">
+                                    <p class="mb-0 lead fw-light" style="font-size: 1em;">Experience RAG</p>
+                                    <h4 class="mb-0">AI Research Library Example</h4>
                                 </div>
-                            </form>
+                                <div>
+                                    <ul class="my-1 rounded text-start">
+                                        <li>Dataset used <img src="/images/briggs-reference-dataset.png" alt=""
+                                                style="width: 250px;"></li>
+                                        <li>Access over 420 AI research papers</li>
+                                        <li>Adjust template to modify chatbot results</li>
+                                    </ul>
+                                </div>
+                                <div class="d-flex flex-row justify-content-center">
+                                    <a href="/aiarchive" class="btn btn-primary">AI Papers Demo <svg
+                                            xmlns="http://www.w3.org/2000/svg" width="18" height="35"
+                                            fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd"
+                                                d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z">
+                                            </path>
+                                        </svg></a>
+                                </div>
+                            </div>
+                          </div>
                         </div>
-                    </div>
+                        <div class="col-md-6">
+                          <div class="h-100 p-5 text-white bg-dark border rounded-3">
+                            <div class="text-center d-flex flex-column gap-3 justify-content-center py-4">
+                                <div class="d-flex flex-column gap-1 text-center">
+                                    <p class="mb-0 lead fw-light" style="font-size: 1em;">Learn Pipelines</p>
+                                    <h4 class="mb-0">Explore ESV Bible with RAG</h4>
+                                </div>
+                                <div>
+                                    <ul class="my-1 rounded text-start">
+                                        <li>Receive an augmented bible response</li>
+                                        <li>Search most relevant chapter/verse</li>
+                                        <li>4 RAG Pipelines to explore</li>
+                                    </ul>
+                                </div>
+                                <div class="d-flex flex-row justify-content-center">
+                                    <a href="/bible" class="btn btn-primary">Bible GPT demo
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="35"
+                                            fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd"
+                                                d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z">
+                                            </path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                 </div>
             </section>
+
 
             <div class="standard_footer_bar_container"></div>
         </div>
