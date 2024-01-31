@@ -29,11 +29,14 @@
                 <div class="container-xl col-xl-12 col-xxl-10 px-4 px-lg-0 pb-5">
                     <div class="row align-items-center g-lg-5 py-4">
                         <div class="col-xl-6 text-center text-xl-start">
-                            <h3 class="display-5 fw-bold lh-1 mb-5">Leave us message to get started.</h3>
-                            <p class="col-xl-10 fs-4">Our team is currently seeking exciting projects involving
+                            <h3 class="display-5 fw-bold lh-1 mb-5" style="width:100%;text-align:center;"><span style="color:blue">
+                            Need semantic search powered AI today?</span>
+                                <br>
+                                <br>Leave us a message.</h3>
+                                <br><br>
+                            <p class="col-xl-10 fs-4" style="display:inline-block;text-align: center;">Our team is currently seeking exciting projects involving
                                 LLM pipeline work, including embedding vector databases or API results into LLM
                                 prompt templates.</p>
-                            <p class="lead mb-5">We promise get back to you in under 24.</p>
                         </div>
                         <div class="mx-auto col-xl-6 col-md-10">
                             <form onsubmit="event.preventDefault(); return false;"
@@ -244,7 +247,7 @@
                         data-bs-toggle="dropdown" aria-expanded="false">
                         Actions
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="embeddingOptionsDropdown_btn">
+                    <ul class="dropdown-menu" aria-labelledby="embeddingOptionsDropdown_btn" style="columns:2">
                         <li>
                             <a class="dropdown-item add_project_btn" href="addproject">
                                 Add Project</a>
@@ -258,11 +261,12 @@
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item vector_inspect_dialog_btn" href="publish"> Inspect Vector </a>
-                        </li>
-                        <li>
                             <a class="dropdown-item publish_pinecone_dialog_btn" href="publish"> Connected Sessions
                             </a>
+                        </li>
+                        <li></li>
+                        <li>
+                            <a class="dropdown-item vector_inspect_dialog_btn" href="publish"> Inspect Vector </a>
                         </li>
                         <li>
                             <a class="dropdown-item test_pinecone_dialog_btn" href="testpinecone"> Symantec Query </a>
