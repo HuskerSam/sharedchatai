@@ -182,7 +182,7 @@ export default class BaseApp {
     await addDoc(mailRef, {
       to: ["sam.huelsdonk@gmail.com", "lhoang91@gmail.com"],
       message: {
-        subject: "Unacog Contact Request!",
+        subject: `Contact Request from ${email} - Unacog`,
         text: `name: ${name}\nemail: ${email}\nmessage:${message}\norganization:${organization}\nreason:${reason}`,
       }
     });
