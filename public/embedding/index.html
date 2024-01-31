@@ -25,9 +25,9 @@
     <div class="main_wrapper app_panel">
         <div class="standard_header_bar_container"></div>
         <div class="signed_out_options_block" style="overflow:auto; overflow-x: hidden;">
-            <section>
+            <section id="cta_form">
                 <div class="container-xl col-xl-12 col-xxl-10 px-4 px-lg-0 pb-5">
-                    <div class="row align-items-center g-lg-5 py-5">
+                    <div class="row align-items-center g-lg-5 py-4">
                         <div class="col-xl-6 text-center text-xl-start">
                             <h3 class="display-5 fw-bold lh-1 mb-5">Leave us message to get started.</h3>
                             <p class="col-xl-10 fs-4">Our team is currently seeking exciting projects involving
@@ -35,12 +35,9 @@
                                 prompt templates.</p>
                             <p class="lead mb-5">We promise get back to you in under 24.</p>
                         </div>
-                        <div class="mx-auto col-xl-6">
+                        <div class="mx-auto col-xl-6 col-md-10">
                             <form onsubmit="event.preventDefault(); return false;"
-                                class="contact_us_form p-4 p-md-5 border rounded-3 bg-light">
-                                <h5 class="card-title">Free Discovery</h5>
-                                <p class="card-text">Connect with us for a no-charge initial discovery
-                                    consultation.</p>
+                                class="contact_us_form p-4 p-md-5 border rounded-3 bg-light shadow-sm">
                                 <div class="row g-3">
                                     <div class="col-lg-6">
                                         <label for="name" class="form-label">Name</label>
@@ -77,7 +74,7 @@
                     </div>
                 </div>
             </section>
-            <section class="py-5 text-dark rounded" style="background: linear-gradient(to right, #f9f9f9, #e9ecef);">
+            <section class="py-5" style="background: linear-gradient(to right, #f9f9f9, #e9ecef);">
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-xl-8 col-lg-10 col-12" data-cues="zoomIn" data-group="page-title"
@@ -103,7 +100,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="col-md-4 mb-4">
                             <div class="card">
                                 <div class="card-body">
@@ -120,19 +116,46 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">API Implementation</h5>
+                                    <p class="card-text"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Software Architecture</h5>
+                                    <p class="card-text"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Firebase Implementation</h5>
+                                    <p class="card-text"></p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
             <section>
                 <div class="container">
-                    <div class="row align-items-md-stretch">
-                        <p class="lead text-start">See recent examples:</p>
-                        <div class="col-md-6">
-                          <div class="h-100 p-5 text-white bg-dark rounded-3">
-                            <div class="text-center d-flex flex-column gap-3 justify-content-center py-4">
+                    <div class="row align-items-md-stretch g-3">
+                        <div class="col-lg-6">
+                          <div class="h-100 p-5 border rounded-3 m-lg-0 m-3" style="position: relative;">
+                            <div class="text-center d-flex flex-column gap-3 justify-content-center py-2">
                                 <div class="d-flex flex-column gap-1 text-center">
-                                    <p class="mb-0 lead fw-light" style="font-size: 1em;">Experience RAG</p>
+                                    <p class="mb-0 lead fw-light" style="font-size: 1em;">Recent Examples</p>
                                     <h4 class="mb-0">AI Research Library Example</h4>
+                                </div>
+                                <div class="p-3" style="background: white; padding:1em;">
+                                    <div class="ai_demo_bg_img" style="min-height: 250px;">&nbsp;</div>
+                                    <div class="figure-caption pt-3">Querying the Pinecone Index</div>
                                 </div>
                                 <div>
                                     <ul class="my-1 rounded text-start">
@@ -154,12 +177,16 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-6">
-                          <div class="h-100 p-5 text-white bg-dark border rounded-3">
-                            <div class="text-center d-flex flex-column gap-3 justify-content-center py-4">
+                        <div class="col-lg-6">
+                          <div class="h-100 p-5 border rounded-3 m-lg-0 m-3">
+                            <div class="text-center d-flex flex-column gap-3 justify-content-center py-2">
                                 <div class="d-flex flex-column gap-1 text-center">
-                                    <p class="mb-0 lead fw-light" style="font-size: 1em;">Learn Pipelines</p>
+                                    <p class="mb-0 lead fw-light" style="font-size: 1em;">Recent Examples</p>
                                     <h4 class="mb-0">Explore ESV Bible with RAG</h4>
+                                </div>
+                                <div class="p-3" style="background: white; padding:1em;">
+                                    <div class="bible_demo_bg_img" style="min-height: 250px;">&nbsp;</div>
+                                    <div class="figure-caption pt-3">Querying the Pinecone Index</div>
                                 </div>
                                 <div>
                                     <ul class="my-1 rounded text-start">
@@ -184,8 +211,14 @@
                       </div>
                 </div>
             </section>
-
-
+            <section class="py-5 my-5" style="background: linear-gradient(to right, #f9f9f9, #e9ecef);">
+                <div class="container">
+                    <h5 class="card-title">Ready to get started?</h5>
+                    <p class="card-text">Connect with us for a no-charge initial discovery
+                        consultation.</p>
+                    <a class="btn btn-success" href="#cta_form">Get in Contact</a>
+                </div>
+            </section>
             <div class="standard_footer_bar_container"></div>
         </div>
         <div class="embedding_second_header_bar signed_in_flex">
