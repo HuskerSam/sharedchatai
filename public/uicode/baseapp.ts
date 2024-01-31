@@ -167,19 +167,26 @@ export default class BaseApp {
       });
     }
     if (this.contact_us_btn) {
-      this.contact_us_btn.addEventListener("click", async () => {
-        console.log("contact us clicked");
-        const mailRef = collection(getFirestore(), `email`);
-        await addDoc(mailRef, {
-          to: ["sam.huelsdonk@gmail.com", "lhoang91@gmail.com"],
-          message: {
-            subject: "Hello from Firebase!",
-            text: "This is the plaintext section of the email body.",
-            html: "This is the <code>HTML</code> section of the email body.",
-          }
-        });
-      });
+      this.contact_us_btn.addEventListener("click", () => this.handleContactRequest());
     }
+  }
+  /** */
+  async handleContactRequest() {
+    console.log("contact us sent");
+    const name = (document.getElementById("name") as any).value;
+    const email = (document.getElementById("email") as any).value;
+    const message = (document.getElementById("message") as any).value;
+    const organization = (document.getElementById("organization") as any).value;
+    const reason = (document.getElementById("reason") as any).value;
+    const mailRef = collection(getFirestore(), `email`);
+    await addDoc(mailRef, {
+      to: ["sam.huelsdonk@gmail.com", "lhoang91@gmail.com"],
+      message: {
+        subject: `Contact Request from ${email} - Unacog`,
+        text: `name: ${name}\nemail: ${email}\nmessage:${message}\norganization:${organization}\nreason:${reason}`,
+      }
+    });
+    location.reload();
   }
   /** asynchronous loads - data setup  */
   async load() {
