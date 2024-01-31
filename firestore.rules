@@ -52,6 +52,10 @@ service cloud.firestore {
     match /Users/{userId}/paymentHistory/{document=**} {
       allow read: if request.auth != null && request.auth.uid == userId
     }
+    
+    match /email/{id} {
+      allow write: if true;
+    }
 
     match /{document=**} {
       allow read, write: if false;

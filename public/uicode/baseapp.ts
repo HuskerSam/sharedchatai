@@ -23,6 +23,8 @@ import {
   getDoc,
   onSnapshot,
   getFirestore,
+  collection,
+  addDoc,
 } from "firebase/firestore";
 import {
   getDatabase,
@@ -88,6 +90,7 @@ export default class BaseApp {
   profile_menu_anchor: any = null;
   standard_header_bar_container: any = document.querySelector(".standard_header_bar_container");
   standard_footer_bar_container: any = document.querySelector(".standard_footer_bar_container");
+  contact_us_btn: any = document.querySelector(".contact_us_btn");
 
   show_profile_modal: any;
   isOfflineForDatabase = {
@@ -161,6 +164,20 @@ export default class BaseApp {
       this.buy_credits_cta_btn.addEventListener("click", (e: any) => {
         e.preventDefault();
         this.buyCredits.show();
+      });
+    }
+    if (this.contact_us_btn) {
+      this.contact_us_btn.addEventListener("click", async () => {
+        console.log("contact us clicked");
+        const mailRef = collection(getFirestore(), `email`);
+        await addDoc(mailRef, {
+          to: ["sam.huelsdonk@gmail.com", "lhoang91@gmail.com"],
+          message: {
+            subject: "Hello from Firebase!",
+            text: "This is the plaintext section of the email body.",
+            html: "This is the <code>HTML</code> section of the email body.",
+          }
+        });
       });
     }
   }

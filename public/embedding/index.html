@@ -112,14 +112,44 @@
             </section>
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-md-8">
+                    <div class="col-md-6 col">
                         <div class="card text-center p-3 mb-5 bg-light">
                           <div class="card-body">
                             <h5 class="card-title">Free Consultation</h5>
                             <p class="card-text">Connect with our experts for a no-charge initial discovery consultation. Discuss your project now!</p>
-                            <a href="#" class="btn btn-primary">Schedule Now</a>
                           </div>
                         </div>
+                    </div>
+                    <div class="col-md-6 col">
+                        <form class="contact_us_form">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="organization" class="form-label">Organization</label>
+                                <input type="text" class="form-control" id="organization">
+                            </div>
+                            <div class="mb-3">
+                                <label for="reason" class="form-label">Reason for Contact</label>
+                                <select class="form-select" id="reason" required>
+                                    <option selected disabled value="">I need a LLM pipeline</option>
+                                    <option value="1">I need a Pinecone database loaded</option>
+                                    <option value="2">I need firebase integration</option>
+                                    <option value="3">I need a multi-user application</option>
+                                    <option value="3">I just want to say hi :]</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Message</label>
+                                <textarea class="form-control" id="message" rows="3" required></textarea>
+                            </div>
+                            <button class="btn btn-primary contact_us_btn">Submit</button>
+                        </form>
                     </div>
                 </div>
               </div>
