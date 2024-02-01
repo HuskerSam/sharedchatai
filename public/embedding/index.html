@@ -25,23 +25,21 @@
     <div class="main_wrapper app_panel">
         <div class="standard_header_bar_container"></div>
         <div class="signed_out_options_block" style="overflow:auto; overflow-x: hidden;">
-            <section id="cta_form" class="">
+            <section id="cta_form" class="py-5 bg-light">
                 <div class="container-xl col-xl-12 col-xxl-10 px-4 px-lg-0 pb-5">
-                    <div class="row align-items-center g-lg-5 py-5">
-                        <div class="col-xl-6 text-center text-xl-start">
-                            <h3 class="display-5 fw-bold lh-1 mb-5" style="width:100%;text-align:center;"><span
-                                    style="color:blue">
-                                    Need semantic search powered AI today?</span>
-                                <br>
-                                <br>
-                                <span style="width:90%;text-align:right">Leave us a message.</span>
+                    <div class="row align-items-center g-lg-5">
+                        <div class="col-xl-6 text-center text-xl-start py-4">
+                            <h3 class="display-4 fw-bold lh-1 mb-4" style="color:blue">Need semantic search powered AI
+                                today?
                             </h3>
-                            <br><br>
-
+                            <p class="col-md-11 mx-auto fs-4 my-4 text-muted">We deliver RAG and API pipeline solutions
+                                using LLM
+                                prompt templates, Pinecone vector databases and OpenAI models (mostly).</p>
+                            <p class="display-6 fw-bold mb-3 lh-1 text-secondary">Leave us a message.</p>
                         </div>
                         <div class="mx-auto col-xl-6 col-md-10">
                             <form onsubmit="event.preventDefault(); return false;"
-                                class="contact_us_form p-4 p-md-5 border rounded-3 bg-light shadow-sm">
+                                class="contact_us_form p-4 p-md-5 border rounded-3 bg-lighter shadow-sm">
                                 <div class="row g-3">
                                     <div class="col-lg-6">
                                         <label for="name" class="form-label">Name</label>
@@ -57,7 +55,8 @@
                                     </div>
                                     <div class="col-12">
                                         <label for="reason" class="form-label">Reason for Contact*</label>
-                                        <select class="form-select" id="reason" style="border: 1px solid lightgray" required>
+                                        <select class="form-select" id="reason" style="border: 1px solid lightgray"
+                                            required>
                                             <option selected>I need a LLM pipeline</option>
                                             <option>I need a Pinecone database loaded</option>
                                             <option>I need firebase integration</option>
@@ -79,11 +78,68 @@
                 </div>
             </section>
             <section class="py-5">
-                <div class="container">
-                    <p class="col-xl-10 fs-3" style="display:inline-block;text-align: center;">We deliver RAG and API
-                        pipeline solutions using LLM prompt templates, Pinecone vector databases and OpenAI models
-                        (mostly).</p>
-                </div>
+                <div class="container position-relative zindex-2 pt-2 pt-sm-3 pt-md-4 pt-lg-5 mt-xl-3">
+                    <h2 class="h1 text-center pb-1 mb-2">Streamlining Complex Processes</h2>
+                    <p class="fs-lg text-center pb-lg-2">Transforming data management with custom AI solutions</p>
+                    <div
+                        class="row align-items-center justify-content-center py-4 py-md-5 my-1 my-sm-3 my-md-0 my-xl-3">
+                        <div
+                            class="col-12 col-sm-10 col-md-8 col-lg-7 offset-lg-1 order-md-2 pb-2 pb-sm-3 pb-md-0 mb-4 mb-md-0">
+                            <img src="/images/embed_ss.png" class="d-block mx-lg-auto img-fluid"
+                                style="max-width: 560px;">
+                        </div>
+                        <div class="col-md-4 col-xl-3 offset-xl-1 order-md-1 text-center text-md-start">
+                            <h3 class="h2 mb-lg-4">Chunk and Upsert Tool for Pinecone</h3>
+                            <p class="fs-lg pb-lg-2 mb-4">Upsert and converts text chunks into vectors, allowing you to
+                                load these vectors into the Pinecone vector database efficiently</p>
+                            <p>Support for meta_fields. These fields like 'title',
+                                'url', 'bookIndex', etc., are available in the prompt template document handlebars
+                                fields. Not only does this provide more context to your search, but it also enables more
+                                advanced search features.</p>
+                        </div>
+                    </div>
+                    <div
+                        class="row align-items-center justify-content-center justify-content-md-start py-4 py-md-5 my-2 my-sm-3 my-md-0 my-xl-3">
+                        <div class="col-11 col-sm-9 col-md-7 col-lg-6 pb-2 pb-sm-3 pb-md-0 mb-4 mb-md-0">
+                            <img src="/images/embed_option.png" class="d-block mx-lg-auto img-fluid"
+                                style="max-width: 400px;">
+                        </div>
+                        <div class="col-md-5 col-xl-4 offset-lg-1 text-center text-md-start">
+                            <h3 class="h2 mb-lg-4">Tasks automation</h3>
+                            <p class="fs-lg pb-lg-2 mb-4"> For the embedding/project options, you can either scrape data
+                                or import it from CSV or JSON files. The tool can chunk this imported data and generate
+                                chunked IDs. Alternatively, you can chunk the data before uploading to save on
+                                processing time.</p>
+                        </div>
+                    </div>
+                    <div
+                        class="row align-items-center justify-content-center py-4 py-md-5 my-2 my-sm-3 my-md-0 my-xl-3">
+                        <div
+                            class="col-12 col-sm-10 col-md-8 col-lg-7 offset-lg-1 order-md-2 pb-2 pb-sm-3 pb-md-0 mb-4 mb-md-0">
+                            <img src="/images/embed_chat.png" class="d-block mx-lg-auto img-fluid"
+                                style="max-width: 560px;">
+                        </div>
+                        <div class="col-md-4 col-xl-3 offset-xl-1 order-md-1 text-center text-md-start">
+                            <h3 class="h2 mb-lg-4">Advanced chat bot</h3>
+                            <p class="fs-lg pb-lg-2 mb-4">Tie Pinecone/Vector/Semantic search database to LLM using a
+                                prompt template</p>
+                            <p>See all details such as returned chunks and scores for each result.</p>
+                        </div>
+                    </div>
+                    <div
+                        class="row align-items-center justify-content-center justify-content-md-start py-4 py-md-5 my-2 my-sm-3 my-md-0 my-xl-3">
+                        <div class="col-11 col-sm-9 col-md-7 col-lg-6 pb-2 pb-sm-3 pb-md-0 mb-4 mb-md-0">
+                            <img src="/images/embed_chat_options.png" class="d-block mx-lg-auto img-fluid"
+                                style="max-width: 400px;">
+                        </div>
+                        <div class="col-md-5 col-xl-4 offset-lg-1 text-center text-md-start">
+                            <h3 class="h2 mb-lg-4">Using the Results</h3>
+                            <p class="fs-lg pb-lg-2 mb-4">Export Session settings with an API secret for use on your own
+                                site</p>
+                            <p class="fs-lg pb-lg-2 mb-4">Retain all settings such as model, top_k, temperature, context
+                                limit, and more.</p>
+                        </div>
+                    </div>
             </section>
             <section class="py-2 mb-5" style="background: linear-gradient(to right, #f9f9f9, #e9ecef);">
                 <div class="container mt-4">
@@ -91,7 +147,7 @@
                         <div class="col-md-4 mb-4">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">LLM Integration</h5>
+                                    <h5 class="card-title">No Code LLM Pipeline</h5>
                                     <p class="card-text"></p>
                                 </div>
                             </div>
@@ -99,7 +155,7 @@
                         <div class="col-md-4 mb-4">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Real-time Data</h5>
+                                    <h5 class="card-title">LLM Testing & Debugger</h5>
                                     <p class="card-text"></p>
                                 </div>
                             </div>
@@ -107,23 +163,7 @@
                         <div class="col-md-4 mb-4">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Dynamic Templates</h5>
-                                    <p class="card-text"></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Multi-user Functionality</h5>
-                                    <p class="card-text"></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Upserting Embedded Vectors</h5>
+                                    <h5 class="card-title">Chunk and Upserter</h5>
                                     <p class="card-text"></p>
                                 </div>
                             </div>
@@ -131,27 +171,15 @@
                     </div>
                 </div>
             </section>
-            <section  class="py-5">
-                <div class="container-xl col-xl-12 col-xxl-10 px-4 px-lg-0">
-                    <div class="row flex-lg-row-reverse align-items-center g-5 py-5 text-start">
-                      <div class="col-10 col-sm-8 col-lg-6">
-                        <img src="/images/embed_ss.png" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
-                      </div>
-                      <div class="col-lg-6">
-                        <h1 class="display-5 fw-bold lh-1 mb-3">Built for RAG</h1>
-                        <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi iure, consectetur tempore accusantium officiis laborum dolorum ex voluptatum veniam ducimus fugiat dolore voluptas eius fugit aspernatur explicabo ipsum quae iusto!</p>
-                      </div>
-                    </div>
-                  </div>
-            </section>
-            <section  class="py-5">
+            <section class="py-5">
                 <div class="container">
+                    <h2 class="text-center mb-4">Examples built with Unacog</h2>
                     <div class="row align-items-md-stretch g-3">
                         <div class="col-lg-6">
                             <div class="h-100 p-5 border rounded-3 m-lg-0 m-3" style="position: relative;">
                                 <div class="text-center d-flex flex-column gap-3 justify-content-center py-2">
                                     <div class="d-flex flex-column gap-1 text-center">
-                                        <p class="mb-0 lead fw-light" style="font-size: 1em;">Recent Examples</p>
+                                        <p class="mb-0 lead fw-light" style="font-size: 1em;">Recent Demo</p>
                                         <h4 class="mb-0">AI Research Library Example</h4>
                                     </div>
                                     <div class="p-3" style="background: white; padding:1em;">
@@ -182,7 +210,7 @@
                             <div class="h-100 p-5 border rounded-3 m-lg-0 m-3">
                                 <div class="text-center d-flex flex-column gap-3 justify-content-center py-2">
                                     <div class="d-flex flex-column gap-1 text-center">
-                                        <p class="mb-0 lead fw-light" style="font-size: 1em;">Recent Examples</p>
+                                        <p class="mb-0 lead fw-light" style="font-size: 1em;">Recent Demo</p>
                                         <h4 class="mb-0">Explore ESV Bible with RAG</h4>
                                     </div>
                                     <div class="p-3" style="background: white; padding:1em;">
