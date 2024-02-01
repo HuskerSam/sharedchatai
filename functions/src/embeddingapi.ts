@@ -47,6 +47,7 @@ export default class EmbeddingAPI {
             const chunkingType = req.body.chunkingType;
             const sentenceWindow = req.body.sentenceWindow;
             const singleRowId = req.body.singleRowId;
+            const serverType = req.body.serverType;
             let rowCount = Number(req.body.rowCount);
             if (isNaN(rowCount)) rowCount = 1;
             if (rowCount < 1) rowCount = 1;
@@ -58,20 +59,31 @@ export default class EmbeddingAPI {
             const indexList: any = await pinecone.listIndexes();
             if (!EmbeddingAPI.testIfIndexExists(indexList, pineconeIndex)) {
                 try {
-                    await pinecone.createIndex({
+                    const body: any = {
                         name: pineconeIndex,
                         dimension: 1536,
                         metric: "cosine",
                         waitUntilReady: true,
                         suppressConflicts: true,
-                        spec: {
+                    };
+                    if (serverType === "Serverless") {
+                        body.spec = {
+                            serverless: {
+                                "cloud": "aws",
+                                "region": pineconeEnvironment,
+                            },
+                        };
+                    } else {
+                        body.spec = {
                             pod: {
                                 environment: pineconeEnvironment,
                                 pods: 1,
                                 podType: "p1.x1",
                             },
-                        },
-                    });
+                        };
+                    }
+
+                    await pinecone.createIndex(body);
                 } catch (createError: any) {
                     return BaseClass.respondError(res, createError.message, createError);
                 }

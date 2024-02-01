@@ -293,7 +293,7 @@ Respond to this prompt:
     if (chunkingType === "sentence") {
       return SharedWithBackend.sentenceTextIntoChunks(sentenceWindow, fullText);
     }
-
+console.log(chunkingType);
     if (chunkingType === "none") {
       return [{
         text: fullText,

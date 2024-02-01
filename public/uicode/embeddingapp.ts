@@ -104,6 +104,7 @@ export class EmbeddingApp extends BaseApp {
     pineconeChunkSize = 1000;
     includeTextInMeta = false;
     sentenceWindow = 1;
+    serverType = "Serverless";
     tableColumns = [
         {
             title: "",
@@ -418,14 +419,15 @@ export class EmbeddingApp extends BaseApp {
             this.dialogEmbeddingOptions.props.hooks.setIncludeTextInMeta(this.includeTextInMeta);
             this.dialogEmbeddingOptions.props.hooks.setChunkingType(this.chunkingType);
             this.dialogEmbeddingOptions.props.hooks.setSentenceWindow(this.sentenceWindow);
+            this.dialogEmbeddingOptions.props.hooks.setServerType(this.serverType);
 
             this.dialogEmbeddingOptions.props.hooks.deleteIndex =
                 () => this.deleteIndex();
             this.dialogEmbeddingOptions.props.hooks.savePineconeOptions =
-                (pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string,
+                (serverType: string, pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string,
                     pineconeChunkSize: number, includeTextInMeta: boolean,
                     chunkingType: string, sentenceWindow: number) =>
-                    this.savePineconeOptions(pineconeIndex, pineconeKey, pineconeEnvironment, pineconeChunkSize,
+                    this.savePineconeOptions(serverType, pineconeIndex, pineconeKey, pineconeEnvironment, pineconeChunkSize,
                         includeTextInMeta, chunkingType, sentenceWindow);
             this.dialogEmbeddingOptions.props.hooks.setShow(true);
         });
@@ -805,6 +807,7 @@ export class EmbeddingApp extends BaseApp {
         this.includeTextInMeta = false;
         this.chunkingType = "size";
         this.sentenceWindow = 1;
+        this.serverType = "Serverless";
 
         if (this.selectedProjectId) {
             const projectSettings = this.embeddingProjects[this.selectedProjectId];
@@ -816,6 +819,7 @@ export class EmbeddingApp extends BaseApp {
                 if (projectSettings.includeTextInMeta !== undefined) this.includeTextInMeta = projectSettings.includeTextInMeta;
                 if (projectSettings.chunkingType !== undefined) this.chunkingType = projectSettings.chunkingType;
                 if (projectSettings.sentenceWindow !== undefined) this.sentenceWindow = projectSettings.sentenceWindow;
+                if (projectSettings.serverType !== undefined) this.serverType = projectSettings.serverType;
             }
         }
     }
@@ -886,6 +890,7 @@ export class EmbeddingApp extends BaseApp {
         });
     }
     /**
+     * @param { string } serverType
      * @param { string } pineconeIndex
      * @param { string } pineconeKey
      * @param { string } pineconeEnvironment
@@ -894,8 +899,9 @@ export class EmbeddingApp extends BaseApp {
      * @param { string } chunkingType
      * @param { number } sentenceWindow
      */
-    async savePineconeOptions(pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string,
+    async savePineconeOptions(serverType: string, pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string,
         pineconeChunkSize: number, includeTextInMeta: boolean, chunkingType: string, sentenceWindow: number) {
+        this.serverType = serverType;
         this.pineconeIndex = pineconeIndex;
         this.pineconeKey = pineconeKey;
         this.pineconeEnvironment = pineconeEnvironment;
@@ -905,6 +911,7 @@ export class EmbeddingApp extends BaseApp {
         this.sentenceWindow = sentenceWindow;
 
         await Promise.all([
+            this.saveEmbeddingField("serverType", serverType),
             this.saveEmbeddingField("pineconeIndex", pineconeIndex),
             this.saveEmbeddingField("pineconeKey", pineconeKey),
             this.saveEmbeddingField("pineconeEnvironment", pineconeEnvironment),
@@ -1014,6 +1021,7 @@ export class EmbeddingApp extends BaseApp {
             includeTextInMeta: this.includeTextInMeta,
             chunkingType: this.chunkingType,
             sentenceWindow: this.sentenceWindow,
+            serverType: this.serverType,
             rowCount,
             singleRowId,
         };
