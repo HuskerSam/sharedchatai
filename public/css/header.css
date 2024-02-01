@@ -87,7 +87,7 @@ button.shared_status_withothers,
     position: fixed;
     right: 4px;
     z-index: 1000;
-    top: 10px;
+    top: 4px;
     color: var(--primary-color-2);
     border-color: transparent;
 }

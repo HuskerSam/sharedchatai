@@ -17,7 +17,7 @@ export default class HeaderBar extends React.Component {
   render() {
     return (<nav className="navbar navbar-light navbar_wrapper">
       <ul className="navbar-nav container-fluid d-flex flex-row justify-content-end justify-content-sm-between container"
-        style={{ padding: "0" }}>
+        style={{ padding: "0", minHeight: "65px" }}>
         <li className="navbar_logo_li">
           <a className="navbar_brand" style={{ textDecoration: "none" }}>
             <span className="navbar_logo"></span>

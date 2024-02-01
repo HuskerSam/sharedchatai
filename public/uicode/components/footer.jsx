@@ -29,7 +29,7 @@ export default class FooterBar extends React.Component {
                             <a href="/content/privacy/" className="">Privacy</a>
                             &nbsp;
                             &nbsp;
-                            <a className="" href="/content/pricing/">Pricing</a>
+                            <a className="" href="/about/#pricing">Pricing</a>
                             &nbsp;
                             &nbsp;
                         </div>
