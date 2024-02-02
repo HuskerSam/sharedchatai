@@ -113,6 +113,7 @@ export default function DialogEmbeddingOptions(props) {
                                             <option value="none">None</option>
                                             <option value="size">By Size (tokens)</option>
                                             <option value="sentence">By Sentence</option>
+                                            <option value="recursivetextsplitter">Recursive Text Splitter</option>
                                         </Form.Select>
                                     </td>
                                     <td></td>

@@ -27,6 +27,7 @@
     "gpt-tokenizer": "^2.1.2",
     "handlebars": "^4.7.8",
     "jsdom": "^22.1.0",
+    "langchain": "^0.1.12",
     "openai": "^4.20.1",
     "papaparse": "^5.4.1",
     "pdf2json": "^3.0.5",

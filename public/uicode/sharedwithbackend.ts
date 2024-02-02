@@ -2,6 +2,7 @@ import {
   encode,
 } from "gpt-tokenizer";
 import mediaContent from "./mediacontent.json";
+import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 
 const newsList = mediaContent;
 const models: any = {
@@ -293,7 +294,9 @@ Respond to this prompt:
     if (chunkingType === "sentence") {
       return SharedWithBackend.sentenceTextIntoChunks(sentenceWindow, fullText);
     }
-console.log(chunkingType);
+    if (chunkingType === "recursivetextsplitter") {
+      return SharedWithBackend.recursiveSplitTextIntoChunks(fullText, 400, 30, ["\n\n", "\n", " ", ""]);
+    }
     if (chunkingType === "none") {
       return [{
         text: fullText,
@@ -302,6 +305,32 @@ console.log(chunkingType);
     }
 
     return [];
+  }
+  /**
+ * @param { string } fullText
+ * @param { number } chunkSize
+ * @param { number } chunkOverlap
+ * @param { string[] } separators
+ * @return { Promise<Array<any>> }
+ */
+  static async recursiveSplitTextIntoChunks(fullText: string, chunkSize: number, chunkOverlap: number,
+    separators: string[]): Promise<Array<any>> {
+    const splitter = new RecursiveCharacterTextSplitter({
+      chunkSize,
+      chunkOverlap,
+      separators,
+      lengthFunction: (str) => encode(str).length,
+    });
+    const chunks = await splitter.splitText(fullText);
+    const resultChunks: Array<any> = [];
+    chunks.forEach((chunk: string) => {
+      resultChunks.push({
+        text: chunk,
+        textSize: chunk.length,
+      });
+    });
+
+    return resultChunks;
   }
   /**
    * @param { number } sentenceWindow
