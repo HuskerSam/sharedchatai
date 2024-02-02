@@ -556,7 +556,7 @@ export class EmbeddingApp extends BaseApp {
 
             this.watchProjectList();
         }
-        this.csvUploadDocumentsTabulator.redraw();
+        if (this.csvUploadDocumentsTabulator) this.csvUploadDocumentsTabulator.redraw();
     }
     /** */
     async deleteIndex() {
