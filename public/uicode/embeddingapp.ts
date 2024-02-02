@@ -905,7 +905,7 @@ export class EmbeddingApp extends BaseApp {
      * @param { number } overlap
      * @param { string } separators
      */
-    async savePineconeOptions(serverType: string, pineconeIndex: string, pineconeKey: string, 
+    async savePineconeOptions(serverType: string, pineconeIndex: string, pineconeKey: string,
         pineconeEnvironment: string, pineconeChunkSize: number, includeTextInMeta: boolean,
         chunkingType: string, overlap: number, separators: string) {
         this.serverType = serverType;

@@ -537,7 +537,7 @@ export default class EmbeddingAPI {
         }
         let encodingCredits = 0;
         let encodingTokens = 0;
-        const tempResults: any[] = await Promise.all(promises);                
+        const tempResults: any[] = await Promise.all(promises);
         const embeddings = tempResults.map((chunk: any) => chunk.pEmbedding);
         await pIndex.upsert(embeddings);
         upsertResults = upsertResults.concat(tempResults);
