@@ -301,11 +301,11 @@ export class EmbeddingApp extends BaseApp {
         });
         this.upload_embedding_documents_btn.addEventListener("click", async (e: any) => {
             e.preventDefault();
-            const loop = this.upsert_next_loop_checkbox.checked;
             const condition = true;
             while (condition) {
                 if (this.newUpsertDocumentCount > 0) {
                     await this.upsertTableRowsToPinecone();
+                    const loop = this.upsert_next_loop_checkbox.checked;
                     if (!loop) break;
                 } else {
                     break;

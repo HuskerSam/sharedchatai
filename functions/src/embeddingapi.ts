@@ -107,7 +107,7 @@ export default class EmbeddingAPI {
                     // get oldest 50 new
                     const nextQuery = await firebaseAdmin.firestore()
                         .collection(`Users/${uid}/embedding/${projectId}/data`)
-                        .where(`status`, "!=", "Done")
+                        .where(`status`, "==", "New")
                         .orderBy("status")
                         .limit(rowCount)
                         .get();
@@ -383,7 +383,7 @@ export default class EmbeddingAPI {
      * @param { boolean } includeTextInMeta
      * @return { Promise<any> }
      */
-    static async upsertChunkToPinecone(chunk: any, chatGptKey: string, uid: string,
+    static async prepChunkForPinecone(chunk: any, chatGptKey: string, uid: string,
         id: string, title: string, url: string, pIndex: any,
         additionalMetaData: any = {}, includeTextInMeta = true): Promise<any> {
         const text = chunk.text;
@@ -409,10 +409,6 @@ export default class EmbeddingAPI {
             values: embedding,
             id: id,
         };
-
-        await pIndex.upsert([
-            pEmbedding,
-        ]);
 
         return {
             pEmbedding,
@@ -526,20 +522,24 @@ export default class EmbeddingAPI {
             let pId = id;
             const paddedIndex = ("0000" + (index + 1)).slice(-5);
             if (chunkCount > 1) pId += "_" + paddedIndex + "_" + chunkCount;
-            promises.push(EmbeddingAPI.upsertChunkToPinecone(chunk, chatGptKey, uid,
+            promises.push(EmbeddingAPI.prepChunkForPinecone(chunk, chatGptKey, uid,
                 pId, title, url, pIndex, additionalMetaData, includeTextInMeta));
             idList.push(pId);
             chunkMap[pId] = chunk.text;
 
-            if (promises.length >= 10) {
+            if (promises.length >= 50) {
                 const tempResults: any[] = await Promise.all(promises);
+                const embeddings = tempResults.map((chunk: any) => chunk.pEmbedding);
+                await pIndex.upsert(embeddings);
                 upsertResults = upsertResults.concat(tempResults);
                 promises = [];
             }
         }
         let encodingCredits = 0;
         let encodingTokens = 0;
-        const tempResults: any[] = await Promise.all(promises);
+        const tempResults: any[] = await Promise.all(promises);                
+        const embeddings = tempResults.map((chunk: any) => chunk.pEmbedding);
+        await pIndex.upsert(embeddings);
         upsertResults = upsertResults.concat(tempResults);
         upsertResults.forEach((result: any) => {
             encodingTokens += result.encodingTokens;
@@ -646,10 +646,9 @@ export default class EmbeddingAPI {
                 }),
             });
             fullResult = await response.json();
-            console.log(fullResult);
             vectorResult = fullResult["data"][0]["embedding"];
             encodingTokens = fullResult.usage.total_tokens;
-            const modelMeta = SharedWithBackend.getModelMeta("text-embedding-ada-002");
+            const modelMeta = SharedWithBackend.getModelMeta("text-embedding-3-small");
             encodingCredits = encodingTokens * modelMeta.input;
 
             await BaseClass._updateCreditUsageForUser(uid, "", "", encodingTokens, encodingTokens, 0, encodingCredits);
