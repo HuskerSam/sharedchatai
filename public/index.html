@@ -120,15 +120,15 @@
                                             </path>
                                         </svg>
                                     </a>
-                                    <a href="#"
-                                    class="icon-link icon-link-hover see_demo_button" style="margin-top:14px;">
-                                    <span>Learn More</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                                        fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd"
-                                            d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z">
-                                        </path>
-                                    </svg>
+                                    <a href="#" class="icon-link icon-link-hover see_demo_button"
+                                        style="margin-top:14px;">
+                                        <span>Learn More</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                            fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd"
+                                                d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z">
+                                            </path>
+                                        </svg>
                                     </a>
                                 </div>
                             </div>
@@ -208,7 +208,8 @@
             </section>
             <section class="pb-5">
                 <div class="container position-relative zindex-2 pt-2 pt-sm-3 pt-md-4 pt-lg-5 mt-xl-3">
-                    <h3 class="display-6 px-md-4">Create LLM bots that retrieve relevant context automatically<br></h3>
+                    <h3 class="display-5 px-md-4">Create LLM bots that retrieve relevant context automatically<br><br>
+                    </h3>
                     <div class="row g-4 py-5 justify-content-center">
                         <div class="col mt-md-0">
                             <img src="/images/openai-cir.png" alt="OpenAI logo" style="width:32px;"><img
@@ -244,7 +245,8 @@
                                 <li class="list-group-item">Metadata (like 'title', 'url', 'bookIndex', etc.) are
                                     available in document prompt template as handlebars fields, providing more context
                                     and advanced search features</li>
-                                <li class="list-group-item">Generate text lookup database, useful for small to big pipelines or text was not included in metadata</li>
+                                <li class="list-group-item">Generate text lookup database, useful for small to big
+                                    pipelines or text was not included in metadata</li>
                             </ul>
                         </div>
                     </div>
@@ -258,34 +260,39 @@
                             <ul class="list-group list-group-flush my-1 bg-light rounded text-start fs-lg">
                                 <li class="list-group-item">Pod Server or Serverless Configuration supported</li>
                                 <li class="list-group-item">Chunks are sized by sentence or token count</li>
-                                <li class="list-group-item">Chunk overlapping options are available to retain context</li>
+                                <li class="list-group-item">Chunk overlapping options are available to retain context
+                                </li>
                                 <li class="list-group-item">Option to include source text in metadata</li>
                             </ul>
                         </div>
                     </div>
                     <div
-                        class="row align-items-center justify-content-center py-4 py-md-5 my-2 my-sm-3 my-md-0 my-xl-3">
-                        <div
-                            class="col-12 col-sm-10 col-md-8 col-lg-7 offset-lg-1 order-md-2 pb-2 pb-sm-3 pb-md-0 mb-4 mb-md-0">
-                            <img src="/images/embed_chat.png" class="d-block mx-auto img-fluid">
-                        </div>
-                        <div class="col-md-4 col-xl-3 offset-xl-1 order-md-1 text-center text-md-start">
+                        class="row align-items-center justify-content-center py-4 py-md-5 my-1 my-sm-3 my-md-0 my-xl-3">
+                        <div class="col-md-4 col-lg-5 order-md-1 text-center text-md-start">
                             <h3 class="h2 mb-lg-4">LLM Prompts that embed semantic results</h3>
                             <ul class="list-group list-group-flush my-1 bg-light rounded text-start fs-lg">
                                 <li class="list-group-item">Create sessions that are connected to your Pinecone Index
                                 </li>
-                                <li class="list-group-item">Use prompt templates to embed data and guide LLM response</li>
-                                <li class="list-group-item">See semantic result details such as similarity score, metadata, and source text for
-                                    each result.</li>
-                                <li class="list-group-item">Manage the LLM context limit by setting an embedding limit to determine the number of semantic results embedded in the prompt</li>
+                                <li class="list-group-item">Use prompt templates to embed data and guide LLM response
+                                </li>
+                                <li class="list-group-item">See semantic result details such as similarity score,
+                                    metadata, and source text for each result.</li>
+                                <li class="list-group-item">Manage the LLM context limit by setting an embedding limit
+                                    to determine the number of semantic results embedded in the prompt</li>
                             </ul>
                         </div>
+                        <div class="col-12 col-md-8 col-lg-6 order-md-2 pb-2 offset-lg-1 pb-sm-3 pb-md-0 mb-4 mb-md-0">
+                            <img src="/images/embed_chat.png" class="d-block mx-auto img-fluid">
+                        </div>
                     </div>
+                </div>
+
             </section>
             <section class="py-5 homepage_section homepage_section_background">
                 <div class="container">
                     <div class="row align-items-center">
-                        <h3 class="display-5 text-center pt-4 pb-1 mb-3">End to end testing for semantic search engine or chatbot. Use us to iterate or as infrastructure</h3>
+                        <h3 class="display-5 text-center pt-4 pb-1 mb-3">End to end testing for semantic search engine
+                            or chatbot. Use us to iterate or as infrastructure</h3>
                     </div>
                     <div class="row pt-4 pb-5">
                         <div class="col-md-4 mb-4">
@@ -298,7 +305,7 @@
                         </div>
                         <div class="col-md-4 mb-4">
                             <div class="card">
-                                <div class="card-body"> 
+                                <div class="card-body">
                                     <h5 class="card-title">RAG Enabled</h5>
                                     <p class="card-text"></p>
                                 </div>
