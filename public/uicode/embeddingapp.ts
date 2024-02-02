@@ -79,7 +79,7 @@ export class EmbeddingApp extends BaseApp {
     watchProjectListFirestore: any = null;
     fileListToUpload: Array<any> = [];
     parsedTextChunks: Array<string> = [];
-    csvUploadDocumentsTabulator: any = null;
+    csvUploadDocumentsTabulator: TabulatorFull;
     usageWatchInited = false;
     vectorQueryRunning = false;
     indexDeleteRunning = false;
@@ -556,6 +556,7 @@ export class EmbeddingApp extends BaseApp {
 
             this.watchProjectList();
         }
+        this.csvUploadDocumentsTabulator.redraw();
     }
     /** */
     async deleteIndex() {
@@ -928,6 +929,7 @@ export class EmbeddingApp extends BaseApp {
             this.saveEmbeddingField("overlap", overlap),
             this.saveEmbeddingField("separators", separators),
         ]);
+        this.csvUploadDocumentsTabulator.redraw();
     }
     /**
  * @param { any } updateData
