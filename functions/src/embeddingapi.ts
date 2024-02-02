@@ -45,7 +45,8 @@ export default class EmbeddingAPI {
             const includeTextInMeta = req.body.includeTextInMeta === true;
             const projectId = req.body.projectId;
             const chunkingType = req.body.chunkingType;
-            const sentenceWindow = req.body.sentenceWindow;
+            const overlap = req.body.overlap;
+            const separators = req.body.separators;
             const singleRowId = req.body.singleRowId;
             const serverType = req.body.serverType;
             let rowCount = Number(req.body.rowCount);
@@ -101,7 +102,7 @@ export default class EmbeddingAPI {
                     let doc = singleQuery.data();
                     if (!doc) doc = {};
                     promises.push(EmbeddingAPI.upsertFileData(doc, chatGptKey,
-                        uid, pIndex, tokenThreshold, includeTextInMeta, chunkingType, sentenceWindow));
+                        uid, pIndex, tokenThreshold, includeTextInMeta, chunkingType, overlap, separators));
                 } else {
                     // get oldest 50 new
                     const nextQuery = await firebaseAdmin.firestore()
@@ -114,7 +115,7 @@ export default class EmbeddingAPI {
 
                     nextQuery.forEach((doc: any) => {
                         promises.push(EmbeddingAPI.upsertFileData(doc.data(), chatGptKey,
-                            uid, pIndex, tokenThreshold, includeTextInMeta, chunkingType, sentenceWindow));
+                            uid, pIndex, tokenThreshold, includeTextInMeta, chunkingType, overlap, separators));
                     });
                 }
                 fileUploadResults = await Promise.all(promises);
@@ -430,14 +431,16 @@ export default class EmbeddingAPI {
      * @param { number } tokenThreshold
      * @param { boolean } includeTextInMeta
      * @param { string } chunkingType
-     * @param { number } sentenceWindow
+     * @param { number } overlap
+     * @param { string } separators
      * @return { any } success: true - otherwise errorMessage: string is in map
     */
     static async upsertFileData(fileDesc: any, chatGptKey: string, uid: string, pIndex: any,
-        tokenThreshold: number, includeTextInMeta: boolean, chunkingType: string, sentenceWindow: number) {
+        tokenThreshold: number, includeTextInMeta: boolean, chunkingType: string, overlap: number,
+        separators: string) {
         try {
             return await EmbeddingAPI._upsertFileData(fileDesc, chatGptKey, uid,
-                pIndex, tokenThreshold, includeTextInMeta, chunkingType, sentenceWindow);
+                pIndex, tokenThreshold, includeTextInMeta, chunkingType, overlap, separators);
         } catch (error: any) {
             return {
                 id: fileDesc.id,
@@ -455,11 +458,13 @@ export default class EmbeddingAPI {
      * @param { number } tokenThreshold
      * @param { boolean } includeTextInMeta
      * @param { string } chunkingType
-     * @param { number } sentenceWindow
+     * @param { number } overlap
+     * @param { string } separators
      * @return { any } success: true - otherwise errorMessage: string is in map
     */
     static async _upsertFileData(fileDesc: any, chatGptKey: string, uid: string, pIndex: any,
-        tokenThreshold: number, includeTextInMeta: boolean, chunkingType: string, sentenceWindow: number) {
+        tokenThreshold: number, includeTextInMeta: boolean, chunkingType: string, overlap: number,
+        separators: string) {
         const id = fileDesc.id;
         if (id === "") {
             return {
@@ -507,7 +512,7 @@ export default class EmbeddingAPI {
         });
 
         const textChunks = await SharedWithBackend.parseBreakTextIntoChunks(tokenThreshold, chunkingType,
-            sentenceWindow, text);
+            overlap, separators, text);
         const overrideTitle = fileDesc.title.trim();
         if (overrideTitle !== "") title = overrideTitle;
         if (title === "") title = url.substring(0, 100);

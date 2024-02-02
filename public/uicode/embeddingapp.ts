@@ -101,9 +101,10 @@ export class EmbeddingApp extends BaseApp {
     pineconeEnvironment = "";
     pineconeKey = "";
     chunkingType = "size";
-    pineconeChunkSize = 1000;
+    pineconeChunkSize = 200;
     includeTextInMeta = false;
-    sentenceWindow = 1;
+    overlap = 20;
+    separators = "";
     serverType = "Serverless";
     tableColumns = [
         {
@@ -418,7 +419,8 @@ export class EmbeddingApp extends BaseApp {
             this.dialogEmbeddingOptions.props.hooks.setPineconeChunkSize(this.pineconeChunkSize);
             this.dialogEmbeddingOptions.props.hooks.setIncludeTextInMeta(this.includeTextInMeta);
             this.dialogEmbeddingOptions.props.hooks.setChunkingType(this.chunkingType);
-            this.dialogEmbeddingOptions.props.hooks.setSentenceWindow(this.sentenceWindow);
+            this.dialogEmbeddingOptions.props.hooks.setOverlap(this.overlap);
+            this.dialogEmbeddingOptions.props.hooks.setSeparators(this.separators);
             this.dialogEmbeddingOptions.props.hooks.setServerType(this.serverType);
 
             this.dialogEmbeddingOptions.props.hooks.deleteIndex =
@@ -426,9 +428,9 @@ export class EmbeddingApp extends BaseApp {
             this.dialogEmbeddingOptions.props.hooks.savePineconeOptions =
                 (serverType: string, pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string,
                     pineconeChunkSize: number, includeTextInMeta: boolean,
-                    chunkingType: string, sentenceWindow: number) =>
+                    chunkingType: string, overlap: number, separators: string) =>
                     this.savePineconeOptions(serverType, pineconeIndex, pineconeKey, pineconeEnvironment, pineconeChunkSize,
-                        includeTextInMeta, chunkingType, sentenceWindow);
+                        includeTextInMeta, chunkingType, overlap, separators);
             this.dialogEmbeddingOptions.props.hooks.setShow(true);
         });
 
@@ -803,10 +805,11 @@ export class EmbeddingApp extends BaseApp {
         this.pineconeIndex = "";
         this.pineconeKey = "";
         this.pineconeEnvironment = "";
-        this.pineconeChunkSize = 0;
+        this.pineconeChunkSize = 200;
         this.includeTextInMeta = false;
         this.chunkingType = "size";
-        this.sentenceWindow = 1;
+        this.overlap = 20;
+        this.separators = `["\\n\\n", "\\n", " ", ""]`;
         this.serverType = "Serverless";
 
         if (this.selectedProjectId) {
@@ -818,7 +821,8 @@ export class EmbeddingApp extends BaseApp {
                 if (projectSettings.pineconeChunkSize !== undefined) this.pineconeChunkSize = projectSettings.pineconeChunkSize;
                 if (projectSettings.includeTextInMeta !== undefined) this.includeTextInMeta = projectSettings.includeTextInMeta;
                 if (projectSettings.chunkingType !== undefined) this.chunkingType = projectSettings.chunkingType;
-                if (projectSettings.sentenceWindow !== undefined) this.sentenceWindow = projectSettings.sentenceWindow;
+                if (projectSettings.overlap !== undefined) this.overlap = projectSettings.overlap;
+                if (projectSettings.separators !== undefined) this.separators = projectSettings.separators;
                 if (projectSettings.serverType !== undefined) this.serverType = projectSettings.serverType;
             }
         }
@@ -897,10 +901,12 @@ export class EmbeddingApp extends BaseApp {
      * @param { number } pineconeChunkSize
      * @param { boolean } includeTextInMeta
      * @param { string } chunkingType
-     * @param { number } sentenceWindow
+     * @param { number } overlap
+     * @param { string } separators
      */
-    async savePineconeOptions(serverType: string, pineconeIndex: string, pineconeKey: string, pineconeEnvironment: string,
-        pineconeChunkSize: number, includeTextInMeta: boolean, chunkingType: string, sentenceWindow: number) {
+    async savePineconeOptions(serverType: string, pineconeIndex: string, pineconeKey: string, 
+        pineconeEnvironment: string, pineconeChunkSize: number, includeTextInMeta: boolean,
+        chunkingType: string, overlap: number, separators: string) {
         this.serverType = serverType;
         this.pineconeIndex = pineconeIndex;
         this.pineconeKey = pineconeKey;
@@ -908,7 +914,8 @@ export class EmbeddingApp extends BaseApp {
         this.pineconeChunkSize = pineconeChunkSize;
         this.includeTextInMeta = includeTextInMeta;
         this.chunkingType = chunkingType;
-        this.sentenceWindow = sentenceWindow;
+        this.overlap = overlap;
+        this.separators = separators;
 
         await Promise.all([
             this.saveEmbeddingField("serverType", serverType),
@@ -918,7 +925,8 @@ export class EmbeddingApp extends BaseApp {
             this.saveEmbeddingField("pineconeChunkSize", pineconeChunkSize),
             this.saveEmbeddingField("includeTextInMeta", includeTextInMeta),
             this.saveEmbeddingField("chunkingType", chunkingType),
-            this.saveEmbeddingField("sentenceWindow", sentenceWindow),
+            this.saveEmbeddingField("overlap", overlap),
+            this.saveEmbeddingField("separators", separators),
         ]);
     }
     /**
@@ -1020,7 +1028,8 @@ export class EmbeddingApp extends BaseApp {
             tokenThreshold: this.pineconeChunkSize,
             includeTextInMeta: this.includeTextInMeta,
             chunkingType: this.chunkingType,
-            sentenceWindow: this.sentenceWindow,
+            overlap: this.overlap,
+            separators: this.separators,
             serverType: this.serverType,
             rowCount,
             singleRowId,

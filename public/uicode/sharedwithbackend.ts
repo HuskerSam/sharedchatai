@@ -282,20 +282,29 @@ Respond to this prompt:
   /**
  * @param { number } threshold
  * @param { string } chunkingType
- * @param { string } sentenceWindow
+ * @param { number } overlap
+ * @param { string } separators
  * @param { string } fullText
  * @return { Promise<Array<any>> }
  */
   static async parseBreakTextIntoChunks(threshold: number, chunkingType: string,
-    sentenceWindow: number, fullText: string): Promise<Array<any>> {
+    overlap: number, separators: string, fullText: string): Promise<Array<any>> {
+    /*
     if (chunkingType === "size") {
       return SharedWithBackend.sizeTextIntoChunks(threshold, fullText);
     }
     if (chunkingType === "sentence") {
       return SharedWithBackend.sentenceTextIntoChunks(sentenceWindow, fullText);
     }
+    */
     if (chunkingType === "recursivetextsplitter") {
-      return SharedWithBackend.recursiveSplitTextIntoChunks(fullText, 400, 30, ["\n\n", "\n", " ", ""]);
+      let sepArray: string[] = ["\n\n", "\n", " ", ""]; 
+      try {
+        sepArray = JSON.parse(separators);
+      } catch (err: any) {
+        console.log("failed to parse separators", err);
+      }
+      return SharedWithBackend.recursiveSplitTextIntoChunks(fullText, threshold, overlap, sepArray);
     }
     if (chunkingType === "none") {
       return [{
