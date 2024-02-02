@@ -532,14 +532,14 @@ export default class EmbeddingAPI {
             chunkMap[pId] = chunk.text;
 
             if (promises.length >= 10) {
-                let tempResults: any[] = await Promise.all(promises);
+                const tempResults: any[] = await Promise.all(promises);
                 upsertResults = upsertResults.concat(tempResults);
                 promises = [];
             }
         }
         let encodingCredits = 0;
-        let encodingTokens = 0;               
-        let tempResults: any[] = await Promise.all(promises);
+        let encodingTokens = 0;
+        const tempResults: any[] = await Promise.all(promises);
         upsertResults = upsertResults.concat(tempResults);
         upsertResults.forEach((result: any) => {
             encodingTokens += result.encodingTokens;
@@ -642,7 +642,7 @@ export default class EmbeddingAPI {
                 body: JSON.stringify({
                     "input": data,
                     "model": "text-embedding-3-small",
-                    dimensions: 1536,
+                    "dimensions": 1536,
                 }),
             });
             fullResult = await response.json();
