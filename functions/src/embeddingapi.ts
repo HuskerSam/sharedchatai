@@ -109,7 +109,6 @@ export default class EmbeddingAPI {
                         .collection(`Users/${uid}/embedding/${projectId}/data`)
                         .where(`status`, "!=", "Done")
                         .orderBy("status")
-                        .orderBy("lastActivity", "asc")
                         .limit(rowCount)
                         .get();
 
@@ -233,7 +232,6 @@ export default class EmbeddingAPI {
                     error: new Error("no duration detected for audio file"),
                 };
             }
-            console.log(format.format.duration);
 
             const openai = new OpenAI.OpenAI({
                 apiKey,
@@ -253,7 +251,6 @@ export default class EmbeddingAPI {
             result.duration = duration;
             result.encodingCredits = encodingCredits;
             result.encodingTokens = encodingTokens;
-            console.log(result);
             return result;
         } catch (error) {
             console.log(error);
@@ -519,11 +516,13 @@ export default class EmbeddingAPI {
         if (title === "") title = text.substring(0, 100);
         const textSize = text.length;
 
-        const promises: any = [];
+        let promises: any = [];
         const chunkCount = textChunks.length;
         const idList: Array<string> = [];
         const chunkMap: any = {};
-        textChunks.forEach((chunk: any, index: number) => {
+        let upsertResults: any[] = [];
+        for (let index = 0, l = textChunks.length; index < l; index++) {
+            const chunk = textChunks[index];
             let pId = id;
             const paddedIndex = ("0000" + (index + 1)).slice(-5);
             if (chunkCount > 1) pId += "_" + paddedIndex + "_" + chunkCount;
@@ -531,11 +530,17 @@ export default class EmbeddingAPI {
                 pId, title, url, pIndex, additionalMetaData, includeTextInMeta));
             idList.push(pId);
             chunkMap[pId] = chunk.text;
-        });
 
+            if (promises.length >= 10) {
+                let tempResults: any[] = await Promise.all(promises);
+                upsertResults = upsertResults.concat(tempResults);
+                promises = [];
+            }
+        }
         let encodingCredits = 0;
-        let encodingTokens = 0;
-        const upsertResults = await Promise.all(promises);
+        let encodingTokens = 0;               
+        let tempResults: any[] = await Promise.all(promises);
+        upsertResults = upsertResults.concat(tempResults);
         upsertResults.forEach((result: any) => {
             encodingTokens += result.encodingTokens;
             encodingCredits += result.encodingCredits;
@@ -636,10 +641,12 @@ export default class EmbeddingAPI {
                 },
                 body: JSON.stringify({
                     "input": data,
-                    "model": "text-embedding-ada-002",
+                    "model": "text-embedding-3-small",
+                    dimensions: 1536,
                 }),
             });
             fullResult = await response.json();
+            console.log(fullResult);
             vectorResult = fullResult["data"][0]["embedding"];
             encodingTokens = fullResult.usage.total_tokens;
             const modelMeta = SharedWithBackend.getModelMeta("text-embedding-ada-002");
@@ -647,6 +654,7 @@ export default class EmbeddingAPI {
 
             await BaseClass._updateCreditUsageForUser(uid, "", "", encodingTokens, encodingTokens, 0, encodingCredits);
         } catch (err: any) {
+            console.log("encode embedding error", data, err);
             success = false;
             error = err;
         }
