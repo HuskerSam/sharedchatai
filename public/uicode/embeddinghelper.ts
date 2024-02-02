@@ -165,7 +165,7 @@ export default class PineconeHelper {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Max Tokens</td>
+                                <td>Embedding Size</td>
                                 <td class="pineconeMaxTokens_display"></td>
                                 <td>
                                     <button class="btn btn-secondary prompt_for_new_pinecone_max_tokens">
@@ -173,7 +173,7 @@ export default class PineconeHelper {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Threshold (0-1)</td>
+                                <td>Similarity Score</td>
                                 <td class="pineconeThreshold_display"></td>
                                 <td>
                                     <button class="btn btn-secondary prompt_for_new_pinecone_threshold">

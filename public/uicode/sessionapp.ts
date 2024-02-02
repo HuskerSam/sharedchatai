@@ -980,11 +980,11 @@ export class SessionApp extends BaseApp {
               <td class="ticket_embedding_topk"></td>
             </tr>
             <tr>
-              <th>Max Tokens</th>
+              <th>Embedding Size</th>
               <td class="ticket_embedding_max_tokens"></td>
             </tr>
             <tr>
-              <th>Similar Filter</th>
+              <th>Similarity Score</th>
               <td class="ticket_embedding_similar_score"></td>
             </tr>
             <tr>

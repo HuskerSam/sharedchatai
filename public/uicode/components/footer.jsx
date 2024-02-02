@@ -13,10 +13,10 @@ export default class FooterBar extends React.Component {
                 <div style={{ flex: "1" }}>
                     <h2 style={{display: "inline-block"}}><span>Una<span className="home_navbar_name_color">cog</span></span></h2>
                     <div style={{ fontSize: "1.5em", padding: "12px", display: "inline-block", margin: "12px" }}>
-                        <a href="/help/">Reference</a>
+                        <a href="/about/">Product</a>
                         &nbsp;
                         &nbsp;
-                        <a href="/about/">About</a>
+                        <a href="/help/">Documentation</a>
                     </div>
                     <div style={{ textAlign: "center", lineHeight: "3em", paddingBottom: "12px" }}>
                         <div style={{ whiteSpace: "nowrap", display: "inline-block" }}>
