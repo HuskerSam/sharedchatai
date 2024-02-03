@@ -20,9 +20,6 @@ import * as OpenAI from "openai";
 import fluentFfmpeg from "fluent-ffmpeg";
 import fs from "fs/promises";
 import ffprobe from "@ffprobe-installer/ffprobe";
-import {
-    encode,
-} from "gpt-tokenizer";
 
 /** handle scraping webpages and embedding contents in pinecone */
 export default class EmbeddingAPI {
@@ -666,7 +663,7 @@ export default class EmbeddingAPI {
                     "Authorization": "Bearer " + chatGptKey,
                 },
                 body: JSON.stringify({
-                    "input": encode(data),
+                    "input": data,
                     "model": "text-embedding-3-small",
                     "dimensions": 1536,
                 }),
