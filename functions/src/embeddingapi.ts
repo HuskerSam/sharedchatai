@@ -20,6 +20,9 @@ import * as OpenAI from "openai";
 import fluentFfmpeg from "fluent-ffmpeg";
 import fs from "fs/promises";
 import ffprobe from "@ffprobe-installer/ffprobe";
+import {
+    encode,
+} from "gpt-tokenizer";
 
 /** handle scraping webpages and embedding contents in pinecone */
 export default class EmbeddingAPI {
@@ -527,13 +530,13 @@ export default class EmbeddingAPI {
             idList.push(pId);
             chunkMap[pId] = chunk.text;
 
-            if (promises.length >= 10) {
+            if (promises.length >= 20) {
                 const tempResults: any[] = await Promise.all(promises);
                 const embeddings = tempResults.map((chunk: any) => chunk.pEmbedding);
                 await pIndex.upsert(embeddings);
                 upsertResults = upsertResults.concat(tempResults);
                 promises = [];
-                await EmbeddingAPI.sleep(50);
+                // await EmbeddingAPI.sleep(50);
             }
         }
         let encodingCredits = 0;
@@ -649,7 +652,7 @@ export default class EmbeddingAPI {
                     "Authorization": "Bearer " + chatGptKey,
                 },
                 body: JSON.stringify({
-                    "input": data,
+                    "input": encode(data),
                     "model": "text-embedding-3-small",
                     "dimensions": 1536,
                 }),
