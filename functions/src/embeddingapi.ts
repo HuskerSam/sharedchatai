@@ -20,6 +20,9 @@ import * as OpenAI from "openai";
 import fluentFfmpeg from "fluent-ffmpeg";
 import fs from "fs/promises";
 import ffprobe from "@ffprobe-installer/ffprobe";
+import {
+    encode,
+} from "gpt-tokenizer";
 
 /** handle scraping webpages and embedding contents in pinecone */
 export default class EmbeddingAPI {
@@ -654,22 +657,36 @@ export default class EmbeddingAPI {
         let fullResult: any = {};
         let encodingTokens = 0;
         let encodingCredits = 0;
-        const submitString = data.replace("\x03", "");
+        let submitString = data.replaceAll("", "");   
+        submitString = submitString.replaceAll("", "");
+        submitString = submitString.replaceAll("", "");
+        submitString = submitString.replaceAll("", "");
+        submitString = submitString.replaceAll("", "");
+        submitString = submitString.replaceAll("", "");
+        submitString = submitString.replace(/[\u0000-\u001F\u007F-\u009F]/g, "");
+        let vector = encode(submitString);
+        //vector = vector.filter((value: number) => value !== 10057);
         /** */
         async function tryEmbed() {
-            const response = await fetch(`https://api.openai.com/v1/embeddings`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + chatGptKey,
-                },
-                body: JSON.stringify({
-                    "input": submitString,
-                    "model": "text-embedding-3-small",
-                    "dimensions": 1536,
-                }),
-            });
-            return await response.json();
+            try {
+                const response = await fetch(`https://api.openai.com/v1/embeddings`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + chatGptKey,
+                    },
+                    body: JSON.stringify({
+                        "input": vector,
+                        "model": "text-embedding-3-small",
+                        "dimensions": 1536,
+                    }),
+                });
+                return await response.json();
+            } catch (error: any) {
+                return {
+                    error,
+                }
+            }
         }
         try {
             fullResult = await tryEmbed();
