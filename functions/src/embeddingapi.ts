@@ -530,13 +530,13 @@ export default class EmbeddingAPI {
             idList.push(pId);
             chunkMap[pId] = chunk.text;
 
-            if (promises.length >= 20) {
+            if (promises.length >= 10) {
                 const tempResults: any[] = await Promise.all(promises);
                 const embeddings = tempResults.map((chunk: any) => chunk.pEmbedding);
                 await pIndex.upsert(embeddings);
                 upsertResults = upsertResults.concat(tempResults);
                 promises = [];
-                // await EmbeddingAPI.sleep(50);
+                await EmbeddingAPI.sleep(500);
             }
         }
         let encodingCredits = 0;
