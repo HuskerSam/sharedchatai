@@ -452,15 +452,20 @@ export class EmbeddingApp extends BaseApp {
         `Users/${this.uid}/embedding/${this.selectedProjectId}/data`);
         const errorQuery = query(docsCollection, where("status", "==", "Error"));
         const errorsSnapshot = await getDocs(errorQuery);
+        const promises: any[] = [];
         errorsSnapshot.forEach((d: any) => {
             console.log(d.id);
             const docPath = `Users/${this.uid}/embedding/${this.selectedProjectId}/data/${d.id}`;
-            setDoc(doc(getFirestore(), docPath), {
-                status: "New",
-            }, {
-                merge: true,
-            });
-        })
+            promises.push(
+                setDoc(doc(getFirestore(), docPath), {
+                    status: "New",
+                }, {
+                    merge: true,
+                })
+            );
+        });
+        await Promise.all(promises);
+        await this.updateRowsCountFromFirestore();
     }
     /** */
     async generateLookupDB() {

@@ -530,13 +530,12 @@ export default class EmbeddingAPI {
             idList.push(pId);
             chunkMap[pId] = chunk.text;
 
-            if (promises.length >= 10) {
+            if (promises.length >= 100) {
                 const tempResults: any[] = await Promise.all(promises);
                 const embeddings = tempResults.map((chunk: any) => chunk.pEmbedding);
                 await pIndex.upsert(embeddings);
                 upsertResults = upsertResults.concat(tempResults);
                 promises = [];
-                await EmbeddingAPI.sleep(500);
             }
         }
         let encodingCredits = 0;
@@ -645,19 +644,33 @@ export default class EmbeddingAPI {
         let encodingTokens = 0;
         let encodingCredits = 0;
         try {
-            const response = await fetch(`https://api.openai.com/v1/embeddings`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + chatGptKey,
-                },
-                body: JSON.stringify({
-                    "input": encode(data),
-                    "model": "text-embedding-3-small",
-                    "dimensions": 1536,
-                }),
-            });
-            fullResult = await response.json();
+
+            async function tryEmbed() {
+                const response = await fetch(`https://api.openai.com/v1/embeddings`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + chatGptKey,
+                    },
+                    body: JSON.stringify({
+                        "input": encode(data),
+                        "model": "text-embedding-3-small",
+                        "dimensions": 1536,
+                    }),
+                });
+                return await response.json();
+            }
+            fullResult = await tryEmbed();
+            if (fullResult.error) {
+                fullResult = await tryEmbed();
+            }
+            if (fullResult.error) {
+                fullResult = await tryEmbed();
+            }
+            if (fullResult.error) {
+                console.log("third try", fullResult);
+                fullResult = await tryEmbed();
+            }
             vectorResult = fullResult["data"][0]["embedding"];
             encodingTokens = fullResult.usage.total_tokens;
             const modelMeta = SharedWithBackend.getModelMeta("text-embedding-3-small");
@@ -665,7 +678,7 @@ export default class EmbeddingAPI {
 
             await BaseClass._updateCreditUsageForUser(uid, "", "", encodingTokens, encodingTokens, 0, encodingCredits);
         } catch (err: any) {
-            console.log("encode embedding error", data, err);
+            console.log("encode embedding error " + data, err);
             success = false;
             error = err;
         }
