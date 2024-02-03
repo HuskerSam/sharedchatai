@@ -70,6 +70,7 @@ export class EmbeddingApp extends BaseApp {
     vector_inspect_dialog_btn: any = document.querySelector(".vector_inspect_dialog_btn");
     embedding_options_dialog_btn: any = document.querySelector(".embedding_options_dialog_btn");
     actionRunning = false;
+    upsertRunning = false;
     tableQueryFirstRow = 1;
     tableIdSortDirection = "";
     fileUpsertListFirestore: any = null;
@@ -1037,7 +1038,7 @@ export class EmbeddingApp extends BaseApp {
      * @param { string } singleRowId
      */
     async upsertTableRowsToPinecone(singleRowId = "") {
-        if (this.actionRunning) {
+        if (this.upsertRunning) {
             alert("already running");
             return;
         }
@@ -1047,7 +1048,7 @@ export class EmbeddingApp extends BaseApp {
 
         if (singleRowId) rowCount = 1;
         this.upsert_result_status_bar.innerHTML = `Upserting next ${rowCount} rows ...`;
-        this.actionRunning = true;
+        this.upsertRunning = true;
         const body = {
             projectId: this.selectedProjectId,
             pineconeIndex: this.pineconeIndex,
@@ -1076,7 +1077,7 @@ export class EmbeddingApp extends BaseApp {
         });
 
         const json = await fResult.json();
-        this.actionRunning = false;
+        this.upsertRunning = false;
         if (!json.success) {
             alert("Error: " + json.errorMessage);
             console.log(json);
