@@ -20,9 +20,6 @@ import * as OpenAI from "openai";
 import fluentFfmpeg from "fluent-ffmpeg";
 import fs from "fs/promises";
 import ffprobe from "@ffprobe-installer/ffprobe";
-import {
-    encode,
-} from "gpt-tokenizer";
 
 /** handle scraping webpages and embedding contents in pinecone */
 export default class EmbeddingAPI {
@@ -529,15 +526,6 @@ export default class EmbeddingAPI {
                 pId, title, url, pIndex, additionalMetaData, includeTextInMeta));
             idList.push(pId);
             chunkMap[pId] = chunk.text;
-            /*
-                        if (promises.length >= 100) {
-                            const tempResults: any[] = await Promise.all(promises);
-                            const embeddings = tempResults.map((chunk: any) => chunk.pEmbedding);
-                            await pIndex.upsert(embeddings);
-                            upsertResults = upsertResults.concat(tempResults);
-                            promises = [];
-                        }
-                        */
         }
         let encodingCredits = 0;
         let encodingTokens = 0;
@@ -657,15 +645,6 @@ export default class EmbeddingAPI {
         let fullResult: any = {};
         let encodingTokens = 0;
         let encodingCredits = 0;
-        let submitString = data.replaceAll("", "");   
-        submitString = submitString.replaceAll("", "");
-        submitString = submitString.replaceAll("", "");
-        submitString = submitString.replaceAll("", "");
-        submitString = submitString.replaceAll("", "");
-        submitString = submitString.replaceAll("", "");
-        submitString = submitString.replace(/[\u0000-\u001F\u007F-\u009F]/g, "");
-        let vector = encode(submitString);
-        //vector = vector.filter((value: number) => value !== 10057);
         /** */
         async function tryEmbed() {
             try {
@@ -676,7 +655,7 @@ export default class EmbeddingAPI {
                         "Authorization": "Bearer " + chatGptKey,
                     },
                     body: JSON.stringify({
-                        "input": vector,
+                        "input": data,
                         "model": "text-embedding-3-small",
                         "dimensions": 1536,
                     }),
