@@ -47,6 +47,7 @@ export class EmbeddingApp extends BaseApp {
     upload_document_list_button: any = document.querySelector(".upload_document_list_button");
     download_json_results_btn: any = document.querySelector(".download_json_results_btn");
     generate_lookup_db = document.querySelector(".generate_lookup_db") as HTMLAnchorElement;
+    reset_errors_to_new = document.querySelector(".reset_errors_to_new") as HTMLAnchorElement;
     upsert_result_status_bar: any = document.querySelector(".upsert_result_status_bar");
     fetch_pinecone_index_stats_btn: any = document.querySelector(".fetch_pinecone_index_stats_btn");
     pinecone_index_status_display = document.querySelector(".pinecone_index_status_display") as HTMLDivElement;
@@ -327,6 +328,10 @@ export class EmbeddingApp extends BaseApp {
             e.preventDefault();
             this.generateLookupDB();
         });
+        this.reset_errors_to_new.addEventListener("click", (e: Event) => {
+            e.preventDefault();
+            this.resetErrors();
+        });
 
         this.fetch_pinecone_index_stats_btn.addEventListener("click", () => this.fetchIndexStats());
         this.add_row_btn.addEventListener("click", (e: Event) => this.addEmptyTableRow(e));
@@ -440,6 +445,22 @@ export class EmbeddingApp extends BaseApp {
             hooks: {},
         });
         createRoot(div6).render(this.dialogGenerateResult);
+    }
+    /** */
+    async resetErrors() {        
+        const docsCollection = collection(getFirestore(),
+        `Users/${this.uid}/embedding/${this.selectedProjectId}/data`);
+        const errorQuery = query(docsCollection, where("status", "==", "new"));
+        const errorsSnapshot = await getDocs(errorQuery);
+        errorsSnapshot.forEach((d: any) => {
+            console.log(d.id);
+            const docPath = `Users/${this.uid}/embedding/${this.selectedProjectId}/data/${d.id}`;
+            setDoc(doc(getFirestore(), docPath), {
+                status: "New",
+            }, {
+                merge: true,
+            });
+        })
     }
     /** */
     async generateLookupDB() {
