@@ -117,7 +117,7 @@ export default function DialogEmbeddingOptions(props) {
                                             onChange={
                                                 (e) => setIncludeTextInMeta(e.target.checked)
                                             }
-                                            style={{fontSize:"1.5em"}}
+                                            style={{fontSize:"1.1em"}}
                                         />
                                     </td>
                                 </tr>

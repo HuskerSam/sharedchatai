@@ -400,8 +400,8 @@ export class EmbeddingApp extends BaseApp {
         createRoot(div4).render(this.dialogVectorInspect);
         this.vector_inspect_dialog_btn.addEventListener("click", (e: any) => {
             e.preventDefault();
-            this.dialogVectorInspect.props.fetchVector = async (id: string) => this.fetchPineconeVector(id);
-            this.dialogVectorInspect.props.deleteVector = async (id: string) => this.deletePineconeVector(id);
+            this.dialogVectorInspect.props.hooks.fetchVector = async (id: string) => this.fetchPineconeVector(id);
+            this.dialogVectorInspect.props.hooks.deleteVector = async (id: string) => this.deletePineconeVector(id);
             this.dialogVectorInspect.props.hooks.setShow(true);
         });
 
@@ -478,7 +478,7 @@ export class EmbeddingApp extends BaseApp {
      */
     addEmptyTableRow(event: any) {
         if (event) event.preventDefault();
-        let rowId = prompt("Project Name:", new Date().toISOString().substring(0, 10));
+        let rowId = prompt("Row ID:", new Date().toISOString().substring(0, 10));
         if (rowId === null) return;
         rowId = rowId.trim();
         if (!rowId) return;

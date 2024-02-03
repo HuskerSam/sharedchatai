@@ -35,13 +35,13 @@ export default function DialogVectorInspect(props) {
             </Modal.Body>
             <Modal.Footer className="theme_panel">
                 <Button variant="secondary" onClick={async () => {
-                    let results = await props.fetchVector(id);
+                    let results = await props.hooks.fetchVector(id);
                     setFetchResults(results);
                 }}>
                     Fetch Vector
                 </Button>
                 <Button variant="secondary" onClick={async () => {
-                    let results = await props.deleteVector(id);
+                    let results = await props.hooks.deleteVector(id);
                     setFetchResults(results);
                 }}>
                     Delete Vector
