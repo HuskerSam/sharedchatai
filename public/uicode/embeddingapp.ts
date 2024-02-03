@@ -450,7 +450,7 @@ export class EmbeddingApp extends BaseApp {
     async resetErrors() {        
         const docsCollection = collection(getFirestore(),
         `Users/${this.uid}/embedding/${this.selectedProjectId}/data`);
-        const errorQuery = query(docsCollection, where("status", "==", "new"));
+        const errorQuery = query(docsCollection, where("status", "==", "Error"));
         const errorsSnapshot = await getDocs(errorQuery);
         errorsSnapshot.forEach((d: any) => {
             console.log(d.id);
