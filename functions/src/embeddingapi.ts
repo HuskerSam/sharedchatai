@@ -654,6 +654,7 @@ export default class EmbeddingAPI {
         let fullResult: any = {};
         let encodingTokens = 0;
         let encodingCredits = 0;
+        const submitString = data.replace("\x03", "");
         /** */
         async function tryEmbed() {
             const response = await fetch(`https://api.openai.com/v1/embeddings`, {
@@ -663,7 +664,7 @@ export default class EmbeddingAPI {
                     "Authorization": "Bearer " + chatGptKey,
                 },
                 body: JSON.stringify({
-                    "input": data,
+                    "input": submitString,
                     "model": "text-embedding-3-small",
                     "dimensions": 1536,
                 }),
