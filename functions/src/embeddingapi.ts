@@ -664,7 +664,7 @@ export default class EmbeddingAPI {
             } catch (error: any) {
                 return {
                     error,
-                }
+                };
             }
         }
         try {
