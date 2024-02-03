@@ -527,12 +527,13 @@ export default class EmbeddingAPI {
             idList.push(pId);
             chunkMap[pId] = chunk.text;
 
-            if (promises.length >= 50) {
+            if (promises.length >= 10) {
                 const tempResults: any[] = await Promise.all(promises);
                 const embeddings = tempResults.map((chunk: any) => chunk.pEmbedding);
                 await pIndex.upsert(embeddings);
                 upsertResults = upsertResults.concat(tempResults);
                 promises = [];
+                await EmbeddingAPI.sleep(50);
             }
         }
         let encodingCredits = 0;
@@ -559,6 +560,14 @@ export default class EmbeddingAPI {
             id,
             chunkMap,
         };
+    }
+    /**
+     * @param { number } ms
+     */
+    static async sleep(ms: number) {
+        return new Promise((resolve: any) => {
+            setTimeout(resolve, ms);
+        });
     }
     /**
    * @param { Request } req http request object
