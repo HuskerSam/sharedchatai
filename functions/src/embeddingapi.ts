@@ -529,20 +529,34 @@ export default class EmbeddingAPI {
                 pId, title, url, pIndex, additionalMetaData, includeTextInMeta));
             idList.push(pId);
             chunkMap[pId] = chunk.text;
-
-            if (promises.length >= 100) {
-                const tempResults: any[] = await Promise.all(promises);
-                const embeddings = tempResults.map((chunk: any) => chunk.pEmbedding);
-                await pIndex.upsert(embeddings);
-                upsertResults = upsertResults.concat(tempResults);
-                promises = [];
-            }
+            /*
+                        if (promises.length >= 100) {
+                            const tempResults: any[] = await Promise.all(promises);
+                            const embeddings = tempResults.map((chunk: any) => chunk.pEmbedding);
+                            await pIndex.upsert(embeddings);
+                            upsertResults = upsertResults.concat(tempResults);
+                            promises = [];
+                        }
+                        */
         }
         let encodingCredits = 0;
         let encodingTokens = 0;
         const tempResults: any[] = await Promise.all(promises);
         const embeddings = tempResults.map((chunk: any) => chunk.pEmbedding);
-        await pIndex.upsert(embeddings);
+
+        promises = [];
+        let batch: any[] = [];
+        embeddings.forEach((embedding: any) => {
+            batch.push(embedding);
+            if (batch.length >= 90) {
+                promises.push(pIndex.upsert(batch));
+                batch = [];
+            }
+        });
+        if (batch.length > 0) {
+            promises.push(pIndex.upsert(batch));
+        }
+        await Promise.all(promises);
         upsertResults = upsertResults.concat(tempResults);
         upsertResults.forEach((result: any) => {
             encodingTokens += result.encodingTokens;

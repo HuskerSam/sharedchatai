@@ -19,7 +19,7 @@ const runtimeOpts: functions.RuntimeOptions = {
 };
 const heavyOpts: functions.RuntimeOptions = {
     timeoutSeconds: 480,
-    memory: "1GB",
+    memory: "2GB",
 };
 const homeOpts: functions.RuntimeOptions = {
     timeoutSeconds: 60,
