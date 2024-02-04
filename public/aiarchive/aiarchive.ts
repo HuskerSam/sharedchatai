@@ -218,7 +218,7 @@ export class AIArchiveDemoApp {
         const message = this.analyze_prompt_textarea.value.trim();
 
 
-        let result = await this.getMatchingVectors(message, 5, this[this.dataSourcePrefix() + "APIToken"], this[this.dataSourcePrefix() + "SessionId"]);
+        let result = await this.getMatchingVectors(message, 20, this[this.dataSourcePrefix() + "APIToken"], this[this.dataSourcePrefix() + "SessionId"]);
         if (!result.success) {
             console.log("error", result);
             this.full_augmented_response.innerHTML = result.errorMessage;
@@ -227,7 +227,7 @@ export class AIArchiveDemoApp {
             console.log(result);
         }
 
-        let html = '<span class="small text-muted">Most Relevant Verses...</span><br>';
+        let html = '<span class="small text-muted">Most Relevant Chunks...</span><br>';
         result.matches.forEach((match) => {
             const textFrag = this.lookupData[match.id];
             const dstring = match.metadata.published;
