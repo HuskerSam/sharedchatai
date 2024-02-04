@@ -232,8 +232,12 @@ export class AIArchiveDemoApp {
             const textFrag = this.lookupData[match.id];
             const dstring = match.metadata.published;
             const d = dstring.slice(0, 4) + "-" + dstring.slice(4, 6) + "-" + dstring.slice(6, 8);
+            const parts = match.id.split("_");
+            const docID = parts[0];
+            const chunkIndex = Number(parts[1]);
+            const chunkCount = parts[2];
             const block = `<div class="verse_card">
-              <a href="${match.metadata.url}" target="_blank">${match.metadata.title}</a> ${d}<br>
+              <a href="${match.metadata.url}" target="_blank">${match.metadata.title}</a> ${chunkIndex}/${chunkCount}<br>${d}<br>
               <div class="verse_card_text">${textFrag}</div>
               </div>`;
             html += block;
@@ -312,7 +316,9 @@ export class AIArchiveDemoApp {
             let lastIndex = lookUpIndex + 2;
             if (firstIndex < 0) firstIndex = 0;
             if (lastIndex > this.lookUpKeys.length - 1) lastIndex = this.lookUpKeys.length - 1;
-            const docID = merge.doc_id;
+            const parts = match.id.split("_");
+            const docID = parts[0];
+            console.log("this is merge object", merge, firstIndex, lastIndex, docID);
             for (let i = firstIndex; i <= lastIndex; i++) {
                 const chunkKey = this.lookUpKeys[i];
                 if (chunkKey.indexOf(docID) === 0) {
