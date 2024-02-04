@@ -222,19 +222,3 @@ table tr td.table_cell_sizer {
 .upsert_result_status_bar {
   text-align: left;
 }
-
-.ai_demo_bg_img {
-  min-height: 420px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-image: url(/aiarchive/img/chunk_sentences.png);
-}
-
-.bible_demo_bg_img {
-  min-height: 420px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-image: url(/bible/img/ragChapterVerses.png);
-}

@@ -25,58 +25,6 @@
     <div class="main_wrapper app_panel">
         <div class="standard_header_bar_container"></div>
         <div class="signed_out_options_block" style="overflow:auto; overflow-x: hidden;">
-            <section id="cta_form" class="py-5 bg-light">
-                <div class="container-xl col-xl-12 col-xxl-10 px-4 px-lg-0 pb-5">
-                    <div class="row align-items-center g-lg-5">
-                        <div class="col-xl-6 text-center text-xl-start py-4">
-                            <h3 class="display-4 fw-bold lh-1 mb-4" style="color:blue">Need semantic search powered AI
-                                today?
-                            </h3>
-                            <p class="col-md-11 mx-auto fs-4 my-4 text-muted">We deliver RAG and API pipeline solutions
-                                using LLM
-                                prompt templates, Pinecone vector databases and OpenAI models.</p>
-                            <p class="display-6 fw-bold mb-3 lh-1 text-secondary">Leave us a message.</p>
-                        </div>
-                        <div class="mx-auto col-xl-6 col-md-10">
-                            <form onsubmit="event.preventDefault(); return false;"
-                                class="contact_us_form p-4 p-md-5 border rounded-3 bg-lighter shadow-sm">
-                                <div class="row g-3">
-                                    <div class="col-lg-6">
-                                        <label for="name" class="form-label">Name</label>
-                                        <input type="text" class="form-control" id="name">
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <label for="email" class="form-label">Email*</label>
-                                        <input type="email" class="form-control" id="email" required>
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="organization" class="form-label">Organization</label>
-                                        <input type="text" class="form-control" id="organization">
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="reason" class="form-label">Reason for Contact*</label>
-                                        <select class="form-select" id="reason" style="border: 1px solid lightgray"
-                                            required>
-                                            <option selected>I need a LLM pipeline</option>
-                                            <option>I need a Pinecone database loaded</option>
-                                            <option>I need firebase integration</option>
-                                            <option>I need a multi-user application</option>
-                                            <option>Other</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="message" class="form-label">Message*</label>
-                                        <textarea class="form-control" id="message" rows="5" required></textarea>
-                                    </div>
-                                    <div class="col-12">
-                                        <button class="btn btn-primary contact_us_btn w-50">Submit</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </section>
             <section class="pb-5">
                 <div class="container position-relative zindex-2 pt-2 pt-sm-3 pt-md-4 pt-lg-5 mt-xl-3">
                     <h3 class="display-5 px-md-4 pb-4">Create chatbots that retrieve relevant context automatically
@@ -133,6 +81,75 @@
                                 </li>
                                 <li class="list-group-item">Option to include source text in metadata</li>
                             </ul>
+                        </div>
+                    </div>
+                    <div
+                    class="row align-items-center justify-content-center py-4 py-md-5 my-1 my-sm-3 my-md-0 my-xl-3">
+                    <div class="col-md-4 col-lg-5 order-md-1 text-center text-md-start">
+                        <h3 class="h2 mb-lg-4">LLM prompts that embed semantic results</h3>
+                        <ul class="list-group list-group-flush my-1 bg-light rounded text-start fs-lg">
+                            <li class="list-group-item">Use prompt templates to embed data and guide LLM response
+                            </li>
+                            <li class="list-group-item">See semantic result details such as similarity score,
+                                metadata, and source text for each result.</li>
+                            <li class="list-group-item">Manage the LLM context limit by setting an embedding limit
+                                to determine the number of semantic results embedded in the prompt</li>
+                        </ul>
+                    </div>
+                    <div class="col-12 col-md-8 col-lg-6 order-md-2 pb-2 offset-lg-1 pb-sm-3 pb-md-0 mb-4 mb-md-0">
+                        <img src="/images/embed_chat.png" class="d-block mx-auto img-fluid">
+                    </div>
+                </div>
+                </div>
+            </section>
+            <section id="cta_form" class="py-5 bg-light">
+                <div class="container-xl col-xl-12 col-xxl-10 px-4 px-lg-0 pb-5">
+                    <div class="row align-items-center g-lg-5">
+                        <div class="col-xl-6 text-center text-xl-start py-4">
+                            <h3 class="display-4 fw-bold lh-1 mb-4" style="color:blue">Need semantic search powered AI
+                                today?
+                            </h3>
+                            <p class="col-md-11 mx-auto fs-4 my-4 text-muted">We deliver RAG and API pipeline solutions
+                                using LLM
+                                prompt templates, Pinecone vector databases and OpenAI models.</p>
+                            <p class="display-6 fw-bold mb-3 lh-1 text-secondary">Leave us a message.</p>
+                        </div>
+                        <div class="mx-auto col-xl-6 col-md-10">
+                            <form onsubmit="event.preventDefault(); return false;"
+                                class="contact_us_form p-4 p-md-5 border rounded-3 bg-lighter shadow-sm">
+                                <div class="row g-3">
+                                    <div class="col-lg-6">
+                                        <label for="name" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="name">
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="email" class="form-label">Email*</label>
+                                        <input type="email" class="form-control" id="email" required>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="organization" class="form-label">Organization</label>
+                                        <input type="text" class="form-control" id="organization">
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="reason" class="form-label">Reason for Contact*</label>
+                                        <select class="form-select" id="reason" style="border: 1px solid lightgray"
+                                            required>
+                                            <option selected>I need a LLM pipeline</option>
+                                            <option>I need a Pinecone database loaded</option>
+                                            <option>I need firebase integration</option>
+                                            <option>I need a multi-user application</option>
+                                            <option>Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="message" class="form-label">Message*</label>
+                                        <textarea class="form-control" id="message" rows="5" required></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn-primary contact_us_btn w-50">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
