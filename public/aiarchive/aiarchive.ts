@@ -20,17 +20,27 @@ export class AIArchiveDemoApp {
     prompt_template_select_preset: any = document.body.querySelector(".prompt_template_select_preset");
     reset_template_options_button: any = document.body.querySelector(".reset_template_options_button");
     datachunk_source_size_buttons = document.body.querySelectorAll(`[name="datachunk_source_size"]`);
+    embed_distinct_chunks_option: any = document.body.querySelector(".embed_distinct_chunks_option");
+    embed_sequential_chunks_option: any = document.body.querySelector(".embed_sequential_chunks_option");
     lookupData: any = {};
     semanticResults: any[] = [];
     chunk100APIToken = "10cea175-3df1-4a6c-bb81-deb7ff01e6f3";
     chunk100SessionId = "224mnuw91f1h";
     chunk100LookupPath = "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/projectLookups%2FHlm0AZ9mUCeWrMF6hI7SueVPbrq1%2Faiarix-100%2Flookup.json?alt=media";
+    chunk100topK = 25;
+    chunk100includeK = 15;
+
     chunk200APIToken = "48b785e1-1bd2-42aa-9283-8798eb7966ec";
     chunk200SessionId = "ofam21p8miub";
     chunk200LookupPath = "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/projectLookups%2FiMY1WwR6NkVnNkLId5bnKT59Np42%2Fararix-200%2Flookup.json?alt=media";
+    chunk200topK = 25;
+    chunk200includeK = 10;
+
     chunk400APIToken = "eefb54f8-0f21-4f87-af36-3f340dded70e";
     chunk400SessionId = "j49ycdjb5jai";
     chunk400LookupPath = "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/projectLookups%2FHlm0AZ9mUCeWrMF6hI7SueVPbrq1%2Faiarix-400%2Flookup.json?alt=media";
+    chunk400topK = 25;
+    chunk400includeK = 5;
 
     promptUrl = `https://us-central1-promptplusai.cloudfunctions.net/lobbyApi/session/external/message`;
     queryUrl = `https://us-central1-promptplusai.cloudfunctions.net/lobbyApi/session/external/vectorquery`;
@@ -178,6 +188,12 @@ export class AIArchiveDemoApp {
             this.loaded = false;
             this.load();
         }));
+        this.updateEmbeddingOptionsDisplay();
+    }
+    updateEmbeddingOptionsDisplay() {
+        let includeK = Number(this[this.dataSourcePrefix() + "includeK"]);
+        this.embed_distinct_chunks_option.innerHTML = `Embed ${includeK}  Document Chunks`;
+        this.embed_sequential_chunks_option.innerHTML = `Embed 1 Chunk with ${includeK} Additional Contexts`;
     }
     async getMatchingVectors(message: string, topK: number, apiToken: string, sessionId: string): Promise<any> {
         const body = {
@@ -212,13 +228,14 @@ export class AIArchiveDemoApp {
         const m: any = document.querySelector(".tab_main_content");
         m.style.display = "flex";
         this.lookUpKeys = Object.keys(this.lookupData).sort();
+        this.updateEmbeddingOptionsDisplay();
     }
     async lookupAIDocumentChunks(): Promise<any[]> {
         this.lookup_verse_response_feed.innerHTML = "";
         const message = this.analyze_prompt_textarea.value.trim();
 
-
-        let result = await this.getMatchingVectors(message, 20, this[this.dataSourcePrefix() + "APIToken"], this[this.dataSourcePrefix() + "SessionId"]);
+        let topK = Number(this[this.dataSourcePrefix() + "topK"]);
+        let result = await this.getMatchingVectors(message, topK, this[this.dataSourcePrefix() + "APIToken"], this[this.dataSourcePrefix() + "SessionId"]);
         if (!result.success) {
             console.log("error", result);
             this.full_augmented_response.innerHTML = result.errorMessage;
@@ -259,7 +276,7 @@ export class AIArchiveDemoApp {
         this.summary_details.innerHTML = `<a target="_blank" class="embedding_diagram_anchor" href="${diagram}"><img style="width:100px;float:right" class="embedding_diagram_img" src="${diagram}" alt=""></a>
       <label>Granularity Level</label>: ${this.embedding_type_select.selectedIndex < 2 ? "Verse" : "Chapter"}<br>
       <label>Full Raw Prompt</label>: <div class="raw_prompt">${prompt}</div><br>`;
-      
+
         const apiToken = this[this.dataSourcePrefix() + "APIToken"];
         const sessionId = this[this.dataSourcePrefix() + "SessionId"];
         const body = {
@@ -297,7 +314,9 @@ export class AIArchiveDemoApp {
         const docT = (<any>window).Handlebars.compile(documentTemplate);
         let documentsEmbedText = "";
         if (embedIndex === 0) {
-            matches.forEach((match: any, index: number) => {
+            let includeK = Number(this[this.dataSourcePrefix() + "includeK"]);
+            const includes = matches.slice(0, includeK);
+            includes.forEach((match: any, index: number) => {
                 const merge = Object.assign({}, match.metadata);
                 merge.id = match.id;
                 merge.matchIndex = index;
@@ -312,8 +331,10 @@ export class AIArchiveDemoApp {
             merge.id = match.id;
             merge.matchIndex = 0;
             const lookUpIndex = this.lookUpKeys.indexOf(match.id);
-            let firstIndex = lookUpIndex - 2;
-            let lastIndex = lookUpIndex + 2;
+
+            let includeK = Number(this[this.dataSourcePrefix() + "includeK"]);
+            let firstIndex = lookUpIndex - Math.floor(includeK / 2);
+            let lastIndex = lookUpIndex + Math.ceil(includeK / 2);
             if (firstIndex < 0) firstIndex = 0;
             if (lastIndex > this.lookUpKeys.length - 1) lastIndex = this.lookUpKeys.length - 1;
             const parts = match.id.split("_");
