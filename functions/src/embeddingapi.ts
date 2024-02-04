@@ -534,17 +534,17 @@ export default class EmbeddingAPI {
 
         promises = [];
         let batch: any[] = [];
-        embeddings.forEach((embedding: any) => {
-            batch.push(embedding);
-            if (batch.length >= 90) {
-                promises.push(pIndex.upsert(batch));
-                batch = [];
-            }
-        });
-        if (batch.length > 0) {
-            promises.push(pIndex.upsert(batch));
+        for (let c = 0, l = embeddings.length; c < l; c++) {
+            const embedding = embeddings[c];
+                batch.push(embedding);
+                if (batch.length >= 90) {
+                    await pIndex.upsert(batch);
+                    batch = [];
+                }
         }
-        await Promise.all(promises);
+        if (batch.length > 0) {
+            await pIndex.upsert(batch);
+        }
         upsertResults = upsertResults.concat(tempResults);
         upsertResults.forEach((result: any) => {
             encodingTokens += result.encodingTokens;
