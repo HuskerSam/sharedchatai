@@ -19,10 +19,19 @@ export class AIArchiveDemoApp {
     document_template_text_area: any = document.body.querySelector(".document_template_text_area");
     prompt_template_select_preset: any = document.body.querySelector(".prompt_template_select_preset");
     reset_template_options_button: any = document.body.querySelector(".reset_template_options_button");
+    datachunk_source_size_buttons = document.body.querySelectorAll(`[name="datachunk_source_size"]`);
     lookupData: any = {};
     semanticResults: any[] = [];
-    dataAPIToken = "0dadbeef-575c-432d-ab31-10b2574c6daa";
-    sessionId = "nn7wlhoywt3f";
+    chunk100APIToken = "10cea175-3df1-4a6c-bb81-deb7ff01e6f3";
+    chunk100SessionId = "224mnuw91f1h";
+    chunk100LookupPath = "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/projectLookups%2FHlm0AZ9mUCeWrMF6hI7SueVPbrq1%2Faiarix-100%2Flookup.json?alt=media";
+    chunk200APIToken = "48b785e1-1bd2-42aa-9283-8798eb7966ec";
+    chunk200SessionId = "ofam21p8miub";
+    chunk200LookupPath = "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/projectLookups%2FiMY1WwR6NkVnNkLId5bnKT59Np42%2Fararix-200%2Flookup.json?alt=media";
+    chunk400APIToken = "eefb54f8-0f21-4f87-af36-3f340dded70e";
+    chunk400SessionId = "j49ycdjb5jai";
+    chunk400LookupPath = "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/projectLookups%2FHlm0AZ9mUCeWrMF6hI7SueVPbrq1%2Faiarix-400%2Flookup.json?alt=media";
+
     promptUrl = `https://us-central1-promptplusai.cloudfunctions.net/lobbyApi/session/external/message`;
     queryUrl = `https://us-central1-promptplusai.cloudfunctions.net/lobbyApi/session/external/vectorquery`;
     loaded = false;
@@ -159,6 +168,16 @@ export class AIArchiveDemoApp {
         });
         this.analyze_prompt_textarea.focus();
         this.analyze_prompt_textarea.select();
+
+        this.datachunk_source_size_buttons.forEach((btn: any) => btn.addEventListener("input", () => {
+            const l: any = document.querySelector(".loading_screen")
+            l.style.display = "";
+            const m: any = document.querySelector(".tab_main_content");
+            m.style.display = "";
+            localStorage.setItem("datachunk_source_size", btn.value);
+            this.loaded = false;
+            this.load();
+        }));
     }
     async getMatchingVectors(message: string, topK: number, apiToken: string, sessionId: string): Promise<any> {
         const body = {
@@ -178,8 +197,14 @@ export class AIArchiveDemoApp {
         });
         return await fetchResults.json();
     }
+    dataSourcePrefix(): string {
+        let prefix = localStorage.getItem("datachunk_source_size");
+        if (prefix) return prefix as string;
+        return "chunk100";
+    }
     async load() {
-        const r = await fetch("https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/projectLookups%2FHlm0AZ9mUCeWrMF6hI7SueVPbrq1%2Faidata_target_starter%2Flookup.json?alt=media");
+        const lookupPath = this[this.dataSourcePrefix() + "LookupPath"];
+        const r = await fetch(lookupPath);
         this.lookupData = await r.json();
         this.loaded = true;
         const l: any = document.querySelector(".loading_screen")
@@ -193,7 +218,7 @@ export class AIArchiveDemoApp {
         const message = this.analyze_prompt_textarea.value.trim();
 
 
-        let result = await this.getMatchingVectors(message, 5, this.dataAPIToken, this.sessionId);
+        let result = await this.getMatchingVectors(message, 5, this[this.dataSourcePrefix() + "APIToken"], this[this.dataSourcePrefix() + "SessionId"]);
         if (!result.success) {
             console.log("error", result);
             this.full_augmented_response.innerHTML = result.errorMessage;
@@ -208,7 +233,7 @@ export class AIArchiveDemoApp {
             const dstring = match.metadata.published;
             const d = dstring.slice(0, 4) + "-" + dstring.slice(4, 6) + "-" + dstring.slice(6, 8);
             const block = `<div class="verse_card">
-              <a href="${match.metadata.url}" target="_blank">${match.metadata.title}</a> (${match.metadata.chunk_id}) ${d}<br>
+              <a href="${match.metadata.url}" target="_blank">${match.metadata.title}</a> ${d}<br>
               <div class="verse_card_text">${textFrag}</div>
               </div>`;
             html += block;
@@ -230,11 +255,13 @@ export class AIArchiveDemoApp {
         this.summary_details.innerHTML = `<a target="_blank" class="embedding_diagram_anchor" href="${diagram}"><img style="width:100px;float:right" class="embedding_diagram_img" src="${diagram}" alt=""></a>
       <label>Granularity Level</label>: ${this.embedding_type_select.selectedIndex < 2 ? "Verse" : "Chapter"}<br>
       <label>Full Raw Prompt</label>: <div class="raw_prompt">${prompt}</div><br>`;
-
+      
+        const apiToken = this[this.dataSourcePrefix() + "APIToken"];
+        const sessionId = this[this.dataSourcePrefix() + "SessionId"];
         const body = {
             message: prompt,
-            apiToken: this.dataAPIToken,
-            sessionId: this.sessionId,
+            apiToken,
+            sessionId,
         };
         const fetchResults = await fetch(this.promptUrl, {
             method: "POST",
