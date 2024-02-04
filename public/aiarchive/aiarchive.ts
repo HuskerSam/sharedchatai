@@ -358,7 +358,7 @@ const promptTemplates = [
 {{documents}}
 ---------------------
 Answer the following prompt:
-Prompt: {{prompt}}`,
+{{prompt}}`,
         documentPrompt: `({{title}}):
   {{text}}
   `,
