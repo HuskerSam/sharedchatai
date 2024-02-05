@@ -24,9 +24,9 @@ export class AIArchiveDemoApp {
     embed_sequential_chunks_option: any = document.body.querySelector(".embed_sequential_chunks_option");
     lookupData: any = {};
     semanticResults: any[] = [];
-    chunk100APIToken = "10cea175-3df1-4a6c-bb81-deb7ff01e6f3";
-    chunk100SessionId = "224mnuw91f1h";
-    chunk100LookupPath = "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/projectLookups%2FHlm0AZ9mUCeWrMF6hI7SueVPbrq1%2Faiarix-100%2Flookup.json?alt=media";
+    chunk100APIToken = "8b9e7b73-cad1-44c7-9a3b-07eb6914bc1a";
+    chunk100SessionId = "h3gb1s7uxt02";
+    chunk100LookupPath = "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/projectLookups%2FHlm0AZ9mUCeWrMF6hI7SueVPbrq1%2Far-arxiv-100v2%2Flookup.json?alt=media";
     chunk100topK = 25;
     chunk100includeK = 15;
 
@@ -36,9 +36,9 @@ export class AIArchiveDemoApp {
     chunk200topK = 25;
     chunk200includeK = 10;
 
-    chunk400APIToken = "eefb54f8-0f21-4f87-af36-3f340dded70e";
-    chunk400SessionId = "j49ycdjb5jai";
-    chunk400LookupPath = "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/projectLookups%2FHlm0AZ9mUCeWrMF6hI7SueVPbrq1%2Faiarix-400%2Flookup.json?alt=media";
+    chunk400APIToken = "8168ca87-2017-49ad-a8f3-bba00683e7de";
+    chunk400SessionId = "ppdbgryy52mn";
+    chunk400LookupPath = "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/projectLookups%2FHlm0AZ9mUCeWrMF6hI7SueVPbrq1%2Far-arxiv-400v2%2Flookup.json?alt=media";
     chunk400topK = 25;
     chunk400includeK = 5;
 
