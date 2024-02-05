@@ -230,6 +230,7 @@ select.document_label_filter.form-select:active {
 
 .day_mode .dropdown-menu {
     background-color: rgb(245, 245, 245);
+    border: 2px outset rgba(140, 140, 140, .5);
 }
 
 .dropdown-menu.show button {

@@ -203,14 +203,6 @@ export class EmbeddingApp extends BaseApp {
             },
             headerSort: false,
         }, {
-            title: "",
-            field: "copyText",
-            headerSort: false,
-            formatter: () => {
-                return `<i class="material-icons">content_copy</i>`;
-            },
-            hozAlign: "center",
-        }, {
             title: "id List",
             width: 75,
             field: "ids",
