@@ -188,6 +188,10 @@ export class AIArchiveDemoApp {
             this.loaded = false;
             this.load();
         }));
+        const chunkSize = localStorage.getItem("datachunk_source_size");
+        this.datachunk_source_size_buttons.forEach((btn: any) => {
+            if (btn.value === chunkSize) btn.checked = true;
+        });
         this.updateEmbeddingOptionsDisplay();
     }
     updateEmbeddingOptionsDisplay() {
