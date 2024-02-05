@@ -313,6 +313,7 @@ export class EmbeddingApp extends BaseApp {
         });
 
         this.table_filter_select.addEventListener("input", () => {
+            this.first_table_row.value = "";
             this.saveProfileField("embeddingPageTableFilterValue", this.table_filter_select.value);
             this.updateWatchUpsertRows();
         });
