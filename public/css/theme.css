@@ -526,3 +526,28 @@ h5 {
       padding: 3em 0;
   }
 }
+
+.btn_toggle::after {
+  content: '\25bc'; /* Default to down arrow */
+  display: inline-block;
+  margin-left: .5rem;
+  vertical-align: middle;
+  transition: transform .3s ease, color .3s ease;
+  color: #007bff; 
+  font-size: 1.2em;
+}
+
+.btn_toggle[aria-expanded="true"]::after {
+  transform: rotate(-180deg); /* Flip arrow up when expanded */
+}
+
+.btn_toggle:hover,
+.btn_toggle:focus {
+  background-color: #e2e6ea; 
+  color: #0056b3; 
+}
+
+.btn_toggle:hover::after,
+.btn_toggle:focus::after {
+  color: #0056b3; 
+}

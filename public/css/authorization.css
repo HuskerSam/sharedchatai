@@ -66,13 +66,15 @@ body.app_signed_in p.alert.alert-danger.signed_in_anonymous {
 }
 
 .signed_out_options_block {
-    display: none;
-    height: 0;
+   visibility: hidden;
 }
 
 .app_signed_out .signed_out_options_block {
-    display: block;
-    height: unset;
+    visibility: visible;
+}
+
+.app_signed_in .signed_out_options_block {
+    display: none;
 }
 
 .app_signed_out .signed_out_options_list_item {

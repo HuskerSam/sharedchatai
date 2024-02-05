@@ -126,80 +126,144 @@
                 </div>
             </section>
             <section class="section_standard">
-                <div class="container">
+                <div class="container" id="demo_list">
                     <div class="row">
-                        <div class="text-center mb-4">
-                            <h2 class="display-6">Explore RAG Demos</h2>
-                            <hr class="mx-auto my-3" style="width: 50%; border-top: 2px solid #007bff;" />
-                            <p class="fs-5 mx-auto px-3" style="line-height: 1.6;">
-                                Experience firsthand how adjusting the prompt template and fine-tuning embedding details
-                                can lead to more precise outcomes in our interactive demos. You're in control:
+                        <div class="text-center">
+                            <h2 class="display-6">Explore Examples with Semantic Context Retrieval</h2>
+                            <hr class="mx-auto my-4" style="width: 50%; border-top: 2px solid #007bff;" />
+                            <p class="mx-auto px-3 text-start" style="line-height: 1.6;font-size: 1.15em;">
+                                Learn the secrets to optimizing embedded
+                                context with our interactive demo.
+                                Experience firsthand how adjusting the prompt template and embedding pipeline
+                                can lead to more precise outcomes. You're in control:
                                 experiment with different chunking and retrieval methods to see how they can improve the
-                                efficiency and accuracy of LLM generation. Learn the secrets to optimizing embedded
-                                context and take your LLM projects to the next level.
+                                efficiency and accuracy of generated responses.
                             </p>
+
                         </div>
                     </div>
                     <div class="row justify-content-center border rounded m-3 bg-white shadow-sm"
                         style="box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;">
-                        <div class="col-lg-6 col-12 d-flex order-lg-1 justify-content-center mb-3 mb-lg-0">
-                            <div class="text-center d-flex flex-column gap-3 justify-content-center py-4">
-                                <div class="d-flex flex-column gap-1 text-center">
-                                    <p class="mb-0 lead fw-light" style="font-size: 1em;">Experience RAG</p>
-                                    <h4 class="mb-0">AI Research Library Example</h4>
-                                </div>
-                                <div>
-                                    <ul class="my-1 bg-light rounded text-start" style="max-width: 350px;">
-                                        <li>Research articles source <a href="https://arxiv.org/">arxiv.org</a></li>
-                                        <li>Interact with over 420 AI research papers</li>
-                                    </ul>
-                                </div>
-                                <div class="d-flex flex-row justify-content-center">
-                                    <a href="/aiarchive" class="btn btn-primary">AI Papers Demo <svg
-                                            xmlns="http://www.w3.org/2000/svg" width="18" height="35"
-                                            fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd"
-                                                d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z">
-                                            </path>
-                                        </svg></a>
+                        <div class="row">
+                            <div class="col-lg-6 col-12 d-flex order-lg-1 justify-content-center mb-3 mb-lg-0">
+                                <div class="text-center d-flex flex-column gap-3 justify-content-center py-4">
+                                    <div class="d-flex flex-column gap-1 text-center">
+                                        <p class="mb-0 lead fw-light" style="font-size: 1em;">Experience RAG</p>
+                                        <h4 class="mb-0">AI Research Library Example</h4>
+                                    </div>
+                                    <div>
+                                        <ul class="my-1 bg-light rounded text-start" style="max-width: 350px;">
+                                            <li>Research articles source <a href="https://arxiv.org/">arxiv.org</a></li>
+                                            <li>Over 420 AI research papers</li>
+                                        </ul>
+                                    </div>
+                                    <div class="d-flex flex-row justify-content-center">
+                                        <a href="/aiarchive" class="btn btn-primary">AI Papers Demo <svg
+                                                xmlns="http://www.w3.org/2000/svg" width="18" height="35"
+                                                fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd"
+                                                    d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z">
+                                                </path>
+                                            </svg></a>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="col-12 col-lg-6 p-3">
+                                <div class="figure-caption pb-3">Loading the Pinecone Index</div>
+                                <div class="ai_demo_bg_img">&nbsp;</div>
+                                <!-- Collapsible content -->
+                            </div>
                         </div>
-                        <div class="col-12 col-lg-6 p-3">
-                            <div class="ai_demo_bg_img">&nbsp;</div>
-                            <div class="figure-caption pt-3">Loading the Pinecone Index</div>
+                        <div class="row my-2">
+                            <div class="d-flex justify-content-center mt-3 align-items-center">
+                                <hr class="flex-grow-1 border-primary">
+                                <button class="btn btn-link btn_toggle mx-2"
+                                    style="font-variant: small-caps; text-underline-offset: 3px;" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#ai_demo_moreInfo" aria-expanded="false"
+                                    aria-controls="moreInfo">
+                                    Learn More
+                                </button>
+                                <hr class="flex-grow-1 border-primary">
+                            </div>
+                        </div>
+                        <div class="row collapse" id="ai_demo_moreInfo">
+                            <div class="col-12">
+                                <div class="card my-2">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">More Information</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="mb-0">More information about the AI Research Library...</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row justify-content-center border rounded m-3 bg-white shadow-sm"
                         style="box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;">
-                        <div class="col-lg-6 col-12 d-flex order-lg-1 justify-content-center mb-3 mb-lg-0 ">
-                            <div class="text-center d-flex flex-column gap-3 justify-content-center py-4">
-                                <div class="d-flex flex-column gap-1 text-center">
-                                    <p class="mb-0 lead fw-light" style="font-size: 1em;">Learn Pipelines</p>
-                                    <h4 class="mb-0">Explore ESV Bible with RAG</h4>
+                        <div class="row">
+                            <div class="col-lg-6 col-12 d-flex order-lg-1 justify-content-center mb-3 mb-lg-0">
+                                <div class="text-center d-flex flex-column gap-3 justify-content-center py-4">
+                                    <div class="d-flex flex-column gap-1 text-center">
+                                        <p class="mb-0 lead fw-light" style="font-size: 1em;">Learn Pipelines</p>
+                                        <h4 class="mb-0">Explore ESV Bible with RAG</h4>
+                                    </div>
+                                    <div>
+                                        <ul class="my-1 bg-light rounded text-start">
+                                            <li>Receive an augmented bible response</li>
+                                            <li>Search relevant chapter/verse</li>
+                                        </ul>
+                                    </div>
+                                    <div class="d-flex flex-row justify-content-center">
+                                        <a href="/bible" class="btn btn-primary">Bible GPT demo
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="35"
+                                                fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd"
+                                                    d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z">
+                                                </path>
+                                            </svg>
+                                        </a>
+                                    </div>
                                 </div>
-                                <div>
-                                    <ul class="my-1 bg-light rounded text-start">
-                                        <li>Receive an augmented bible response</li>
-                                        <li>Search most relevant chapter/verse</li>
-                                    </ul>
-                                </div>
-                                <div class="d-flex flex-row justify-content-center">
-                                    <a href="/bible" class="btn btn-primary">Bible GPT demo
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="35"
-                                            fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd"
-                                                d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z">
-                                            </path>
-                                        </svg>
-                                    </a>
+                            </div>
+                            <div class="col-12 col-lg-6 p-3">
+                                <div class="figure-caption pb-3">Querying the Pinecone Index</div>
+                                <div class="bible_demo_bg_img">&nbsp;</div>
+                            </div>
+                        </div>
+                        <div class="row my-2">
+                            <div class="d-flex justify-content-center mt-3 align-items-center">
+                                <hr class="flex-grow-1 border-primary">
+                                <button class="btn btn-link btn_toggle mx-2"
+                                    style="font-variant: small-caps; text-underline-offset: 3px;" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#bible_demo_moreInfo"
+                                    aria-expanded="false" aria-controls="moreInfo">
+                                    Learn More
+                                </button>
+                                <hr class="flex-grow-1 border-primary">
+                            </div>
+                        </div>
+                        <div class="row collapse" id="bible_demo_moreInfo">
+                            <div class="col-12">
+                                <div class="card my-2">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">More Information</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="mb-0">More information about the Bible GPT demo...</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-lg-6 p-3" style="background: white; padding:1em;">
-                            <div class="bible_demo_bg_img">&nbsp;</div>
-                            <div class="figure-caption pt-3">Querying the Pinecone Index</div>
-                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="section_standard" style="background: linear-gradient(120deg, #f6f9fc 0%, #d9f1f5 100%)">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-10 mx-auto text-center">
+                        <h2 class="mb-4">Unlock the Full Potential of Your Data with Context-Aware Chatbots</h2>
+                        <p class="mb-4 text-start text-lg-center">Discover tools that transform documents into insightful semantic databases, ready for chatbot integration. Benefit from flexible data handling, including serverless configurations and precise chunking, to elevate your project's efficiency and accuracy. Simplify the journey from data to decision with our embedding technology</p>
+                        <a class="btn btn-lg btn-success icon-link icon-link-hover" href="/embedding">Explore Our Embed Solutions</a>
                     </div>
                 </div>
             </section>
@@ -207,13 +271,13 @@
                 <div class="container px-4 px-lg-0">
                     <div class="row justify-content-center align-items-center g-lg-5">
                         <div class="col-lg-5">
-                            <h2 class="display-5 fw-bold text-dark mb-4">Need Semantic Search Powered AI?</h2>
+                            <h2 class="display-6 fw-bold text-dark mb-4">Need Semantic Search Powered AI?</h2>
                             <p class="text-muted">We deliver RAG and API pipeline solutions using LLM prompt templates,
                                 Pinecone vector databases, and OpenAI (& other) models.</p>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-container p-5 border rounded-3 shadow-sm">
-                                <h5 class="mb-3">Get Started Today</h5>
+                                <h5 class="mb-3 fs-4">Get Started Today</h5>
                                 <p class="mb-4">Connect with us for a no-charge initial discovery consultation.</p>
                                 <form onsubmit="event.preventDefault(); return false;">
                                     <div class="mb-3">
