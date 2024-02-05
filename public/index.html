@@ -129,11 +129,11 @@
                 <div class="container" id="demo_list">
                     <div class="row">
                         <div class="text-center">
-                            <h2 class="display-6">Explore Examples with Semantic Context Retrieval</h2>
+                            <h2 class="display-6">Explore Semantic Context Retrieval</h2>
                             <hr class="mx-auto my-4" style="width: 50%; border-top: 2px solid #007bff;" />
                             <p class="mx-auto px-3 text-start" style="line-height: 1.6;font-size: 1.15em;">
                                 Learn the secrets to optimizing embedded
-                                context with our interactive demo.
+                                context with our <b>interactive demo.</b>
                                 Experience firsthand how adjusting the prompt template and embedding pipeline
                                 can lead to more precise outcomes. You're in control:
                                 experiment with different chunking and retrieval methods to see how they can improve the
@@ -176,7 +176,7 @@
                         <div class="row my-2">
                             <div class="d-flex justify-content-center mt-3 align-items-center">
                                 <hr class="flex-grow-1 border-primary">
-                                <button class="btn btn-link btn_toggle mx-2"
+                                <button class="btn btn-link btn_toggle mx-2 px-4"
                                     style="font-variant: small-caps; text-underline-offset: 3px;" type="button"
                                     data-bs-toggle="collapse" data-bs-target="#ai_demo_moreInfo" aria-expanded="false"
                                     aria-controls="moreInfo">
@@ -189,36 +189,37 @@
                             <div class="col-12">
                                 <div class="my-2">
                                     <div class="card-header">
-                                        <h4 class="mb-0">AI Demo Brief: Strategic Chunking for LLM Contextual
-                                            Understanding</h4>
+                                        <h4 class="mb-0">AI Demo Brief</h4>
                                     </div>
                                     <div class="card-body text-start">
+                                        <p class="mb-4">The <a
+                                                href="https://huggingface.co/datasets/jamescalam/ai-arxiv2"
+                                                target="_blank">AI ArXiv2 dataset</a> contains a selection of papers on
+                                            the topics of AI and LLMs. Of the approximately 2131 research papers
+                                            (<a href="https://arxiv.org">arxiv.org</a>), 477, published
+                                            after 2023, were used for this demo.</p>
                                         <h5 class="fw-bold mt-3">Chunking Methodology:</h5>
-                                        <p class="mb-4">Academic research papers, characterized by their extensive
+                                        <p>Academic research papers, characterized by their extensive
                                             length and complex formatting, pose a challenge for machine readability. To
                                             address this, we implemented three distinct chunking strategies, customizing
-                                            each to accommodate the variable structure of academic texts. This approach
+                                            each to accommodate the variable structure of academic texts. Each chunk has
+                                            overlap to help with continuity. This approach
                                             ensures the creation of more accessible, machine-readable segments, crucial
                                             for LLM processing.</p>
-
-                                        <h5 class="fw-bold mt-3">Chunk Sizes:100 tokens, 200
-                                            tokens, and 400 tokens</h5>
-                                        <p><strong>Overlapping Tokens:</strong> Tailored to
-                                            chunk size to maintain continuity:</p>
-                                        <ul class="list-unstyled list-group list-group-flush">
-                                            <li class="list-group-item">100-token chunks have a 15-token overlap.</li>
-                                            <li class="list-group-item">200-token chunks have a 20-token overlap.</li>
-                                            <li class="list-group-item">400-token chunks have a 30-token overlap.</li>
+                                        <ul class="list-unstyled">
+                                            <li class="list-item">100-token chunks have a 15-token overlap.</li>
+                                            <li class="list-item">200-token chunks have a 20-token overlap.</li>
+                                            <li class="list-item">400-token chunks have a 30-token overlap.</li>
                                         </ul>
 
                                         <h5 class="fw-bold mt-3">Embedding Options:</h5>
                                         <p class="mb-4">Two embedding options are provided, varying according to the
                                             selected chunk size:</p>
                                         <ol>
-                                            <li><strong>Embed X Document Chunks:</strong> Aggregates the top X chunk
+                                            <li><b>Embed X Document Chunks:</b> Aggregates the top X chunk
                                                 results across multiple documents, facilitating a broad yet relevant
                                                 context.</li>
-                                            <li><strong>Embed 1 Chunk with X Additional Context:</strong> Focuses on a
+                                            <li><b>Embed 1 Chunk with X Additional Context:</b> Focuses on a
                                                 single document source, embedding the matched chunk along with
                                                 surrounding chunks to enrich the LLM's contextual understanding.</li>
                                         </ol>
@@ -229,20 +230,7 @@
                                             specific use cases. Our goal is give users hands-on experience in order to
                                             spur insights on how to tailor embedded data - optimizing the balance
                                             between granularity, utility and contextual breadth.</p>
-
-                                            <h5 class="fw-bold mt-3">Source and Dataset Overview:</h5>
-                                        <ul class="list-unstyled list-group list-group-flush">
-                                            <li class="list-group-item"><strong>AI Research Paper Source:</strong>
-                                                arxiv.org</li>
-                                            <li class="list-group-item"><strong>Approximate Cutoff Date:</strong>
-                                                07-18-2023</li>
-                                            <li class="list-group-item"><strong>Document Count:</strong> 428</li>
-                                            <li class="list-group-item"><strong>Dataset Utilized:</strong> <a
-                                                    href="https://huggingface.co/datasets/jamescalam/ai-arxiv"
-                                                    target="_blank">Hugging Face Dataset jamescalam/ai-arxiv</a></li>
-                                        </ul>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -282,7 +270,7 @@
                         <div class="row my-2">
                             <div class="d-flex justify-content-center mt-3 align-items-center">
                                 <hr class="flex-grow-1 border-primary">
-                                <button class="btn btn-link btn_toggle mx-2"
+                                <button class="btn btn-link btn_toggle mx-2 px-4"
                                     style="font-variant: small-caps; text-underline-offset: 3px;" type="button"
                                     data-bs-toggle="collapse" data-bs-target="#bible_demo_moreInfo"
                                     aria-expanded="false" aria-controls="moreInfo">
@@ -318,27 +306,26 @@
 
                                         <h5 class="fw-bold mt-3">Retrieval Pipelines & Prompt Templates:</h5>
                                         <p>Our demo showcases four retrieval pipelines, offering users a range of
-                                            options for embedding text based on their query specifics. Additionally,
-                                            we've designed five premade prompt templates to inspire creative
-                                            applications of Retrieval-Augmented Generation (RAG):</p>
-                                        <ul class="list-unstyled list-group list-group-flush">
-                                            <li class="list-group-item"><strong>Basic RAG Pipeline:</strong> Direct
+                                            options for embedding text based on their query specifics.</p>
+                                        <ul class="list-unstyled list-group list-group-flush my-3">
+                                            <li class="list-group-item"><b>Basic RAG Pipeline:</b> Direct
                                                 embedding of matched chunks - chapters or verses - allows for
                                                 straightforward retrieval based on user queries. This simplicity serves
                                                 well in maintaining textual coherence and relevance.</li>
-                                            <li class="list-group-item"><strong>Small-to-Big Contextualization:</strong>
+                                            <li class="list-group-item"><b>Small-to-Big Contextualization:</b>
                                                 This advanced technique enhances the granularity of searches by
                                                 returning a larger contextual segment around the matched chunk. For
                                                 instance, querying a verse can embed the entire chapter or surrounding
                                                 verses, providing a richer context. Such a method proves invaluable for
                                                 nuanced understanding and analysis.</li>
-                                            <li class="list-group-item"><strong>Creative Prompt Templates:</strong>
-                                                Among the templates, the political correctness rating system stands out.
-                                                It evaluates the embedded text, offering a political correctness score
-                                                for each segment. This application demonstrates the potential of LLM in
-                                                assisting decision-making processes, showcasing the versatility of RAG
-                                                beyond the demo's primary context.</li>
                                         </ul>
+                                        <p>Additionally, we've made prompt templates to inspire
+                                            creative applications of Retrieval-Augmented Generation (RAG). Among the
+                                            templates, the political correctness rating system stands out.
+                                            It evaluates the embedded text, offering a political correctness score
+                                            for each segment. This application demonstrates the potential of LLM in
+                                            assisting decision-making processes, showcasing the versatility of RAG
+                                            beyond the demo's primary context.</p>
                                     </div>
                                 </div>
                             </div>
