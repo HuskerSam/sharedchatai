@@ -108,6 +108,44 @@ export class EmbeddingApp extends BaseApp {
     overlap = 20;
     separators = "";
     serverType = "Serverless";
+    rowContextMenu = [
+        {
+            label: "Delete Row",
+            action: (e: any, row: any) => {
+                const data = row.getData();
+                this.deleteTableRow(data.id);
+            }
+        }, {
+            label: "Parse URL",
+            action: (e: any, row: any) => {
+                const data = row.getData();
+                this.dialogParseURL.props.hooks.setParseOptions(data.options);
+                this.dialogParseURL.props.hooks.setParseURL(data.url);
+                this.dialogParseURL.props.hooks.setShow(true);
+                this.dialogParseURL.props.hooks.setBasePath(this.basePath)
+            }
+        }, {
+            label: "Copy Row to Clipboard",
+            action: async (e: any, row: any) => {
+                const data = row.getData();
+                const docRef = doc(getFirestore(),
+                    `Users/${this.uid}/embedding/${this.selectedProjectId}/data/${data["responseId"]}`);
+                const responseQuery = await getDoc(docRef);
+                const responseData = responseQuery.data();
+                const outData: any = Object.assign({}, data);
+                outData.upsertResponse = responseData;
+                const json = JSON.stringify(outData, null, "\t");
+                navigator.clipboard.writeText(json);
+            }
+        }, {
+            label: "Upsert Row",
+            action: async (e: any, row: any) => {
+                const data = row.getData();
+                await this.upsertTableRowsToPinecone(data.id);
+                this.updateRowsCountFromFirestore();
+            }
+        },
+    ];
     tableColumns = [
         {
             title: "",
@@ -116,10 +154,11 @@ export class EmbeddingApp extends BaseApp {
             headerSort: false,
         }, {
             title: "",
-            field: "deleteRow",
+            field: "contextMenu",
             headerSort: false,
+            clickMenu: this.rowContextMenu,
             formatter: () => {
-                return `<i class="material-icons">delete</i>`;
+                return `<i class="material-icons">more_vert</i>`;
             },
             hozAlign: "center",
         }, {
@@ -127,14 +166,6 @@ export class EmbeddingApp extends BaseApp {
             field: "id",
             width: 100,
             headerSort: true,
-        }, {
-            title: "",
-            field: "parser",
-            hozAlign: "center",
-            headerSort: false,
-            formatter: () => {
-                return `<i class="material-icons">start</i>`;
-            },
         }, {
             title: "url",
             field: "url",
@@ -160,14 +191,6 @@ export class EmbeddingApp extends BaseApp {
             width: 100,
             headerSort: false,
         }, {
-            title: "",
-            field: "copyJSON",
-            headerSort: false,
-            formatter: () => {
-                return `<i class="material-icons">download_for_offline</i>`;
-            },
-            hozAlign: "center",
-        }, {
             title: "Activity",
             field: "lastActivity",
             hozAlign: "center",
@@ -181,14 +204,6 @@ export class EmbeddingApp extends BaseApp {
                 }
                 return data;
             },
-        }, {
-            title: "",
-            field: "uploadToCloud",
-            headerSort: false,
-            formatter: () => {
-                return `<i class="material-icons">cloud_upload</i>`;
-            },
-            hozAlign: "center",
         }, {
             title: "Status",
             width: 100,
@@ -232,49 +247,6 @@ export class EmbeddingApp extends BaseApp {
             height: "100%",
             layout: "fitDataStretch",
             columns: <any>(this.tableColumns),
-        });
-        this.csvUploadDocumentsTabulator.on("cellClick", async (e: any, cell: any) => {
-            const field = cell.getField();
-            const data = cell.getRow().getData();
-            if (field === "copyJSON") {
-                const docRef = doc(getFirestore(),
-                    `Users/${this.uid}/embedding/${this.selectedProjectId}/data/${data["responseId"]}`);
-                const responseQuery = await getDoc(docRef);
-                const responseData = responseQuery.data();
-                const outData: any = Object.assign({}, data);
-                outData.upsertResponse = responseData;
-                const json = JSON.stringify(outData, null, "\t");
-                navigator.clipboard.writeText(json);
-                cell.getElement().innerHTML = `<i class="material-icons">check</i>`;
-                setTimeout(() => cell.getElement().innerHTML = `<i class="material-icons">download_for_offline</i>`, 800);
-            }
-            if (field === "uploadToCloud") {
-                await this.upsertTableRowsToPinecone(data.id);
-                this.updateRowsCountFromFirestore();
-            }
-            if (field === "copyText") {
-                const docRef = doc(getFirestore(),
-                    `Users/${this.uid}/embedding/${this.selectedProjectId}/data/${data["responseId"]}`);
-                const responseQuery = await getDoc(docRef);
-
-                const responseData = responseQuery.data();
-                if (!responseData) {
-                    alert("No text response to copy");
-                    return;
-                }
-                navigator.clipboard.writeText(responseData.text);
-                cell.getElement().firstChild.innerHTML = `<i class="material-icons">check</i>`;
-                setTimeout(() => cell.getElement().firstChild.innerHTML = `<i class="material-icons">content_copy</i>`, 800);
-            }
-            if (field === "parser") {
-                this.dialogParseURL.props.hooks.setParseOptions(data.options);
-                this.dialogParseURL.props.hooks.setParseURL(data.url);
-                this.dialogParseURL.props.hooks.setShow(true);
-                this.dialogParseURL.props.hooks.setBasePath(this.basePath);
-            }
-            if (field === "deleteRow") {
-                this.deleteTableRow(data.id);
-            }
         });
         this.csvUploadDocumentsTabulator.on("cellEdited", async (cell: any) => {
             const field = cell.getField();
@@ -440,9 +412,9 @@ export class EmbeddingApp extends BaseApp {
         createRoot(div6).render(this.dialogGenerateResult);
     }
     /** */
-    async resetErrors() {        
+    async resetErrors() {
         const docsCollection = collection(getFirestore(),
-        `Users/${this.uid}/embedding/${this.selectedProjectId}/data`);
+            `Users/${this.uid}/embedding/${this.selectedProjectId}/data`);
         const errorQuery = query(docsCollection, where("status", "==", "Error"));
         const errorsSnapshot = await getDocs(errorQuery);
         const promises: any[] = [];
@@ -1149,7 +1121,7 @@ export class EmbeddingApp extends BaseApp {
     /** */
     async updateRowsCountFromFirestore() {
         const rowsPath = `Users/${this.uid}/embedding/${this.selectedProjectId}/data`;
-        this.saveProfileField("selectedEmbeddingProjectId", this.selectedProjectId);
+        // this.saveProfileField("selectedEmbeddingProjectId", this.selectedProjectId);
         const docsCollection = collection(getFirestore(), rowsPath);
 
         const newQuery = query(docsCollection, where("status", "==", "New"));
@@ -1209,7 +1181,7 @@ export class EmbeddingApp extends BaseApp {
         if (sortDir !== "asc" && sortDir !== "desc") sortDir = "asc";
         const rowsPath = `Users/${this.uid}/embedding/${this.selectedProjectId}/data`;
         const docsCollection = collection(getFirestore(), rowsPath);
-        let docsQuery = query(docsCollection, orderBy(documentId(), <any>sortDir), limit(50));
+        let docsQuery = query(docsCollection, orderBy(documentId(), <any>sortDir), limit(30));
         if (firstRow) {
             docsQuery = query(docsQuery, startAfter(firstRow));
         }
