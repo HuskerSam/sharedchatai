@@ -25,20 +25,20 @@
     <div class="main_wrapper app_panel">
         <div class="standard_header_bar_container"></div>
         <div class="signed_out_options_block" style="overflow:auto; overflow-x: hidden;">
-            <section class="pb-5">
-                <div class="container position-relative zindex-2 pt-2 pt-sm-3 pt-md-4 pt-lg-5 mt-xl-3">
-                    <h3 class="display-4 px-md-4 pb-4">Empower Your Chatbots with Seamless Context Retrieval
-                    </h3>
+            <section class="section_standard text-center">
+                <div class="container">
+                    <h1 class="display-3">Discover the Power of Embed</h1>
+                    <p class="lead">The ability scrape, chunk, and upsert in one place.</p>
                     <div class="row g-4 py-5 justify-content-center">
                         <div class="col mt-md-0">
-                            <img src="/images/openai-cir.png" alt="OpenAI logo" style="width:32px;"><img
+                            <img src="/images/openai-cir.png" alt="OpenAI logo" style="width:30px;"><img
                                 class="model_svg show_day_mode_inline_block" src="/images/openai-name-day.png"
                                 alt="OpenAI day logo" style="margin-left:6px;width:95px;"><img
                                 class="model_svg show_nite_mode_inline_block" src="/images/openai-name-nite.png"
                                 alt="OpenAI nite logo" style="margin-left:6px;width:95px;">
                         </div>
                         <div class="col mt-md-0">
-                            <img src="/images/palmapi.png" alt="PaLM logo" style="width:32px;"><img
+                            <img src="/images/palmapi.png" alt="PaLM logo" style="width:30px;"><img
                                 class="model_svg show_day_mode_inline_block" src="/images/palmapinamelite.png"
                                 alt="PaLM API day logo" style="margin-left:6px;width:95px;"><img
                                 class="model_svg show_nite_mode_inline_block" src="/images/palmapiname.png"
@@ -51,49 +51,130 @@
                                 alt="OpenAI nite logo" style="width:125px;">
                         </div>
                     </div>
-                    <div class="row align-items-center justify-content-center py-5 my-3" id="embedding_tools">
-                        <div class="col-10 text-center">
-                            <h3 class="display-6">Effortlessly Populate Semantic Databases from Your Documents</h3>
-                            <img src="/images/embed_ss.png" class="img-fluid rounded mb-4">
-                            <ul class="list-unstyled mx-auto p-0 text-start" style="max-width: 1000px;">
-                                <li class="list-item mb-2">A GUI for upserting data to Pinecone</li>
-                                <li class="list-item mb-2">Scrape data or import it from CSV or JSON files</li>
-                                <li class="list-item mb-2">Metadata (like 'title', 'url', 'bookIndex', etc.) available in document prompt template as handlebars fields, providing more context and advanced search features</li>
-                                <li class="list-item mb-3">Generate text lookup database, useful for small to big pipelines or text was not included in metadata</li>
-                            </ul>
+                </div>
+            </section>
+
+            <!-- Section 1 -->
+            <section class="section_standard">
+                <div class="container">
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col-md-6 order-md-2">
+                            <figure>
+                                <img src="/images/embed_ss1.png" alt="GUI Screenshot" class="mb-2">
+                                <figcaption class="text-center small">Our GUI in action: transforming research
+                                    papers into structured data.</figcaption>
+                            </figure>
+                        </div>
+                        <div class="col-md-6 order-md-1">
+                            <h2 class="text-primary mb-4 display-6 fw-bold my-3">Centralize Your Document Processing Efforts
+                            </h2>
+                            <div class="lh-base text-start">
+                                <ul class="list-unstyled">
+                                    <li class="mb-3"><strong>Unified Interface for Data Integration:</strong> Embed
+                                        combines data scraping, chunking, and upserting into a single interface.</li>
+                                    <li class="mb-3"><strong>Simplified Document Upsertion:</strong> Import data into
+                                        Pinecone with a user-friendly GUI.</li>
+                                    <li class="mb-3"><strong>Flexible Import Options:</strong> Scrape the web or upload
+                                        from CSV or JSON files.</li>
+                                    <li class="mb-3"><strong>Advanced Contextual Metadata:</strong> Utilize 'title',
+                                        'url', 'bookIndex' and more for enriched search capabilities.</li>
+                                    <li class="mb-3"><strong>Efficient Text Lookup Databases:</strong> Support for all
+                                        pipeline sizes, ensuring comprehensive metadata inclusion.</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                    <div
-                        class="row align-items-center justify-content-center justify-content-md-start py-4 py-md-5 my-2 my-sm-3 my-md-0 my-xl-3">
-                        <div class="col-12 col-md-7 col-lg-6 pb-2 pb-sm-3 pb-md-0 mb-4 mb-md-0">
-                            <img src="/images/embed_option.png" class="d-block mx-auto img-fluid">
+                </div>
+            </section>
+
+            <!-- Section 2 -->
+            <section class="section_standard">
+                <div class="container">
+                    <div class="row justify-content-center align-items-center">
+                        <h2 class="text-primary mb-4 display-6 fw-bold">Tailored Data Management for Optimal Results</h2>
+                        <div class="col-xl-6 my-3 my-xl-0">
+                            <figure>
+                                <img src="/images/embed_option.png" alt="Serverless and Chunking"
+                                    class="img-fluid mb-2">
+                                <figcaption class="text-center small">Tailoring your data processing setup to fit
+                                    your unique
+                                    pipeline requirements.</figcaption>
+                            </figure>
                         </div>
-                        <div class="col-md-5 col-xl-4 offset-lg-1 text-center text-md-start">
-                            <h3 class="h2 mb-lg-4">Serverless and Chunking</h3>
-                            <ul class="list-group list-group-flush my-1 bg-light rounded text-start fs-lg">
-                                <li class="list-group-item">Pod Server or Serverless Configuration supported</li>
-                                <li class="list-group-item">Chunks are sized by sentence or token count</li>
-                                <li class="list-group-item">Chunk overlapping options are available to retain context
-                                </li>
-                                <li class="list-group-item">Option to include source text in metadata</li>
-                            </ul>
+                        <div class="col-xl-5 offset-xl-1">
+                            <div class="lh-base text-start">
+                                <ul class="list-unstyled">
+                                    <li class="mb-3"><strong>Versatile Configuration:</strong> Whether you use your pod
+                                        or setting up a new serverless one, we have you covered.</li>
+                                    <li class="mb-3"><strong>Adaptive Chunking:</strong> Define your data segmentation
+                                        with adjustable sentence or token counts, optimizing for clarity and coherence.
+                                    </li>
+                                    <li class="mb-3"><strong>Contextual Integrity:</strong> Choose chunk overlapping to
+                                        maintain
+                                        continuity across data pieces, preserving the narrative integrity of your
+                                        information.</li>
+                                    <li class="mb-3"><strong>Include Text in Metadata:</strong> Incorporate source text
+                                        into your
+                                        metadata where appropriate.
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                    <div
-                        class="row align-items-center justify-content-center py-4 py-md-5 my-1 my-sm-3 my-md-0 my-xl-3">
-                        <div class="col-md-4 col-lg-5 order-md-1 text-center text-md-start">
-                            <h3 class="h2 mb-lg-4">LLM prompts that embed semantic results</h3>
-                            <ul class="list-group list-group-flush my-1 bg-light rounded text-start fs-lg">
-                                <li class="list-group-item">Use prompt templates to embed data and guide LLM response
-                                </li>
-                                <li class="list-group-item">See semantic result details such as similarity score,
-                                    metadata, and source text for each result.</li>
-                                <li class="list-group-item">Manage the LLM context limit by setting an embedding limit
-                                    to determine the number of semantic results embedded in the prompt</li>
-                            </ul>
+                </div>
+            </section>
+
+            <!-- Section 3 -->
+            <section class="section_standard">
+                <div class="container">
+                    <div class="row justify-content-center align-items-center">
+                        <h2 class="text-primary mb-4 display-6 fw-bold">Empowering Iteration and Innovation</h2>
+                        <div class="col-xl-6 order-xl-2  my-3 my-xl-0">
+                            <figure>
+                                <img src="/images/embed_chat.png" alt="Serverless and Chunking" class="img-fluid mb-2">
+                                <figcaption class="text-center small">Augmented response with embedded context in the Unacog chat webapp</figcaption>
+                            </figure>
                         </div>
-                        <div class="col-12 col-md-8 col-lg-6 order-md-2 pb-2 offset-lg-1 pb-sm-3 pb-md-0 mb-4 mb-md-0">
-                            <img src="/images/embed_chat.png" class="d-block mx-auto img-fluid">
+                        <div class="col-xl-6 order-xl-1">
+                            <div class="lh-base text-start">
+                                <ul class="list-unstyled">
+                                    <li class="mb-3">
+                                        <strong>Prompt Template Customization:</strong> Harness the power of prompt
+                                        templates to embed data strategically, guiding LLM responses for enriched user
+                                        interactions.
+                                    </li>
+                                    <li class="mb-3">
+                                        <strong>Real-time Semantic Insights:</strong> Access critical semantic details,
+                                        such as similarity scores and metadata, within your chat interface, offering a
+                                        direct glimpse into the data's impact.
+                                    </li>
+                                    <li class="mb-3">
+                                        <strong>Dynamic Embedding Limits:</strong> Adjust the embedding limit to control
+                                        the volume of semantic results in your prompts, allowing for rapid iteration and
+                                        optimization of your pipeline.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="mt-5">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-lg-10 text-center mb-5">
+                            <h2 class="text-primary mb-4 display-6 fw-bold">Streamline Development and Deployment</h2>
+                            <div class="card">
+                                <div class="card-body">
+                                    <a href="/images/embedding_tools_pipeline.png" target="_blank">
+                                        <figure>
+                                            <img src="/images/embed_ss.png" alt="Serverless and Chunking" class="img-fluid rounded mb-2">
+                                            <figcaption class="text-center small">An Overview of RAG Integration with Unacog</figcaption>
+                                        </figure>
+                                    </a>
+                                    <p class="lead my-4">With a simple API call, embed the chat functionalities developed on our platform into your site, moving easily from prototype to production.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -101,14 +182,36 @@
             <section id="cta_form" class="section_standard">
                 <div class="container px-4 px-lg-0 pb-5">
                     <div class="row justify-content-center align-items-center g-lg-5">
-                        <div class="col-lg-5">
-                            <h2 class="display-6 fw-bold text-dark mb-4">Need Semantic Search Powered AI?</h2>
-                            <p class="text-muted">We deliver RAG and API pipeline solutions using LLM prompt templates,
-                                Pinecone vector databases, and OpenAI (& other) models.</p>
+                        <div class="row justify-content-center">
+                            <div class="col-12 col-lg-8 text-center mb-5">
+                                <h3 class="display-5 text-secondary">Choose Your Path</h3>
+                                <p class="text-muted lead">Flexibility at Your Fingertips</p>
+                            </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="row justify-content-center">
+                            <div class="col-md-6 mb-3">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-body">
+                                        <h3 class="h4 fw-bold text-secondary">Plug & Play with Our API</h3>
+                                        <p class="card-text">Streamline Your Integration: Opt for our unified API to effortlessly manage the intricacies of multiple LLM systems. By consolidating API keys, indexes, and more under one roof, we become the cornerstone of your chatbot's functionality.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-body">
+                                        <h3 class="h4 fw-bold text-secondary">Craft Your Own Solution</h3>
+                                        <p class="card-text">Empower Your Innovation: Utilize our platform for data indexing, then build your custom LLM wrapper. Save time and ensure precision, backed by our robust service. Test and perfect your data in our environment before going live.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center my-4">
+                            <p class="text-muted lead">Whether opting for our full API integration or embarking on a custom development journey, your project benefits from our expertise. Let us handle the complexity.</p>
+                        </div>
+                        <div class="col-lg-10 col-xl-8">
                             <div class="form-container p-5 border rounded-3 shadow-sm">
-                                <h5 class="mb-3 fs-4">Get Started Today</h5>
+                                <h5 class="mb-3 fs-3">Get Started Today</h5>
                                 <p class="mb-4">Connect with us for a no-charge initial discovery consultation.</p>
                                 <form onsubmit="event.preventDefault(); return false;">
                                     <div class="mb-3">
