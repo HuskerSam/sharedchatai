@@ -204,23 +204,6 @@ body {
   white-space: nowrap;
 }
 
-.homepage_section {
-  color: var(--primary-color);
-}
-
-.day_mode .homepage_section_background {
-  background-color: var(--secondary-color-2);
-}
-
-
-.nite_mode .homepage_section_background {
-  background-color: var(--background-accent-4);
-}
-
-.homepage_section p.lead {
-  padding-top: 1em;
-}
-
 .feature_group_list {
   font-size: 0.9em;
   border-radius: 6px;

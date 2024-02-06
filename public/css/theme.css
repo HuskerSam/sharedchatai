@@ -527,6 +527,16 @@ h5 {
   }
 }
 
+.day_mode .homepage_section_background {
+  background-color: var(--secondary-color-2);
+}
+
+
+.nite_mode .homepage_section_background {
+  background-color: var(--background-accent-4);
+}
+
+
 .btn_toggle::after {
   content: '\25bc'; /* Default to down arrow */
   display: inline-block;

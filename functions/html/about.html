@@ -110,17 +110,12 @@
     <div class="main_wrapper app_panel">
         <div class="standard_header_bar_container"></div>
         <div class="main_container" style="overflow:auto;">
-            <section class="homepage_section homepage_section_background">
+            <section class="section_standard homepage_section_background">
                 <div class="container">
                     <div class="row">
                         <div class="headline_unacog">Una<span class="home_navbar_name_color">cog</span>
                         </div>
                     </div>
-                </div>
-            </section>
-
-            <section class="homepage_section homepage_section_background">
-                <div class="container">
                     <div class="row align-items-center">
                         <div class="col">
                             <img src="/images/unacog_screen.png" alt="Application Image" class="img-fluid mt-4">
@@ -142,7 +137,6 @@
                     </div>
                 </div>
             </section>
-
             <section class="px-md-4 text-center">
                 <div class="container py-5">
                     <div class="row g-4">
@@ -170,222 +164,244 @@
                     </div>
                 </div>
             </section>
-
-            <section class="homepage_gif_section pt-5">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-6 p-lg-3 text-center">
-                            <h2 class="display-6">Collaborate in Real-time
-                            </h2>
-                            <p class="fs-6">Learn to prompt by working together.</p>
-                        </div>
-                        <div class="col-lg-6 shadow-sm rounded">
-                            <img src="/images/collab.gif" alt="gif of collaborative features" class="img-fluid rounded">
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="homepage_gif_section pb-5">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-6 p-lg-3 text-center order-lg-1">
-                            <h2 class="display-6">With Better Context Management
-                            </h2>
-                            <p class="fs-6">Create the perfect context for your use case.</p>
-                        </div>
-                        <div class="col-lg-6 order-lg-0 shadow-sm rounded">
-                            <img src="/images/context.gif" alt="gif of features to manage context"
-                                class="img-fluid rounded">
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="homepage_section homepage_section_background">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-6 p-lg-3 text-center mb-3 mb-lg-0">
-                            <h2 class="display-5">Unacog Credits
-                            </h2>
-                            <p class="fs-5">Only pay for what you use, with credits that never expire and grant
-                                you access to a growing LLM library.</p>
-                            <a href="#price" class="btn btn-primary btn-lg">Cost Calculator</a>
-                        </div>
-                        <div class="col-lg-6">
-                            <img src="/images/credits.gif" alt="gif of explaining unacog credits"
-                                class="img-fluid rounded">
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="homepage_gif_section pt-5">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-6 p-lg-3 text-center">
-                            <h2 class="display-6">Create & Share Templates
-                            </h2>
-                            <p class="fs-6">Reuse your context as unique spaces and more.</p>
-                        </div>
-                        <div class="col-lg-6 shadow-sm rounded">
-                            <img src="/images/templates.gif" alt="gif showing how to reuse context as templates"
-                                class="img-fluid rounded">
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="homepage_gif_section pb-5">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-6 p-lg-3 text-center order-lg-1">
-                            <h2 class="display-6">Organize & Customize
-                            </h2>
-                            <p class="fs-6">With features to streamline your workflow.</p>
-                        </div>
-                        <div class="col-lg-6 order-lg-0 shadow-sm rounded">
-                            <img src="/images/dashprofile.gif" alt="gif showing dashboard and profile options"
-                                class="img-fluid rounded">
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <div class="container" id="pricing">
-                <div class="text-center">
-                    <h2 class="display-5">Cost Calculator</h2>
-                    <hr>
-                    <div class="pb-3">
-                        <select class="pricing_type_display form-select bulk_calc_input fs-5"
-                            style="width:auto;display:inline-block">
-                            <option selected value="bulk_credits_wrapper">Bulk Credits</option>
-                            <option value="power_user_wrapper">Power User</option>
-                            <option value="model_prices_wrapper">Model Prices</option>
-                            <option value="tokens_per_credit">Tokens Per Credit</option>
-                        </select>
-                    </div>
-                </div>
-        
-                <div class="bulk_credits_wrapper text-center">
-                    <div class="calc_description pb-3">
-                        This calculator is for a team leader or professor to determine the cost
-                        of multiple projects. A token is ~3/4 of a word for comparison.
-                    </div>
-                    <div>
-                        <div style="display: inline-block" class="text-start card p-2 mb-4 shadow-sm">
-                            <label class="form-label bulk_calc_label">Tokens Per Project</label>
-                            <input class="bulk_tokens_count bulk_calc_input" type="text" value="10000">
-                            <br>
-                            <label class="form-label bulk_calc_label">Project Count</label>
-                            <input class="bulk_project_count bulk_calc_input" type="text" value="25">
-                            <br>
-                            <label class="form-label bulk_calc_label">Input:Output Ratio</label>
-                            <select class="tokens_per_credit_ratio form-select" style="width:auto;display:inline-block">
-                                <option value="1">1:1</option>
-                                <option selected value="2">2:1</option>
-                                <option value="3">3:1</option>
-                                <option value="4">4:1</option>
-                                <option value="5">5:1</option>
-                            </select>
-                            <hr>
-                            <label class="form-label bulk_calc_label">Total Tokens</label>
-                            <span class="bulk_calc_total_tokens" style="padding:4px;display:inline-block"></span>
-                        </div>
-                        <br>
-                        <div>
-                            <div class="card shadow-sm">
-                                <table class="bulk_credits_table price_table">
-                                </table>
+            <section class="section_standard">
+                <div class="container py-5">
+                    <h2 class="text-center mb-4">Explore Our Features</h2>
+                     <p class="lead text-center mb-4">Learn more about what we offer by navigating through the sections below.</p>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="collaborate" role="tabpanel"
+                            aria-labelledby="collaborate-tab">
+                            <div class="row align-items-center pt-3">
+                                <div class="col-lg-6">
+                                    <img src="/images/collab.gif" alt="gif of collaborative features"
+                                        class="img-fluid">
+                                </div>
+                                <div class="col-lg-6 text-center">
+                                    <h2 class="display-6">Collaborate in Real-time
+                                    </h2>
+                                    <p class="lead">Learn to prompt by working together.</p>
+                                </div>
                             </div>
-                            <div class="recommended"> &nbsp; gpt-3.5-turbo recommended as best value</div>
-                            <div> &nbsp; * Cost based on purchasing credits in $100 amounts</div>
+                        </div>
+                        <div class="tab-pane fade" id="context" role="tabpanel" aria-labelledby="context-tab">
+                            <div class="row align-items-center pt-3">
+                                <div class="col-lg-6">
+                                    <img src="/images/context.gif" alt="gif of features to manage context"
+                                        class="img-fluid">
+                                </div>
+                                <div class="col-lg-6 text-center">
+                                    <h2 class="display-6">With Better Context Management
+                                    </h2>
+                                    <p class="lead">Create the perfect context for your use case.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="unacog" role="tabpanel" aria-labelledby="unacog-tab">
+                            <div class="row align-items-center pt-3">
+                                <div class="col-lg-6">
+                                    <img src="/images/bulk.gif" alt="gif of explaining unacog credits"
+                                        class="img-fluid">
+                                </div>
+                                <div class="col-lg-6 text-center">
+                                    <h2 class="display-6">Bulk Create</h2>
+                                    <p class="lead">
+                                        Create multiple sessions using your template and setting with a single click.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="templates" role="tabpanel" aria-labelledby="templates-tab">
+                            <div class="row align-items-center pt-3">
+                                <div class="col-lg-6">
+                                    <img src="/images/templates.gif" alt="gif showing how to reuse context as templates"
+                                        class="img-fluid">
+                                </div>
+                                <div class="col-lg-6 text-center">
+                                    <h2 class="display-6">Create & Share Templates</h2>
+                                    <p class="lead">Reuse your context as unique spaces and more.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="nav nav-pills justify-content-center my-3" id="myTab" role="tablist">
+                        <li class="nav-item rounded" role="presentation">
+                            <button class="nav-link active px-3 py-2" id="collaborate-tab" data-bs-toggle="tab"
+                                data-bs-target="#collaborate" type="button" role="tab" aria-controls="collaborate"
+                                aria-selected="true">Collaborate</button>
+                        </li>
+                        <li class="nav-item rounded" role="presentation">
+                            <button class="nav-link px-3 py-2" id="context-tab" data-bs-toggle="tab" data-bs-target="#context"
+                                type="button" role="tab" aria-controls="context" aria-selected="false">Better Context
+                                Management</button>
+                        </li>
+                        <li class="nav-item rounded" role="presentation">
+                            <button class="nav-link px-3 py-2" id="unacog-tab" data-bs-toggle="tab" data-bs-target="#unacog"
+                                type="button" role="tab" aria-controls="unacog" aria-selected="false">Bulk
+                                Create</button>
+                        </li>
+                        <li class="nav-item rounded" role="presentation">
+                            <button class="nav-link px-3 py-2" id="templates-tab" data-bs-toggle="tab" data-bs-target="#templates"
+                                type="button" role="tab" aria-controls="templates" aria-selected="false">Share
+                                Templates</button>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+            <section class="section_standard">
+                <div class="container">
+                    <div class="row justify-content-center align-items-center">
+                        <h2 class="text-primary mb-4 display-6 fw-bold">Most Flexible Way to Build</h2>
+                        <div class="col-xl-5 offset-xl-1">
+                            <span
+                                class="heading-color d-inline-block bg-secondary small rounded-3 px-2 py-1 text-light mb-3">
+                               No Subscription 😊
+                            </span>
+                            <p class="lead mb-4">Unacog Credits: bleed-edge access with none of the hassle</p>
+                            <div class="text-start mt-4 lh-base">
+                                <p class="mb-3"><b>Pay as you go:</b> Only pay for what you use, with credits that never
+                                    expire and grant
+                                    you access to a growing LLM library.</p>
+                                <p class="mb-3"><b>Expanding benefits:</b> get access to an expanding library of tools
+                                    and model access.</p>
+                                <p class="mb-3"><b>One access point:</b> save time and effort managing multiple api
+                                    keys, use your unacog creditenals for all your LLM needs</p>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 my-3 my-xl-0">
+                            <a href="https://unacog.com/content/credits/" target="_blank">
+                                <figure>
+                                    <img src="/images/unacog_pricing.png" alt="gif of explaining unacog credits"
+                                        class="img-fluid" style="max-height: 600px;">
+                                    <figcaption class="text-center small">>A look at the cost of a Prompt</figcaption>
+                                </figure>
+                            </a>
                         </div>
                     </div>
                 </div>
-                <div class="power_user_wrapper text-center">
-                    <div class="calc_description pb-3">
-                        For mixing models to build context cheaper but still get the
-                        best quality final results.
-                    </div>
-                    <div>
-                        <div style="display: inline-block" class="card p-2 mb-4 text-start shadow-sm">
-                            <label class="form-label bulk_calc_label">Tokens Per Project</label>
-                            <input class="power_tokens_count power_user_calc_input" type="text" value="20000">
-                            <br>
-                            <label class="form-label bulk_calc_label">Project Count</label>
-                            <input class="power_project_count power_user_calc_input" type="text" value="50">
-                            <br>
-                            <label class="form-label bulk_calc_label">Total Tokens</label>
-                            <span class="power_user_calc_total_tokens"></span>
-                            <br>
-                            <label class="form-label bulk_calc_label">Primary Model</label>
-                            <select class="form-select primary_model_select" style="width:auto;display:inline-block"></select>
-                            <br>
-                            <label class="form-label bulk_calc_label">Secondary Model</label>
-                            <select class="form-select secondary_model_select" style="width:auto;display:inline-block"></select>
-                            <br>
-                            <label class="form-label bulk_calc_label">Primary Usage</label>
-                            <input type="number" min="0" max="100" class="form-control primary_usage_level bulk_calc_input"
-                                value="80">
-                            %
+            </section>
+
+
+
+            <section class="section_standard">
+                <div class="container" id="pricing">
+                    <div class="text-center">
+                        <h2 class="display-5">Cost Calculator</h2>
+                        <hr>
+                        <div class="pb-3">
+                            <select class="pricing_type_display form-select bulk_calc_input fs-5"
+                                style="width:auto;display:inline-block">
+                                <option selected value="bulk_credits_wrapper">Bulk Credits</option>
+                                <option value="power_user_wrapper">Power User</option>
+                                <option value="model_prices_wrapper">Model Prices</option>
+                                <option value="tokens_per_credit">Tokens Per Credit</option>
+                            </select>
                         </div>
-                        <br>
+                    </div>
+
+                    <div class="bulk_credits_wrapper text-center">
+                        <div class="calc_description pb-3">
+                            This calculator is for a team leader or professor to determine the cost
+                            of multiple projects. A token is ~3/4 of a word for comparison.
+                        </div>
+                        <div>
+                            <div style="display: inline-block" class="text-start card p-2 mb-4 shadow-sm">
+                                <label class="form-label bulk_calc_label">Tokens Per Project</label>
+                                <input class="bulk_tokens_count bulk_calc_input" type="text" value="10000">
+                                <br>
+                                <label class="form-label bulk_calc_label">Project Count</label>
+                                <input class="bulk_project_count bulk_calc_input" type="text" value="25">
+                                <br>
+                                <label class="form-label bulk_calc_label">Input:Output Ratio</label>
+                                <select class="tokens_per_credit_ratio form-select"
+                                    style="width:auto;display:inline-block">
+                                    <option value="1">1:1</option>
+                                    <option selected value="2">2:1</option>
+                                    <option value="3">3:1</option>
+                                    <option value="4">4:1</option>
+                                    <option value="5">5:1</option>
+                                </select>
+                                <hr>
+                                <label class="form-label bulk_calc_label">Total Tokens</label>
+                                <span class="bulk_calc_total_tokens" style="padding:4px;display:inline-block"></span>
+                            </div>
+                            <br>
+                            <div>
+                                <div class="card shadow-sm">
+                                    <table class="bulk_credits_table price_table">
+                                    </table>
+                                </div>
+                                <div class="recommended"> &nbsp; gpt-3.5-turbo recommended as best value</div>
+                                <div> &nbsp; * Cost based on purchasing credits in $100 amounts</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="power_user_wrapper text-center">
+                        <div class="calc_description pb-3">
+                            For mixing models to build context cheaper but still get the
+                            best quality final results.
+                        </div>
+                        <div>
+                            <div style="display: inline-block" class="card p-2 mb-4 text-start shadow-sm">
+                                <label class="form-label bulk_calc_label">Tokens Per Project</label>
+                                <input class="power_tokens_count power_user_calc_input" type="text" value="20000">
+                                <br>
+                                <label class="form-label bulk_calc_label">Project Count</label>
+                                <input class="power_project_count power_user_calc_input" type="text" value="50">
+                                <br>
+                                <label class="form-label bulk_calc_label">Total Tokens</label>
+                                <span class="power_user_calc_total_tokens"></span>
+                                <br>
+                                <label class="form-label bulk_calc_label">Primary Model</label>
+                                <select class="form-select primary_model_select"
+                                    style="width:auto;display:inline-block"></select>
+                                <br>
+                                <label class="form-label bulk_calc_label">Secondary Model</label>
+                                <select class="form-select secondary_model_select"
+                                    style="width:auto;display:inline-block"></select>
+                                <br>
+                                <label class="form-label bulk_calc_label">Primary Usage</label>
+                                <input type="number" min="0" max="100"
+                                    class="form-control primary_usage_level bulk_calc_input" value="80">
+                                %
+                            </div>
+                            <br>
+                            <div style="max-width:45em;display:inline-block;width:100%;">
+                                <div class="card shadow-sm">
+                                    <table class="power_user_credits_table price_table">
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="model_prices_wrapper" style="text-align:center">
+                        <div class="calc_description pb-3">
+                            Wholesale cost, these are directly from the API vendors.
+                        </div>
                         <div style="max-width:45em;display:inline-block;width:100%;">
                             <div class="card shadow-sm">
-                                <table class="power_user_credits_table price_table">
+                                <table class="price_table">
+                                    {{{rawPrices}}}
                                 </table>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="model_prices_wrapper" style="text-align:center">
-                    <div class="calc_description pb-3">
-                        Wholesale cost, these are directly from the API vendors.
-                    </div>
-                    <div style="max-width:45em;display:inline-block;width:100%;">
-                        <div class="card shadow-sm">
-                            <table class="price_table">
-                                {{{rawPrices}}}
-                            </table>
+                    <div class="tokens_per_credit" style="text-align:center">
+                        <div class="calc_description pb-3">
+                            Number of tokens per Unacog credit based on the API cost.
+                        </div>
+                        <div style="max-width:45em;display:inline-block;width:100%;">
+                            <div class="card shadow-sm">
+                                <table class="price_table">
+                                    {{{tokensPerCredit}}}
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="tokens_per_credit" style="text-align:center">
-                    <div class="calc_description pb-3">
-                        Number of tokens per Unacog credit based on the API cost.
-                    </div>
-                    <div style="max-width:45em;display:inline-block;width:100%;">
-                        <div class="card shadow-sm">
-                            <table class="price_table">
-                                {{{tokensPerCredit}}}
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="col align-items-center" style="display:none;">
-                    <div class="py-3" style="text-align:center;font-size:1.5em;">
-                        <button class="btn btn-primary btn-lg buy_credits_pricing" type="button">Buy
-                            Credits</button>
-                    </div>
-                </div>
-            </div>
-        
-            <section class="homepage_section ">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-6 p-lg-3 text-center mb-3 mb-lg-0">
-                            <h2 class="display-5">Most Flexible Way to Prompt
-                            </h2>
-                            <p class="fs-5">Collaborate in real-time with many LLMs with no subscription needed</p>
-                            <a href="https://unacog.com/content/credits/" class="btn btn-primary btn-lg">Learn
-                                More</a>
-                        </div>
-                        <div class="col-lg-6">
-                            <a href="https://unacog.com/content/credits/"
-                                class="d-flex flex-sm-column justify-content-center align-content-center"
-                                style="flex-flow: wrap;">
-                                <img src="/images/unacog_pricing.png" class="img-fluid rounded w-50"
-                                    alt="Unacog pricing">
-                                <span class="text-center">A look at the cost of a Prompt</span>
-                            </a>
+                    <hr>
+                    <div class="col align-items-center" style="display:none;">
+                        <div class="py-3" style="text-align:center;font-size:1.5em;">
+                            <button class="btn btn-primary btn-lg buy_credits_pricing" type="button">Buy
+                                Credits</button>
                         </div>
                     </div>
                 </div>
@@ -394,4 +410,5 @@
         </div>
     </div>
 </body>
+
 </html>
