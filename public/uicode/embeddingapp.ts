@@ -1087,7 +1087,8 @@ export class EmbeddingApp extends BaseApp {
         const importedRows: any[] = [];
         const errorList: any[] = [];
         importData.forEach((item: any) => {
-            const text = item.text as string;
+            let text = item.text as string;
+            if (!text) text = "";
             if ((item.url || item.id) && text.length < 900000) {
                 item.created = uploadDate;
                 if (!item.id) item.id = encodeURIComponent(item.url);
