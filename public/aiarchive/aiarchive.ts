@@ -258,7 +258,7 @@ export class AIArchiveDemoApp {
             const chunkIndex = Number(parts[1]);
             const chunkCount = parts[2];
             const block = `<div class="verse_card">
-              <a href="${match.metadata.url}" target="_blank">${match.metadata.title}</a> ${chunkIndex}/${chunkCount}<br>${d}<br>
+              <a href="${match.metadata.url}" target="_blank">${match.metadata.title}</a> ${chunkIndex}/${chunkCount}<div style="text-align:right">${d}</div><br>
               <div class="verse_card_text">${textFrag}</div>
               </div>`;
             html += block;

@@ -51,7 +51,19 @@
   <nav class="navbar navbar-dark bg-dark navbar-expand-lg" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
   border-bottom: 1px solid rgba(127, 127, 127, .4);" aria-label="Main navigation">
     <div class="container-xl">
-      <div class="navbar-brand">Bible GPT</div>
+      <div class="dropdown">
+        <button class="btn navbar-brand dropdown-toggle text-light" type="button" id="dropdownMenuButton"
+          data-bs-toggle="dropdown" aria-expanded="false">
+          Bible GPT
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <li><a class="dropdown-item" href="/aiarchive">Visit AI Research Demo</a></li>
+          <li><a class="dropdown-item" href="/embedding">Learn About Embedding</a></li>
+          <li class="dropdown-item mt-2">
+            <a class="btn btn-secondary" href="/embedding/#cta_form">Hire Us</a>
+          </li>
+        </ul>
+      </div>
       <button class="navbar-toggler p-0 border-0" type="button" data-bs-toggle="offcanvas"
         data-bs-target="#offcanvasElement" aria-controls="offcanvasElement">
         <span class="material-icons-outlined text-light" style="font-size: 1.75em;">
@@ -104,11 +116,6 @@
                   <span class="material-icons-outlined nav-icon">settings_applications</span>
                   <span class="nav-text">Template</span>
                 </a>
-              </li>
-            </div>
-            <div style="align-self: center;">
-              <li class="nav-item mt-2 mt-lg-0">
-                <a class="btn btn-secondary" href="/embedding">Hire Us</a>
               </li>
             </div>
           </ul>
