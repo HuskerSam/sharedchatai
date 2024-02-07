@@ -1092,6 +1092,7 @@ export class EmbeddingApp extends BaseApp {
             if ((item.url || item.id) && text.length < 900000) {
                 item.created = uploadDate;
                 if (!item.id) item.id = encodeURIComponent(item.url);
+                item.id = item.id.replaceAll("/", "_");
 
                 const keys = Object.keys(item);
                 const metaData: any = {};
