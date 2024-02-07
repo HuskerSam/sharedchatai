@@ -61,7 +61,7 @@
                     <ul class="recent_content_flyers_ul_list flex-lg-row flex_change_responsive">{{{flyerHTML}}}</ul>
                 </div>
                 <!-- Models section-->
-                <section id="models" class="homepage_section homepage_section_background py-4">
+                <section id="models" class="section_standard homepage_section_background my-5">
                     <h2 class="homepage_header">Available Models</h2>
                     <div class="flex-lg-row flex_change_responsive container">
                         <div class="main_block intro_card card">
@@ -88,11 +88,12 @@
                             <h5 style="display:inline-block">
                                 <a href="https://developers.generativeai.google/api/rest/generativelanguage"
                                     target="_blank">
-                                    <img src="/images/palmapi.png" alt="PaLM logo" style="width:32px;"><img alt="PaLM logo"
-                                        class="model_svg show_day_mode_inline_block" src="/images/palmapinamelite.png"
-                                        style="margin-left:6px;width:95px;"><img alt="PaLM name"
-                                        class="model_svg show_nite_mode_inline_block" src="/images/palmapiname.png"
-                                        style="margin-left:6px;width:95px;"><i class="material-icons"
+                                    <img src="/images/palmapi.png" alt="PaLM logo" style="width:32px;"><img
+                                        alt="PaLM logo" class="model_svg show_day_mode_inline_block"
+                                        src="/images/palmapinamelite.png" style="margin-left:6px;width:95px;"><img
+                                        alt="PaLM name" class="model_svg show_nite_mode_inline_block"
+                                        src="/images/palmapiname.png" style="margin-left:6px;width:95px;"><i
+                                        class="material-icons"
                                         style="margin-left: 4px;position:relative;top: 6px;">open_in_new</i>
                                 </a>
                             </h5>
@@ -131,220 +132,166 @@
                     </div>
                 </section>
                 <!-- features section-->
-                <section id="features" class="homepage_section py-4">
-                    <h2 class="homepage_header">Chat Features</h2>
+                <section id="features" class="section_standard mb-5">
+                    <h2 class="text-center mb-3 display-6 fw-bold">Chat Features</h2>
+                    <span class="heading-color d-inline-block bg-secondary small rounded-3 px-2 py-1 text-light mb-3">
+                        🔎 Quick Help
+                    </span>
+                    <p class="lead text-center mb-4">
+                        Exploring docs is to good way to get started.<br>
+                    </p>
                     <div class="container">
                         <ul class=" flex-lg-row flex_change_responsive feature_group_list">
-                            <li class="feature_group_item card hover_yellow">
-                                <a class="d-flex flex-column p-2" href="/help/#system_message" target="help">
-                                    <i class="material-icons">lightbulb</i>
-                                    <h4 class="feature_name">
-                                        <span class="link">Swap Models</span>
-                                    </h4>
-                                    <span class="desc">
-                                        while in the same session
-                                    </span>
+                            <li class="feature_group_item card hover_yellow m-1">
+                                <a class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="/help/#system_message" target="help">
+                                    <span class="material-icons mb-2">lightbulb</span>
+                                    <h4 class="feature_name">Swap Models</h4>
+                                    <span class="desc text-muted">while in the same session</span>
                                 </a>
                             </li>
-                            <li class="feature_group_item card hover_yellow">
-                                <a class="d-flex flex-column p-2" href="/help/#system_message" target="help">
-                                    <span class="material-icons-outlined">
-                                        message
-                                    </span>
-                                    <h4 class="feature_name">
-                                        <span class="link">System Msg</span>
-                                    </h4>
-                                    <span class="desc">
-                                        to maintain context throughout
-                                    </span>
+                            <li class="feature_group_item card hover_yellow m-1">
+                                <a class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="/help/#system_message" target="help">
+                                    <span class="material-icons-outlined mb-2">message</span>
+                                    <h4 class="feature_name">System Msg</h4>
+                                    <span class="desc text-muted">to maintain context throughout</span>
                                 </a>
                             </li>
-                            <li class="feature_group_item card hover_yellow">
-                                <a class="d-flex flex-column p-2" href="/help/#auto_exclude" target="help">
-                                    <span class="material-icons-outlined">auto_fix_high</span>
-                                    <h4 class="feature_name">
-                                        <span class="link">Auto exclude</span>
-                                    </h4>
-                                    <span class="desc">
-                                        to manage request sizes automatically
-                                    </span>
+                            <li class="feature_group_item card hover_yellow m-1">
+                                <a class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="/help/#auto_exclude" target="help">
+                                    <span class="material-icons-outlined mb-2">auto_fix_high</span>
+                                    <h4 class="feature_name">Auto exclude</h4>
+                                    <span class="desc text-muted">to manage request sizes automatically</span>
                                 </a>
                             </li>
-                            <li class="feature_group_item card hover_yellow">
-                                <a class="d-flex flex-column p-2" href="/help/#chat_features" target="help">
-                                    <i class="material-icons">loop</i>
-                                    <h4 class="feature_name">
-                                        <span class="link">Rerun Prompts</span>
-                                    </h4>
-                                    <span class="desc">
-                                        to get different results with same prompt
-                                    </span>
+                            <li class="feature_group_item card hover_yellow m-1">
+                                <a class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="/help/#chat_features" target="help">
+                                    <i class="material-icons mb-2">loop</i>
+                                    <h4 class="feature_name">Rerun Prompts</h4>
+                                    <span class="desc text-muted">to get different results with same prompt</span>
                                 </a>
                             </li>
-    
-                            <li class="feature_group_item card hover_yellow">
-                                <a class="d-flex flex-column p-2" href="/help/#users_info" target="help">
-                                    <i class="material-icons">link</i>
-                                    <h4 class="feature_name">
-                                        <span class="link">Share Link</span>
-                                    </h4>
-                                    <span class="desc">
-                                        to collaborate with others quickly
-                                    </span>
+                            <li class="feature_group_item card hover_yellow m-1">
+                                <a class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="/help/#users_info" target="help">
+                                    <i class="material-icons mb-2">link</i>
+                                    <h4 class="feature_name">Share Link</h4>
+                                    <span class="desc text-muted">to collaborate with others quickly</span>
                                 </a>
                             </li>
-    
-                            <li class="feature_group_item card hover_yellow">
-                                <a class="d-flex flex-column p-2" href="/help/#export_options" target="help">
-                                    <i class="material-icons">download</i>
-                                    <h4 class="feature_name">
-                                        <span class="link">Export json</span>
-                                    </h4>
-                                    <span class="desc">
-                                        to share templates
-                                    </span>
+                            <li class="feature_group_item card hover_yellow m-1">
+                                <a class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="/help/#export_options" target="help">
+                                    <i class="material-icons mb-2">download</i>
+                                    <h4 class="feature_name">Export json</h4>
+                                    <span class="desc text-muted">to share templates</span>
                                 </a>
                             </li>
-    
-                            <li class="feature_group_item card hover_yellow">
-                                <a class="d-flex flex-column p-2" href="/help/#upload_data_sessions" target="help">
-                                    <i class="material-icons">upload</i>
-                                    <h4 class="feature_name">
-                                        <span class="link">Import Template</span>
-                                    </h4>
-                                    <span class="desc">
-                                        to start with groundwork
-                                    </span>
+                            <li class="feature_group_item card hover_yellow m-1">
+                                <a class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="/help/#upload_data_sessions" target="help">
+                                    <i class="material-icons mb-2">upload</i>
+                                    <h4 class="feature_name">Import Template</h4>
+                                    <span class="desc text-muted">to start with groundwork</span>
                                 </a>
                             </li>
-                            <li class="feature_group_item card hover_yellow">
-                                <a class="d-flex flex-column p-2" href="/help/#options" target="help">
-                                    <i class="material-icons">content_copy</i>
-                                    <h4 class="feature_name">
-                                        <span class="link">Use clipboard</span>
-                                    </h4>
-                                    <span class="desc">
-                                        to copy text/html to other apps
-                                    </span>
+                            <li class="feature_group_item card hover_yellow m-1">
+                                <a class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="/help/#options" target="help">
+                                    <i class="material-icons mb-2">content_copy</i>
+                                    <h4 class="feature_name">Use clipboard</h4>
+                                    <span class="desc text-muted">to copy text/html to other apps</span>
                                 </a>
                             </li>
-                            <li class="feature_group_item card hover_yellow">
-                                <a class="d-flex flex-column p-2" href="/help/#help_sign_in" target="help">
-                                    <span class="material-icons">
-                                        supervised_user_circle
-                                    </span>
-                                    <h4 class="feature_name">
-                                        <span class="link">Anonymous login</span>
-                                    </h4>
-                                    <span class="desc">
-                                        to share with external collaborators
-                                    </span>
+                            <li class="feature_group_item card hover_yellow m-1">
+                                <a class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="/help/#help_sign_in" target="help">
+                                    <span class="material-icons mb-2">supervised_user_circle</span>
+                                    <h4 class="feature_name">Anonymous login</h4>
+                                    <span class="desc text-muted">to share with external collaborators</span>
                                 </a>
                             </li>
-                            <li class="feature_group_item card hover_yellow">
-                                <a class="d-flex flex-column p-2" href="/help/#session_limit" target="help">
-                                    <span class="material-icons">
-                                        settings
-                                    </span>
-                                    <h4 class="feature_name">
-                                        <span class="link">Use Session Limit</span>
-                                    </h4>
-                                    <span class="desc">
-                                        to protect your account from misuse
-                                    </span>
+                            <li class="feature_group_item card hover_yellow m-1">
+                                <a class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="/help/#session_limit" target="help">
+                                    <span class="material-icons mb-2">settings</span>
+                                    <h4 class="feature_name">Use Session Limit</h4>
+                                    <span class="desc text-muted">to protect your account from misuse</span>
                                 </a>
                             </li>
-                            <li class="feature_group_item card hover_yellow">
-                                <a class="d-flex flex-column p-2" href="/help/#owner_labels" target="help">
-                                    <i class="material-icons">label</i>
-                                    <h4 class="feature_name">
-                                        <span class="link">Organize using labels</span>
-                                    </h4>
-                                    <span class="desc">
-                                        to categorize and find sessions quickly
-                                    </span>
+                            <li class="feature_group_item card hover_yellow m-1">
+                                <a class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="/help/#owner_labels" target="help">
+                                    <i class="material-icons mb-2">label</i>
+                                    <h4 class="feature_name">Organize using labels</h4>
+                                    <span class="desc text-muted">to find quickly by category</span>
                                 </a>
                             </li>
-    
-                            <li class="feature_group_item card hover_yellow">
-                                <a class="d-flex flex-column p-2" href="/help/#temperature" target="help">
-                                    <i class="material-icons">thermostat</i>
-                                    <h4 class="feature_name">
-                                        <span class="link">Adjust temperature</span>
-                                    </h4>
-                                    <span class="desc">
-                                        for more creative or regular results
-                                    </span>
+                            <li class="feature_group_item card hover_yellow m-1">
+                                <a class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="/help/#temperature" target="help">
+                                    <i class="material-icons mb-2">thermostat</i>
+                                    <h4 class="feature_name">Adjust temperature</h4>
+                                    <span class="desc text-muted">for more creative or regular results</span>
                                 </a>
                             </li>
-    
-                            <li class="feature_group_item card hover_yellow">
-                                <a class="d-flex flex-column p-2" href="/help/#threshold" target="help">
-                                    <i class="material-icons">query_stats</i>
-                                    <h4 class="feature_name">
-                                        <span class="link">Manage context</span>
-                                    </h4>
-                                    <span class="desc">
-                                        to control quality and cost of responses
-                                    </span>
+                            <li class="feature_group_item card hover_yellow m-1">
+                                <a class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="/help/#threshold" target="help">
+                                    <i class="material-icons mb-2">query_stats</i>
+                                    <h4 class="feature_name">Manage context</h4>
+                                    <span class="desc text-muted">to control quality and cost of responses</span>
                                 </a>
                             </li>
-                            <li class="feature_group_item card disabled_link">
-                                <a class="d-flex flex-column p-2">
-                                    <span class="material-icons">touch_app</span>
-                                    <h4 class="feature_name">
-                                        <span class="link">Bulk Create</span>
-                                    </h4>
-                                    <span class="desc">
-                                        for quick creation
-                                    </span>
-                                </a>
+                            <li class="feature_group_item card disabled_link m-1">
+                                <div class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="/help/#bulk_create" target="help">
+                                    <span class="material-icons mb-2">touch_app</span>
+                                    <h4 class="feature_name">Bulk Create</h4>
+                                    <span class="desc text-muted">for quick creation</span>
+                                    <span class="badge bg-secondary text-light mt-2">Help Coming</span>
+                                </div>
                             </li>
-                            <li class="feature_group_item card disabled_link">
-                                <a class="d-flex flex-column p-2">
-                                    <span class="material-icons">assignment</span>
-                                    <h4 class="feature_name">
-                                        <span class="link">Bulk Email</span>
-                                    </h4>
-                                    <span class="desc">
-                                        for quick assignment
-                                    </span>
-                                </a>
+                            <li class="feature_group_item card disabled_link m-1">
+                                <div class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="/help/#bulk_email" target="help">
+                                    <span class="material-icons mb-2">assignment</span>
+                                    <h4 class="feature_name">Bulk Email</h4>
+                                    <span class="desc text-muted">for quick assignment</span>
+                                    <span class="badge bg-secondary text-light mt-2">Help Coming</span>
+                                </div>
                             </li>
-                            <li class="feature_group_item card disabled_link">
-                                <a class="d-flex flex-column p-2">
-                                    <span class="material-icons">print</span>
-                                    <h4 class="feature_name">
-                                        <span class="link">Print Receipt</span>
-                                    </h4>
-                                    <span class="desc">
-                                        to manage request sizes automatically
-                                    </span>
-                                </a>
+                            <li class="feature_group_item card disabled_link m-1">
+                                <div class="d-flex flex-column align-items-center p-3">
+                                    <span class="material-icons text-secondary mb-2">print</span>
+                                    <h4 class="feature_name">Print Receipt</h4>
+                                    <span class="desc text-muted">to manage request sizes automatically</span>
+                                    <span class="badge bg-secondary text-light mt-2">Help Coming</span>
+                                </div>
                             </li>
-                            <li class="feature_group_item card disabled_link">
-                                <a class="d-flex flex-column p-2">
-                                    <span class="material-icons">data_usage</span>
-                                    <h4 class="feature_name">
-                                        <span class="link">Usage Stats</span>
-                                    </h4>
-                                    <span class="desc">
-                                        view stats like monthly usage per day
-                                    </span>
-                                </a>
+                            <li class="feature_group_item card disabled_link m-1">
+                                <div class="d-flex flex-column align-items-center p-3">
+                                    <span class="material-icons text-secondary mb-2">data_usage</span>
+                                    <h4 class="feature_name">Usage Stats</h4>
+                                    <span class="desc text-muted">to view usage stats</span>
+                                    <span class="badge bg-secondary text-light mt-2">Help Coming</span>
+                                </div>
                             </li>
-                            <li class="feature_group_item card hover_yellow">
-                                <a class="d-flex flex-column p-2">
-                                    <i class="material-icons">email</i>
-                                    <h4 class="feature_name">
-                                        <span class="link">Email invitations</span>
-                                    </h4>
-                                    <span class="desc">
-                                        for convenient session access
-                                    </span>
-                                </a>
+                            <li class="feature_group_item card disabled_link m-1">
+                                <div class="d-flex flex-column align-items-center p-3">
+                                    <i class="material-icons mb-2">email</i>
+                                    <h4 class="feature_name">Email invitations</h4>
+                                    <span class="desc text-muted">for convenient invites</span>
+                                    <span class="badge bg-secondary text-light mt-2">Help Coming</span>
+                                </div>
                             </li>
                         </ul>
+                        <span style="color: #ff79c6; font-weight: bold;font-size: 0.75em">
+                            More help documentation coming soon! 🚀✨
+                        </span>
                     </div>
                 </section>
                 <div class="standard_footer_bar_container"></div>
@@ -352,4 +299,5 @@
         </div>
     </div>
 </body>
+
 </html>

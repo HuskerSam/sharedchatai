@@ -528,7 +528,7 @@ h5 {
 }
 
 .day_mode .homepage_section_background {
-  background-color: var(--secondary-color-2);
+  background: linear-gradient(120deg, #fafafa 0%, #eaecee 100%);
 }
 
 

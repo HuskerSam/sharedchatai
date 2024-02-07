@@ -256,11 +256,6 @@ body {
   margin-bottom: auto;
 }
 
-.homepage_header {
-  color: var(--primary-color);
-  padding-bottom: 1em;
-}
-
 
 .feature_group_list .feature_group_item .material-icons {
   font-size: 1.75em;
