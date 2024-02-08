@@ -73,11 +73,6 @@ export class AIArchiveDemoApp {
             this.semanticResults = await this.lookupAIDocumentChunks();
             this.full_augmented_response.innerHTML += "Similar document chunks retrieved...<br><br>";
 
-            this.nav_link.forEach((tab) => {
-                tab.classList.remove('disabled');
-                tab.setAttribute('aria-disabled', 'false');
-            });
-
             this.full_augmented_response.innerHTML = await this.sendPromptToLLM();
             this.full_augmented_response.innerHTML +=
                 `<br><div class="d-flex flex-column link-primary" style="white-space:normal;"><a class="response_verse_link p-2" href="see verses">Top Search Results
@@ -278,7 +273,6 @@ export class AIArchiveDemoApp {
         const prompt = this.embedPrompt(message, this.semanticResults);
         const diagram = this.embedding_diagram_img.src;
         this.summary_details.innerHTML = `<a target="_blank" class="embedding_diagram_anchor" href="${diagram}"><img style="width:100px;float:right" class="embedding_diagram_img" src="${diagram}" alt=""></a>
-      <label>Granularity Level</label>: ${this.embedding_type_select.selectedIndex < 2 ? "Verse" : "Chapter"}<br>
       <label>Full Raw Prompt</label>: <div class="raw_prompt">${prompt}</div><br>`;
 
         const apiToken = this[this.dataSourcePrefix() + "APIToken"];
