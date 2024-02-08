@@ -1004,7 +1004,6 @@ export class EmbeddingApp extends BaseApp {
      */
     async upsertTableRowsToPinecone(singleRowId = "") {
         if (this.upsertRunning) {
-            this.upsert_next_loop_checkbox.checked = false;
             alert("already running");
             return;
         }
@@ -1065,6 +1064,8 @@ export class EmbeddingApp extends BaseApp {
                     ${credits.toFixed(3)} credits`;
             }
         } catch (err: any) {
+            this.upsert_next_loop_checkbox.checked = false;
+            this.upsertRunning = false;
             alert("Upsert failed, try again or call support");
         }
 
