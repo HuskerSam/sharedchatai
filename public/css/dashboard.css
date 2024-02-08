@@ -351,3 +351,10 @@ select.document_label_filter.form-select:active {
     background-image: url(/bible/img/ragChapterVerses.png);
   }
   
+  .covid_demo_bg_img {
+    min-height: 420px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url(/covid/img/covid_diagram.png);
+    background-position: center;
+  }
