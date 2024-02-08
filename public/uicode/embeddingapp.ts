@@ -463,7 +463,9 @@ export class EmbeddingApp extends BaseApp {
         console.log("lookup data", json.publicPath);
         this.dialogGenerateResult.props.hooks.setTitle("Lookup Database Cloud Path");
         this.dialogGenerateResult.props.hooks.setPath(json.publicPath);
+        this.dialogGenerateResult.props.hooks.setPerDocPath(json.exampleByDocumentPath);
         this.dialogGenerateResult.props.hooks.setShow(true);
+        console.log(json);
     }
     /**
      * @param { any } event

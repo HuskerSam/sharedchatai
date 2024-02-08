@@ -536,11 +536,11 @@ export default class EmbeddingAPI {
         let batch: any[] = [];
         for (let c = 0, l = embeddings.length; c < l; c++) {
             const embedding = embeddings[c];
-                batch.push(embedding);
-                if (batch.length >= 90) {
-                    await pIndex.upsert(batch);
-                    batch = [];
-                }
+            batch.push(embedding);
+            if (batch.length >= 90) {
+                await pIndex.upsert(batch);
+                batch = [];
+            }
         }
         if (batch.length > 0) {
             await pIndex.upsert(batch);
@@ -952,26 +952,6 @@ export default class EmbeddingAPI {
 
         const localInstance = BaseClass.newLocalInstance();
         await localInstance.init();
-
-        const projectId = req.body.projectId;
-        const lookupMap: any = {};
-        let docsSnapshot = await firebaseAdmin.firestore().collection(`Users/${uid}/embedding/${projectId}/chunkMap`).limit(10000).get();
-        while (docsSnapshot.size > 0) {
-            docsSnapshot.forEach((doc: FirebaseFirestore.DocumentSnapshot) => {
-                const chunkMap = doc.data()?.chunkMap;
-                if (chunkMap) {
-                    Object.assign(lookupMap, chunkMap);
-                } else {
-                    console.log("MISSING CHUNK MAP", doc.id);
-                }
-            });
-
-            const lastVisible = docsSnapshot.docs[docsSnapshot.docs.length - 1];
-            docsSnapshot = await firebaseAdmin.firestore().collection(`Users/${uid}/embedding/${projectId}/chunkMap`)
-                .startAfter(lastVisible)
-                .limit(10000)
-                .get();
-        }
         const bucket = firebaseAdmin.storage().bucket();
         const options = {
             resumable: false,
@@ -979,7 +959,35 @@ export default class EmbeddingAPI {
                 contentType: "application/json",
             },
         };
+        const projectId = req.body.projectId;
+        const lookupMap: any = {};
+        let docsSnapshot = await firebaseAdmin.firestore().collection(`Users/${uid}/embedding/${projectId}/chunkMap`).limit(1000).get();
+        const saveFile = async (file: any, jsonString: string) => {
+            await file.save(jsonString, options);
+            await file.makePublic();
+        };
+        while (docsSnapshot.size > 0) {
+            const promises: any[] = [];
+            docsSnapshot.forEach((doc: FirebaseFirestore.DocumentSnapshot) => {
+                const chunkMap = doc.data()?.chunkMap;
+                if (chunkMap) {
+                    Object.assign(lookupMap, chunkMap);
 
+                    const filePath = `projectLookups/${uid}/${projectId}/byDocument/${doc.id}.json`;
+                    const file = bucket.file(filePath);
+                    promises.push(saveFile(file, JSON.stringify(chunkMap)));
+                } else {
+                    console.log("MISSING CHUNK MAP", doc.id);
+                }
+            });
+
+            await Promise.all(promises);
+            const lastVisible = docsSnapshot.docs[docsSnapshot.docs.length - 1];
+            docsSnapshot = await firebaseAdmin.firestore().collection(`Users/${uid}/embedding/${projectId}/chunkMap`)
+                .startAfter(lastVisible)
+                .limit(1000)
+                .get();
+        }
         const filePath = `projectLookups/${uid}/${projectId}/lookup.json`;
         const file = bucket.file(filePath);
         const jsonString = JSON.stringify(lookupMap);
@@ -987,11 +995,14 @@ export default class EmbeddingAPI {
         await file.makePublic();
         const encodedPath = encodeURIComponent(filePath);
         const publicPath = `https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/${encodedPath}?alt=media`;
-
+        const encodedDocFragment = `projectLookups/${uid}/${projectId}/byDocument/DOC_ID_URIENCODED.json`;
+        const encodedFragment = encodeURIComponent(encodedDocFragment);
+        const exampleByDocumentPath = `https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/${encodedFragment}?alt=media`;
         return res.send({
             success: true,
             filePath,
             publicPath,
+            exampleByDocumentPath,
             projectId,
         });
     }
@@ -1006,7 +1017,7 @@ export default class EmbeddingAPI {
 
         const projectId = req.body.projectId;
         const exportMap: any = {};
-        let docsSnapshot = await firebaseAdmin.firestore().collection(`Users/${uid}/embedding/${projectId}/data`).limit(5000).get();
+        let docsSnapshot = await firebaseAdmin.firestore().collection(`Users/${uid}/embedding/${projectId}/data`).limit(1000).get();
         while (docsSnapshot.size > 0) {
             docsSnapshot.forEach((doc: FirebaseFirestore.DocumentSnapshot) => {
                 exportMap[doc.id] = doc.data();
@@ -1015,7 +1026,7 @@ export default class EmbeddingAPI {
             const lastVisible = docsSnapshot.docs[docsSnapshot.docs.length - 1];
             docsSnapshot = await firebaseAdmin.firestore().collection(`Users/${uid}/embedding/${projectId}/data`)
                 .startAfter(lastVisible)
-                .limit(5000)
+                .limit(1000)
                 .get();
         }
         const bucket = firebaseAdmin.storage().bucket();
