@@ -928,8 +928,9 @@ export default class EmbeddingAPI {
                 pages.forEach((page: any) => {
                     page.Texts.forEach((blocks: any) => {
                         blocks.R.forEach((run: any) => {
-                            text += decodeURIComponent(run.T) + "\n";
+                            text += decodeURIComponent(run.T) + " ";
                         });
+                        text += "\n";
                     });
                 });
                 res({

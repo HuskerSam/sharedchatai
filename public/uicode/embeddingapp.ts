@@ -1028,40 +1028,43 @@ export class EmbeddingApp extends BaseApp {
             rowCount,
             singleRowId,
         };
-
-        const token = await getAuth().currentUser?.getIdToken();
-        const fResult = await fetch(this.basePath + "embeddingApi/upsertnextdocuments", {
-            method: "POST",
-            mode: "cors",
-            cache: "no-cache",
-            headers: <HeadersInit>{
-                "Content-Type": "application/json",
-                token,
-            },
-            body: JSON.stringify(body),
-        });
-
-        const json = await fResult.json();
-        this.upsertRunning = false;
-        if (!json.success) {
-            alert("Error: " + json.errorMessage);
-            console.log(json);
-            this.upsert_result_status_bar.innerHTML = json.errorMessage;
-        } else {
-            const upsertFileResults = json.fileUploadResults;
-            const count = upsertFileResults.length;
-            let errors = 0;
-            let credits = 0;
-            let vectorCount = 0;
-            upsertFileResults.forEach((result: any) => {
-                if (result.errorMessage) errors++;
-                else {
-                    vectorCount += result.idList.length;
-                    credits += result.encodingCredits;
-                }
+        try {
+            const token = await getAuth().currentUser?.getIdToken();
+            const fResult = await fetch(this.basePath + "embeddingApi/upsertnextdocuments", {
+                method: "POST",
+                mode: "cors",
+                cache: "no-cache",
+                headers: <HeadersInit>{
+                    "Content-Type": "application/json",
+                    token,
+                },
+                body: JSON.stringify(body),
             });
-            this.upsert_result_status_bar.innerHTML = `${count} documents, ${vectorCount} vectors, ${errors} errors, 
-                ${credits.toFixed(3)} credits`;
+    
+            const json = await fResult.json();
+            this.upsertRunning = false;
+            if (!json.success) {
+                alert("Error: " + json.errorMessage);
+                console.log(json);
+                this.upsert_result_status_bar.innerHTML = json.errorMessage;
+            } else {
+                const upsertFileResults = json.fileUploadResults;
+                const count = upsertFileResults.length;
+                let errors = 0;
+                let credits = 0;
+                let vectorCount = 0;
+                upsertFileResults.forEach((result: any) => {
+                    if (result.errorMessage) errors++;
+                    else {
+                        vectorCount += result.idList.length;
+                        credits += result.encodingCredits;
+                    }
+                });
+                this.upsert_result_status_bar.innerHTML = `${count} documents, ${vectorCount} vectors, ${errors} errors, 
+                    ${credits.toFixed(3)} credits`;
+            }
+        } catch (err: any) {
+            alert("Upsert failed, try again or call support");
         }
 
         this.fetchIndexStats();
@@ -1092,6 +1095,7 @@ export class EmbeddingApp extends BaseApp {
             if ((item.url || item.id) && text.length < 900000) {
                 item.created = uploadDate;
                 if (!item.id) item.id = encodeURIComponent(item.url);
+                item.id = item.id.replaceAll("/", "_");
 
                 const keys = Object.keys(item);
                 const metaData: any = {};
@@ -1165,6 +1169,7 @@ export class EmbeddingApp extends BaseApp {
         }
         if (this.selectedProjectId !== projectId) {
             this.selectedProjectId = projectId;
+            this.first_table_row.value = "";
             this.saveProfileField("selectedEmbeddingProjectId", this.selectedProjectId);
         }
 
@@ -1253,6 +1258,7 @@ export class EmbeddingApp extends BaseApp {
             if (this.upsert_documents_list.selectedIndex === -1) {
                 this.upsert_documents_list.selectedIndex = 0;
                 this.selectedProjectId = "";
+                this.first_table_row.value = "";
             }
 
             this.updateWatchUpsertRows();
