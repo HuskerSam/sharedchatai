@@ -125,10 +125,11 @@ export default class SessionAPI {
      * @param { string } reRunTicket
      * @param { Array<string> } includeTickets
      * @param { boolean } includeInMessage
+     * @param { boolean } disableEmbedding
      * @return { Promise<any> }
      */
     static async _processSubmittedTicket(gameNumber: string, message: string, uid: string, reRunTicket: string,
-        includeTickets: Array<string>, includeInMessage: boolean): Promise<any> {
+        includeTickets: Array<string>, includeInMessage: boolean, disableEmbedding = false): Promise<any> {
         if (message) {
             if (message.length > 500000) message = message.substring(0, 500000);
         }
@@ -264,7 +265,7 @@ export default class SessionAPI {
             usageErrorObject = usageTestError;
         }
 
-        if (sessionDocumentData.enableEmbedding && !usageLimitError) {
+        if (sessionDocumentData.enableEmbedding && !disableEmbedding && !usageLimitError) {
             try {
                 includeTickets = [];
                 const messageQuery = ticket.message;
@@ -1088,6 +1089,7 @@ export default class SessionAPI {
         const sessionId = req.body.sessionId;
         const apiToken = req.body.apiToken;
         const message = req.body.message;
+        const disableEmbedding = req.body.disableEmbedding === true;
         const authResults = await SessionAPI._validateExternalRequest(sessionId, apiToken);
 
         if (!authResults.success) {
@@ -1100,7 +1102,8 @@ export default class SessionAPI {
         const localInstance = BaseClass.newLocalInstance();
         await localInstance.init();
 
-        const ticketResults = await SessionAPI._processSubmittedTicket(sessionId, message, uid, "", [], false);
+        const ticketResults = await SessionAPI._processSubmittedTicket(sessionId, message, uid, "", [],
+         false, disableEmbedding);
 
         let ticket: any = {};
         let embeddings: any = {};

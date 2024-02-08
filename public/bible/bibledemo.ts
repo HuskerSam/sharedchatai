@@ -471,6 +471,7 @@ export class BibleDemoApp {
       message: prompt,
       apiToken: queryDetails.apiToken,
       sessionId: queryDetails.sessionId,
+      disableEmbedding: true,
     };
     const fetchResults = await fetch(this.promptUrl, {
       method: "POST",

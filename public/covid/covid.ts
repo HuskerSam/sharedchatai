@@ -255,6 +255,7 @@ export class CovidDemoApp {
             message: prompt,
             apiToken,
             sessionId,
+            disableEmbedding: true,
         };
         const fetchResults = await fetch(this.promptUrl, {
             method: "POST",
