@@ -25,7 +25,7 @@ export class CovidDemoApp {
     semanticResults: any[] = [];
     chunk300APIToken = "12781bbc-5d71-4359-831b-377e06d4a27b";
     chunk300SessionId = "cyf1pd1l4wpc";
-    chunk300LookupPath = "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/projectLookups%2FHlm0AZ9mUCeWrMF6hI7SueVPbrq1%2Fcovid-list%2Flookup.json?alt=media";
+    chunk300LookupPath = "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/projectLookups%2FHlm0AZ9mUCeWrMF6hI7SueVPbrq1%2Fcovid-list-v2%2Flookup.json?alt=media";
     chunk300topK = 25;
     chunk300includeK = 5;
 
@@ -187,8 +187,8 @@ export class CovidDemoApp {
         return await fetchResults.json();
     }
     dataSourcePrefix(): string {
-        let prefix = localStorage.getItem("datachunk_source_size");
-        if (prefix) return prefix as string;
+        // let prefix = localStorage.getItem("datachunk_source_size");
+        // if (prefix) return prefix as string;
         return "chunk300";
     }
     async load() {
