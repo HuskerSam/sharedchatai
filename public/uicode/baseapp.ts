@@ -113,39 +113,39 @@ export default class BaseApp {
   constructor() {
     if (this.standard_header_bar_container) {
       createRoot(this.standard_header_bar_container).render(React.createElement(ReactHeader));
+
+      setTimeout(() => {
+        this.credits_left = document.querySelector(".credits_left");
+        this.signin_cta_navbar = document.querySelector(".signin_cta_navbar");
+        this.show_profile_modal = document.querySelector(".show_profile_modal");
+        this.menu_profile_user_image_span = document.querySelector(".menu_profile_user_image_span");
+        this.profile_menu_anchor = document.querySelector(".profile_menu_anchor");
+        this.account_status_display = document.querySelector(".account_status_display");
+        this.profile_menu_anchor.addEventListener("click", (event: any) => {
+          event.stopPropagation();
+          event.preventDefault();
+          this.profileHelper.show();
+        });
+        this.account_status_display.addEventListener("click", (e: any) => {
+          e.preventDefault();
+          e.stopPropagation();
+          this.profileHelper.show(true);
+        });
+        this.signin_cta_navbar.addEventListener("click", (e: any) => {
+          e.stopPropagation();
+          e.preventDefault();
+          this.login.show();
+        });
+        this.show_profile_modal.addEventListener("click", (event: any) => {
+          event.stopPropagation();
+          event.preventDefault();
+          this.profileHelper.show();
+        });
+      }, 0);
     }
     if (this.standard_footer_bar_container) {
       createRoot(this.standard_footer_bar_container).render(React.createElement(ReactFooter));
     }
-    setTimeout(() => {
-      this.credits_left = document.querySelector(".credits_left");
-      this.signin_cta_navbar = document.querySelector(".signin_cta_navbar");
-      this.show_profile_modal = document.querySelector(".show_profile_modal");
-      this.menu_profile_user_image_span = document.querySelector(".menu_profile_user_image_span");
-      this.profile_menu_anchor = document.querySelector(".profile_menu_anchor");
-      this.account_status_display = document.querySelector(".account_status_display");
-      this.profile_menu_anchor.addEventListener("click", (event: any) => {
-        event.stopPropagation();
-        event.preventDefault();
-        this.profileHelper.show();
-      });
-      this.account_status_display.addEventListener("click", (e: any) => {
-        e.preventDefault();
-        e.stopPropagation();
-        this.profileHelper.show(true);
-      });
-      this.signin_cta_navbar.addEventListener("click", (e: any) => {
-        e.stopPropagation();
-        e.preventDefault();
-        this.login.show();
-      });
-      this.show_profile_modal.addEventListener("click", (event: any) => {
-        event.stopPropagation();
-        event.preventDefault();
-        this.profileHelper.show();
-      });
-    }, 0);
-
     window.addEventListener("beforeinstallprompt", (e: any) => {
       e.preventDefault();
       this.deferredPWAInstallPrompt = e;

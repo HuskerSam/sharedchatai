@@ -868,9 +868,14 @@ export class EmbeddingApp extends BaseApp {
 
         const json = await fResult.json();
 
-        const resultRows = json.queryResponse.matches;
-        this.vectorQueryRunning = false;
-        return resultRows;
+        if (json.success) {
+            const resultRows = json.queryResponse.matches;
+            this.vectorQueryRunning = false;
+            return resultRows;
+        } else {
+            alert("Embedding lookup failed");
+            return [];
+        }
     }
     /**
  * @param { string } field

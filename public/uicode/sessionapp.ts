@@ -601,6 +601,7 @@ export class SessionApp extends BaseApp {
   */
   async showEmbeddingSection(ticketId: string, ticketData: any, card: any) {
     const copyBtn = card.querySelector(".copy_embedded_prompt_to_clipboard");
+    const detailsQuery = await this.getTicketEmbeddingDetails(ticketId);
     copyBtn.addEventListener("click", () => {
       const text = detailsQuery.embeddingResult.promptText;
       navigator.clipboard.writeText(text);
@@ -611,7 +612,6 @@ export class SessionApp extends BaseApp {
 
     const tbl = card.querySelector(".ticket_embedding_details_table");
     let html = "<tr><th></th><th>Score</th><th>Title</th><th style=\"width:90%\">Link</th><th>Raw</th></tr>";
-    const detailsQuery = await this.getTicketEmbeddingDetails(ticketId);
     const matches = detailsQuery.embeddingResult.matches;
     const matchesIncluded = detailsQuery.embeddingResult.matchesIncluded;
 
@@ -621,8 +621,10 @@ export class SessionApp extends BaseApp {
     card.querySelector(".ticket_embedding_docs_included").innerHTML = matchesIncluded.length.toString();
 
     matches.forEach((match: any, index: number) => {
+      console.log(match, index);
       const details = match.metadata;
-      let title = details.text;
+      let title = details.title;
+      if (!title) title = details.text;
       if (!title) title = "";
       title = title.trim().substring(0, 100);
       title = BaseApp.escapeHTML(title.trim());
@@ -630,10 +632,11 @@ export class SessionApp extends BaseApp {
       if (!url) url = "";
       if (url) url = `<a href="${url}" target="_blank">${url}</a>`;
       const included = matchesIncluded.indexOf(index) !== -1 ? "✔️" : "";
-
+      let score = match.score;
+      if (!score) score = 0; else score = score.toFixed(3);
       html += `<tr>
           <td>${included}</td>
-          <td>${match.score.toFixed(3)}</td>
+          <td>${score}</td>
           <td><div class="embedded_ticket_title">${title}</div></td>
           <td><div class="embedded_ticket_url">${url}</div></td>
           <td><button class="copy_embedded_prompt_to_clipboard btn btn-secondary" 

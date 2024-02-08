@@ -77,8 +77,12 @@ export default class SessionAPI {
         const textAnswers: any = [];
         const matchesIncluded: any = [];
         for (let c = 0, l = vectorResults.length; c < l; c++) {
+            console.log(vectorResults[c]);
             if (vectorResults[c].score >= pineconeThreshold) {
-                const text = vectorResults[c].metadata.text;
+                let text = vectorResults[c].metadata.text;
+                if (!text) text = vectorResults[c].metadata.title;
+                if (!text) text = "";
+
                 const tokens = encode(text);
                 tokensIncluded += tokens.length;
                 if (tokensIncluded > maxTokens) {
