@@ -33,13 +33,12 @@ export class AIArchiveDemoApp {
 
     chunk200APIToken = "96b0d708-ec04-4da5-bcf3-783ffc5329eb";
     chunk200SessionId = "x5m51v87x7g8";
-    chunk200LookupPath = "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/projectLookups%2FiMY1WwR6NkVnNkLId5bnKT59Np42%2Far-arxiv-200v2%2Flookup.json?alt=media";
+    chunk200LookupPath = "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/projectLookups%2FiMY1WwR6NkVnNkLId5bnKT59Np42%2Far-arxiv-full%2FbyDocument%2FDOC_ID_URIENCODED.json?alt=media";
     chunk200topK = 25;
     chunk200includeK = 10;
 
     chunk400APIToken = "8168ca87-2017-49ad-a8f3-bba00683e7de";
     chunk400SessionId = "ppdbgryy52mn";
-    // full lookup = https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/projectLookups%2FHlm0AZ9mUCeWrMF6hI7SueVPbrq1%2Far-arxiv-full-400%2Flookup.json?alt=media
     chunk400LookupPath = "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/projectLookups%2FHlm0AZ9mUCeWrMF6hI7SueVPbrq1%2Far-arxiv-full-400%2FbyDocument%2FDOC_ID_URIENCODED.json?alt=media";
     chunk400topK = 25;
     chunk400includeK = 5;
