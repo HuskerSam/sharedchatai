@@ -313,7 +313,7 @@ Respond to this prompt:
     }
     */
     if (chunkingType === "recursivetextsplitter") {
-      let sepArray: string[] = ["\n\n", "\n", " ", ""]; 
+      let sepArray: string[] = ["\n\n", "\n", " ", ""];
       try {
         sepArray = JSON.parse(separators);
       } catch (err: any) {
@@ -331,6 +331,14 @@ Respond to this prompt:
     return [];
   }
   /**
+ * @param { string } text
+ * @return { string}
+ */
+  static cleanString(text: string): string {
+    if (!text) text = "";
+    return text.replace(/[^a-z0-9\s]/gi, "");
+  }
+  /**
  * @param { string } fullText
  * @param { number } chunkSize
  * @param { number } chunkOverlap
@@ -343,7 +351,15 @@ Respond to this prompt:
       chunkSize,
       chunkOverlap,
       separators,
-      lengthFunction: (str) => encode(str).length,
+      lengthFunction: (text) => {
+        try {
+          return encode(text).length
+        } catch (err: any) {
+          const cleanString = SharedWithBackend.cleanString(text);
+          const encodingLength = encode(cleanString).length;
+          return encodingLength;
+        }
+      },
     });
     const chunks = await splitter.splitText(fullText);
     const resultChunks: Array<any> = [];

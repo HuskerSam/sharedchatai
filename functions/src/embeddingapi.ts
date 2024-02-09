@@ -378,16 +378,13 @@ export default class EmbeddingAPI {
      * @param { string } id
      * @param { string } title
      * @param { string } url
-     * @param { any } pIndex
      * @param { any } additionalMetaData
      * @param { boolean } includeTextInMeta
      * @return { Promise<any> }
      */
     static async prepChunkForPinecone(chunk: any, chatGptKey: string, uid: string,
-        id: string, title: string, url: string, pIndex: any,
-        additionalMetaData: any = {}, includeTextInMeta = true): Promise<any> {
+        id: string, title: string, url: string, additionalMetaData: any = {}, includeTextInMeta = true): Promise<any> {
         const text = chunk.text;
-
         const embeddingModelResult = await EmbeddingAPI.encodeEmbedding(text, chatGptKey, uid);
         if (!embeddingModelResult.success) {
             console.log(embeddingModelResult);
@@ -523,7 +520,7 @@ export default class EmbeddingAPI {
             const paddedIndex = ("0000" + (index + 1)).slice(-5);
             if (chunkCount > 1) pId += "_" + paddedIndex + "_" + chunkCount;
             promises.push(EmbeddingAPI.prepChunkForPinecone(chunk, chatGptKey, uid,
-                pId, title, url, pIndex, additionalMetaData, includeTextInMeta));
+                pId, title, url, additionalMetaData, includeTextInMeta));
             idList.push(pId);
             chunkMap[pId] = chunk.text;
         }
