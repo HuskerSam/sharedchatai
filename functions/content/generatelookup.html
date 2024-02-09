@@ -2,31 +2,74 @@
     <div class="col-lg-8">
         <article>
             <h1 class="mb-4">Generate Lookup Tool</h1>
-            <section class="mb-4">
-                <p class="lead">In the realm of Retrieval Augmented Generation (RAG), managing text lookups for each vector is a critical task, but the approach can vary significantly. Unacog offers three distinct methods for handling text lookups, each tailored to different project scales and requirements.</p>
+            <section class="">
+                <p class="lead mb-4">In the realm of Retrieval Augmented Generation (RAG), managing text lookups for
+                    each vector is a critical task, but the approach can vary significantly. Unacog offers three
+                    distinct methods for handling text lookups, each tailored to different project scales and
+                    requirements.</p>
+                <figure class="text-center mb-5">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fgenerate%20lookup.png?alt=media&token=7261e495-4159-4e88-90bf-d24f22f8aadf"
+                        alt="Generate Lookup" class="img-fluid rounded">
+                    <figcaption class="figure-caption">Generate Lookup button in embed</figcaption>
+                </figure>
             </section>
-            <figure class="text-center mb-5">
-                <img src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fgenerate%20lookup.png?alt=media&token=7261e495-4159-4e88-90bf-d24f22f8aadf" alt="Generate Lookup" class="img-fluid rounded">
-                <figcaption class="figure-caption">Generate Lookup button in embed</figcaption>
-            </figure>
             <section class="mb-4">
-                <h2>1. Carrying Text in Metadata</h2>
-                <p>A common practice, especially in smaller projects or demonstrations, is to carry the text directly within the metadata. This method is straightforward and illustrates the RAG technique effectively. However, its suitability wanes as projects scale. The primary concern here is cost-effectiveness; for example, Pinecone's vector database limits to 5 million vectors per pod/index, and metadata can quickly consume this space, particularly with large embedding models. This method, while convenient, is best reserved for projects with less stringent space requirements.</p>
+                <h2 class="mb-4">1. Carrying Text in Metadata</h2>
+                <figure class="text-center mb-4">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fgenerate%20lookup_metadatatext.png?alt=media&token=9758f130-1edf-4e72-a425-779e8614e17b"
+                        alt="Generate Lookup" class="img-fluid rounded">
+                    <figcaption class="figure-caption">carry text in metadata</figcaption>
+                </figure>
+                <p>A common practice, especially in smaller projects or demonstrations, is to carry the text directly
+                    within the metadata. This method is straightforward and illustrates the RAG technique effectively.
+                    However, its suitability wanes as projects scale. The primary concern here is cost-effectiveness;
+                    for example, Pinecone's vector database limits to 5 million vectors per pod/index, and metadata can
+                    quickly consume this space, particularly with large embedding models. This method, while convenient,
+                    is best reserved for projects with less stringent space requirements.</p>
             </section>
-            
+
             <section class="mb-4">
                 <h2>2. External Lookup Database</h2>
-                <p>For projects not carrying text in metadata, an external lookup database becomes necessary. This is where Unacog's chunking and upserting process shines, creating a fetch map or a JSON file that maps each ID with its corresponding text and metadata. This approach is essential given that databases like Pinecone handle only metadata and vector sets. Opting not to store the full text in metadata is a cost-effective strategy, enabling efficient text retrieval based on vector similarity without the prohibitive expense of increased metadata storage.</p>
-                <p>The creation of a comprehensive lookup database facilitates easy integration into various systems, offering full export capabilities and greater control over the data pipeline. This flexibility is invaluable, especially for applications requiring pre-loaded lookup data or those with specific data serving requirements.</p>
+                <p>Given that databases like Pinecone are designed to handle only metadata and vector sets, not carrying
+                    the full text within the metadata necessitates an alternative approach for text lookup. Unacog
+                    addresses this challenge by enabling the creation of an external lookup database. This process
+                    involves chunking and upserting data into Pinecone, alongside generating a fetch map, or a JSON
+                    file, that meticulously maps each ID to its corresponding text and metadata.
+                </p>
+                <p> This strategic separation between vector data and text content is both efficient and cost-effective.
+                    It circumvents the limitations and expenses associated with storing large text bodies directly in
+                    the metadata. For users, this means when a search is performed, the system retrieves text based on
+                    its vector similarity to the query, utilizing the database to look up the actual text content.</p>
+                <p>Implementing an external lookup database offers significant advantages. It allows for a
+                    comprehensive and easily accessible lookup system that can be fully exported and integrated into
+                    other platforms or systems, granting users greater control over their data pipeline. This level of
+                    flexibility is crucial for applications that benefit from pre-loading lookup data or those with
+                    specific requirements for data management and serving. By adopting this method, Unacog users can
+                    achieve a more scalable, adaptable, and cost-efficient solution for managing text lookups in
+                    large-scale RAG projects.</p>
             </section>
-            
+
             <section class="mb-4">
                 <h2>3. Document-specific Fetch Map</h2>
-                <p>Addressing scalability and loading speed, the third option on Unacog is particularly suited for handling vast datasets. By segmenting the fetch map by document, this method significantly reduces initialization times, eliminating the need to load the entire lookup at once. Utilized within Unacog's webapp for embedded messaging, this approach ensures that only relevant information is pulled down, storing loaded documents in cache for efficient access.</p>
+                <p>
+                    The third option Unacog presents focuses on enhancing performance through a segmented fetch map,
+                    which is particularly effective in reducing initialization times. By partitioning the lookup map by
+                    document, this method circumvents the need to load an extensive lookup database in its entirety.
+                    This approach about optimizing the data retrieval process for efficiency.
+                </p>
+                <p>In the Unacog webapp, especially for embedded messaging, this technique proves invaluable. It
+                    ensures that only the data relevant to a specific prompt is fetched, significantly speeding up the
+                    process. This segmented approach stores loaded documents in a cache, streamlining access to
+                    frequently used information without the overhead of initializing the entire dataset. This strategy
+                    is designed to improve the user experience, offering swift, targeted data retrieval that supports
+                    dynamic, context-aware interactions.</p>
             </section>
-            
+
             <section class="pt-4 mt-4 border-top">
-                <p class="text-muted">In conclusion, Unacog's Generate Lookup feature offers a range of solutions to the challenges of RAG, from simple metadata embedding to sophisticated, scalable fetch maps. These options cater to a variety of project sizes and complexities, allowing users to effectively and economically optimize their retrieval and generation processes.</p>
+                <p class="text-muted">In conclusion, Unacog's Generate Lookup feature offers a range of solutions to the
+                    challenges of RAG, from simple metadata embedding to sophisticated, scalable fetch maps. These
+                    options cater to a variety of project sizes and complexities, allowing users to effectively and
+                    economically optimize their retrieval and generation processes.</p>
             </section>
         </article>
     </div>
