@@ -23,6 +23,7 @@ export class AIArchiveDemoApp {
     embed_distinct_chunks_option: any = document.body.querySelector(".embed_distinct_chunks_option");
     embed_sequential_chunks_option: any = document.body.querySelector(".embed_sequential_chunks_option");
     lookupData: any = {};
+    lookedUpIds: any = {};
     semanticResults: any[] = [];
     chunk100APIToken = "8b9e7b73-cad1-44c7-9a3b-07eb6914bc1a";
     chunk100SessionId = "h3gb1s7uxt02";
@@ -38,7 +39,8 @@ export class AIArchiveDemoApp {
 
     chunk400APIToken = "8168ca87-2017-49ad-a8f3-bba00683e7de";
     chunk400SessionId = "ppdbgryy52mn";
-    chunk400LookupPath = "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/projectLookups%2FHlm0AZ9mUCeWrMF6hI7SueVPbrq1%2Far-arxiv-400v2%2Flookup.json?alt=media";
+    // full lookup = https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/projectLookups%2FHlm0AZ9mUCeWrMF6hI7SueVPbrq1%2Far-arxiv-full-400%2Flookup.json?alt=media
+    chunk400LookupPath = "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/projectLookups%2FHlm0AZ9mUCeWrMF6hI7SueVPbrq1%2Far-arxiv-full-400%2FbyDocument%2FDOC_ID_URIENCODED.json?alt=media";
     chunk400topK = 25;
     chunk400includeK = 5;
 
@@ -218,15 +220,11 @@ export class AIArchiveDemoApp {
         return "chunk100";
     }
     async load() {
-        const lookupPath = this[this.dataSourcePrefix() + "LookupPath"];
-        const r = await fetch(lookupPath);
-        this.lookupData = await r.json();
         this.loaded = true;
         const l: any = document.querySelector(".loading_screen")
         l.style.display = "none";
         const m: any = document.querySelector(".tab_main_content");
         m.style.display = "flex";
-        this.lookUpKeys = Object.keys(this.lookupData).sort();
         this.updateEmbeddingOptionsDisplay();
     }
     async lookupAIDocumentChunks(): Promise<any[]> {
@@ -244,6 +242,7 @@ export class AIArchiveDemoApp {
         }
 
         let html = '<span class="small text-muted">Most Relevant Chunks...</span><br>';
+        await this.fetchDocumentsLookup(result.matches.map((match: any) => match.id));
         result.matches.forEach((match) => {
             const textFrag = this.lookupData[match.id];
             const dstring = match.metadata.published;
@@ -270,7 +269,7 @@ export class AIArchiveDemoApp {
             return "please supply a message";
         }
 
-        const prompt = this.embedPrompt(message, this.semanticResults);
+        const prompt = await this.embedPrompt(message, this.semanticResults);
         const diagram = this.embedding_diagram_img.src;
         this.summary_details.innerHTML = `<a target="_blank" class="embedding_diagram_anchor" href="${diagram}"><img style="width:100px;float:right" class="embedding_diagram_img" src="${diagram}" alt=""></a>
       <label>Full Raw Prompt</label>: <div class="raw_prompt">${prompt}</div><br>`;
@@ -305,7 +304,39 @@ export class AIArchiveDemoApp {
             return promptResult.assist.assist.choices["0"].message.content;
         }
     }
-    embedPrompt(prompt: string, matches: any[]): string {
+    async loadDocumentLookup(docId: string): Promise<any> {
+        try {
+            let lookupPath = this[this.dataSourcePrefix() + "LookupPath"];
+            lookupPath = lookupPath.replace("DOC_ID_URIENCODED", docId);
+            const r = await fetch(lookupPath);
+            const result = await r.json();
+            console.log(docId, result);
+            return result;
+        } catch (error: any) {
+            console.log("FAILED TO FETCH CHUNK MAP", docId, error);
+            return {};
+        }
+    }
+    async fetchDocumentsLookup(idList: string[]) {
+        const promises: any[] = [];
+        const docIdMap: any = {};
+        idList.forEach((chunkId: string) => {
+            const parts = chunkId.split("_");
+            let docId = parts[0];
+            if (this.lookedUpIds[docId] !== true)
+                docIdMap[docId] = true;
+        });
+        Object.keys(docIdMap).forEach((id: string) => promises.push(this.loadDocumentLookup(id)));
+        let chunkMaps = await Promise.all(promises);
+        chunkMaps.forEach((chunkMap: any) => {
+            Object.keys(chunkMap).forEach((chunkId: string) => {
+                this.lookupData[chunkId] = chunkMap[chunkId];
+            });
+        });
+        Object.assign(this.lookedUpIds, docIdMap);
+        this.lookUpKeys = Object.keys(this.lookupData).sort();
+    }
+    async embedPrompt(prompt: string, matches: any[]): Promise<string> {
         const embedIndex = this.embedding_type_select.selectedIndex;
         const promptTemplate = this.prompt_template_text_area.value;
         const documentTemplate = this.document_template_text_area.value;
@@ -315,6 +346,7 @@ export class AIArchiveDemoApp {
         if (embedIndex === 0) {
             let includeK = Number(this[this.dataSourcePrefix() + "includeK"]);
             const includes = matches.slice(0, includeK);
+            await this.fetchDocumentsLookup(includes.map((match: any) => match.id));
             includes.forEach((match: any, index: number) => {
                 const merge = Object.assign({}, match.metadata);
                 merge.id = match.id;
@@ -326,6 +358,7 @@ export class AIArchiveDemoApp {
             });
         } else if (embedIndex === 1) {
             const match = matches[0];
+            await this.fetchDocumentsLookup([match.id]);
             const merge = Object.assign({}, match.metadata);
             merge.id = match.id;
             merge.matchIndex = 0;

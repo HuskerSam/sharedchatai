@@ -958,7 +958,7 @@ export default class EmbeddingAPI {
         };
         const projectId = req.body.projectId;
         const lookupMap: any = {};
-        let docsSnapshot = await firebaseAdmin.firestore().collection(`Users/${uid}/embedding/${projectId}/chunkMap`).limit(1000).get();
+        let docsSnapshot = await firebaseAdmin.firestore().collection(`Users/${uid}/embedding/${projectId}/chunkMap`).limit(100).get();
         const saveFile = async (file: any, jsonString: string) => {
             await file.save(jsonString, options);
             await file.makePublic();
@@ -982,7 +982,7 @@ export default class EmbeddingAPI {
             const lastVisible = docsSnapshot.docs[docsSnapshot.docs.length - 1];
             docsSnapshot = await firebaseAdmin.firestore().collection(`Users/${uid}/embedding/${projectId}/chunkMap`)
                 .startAfter(lastVisible)
-                .limit(1000)
+                .limit(100)
                 .get();
         }
         const filePath = `projectLookups/${uid}/${projectId}/lookup.json`;
@@ -1014,7 +1014,7 @@ export default class EmbeddingAPI {
 
         const projectId = req.body.projectId;
         const exportMap: any = {};
-        let docsSnapshot = await firebaseAdmin.firestore().collection(`Users/${uid}/embedding/${projectId}/data`).limit(1000).get();
+        let docsSnapshot = await firebaseAdmin.firestore().collection(`Users/${uid}/embedding/${projectId}/data`).limit(100).get();
         while (docsSnapshot.size > 0) {
             docsSnapshot.forEach((doc: FirebaseFirestore.DocumentSnapshot) => {
                 exportMap[doc.id] = doc.data();
@@ -1023,7 +1023,7 @@ export default class EmbeddingAPI {
             const lastVisible = docsSnapshot.docs[docsSnapshot.docs.length - 1];
             docsSnapshot = await firebaseAdmin.firestore().collection(`Users/${uid}/embedding/${projectId}/data`)
                 .startAfter(lastVisible)
-                .limit(1000)
+                .limit(100)
                 .get();
         }
         const bucket = firebaseAdmin.storage().bucket();
