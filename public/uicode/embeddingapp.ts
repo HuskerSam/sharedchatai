@@ -268,6 +268,7 @@ export class EmbeddingApp extends BaseApp {
         this.upload_embedding_documents_btn.addEventListener("click", async (e: any) => {
             e.preventDefault();
             if (this.upsertRunning === true) {
+                alert("Upsert operation already running.");
                 return;
             }
             const condition = true;
@@ -1014,6 +1015,7 @@ export class EmbeddingApp extends BaseApp {
      */
     async upsertTableRowsToPinecone(singleRowId = "") {
         if (this.upsertRunning) {
+            alert("Upsert operation already running.");
             return;
         }
 
