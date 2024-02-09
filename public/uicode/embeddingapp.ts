@@ -1071,8 +1071,8 @@ export class EmbeddingApp extends BaseApp {
                         credits += result.encodingCredits;
                     }
                 });
-                this.upsert_result_status_bar.innerHTML = `${count} documents, ${vectorCount} vectors, ${errors} errors, 
-                    ${credits.toFixed(3)} credits`;
+                this.upsert_result_status_bar.innerHTML = `${count} docs, ${vectorCount} vtrs, ${errors} errs, 
+                    ${credits.toFixed(3)} creds`;
             }
         } catch (err: any) {
             this.upsert_next_loop_checkbox.checked = false;
