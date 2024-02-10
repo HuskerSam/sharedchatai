@@ -679,7 +679,7 @@ export default class EmbeddingAPI {
             vectorResult = fullResult["data"][0]["embedding"];
             encodingTokens = fullResult.usage.total_tokens;
             const modelMeta = SharedWithBackend.getModelMeta("text-embedding-3-small");
-            encodingCredits = encodingTokens * modelMeta.input;
+            encodingCredits = encodingTokens * modelMeta.input + 1;
 
             await BaseClass._updateCreditUsageForUser(uid, "", "", encodingTokens, encodingTokens, 0, encodingCredits);
         } catch (err: any) {
