@@ -220,6 +220,8 @@ export class AIArchiveDemoApp {
     }
     async load() {
         this.loaded = true;
+        this.lookupData = {};
+        this.lookedUpIds = {};
         const l: any = document.querySelector(".loading_screen")
         l.style.display = "none";
         const m: any = document.querySelector(".tab_main_content");
@@ -244,6 +246,9 @@ export class AIArchiveDemoApp {
         await this.fetchDocumentsLookup(result.matches.map((match: any) => match.id));
         result.matches.forEach((match) => {
             const textFrag = this.lookupData[match.id];
+            if (!textFrag) {
+                console.log(match.id, this.lookupData)
+            }
             const dstring = match.metadata.published;
             const d = dstring.slice(0, 4) + "-" + dstring.slice(4, 6) + "-" + dstring.slice(6, 8);
             const parts = match.id.split("_");
@@ -309,7 +314,6 @@ export class AIArchiveDemoApp {
             lookupPath = lookupPath.replace("DOC_ID_URIENCODED", docId);
             const r = await fetch(lookupPath);
             const result = await r.json();
-            console.log(docId, result);
             return result;
         } catch (error: any) {
             console.log("FAILED TO FETCH CHUNK MAP", docId, error);
@@ -351,6 +355,9 @@ export class AIArchiveDemoApp {
                 merge.id = match.id;
                 merge.matchIndex = index;
                 merge.text = this.lookupData[match.id];
+                if (!merge.text) {
+                    console.log(match.id, this.lookupData)
+                }
 
                 console.log(merge);
                 documentsEmbedText += (<any>docT)(merge);
