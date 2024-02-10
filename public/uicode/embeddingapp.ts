@@ -1022,7 +1022,9 @@ export class EmbeddingApp extends BaseApp {
 
         let rowCount = this.upload_embedding_document_batchsize.value;
         this.saveProfileField("upsertEmbeddingRowCount", rowCount);
-
+        setTimeout(() => {
+            this.updateRowsCountFromFirestore();
+        }, 500);
         if (singleRowId) rowCount = 1;
         this.upsert_result_status_bar.innerHTML = `Upserting next ${rowCount} rows ...`;
         this.upsertRunning = true;
