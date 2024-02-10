@@ -356,10 +356,9 @@ export class AIArchiveDemoApp {
                 merge.matchIndex = index;
                 merge.text = this.lookupData[match.id];
                 if (!merge.text) {
-                    console.log(match.id, this.lookupData)
+                    console.log("missing merge", match.id, this.lookupData)
                 }
 
-                console.log(merge);
                 documentsEmbedText += (<any>docT)(merge);
             });
         } else if (embedIndex === 1) {
