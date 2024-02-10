@@ -117,7 +117,6 @@ export default class BaseApp {
       setTimeout(() => {
         this.credits_left = document.querySelector(".credits_left");
         this.signin_cta_navbar = document.querySelector(".signin_cta_navbar");
-        this.menu_profile_user_image_span = document.querySelector(".menu_profile_user_image_span");
         this.profile_menu_anchor = document.querySelector(".profile_menu_anchor");
         this.account_status_display = document.querySelector(".account_status_display");
         this.profile_menu_anchor.addEventListener("click", (event: any) => {
@@ -140,6 +139,7 @@ export default class BaseApp {
     if (this.standard_footer_bar_container) {
       createRoot(this.standard_footer_bar_container).render(React.createElement(ReactFooter));
     }
+    this.menu_profile_user_image_span = document.querySelector(".menu_profile_user_image_span");    
     this.show_profile_modal = document.querySelector(".show_profile_modal");
     if (this.show_profile_modal) {
       this.show_profile_modal.addEventListener("click", (event: any) => {
