@@ -62,6 +62,7 @@ export class EmbeddingApp extends BaseApp {
     table_new_count = document.querySelector(".table_new_count") as HTMLOptionElement;
     table_done_count = document.querySelector(".table_done_count") as HTMLOptionElement;
     table_error_count = document.querySelector(".table_error_count") as HTMLOptionElement;
+    table_processing_count = document.querySelector(".table_processing_count") as HTMLOptionElement;
     upload_embedding_document_batchsize: any = document.querySelector(".upload_embedding_document_batchsize");
     next_table_page_btn: any = document.querySelector(".next_table_page_btn");
     upsert_next_loop_checkbox: any = document.querySelector(".upsert_next_loop_checkbox");
@@ -1150,6 +1151,10 @@ export class EmbeddingApp extends BaseApp {
         const totalRowsSnapshot = await getCountFromServer(query(docsCollection));
         const totalRows = totalRowsSnapshot.data().count;
 
+        const processingQuery = query(docsCollection, where("status", "==", "Processing"));
+        const processingSnapshot = await getCountFromServer(processingQuery);
+        const processingCount = processingSnapshot.data().count;
+
         const doneQuery = query(docsCollection, where("status", "==", "Done"));
         const doneSnapshot = await getCountFromServer(doneQuery);
         const doneCount = doneSnapshot.data().count;
@@ -1163,6 +1168,7 @@ export class EmbeddingApp extends BaseApp {
         this.table_all_count.innerHTML = `All (${totalRows})`;
         this.table_done_count.innerHTML = `Done (${doneCount})`;
         this.table_error_count.innerHTML = `Errors (${errorCount})`;
+        this.table_processing_count.innerHTML = `Processing (${processingCount})`;
     }
     /**
      * @param { boolean } forceRefresh
