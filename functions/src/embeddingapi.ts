@@ -101,7 +101,7 @@ export default class EmbeddingAPI {
                         .get();
                     let doc = singleQuery.data();
                     if (!doc) doc = {};
-                    promises.push(EmbeddingAPI.upsertFileData(doc, chatGptKey,
+                    promises.push(EmbeddingAPI.upsertFileData(projectId, singleRowId, doc, chatGptKey,
                         uid, pIndex, tokenThreshold, includeTextInMeta, chunkingType, overlap, separators));
                 } else {
                     // get oldest 50 new
@@ -113,7 +113,7 @@ export default class EmbeddingAPI {
                         .get();
 
                     nextQuery.forEach((doc: any) => {
-                        promises.push(EmbeddingAPI.upsertFileData(doc.data(), chatGptKey,
+                        promises.push(EmbeddingAPI.upsertFileData(projectId, doc.id, doc.data(), chatGptKey,
                             uid, pIndex, tokenThreshold, includeTextInMeta, chunkingType, overlap, separators));
                     });
                 }
@@ -414,6 +414,8 @@ export default class EmbeddingAPI {
         };
     }
     /**
+     * @param { string } projectId
+     * @param { string } rowId
      * @param { any } fileDesc
      * @param { string } chatGptKey
      * @param { string } uid
@@ -425,10 +427,16 @@ export default class EmbeddingAPI {
      * @param { string } separators
      * @return { any } success: true - otherwise errorMessage: string is in map
     */
-    static async upsertFileData(fileDesc: any, chatGptKey: string, uid: string, pIndex: any,
+    static async upsertFileData(projectId: string, rowId: string, fileDesc: any, chatGptKey: string, uid: string, pIndex: any,
         tokenThreshold: number, includeTextInMeta: boolean, chunkingType: string, overlap: number,
         separators: string) {
         try {
+            await firebaseAdmin.firestore().doc(`Users/${uid}/embedding/${projectId}/data/${rowId}`)
+            .set({
+                status: "Processing",
+            }, {
+                merge: true,
+            });
             return await EmbeddingAPI._upsertFileData(fileDesc, chatGptKey, uid,
                 pIndex, tokenThreshold, includeTextInMeta, chunkingType, overlap, separators);
         } catch (error: any) {
