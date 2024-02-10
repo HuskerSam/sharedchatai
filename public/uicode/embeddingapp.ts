@@ -442,35 +442,39 @@ export class EmbeddingApp extends BaseApp {
     async generateLookupDB() {
         if (!this.selectedProjectId) return;
         this.upsert_result_status_bar.innerHTML = `Generating Lookup ...`;
-
-        const body: any = {
-            projectId: this.selectedProjectId,
-        };
-        const token = await getAuth().currentUser?.getIdToken() as string;
-        const fResult = await fetch(this.basePath + "embeddingApi/generatelookup", {
-            method: "POST",
-            mode: "cors",
-            cache: "no-cache",
-            headers: {
-                "Content-Type": "application/json",
-                token,
-            },
-            body: JSON.stringify(body),
-        });
-        const json = await fResult.json();
-        if (!json.success) {
-            console.log(json.errorMessage, json);
-            alert(json.errorMessage);
-            return;
+        try {
+            const body: any = {
+                projectId: this.selectedProjectId,
+            };
+            const token = await getAuth().currentUser?.getIdToken() as string;
+            const fResult = await fetch(this.basePath + "embeddingApi/generatelookup", {
+                method: "POST",
+                mode: "cors",
+                cache: "no-cache",
+                headers: {
+                    "Content-Type": "application/json",
+                    token,
+                },
+                body: JSON.stringify(body),
+            });
+            const json = await fResult.json();
+            if (!json.success) {
+                console.log(json.errorMessage, json);
+                alert(json.errorMessage);
+                return;
+            }
+    
+            this.upsert_result_status_bar.innerHTML = ``;
+            console.log("lookup data", json.publicPath);
+            this.dialogGenerateResult.props.hooks.setTitle("Lookup Database Cloud Path");
+            this.dialogGenerateResult.props.hooks.setPath(json.publicPath);
+            this.dialogGenerateResult.props.hooks.setPerDocPath(json.exampleByDocumentPath);
+            this.dialogGenerateResult.props.hooks.setShow(true);
+            console.log(json);    
+        } catch (e: any) {
+            alert("Generate Lookup error");
+            console.log("Generate lookup error", e);
         }
-
-        this.upsert_result_status_bar.innerHTML = ``;
-        console.log("lookup data", json.publicPath);
-        this.dialogGenerateResult.props.hooks.setTitle("Lookup Database Cloud Path");
-        this.dialogGenerateResult.props.hooks.setPath(json.publicPath);
-        this.dialogGenerateResult.props.hooks.setPerDocPath(json.exampleByDocumentPath);
-        this.dialogGenerateResult.props.hooks.setShow(true);
-        console.log(json);
     }
     /**
      * @param { any } event
