@@ -27,7 +27,7 @@ export class AIArchiveDemoApp {
     semanticResults: any[] = [];
     chunk100APIToken = "8b9e7b73-cad1-44c7-9a3b-07eb6914bc1a";
     chunk100SessionId = "h3gb1s7uxt02";
-    chunk100LookupPath = "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/projectLookups%2FHlm0AZ9mUCeWrMF6hI7SueVPbrq1%2Far-arxiv-100v2%2Flookup.json?alt=media";
+    chunk100LookupPath = "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/projectLookups%2FiMY1WwR6NkVnNkLId5bnKT59Np42%2Far-arxiv-100%2FbyDocument%2FDOC_ID_URIENCODED.json?alt=media";
     chunk100topK = 25;
     chunk100includeK = 15;
 
