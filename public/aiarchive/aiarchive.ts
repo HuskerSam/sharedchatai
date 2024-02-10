@@ -141,8 +141,6 @@ export class AIArchiveDemoApp {
             this.btn_close.click();
         });
 
-
-        this.populatePromptTemplates(0);
         this.analyze_prompt_textarea.addEventListener("keydown", (e: any) => {
             if (e.key === "Enter" && e.shiftKey === false) {
                 e.preventDefault();
@@ -355,6 +353,7 @@ export class AIArchiveDemoApp {
                 merge.id = match.id;
                 merge.matchIndex = index;
                 merge.text = this.lookupData[match.id];
+                merge.prompt = prompt;
                 if (!merge.text) {
                     console.log("missing merge", match.id, this.lookupData)
                 }
@@ -367,6 +366,7 @@ export class AIArchiveDemoApp {
             const merge = Object.assign({}, match.metadata);
             merge.id = match.id;
             merge.matchIndex = 0;
+            merge.prompt = prompt;
             const lookUpIndex = this.lookUpKeys.indexOf(match.id);
 
             let includeK = Number(this[this.dataSourcePrefix() + "includeK"]);
@@ -420,6 +420,12 @@ Answer the following prompt:
         documentPrompt: `({{title}}):
   {{text}}
   `,
+    },
+    {
+        mainPrompt: `{{documents}}
+Question: {{prompt}}`,
+        documentPrompt: `Question: {{prompt}}
+Answer: {{text}}\n\n`,
     },
     {
         mainPrompt: `You are an AI research assistant. Your job is to answer my prompt based on the context information provided below:
