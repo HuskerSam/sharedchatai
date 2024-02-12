@@ -414,13 +414,13 @@ Answer:`,
 Answer: {{text}}\n`,
     },
     {
-        mainPrompt: `You are an AI research assistant. Your job is to answer my prompt based on the context information provided below:
+        mainPrompt: `Context information is below.
 ---------------------
 {{documents}}
 ---------------------
-
-Answer the following prompt using the provided context only, do not use pre-training; if you cannot answer the question, please state that you cannot answer the question:
-Prompt: {{prompt}}`,
+Given the context information and not prior knowledge, answer the query.
+Query: {{prompt}}
+Answer:`,
         documentPrompt: `({{title}}):
   {{text}}
   `,
