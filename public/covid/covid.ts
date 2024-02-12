@@ -22,10 +22,11 @@ export class CovidDemoApp {
     embed_distinct_chunks_option: any = document.body.querySelector(".embed_distinct_chunks_option");
     embed_sequential_chunks_option: any = document.body.querySelector(".embed_sequential_chunks_option");
     lookupData: any = {};
+    lookedUpIds: any = {};
     semanticResults: any[] = [];
     chunk300APIToken = "12781bbc-5d71-4359-831b-377e06d4a27b";
     chunk300SessionId = "cyf1pd1l4wpc";
-    chunk300LookupPath = "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/projectLookups%2FHlm0AZ9mUCeWrMF6hI7SueVPbrq1%2Fcovid-list-v2%2Flookup.json?alt=media";
+    chunk300LookupPath = "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/projectLookups%2FHlm0AZ9mUCeWrMF6hI7SueVPbrq1%2Fcovid-list-v2%2FbyDocument%2FDOC_ID_URIENCODED.json?alt=media";
     chunk300topK = 25;
     chunk300includeK = 5;
 
@@ -59,9 +60,12 @@ export class CovidDemoApp {
                 this.analyze_prompt_button.click();
             }
         });
-        this.updateEmbeddingOptionsDisplay();
         this.hydrateFromLocalStorage();
-        this.updateRAGImages();
+        this.updateEmbeddingOptionsDisplay();
+        this.updateRAGImages(); 
+        this.analyze_prompt_textarea.focus();
+        this.analyze_prompt_textarea.select();
+
     }
     updateRAGImages() {
         if (this.embedding_type_select.selectedIndex === 0) {
@@ -167,16 +171,12 @@ export class CovidDemoApp {
         // if (prefix) return prefix as string;
         return "chunk300";
     }
-    async load() {
-        const lookupPath = this[this.dataSourcePrefix() + "LookupPath"];
-        const r = await fetch(lookupPath);
-        this.lookupData = await r.json();
+    load() {
         this.loaded = true;
         const l: any = document.querySelector(".loading_screen")
         l.style.display = "none";
         const m: any = document.querySelector(".tab_main_content");
         m.style.display = "flex";
-        this.lookUpKeys = Object.keys(this.lookupData).sort();
         this.analyze_prompt_textarea.focus();
         this.analyze_prompt_textarea.select();
     }
@@ -195,8 +195,12 @@ export class CovidDemoApp {
         }
 
         let html = '<span class="small text-muted">Most Relevant Chunks...</span><br>';
+        await this.fetchDocumentsLookup(result.matches.map((match: any) => match.id));
         result.matches.forEach((match) => {
             const textFrag = this.lookupData[match.id];
+            if (!textFrag) {
+                console.log(match.id, this.lookupData)
+            }
             const dstring = match.metadata.coverDate;
             const d = dstring.slice(0, 4) + "-" + dstring.slice(5, 7) + "-" + dstring.slice(8, 10);
             const parts = match.id.split("_");
@@ -221,7 +225,7 @@ export class CovidDemoApp {
             return "please supply a message";
         }
 
-        const prompt = this.embedPrompt(message, this.semanticResults);
+        const prompt = await this.embedPrompt(message, this.semanticResults);
         const diagram = this.embedding_diagram_img.src;
         this.summary_details.innerHTML = `<a target="_blank" class="embedding_diagram_anchor" href="${diagram}"><img style="width:100px;float:right" class="embedding_diagram_img" src="${diagram}" alt=""></a>
       <label>Full Raw Prompt</label>: <div class="raw_prompt">${prompt}</div><br>`;
@@ -256,7 +260,7 @@ export class CovidDemoApp {
             return promptResult.assist.assist.choices["0"].message.content;
         }
     }
-    embedPrompt(prompt: string, matches: any[]): string {
+    async embedPrompt(prompt: string, matches: any[]): Promise<string> {
         const embedIndex = this.embedding_type_select.selectedIndex;
         const promptTemplate = this.prompt_template_text_area.value;
         const documentTemplate = this.document_template_text_area.value;
@@ -266,6 +270,7 @@ export class CovidDemoApp {
         if (embedIndex === 0) {
             let includeK = Number(this[this.dataSourcePrefix() + "includeK"]);
             const includes = matches.slice(0, includeK);
+            await this.fetchDocumentsLookup(includes.map((match: any) => match.id));
             includes.forEach((match: any, index: number) => {
                 const merge = Object.assign({}, match.metadata);
                 merge.id = match.id;
@@ -277,6 +282,7 @@ export class CovidDemoApp {
             });
         } else if (embedIndex === 1) {
             const match = matches[0];
+            await this.fetchDocumentsLookup([match.id]);
             const merge = Object.assign({}, match.metadata);
             merge.id = match.id;
             merge.matchIndex = 0;
@@ -319,6 +325,38 @@ export class CovidDemoApp {
         localStorage.setItem("covid_lastPrompt", this.analyze_prompt_textarea.value);
         localStorage.setItem("covid_promptTemplate", this.prompt_template_text_area.value);
         localStorage.setItem("covid_documentTemplate", this.document_template_text_area.value);
+    }
+    async loadDocumentLookup(docId: string): Promise<any> {
+        try {
+            let lookupPath = this[this.dataSourcePrefix() + "LookupPath"];
+            lookupPath = lookupPath.replace("DOC_ID_URIENCODED", docId);
+            console.log(lookupPath);
+            const r = await fetch(lookupPath);
+            const result = await r.json();
+            return result;
+        } catch (error: any) {
+            console.log("FAILED TO FETCH CHUNK MAP", docId, error);
+            return {};
+        }
+    }
+    async fetchDocumentsLookup(idList: string[]) {
+        const promises: any[] = [];
+        const docIdMap: any = {};
+        idList.forEach((chunkId: string) => {
+            const parts = chunkId.split("_");
+            let docId = parts[0] + "_" + parts[1];
+            if (this.lookedUpIds[docId] !== true)
+                docIdMap[docId] = true;
+        });
+        Object.keys(docIdMap).forEach((id: string) => promises.push(this.loadDocumentLookup(id)));
+        let chunkMaps = await Promise.all(promises);
+        chunkMaps.forEach((chunkMap: any) => {
+            Object.keys(chunkMap).forEach((chunkId: string) => {
+                this.lookupData[chunkId] = chunkMap[chunkId];
+            });
+        });
+        Object.assign(this.lookedUpIds, docIdMap);
+        this.lookUpKeys = Object.keys(this.lookupData).sort();
     }
 }
 
