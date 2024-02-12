@@ -37,19 +37,33 @@ export class CovidDemoApp {
     constructor() {
         this.load();
         this.analyze_prompt_button.addEventListener("click", () => this.analyzePrompt());
-
         this.prompt_template_select_preset.addEventListener("input", () => this.populatePromptTemplates());
-        let templateIndex: any = localStorage.getItem("covid_templateIndex");
-        if (templateIndex && templateIndex > 0) {
-            this.prompt_template_select_preset.selectedIndex = templateIndex;
-            this.populatePromptTemplates(templateIndex);
-        } else {
-            this.populatePromptTemplates(0);
-        }
-        let queryIndex: any = localStorage.getItem("covid_queryIndex");
-        if (queryIndex && queryIndex > 0) this.embedding_type_select.selectedIndex = queryIndex;
+        this.embedding_type_select.addEventListener("input", () => this.updateRAGImages());
 
-        /*select correct embedding_diagram_img based on saved embedding_type_select value from local storage*/
+        this.full_augmented_prompt_button.addEventListener("click", () => this.clearMenusAndPopups());
+        this.full_augmented_response_button.addEventListener("click", () => this.clearMenusAndPopups());
+        this.augmented_template_button.addEventListener("click", () => this.clearMenusAndPopups());
+
+        this.analyze_prompt_textarea.addEventListener("input", () => this.saveLocalStorage());
+        this.prompt_template_text_area.addEventListener("input", () => this.saveLocalStorage());
+        this.document_template_text_area.addEventListener("input", () => this.saveLocalStorage());
+
+        this.reset_template_options_button.addEventListener("click", () => {
+            localStorage.clear();
+            location.reload();
+        });
+        this.analyze_prompt_textarea.addEventListener("keydown", (e: any) => {
+            if (e.key === "Enter" && e.shiftKey === false) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.analyze_prompt_button.click();
+            }
+        });
+        this.updateEmbeddingOptionsDisplay();
+        this.hydrateFromLocalStorage();
+        this.updateRAGImages();
+    }
+    updateRAGImages() {
         if (this.embedding_type_select.selectedIndex === 0) {
             this.embedding_diagram_img.src = "img/rag_basic.png";
             this.embedding_diagram_anchor.href = "img/rag_basic.png";
@@ -58,46 +72,8 @@ export class CovidDemoApp {
             this.embedding_diagram_img.src = "img/rag_stb.png";
             this.embedding_diagram_anchor.href = "img/rag_stb.png";
         }
-        /*change embedding_diagram_img when embedding_type_select value is changed*/
-        this.embedding_type_select.addEventListener("input", () => {
-            if (this.embedding_type_select.selectedIndex === 0) {
-                this.embedding_diagram_img.src = "img/rag_basic.png";
-                this.embedding_diagram_anchor.href = "img/rag_basic.png";
-            }
-            if (this.embedding_type_select.selectedIndex === 1) {
-                this.embedding_diagram_img.src = "img/rag_stb.png";
-                this.embedding_diagram_anchor.href = "img/rag_stb.png";
-            }
-        });
-
-        this.full_augmented_prompt_button.addEventListener("click", () => {
-            this.btn_close.click();
-        });
-        this.full_augmented_response_button.addEventListener("click", () => {
-            this.btn_close.click();
-        });
-        this.augmented_template_button.addEventListener("click", () => {
-            this.btn_close.click();
-        });
-
-
-        this.populatePromptTemplates(0);
-        this.analyze_prompt_textarea.addEventListener("keydown", (e: any) => {
-            if (e.key === "Enter" && e.shiftKey === false) {
-                e.preventDefault();
-                e.stopPropagation();
-                this.analyze_prompt_button.click();
-            }
-        });
-        this.analyze_prompt_textarea.addEventListener("input", () => {
-            this.saveLocalStorage();
-        });
-        this.prompt_template_text_area.addEventListener("input", () => {
-            this.saveLocalStorage();
-        });
-        this.document_template_text_area.addEventListener("input", () => {
-            this.saveLocalStorage();
-        });
+    }
+    hydrateFromLocalStorage() {
         const lastPrompt = localStorage.getItem("covid_lastPrompt");
         if (lastPrompt) this.analyze_prompt_textarea.value = lastPrompt;
         const promptTemplate = localStorage.getItem("covid_promptTemplate");
@@ -105,16 +81,15 @@ export class CovidDemoApp {
         const documentTemplate = localStorage.getItem("covid_documentTemplate");
         if (documentTemplate) this.document_template_text_area.value = documentTemplate;
 
-        this.reset_template_options_button.addEventListener("click", () => {
-            this.prompt_template_select_preset.selectedIndex = 0;
-            this.embedding_type_select.selectedIndex = 0;
-            this.populatePromptTemplates();
-            this.saveLocalStorage();
-        });
-        this.analyze_prompt_textarea.focus();
-        this.analyze_prompt_textarea.select();
+        let templateIndex = localStorage.getItem("covid_templateIndex") || 0;
+        this.prompt_template_select_preset.selectedIndex = templateIndex as number;
+        let queryIndex = localStorage.getItem("covid_queryIndex") || 0;
+        this.embedding_type_select.selectedIndex = queryIndex as number;
 
-        this.updateEmbeddingOptionsDisplay();
+        if (!promptTemplate) this.populatePromptTemplates(templateIndex as number, true);
+    }
+    clearMenusAndPopups() {
+        this.btn_close.click();
     }
     updateEmbeddingOptionsDisplay() {
         let includeK = Number(this[this.dataSourcePrefix() + "includeK"]);
@@ -202,7 +177,8 @@ export class CovidDemoApp {
         const m: any = document.querySelector(".tab_main_content");
         m.style.display = "flex";
         this.lookUpKeys = Object.keys(this.lookupData).sort();
-        this.updateEmbeddingOptionsDisplay();
+        this.analyze_prompt_textarea.focus();
+        this.analyze_prompt_textarea.select();
     }
     async lookupAIDocumentChunks(): Promise<any[]> {
         this.lookup_verse_response_feed.innerHTML = "";
@@ -329,12 +305,12 @@ export class CovidDemoApp {
         };
         return (<any>promptT)(mainMerge);
     }
-    populatePromptTemplates(templateIndex: number = -1) {
+    populatePromptTemplates(templateIndex: number = -1, noSave = false) {
         if (templateIndex < 0) templateIndex = this.prompt_template_select_preset.selectedIndex;
 
         this.prompt_template_text_area.value = promptTemplates[templateIndex].mainPrompt;
         this.document_template_text_area.value = promptTemplates[templateIndex].documentPrompt;
-        this.saveLocalStorage();
+        if (!noSave) this.saveLocalStorage();
     }
 
     saveLocalStorage() {
