@@ -290,6 +290,43 @@
                     </div>
                 </div>
             </section>
+            <section class="pt-5">
+                <div class="container px-4 px-lg-0" id="aboutdemos">
+                    <div class="row justify-content-center align-items-center g-lg-5">
+                        <div class="text-center">
+                            <h2 class="text-primary mb-4 display-6 fw-bold">About the demo applications (and code!)</h2>
+                            <p class="lead text-muted">
+                                The demo applications access LLM and semantic (vector) search results via the Unacog
+                                API.
+                                <br>
+                                <img src="/images/apidiagram.png" style="max-height: 500px;">
+                                <br>
+                                <br>
+                                <div style="text-align: left;">
+                                    <h3>Unacog API</h3>
+                                    <h4>
+                                        unacog.com/sessionapi/vectorquery
+                                    </h4>
+                                    Use this call to query similar vector results for a given prompt. Top K is the maximum
+                                    number
+                                    of top results returned based on a cosine calculated similarity score.
+                                    <br><br>
+                                    <h4>
+                                        unacog.com/sessionapi/message
+                                    </h4>
+                                    Use this call to send a prompt to the LLM through the Unacog backend.  If embedding is enabled 
+                                    this call will use the prompt template contained in the associated Unacog session to determine 
+                                    how to query the embeddings, or optionally query and embed the documents in your own code before
+                                    sending to this API (refer to the demo applications for specific examples).
+                                    <br><br>
+                                    <h4>Example Code</h4>
+                                    Checkout the browser console, the demo applications are very brief and easy to follow in code.
+                                </div>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
             <div class="standard_footer_bar_container"></div>
         </div>
         <div class="embedding_second_header_bar signed_in_flex">
