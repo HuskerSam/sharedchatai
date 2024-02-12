@@ -32,61 +32,7 @@ export class BibleDemoApp {
 
   constructor() {
     this.load();
-    this.analyze_prompt_button.addEventListener("click", async () => {
-      if (this.running) {
-        alert("already running");
-        return;
-      }
-      const message = this.analyze_prompt_textarea.value.trim();
-      if (!message) {
-        alert("please supply a message");
-        return;
-      }
-      this.analyze_prompt_button.setAttribute("disabled", "");
-      this.analyze_prompt_button.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-      <span class="visually-hidden">Loading...</span>`;
-      this.summary_details.innerHTML = "Compiling Prompt...";
-      this.running = true;
-
-      document.body.classList.remove("initial");
-      document.body.classList.add("running");
-      document.body.classList.remove("complete");
-
-      this.full_augmented_response.innerHTML = "Processing Query...<br><br>";
-      await this.lookupChaptersByVerse();
-      this.full_augmented_response.innerHTML += "Similar chapters retrieved...<br><br>";
-      await this.lookupChapters();
-      this.full_augmented_response.innerHTML += "Similar verses retrieved...<br><br>";
-      this.full_augmented_response.innerHTML = await this.sendPromptToLLM();
-      this.full_augmented_response.innerHTML +=
-        `<br><div class="d-flex flex-column link-primary" style="white-space:normal;"><a class="response_verse_link p-2" href="see verses">Top Verses
-      </a><a class="response_chapter_link p-2" href="see chapter">Top Chapters 
-      </a><a class="response_detail_link p-2" href="see details">Prompt Details</a></div>`;
-
-      const verseLink = this.full_augmented_response.querySelector(".response_verse_link") as HTMLAnchorElement;
-      verseLink.addEventListener("click", (e: any) => {
-        e.preventDefault();
-        (document.getElementById("verses_view_button") as HTMLButtonElement).click();
-      });
-      const chapterLink = this.full_augmented_response.querySelector(".response_chapter_link") as HTMLAnchorElement;
-      chapterLink.addEventListener("click", (e: any) => {
-        e.preventDefault();
-        (document.getElementById("chapters_view_button") as HTMLButtonElement).click();
-      });
-      const detailLink = this.full_augmented_response.querySelector(".response_detail_link") as HTMLAnchorElement;
-      detailLink.addEventListener("click", (e: any) => {
-        e.preventDefault();
-        (document.getElementById("full_augmented_prompt_button") as HTMLButtonElement).click();
-      });
-
-      this.analyze_prompt_button.removeAttribute("disabled");
-      this.analyze_prompt_button.innerHTML = `<span class="material-icons-outlined">
-      send
-      </span>`;
-      this.running = false;
-      document.body.classList.add("complete");
-      document.body.classList.remove("running");
-    });
+    this.analyze_prompt_button.addEventListener("click", () => this.analyzePrompt());
 
     this.prompt_template_select_preset.addEventListener("input", () => this.populatePromptTemplates());
     this.embedding_type_select.addEventListener("input", () => this.updateRAGImages());
@@ -115,13 +61,65 @@ export class BibleDemoApp {
 
     this.hydrateFromLocalStorage();
     this.updateRAGImages();
-    this.analyze_prompt_textarea.focus();
-    this.analyze_prompt_textarea.select();
+  }
+  async analyzePrompt() {
+    if (this.running) {
+      alert("already running");
+      return;
+    }
+    const message = this.analyze_prompt_textarea.value.trim();
+    if (!message) {
+      alert("please supply a message");
+      return;
+    }
+    this.analyze_prompt_button.setAttribute("disabled", "");
+    this.analyze_prompt_button.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      <span class="visually-hidden">Loading...</span>`;
+    this.summary_details.innerHTML = "Compiling Prompt...";
+    this.running = true;
+
+    document.body.classList.remove("initial");
+    document.body.classList.add("running");
+    document.body.classList.remove("complete");
+
+    this.full_augmented_response.innerHTML = "Processing Query...<br><br>";
+    await this.lookupChaptersByVerse();
+    this.full_augmented_response.innerHTML += "Similar chapters retrieved...<br><br>";
+    await this.lookupChapters();
+    this.full_augmented_response.innerHTML += "Similar verses retrieved...<br><br>";
+    this.full_augmented_response.innerHTML = await this.sendPromptToLLM();
+    this.full_augmented_response.innerHTML +=
+      `<br><div class="d-flex flex-column link-primary" style="white-space:normal;"><a class="response_verse_link p-2" href="see verses">Top Verses
+      </a><a class="response_chapter_link p-2" href="see chapter">Top Chapters 
+      </a><a class="response_detail_link p-2" href="see details">Prompt Details</a></div>`;
+
+    const verseLink = this.full_augmented_response.querySelector(".response_verse_link") as HTMLAnchorElement;
+    verseLink.addEventListener("click", (e: any) => {
+      e.preventDefault();
+      (document.getElementById("verses_view_button") as HTMLButtonElement).click();
+    });
+    const chapterLink = this.full_augmented_response.querySelector(".response_chapter_link") as HTMLAnchorElement;
+    chapterLink.addEventListener("click", (e: any) => {
+      e.preventDefault();
+      (document.getElementById("chapters_view_button") as HTMLButtonElement).click();
+    });
+    const detailLink = this.full_augmented_response.querySelector(".response_detail_link") as HTMLAnchorElement;
+    detailLink.addEventListener("click", (e: any) => {
+      e.preventDefault();
+      (document.getElementById("full_augmented_prompt_button") as HTMLButtonElement).click();
+    });
+
+    this.analyze_prompt_button.removeAttribute("disabled");
+    this.analyze_prompt_button.innerHTML = `<span class="material-icons-outlined">
+      send
+      </span>`;
+    this.running = false;
+    document.body.classList.add("complete");
+    document.body.classList.remove("running");
   }
   clearMenusAndPopups() {
     this.btn_close.click();
   }
-  /** select correct embedding_diagram_img based on saved embedding_type_select value from local storage */
   updateRAGImages() {
     if (this.embedding_type_select.selectedIndex === 0) {
       this.embedding_diagram_img.src = "img/ragChapterVerses.png";
@@ -167,6 +165,9 @@ export class BibleDemoApp {
     l.style.display = "none";
     const m: any = document.querySelector(".tab_main_content");
     m.style.display = "flex";
+
+    this.analyze_prompt_textarea.focus();
+    this.analyze_prompt_textarea.select();
   }
   hydrateFromLocalStorage() {
     const lastPrompt = localStorage.getItem("lastPrompt");

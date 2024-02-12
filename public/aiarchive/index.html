@@ -63,6 +63,9 @@
           <li class="dropdown-item mt-2">
             <a class="btn btn-secondary" href="/embedding/#cta_form">Hire Us</a>
           </li>
+          <li class="dropdown-item mt-2">
+            <button class="reset_template_options_button btn btn-warning">Reset Storage</button>
+          </li>
         </ul>
       </div>
       <button class="navbar-toggler p-0 border-0" type="button" data-bs-toggle="offcanvas"
@@ -170,7 +173,8 @@
           <div class="initial_user_message pt-2 pb-4 fs-5 text-center">Enter a query to see relevant articles</div>
           <a type="button" class="text-center" data-bs-toggle="modal" data-bs-target="#chapterExpModal">
             <figure class="figure border rounded">
-              <img class="p-3 img-fluid" src="img/chunk_sentences.png" alt="verse retrieval diagram" style="max-height: 800px;">
+              <img class="p-3 img-fluid" src="img/chunk_sentences.png" alt="verse retrieval diagram"
+                style="max-height: 800px;">
               <figcaption class="figure-caption text-center">Loading and Indexing articles
               </figcaption>
             </figure>
@@ -227,8 +231,8 @@
           <div style="padding:4px">
             <select class="form-select prompt_template_select_preset">
               <option selected>Use Reference Documents</option>
-              <option>Open AI Cookbook</option>
-              <option>answer from provided context only</option>
+              <option>OpenAI Cookbook Primitive</option>
+              <option>LangChain Cookbook Template</option>
             </select>
           </div>
           <div style="padding:4px;">
@@ -241,10 +245,11 @@
           <div style="padding:4px;">
             <textarea style="height:7em;width:100%;"
               class="document_template_text_area monospace form-control"></textarea>
+              <span class="small text-info ms-2" style="position: relative;top:4px">{{ id, doc_id, 
+                primary_category, published, title, url, matchIndex, prompt }}
+                from metadata<br>
+                {{ text }} for embedding text</span>
           </div>
-        </div>
-        <div class="text-center py-3">
-          <button class="reset_template_options_button btn btn-warning">Reset Templates</button>
         </div>
       </div>
     </div>

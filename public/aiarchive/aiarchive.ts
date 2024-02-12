@@ -1,27 +1,27 @@
 export class AIArchiveDemoApp {
     running = false;
-    analyze_prompt_button: any = document.body.querySelector(".analyze_prompt_button");
-    lookup_verse_response_feed: any = document.body.querySelector(".lookup_verse_response_feed");
-    summary_details: any = document.body.querySelector(".summary_details");
-    full_augmented_response: any = document.body.querySelector(".full_augmented_response");
-    analyze_prompt_textarea: any = document.body.querySelector(".analyze_prompt_textarea");
-    lookup_chapter_response_feed: any = document.body.querySelector(".lookup_chapter_response_feed");
+    analyze_prompt_button = document.body.querySelector(".analyze_prompt_button") as HTMLButtonElement;
+    lookup_verse_response_feed = document.body.querySelector(".lookup_verse_response_feed") as HTMLDivElement;
+    summary_details = document.body.querySelector(".summary_details") as HTMLDivElement;
+    full_augmented_response = document.body.querySelector(".full_augmented_response") as HTMLDivElement;
+    analyze_prompt_textarea = document.body.querySelector(".analyze_prompt_textarea") as HTMLTextAreaElement;
+    lookup_chapter_response_feed = document.body.querySelector(".lookup_chapter_response_feed") as HTMLDivElement;
     nav_link = document.body.querySelectorAll(".nav-link");
     btn_close = document.body.querySelector(".btn-close") as HTMLButtonElement;
     source_view_button = document.body.querySelector("#source_view_button") as HTMLButtonElement;
     full_augmented_prompt_button = document.body.querySelector("#full_augmented_prompt_button") as HTMLButtonElement;
     augmented_template_button = document.body.querySelector("#augmented_template_button") as HTMLButtonElement;
     full_augmented_response_button = document.body.querySelector("#full_augmented_response_button") as HTMLButtonElement;
-    embedding_type_select: any = document.body.querySelector(".embedding_type_select");
-    embedding_diagram_img: any = document.body.querySelector(".embedding_diagram_img");
-    embedding_diagram_anchor: any = document.body.querySelector(".embedding_diagram_anchor");
-    prompt_template_text_area: any = document.body.querySelector(".prompt_template_text_area");
-    document_template_text_area: any = document.body.querySelector(".document_template_text_area");
-    prompt_template_select_preset: any = document.body.querySelector(".prompt_template_select_preset");
-    reset_template_options_button: any = document.body.querySelector(".reset_template_options_button");
+    embedding_type_select = document.body.querySelector(".embedding_type_select") as HTMLSelectElement;
+    embedding_diagram_img = document.body.querySelector(".embedding_diagram_img") as HTMLImageElement;
+    embedding_diagram_anchor = document.body.querySelector(".embedding_diagram_anchor") as HTMLAnchorElement;
+    prompt_template_text_area = document.body.querySelector(".prompt_template_text_area") as HTMLTextAreaElement;
+    document_template_text_area = document.body.querySelector(".document_template_text_area") as HTMLTextAreaElement;
+    prompt_template_select_preset = document.body.querySelector(".prompt_template_select_preset") as HTMLSelectElement;
+    reset_template_options_button = document.body.querySelector(".reset_template_options_button") as HTMLButtonElement;
     datachunk_source_size_buttons = document.body.querySelectorAll(`[name="datachunk_source_size"]`);
-    embed_distinct_chunks_option: any = document.body.querySelector(".embed_distinct_chunks_option");
-    embed_sequential_chunks_option: any = document.body.querySelector(".embed_sequential_chunks_option");
+    embed_distinct_chunks_option = document.body.querySelector(".embed_distinct_chunks_option") as HTMLOptionElement;
+    embed_sequential_chunks_option = document.body.querySelector(".embed_sequential_chunks_option") as HTMLOptionElement;
     lookupData: any = {};
     lookedUpIds: any = {};
     semanticResults: any[] = [];
@@ -50,87 +50,17 @@ export class AIArchiveDemoApp {
 
     constructor() {
         this.load();
-        this.analyze_prompt_button.addEventListener("click", async () => {
-            if (this.running) {
-                alert("already running");
-                return;
-            }
-            const message = this.analyze_prompt_textarea.value.trim();
-            if (!message) {
-                alert("please supply a message");
-                return [];
-            }
-            this.analyze_prompt_button.setAttribute("disabled", "");
-            this.analyze_prompt_button.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            <span class="visually-hidden">Loading...</span>`;
-            this.summary_details.innerHTML = "Compiling Prompt...";
-            this.running = true;
-
-            document.body.classList.remove("initial");
-            document.body.classList.add("running");
-            document.body.classList.remove("complete");
-
-            this.full_augmented_response.innerHTML = "Processing Query...<br><br>";
-            this.semanticResults = await this.lookupAIDocumentChunks();
-            this.full_augmented_response.innerHTML += "Similar document chunks retrieved...<br><br>";
-
-            this.full_augmented_response.innerHTML = await this.sendPromptToLLM();
-            this.full_augmented_response.innerHTML +=
-                `<br><div class="d-flex flex-column link-primary" style="white-space:normal;"><a class="response_verse_link p-2" href="see verses">Top Search Results
-        </a><a class="response_detail_link p-2" href="see details">Prompt Details</a></div>`;
-
-            const verseLink = this.full_augmented_response.querySelector(".response_verse_link");
-            verseLink.addEventListener("click", (e: any) => {
-                e.preventDefault();
-                (<any>(document.getElementById("source_view_button"))).click();
-            });
-            const detailLink = this.full_augmented_response.querySelector(".response_detail_link");
-            detailLink.addEventListener("click", (e: any) => {
-                e.preventDefault();
-                (<any>(document.getElementById("full_augmented_prompt_button"))).click();
-            });
-
-            this.analyze_prompt_button.removeAttribute("disabled");
-            this.analyze_prompt_button.innerHTML = `<span class="material-icons-outlined mt-1">
-        send
-        </span>`;
-            this.running = false;
-            document.body.classList.add("complete");
-            document.body.classList.remove("running");
-        });
-
+        this.analyze_prompt_button.addEventListener("click", () => this.analyzePrompt());
         this.prompt_template_select_preset.addEventListener("input", () => this.populatePromptTemplates());
+        this.embedding_type_select.addEventListener("input", () => this.updateRAGImages());
 
-        /*select correct embedding_diagram_img based on saved embedding_type_select value from local storage*/
-        if (this.embedding_type_select.selectedIndex === 0) {
-            this.embedding_diagram_img.src = "img/rag_basic.png";
-            this.embedding_diagram_anchor.href = "img/rag_basic.png";
-        }
-        if (this.embedding_type_select.selectedIndex === 1) {
-            this.embedding_diagram_img.src = "img/rag_stb.png";
-            this.embedding_diagram_anchor.href = "img/rag_stb.png";
-        }
-        /*change embedding_diagram_img when embedding_type_select value is changed*/
-        this.embedding_type_select.addEventListener("input", () => {
-            if (this.embedding_type_select.selectedIndex === 0) {
-                this.embedding_diagram_img.src = "img/rag_basic.png";
-                this.embedding_diagram_anchor.href = "img/rag_basic.png";
-            }
-            if (this.embedding_type_select.selectedIndex === 1) {
-                this.embedding_diagram_img.src = "img/rag_stb.png";
-                this.embedding_diagram_anchor.href = "img/rag_stb.png";
-            }
-        });
+        this.full_augmented_prompt_button.addEventListener("click", () => this.clearMenusAndPopups());
+        this.full_augmented_response_button.addEventListener("click", () => this.clearMenusAndPopups());
+        this.augmented_template_button.addEventListener("click", () => this.clearMenusAndPopups());
 
-        this.full_augmented_prompt_button.addEventListener("click", () => {
-            this.btn_close.click();
-        });
-        this.full_augmented_response_button.addEventListener("click", () => {
-            this.btn_close.click();
-        });
-        this.augmented_template_button.addEventListener("click", () => {
-            this.btn_close.click();
-        });
+        this.analyze_prompt_textarea.addEventListener("input", () => this.saveLocalStorage());
+        this.prompt_template_text_area.addEventListener("input", () => this.saveLocalStorage());
+        this.document_template_text_area.addEventListener("input", () => this.saveLocalStorage());
 
         this.analyze_prompt_textarea.addEventListener("keydown", (e: any) => {
             if (e.key === "Enter" && e.shiftKey === false) {
@@ -139,20 +69,9 @@ export class AIArchiveDemoApp {
                 this.analyze_prompt_button.click();
             }
         });
-        this.analyze_prompt_textarea.addEventListener("input", () => {
-            this.saveLocalStorage();
-        });
-        this.prompt_template_text_area.addEventListener("input", () => {
-            this.saveLocalStorage();
-        });
-        this.document_template_text_area.addEventListener("input", () => {
-            this.saveLocalStorage();
-        });
-
         this.reset_template_options_button.addEventListener("click", () => {
-            this.prompt_template_select_preset.selectedIndex = 0;
-            this.embedding_type_select.selectedIndex = 0;
-            this.populatePromptTemplates(0);
+            localStorage.clear();
+            location.reload();
         });
         this.analyze_prompt_textarea.focus();
         this.analyze_prompt_textarea.select();
@@ -166,14 +85,76 @@ export class AIArchiveDemoApp {
             this.loaded = false;
             this.load();
         }));
-        
+
         this.hydrateFromLocalStorage();
         this.updateEmbeddingOptionsDisplay();
+        this.updateRAGImages();
+    }
+    async analyzePrompt() {
+        if (this.running) {
+            alert("already running");
+            return;
+        }
+        const message = this.analyze_prompt_textarea.value.trim();
+        if (!message) {
+            alert("please supply a message");
+            return [];
+        }
+        this.analyze_prompt_button.setAttribute("disabled", "");
+        this.analyze_prompt_button.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span class="visually-hidden">Loading...</span>`;
+        this.summary_details.innerHTML = "Compiling Prompt...";
+        this.running = true;
+
+        document.body.classList.remove("initial");
+        document.body.classList.add("running");
+        document.body.classList.remove("complete");
+
+        this.full_augmented_response.innerHTML = "Processing Query...<br><br>";
+        this.semanticResults = await this.lookupAIDocumentChunks();
+        this.full_augmented_response.innerHTML += "Similar document chunks retrieved...<br><br>";
+
+        this.full_augmented_response.innerHTML = await this.sendPromptToLLM();
+        this.full_augmented_response.innerHTML +=
+            `<br><div class="d-flex flex-column link-primary" style="white-space:normal;"><a class="response_verse_link p-2" href="see verses">Top Search Results
+        </a><a class="response_detail_link p-2" href="see details">Prompt Details</a></div>`;
+
+        const verseLink = this.full_augmented_response.querySelector(".response_verse_link") as HTMLAnchorElement;
+        verseLink.addEventListener("click", (e: Event) => {
+            e.preventDefault();
+            (<any>(document.getElementById("source_view_button"))).click();
+        });
+        const detailLink = this.full_augmented_response.querySelector(".response_detail_link") as HTMLAnchorElement;
+        detailLink.addEventListener("click", (e: Event) => {
+            e.preventDefault();
+            (<any>(document.getElementById("full_augmented_prompt_button"))).click();
+        });
+
+        this.analyze_prompt_button.removeAttribute("disabled");
+        this.analyze_prompt_button.innerHTML = `<span class="material-icons-outlined mt-1">
+        send
+        </span>`;
+        this.running = false;
+        document.body.classList.add("complete");
+        document.body.classList.remove("running");
+    }
+    clearMenusAndPopups() {
+        this.btn_close.click();
     }
     updateEmbeddingOptionsDisplay() {
         let includeK = Number(this[this.dataSourcePrefix() + "includeK"]);
         this.embed_distinct_chunks_option.innerHTML = `Embed ${includeK}  Document Chunks`;
         this.embed_sequential_chunks_option.innerHTML = `Embed 1 Chunk with ${includeK} Additional Contexts`;
+    }
+    updateRAGImages() {
+        if (this.embedding_type_select.selectedIndex === 0) {
+            this.embedding_diagram_img.src = "img/rag_basic.png";
+            this.embedding_diagram_anchor.href = "img/rag_basic.png";
+        }
+        if (this.embedding_type_select.selectedIndex === 1) {
+            this.embedding_diagram_img.src = "img/rag_stb.png";
+            this.embedding_diagram_anchor.href = "img/rag_stb.png";
+        }
     }
     async getMatchingVectors(message: string, topK: number, apiToken: string, sessionId: string): Promise<any> {
         const body = {
@@ -218,12 +199,12 @@ export class AIArchiveDemoApp {
         if (documentTemplate) this.document_template_text_area.value = documentTemplate;
 
         let templateIndex = localStorage.getItem("ai_templateIndex") || 0;
-        this.prompt_template_select_preset.selectedIndex = templateIndex;
+        this.prompt_template_select_preset.selectedIndex = templateIndex as number;
         if (!promptTemplate) {
             this.populatePromptTemplates(templateIndex as number, true);
         }
         let queryIndex = localStorage.getItem("ai_queryIndex") || 0;
-        this.embedding_type_select.selectedIndex = queryIndex;
+        this.embedding_type_select.selectedIndex = queryIndex as number;
         let chunkSize = this.dataSourcePrefix();
         this.datachunk_source_size_buttons.forEach((btn: any) => {
             if (btn.value === chunkSize) btn.checked = true;
@@ -402,10 +383,9 @@ export class AIArchiveDemoApp {
         this.document_template_text_area.value = promptTemplates[templateIndex].documentPrompt;
         if (!noSave) this.saveLocalStorage();
     }
-
     saveLocalStorage() {
-        localStorage.setItem("ai_templateIndex", this.prompt_template_select_preset.selectedIndex);
-        localStorage.setItem("ai_queryIndex", this.embedding_type_select.selectedIndex);
+        localStorage.setItem("ai_templateIndex", this.prompt_template_select_preset.selectedIndex.toString());
+        localStorage.setItem("ai_queryIndex", this.embedding_type_select.selectedIndex.toString());
         localStorage.setItem("ai_lastPrompt", this.analyze_prompt_textarea.value);
         localStorage.setItem("ai_promptTemplate", this.prompt_template_text_area.value);
         localStorage.setItem("ai_documentTemplate", this.document_template_text_area.value);
@@ -425,10 +405,13 @@ Answer the following prompt:
   `,
     },
     {
-        mainPrompt: `{{documents}}
-Question: {{prompt}}`,
+        mainPrompt: `Answer the question based on the context below.
+Context:\n
+{{documents}}\n
+Question: {{prompt}}\n
+Answer:`,
         documentPrompt: `Question: {{prompt}}
-Answer: {{text}}\n\n`,
+Answer: {{text}}\n`,
     },
     {
         mainPrompt: `You are an AI research assistant. Your job is to answer my prompt based on the context information provided below:
