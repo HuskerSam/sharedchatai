@@ -4,8 +4,8 @@
             <h1 class="mb-4">Generate Lookup Tool</h1>
             <section class="">
                 <p class="lead mb-4">In the realm of Retrieval Augmented Generation (RAG), managing text lookups for
-                    each vector is a critical task, but the approach can vary significantly. Unacog offers three
-                    distinct methods for handling text lookups, each tailored to different project scales and
+                    each vector is a critical task, but the approach can vary. Unacog offers three
+                    methods for handling text lookups, each tailored to different project scales and
                     requirements.</p>
                 <figure class="text-center mb-5">
                     <img src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fgenerate%20lookup.png?alt=media&token=7261e495-4159-4e88-90bf-d24f22f8aadf"
@@ -29,40 +29,32 @@
             </section>
 
             <section class="mb-4">
-                <h2>2. External Lookup Database</h2>
-                <p>Given that databases like Pinecone are designed to handle only metadata and vector sets, not carrying
-                    the full text within the metadata necessitates an alternative approach for text lookup. Unacog
-                    addresses this challenge by enabling the creation of an external lookup database. This process
+                <h2>Using an External Lookup Database</h2>
+                <p>
+                    Given that databases like Pinecone are designed to handle only metadata and vector sets, not
+                    carrying
+                    the full text within the metadata necessitates an alternative approach for text lookup. This process
                     involves chunking and upserting data into Pinecone, alongside generating a fetch map, or a JSON
-                    file, that meticulously maps each ID to its corresponding text and metadata.
+                    file, that maps each ID to its corresponding text and metadata. The separation between vector data
+                    and text content is both efficient and cost-effective.
                 </p>
-                <p> This strategic separation between vector data and text content is both efficient and cost-effective.
+                <p>
                     It circumvents the limitations and expenses associated with storing large text bodies directly in
-                    the metadata. For users, this means when a search is performed, the system retrieves text based on
-                    its vector similarity to the query, utilizing the database to look up the actual text content.</p>
-                <p>Implementing an external lookup database offers significant advantages. It allows for a
-                    comprehensive and easily accessible lookup system that can be fully exported and integrated into
-                    other platforms or systems, granting users greater control over their data pipeline. This level of
-                    flexibility is crucial for applications that benefit from pre-loading lookup data or those with
-                    specific requirements for data management and serving. By adopting this method, Unacog users can
-                    achieve a more scalable, adaptable, and cost-efficient solution for managing text lookups in
-                    large-scale RAG projects.</p>
+                    the metadata. This means when a search is performed, the system retrieves text based on its vector
+                    similarity to the query, utilizing the database to look up the actual text content. On Unacog, there
+                     are two lookup database options: a full database and a document-specific fetch map.
+                </p>
             </section>
 
             <section class="mb-4">
+                <h2>2. Full Database</h2>
+                <p>This first option generates the entire lookup database. This single file full lookup is easy to import to other systems.
+                However the lookup data may often be pretty large, so a good idea is to load smaller chunks on demand in practice.</p>
                 <h2>3. Document-specific Fetch Map</h2>
                 <p>
-                    The third option Unacog presents focuses on enhancing performance through a segmented fetch map,
-                    which is particularly effective in reducing initialization times. By partitioning the lookup map by
+                    The second option generates a document-based lookup database. By partitioning the lookup map by
                     document, this method circumvents the need to load an extensive lookup database in its entirety.
-                    This approach about optimizing the data retrieval process for efficiency.
                 </p>
-                <p>In the Unacog webapp, especially for embedded messaging, this technique proves invaluable. It
-                    ensures that only the data relevant to a specific prompt is fetched, significantly speeding up the
-                    process. This segmented approach stores loaded documents in a cache, streamlining access to
-                    frequently used information without the overhead of initializing the entire dataset. This strategy
-                    is designed to improve the user experience, offering swift, targeted data retrieval that supports
-                    dynamic, context-aware interactions.</p>
             </section>
 
             <section class="pt-4 mt-4 border-top">
