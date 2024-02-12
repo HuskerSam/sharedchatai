@@ -185,7 +185,7 @@
                                     style="font-variant: small-caps; text-underline-offset: 3px;" type="button"
                                     data-bs-toggle="collapse" data-bs-target="#ai_demo_moreInfo" aria-expanded="false"
                                     aria-controls="moreInfo">
-                                    AI Brief
+                                    More Information
                                 </button>
                                 <hr class="flex-grow-1 border-primary">
                             </div>
@@ -202,9 +202,8 @@
                                         <p class="mb-4">The <a
                                                 href="https://huggingface.co/datasets/jamescalam/ai-arxiv2"
                                                 target="_blank">AI ArXiv2 dataset</a> contains a selection of papers on
-                                            the topics of AI and LLMs. Of the approximately 2131 research papers
-                                            (<a href="https://arxiv.org">arxiv.org</a>), 477, published
-                                            after 2023, were used for this demo.</p>
+                                            the topics of AI and LLMs (<a href="https://arxiv.org">arxiv.org</a>) . All 2673 research papers were
+                                            used for this demo.</p>
                                         <h5 class="fw-bold mt-3">Chunking Methodology:</h5>
                                         <p>Academic research papers, characterized by their extensive
                                             length and complex formatting, pose a challenge for machine readability. To
@@ -237,108 +236,6 @@
                                             specific use cases. Our goal is give users hands-on experience in order to
                                             spur insights on how to tailor embedded data - optimizing the balance
                                             between granularity, utility and contextual breadth.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row justify-content-center border rounded m-3 bg-white shadow-sm"
-                        style="box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;">
-                        <div class="row">
-                            <div class="col-lg-6 col-12 d-flex order-lg-1 justify-content-center mb-3 mb-lg-0">
-                                <div class="text-center d-flex flex-column gap-3 justify-content-center py-4">
-                                    <div class="d-flex flex-column gap-1 text-center">
-                                        <p class="mb-0 lead fw-light" style="font-size: 1em;">Research</p>
-                                        <h4 class="mb-0">Covid Research Docs Demo</h4>
-                                    </div>
-                                    <div>
-                                        <ul class="my-1 bg-light rounded text-start" style="max-width: 350px;">
-                                            <li>Research articles from <a href="https://arxiv.org/">science.org</a></li>
-                                            <li>Over 350 covid research papers</li>
-                                        </ul>
-                                    </div>
-                                    <div class="d-flex flex-row justify-content-center">
-                                        <a href="/covid" class="btn btn-primary">Covid Docs Demo <svg
-                                                xmlns="http://www.w3.org/2000/svg" width="18" height="35"
-                                                fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd"
-                                                    d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z">
-                                                </path>
-                                            </svg></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-lg-6 p-3">
-                                <div class="figure-caption pb-3">Preparing data for embed</div>
-                                <div class="covid_demo_bg_img">&nbsp;</div>
-                            </div>
-                        </div>
-                        <div class="row my-2">
-                            <div class="d-flex justify-content-center mt-3 align-items-center">
-                                <hr class="flex-grow-1 border-primary">
-                                <button class="btn btn-link btn_toggle mx-2 px-4"
-                                    style="font-variant: small-caps; text-underline-offset: 3px;" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#covid_demo_moreInfo"
-                                    aria-expanded="false" aria-controls="moreInfo">
-                                    Covid Brief
-                                </button>
-                                <hr class="flex-grow-1 border-primary">
-                            </div>
-                        </div>
-                        <div class="row collapse" id="covid_demo_moreInfo">
-                            <div class="col-12">
-                                <div class="my-2">
-                                    <div class="card-header">
-                                        <h4 class="mb-0">
-                                            Retrieval Augmented Generation for COVID-19 Documentation
-                                        </h4>
-                                    </div>
-                                    <div class="card-body text-start">
-                                        <p class="mb-4">Our demo utilizes the COVID-19 dataset from Science.org (<a
-                                                href="https://www.science.org/collections/coronavirus"
-                                                target="_blank">https://www.science.org/collections/coronavirus</a>)
-                                            , featuring 388 documents.
-                                            This dataset serves as the foundation for demonstrating our retrieval
-                                            augmented generation capabilities.</p>
-                                        <h5 class="fw-bold mt-3">Data Preparation and Processing:</h5>
-                                        <ol class="list-group list-group-flush m-3">
-                                            <li class="list-group-item"><b>Document Repository to Spreadsheet:</b>
-                                                Transfer document
-                                                URLs to a spreadsheet and configure metadata, including title, type
-                                                (report, research article, etc.), PDF URLs for scraping, reference URLs
-                                                for lookups, and cover dates.</li>
-                                            <li class="list-group-item"><b>Export to CSV:</b> Configured metadata is
-                                                exported from the
-                                                spreadsheet to a CSV file for integration with the next stage.</li>
-                                            <li class="list-group-item"><b>Import into Unacog Embedding:</b> The CSV
-                                                file is imported
-                                                into Unacog Embedding, transitioning to data processing.</li>
-                                            <li class="list-group-item"><b>Scraping:</b> We prioritized scraping content
-                                                from PDF
-                                                sources over website URLs to ensure the highest data quality. During
-                                                this phase, our UI detected and flagged errors related to inaccessible
-                                                URLs. These are often due to paywall restrictions, leading to their
-                                                exclusion from the dataset to maintain both accessibility and usability.
-                                                This selective process ensures that only fully accessible documents are
-                                                included, enhancing the overall quality and reliability of our data.
-                                            </li>
-                                            <li class="list-group-item">
-                                                <b>Chunking:</b> Content was segmented into 300-token chunks with a
-                                                25-token overlap
-                                            </li>
-                                        </ol>
-                                        <h5 class="fw-bold mt-3">Templates:</h5>
-                                        <p class="mb-2">Similar to our AI
-                                            docs demo, users have the same embedding options:</p>
-                                        <ol>
-                                            <li class="list-item mb-2"><b>Embed X Document Chunks:</b> Aggregates the
-                                                top X chunk
-                                                results across multiple documents, facilitating a broad yet relevant
-                                                context.</li>
-                                            <li><b>Embed 1 Chunk with X Additional Context:</b> Focuses on a
-                                                single document source, embedding the matched chunk along with
-                                                surrounding chunks to enrich the LLM's contextual understanding.</li>
-                                        </ol>
                                     </div>
                                 </div>
                             </div>
@@ -383,7 +280,7 @@
                                     style="font-variant: small-caps; text-underline-offset: 3px;" type="button"
                                     data-bs-toggle="collapse" data-bs-target="#bible_demo_moreInfo"
                                     aria-expanded="false" aria-controls="moreInfo">
-                                    Bible Brief
+                                    More Information
                                 </button>
                                 <hr class="flex-grow-1 border-primary">
                             </div>
@@ -436,6 +333,108 @@
                                             for each segment. This application demonstrates the potential of LLM in
                                             assisting decision-making processes, showcasing the versatility of RAG
                                             beyond the demo's primary context.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center border rounded m-3 bg-white shadow-sm"
+                        style="box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;">
+                        <div class="row">
+                            <div class="col-lg-6 col-12 d-flex order-lg-1 justify-content-center mb-3 mb-lg-0">
+                                <div class="text-center d-flex flex-column gap-3 justify-content-center py-4">
+                                    <div class="d-flex flex-column gap-1 text-center">
+                                        <p class="mb-0 lead fw-light" style="font-size: 1em;">Research</p>
+                                        <h4 class="mb-0">Covid Research Docs Demo</h4>
+                                    </div>
+                                    <div>
+                                        <ul class="my-1 bg-light rounded text-start" style="max-width: 350px;">
+                                            <li>Research articles from <a href="https://arxiv.org/">science.org</a></li>
+                                            <li>Over 350 covid research papers</li>
+                                        </ul>
+                                    </div>
+                                    <div class="d-flex flex-row justify-content-center">
+                                        <a href="/covid" class="btn btn-primary">Covid Docs Demo <svg
+                                                xmlns="http://www.w3.org/2000/svg" width="18" height="35"
+                                                fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd"
+                                                    d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z">
+                                                </path>
+                                            </svg></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 p-3">
+                                <div class="figure-caption pb-3">Preparing data for embed</div>
+                                <div class="covid_demo_bg_img">&nbsp;</div>
+                            </div>
+                        </div>
+                        <div class="row my-2">
+                            <div class="d-flex justify-content-center mt-3 align-items-center">
+                                <hr class="flex-grow-1 border-primary">
+                                <button class="btn btn-link btn_toggle mx-2 px-4"
+                                    style="font-variant: small-caps; text-underline-offset: 3px;" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#covid_demo_moreInfo"
+                                    aria-expanded="false" aria-controls="moreInfo">
+                                    More Information
+                                </button>
+                                <hr class="flex-grow-1 border-primary">
+                            </div>
+                        </div>
+                        <div class="row collapse" id="covid_demo_moreInfo">
+                            <div class="col-12">
+                                <div class="my-2">
+                                    <div class="card-header">
+                                        <h4 class="mb-0">
+                                            COVID-19 Data Integration
+                                        </h4>
+                                    </div>
+                                    <div class="card-body text-start">
+                                        <p class="mb-4">Our demo utilizes the COVID-19 dataset from Science.org (<a
+                                                href="https://www.science.org/collections/coronavirus"
+                                                target="_blank">https://www.science.org/collections/coronavirus</a>)
+                                            , featuring 388 documents.
+                                            This dataset serves as the foundation for demonstrating our retrieval
+                                            augmented generation capabilities.</p>
+                                        <h5 class="fw-bold mt-3">Data Preparation and Processing:</h5>
+                                        <ol class="list-group list-group-flush m-3">
+                                            <li class="list-group-item"><b>Document Repository to Spreadsheet:</b>
+                                                Transfer document
+                                                URLs to a spreadsheet and configure metadata, including title, type
+                                                (report, research article, etc.), PDF URLs for scraping, reference URLs
+                                                for lookups, and cover dates.</li>
+                                            <li class="list-group-item"><b>Export to CSV:</b> Configured metadata is
+                                                exported from the
+                                                spreadsheet to a CSV file for integration with the next stage.</li>
+                                            <li class="list-group-item"><b>Import into Unacog Embedding:</b> The CSV
+                                                file is imported
+                                                into Unacog Embedding, transitioning to data processing.</li>
+                                            <li class="list-group-item"><b>Scraping:</b> We prioritized scraping content
+                                                from PDF
+                                                sources over website URLs to ensure the highest data quality. During
+                                                this phase, our UI detected and flagged errors related to inaccessible
+                                                URLs. These are often due to paywall restrictions, leading to their
+                                                exclusion from the dataset to maintain both accessibility and usability.
+                                                This selective process ensures that only fully accessible documents are
+                                                included, enhancing the overall quality and reliability of our data.
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>Chunking:</b> Content was segmented into 300-token chunks with a
+                                                25-token overlap
+                                            </li>
+                                        </ol>
+                                        <h5 class="fw-bold mt-3">Templates:</h5>
+                                        <p class="mb-2">Similar to our AI
+                                            docs demo, users have the same embedding options:</p>
+                                        <ol>
+                                            <li class="list-item mb-2"><b>Embed X Document Chunks:</b> Aggregates the
+                                                top X chunk
+                                                results across multiple documents, facilitating a broad yet relevant
+                                                context.</li>
+                                            <li><b>Embed 1 Chunk with X Additional Context:</b> Focuses on a
+                                                single document source, embedding the matched chunk along with
+                                                surrounding chunks to enrich the LLM's contextual understanding.</li>
+                                        </ol>
                                     </div>
                                 </div>
                             </div>
