@@ -1,11 +1,11 @@
 export class BibleDemoApp {
   running = false;
-  analyze_prompt_button: any = document.body.querySelector(".analyze_prompt_button");
-  lookup_verse_response_feed: any = document.body.querySelector(".lookup_verse_response_feed");
-  summary_details: any = document.body.querySelector(".summary_details");
-  full_augmented_response: any = document.body.querySelector(".full_augmented_response");
-  analyze_prompt_textarea: any = document.body.querySelector(".analyze_prompt_textarea");
-  lookup_chapter_response_feed: any = document.body.querySelector(".lookup_chapter_response_feed");
+  analyze_prompt_button = document.body.querySelector(".analyze_prompt_button") as HTMLButtonElement;
+  lookup_verse_response_feed = document.body.querySelector(".lookup_verse_response_feed") as HTMLDivElement;
+  summary_details = document.body.querySelector(".summary_details") as HTMLDivElement;
+  full_augmented_response = document.body.querySelector(".full_augmented_response") as HTMLDivElement;
+  analyze_prompt_textarea = document.body.querySelector(".analyze_prompt_textarea") as HTMLTextAreaElement;
+  lookup_chapter_response_feed = document.body.querySelector(".lookup_chapter_response_feed") as HTMLDivElement;
   nav_link = document.body.querySelectorAll(".nav-link");
   btn_close = document.body.querySelector(".btn-close") as HTMLButtonElement;
   chapters_view_button = document.body.querySelector("#chapters_view_button") as HTMLButtonElement;
@@ -13,14 +13,14 @@ export class BibleDemoApp {
   full_augmented_prompt_button = document.body.querySelector("#full_augmented_prompt_button") as HTMLButtonElement;
   full_augmented_response_button = document.body.querySelector("#full_augmented_response_button") as HTMLButtonElement;
   augmented_template_button = document.body.querySelector("#augmented_template_button") as HTMLButtonElement;
-  embedding_type_select: any = document.body.querySelector(".embedding_type_select");
-  embedding_diagram_img: any = document.body.querySelector(".embedding_diagram_img");
-  embedding_diagram_anchor: any = document.body.querySelector(".embedding_diagram_anchor");
+  embedding_type_select = document.body.querySelector(".embedding_type_select") as HTMLSelectElement;
+  embedding_diagram_img = document.body.querySelector(".embedding_diagram_img") as HTMLImageElement;
+  embedding_diagram_anchor = document.body.querySelector(".embedding_diagram_anchor") as HTMLAnchorElement;
   embedding_diagram_img_caption: any = document.body.querySelector(".embedding_diagram_img_caption");
-  prompt_template_text_area: any = document.body.querySelector(".prompt_template_text_area");
-  document_template_text_area: any = document.body.querySelector(".document_template_text_area");
-  prompt_template_select_preset: any = document.body.querySelector(".prompt_template_select_preset");
-  reset_template_options_button: any = document.body.querySelector(".reset_template_options_button");
+  prompt_template_text_area = document.body.querySelector(".prompt_template_text_area") as HTMLTextAreaElement;
+  document_template_text_area = document.body.querySelector(".document_template_text_area") as HTMLTextAreaElement;
+  prompt_template_select_preset = document.body.querySelector(".prompt_template_select_preset") as HTMLSelectElement;
+  reset_template_options_button = document.body.querySelector(".reset_template_options_button") as HTMLButtonElement;
   bibleData: any[] = [];
   byVerseAPIToken = "9b2b6dcc-900d-4051-9947-a42830853d86";
   byVerseSessionId = "lh3a4fui9n7j";
@@ -63,24 +63,21 @@ export class BibleDemoApp {
       </a><a class="response_chapter_link p-2" href="see chapter">Top Chapters 
       </a><a class="response_detail_link p-2" href="see details">Prompt Details</a></div>`;
 
-      const verseLink = this.full_augmented_response.querySelector(".response_verse_link");
+      const verseLink = this.full_augmented_response.querySelector(".response_verse_link") as HTMLAnchorElement;
       verseLink.addEventListener("click", (e: any) => {
         e.preventDefault();
-        (<any>(document.getElementById("verses_view_button"))).click();
+        (document.getElementById("verses_view_button") as HTMLButtonElement).click();
       });
-      const chapterLink = this.full_augmented_response.querySelector(".response_chapter_link");
+      const chapterLink = this.full_augmented_response.querySelector(".response_chapter_link") as HTMLAnchorElement;
       chapterLink.addEventListener("click", (e: any) => {
         e.preventDefault();
-        (<any>(document.getElementById("chapters_view_button"))).click();
+        (document.getElementById("chapters_view_button") as HTMLButtonElement).click();
       });
-      const detailLink = this.full_augmented_response.querySelector(".response_detail_link");
+      const detailLink = this.full_augmented_response.querySelector(".response_detail_link") as HTMLAnchorElement;
       detailLink.addEventListener("click", (e: any) => {
         e.preventDefault();
-        (<any>(document.getElementById("full_augmented_prompt_button"))).click();
+        (document.getElementById("full_augmented_prompt_button") as HTMLButtonElement).click();
       });
-
-
-
 
       this.analyze_prompt_button.removeAttribute("disabled");
       this.analyze_prompt_button.innerHTML = `<span class="material-icons-outlined">
@@ -92,29 +89,17 @@ export class BibleDemoApp {
     });
 
     this.prompt_template_select_preset.addEventListener("input", () => this.populatePromptTemplates());
-    let templateIndex: any = localStorage.getItem("templateIndex");
-    if (templateIndex && templateIndex > 0) this.prompt_template_select_preset.selectedIndex = templateIndex;
-    let queryIndex: any = localStorage.getItem("queryIndex");
-    if (queryIndex && queryIndex > 0) this.embedding_type_select.selectedIndex = queryIndex;
-
-    this.updateRAGImages();
     this.embedding_type_select.addEventListener("input", () => this.updateRAGImages());
 
-    this.chapters_view_button.addEventListener("click", () => {
-      this.btn_close.click();
-    });
-    this.verses_view_button.addEventListener("click", () => {
-      this.btn_close.click();
-    });
-    this.full_augmented_prompt_button.addEventListener("click", () => {
-      this.btn_close.click();
-    });
-    this.full_augmented_response_button.addEventListener("click", () => {
-      this.btn_close.click();
-    });
-    this.augmented_template_button.addEventListener("click", () => {
-      this.btn_close.click();
-    });
+    this.chapters_view_button.addEventListener("click", () => this.clearMenusAndPopups());
+    this.verses_view_button.addEventListener("click", () => this.clearMenusAndPopups());
+    this.full_augmented_prompt_button.addEventListener("click", () => this.clearMenusAndPopups());
+    this.full_augmented_response_button.addEventListener("click", () => this.clearMenusAndPopups());
+    this.augmented_template_button.addEventListener("click", () => this.clearMenusAndPopups());
+
+    this.analyze_prompt_textarea.addEventListener("input", () => this.saveLocalStorage());
+    this.prompt_template_text_area.addEventListener("input", () => this.saveLocalStorage());
+    this.document_template_text_area.addEventListener("input", () => this.saveLocalStorage());
 
     this.analyze_prompt_textarea.addEventListener("keydown", (e: any) => {
       if (e.key === "Enter" && e.shiftKey === false) {
@@ -123,33 +108,18 @@ export class BibleDemoApp {
         this.analyze_prompt_button.click();
       }
     });
-    this.analyze_prompt_textarea.addEventListener("input", () => {
-      this.saveLocalStorage();
-    });
-    this.prompt_template_text_area.addEventListener("input", () => {
-      this.saveLocalStorage();
-    });
-    this.document_template_text_area.addEventListener("input", () => {
-      this.saveLocalStorage();
-    });
-    const lastPrompt = localStorage.getItem("lastPrompt");
-    if (lastPrompt) this.analyze_prompt_textarea.value = lastPrompt;
-    let promptTemplate = localStorage.getItem("promptTemplate");
-    if (!promptTemplate) promptTemplate = promptTemplates[0].mainPrompt;
-    if (promptTemplate) this.prompt_template_text_area.value = promptTemplate;
-    let documentTemplate = localStorage.getItem("documentTemplate");
-    if (!documentTemplate) documentTemplate = promptTemplates[0].documentPrompt;
-    if (documentTemplate) this.document_template_text_area.value = documentTemplate;
-
     this.reset_template_options_button.addEventListener("click", () => {
-      this.prompt_template_select_preset.selectedIndex = 0;
-      this.embedding_type_select.selectedIndex = 0;
-      this.populatePromptTemplates();
-
-      this.saveLocalStorage();
+      localStorage.clear();
+      location.reload();
     });
+
+    this.hydrateFromLocalStorage();
+    this.updateRAGImages();
     this.analyze_prompt_textarea.focus();
     this.analyze_prompt_textarea.select();
+  }
+  clearMenusAndPopups() {
+    this.btn_close.click();
   }
   /** select correct embedding_diagram_img based on saved embedding_type_select value from local storage */
   updateRAGImages() {
@@ -198,7 +168,22 @@ export class BibleDemoApp {
     const m: any = document.querySelector(".tab_main_content");
     m.style.display = "flex";
   }
+  hydrateFromLocalStorage() {
+    const lastPrompt = localStorage.getItem("lastPrompt");
+    if (lastPrompt) this.analyze_prompt_textarea.value = lastPrompt;
+    let promptTemplate = localStorage.getItem("promptTemplate");
+    if (!promptTemplate) promptTemplate = promptTemplates[0].mainPrompt;
+    if (promptTemplate) this.prompt_template_text_area.value = promptTemplate;
+    let documentTemplate = localStorage.getItem("documentTemplate");
+    if (!documentTemplate) documentTemplate = promptTemplates[0].documentPrompt;
+    if (documentTemplate) this.document_template_text_area.value = documentTemplate;
 
+    let templateIndex = localStorage.getItem("templateIndex") || 0;
+    this.prompt_template_select_preset.selectedIndex = templateIndex as number;
+    let queryIndex = localStorage.getItem("queryIndex") || 0;
+    this.embedding_type_select.selectedIndex = queryIndex as number;
+    if (!promptTemplate) this.populatePromptTemplates(templateIndex as number, true);
+  }
   async lookupChaptersByVerse() {
     this.lookup_verse_response_feed.innerHTML = "";
     const message = this.analyze_prompt_textarea.value.trim();
@@ -523,20 +508,19 @@ export class BibleDemoApp {
       return this.getVerse(match.metadata.bookIndex, match.metadata.chapterIndex, match.metadata.verseIndex).text;
     }
   }
-  populatePromptTemplates(templateIndex: number = -1) {
+  populatePromptTemplates(templateIndex: number = -1, noSave = false) {
     if (templateIndex < 0) templateIndex = this.prompt_template_select_preset.selectedIndex;
 
     this.prompt_template_text_area.value = promptTemplates[templateIndex].mainPrompt;
     this.document_template_text_area.value = promptTemplates[templateIndex].documentPrompt;
-    this.saveLocalStorage();
+    if (!noSave) this.saveLocalStorage();
   }
   saveLocalStorage() {
-    localStorage.setItem("templateIndex", this.prompt_template_select_preset.selectedIndex);
-    localStorage.setItem("queryIndex", this.embedding_type_select.selectedIndex);
+    localStorage.setItem("queryIndex", this.embedding_type_select.selectedIndex.toString());
+    localStorage.setItem("templateIndex", this.prompt_template_select_preset.selectedIndex.toString());
     localStorage.setItem("lastPrompt", this.analyze_prompt_textarea.value);
     localStorage.setItem("promptTemplate", this.prompt_template_text_area.value);
     localStorage.setItem("documentTemplate", this.document_template_text_area.value);
-    localStorage.setItem("templateIndex", this.prompt_template_select_preset.selectedIndex);
   }
 }
 
