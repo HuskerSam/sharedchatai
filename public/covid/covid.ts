@@ -49,7 +49,8 @@ export class CovidDemoApp {
         this.prompt_template_text_area.addEventListener("input", () => this.saveLocalStorage());
         this.document_template_text_area.addEventListener("input", () => this.saveLocalStorage());
 
-        this.reset_template_options_button.addEventListener("click", () => {
+        this.reset_template_options_button.addEventListener("click", (e: Event) => {
+            e.preventDefault();
             localStorage.clear();
             location.reload();
         });

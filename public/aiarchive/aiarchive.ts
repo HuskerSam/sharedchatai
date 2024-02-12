@@ -69,7 +69,8 @@ export class AIArchiveDemoApp {
                 this.analyze_prompt_button.click();
             }
         });
-        this.reset_template_options_button.addEventListener("click", () => {
+        this.reset_template_options_button.addEventListener("click", (e: Event) => {
+            e.preventDefault();
             localStorage.clear();
             location.reload();
         });
