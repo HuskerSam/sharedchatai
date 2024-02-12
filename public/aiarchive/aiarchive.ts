@@ -189,7 +189,7 @@ export class AIArchiveDemoApp {
         m.style.display = "flex";
         this.updateEmbeddingOptionsDisplay();
     }
-    async hydrateFromLocalStorage() {
+    hydrateFromLocalStorage() {
         const lastPrompt = localStorage.getItem("ai_lastPrompt");
         if (lastPrompt) this.analyze_prompt_textarea.value = lastPrompt;
         this.analyze_prompt_textarea.setSelectionRange(0, this.analyze_prompt_textarea.value.length);

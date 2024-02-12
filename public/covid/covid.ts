@@ -1,10 +1,10 @@
 export class CovidDemoApp {
     running = false;
-    analyze_prompt_button: any = document.body.querySelector(".analyze_prompt_button");
-    lookup_verse_response_feed: any = document.body.querySelector(".lookup_verse_response_feed");
-    summary_details: any = document.body.querySelector(".summary_details");
-    full_augmented_response: any = document.body.querySelector(".full_augmented_response");
-    analyze_prompt_textarea: any = document.body.querySelector(".analyze_prompt_textarea");
+    analyze_prompt_button = document.body.querySelector(".analyze_prompt_button") as HTMLButtonElement;
+    lookup_verse_response_feed = document.body.querySelector(".lookup_verse_response_feed") as HTMLDivElement;
+    summary_details = document.body.querySelector(".summary_details") as HTMLDivElement;
+    full_augmented_response = document.body.querySelector(".full_augmented_response") as HTMLDivElement;
+    analyze_prompt_textarea = document.body.querySelector(".analyze_prompt_textarea") as HTMLTextAreaElement;
     lookup_chapter_response_feed: any = document.body.querySelector(".lookup_chapter_response_feed");
     nav_link = document.body.querySelectorAll(".nav-link");
     btn_close = document.body.querySelector(".btn-close") as HTMLButtonElement;
@@ -36,54 +36,7 @@ export class CovidDemoApp {
 
     constructor() {
         this.load();
-        this.analyze_prompt_button.addEventListener("click", async () => {
-            if (this.running) {
-                alert("already running");
-                return;
-            }
-            const message = this.analyze_prompt_textarea.value.trim();
-            if (!message) {
-                alert("please supply a message");
-                return [];
-            }
-            this.analyze_prompt_button.setAttribute("disabled", "");
-            this.analyze_prompt_button.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            <span class="visually-hidden">Loading...</span>`;
-            this.summary_details.innerHTML = "Compiling Prompt...";
-            this.running = true;
-
-            document.body.classList.remove("initial");
-            document.body.classList.add("running");
-            document.body.classList.remove("complete");
-
-            this.full_augmented_response.innerHTML = "Processing Query...<br><br>";
-            this.semanticResults = await this.lookupAIDocumentChunks();
-            this.full_augmented_response.innerHTML += "Similar document chunks retrieved...<br><br>";
-
-            this.full_augmented_response.innerHTML = await this.sendPromptToLLM();
-            this.full_augmented_response.innerHTML +=
-                `<br><div class="d-flex flex-column link-primary" style="white-space:normal;"><a class="response_verse_link p-2" href="see verses">Top Search Results
-        </a><a class="response_detail_link p-2" href="see details">Prompt Details</a></div>`;
-
-            const verseLink = this.full_augmented_response.querySelector(".response_verse_link");
-            verseLink.addEventListener("click", (e: any) => {
-                e.preventDefault();
-                (<any>(document.getElementById("source_view_button"))).click();
-            });
-            const detailLink = this.full_augmented_response.querySelector(".response_detail_link");
-            detailLink.addEventListener("click", (e: any) => {
-                e.preventDefault();
-                (<any>(document.getElementById("full_augmented_prompt_button"))).click();
-            });
-
-            this.analyze_prompt_button.removeAttribute("disabled");
-            this.analyze_prompt_button.innerHTML = `<span class="material-icons-outlined mt-1">
-        send
-        </span>`;
-            this.running = false;
-            document.body.classList.add("complete");
-            document.body.classList.remove("running");
-        });
+        this.analyze_prompt_button.addEventListener("click", () => this.analyzePrompt());
 
         this.prompt_template_select_preset.addEventListener("input", () => this.populatePromptTemplates());
         let templateIndex: any = localStorage.getItem("covid_templateIndex");
@@ -185,6 +138,54 @@ export class CovidDemoApp {
             body: JSON.stringify(body),
         });
         return await fetchResults.json();
+    }
+    async analyzePrompt() {
+        if (this.running) {
+            alert("already running");
+            return;
+        }
+        const message = this.analyze_prompt_textarea.value.trim();
+        if (!message) {
+            alert("please supply a message");
+            return [];
+        }
+        this.analyze_prompt_button.setAttribute("disabled", "");
+        this.analyze_prompt_button.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <span class="visually-hidden">Loading...</span>`;
+        this.summary_details.innerHTML = "Compiling Prompt...";
+        this.running = true;
+
+        document.body.classList.remove("initial");
+        document.body.classList.add("running");
+        document.body.classList.remove("complete");
+
+        this.full_augmented_response.innerHTML = "Processing Query...<br><br>";
+        this.semanticResults = await this.lookupAIDocumentChunks();
+        this.full_augmented_response.innerHTML += "Similar document chunks retrieved...<br><br>";
+
+        this.full_augmented_response.innerHTML = await this.sendPromptToLLM();
+        this.full_augmented_response.innerHTML +=
+            `<br><div class="d-flex flex-column link-primary" style="white-space:normal;"><a class="response_verse_link p-2" href="see verses">Top Search Results
+    </a><a class="response_detail_link p-2" href="see details">Prompt Details</a></div>`;
+
+        const verseLink = this.full_augmented_response.querySelector(".response_verse_link") as HTMLAnchorElement;
+        verseLink.addEventListener("click", (e: any) => {
+            e.preventDefault();
+            (<any>(document.getElementById("source_view_button"))).click();
+        });
+        const detailLink = this.full_augmented_response.querySelector(".response_detail_link") as HTMLAnchorElement;
+        detailLink.addEventListener("click", (e: any) => {
+            e.preventDefault();
+            (<any>(document.getElementById("full_augmented_prompt_button"))).click();
+        });
+
+        this.analyze_prompt_button.removeAttribute("disabled");
+        this.analyze_prompt_button.innerHTML = `<span class="material-icons-outlined mt-1">
+    send
+    </span>`;
+        this.running = false;
+        document.body.classList.add("complete");
+        document.body.classList.remove("running");
     }
     dataSourcePrefix(): string {
         // let prefix = localStorage.getItem("datachunk_source_size");
