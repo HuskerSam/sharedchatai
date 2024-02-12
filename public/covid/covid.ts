@@ -26,7 +26,7 @@ export class CovidDemoApp {
     semanticResults: any[] = [];
     chunk300APIToken = "12781bbc-5d71-4359-831b-377e06d4a27b";
     chunk300SessionId = "cyf1pd1l4wpc";
-    chunk300LookupPath = "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/projectLookups%2FHlm0AZ9mUCeWrMF6hI7SueVPbrq1%2Fcovid-list-v2%2FbyDocument%2FDOC_ID_URIENCODED.json?alt=media";
+    chunk300LookupPath = "https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/projectLookups%2FHlm0AZ9mUCeWrMF6hI7SueVPbrq1%2Fcovid-list-v3%2FbyDocument%2FDOC_ID_URIENCODED.json?alt=media";
     chunk300topK = 25;
     chunk300includeK = 5;
 
