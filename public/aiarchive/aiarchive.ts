@@ -100,15 +100,6 @@ export class AIArchiveDemoApp {
         });
 
         this.prompt_template_select_preset.addEventListener("input", () => this.populatePromptTemplates());
-        let templateIndex: any = localStorage.getItem("ai_templateIndex");
-        if (templateIndex && templateIndex > 0) {
-            this.prompt_template_select_preset.selectedIndex = templateIndex;
-            this.populatePromptTemplates(templateIndex);
-        } else {
-            this.populatePromptTemplates(0);
-        }
-        let queryIndex: any = localStorage.getItem("ai_queryIndex");
-        if (queryIndex && queryIndex > 0) this.embedding_type_select.selectedIndex = queryIndex;
 
         /*select correct embedding_diagram_img based on saved embedding_type_select value from local storage*/
         if (this.embedding_type_select.selectedIndex === 0) {
@@ -157,18 +148,11 @@ export class AIArchiveDemoApp {
         this.document_template_text_area.addEventListener("input", () => {
             this.saveLocalStorage();
         });
-        const lastPrompt = localStorage.getItem("ai_lastPrompt");
-        if (lastPrompt) this.analyze_prompt_textarea.value = lastPrompt;
-        const promptTemplate = localStorage.getItem("ai_promptTemplate");
-        if (promptTemplate) this.prompt_template_text_area.value = promptTemplate;
-        const documentTemplate = localStorage.getItem("ai_documentTemplate");
-        if (documentTemplate) this.document_template_text_area.value = documentTemplate;
 
         this.reset_template_options_button.addEventListener("click", () => {
             this.prompt_template_select_preset.selectedIndex = 0;
             this.embedding_type_select.selectedIndex = 0;
-            this.populatePromptTemplates();
-            this.saveLocalStorage();
+            this.populatePromptTemplates(0);
         });
         this.analyze_prompt_textarea.focus();
         this.analyze_prompt_textarea.select();
@@ -182,10 +166,8 @@ export class AIArchiveDemoApp {
             this.loaded = false;
             this.load();
         }));
-        const chunkSize = localStorage.getItem("datachunk_source_size");
-        this.datachunk_source_size_buttons.forEach((btn: any) => {
-            if (btn.value === chunkSize) btn.checked = true;
-        });
+        
+        this.hydrateFromLocalStorage();
         this.updateEmbeddingOptionsDisplay();
     }
     updateEmbeddingOptionsDisplay() {
@@ -214,7 +196,7 @@ export class AIArchiveDemoApp {
     dataSourcePrefix(): string {
         let prefix = localStorage.getItem("datachunk_source_size");
         if (prefix) return prefix as string;
-        return "chunk100";
+        return "chunk200";
     }
     async load() {
         this.loaded = true;
@@ -225,6 +207,27 @@ export class AIArchiveDemoApp {
         const m: any = document.querySelector(".tab_main_content");
         m.style.display = "flex";
         this.updateEmbeddingOptionsDisplay();
+    }
+    async hydrateFromLocalStorage() {
+        const lastPrompt = localStorage.getItem("ai_lastPrompt");
+        if (lastPrompt) this.analyze_prompt_textarea.value = lastPrompt;
+        this.analyze_prompt_textarea.setSelectionRange(0, this.analyze_prompt_textarea.value.length);
+        const promptTemplate = localStorage.getItem("ai_promptTemplate");
+        if (promptTemplate) this.prompt_template_text_area.value = promptTemplate;
+        const documentTemplate = localStorage.getItem("ai_documentTemplate");
+        if (documentTemplate) this.document_template_text_area.value = documentTemplate;
+
+        let templateIndex = localStorage.getItem("ai_templateIndex") || 0;
+        this.prompt_template_select_preset.selectedIndex = templateIndex;
+        if (!promptTemplate) {
+            this.populatePromptTemplates(templateIndex as number, true);
+        }
+        let queryIndex = localStorage.getItem("ai_queryIndex") || 0;
+        this.embedding_type_select.selectedIndex = queryIndex;
+        let chunkSize = this.dataSourcePrefix();
+        this.datachunk_source_size_buttons.forEach((btn: any) => {
+            if (btn.value === chunkSize) btn.checked = true;
+        });
     }
     async lookupAIDocumentChunks(): Promise<any[]> {
         this.lookup_verse_response_feed.innerHTML = "";
@@ -392,12 +395,12 @@ export class AIArchiveDemoApp {
         };
         return (<any>promptT)(mainMerge);
     }
-    populatePromptTemplates(templateIndex: number = -1) {
+    populatePromptTemplates(templateIndex: number = -1, noSave = false) {
         if (templateIndex < 0) templateIndex = this.prompt_template_select_preset.selectedIndex;
 
         this.prompt_template_text_area.value = promptTemplates[templateIndex].mainPrompt;
         this.document_template_text_area.value = promptTemplates[templateIndex].documentPrompt;
-        this.saveLocalStorage();
+        if (!noSave) this.saveLocalStorage();
     }
 
     saveLocalStorage() {
