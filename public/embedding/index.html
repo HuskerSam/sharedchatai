@@ -171,18 +171,14 @@
                         <div class="col-12 col-lg-10 text-center mb-5">
                             <h2 class="text-primary mb-4 display-6 fw-bold">Immediate Testing, Development and
                                 Deployment</h2>
-                            <div class="card shadow-sm">
-                                <div class="card-body">
-                                    <a href="/images/embedding_tools_pipeline.png" target="_blank">
-                                        <figure>
-                                            <img src="/images/embed_ss.png" alt="Serverless and Chunking"
-                                                class="img-fluid rounded mb-2">
-                                            <figcaption class="text-center small">An Overview of RAG Integration with
-                                                Unacog</figcaption>
-                                        </figure>
-                                    </a>
-                                </div>
-                            </div>
+                            <a href="/images/embedding_tools_pipeline.svg" target="_blank">
+                                <figure>
+                                    <img src="/images/embed_ss.svg" alt="Serverless and Chunking"
+                                        class="img-fluid rounded mb-2" style="height: 500px;">
+                                    <figcaption class="text-center small">An Overview of RAG Integration with
+                                        Unacog</figcaption>
+                                </figure>
+                            </a>
                             <div class="text-start mt-4">
                                 <p class="mb-3"><b>Quick Iteration:</b> Experiment and refine chatbot functionalities
                                     swiftly
@@ -198,26 +194,35 @@
             <section class="section_standard">
                 <div class="container px-4 px-lg-0" id="aboutdemos">
                     <div class="row justify-content-center align-items-center g-lg-5">
-                        <div class="text-center">
+                        <div class="col-lg-6 text-center">
                             <h2 class="text-primary mb-4 display-6 fw-bold">About the demo applications (and code!)</h2>
                             <p class="lead text-muted">
-                                The demo applications access LLM and semantic (vector) search results via the Unacog API.
+                                The demo applications access LLM and semantic (vector) search results via the Unacog
+                                API.
                             </p>
-                            <img src="/images/apidiagram.png" class="img-fluid mb-4" style="max-height: 500px;">
-                            <div style="text-align: left;">
-                                <h3 class="mb-3">Unacog API</h3>
-                                <p>Billing, configuration, and authentication are managed using Unacog sessions. Each session has a revokable key authenticating the API.</p>
-                                <h4 class="mb-3">
-                                    unacog.com/sessionapi/vectorquery
-                                </h4>
-                                <p class="mb-4">Use this call to query similar vector results for a given prompt. Top K is the maximum number of top results returned based on a cosine calculated similarity score.</p>
-                                <h4 class="mb-3">
-                                    unacog.com/sessionapi/message
-                                </h4>
-                                <p class="mb-4">Use this call to send a prompt to the LLM through the Unacog backend.  If embedding is enabled this call will use the prompt template contained in the associated Unacog session to determine how to query the embeddings, or optionally query and embed the documents in your own code before sending to this API (refer to the demo applications for specific examples).</p>
-                                <h4 class="mb-3">Example Code</h4>
-                                <p class="mb-4">Checkout the browser console, the demo applications are very brief and easy to follow in code.</p>
-                            </div>
+                            <img src="/images/api_access.svg" class="img-fluid mb-4" style="height: 500px;">
+                        </div>
+                        <div class="col-lg-6" style="text-align: left;">
+                            <h3 class="mb-3">Unacog API</h3>
+                            <p>Billing, configuration, and authentication are managed using Unacog sessions. Each
+                                session has a revokable key authenticating the API.</p>
+                            <h4 class="mb-3">
+                                unacog.com/sessionapi/vectorquery
+                            </h4>
+                            <p class="mb-4">Use this call to query similar vector results for a given prompt. Top K is
+                                the maximum number of top results returned based on a cosine calculated similarity
+                                score.</p>
+                            <h4 class="mb-3">
+                                unacog.com/sessionapi/message
+                            </h4>
+                            <p class="mb-4">Use this call to send a prompt to the LLM through the Unacog backend. If
+                                embedding is enabled this call will use the prompt template contained in the associated
+                                Unacog session to determine how to query the embeddings, or optionally query and embed
+                                the documents in your own code before sending to this API (refer to the demo
+                                applications for specific examples).</p>
+                            <h4 class="mb-3">Example Code</h4>
+                            <p class="mb-4">Checkout the browser console, the demo applications are very brief and easy
+                                to follow in code.</p>
                         </div>
                     </div>
                 </div>
