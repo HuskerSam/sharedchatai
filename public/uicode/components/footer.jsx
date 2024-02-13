@@ -12,7 +12,7 @@ export default class FooterBar extends React.Component {
             <footer className="app_panel">
                 <div style={{ flex: "1" }}>
                     <h2 style={{display: "inline-block"}}><span>Una<span className="home_navbar_name_color">cog</span></span></h2>
-                    <div style={{ fontSize: "1.5em", padding: "12px", display: "inline-block", margin: "12px" }}>
+                    <div style={{ fontSize: "1.25em", padding: "8px", display: "inline-block", margin: "8px" }}>
                         <a href="/about/">LLM Webapp</a>
                         &nbsp;
                         &nbsp;
