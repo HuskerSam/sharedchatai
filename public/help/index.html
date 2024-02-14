@@ -797,7 +797,7 @@
                             <p class="alert-link"><a href="#options"><span class="badge bg-secondary">Related</span>
                                     document options</a></p>
                             <hr class="divider">
-                            <h2 id="chat_models" class="mb-2">Chat Engine <a class="btn hover_yellow anchor_copy_link">
+                            <h2 id="chat_models" class="mb-2">Chat Engine <a class="btn hover_yellow anchor_copy_link" id="engine_parameters">
                                     <span class="material-icons">link</span>
                                 </a></h2>
                             <p class="lead">Use Reset to restore system defaults <i
@@ -824,192 +824,17 @@
                                 temperature, top_p, presence penalty, or frequency penalty.
                                 parameters from default.
                             </p>
-
-                            <p class="lead">Currently offering the following Chat Models:</p>
-
-                            <ul class="list-group list-group-unnumbered mb-3">
-                                <li
-                                    class="list-group-item d-flex justify-content-between align-items-start bg-dark-2 text-light">
-                                    <div class="ms-2 me-auto engine_model_content">
-                                        <div class="fw-bold"><code>gpt-3.5-turbo</code></div>
-                                        Can do any language task with better quality, longer output, and consistent
-                                        instruction-following than the curie, babbage, or ada models.
-                                    </div>
-                                    <span class="badge max_token_span">4,096 tokens</span>
-                                </li>
-                                <li
-                                    class="list-group-item d-flex justify-content-between align-items-start bg-dark-2 text-light">
-                                    <div class="ms-2 me-auto engine_model_content">
-                                        <div class="fw-bold" style="color:rgb(28, 228, 60);">
-                                            <code>gpt-3.5-turbo-16k</code>
-                                        </div>
-                                        Same capabilities as the standard gpt-3.5-turbo model but with 4 times the
-                                        context.
-                                    </div>
-                                    <span class="badge max_token_span">16,384 tokens</span>
-                                </li>
+                            <p>We currently offer the following models: </p>
+                            <ul>
+                                <li>gpt-3.5-turbo</li>
+                                <li>gpt-3.5-turbo-16k</li>
+                                <li>gpt-4</li>
+                                <li>chat-bison-001</li>
+                                <li>text-embedding-3-small</li>
                             </ul>
+                         <p>For parameters info and details on each model, please refer to the OpenAI API documentation:
+                            https://platform.openai.com/docs/api-reference</p>
                         </section>
-                        <section>
-                            <h3 id="engine_parameters">Chatgpt Parameters </h3>
-                            <p class="lead">Changes from default values are indicated with color cues.</p>
-
-                            <ul class="list-group list-group-unnumbered mb-3">
-                                <li
-                                    class="list-group-item d-flex justify-content-between align-items-start bg-dark-2 text-light">
-                                    <div class="ms-2 me-auto engine_model_content">
-                                        <div class="fw-bold"><code>max_token</code></div>
-                                        The maximum number of tokens that the AI model is allowed to generate in
-                                        response to a particular prompt. May affect
-                                        the cost per API call and the time it takes to get a response.
-                                    </div>
-                                    <span class="badge max_token_span">model dependent</span>
-                                </li>
-                            </ul>
-                            <p class="alert-link mb-4"><span class="badge bg-secondary">Related</span><a
-                                    href="#concept_token_limits"> Token limits </a>
-                            </p>
-                            <ul class="list-group list-group-unnumbered mb-3" id="temperature">
-                                <li
-                                    class="list-group-item d-flex justify-content-between align-items-start bg-dark-2 text-light">
-                                    <div class="ms-2 me-auto engine_model_content">
-                                        <div class="fw-bold"><code>temperature</code></div>
-                                        <p class="py-1 mb-0">Governs the randomness of responses. Higher values create
-                                            diverse but
-                                            potentially less focused replies, while lower values yield more focused and
-                                            predictable answers.</p>
-                                    </div>
-                                    <span class="badge max_token_span">0 to 2</span>
-                                </li>
-                            </ul>
-                            <ul class="mb-3">
-                                <li>
-                                    Controls model's response predictability
-                                </li>
-                                <li>
-                                    Lower temperature = more common responses
-                                </li>
-                                <li>
-                                    Higher temperature = less predictable, more creative responses
-                                </li>
-                                <li>Common parameter in
-                                    most LLMs</li>
-                            </ul>
-                            <p class="mb-4">
-                                If we revisit the "The apple is..." example, with a
-                                lower temperature, the model is more likely to predict a common descriptor like "red".
-                                However, when you increase the temperature, it amplifies the chance of less common
-                                descriptors being chosen, such as "ripe" or "delicious".
-                            </p>
-                            <ul class="list-group list-group-unnumbered mb-3" id="top_p">
-                                <li
-                                    class="list-group-item d-flex justify-content-between align-items-start bg-dark-2 text-light">
-                                    <div class="ms-2 me-auto engine_model_content">
-                                        <div class="fw-bold"><code>top_p</code></div>
-                                        <p class="py-1 mb-0"> Controls the word range for the AI's response. Lower
-                                            values
-                                            make it stick to
-                                            more common words, whereas higher values allow it to consider a broader
-                                            vocabulary.</p>
-                                    </div>
-                                    <span class="badge max_token_span">0 to 1</span>
-                                </li>
-                            </ul>
-                            <ul class="mb-3">
-                                <li>
-                                    Works with nucleus sampling to control response predictability </li>
-                                <li>
-                                    Lower top_p = exact, fact-based responses </li>
-                                <li>
-                                    Higher top_p = more diverse responses </li>
-                                <li>Common parameter in most LLMs</li>
-                            </ul>
-                            <p class="mb-4"><span class="badge badge-success">Note</span> Generally recommended altering
-                                this or top_p but not both.
-                            </p>
-                            <ul class="list-group list-group-unnumbered mb-3">
-                                <li
-                                    class="list-group-item d-flex justify-content-between align-items-start bg-dark-2 text-light">
-                                    <div class="ms-2 me-auto engine_model_content">
-                                        <div class="fw-bold"><code>Frequency Penalty</code></div>
-                                        <p class="py-1 mb-0">This setting discourages the model from using commonly
-                                            occurring words and phrases
-                                            in its response, regardless of the specific context.</p>
-                                    </div>
-                                    <span class="badge max_token_span">-2.0 to 2.0</span>
-                                </li>
-                            </ul>
-                            <ul class="mb-3">
-                                <li>
-                                    Discourages common words/phrases
-                                </li>
-                                <li>
-                                    High frequency_penalty = creative/unique, but possibly less straightforward
-                                    responses
-                                </li>
-                            </ul>
-                            <p>
-                                The frequency penalty discourages the model from using words or phrases that it
-                                understands to be common or frequently occurring. This understanding is based on the
-                                vast
-                                amount of text data from the internet that the model was trained on, not just the
-                                immediate
-                                context of the conversation.
-                            </p>
-                            <p class="mb-4">
-                                By increasing the frequency_penalty, you're asking the model to generate responses that
-                                avoid these common words and phrases, leading to outputs that might be more creative or
-                                unique. However, a high frequency penalty can also make the model's responses less
-                                straightforward or harder to understand.
-                            </p>
-                            <ul class="list-group list-group-unnumbered mb-3">
-                                <li
-                                    class="list-group-item d-flex justify-content-between align-items-start bg-dark-2 text-light">
-                                    <div class="ms-2 me-auto engine_model_content">
-                                        <div class="fw-bold"><code>Presence Penalty</code></div>
-                                        <p class="py-1 mb-0"> This setting influences how much the model should stick to
-                                            or
-                                            diverge from the words
-                                            and phrases present in the current input or context.</p>
-                                    </div>
-                                    <span class="badge max_token_span">0 to 1</span>
-                                </li>
-                            </ul>
-                            <ul class="mb-3">
-                                <li>
-                                    Relates to current input/context </li>
-                                <li>
-                                    High presence_penalty = encourages use of input-specific words/phrases, helps model
-                                    stay
-                                    on topic
-                                </li>
-                                <li>
-                                    Low presence_penalty = introduces new words/ideas/topics, resulting in more varied
-                                    responses, but possibly less related to initial input </li>
-                            </ul>
-                            <p class="mb-4">
-                                In contrast to frequency_penalty, the presence_penalty directly relates to the current
-                                input
-                                or context. When set high, it encourages the model to use or stick to the words and
-                                phrases
-                                that have been mentioned in the conversation or input, helping the model to stay on
-                                topic.
-                            </p>
-
-
-                            <p class="mb-5 alert alert-info"><span class="badge badge-info">Note</span> Don't worry
-                                about
-                                remembering the values on Unacog AI, we have simply these values with a slider bar.
-                                For more information on these parameters, <a
-                                    href="https://platform.openai.com/docs/api-reference">visit
-                                    OpenAI's documentation.</a></p>
-                        </section>
-
-
-
-
-
-
                         <hr class="divider">
 
                         <!-- users
