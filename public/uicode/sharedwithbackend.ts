@@ -320,15 +320,12 @@ Respond to this prompt:
         console.log("failed to parse separators", err);
       }
       return SharedWithBackend.recursiveSplitTextIntoChunks(fullText, threshold, overlap, sepArray);
-    }
-    if (chunkingType === "none") {
+    } else { // "none"
       return [{
         text: fullText,
         textSize: fullText.length,
       }];
     }
-
-    return [];
   }
   /**
  * @param { string } text
