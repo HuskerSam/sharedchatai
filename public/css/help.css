@@ -45,8 +45,7 @@ h4 {
 }
 
 .alert-link a,
-.alert a,
-a {
+.alert a {
   color:  var(--shared_status_owner);
 }
 
@@ -63,8 +62,7 @@ p span.material-icons {
 }
 
 p.lead {
-  color: var(--prompt-message);
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
 
 .badge-info {

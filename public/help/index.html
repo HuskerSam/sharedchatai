@@ -57,6 +57,8 @@
         <div class="main_container">
             <div style="line-height: 2.5em;font-size: 1.25em;">
                 <select class="navigation_select_links form-select" style="width:auto;display:inline-block;">
+                    <option value="#help_gifs">Feature Gifs</option>
+                    <option value="#quick_help">Quick List</option>
                     <option value="#introduction_start">Introduction</option>
                     <option value="#help_sign_in">&nbsp;Signing In</option>
                     <option value="#quick_start">&nbsp;Starting a Chat Session</option>
@@ -75,6 +77,225 @@
                 </select>
             </div>
             <div class="help_content app_panel">
+                <section class="pb-5">
+                    <div class="container" id="help_gifs">
+                        <div class="tab-content" id="featureTabContent">
+                            <div class="tab-pane fade show active" id="collaborate-content" role="tabpanel"
+                                aria-labelledby="collaborate-tab">
+                                <div class="text-center mx-auto" style="max-width: 800px;">
+                                    <img src="/images/collab.gif" alt="Collaborative features" class="img-fluid mb-4"
+                                        style="max-height: 550px;">
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="context-content" role="tabpanel"
+                                aria-labelledby="context-tab">
+                                <div class="text-center mx-auto" style="max-width: 800px;">
+                                    <img src="/images/context.gif" alt="Context management" class="img-fluid mb-4"
+                                        style="max-height: 550px;">
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="unacog-content" role="tabpanel" aria-labelledby="unacog-tab">
+                                <div class="text-center mx-auto" style="max-width: 800px;">
+                                    <img src="/images/bulk.gif" alt="Bulk creation" class="img-fluid mb-4"
+                                        style="max-height: 550px;">
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="templates-content" role="tabpanel"
+                                aria-labelledby="templates-tab">
+                                <div class="text-center mx-auto" style="max-width: 800px;">
+                                    <img src="/images/templates.gif" alt="Template sharing" class="img-fluid mb-4"
+                                        style="max-height: 550px;">
+                                </div>
+                            </div>
+                        </div>
+                        <p class="lead text-center mb-4" style="color: #6c757d;">Navigate through the gifs below to
+                            learn more feature categories.</p>
+                        <ul class="nav nav-pills justify-content-center mb-4 fs-5" id="featureTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="collaborate-tab" data-bs-toggle="tab"
+                                    data-bs-target="#collaborate-content" type="button" role="tab"
+                                    aria-controls="collaborate" aria-selected="true">Collaborate</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link id=" context-tab" data-bs-toggle="tab"
+                                    data-bs-target="#context-content" type="button" role="tab" aria-controls="context"
+                                    aria-selected="false">Context Management</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="unacog-tab" data-bs-toggle="tab"
+                                    data-bs-target="#unacog-content" type="button" role="tab" aria-controls="unacog"
+                                    aria-selected="false">Bulk Create</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="templates-tab" data-bs-toggle="tab"
+                                    data-bs-target="#templates-content" type="button" role="tab"
+                                    aria-controls="templates" aria-selected="false">Share Templates</button>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+                <section id="quick_help" class="section_standard">
+                    <h2 class="text-center mb-3 display-6 fw-bold">Chat Features</h2>
+                        <span class="heading-color d-inline-block bg-secondary small rounded-3 px-2 py-1 text-light mb-3">
+                            🔎 Quick Help
+                        </span>
+                        <p class="lead text-center mb-4">
+                            Exploring docs is to good way to get started.<br>
+                        </p>
+                    <div class="container">
+                        <ul class=" flex-lg-row flex_change_responsive feature_group_list">
+                            <li class="feature_group_item card hover_yellow m-1">
+                                <a class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="#system_message">
+                                    <span class="material-icons mb-2">lightbulb</span>
+                                    <h4 class="feature_name">Swap Models</h4>
+                                    <span class="desc text-muted">while in the same session</span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow m-1">
+                                <a class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="#system_message">
+                                    <span class="material-icons-outlined mb-2">message</span>
+                                    <h4 class="feature_name">System Msg</h4>
+                                    <span class="desc text-muted">to maintain context throughout</span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow m-1">
+                                <a class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="#auto_exclude">
+                                    <span class="material-icons-outlined mb-2">auto_fix_high</span>
+                                    <h4 class="feature_name">Auto exclude</h4>
+                                    <span class="desc text-muted">to manage request sizes automatically</span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow m-1">
+                                <a class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="#chat_features">
+                                    <i class="material-icons mb-2">loop</i>
+                                    <h4 class="feature_name">Rerun Prompts</h4>
+                                    <span class="desc text-muted">to get different results with same prompt</span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow m-1">
+                                <a class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="#users_info">
+                                    <i class="material-icons mb-2">link</i>
+                                    <h4 class="feature_name">Share Link</h4>
+                                    <span class="desc text-muted">to collaborate with others quickly</span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow m-1">
+                                <a class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="#export_options">
+                                    <i class="material-icons mb-2">download</i>
+                                    <h4 class="feature_name">Export json</h4>
+                                    <span class="desc text-muted">to share templates</span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow m-1">
+                                <a class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="#upload_data_sessions">
+                                    <i class="material-icons mb-2">upload</i>
+                                    <h4 class="feature_name">Import Template</h4>
+                                    <span class="desc text-muted">to start with groundwork</span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow m-1">
+                                <a class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="#options">
+                                    <i class="material-icons mb-2">content_copy</i>
+                                    <h4 class="feature_name">Use clipboard</h4>
+                                    <span class="desc text-muted">to copy text/html to other apps</span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow m-1">
+                                <a class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="#help_sign_in">
+                                    <span class="material-icons mb-2">supervised_user_circle</span>
+                                    <h4 class="feature_name">Anonymous login</h4>
+                                    <span class="desc text-muted">to share with external collaborators</span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow m-1">
+                                <a class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="#session_limit">
+                                    <span class="material-icons mb-2">settings</span>
+                                    <h4 class="feature_name">Use Session Limit</h4>
+                                    <span class="desc text-muted">to protect your account from misuse</span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow m-1">
+                                <a class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="#owner_labels">
+                                    <i class="material-icons mb-2">label</i>
+                                    <h4 class="feature_name">Organize using labels</h4>
+                                    <span class="desc text-muted">to find quickly by category</span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow m-1">
+                                <a class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="#temperature">
+                                    <i class="material-icons mb-2">thermostat</i>
+                                    <h4 class="feature_name">Adjust temperature</h4>
+                                    <span class="desc text-muted">for more creative or regular results</span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card hover_yellow m-1">
+                                <a class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="#threshold">
+                                    <i class="material-icons mb-2">query_stats</i>
+                                    <h4 class="feature_name">Manage context</h4>
+                                    <span class="desc text-muted">to control quality and cost of responses</span>
+                                </a>
+                            </li>
+                            <li class="feature_group_item card disabled_link m-1">
+                                <div class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="#bulk_create">
+                                    <span class="material-icons mb-2">touch_app</span>
+                                    <h4 class="feature_name">Bulk Create</h4>
+                                    <span class="desc text-muted">for quick creation</span>
+                                    <span class="badge bg-secondary text-light mt-2">Help Coming</span>
+                                </div>
+                            </li>
+                            <li class="feature_group_item card disabled_link m-1">
+                                <div class="d-flex flex-column align-items-center p-3 text-decoration-none"
+                                    href="#bulk_email">
+                                    <span class="material-icons mb-2">assignment</span>
+                                    <h4 class="feature_name">Bulk Email</h4>
+                                    <span class="desc text-muted">for quick assignment</span>
+                                    <span class="badge bg-secondary text-light mt-2">Help Coming</span>
+                                </div>
+                            </li>
+                            <li class="feature_group_item card disabled_link m-1">
+                                <div class="d-flex flex-column align-items-center p-3">
+                                    <span class="material-icons text-secondary mb-2">print</span>
+                                    <h4 class="feature_name">Print Receipt</h4>
+                                    <span class="desc text-muted">to manage request sizes automatically</span>
+                                    <span class="badge bg-secondary text-light mt-2">Help Coming</span>
+                                </div>
+                            </li>
+                            <li class="feature_group_item card disabled_link m-1">
+                                <div class="d-flex flex-column align-items-center p-3">
+                                    <span class="material-icons text-secondary mb-2">data_usage</span>
+                                    <h4 class="feature_name">Usage Stats</h4>
+                                    <span class="desc text-muted">to view usage stats</span>
+                                    <span class="badge bg-secondary text-light mt-2">Help Coming</span>
+                                </div>
+                            </li>
+                            <li class="feature_group_item card disabled_link m-1">
+                                <div class="d-flex flex-column align-items-center p-3">
+                                    <i class="material-icons mb-2">email</i>
+                                    <h4 class="feature_name">Email invitations</h4>
+                                    <span class="desc text-muted">for convenient invites</span>
+                                    <span class="badge bg-secondary text-light mt-2">Help Coming</span>
+                                </div>
+                            </li>
+                        </ul>
+                        <span style="color: #ff79c6; font-weight: bold;font-size: 0.75em">
+                            More help documentation coming soon! 🚀✨
+                        </span>
+                    </div>
+                </section>
                 <div class="container">
                     <div class="text-start">
 
@@ -573,8 +794,7 @@
                             <div class="text-center"><img class="img-fluid p-1 bg-light-4 mb-4 rounded"
                                     src="https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/images%2Fsidebar_title.png?alt=media&token=8f5f756a-f3b5-4f3c-ade2-31c35726895e"
                                     alt="sidebar_title"></div>
-                            <p class="alert-link"><a href="#options"><span
-                                        class="badge bg-secondary">Related</span>
+                            <p class="alert-link"><a href="#options"><span class="badge bg-secondary">Related</span>
                                     document options</a></p>
                             <hr class="divider">
                             <h2 id="chat_models" class="mb-2">Chat Engine <a class="btn hover_yellow anchor_copy_link">
@@ -1428,155 +1648,193 @@
                             <h2 class="mb-4">FAQ</h2>
                             <div class="accordion accordion-flush" id="accordionPanelsStayOpenExample">
                                 <div class="accordion-item">
-                                  <h4 class="accordion-header" id="panelsStayOpen-headingOne">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                      data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
-                                      aria-controls="panelsStayOpen-collapseOne">
-                                      Why retrieval augmented generation (RAG)?
-                                    </button>
-                                  </h4>
-                                  <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
-                                    aria-labelledby="panelsStayOpen-headingOne">
-                                    <div class="accordion-body">
-                                      LLms are trained on a massive amount of data, but they are unfamiliar with your data. Instead of
-                                      relying solely on
-                                      knowledge derived from the training data, a RAG workflow pulls relevant information and connects
-                                      static LLMs with real-time data retrieval.
+                                    <h4 class="accordion-header" id="panelsStayOpen-headingOne">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                            aria-controls="panelsStayOpen-collapseOne">
+                                            Why retrieval augmented generation (RAG)?
+                                        </button>
+                                    </h4>
+                                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                                        aria-labelledby="panelsStayOpen-headingOne">
+                                        <div class="accordion-body">
+                                            LLms are trained on a massive amount of data, but they are unfamiliar with
+                                            your data. Instead of
+                                            relying solely on
+                                            knowledge derived from the training data, a RAG workflow pulls relevant
+                                            information and connects
+                                            static LLMs with real-time data retrieval.
+                                        </div>
                                     </div>
-                                  </div>
                                 </div>
                                 <div class="accordion-item">
-                                  <h4 class="accordion-header" id="panelsStayOpen-headingTwo">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                      data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
-                                      aria-controls="panelsStayOpen-collapseTwo">
-                                      What about context size as it relates to RAG?
-                                    </button>
-                                  </h4>
-                                  <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
-                                    aria-labelledby="panelsStayOpen-headingTwo">
-                                    <div class="accordion-body">
-                                      LLMs are limited by their context window size. While the intuitive response may be to increase the
-                                      size of the context window, researchers have
-                                      found that doing so actually doesn't correlate to performance (measured by accuracy). To maximize
-                                      the effectiveness of LLMs, we need to
-                                      provide them with the most relevant context. 
-                                      Similar to how prompts greatly impact the quality of LLM responses, the efficacy of a RAG system
-                                      directly hinges on the precision of its
-                                      retrieval phase. Poor retrieval, the failure to find the pertinent documents, will give LLM the
-                                      wrong context thereby significantly affecting the quality of the generated response.
+                                    <h4 class="accordion-header" id="panelsStayOpen-headingTwo">
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo"
+                                            aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                                            What about context size as it relates to RAG?
+                                        </button>
+                                    </h4>
+                                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
+                                        aria-labelledby="panelsStayOpen-headingTwo">
+                                        <div class="accordion-body">
+                                            LLMs are limited by their context window size. While the intuitive response
+                                            may be to increase the
+                                            size of the context window, researchers have
+                                            found that doing so actually doesn't correlate to performance (measured by
+                                            accuracy). To maximize
+                                            the effectiveness of LLMs, we need to
+                                            provide them with the most relevant context.
+                                            Similar to how prompts greatly impact the quality of LLM responses, the
+                                            efficacy of a RAG system
+                                            directly hinges on the precision of its
+                                            retrieval phase. Poor retrieval, the failure to find the pertinent
+                                            documents, will give LLM the
+                                            wrong context thereby significantly affecting the quality of the generated
+                                            response.
+                                        </div>
                                     </div>
-                                  </div>
                                 </div>
                                 <div class="accordion-item">
-                                  <h4 class="accordion-header" id="panelsStayOpen-headingThree">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                      data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
-                                      aria-controls="panelsStayOpen-collapseThree">
-                                      Embedding Models and the RAG pipeline
-                                    </button>
-                                  </h4>
-                                  <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
-                                    aria-labelledby="panelsStayOpen-headingThree">
-                                    <div class="accordion-body">
-                                      Embedding models have traditionally been used in recommendation and search algorithms to improve
-                                      semantic queries. They are
-                                      types of neural networks that convert data into vectors that make it possible for machines to
-                                      identify and learn the relationships
-                                      between different data points. The information generated from the embedding model is then used to
-                                      create a vector database, which
-                                      clusters related items together. A vector represents a piece of data such as a word or an image and
-                                      is an
-                                      array of numerical values that indicates its position in a multidimensional space. This structure
-                                      promotes
-                                      efficiency in data retrieval, allowing systems to find data based on similarity rather than exact
-                                      matches. The number of dimensions are defined by the machine learning model used to generate the
-                                      vector
-                                      embeddings, and how it represents input features based on its internal model and complexity. More
-                                      dimensions
-                                      (“wider” vectors) may provide more accuracy at the cost of compute and memory resources, as well as
-                                      latency
-                                      (speed) of vector search. For example, OpenAI's ada-002 is one such embedding model that uses 1536
-                                      dimensions to represent the semantic meaning of text. This demo uses ada-002 but there are many
-                                      other embedding models that are
-                                      proving to be competitive. Different embedding models may be better for specific use
-                                      case.
+                                    <h4 class="accordion-header" id="panelsStayOpen-headingThree">
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree"
+                                            aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                                            Embedding Models and the RAG pipeline
+                                        </button>
+                                    </h4>
+                                    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
+                                        aria-labelledby="panelsStayOpen-headingThree">
+                                        <div class="accordion-body">
+                                            Embedding models have traditionally been used in recommendation and search
+                                            algorithms to improve
+                                            semantic queries. They are
+                                            types of neural networks that convert data into vectors that make it
+                                            possible for machines to
+                                            identify and learn the relationships
+                                            between different data points. The information generated from the embedding
+                                            model is then used to
+                                            create a vector database, which
+                                            clusters related items together. A vector represents a piece of data such as
+                                            a word or an image and
+                                            is an
+                                            array of numerical values that indicates its position in a multidimensional
+                                            space. This structure
+                                            promotes
+                                            efficiency in data retrieval, allowing systems to find data based on
+                                            similarity rather than exact
+                                            matches. The number of dimensions are defined by the machine learning model
+                                            used to generate the
+                                            vector
+                                            embeddings, and how it represents input features based on its internal model
+                                            and complexity. More
+                                            dimensions
+                                            (“wider” vectors) may provide more accuracy at the cost of compute and
+                                            memory resources, as well as
+                                            latency
+                                            (speed) of vector search. For example, OpenAI's ada-002 is one such
+                                            embedding model that uses 1536
+                                            dimensions to represent the semantic meaning of text. This demo uses ada-002
+                                            but there are many
+                                            other embedding models that are
+                                            proving to be competitive. Different embedding models may be better for
+                                            specific use
+                                            case.
+                                        </div>
                                     </div>
-                                  </div>
                                 </div>
                                 <div class="accordion-item">
-                                  <h4 class="accordion-header" id="panelsStayOpen-headingFour">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                      data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false"
-                                      aria-controls="panelsStayOpen-collapseFour">
-                                      What is a vector database?
-                                    </button>
-                                  </h4>
-                                  <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse"
-                                    aria-labelledby="panelsStayOpen-headingFour">
-                                    <div class="accordion-body">
-                                      RAG systems rely on vector databases to store and index data. Traditional
-                                      databases like relational and NoSQL systems have been fundamental for organizing business-related
-                                      structured data,
-                                      but they often have difficulties managing unstructured, high-dimensional data like images, audio and
-                                      text. These databases can also encounter performance issues due to increased data volume and
-                                      velocity.
-                                      Vector databases offer a new alternative, storing, and indexing data as mathematical vectors, which
-                                      improves similarity searches and management of complex data types. This "vectorization" is
-                                      particularly
-                                      effective for handling images, audio, video, and natural language.
+                                    <h4 class="accordion-header" id="panelsStayOpen-headingFour">
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour"
+                                            aria-expanded="false" aria-controls="panelsStayOpen-collapseFour">
+                                            What is a vector database?
+                                        </button>
+                                    </h4>
+                                    <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse"
+                                        aria-labelledby="panelsStayOpen-headingFour">
+                                        <div class="accordion-body">
+                                            RAG systems rely on vector databases to store and index data. Traditional
+                                            databases like relational and NoSQL systems have been fundamental for
+                                            organizing business-related
+                                            structured data,
+                                            but they often have difficulties managing unstructured, high-dimensional
+                                            data like images, audio and
+                                            text. These databases can also encounter performance issues due to increased
+                                            data volume and
+                                            velocity.
+                                            Vector databases offer a new alternative, storing, and indexing data as
+                                            mathematical vectors, which
+                                            improves similarity searches and management of complex data types. This
+                                            "vectorization" is
+                                            particularly
+                                            effective for handling images, audio, video, and natural language.
+                                        </div>
                                     </div>
-                                  </div>
                                 </div>
                                 <div class="accordion-item">
-                                  <h4 class="accordion-header" id="panelsStayOpen-headingFive">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                      data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false"
-                                      aria-controls="panelsStayOpen-collapseFive">
-                                      Vector database are AI natives.
-                                    </button>
-                                  </h4>
-                                  <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse"
-                                    aria-labelledby="panelsStayOpen-headingFive">
-                                    <div class="accordion-body">
-                                      While many traditional databases support storing vector embeddings to enable vector search,<strong>
-                                        vector databases are AI-native,</strong> which means they are optimized to conduct lightning-fast
-                                      vector
-                                      searches at scale. Because vector search requires the calculation of the distances between the
-                                      search query and every data object, a classical K-Nearest-Neighbor algorithm is computationally
-                                      expensive.
-                                      Vector databases use vector indexing to pre-calculate the distances to enable faster retrieval at
-                                      query time. Thus,
-                                      vector databases allow users to find and retrieve similar objects quickly at scale in production.
-                                      For
-                                      applications that require real-time user interaction, like chatbots or virtual assistants, vector
-                                      databases can ensure that response generation, which might depend on fetching relevant context or
-                                      information represented as vectors, is quick.
+                                    <h4 class="accordion-header" id="panelsStayOpen-headingFive">
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive"
+                                            aria-expanded="false" aria-controls="panelsStayOpen-collapseFive">
+                                            Vector database are AI natives.
+                                        </button>
+                                    </h4>
+                                    <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse"
+                                        aria-labelledby="panelsStayOpen-headingFive">
+                                        <div class="accordion-body">
+                                            While many traditional databases support storing vector embeddings to enable
+                                            vector search,<strong>
+                                                vector databases are AI-native,</strong> which means they are optimized
+                                            to conduct lightning-fast
+                                            vector
+                                            searches at scale. Because vector search requires the calculation of the
+                                            distances between the
+                                            search query and every data object, a classical K-Nearest-Neighbor algorithm
+                                            is computationally
+                                            expensive.
+                                            Vector databases use vector indexing to pre-calculate the distances to
+                                            enable faster retrieval at
+                                            query time. Thus,
+                                            vector databases allow users to find and retrieve similar objects quickly at
+                                            scale in production.
+                                            For
+                                            applications that require real-time user interaction, like chatbots or
+                                            virtual assistants, vector
+                                            databases can ensure that response generation, which might depend on
+                                            fetching relevant context or
+                                            information represented as vectors, is quick.
+                                        </div>
                                     </div>
-                                  </div>
                                 </div>
                                 <div class="accordion-item">
-                                  <h4 class="accordion-header" id="panelsStayOpen-headingSeven">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                      data-bs-target="#panelsStayOpen-collapseSeven" aria-expanded="false"
-                                      aria-controls="panelsStayOpen-collapseSeven">
-                                      When should I use RAG and when should I fine-tune the model?
-                                    </button>
-                                  </h4>
-                                  <div id="panelsStayOpen-collapseSeven" class="accordion-collapse collapse"
-                                    aria-labelledby="panelsStayOpen-headingSeven">
-                                    <div class="accordion-body">
-                                      RAG is the right place to start, being easy and possibly entirely sufficient for some use cases.
-                                      Fine-tuning is most appropriate in a different situation, when one wants the LLM's behavior to
-                                      change, or to learn a different "language." These are not mutually exclusive. As a future step, it's
-                                      possible to consider fine-tuning a model to better understand domain language and the desired output
-                                      form — and also use RAG to improve the quality and relevance of the response. For example, our bible
-                                      example uses GPT-3.5-turbo-16k, however this could easily be replaced with any LLM, including
-                                      fine-tuned ones.
+                                    <h4 class="accordion-header" id="panelsStayOpen-headingSeven">
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSeven"
+                                            aria-expanded="false" aria-controls="panelsStayOpen-collapseSeven">
+                                            When should I use RAG and when should I fine-tune the model?
+                                        </button>
+                                    </h4>
+                                    <div id="panelsStayOpen-collapseSeven" class="accordion-collapse collapse"
+                                        aria-labelledby="panelsStayOpen-headingSeven">
+                                        <div class="accordion-body">
+                                            RAG is the right place to start, being easy and possibly entirely sufficient
+                                            for some use cases.
+                                            Fine-tuning is most appropriate in a different situation, when one wants the
+                                            LLM's behavior to
+                                            change, or to learn a different "language." These are not mutually
+                                            exclusive. As a future step, it's
+                                            possible to consider fine-tuning a model to better understand domain
+                                            language and the desired output
+                                            form — and also use RAG to improve the quality and relevance of the
+                                            response. For example, our bible
+                                            example uses GPT-3.5-turbo-16k, however this could easily be replaced with
+                                            any LLM, including
+                                            fine-tuned ones.
+                                        </div>
                                     </div>
-                                  </div>
                                 </div>
-                              </div>
+                            </div>
                         </section>
                     </div>
                 </div>
