@@ -31,28 +31,10 @@ export default class WebPage {
     * @param { any } req http request object
     * @param { any } res http response object
     */
-    static async mediaHTML(req: any, res: any): Promise<any> {
-        return new Promise((resolve: any) => {
-            fs.readFile("./html/media.html", async (err: any, html: any) => {
-                if (err) {
-                    throw err;
-                }
-                const flyerHTML = SharedWithBackend.getFlyerListTemplate();
-                const outHTML = html.toString();
-                const template = Handlebars.compile(outHTML);
-                resolve((<any>res).status(200).send(template({
-                    flyerHTML,
-                })));
-            });
-        });
-    }
-    /** http endpoint for generating homepage
-    * @param { any } req http request object
-    * @param { any } res http response object
-    */
     static async aboutHTML(req: any, res: any): Promise<any> {
         return new Promise((resolve: any) => {
             const rawPrices = WebPage.generateRawPricingRows();
+            const flyerHTML = SharedWithBackend.getFlyerListTemplate();
             const tokensPerCredit = SharedWithBackend.generateCreditPricingRows();
             fs.readFile("./html/about.html", async (err: any, html: any) => {
                 if (err) {
@@ -62,6 +44,7 @@ export default class WebPage {
                 const template = Handlebars.compile(outHTML);
                 resolve((<any>res).status(200).send(template({
                     rawPrices,
+                    flyerHTML,
                     tokensPerCredit,
                 })));
             });
@@ -126,12 +109,6 @@ export default class WebPage {
           <lastmod>${new Date().toISOString().substring(0, 10)}</lastmod>
           <changefreq>daily</changefreq>
           <priority>1</priority>
-      </url>
-      <url>
-      <loc>https://unacog.com/media/</loc>
-      <lastmod>${new Date().toISOString().substring(0, 10)}</lastmod>
-      <changefreq>daily</changefreq>
-      <priority>1</priority>
       </url>
       <url>
       <loc>https://unacog.com/help/</loc>

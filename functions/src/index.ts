@@ -43,7 +43,6 @@ contentPagesApp.use(cors({
 }));
 
 export const contentPage = functions.runWith(homeOpts).https.onRequest(contentPagesApp);
-export const mediaPage = functions.runWith(homeOpts).https.onRequest(WebPage.mediaHTML);
 export const aboutPage = functions.runWith(homeOpts).https.onRequest(WebPage.aboutHTML);
 
 export const lobbyApi = functions.runWith(runtimeOpts).https.onRequest(gameAPIApp);

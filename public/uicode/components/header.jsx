@@ -9,7 +9,7 @@ export default class HeaderBar extends React.Component {
     let pathName = window.location.pathname;
     this.homeHref = (pathName === "/") ? "" : `/`;
     this.embeddingHref = (pathName === "/embedding/") ? "" : `/embedding/`;
-    this.helpHref = (pathName === "/media/") ? "" : `/media/`;
+    this.helpHref = (pathName === "/about/") ? "" : `/about/`;
     this.homeActive = this.homeHref ? "" : " active";
     this.embedActive = this.embeddingHref ? "" : " active";
     this.helpActive = this.helpHref ? "" : " active";
@@ -37,7 +37,7 @@ export default class HeaderBar extends React.Component {
             </li>
             <li className="nav-item" role="presentation">
               <a className={"nav-link" + this.helpActive}  href={this.helpHref} role="tab">
-                <span className="tab_label">Learn</span>
+                <span className="tab_label">About</span>
               </a>
             </li>
           </ul >

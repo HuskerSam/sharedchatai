@@ -21,11 +21,7 @@
         "destination": "/session/index.html"
       },
       {
-        "source": "/media/**",
-        "function": "mediaPage"
-      },
-      {
-        "source": "/about/**",
+        "source": "/about**",
         "function": "aboutPage"
       },
       {
