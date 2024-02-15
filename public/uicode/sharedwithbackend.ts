@@ -304,10 +304,10 @@ Respond to this prompt:
  */
   static async parseBreakTextIntoChunks(threshold: number, chunkingType: string,
     overlap: number, separators: string, fullText: string): Promise<Array<any>> {
-    /*
-    if (chunkingType === "size") {
+    if (chunkingType === "sizetextsplitter") {
       return SharedWithBackend.sizeTextIntoChunks(threshold, fullText);
     }
+    /*
     if (chunkingType === "sentence") {
       return SharedWithBackend.sentenceTextIntoChunks(sentenceWindow, fullText);
     }
