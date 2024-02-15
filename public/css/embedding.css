@@ -222,3 +222,24 @@ table tr td.table_cell_sizer {
 .upsert_result_status_bar {
   text-align: left;
 }
+
+.demo-bg-img {
+  height: 100px; /* Adjust based on your preference */
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: 0 12px; /* Centers the image and adds space below */
+}
+
+.ai_demo_bg_img {
+  background-image: url(/images/chunk_sentences.svg);
+}
+
+.bible_demo_bg_img {
+  background-image: url(/images/ragChapterVerses.svg);
+}
+
+.covid_demo_bg_img {
+  background-image: url('/images/covid_diagram.svg');
+}
+
