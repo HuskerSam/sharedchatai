@@ -305,7 +305,12 @@ Respond to this prompt:
   static async parseBreakTextIntoChunks(threshold: number, chunkingType: string,
     overlap: number, separators: string, fullText: string): Promise<Array<any>> {
     if (chunkingType === "sizetextsplitter") {
-      return SharedWithBackend.sizeTextIntoChunks(threshold, fullText);
+      try {
+        return SharedWithBackend.sizeTextIntoChunks(threshold, fullText);
+      } catch (err: any) {
+        const cleanString = SharedWithBackend.cleanString(fullText);
+        return SharedWithBackend.sizeTextIntoChunks(threshold, cleanString);
+      }
     }
     /*
     if (chunkingType === "sentence") {
