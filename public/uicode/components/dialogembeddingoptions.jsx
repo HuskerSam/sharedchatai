@@ -81,24 +81,22 @@ export default function DialogEmbeddingOptions(props) {
                                 </tr>
                                 <tr>
                                     <td>API Key </td>
-                                    <td>
+                                    <td colSpan="2">
                                         <FormControl as="input" defaultValue={pineconeKey}
                                             onChange={(e) => setPineconeKey(e.target.value)}>
                                         </FormControl>
                                     </td>
                                     <td></td>
-                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td>Environment </td>
-                                    <td>
+                                    <td colSpan="2">
                                         <FormControl as="input" defaultValue={pineconeEnvironment}
                                             onChange={
                                                 (e) => setPineconeEnvironment(e.target.value)
                                             }>
                                         </FormControl>
                                     </td>
-                                    <td></td>
                                     <td></td>
                                 </tr>
                                 <tr>
@@ -172,19 +170,18 @@ export default function DialogEmbeddingOptions(props) {
                                             }>
                                         </FormControl>
                                     </td>
-                                    <td></td>
+                                    <td>tokens</td>
                                     <td></td>
                                 </tr>
                                 <tr>
                                     <td>Separators</td>
-                                    <td>
+                                    <td  colSpan="2">
                                         <FormControl as="input" defaultValue={separators}
                                             onChange={
                                                 (e) => setSeparators(e.target.value)
                                             }>
                                         </FormControl>
                                     </td>
-                                    <td>tokens</td>
                                     <td></td>
                                 </tr>
                             </tbody>

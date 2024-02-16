@@ -190,10 +190,15 @@ table tr td.table_cell_sizer {
 }
 
 .pinecone_index_status_display {
-  max-width: 100px;
+  max-width: 150px;
   overflow: hidden;
-  line-height: 1.1em;
+  text-align: right;
+  line-height: 1.2em;
   max-height: 2.5em;
+  display: inline-block;
+  font-size: 0.75em;
+  margin-bottom:-8px;
+  text-decoration: none;
 }
 
 .connected_session_row {

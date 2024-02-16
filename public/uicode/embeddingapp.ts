@@ -57,7 +57,6 @@ export class EmbeddingApp extends BaseApp {
     add_project_btn = document.querySelector(".add_project_btn") as HTMLAnchorElement;
     remove_project_btn = document.querySelector(".remove_project_btn") as HTMLAnchorElement;
     table_filter_select = document.querySelector(".table_filter_select") as HTMLSelectElement;
-    firebase_record_count_status = document.querySelector(".firebase_record_count_status") as HTMLDivElement;
     table_all_count = document.querySelector(".table_all_count") as HTMLOptionElement;
     table_new_count = document.querySelector(".table_new_count") as HTMLOptionElement;
     table_done_count = document.querySelector(".table_done_count") as HTMLOptionElement;
@@ -70,6 +69,7 @@ export class EmbeddingApp extends BaseApp {
     publish_pinecone_dialog_btn: any = document.querySelector(".publish_pinecone_dialog_btn");
     vector_inspect_dialog_btn: any = document.querySelector(".vector_inspect_dialog_btn");
     embedding_options_dialog_btn: any = document.querySelector(".embedding_options_dialog_btn");
+    pineconeRequestFailed = false;
     actionRunning = false;
     upsertRunning = false;
     tableQueryFirstRow = 1;
@@ -303,7 +303,14 @@ export class EmbeddingApp extends BaseApp {
             this.resetErrors();
         });
 
-        this.fetch_pinecone_index_stats_btn.addEventListener("click", () => this.fetchIndexStats());
+        this.fetch_pinecone_index_stats_btn.addEventListener("click", (e: Event) => {
+            e.preventDefault();
+            if (this.pineconeRequestFailed === true) {
+                alert(this.pinecone_index_status_display.innerHTML);
+            }
+            this.fetchIndexStats();
+        });
+
         this.add_row_btn.addEventListener("click", (e: Event) => this.addEmptyTableRow(e));
         this.setTableTheme();
 
@@ -463,14 +470,14 @@ export class EmbeddingApp extends BaseApp {
                 alert(json.errorMessage);
                 return;
             }
-    
+
             this.upsert_result_status_bar.innerHTML = ``;
             console.log("lookup data", json.publicPath);
             this.dialogGenerateResult.props.hooks.setTitle("Lookup Database Cloud Path");
             this.dialogGenerateResult.props.hooks.setPath(json.publicPath);
             this.dialogGenerateResult.props.hooks.setPerDocPath(json.exampleByDocumentPath);
             this.dialogGenerateResult.props.hooks.setShow(true);
-            console.log(json);    
+            console.log(json);
         } catch (e: any) {
             alert("Generate Lookup error");
             console.log("Generate lookup error", e);
@@ -762,9 +769,10 @@ export class EmbeddingApp extends BaseApp {
 
         if (json.success === false) {
             this.pinecone_index_status_display.innerHTML = json.errorMessage;
+            this.pineconeRequestFailed = true;
             return;
         }
-
+        this.pineconeRequestFailed = false;
         this.pinecone_index_status_display.innerHTML = "Vectors:<br>" + json.indexDescription.totalRecordCount;
     }
     /**
@@ -1058,7 +1066,7 @@ export class EmbeddingApp extends BaseApp {
                 },
                 body: JSON.stringify(body),
             });
-    
+
             const json = await fResult.json();
             this.upsertRunning = false;
             if (!json.success) {
