@@ -101,6 +101,24 @@ export default function DialogEmbeddingOptions(props) {
                                     <td></td>
                                     <td></td>
                                 </tr>
+                                <tr>
+                                    <td>Embedding Model</td>
+                                    <td colSpan="2">
+                                        <Form.Select defaultValue="none">
+                                            <option value="none">text-embedding-3-small</option>
+                                        </Form.Select>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Vector Size</td>
+                                    <td>
+                                        <FormControl as="input" defaultValue="1536">
+                                        </FormControl>
+                                    </td>
+                                    <td>dimensions</td>
+                                    <td></td>
+                                </tr>
                             </tbody>
                         </table>
                     </Tab>
