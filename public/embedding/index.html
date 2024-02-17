@@ -432,18 +432,11 @@
                         </li>
                     </ul>
                 </div>
-                <div>
-                    <button class="btn btn-secondary add_row_btn" style="margin-top:-8px">
-                        <i class="material-icons">add</i> Row
-                    </button>
-                </div>
                 <input class="embedding_list_file_dom" style="display:none;" type="file" accept=".json,.csv">
                 <div class="upsert_result_status_bar" style="flex:1"></div>
-                <div class="pinecone_index_status_display"></div>
                 <div>
-                    <button class="btn btn-secondary fetch_pinecone_index_stats_btn" style="margin-top:-8px">
-                        <i class="material-icons">sync</i>
-                    </button>
+                    <a href="fetch pinecone status" class="fetch_pinecone_index_stats_btn pinecone_index_status_display">
+                    </a>
                 </div>
             </div>
             <div class="tabulator_documents_border_wrapper">
@@ -455,12 +448,12 @@
                     <input class="first_table_row form-control" value="" style="width:150px;display:inline-block">
                     <button class="btn btn-secondary next_table_page_btn"
                         style="position:relative;top:-2px;">Next</button>
-                    &nbsp;
-                    <span>
-                        30 rows per page
-                    </span>
                 </div>
-                <div class="firebase_record_count_status" style="flex:1">&nbsp;</div>
+                <div style="flex:1">
+                    <button class="btn btn-secondary add_row_btn">
+                        <i class="material-icons">add</i> Row
+                    </button>
+                </div>
                 <div>
                     <button class="upload_embedding_documents_btn btn btn-secondary">
                         <span>Upsert Next</span>

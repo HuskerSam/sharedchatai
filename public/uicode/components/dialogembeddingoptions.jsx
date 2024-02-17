@@ -81,17 +81,16 @@ export default function DialogEmbeddingOptions(props) {
                                 </tr>
                                 <tr>
                                     <td>API Key </td>
-                                    <td>
+                                    <td colSpan="2">
                                         <FormControl as="input" defaultValue={pineconeKey}
                                             onChange={(e) => setPineconeKey(e.target.value)}>
                                         </FormControl>
                                     </td>
                                     <td></td>
-                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td>Environment </td>
-                                    <td>
+                                    <td colSpan="2">
                                         <FormControl as="input" defaultValue={pineconeEnvironment}
                                             onChange={
                                                 (e) => setPineconeEnvironment(e.target.value)
@@ -99,6 +98,23 @@ export default function DialogEmbeddingOptions(props) {
                                         </FormControl>
                                     </td>
                                     <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Embedding Model</td>
+                                    <td colSpan="2">
+                                        <Form.Select defaultValue="none">
+                                            <option value="none">text-embedding-3-small</option>
+                                        </Form.Select>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Vector Size</td>
+                                    <td>
+                                        <FormControl as="input" defaultValue="1536">
+                                        </FormControl>
+                                    </td>
+                                    <td>dimensions</td>
                                     <td></td>
                                 </tr>
                             </tbody>
@@ -154,19 +170,18 @@ export default function DialogEmbeddingOptions(props) {
                                             }>
                                         </FormControl>
                                     </td>
-                                    <td></td>
+                                    <td>tokens</td>
                                     <td></td>
                                 </tr>
                                 <tr>
                                     <td>Separators</td>
-                                    <td>
+                                    <td  colSpan="2">
                                         <FormControl as="input" defaultValue={separators}
                                             onChange={
                                                 (e) => setSeparators(e.target.value)
                                             }>
                                         </FormControl>
                                     </td>
-                                    <td>tokens</td>
                                     <td></td>
                                 </tr>
                             </tbody>
