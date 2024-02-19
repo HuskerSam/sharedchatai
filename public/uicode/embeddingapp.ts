@@ -1027,7 +1027,7 @@ export class EmbeddingApp extends BaseApp {
      * @param { string } singleRowId
      */
     async upsertTableRowsToPinecone(singleRowId = "") {
-        if (this.upsertRunning) {
+        if (this.upsertRunning && !singleRowId) {
             alert("Upsert operation already running.");
             return;
         }
@@ -1039,7 +1039,6 @@ export class EmbeddingApp extends BaseApp {
         }, 500);
         if (singleRowId) rowCount = 1;
         this.upsert_result_status_bar.innerHTML = `Upserting next ${rowCount} rows ...`;
-        this.upsertRunning = true;
         const body = {
             projectId: this.selectedProjectId,
             pineconeIndex: this.pineconeIndex,
@@ -1068,7 +1067,7 @@ export class EmbeddingApp extends BaseApp {
             });
 
             const json = await fResult.json();
-            this.upsertRunning = false;
+            if (!singleRowId) this.upsertRunning = false;
             if (!json.success) {
                 alert("Error: " + json.errorMessage);
                 console.log(json);
@@ -1090,8 +1089,10 @@ export class EmbeddingApp extends BaseApp {
                     ${credits.toFixed(3)} creds`;
             }
         } catch (err: any) {
-            this.upsert_next_loop_checkbox.checked = false;
-            this.upsertRunning = false;
+            if (!singleRowId)  {
+                this.upsert_next_loop_checkbox.checked = false;
+                this.upsertRunning = false;
+            }
             alert("Upsert failed, try again or call support");
         }
 
