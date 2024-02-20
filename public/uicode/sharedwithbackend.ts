@@ -395,14 +395,15 @@ Respond to this prompt:
     let chunkText = "";
     lines.forEach((line: string, index: number) => {
       if (chunkText) chunkText += ". "
-      chunkText += line + ". ";
+      chunkText += line;
       lineCounter++;
       if (lineCounter >= sentenceCount) {
         // add seceding overlap
         const lastIndexOverlap = Math.min(lines.length - 1, index + sentenceOverlap);
         for (let c = index + 1; c <= lastIndexOverlap; c++) {
           const overlapText = lines[c];
-          chunkText += overlapText + ". ";
+          if (chunkText) chunkText += ". "
+          chunkText += overlapText;
         }
         if (chunkText.trim()) chunks.push(chunkText.trim());
 
@@ -413,7 +414,8 @@ Respond to this prompt:
         const firstIndexOverlap = Math.max(0, index - sentenceOverlap);
         for (let c = firstIndexOverlap; c < index; c++) {
           const overlapText = lines[c];
-          chunkText += overlapText + ". ";
+          if (chunkText) chunkText += ". "
+          chunkText += overlapText;
         }
       }
     });
