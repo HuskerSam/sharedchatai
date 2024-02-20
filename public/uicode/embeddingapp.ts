@@ -1245,8 +1245,8 @@ export class EmbeddingApp extends BaseApp {
 
         let keyHash = 9999999999999;
         let indexHash = 99999999999999;
-        keyHash = SharedWithBackend.hashCode(this.pineconeKey.slice(-8));
-        indexHash = SharedWithBackend.hashCode(this.pineconeIndex.slice(-8));
+        keyHash = SharedWithBackend.hashCode(this.pineconeKey);
+        indexHash = SharedWithBackend.hashCode(this.pineconeIndex);
         const sessionsRef = collection(getFirestore(), `Games`);
         const sessionsQuery = query(sessionsRef,
             limit(20),

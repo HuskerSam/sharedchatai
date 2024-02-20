@@ -313,7 +313,12 @@ Respond to this prompt:
       }
     }
     if (chunkingType === "sentence") {
-      return SharedWithBackend.sentenceTextIntoChunks(fullText, threshold, overlap);
+      try {
+        return SharedWithBackend.sentenceTextIntoChunks(fullText, threshold, overlap);
+      } catch (err: any) {
+        const cleanString = SharedWithBackend.cleanString(fullText);
+        return SharedWithBackend.sentenceTextIntoChunks(cleanString, threshold, overlap);
+      }
     }
     if (chunkingType === "recursivetextsplitter") {
       let sepArray: string[] = ["\n\n", "\n", " ", ""];

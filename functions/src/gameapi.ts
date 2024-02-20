@@ -435,7 +435,7 @@ export default class GameAPI {
     const sessionUpdatePacket: any = {};
     keys.forEach((key: string) => {
       const sessionKey = "hashed_" + key;
-      const data = privateUpdatePacket[key].slice(-8);
+      const data = privateUpdatePacket[key];
       sessionUpdatePacket[sessionKey] = SharedWithBackend.hashCode(data);
     });
 
