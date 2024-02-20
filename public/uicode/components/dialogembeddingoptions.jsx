@@ -143,8 +143,9 @@ export default function DialogEmbeddingOptions(props) {
                                         <Form.Select defaultValue={chunkingType}
                                             onChange={(e) => setChunkingType(e.target.value)}>
                                             <option value="none">None</option>
-                                            <option value="sizetextsplitter">Chunk Size Text Splitter</option>
-                                            <option value="recursivetextsplitter">Recursive Text Splitter</option>
+                                            <option value="sizetextsplitter">Token Size Splitter</option>
+                                            <option value="recursivetextsplitter">Recursive  Splitter</option>
+                                            <option value="sentence">Sentence Splitter</option>
                                         </Form.Select>
                                     </td>
                                     <td></td>

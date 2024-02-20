@@ -312,11 +312,9 @@ Respond to this prompt:
         return SharedWithBackend.sizeTextIntoChunks(threshold, cleanString);
       }
     }
-    /*
     if (chunkingType === "sentence") {
-      return SharedWithBackend.sentenceTextIntoChunks(sentenceWindow, fullText);
+      return SharedWithBackend.sentenceTextIntoChunks(fullText, threshold, overlap);
     }
-    */
     if (chunkingType === "recursivetextsplitter") {
       let sepArray: string[] = ["\n\n", "\n", " ", ""];
       try {
@@ -379,32 +377,39 @@ Respond to this prompt:
    * @param { string } fullText
    * @return { Promise<Array<any>> }
    */
-  static async sentenceTextIntoChunks(sentenceWindow: number, fullText: string): Promise<Array<any>> {
+  static async sentenceTextIntoChunks(fullText: string, sentenceCount: number, sentenceOverlap: number): Promise<Array<any>> {
     const rawLines = fullText.split(".");
     const lines: string[] = [];
-    if (sentenceWindow > 500) sentenceWindow = 500;
     const chunks: string[] = [];
 
     rawLines.forEach((line: string) => {
-      const l = line.trim();
+      const l = line.replaceAll("\n", " ").trim();
       if (l) lines.push(l);
     });
-    const total = lines.length;
+    let lineCounter = 0;
+    let chunkText = "";
     lines.forEach((line: string, index: number) => {
-      if (sentenceWindow > 1) {
-        let chunkText = "";
-        const before = Math.ceil(sentenceWindow / 2) - 1;
-        const firstIndex = index - before;
-        const lastIndex = firstIndex + sentenceWindow;
-
-        if (firstIndex >= 0 && lastIndex < total) {
-          for (let c = firstIndex; c <= lastIndex; c++) {
-            chunkText += lines[c] + ". ";
-          }
-          if (chunkText.trim()) chunks.push(chunkText.trim());
+      if (chunkText) chunkText += ". "
+      chunkText += line + ". ";
+      lineCounter++;
+      if (lineCounter >= sentenceCount) {
+        // add seceding overlap
+        const lastIndexOverlap = Math.min(lines.length - 1, index + sentenceOverlap);
+        for (let c = index + 1; c <= lastIndexOverlap; c++) {
+          const overlapText = lines[c];
+          chunkText += overlapText + ". ";
         }
-      } else {
-        if (line.trim()) chunks.push(line.trim());
+        if (chunkText.trim()) chunks.push(chunkText.trim());
+
+        // console.log("chunkText", chunkText);
+        // add preceding overlap
+        chunkText = "";
+        lineCounter = 0;
+        const firstIndexOverlap = Math.max(0, index - sentenceOverlap);
+        for (let c = firstIndexOverlap; c < index; c++) {
+          const overlapText = lines[c];
+          chunkText += overlapText + ". ";
+        }
       }
     });
 
