@@ -32,7 +32,7 @@ export default class HeaderBar extends React.Component {
             </li>
             <li className="nav-item" role="presentation">
               <a className={"nav-link"  + this.embedActive}  href={this.embeddingHref} role="tab">
-                <span className="tab_label">Embed</span>
+                <span className="tab_label">Augment</span>
               </a>
             </li>
             <li className="nav-item" role="presentation">

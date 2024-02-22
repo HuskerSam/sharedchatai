@@ -52,7 +52,7 @@
         <div class="signed_out_options_block" style="overflow:auto; overflow-x: hidden;">
             <section class="section_standard homepage_section_background text-center">
                 <div class="container">
-                    <h1 class="display-3 mb-4 fw-bold">Embed: Data Ingestation for AI</h1>
+                    <h1 class="display-3 mb-4 fw-bold">Ingest and retrieve semantic data</h1>
                     <p class="lead fs-2 mb-5">The ability to scrape, chunk, and upsert in one place.</p>
                     <div class="row g-4 py-3 justify-content-center">
                         <div
@@ -93,7 +93,7 @@
                             <div class="lh-base text-center text-lg-start">
                                 <p class="lead mb-4">Everything you need to build knowledgeable AI in one user-friendly
                                     GUI.</p>
-                                <ul class="list-unstyled">
+                                <ul class="list-unstyled text-start card p-2">
                                     <li class="mb-3"><b>Document Upserter:</b> enhance data import
                                         into Pinecone with automatic ID generation for documents and chunks, alongside
                                         efficient error handling, for seamless integration.</li>
@@ -125,7 +125,7 @@
                                 <h2 class="text-primary mb-4 display-6 fw-bold">Customizable Data Processing</h2>
                                 <p class="lead">Streamline AI data handling with our precise, flexible processing
                                     features</p>
-                                <ul class="list-unstyled">
+                                <ul class="list-unstyled text-start card p-2">
                                     <li class="mb-3"><b>Chunking:</b> customize data segmentation with sentence
                                         or token counts.</li>
                                     <li class="mb-3"><b>Overlapping:</b> maintain continuity across
@@ -151,22 +151,20 @@
                             </figure>
                         </div>
                         <div class="col-xl-6 text-center text-lg-start order-xl-1">
-                            <div class="">
-                                <h2 class="text-primary mb-4 display-6 fw-bold">Immediate Testing, Development and
-                                    Deployment</h2>
-                                <p class="lead">Accelerate your project from ideation to live deployment with our
-                                    comprehensive testing, development, and API integration tools.</p>
-                                <div class="lh-base">
-                                    <p class="mb-3"><b>Connected Sessions:</b> iterate quickly with
-                                        real-time collaboration, customizable LLM settings, and extensive parameters.
-                                    </p>
-                                    <p class="mb-3"><b>Seamless Transition to Live:</b> use our API to embed your
-                                        refined chatbot directly into your application or website, moving easily
-                                        from prototype to production.
-                                    </p>
-                                    <p><b>Simple Management:</b> manage with secure, easily revocable API
-                                        keys for efficient billing and configuration.</p>
-                                </div>
+                            <h2 class="text-primary mb-4 display-6 fw-bold">Immediate Testing, Development and
+                                Deployment</h2>
+                            <p class="lead">Accelerate your project from ideation to live deployment with
+                                comprehensive testing, development, and API integration tools.</p>
+                            <div class="lh-base text-start card p-2">
+                                <p class="mb-3"><b>Connected Sessions:</b> iterate quickly with
+                                    real-time collaboration, customizable LLM settings, and extensive parameters.
+                                </p>
+                                <p class="mb-3"><b>Seamless Transition to Live:</b> use our API to embed your
+                                    refined chatbot directly into your application or website, moving easily
+                                    from prototype to production.
+                                </p>
+                                <p class="mb-1"><b>Simple Management:</b> manage with secure, easily revocable API
+                                    keys for efficient billing and configuration.</p>
                             </div>
                         </div>
                     </div>
@@ -178,8 +176,8 @@
                         <div class="col-xl-5  my-3 my-xl-0">
                             <figure>
                                 <img src="/images/embed_chat.png" alt="Serverless and Chunking" class="img-fluid mb-2">
-                                <figcaption class="text-center small">Augmented response with embedded context in the
-                                    Unacog chat webapp</figcaption>
+                                <figcaption class="text-center small">Augmented response with embedded context
+                                </figcaption>
                             </figure>
                         </div>
                         <div class="col-xl-6 d-flex align-items-start offset-xl-1">
@@ -191,13 +189,13 @@
                                     Templates amplify RAG's effectiveness, streamlining data integration for richer,
                                     more informed responses.
                                 </p>
-                                <ul class="list-unstyled">
+                                <ul class="list-unstyled text-start card p-2">
                                     <li class="mb-3"><b>Embedding Details:</b> access critical semantic
                                         details, such as similarity scores and metadata, within your chat interface.
                                     </li>
                                     <li class="mb-3"><b>Embed Template:</b> change what you want return
                                         and inject. Add a URL for instant source lookup.</li>
-                                    <li class="mb-3"><b>Limit Embedding:</b> adjust the
+                                    <li><b>Limit Embedding:</b> adjust the
                                         embedding limit to control number of semantic results injected into your
                                         prompt.</li>
                                 </ul>
@@ -206,94 +204,89 @@
                     </div>
                 </div>
             </section>
-            <section class="section_standard my-5"
-                style="background: linear-gradient(120deg, #fafafa 0%, #eaecee 100%);">
-                <div class="row align-items-center">
-                    <div class="col-lg-6 col-10 mx-auto text-center">
-                        <p class="lead mb-4">Leverage Unacog's LLM webapp to streamline your AI projects from start to
-                            finish.</p>
-                        <a class="btn btn-lg btn-secondary icon-link icon-link-hover" href="/about">Learn More</a>
-                    </div>
-                </div>
-            </section>
             <section class="section_standard">
                 <div class="container px-4 px-lg-0" id="aboutdemos">
                     <h2 class="text-primary mb-4 display-5 fw-bold">About the Demo Applications (and Code!)</h2>
-                    <p class="lead">
-                        The demo applications access LLM and semantic (vector) search results via the Unacog
-                        API.
-                    </p>
-                    <div class="row justify-content-center align-items-center">
+                    <div class="row align-items-start mb-5">
                         <div class="col-lg-5 text-center">
-                            <img src="/images/api_access.svg" class="img-fluid mb-4" alt="API Access Illustration"
-                                style="height: 540px;">
+                            <img src="/images/api_access.svg" class="img-fluid" alt="API Access Illustration"
+                                style="height: 550px;">
                         </div>
-                        <div class="col-lg-7 d-flex align-items-start text-start flex-column">
-                            <ol class="list-group list-group-flush">
-                                <li class="list-group-item mb-3">
-                                    <b>Unacog API:</b> session management through Unacog involves billing,
-                                    configuration, and secure API authentication with revocable keys.
-                                </li>
-                                <li class="list-group-item mb-3">
-                                    <b>Vector Query Endpoint:</b> `unacog.com/sessionapi/vectorquery` enables querying
-                                    of similar vector
-                                    results for any prompt, returning top K results based on cosine similarity scores.
-                                </li>
-                                <li class="list-group-item mb-3">
-                                    <b>Message Endpoint:</b> `unacog.com/sessionapi/message` is used for sending prompts
-                                    to the LLM,
-                                    supporting both direct submission and pre-processed embedding.
-                                </li>
-                                <li class="list-group-item mb-3">
-                                    <b>GitHub Repo:</b> explore the demos at <a
-                                        href="https://github.com/HuskerSam/unacogdemos"
-                                        target="_blank">https://github.com/HuskerSam/unacogdemos</a> for code examples
-                                    that are easy to understand and implement.
-                                </li>
-                            </ol>
+                        <div class="col-lg-7">
+                            <p class="lead my-4">
+                                Semantic search examples are powered by the Unacog API.
+                            </p>
+                            <div class="row row-cols-1 g-4">
+                                <div class="col">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <a href="https://unacogdemos.web.app/aiarchive/"
+                                                class="text-decoration-none">
+                                                <h5 class="card-title">AI Research Library <span
+                                                        class="material-icons-outlined">launch</span></h5>
+                                                <p class="card-text">Powered by over 2500 AI and LLM research papers 📚
+                                                </p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <a href="https://unacogdemos.web.app/bible/" class="text-decoration-none">
+                                                <h5 class="card-title">ESV Bible <span
+                                                        class="material-icons-outlined">launch</span></h5>
+                                                <p class="card-text">Uses by chapters and verses of the standard English
+                                                    bible 📖</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <a href="https://unacogdemos.web.app/covid/" class="text-decoration-none">
+                                                <h5 class="card-title">Covid Research Docs <span
+                                                        class="material-icons-outlined">launch</span></h5>
+                                                <p class="card-text">Search over 400 research articles on Covid 🔬</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="row mt-5">
-                        <div class="col-12">
-                            <ul class="list-group text-start">
-                                <li class="list-group-item">
-                                    <a href="https://unacogdemos.web.app/aiarchive/"
-                                        class="d-flex justify-content-center justify-content-lg-start text-decoration-none">
-                                        <span
-                                                class="material-icons-outlined me-3">
-                                                launch
-                                            </span>
-                                        <p class="mb-0">Powered by over 2500 AI and LLM research papers &nbsp;<span class="">📚</span></p>
-                                    </a>
-                                </li>
-                                <li class="list-group-item">
-                                    <a href="https://unacogdemos.web.app/bible/"
-                                        class="d-flex justify-content-center justify-content-lg-start text-decoration-none">
-                                        <span class="material-icons-outlined me-3">
-                                            launch
-                                        </span>
-                                        <p class="mb-0">Uses by chapters and verses of the standard English bible
-                                            &nbsp;<span class="">📖</span></p>
-                                    </a>
-                                </li>
-                                <li class="list-group-item">
-                                    <a href="https://unacogdemos.web.app/covid/"
-                                        class="d-flex justify-content-center justify-content-lg-start text-decoration-none">
-                                        <span
-                                                class="material-icons-outlined me-3">
-                                                launch
-                                            </span>
-                                        <p class="mb-0">Search over 400 research articles on Covid &nbsp;<span class="">🔬</span></p>
-                                    </a>
-                                </li>
-                            </ul>
+                    <div class="row justify-content-center align-items-center mx-auto" style="max-width: 1000px;">
+                        <div class="row text-start card p-2">
+                            <div class="col-12">
+                                <ul class="list-unstyled">
+                                    <li class="mb-3">
+                                        <b>Unacog API:</b> session management through Unacog involves billing,
+                                        configuration, and secure API authentication with revocable keys.
+                                    </li>
+                                    <li class="mb-3  ms-3">
+                                        <b>Vector Search:</b> enables querying
+                                        of similar vector results for any prompt, returning top K results based on
+                                        cosine similarity scores.
+                                    </li>
+                                    <li class="mb-3 ms-3">
+                                        <b>LLM Message:</b> used for sending prompts
+                                        to the LLM, supporting both direct submission and pre-processed embedding.
+                                    </li>
+                                    <li class="mb-3">
+                                        <b>GitHub Repo:</b> view the code at <a
+                                            href="https://github.com/HuskerSam/unacogdemos" target="_blank"
+                                            style="word-break: break-word;">unacogdemos</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
             <section class="pt-5">
                 <div class="container px-4 px-lg-5 my-5">
-                    <div class="text-center mb-4">
+                    <div class="text-center mb-3">
                         <h2 class="display-5 fw-bold text-primary">Ready to get started?</h2>
                         <p class="lead text-muted">Choose the perfect fit for your project needs with our tailored
                             options.</p>
@@ -327,18 +320,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="text-center mt-4">
-                        <p class="lead text-muted">Whether opting for our full API integration or embarking on a custom
-                            development journey, your project benefits from our expertise.</p>
-                    </div>
                 </div>
             </section>
             <section class="section_standard" id="cta_form">
                 <div class="container pb-5">
                     <div class="row justify-content-center align-items-center">
                         <div class="col-lg-10 col-xl-8">
-                            <div class="form-container p-5 border rounded-3 shadow-sm">
-                                <h5 class="mb-3 fs-2">Get Started Today</h5>
+                            <div class="form-container p-3 p-lg-5 border rounded-3 shadow-sm">
                                 <p class="mb-4 fs-5">Connect with us for a no-charge discovery consultation.</p>
                                 <form onsubmit="event.preventDefault(); return false;">
                                     <div class="mb-3">

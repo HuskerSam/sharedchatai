@@ -108,17 +108,16 @@
                 <div class="container" id="demo_list">
                     <div class="row">
                         <div class="text-center">
-                            <h2 class="display-3">Explore Semantic Context Retrieval</h2>
+                            <h2 class="display-3 fw-bold">Prompts augmented with semantic retrieval</h2>
                             <hr class="mx-auto my-4" style="width: 50%; border-top: 2px solid #007bff;" />
-                            <p class="mx-auto px-3 text-start" style="line-height: 1.6;font-size: 1.15em;">
-                                Learn the secrets to optimizing embedded
-                                context with our <b>interactive demo.</b>
-                                Experience firsthand how adjusting the prompt template and embedding pipeline
-                                can lead to more precise outcomes.<br><br>You're in control:
-                                experiment with different <b>chunking and retrieval methods</b> to see how they can
-                                improve the
-                                efficiency and accuracy of generated responses.
-                            </p>
+                            <p class="lead fs-2 mb-4" style="font-size: 1.5em">Learn the secret to optimizing embedded context</p>
+                            <div class="text-center card p-3 mx-3" style="font-size: 1.1em">
+                                <p>
+                                    Experience firsthand how adjusting the prompt template and retrieval pipeline
+                                    can lead to more precise outcomes. Experiment with various <b>chunking and embedding options</b> to adjust the quality
+                                    of
+                                    generated responses.</p>
+                            </div>
                         </div>
                     </div>
                     <div class="row justify-content-center border rounded m-3 bg-white shadow-sm"
@@ -170,44 +169,71 @@
                             <div class="col-12">
                                 <div class="my-2">
                                     <div class="card-body text-start">
-                                        <p class="mb-4">Scraped data from <a
-                                                href="https://huggingface.co/datasets/jamescalam/ai-arxiv2"
-                                                target="_blank">https://huggingface.co/datasets/jamescalam/ai-arxiv2</a>.
-                                            The ai-arxiv2 dataset contains a selection of papers on
-                                            the topics of AI and LLMs (<a href="https://arxiv.org">arxiv.org</a>).</p>
                                         <h5 class="fw-bold mt-3">Chunking Methodology:</h5>
-                                        <p>Academic research papers, characterized by their extensive
-                                            length and complex formatting, pose a challenge for machine readability. To
-                                            address this, we implemented three distinct chunking strategies, customizing
-                                            each to accommodate the variable structure of academic texts. Each chunk has
-                                            overlap to help with continuity. This approach
-                                            ensures the creation of more accessible, machine-readable segments, crucial
-                                            for LLM processing.</p>
-                                        <ul class="list-unstyled">
-                                            <li class="list-item">100-token chunks have a 15-token overlap.</li>
-                                            <li class="list-item">200-token chunks have a 20-token overlap.</li>
-                                            <li class="list-item">300-token chunks have a 25-token overlap.</li>
-                                            <li class="list-item">400-token chunks have a 30-token overlap.</li>
-                                        </ul>
-
+                                        <p>AI research papers are lengthy and feature complex formatting. By scraping
+                                            and chunking these papers, we create a substantial data source for semantic
+                                            analysis, with the example demonstrating the impact of four different
+                                            chunking sizes on search results.</p>
+                                        <table class="table table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tokens</th>
+                                                    <th>Overlap</th>
+                                                    <th>Vectors</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>100</td>
+                                                    <td>15</td>
+                                                    <td>778k</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>200</td>
+                                                    <td>20</td>
+                                                    <td>374k</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>300<b>*</b></td>
+                                                    <td>?</td>
+                                                    <td>241k</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>400</td>
+                                                    <td>30</td>
+                                                    <td>171k</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div style="font-size:0.75em;"><b style="font-size: 1.25em;">*</b> <a
+                                                href="https://huggingface.co/datasets/jamescalam/ai-arxiv2-chunks"
+                                                target="_blank">ai-arxiv2-chunks</a> already chunked (approximately 300
+                                            tokens).</div>
                                         <h5 class="fw-bold mt-3">Embedding Options:</h5>
                                         <p class="mb-4">Two embedding options are provided, varying according to the
                                             selected chunk size:</p>
                                         <ol>
-                                            <li><b>Embed X Document Chunks:</b> Aggregates the top X chunk
+                                            <li><b>Embed Top K Document Chunks:</b> Aggregates the top X chunk
                                                 results across multiple documents, facilitating a broad yet relevant
-                                                context.</li>
-                                            <li><b>Embed X Chunk with Y Additional Context:</b> Focuses on a
+                                                context. Optionally only include unique documents.</li>
+                                            <li><b>Embed Top K Chunk with J Additional Context:</b> Focuses on a
                                                 single document source, embedding the matched chunk along with
                                                 surrounding chunks to enrich the LLM's contextual understanding.</li>
                                         </ol>
-
-                                        <h5 class="fw-bold mt-3">User Guidance:</h5>
-                                        <p class="mb-4">Participants are encouraged to experiment with the available
-                                            chunking and embedding configurations to identify optimal settings for
-                                            specific use cases. Our goal is give users hands-on experience in order to
-                                            spur insights on how to tailor embedded data - optimizing the balance
-                                            between granularity, utility and contextual breadth.</p>
+                                        <p class="mb-4" style="font-size: 1.1em;">
+                                            Experiment with different options and rerun queries to
+                                            gain insights on the how chunk size and retrieval method affect search
+                                            results and generated
+                                            responses.</p>
+                                        <div class="small">
+                                            The ai-arxiv2 dataset contains a selection of papers on
+                                            the topics of AI and LLMs (<a href="https://arxiv.org">arxiv.org</a>). 
+                                            <p class="mb-4">Scraped data from <a
+                                                    href="https://huggingface.co/datasets/jamescalam/ai-arxiv2"
+                                                    target="_blank"
+                                                    style="word-break: break-word;">https://huggingface.co/datasets/jamescalam/ai-arxiv2</a>.
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -263,43 +289,29 @@
                             <div class="col-12">
                                 <div class="my-2">
                                     <div class="card-body text-start">
-                                        <h5 class="fw-bold mt-3">Data Source & Version:</h5>
-                                        <p class="mb-4">We utilized the Basic English Version of the Bible, made
-                                            available through <a href="https://github.com/thiagobodruk/bible"
-                                                target="_blank">this GitHub repository</a>, for our demo. This version
-                                            is particularly suited for clear comprehension and accessibility, making it
-                                            an ideal candidate for our textual analysis and retrieval pipelines.</p>
-
-                                        <h5 class="fw-bold mt-3">Data Structuring Approach:</h5>
-                                        <p class="mb-4">The JSON data structure provided the Bible text in two distinct
-                                            segments: chapters and verses. In our initial example, we opted to retain
-                                            these divisions, recognizing the inherent value in the traditional
-                                            formatting. Given the widespread study and citation of Bible verses and
-                                            chapters, altering this familiar structure could detract from the user
-                                            experience without offering significant benefits in granularity. Our
-                                            approach underscores the importance of tailoring data chunking techniques to
-                                            the nature of the content, ensuring that both integrity and practicality are
-                                            maintained.</p>
-
-                                        <h5 class="fw-bold mt-3">Retrieval Pipelines & Prompt Templates:</h5>
-                                        <p>Our demo showcases four retrieval pipelines, offering users a range of
-                                            options for embedding text based on their query specifics.</p>
+                                        <p class="mb-3">The bible is a well-known hierarchy of books, chapters and
+                                            verses.
+                                            In this example, verses were converted to vectors using
+                                            text-embedding-3-small with metadata
+                                            for book and chapter index. A second vector index for chapters was created
+                                            to compare semantic search results.</p>
+                                        <p>The example has four retrieval pipelines options for embedding text based on
+                                            query specifics.</p>
                                         <ul class="list-unstyled list-group list-group-flush my-3">
-                                            <li class="list-group-item"><b>Basic RAG Pipeline:</b> Direct
-                                                embedding of matched chunks - chapters or verses - allows for
-                                                straightforward retrieval based on user queries. This simplicity serves
-                                                well in maintaining textual coherence and relevance.</li>
-                                            <li class="list-group-item"><b>Small-to-Big Contextualization:</b>
-                                                This advanced technique enhances the granularity of searches by
-                                                returning a larger contextual segment around the matched chunk. For
-                                                instance, querying a verse can embed the entire chapter or surrounding
-                                                verses, providing a richer context.</li>
+                                            <li class="list-group-item"><b>Subjective RAG Pipeline:</b> send search
+                                                results to LLM for subjective analysis.</li>
+                                            <li class="list-group-item"><b>Small-to-Big Embedding:</b>
+                                                return a larger contextual segment around the matched chunk</li>
                                         </ul>
-                                        <p>Additionally, we've made prompt templates to inspire
-                                            creative applications of Retrieval-Augmented Generation (RAG).This
-                                            application demonstrates the potential of LLM in
-                                            assisting decision-making processes, showcasing the versatility of RAG
-                                            beyond the demo's primary context.</p>
+                                        <p class="mb-3">Templates provided demonstrate evaluation mechanisms,
+                                            systematically assessing and summarizing content, enhancing the flexibility
+                                            of AI agents and chatbot systems. The approach allows for more tailored
+                                            interactions, as it equips AI and chatbot systems with the capability to
+                                            judge and adapt responses based on specific content criteria.</p>
+                                        <p class="small">We utilized the Basic English Version of the Bible, made
+                                            available through <a href="https://github.com/thiagobodruk/bible"
+                                                target="_blank" style="word-break: break-word;">this GitHub
+                                                repository</a>, for our demo.</p>
                                     </div>
                                 </div>
                             </div>
@@ -356,50 +368,28 @@
                             <div class="col-12">
                                 <div class="my-2">
                                     <div class="card-body text-start">
-                                        <p class="mb-4">Our demo utilizes the COVID-19 dataset from Science.org (<a
-                                                href="https://www.science.org/collections/coronavirus"
-                                                target="_blank">https://www.science.org/collections/coronavirus</a>)
-                                            , featuring 388 documents.
-                                            This dataset serves as the foundation for demonstrating our retrieval
-                                            augmented generation capabilities.</p>
-                                        <h5 class="fw-bold mt-3">Data Preparation and Processing:</h5>
-                                        <ol class="list-group list-group-flush m-3">
-                                            <li class="list-group-item"><b>Document Repository to Spreadsheet:</b>
-                                                Transfer document
-                                                URLs to a spreadsheet and configure metadata, including title, type
-                                                (report, research article, etc.), PDF URLs for scraping, reference URLs
-                                                for lookups, and cover dates.</li>
-                                            <li class="list-group-item"><b>Export to CSV:</b> Configured metadata is
-                                                exported from the
-                                                spreadsheet to a CSV file for integration with the next stage.</li>
-                                            <li class="list-group-item"><b>Import into Unacog Embedding:</b> The CSV
-                                                file is imported
-                                                into Unacog Embedding, transitioning to data processing.</li>
-                                            <li class="list-group-item"><b>Scraping:</b> We prioritized scraping content
-                                                from PDF
-                                                sources over website URLs to ensure the highest data quality. During
-                                                this phase, our UI detected and flagged errors related to inaccessible
-                                                URLs. These are often due to paywall restrictions, leading to their
-                                                exclusion from the dataset to maintain both accessibility and usability.
-                                                This selective process ensures that only fully accessible documents are
-                                                included, enhancing the overall quality and reliability of our data.
-                                            </li>
-                                            <li class="list-group-item">
-                                                <b>Chunking:</b> Content was segmented into 300-token chunks with a
-                                                25-token overlap
+                                        <p>Data was scraped from the COVID-19 dataset on <a
+                                                href="https://www.science.org/collections/coronavirus" target="_blank"
+                                                style="word-break: break-word;">Science.org/collections/coronavirus</a>.
+                                        </p>
+                                        <ol class="list-group list-group-flush">
+                                            <li class="list-group-item"><b>Prepare document list:</b>
+                                                Use a spreadsheet to configure title, url, and other metadata.</li>
+                                            <li class="list-group-item"><b>Load document list:</b> configure chunking options and embedding model.</li>
+                                            <li class="list-group-item"><b>Scraping documents:</b> fetch and scrape text content using web urls.
                                             </li>
                                         </ol>
-                                        <h5 class="fw-bold mt-3">Text Splitting:</h5>
-                                        <p class="mb-2">Compare the following techniques used in text splitting:</p>
+                                        <h5 class="fw-bold mt-3">Splitting text into chunks</h5>
                                         <ol>
-                                            <li class="list-item mb-2"><b>Token Size:</b> split on specified token size
-                                                limit
+                                            <li><b>Sentences:</b> blocks of 15 sentences with 3 overlap</li>
+                                            <li class="list-item"><b>Chunk Size:</b> blocks of sentences sized less
+                                                than 300 tokens
                                             </li>
-                                            <li><b>Recursive Split:</b> breaks a large text into smaller chunks or keeps
-                                                it whole based on doc structure, with sentence overlap between chunks</li>
-                                            <li><b>Split by sentences</b>: breaks a text into chunks based on a
-                                                specified number of sentences, with sentence overlap between chunks</li>
+                                            <li><b>Recursive:</b> syntactic paragraph and sentence chunking
+                                            </li>
                                         </ol>
+                                        <p style="font-size: 1.1em;">In some cases overlap is used to ensure no context is lost. 
+                                            Compare the techniques to assess the relevance of chunks.</p>
                                     </div>
                                 </div>
                             </div>
@@ -423,8 +413,7 @@
                 <div class="container pb-5">
                     <div class="row justify-content-center align-items-center">
                         <div class="col-lg-10 col-xl-8">
-                            <div class="form-container p-5 border rounded-3 shadow-sm">
-                                <h5 class="mb-3 fs-2">Get Started Today</h5>
+                            <div class="form-container p-3 p-lg-5 border rounded-3 shadow-sm">
                                 <p class="mb-4 fs-5">Connect with us for a no-charge discovery consultation.</p>
                                 <form onsubmit="event.preventDefault(); return false;">
                                     <div class="mb-3">
