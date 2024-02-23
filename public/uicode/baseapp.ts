@@ -134,7 +134,7 @@ export default class BaseApp {
           e.preventDefault();
           this.login.show();
         });
-      }, 0);
+      }, 50);
     }
     if (this.standard_footer_bar_container) {
       createRoot(this.standard_footer_bar_container).render(React.createElement(ReactFooter));
@@ -151,7 +151,7 @@ export default class BaseApp {
           this.profileHelper.show();
         });
       }
-    }, 0);
+    }, 50);
     window.addEventListener("beforeinstallprompt", (e: any) => {
       e.preventDefault();
       this.deferredPWAInstallPrompt = e;
