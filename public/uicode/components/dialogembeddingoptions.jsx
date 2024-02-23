@@ -14,9 +14,38 @@ export default function DialogEmbeddingOptions(props) {
     const [pineconeIndex, setPineconeIndex] = React.useState("");
     const [pineconeChunkSize, setPineconeChunkSize] = React.useState(1000);
     const [includeTextInMeta, setIncludeTextInMeta] = React.useState(false);
-    const [chunkingType, setChunkingType] = React.useState("none");
+    const [chunkingType, _setChunkingType] = React.useState(null);
     const [overlap, setOverlap] = React.useState(20);
     const [separators, setSeparators] = React.useState(`["\n\n", "\n", " ", ""]`);
+    const [chunkSizeLabel, setChunkSizeLabel] = React.useState("");
+    const overlapInput = React.createRef();
+    const chunkSizeInput = React.createRef();
+
+    const setChunkingType = (chunkType) => {
+        if (chunkType === "sizetextsplitter") {
+            setChunkSizeLabel("Chunk Size");
+        } else if (chunkType === "recursivetextsplitter") {
+            setChunkSizeLabel("Chunk Size");
+        } else if (chunkType === "sentence") {
+            setChunkSizeLabel("Sentences");
+        } else {
+            setChunkSizeLabel("");
+        }
+        if (chunkingType !== null && chunkType !== chunkingType) {
+            if (chunkType === "sentence") {
+                setOverlap(2);
+                setPineconeChunkSize(10);
+                overlapInput.current.value = 2;
+                chunkSizeInput.current.value = 10;
+            } else {
+                setOverlap(20);
+                setPineconeChunkSize(1000);
+                overlapInput.current.value = 20;
+                chunkSizeInput.current.value = 1000;
+            }
+        }
+        _setChunkingType(chunkType);
+    };
 
     props.hooks.setShow = setShow;
     props.hooks.setPineconeKey = setPineconeKey;
@@ -26,7 +55,7 @@ export default function DialogEmbeddingOptions(props) {
     props.hooks.setIncludeTextInMeta = setIncludeTextInMeta;
     props.hooks.setChunkingType = setChunkingType;
     props.hooks.setOverlap = setOverlap;
-    props.hooks.setSeparators = setSeparators;    
+    props.hooks.setSeparators = setSeparators;
     props.hooks.setServerType = setServerType;
 
     const handleClose = () => setShow(false);
@@ -133,7 +162,7 @@ export default function DialogEmbeddingOptions(props) {
                                             onChange={
                                                 (e) => setIncludeTextInMeta(e.target.checked)
                                             }
-                                            style={{fontSize:"1.1em"}}
+                                            style={{ fontSize: "1.1em" }}
                                         />
                                     </td>
                                 </tr>
@@ -150,10 +179,10 @@ export default function DialogEmbeddingOptions(props) {
                                     </td>
                                     <td></td>
                                 </tr>
-                                <tr>
-                                    <td>Chunk Size</td>
+                                <tr hidden={chunkSizeLabel === ""}>
+                                    <td>{chunkSizeLabel}</td>
                                     <td>
-                                        <FormControl as="input" defaultValue={pineconeChunkSize}
+                                        <FormControl ref={chunkSizeInput} as="input" defaultValue={pineconeChunkSize}
                                             onChange={
                                                 (e) => setPineconeChunkSize(Number(e.target.value))
                                             }>
@@ -162,10 +191,10 @@ export default function DialogEmbeddingOptions(props) {
                                     <td>tokens</td>
                                     <td></td>
                                 </tr>
-                                <tr>
+                                <tr hidden={chunkingType !== "recursivetextsplitter" && chunkingType !== "sentence"}>
                                     <td>Overlap</td>
                                     <td>
-                                        <FormControl as="input" defaultValue={overlap}
+                                        <FormControl ref={overlapInput} as="input" defaultValue={overlap}
                                             onChange={
                                                 (e) => setOverlap(Number(e.target.value))
                                             }>
@@ -174,9 +203,9 @@ export default function DialogEmbeddingOptions(props) {
                                     <td>tokens</td>
                                     <td></td>
                                 </tr>
-                                <tr>
+                                <tr hidden={chunkingType !== "recursivetextsplitter"}>
                                     <td>Separators</td>
-                                    <td  colSpan="2">
+                                    <td colSpan="2">
                                         <FormControl as="input" defaultValue={separators}
                                             onChange={
                                                 (e) => setSeparators(e.target.value)
