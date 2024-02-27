@@ -130,6 +130,7 @@ export class SessionApp extends BaseApp {
   firstDocumentLoad = true;
   currentSystemMessage = "";
   editedTicketId = "";
+  show_profile_modal: any = document.querySelector(".show_profile_modal");
 
   /**  */
   constructor() {
@@ -235,6 +236,12 @@ export class SessionApp extends BaseApp {
 
     this.edit_response_modal_save_button.addEventListener("click", () => this.saveEditedResponse());
     this.scrollTicketListBottom();
+
+    this.show_profile_modal.addEventListener("click", (event: any) => {
+      event.stopPropagation();
+      event.preventDefault();
+      this.profileHelper.show();
+    });
   }
   /** */
   async saveEditedResponse() {
@@ -423,7 +430,7 @@ export class SessionApp extends BaseApp {
                   sectionDiv.innerHTML = `<div class="code_block_wrapper">` +
                     htmlForMarkdown + "</div>";
 
-                    (<any>window).hljs.configure({
+                  (<any>window).hljs.configure({
                     ignoreUnescapedHTML: true,
                   });
                   (<any>window).hljs.highlightElement(sectionDiv.children[0]);
@@ -1197,24 +1204,24 @@ export class SessionApp extends BaseApp {
         if (this.gameSubscription) this.gameSubscription();
         const chatRef = doc(getFirestore(), `Games/${this.documentId}`);
         this.gameSubscription = onSnapshot(chatRef, (doc: any) => {
-            if (this.sessionDeleting) return;
-            if (!doc.data() && !reloading) {
-              alert("Session not found, returning to home");
-              reloading = true;
-              location.href = "/";
-              return;
-            }
+          if (this.sessionDeleting) return;
+          if (!doc.data() && !reloading) {
+            alert("Session not found, returning to home");
+            reloading = true;
+            location.href = "/";
+            return;
+          }
 
-            this.paintDocumentData(doc);
+          this.paintDocumentData(doc);
 
-            if (this.firstDocumentLoad) {
-              setTimeout(() => {
-                this.ticket_content_input.focus();
-              }, 50);
-              this.setSidebarTreeState();
-            }
-            this.firstDocumentLoad = false;
-          });
+          if (this.firstDocumentLoad) {
+            setTimeout(() => {
+              this.ticket_content_input.focus();
+            }, 50);
+            this.setSidebarTreeState();
+          }
+          this.firstDocumentLoad = false;
+        });
 
         this.initTicketFeed();
       }

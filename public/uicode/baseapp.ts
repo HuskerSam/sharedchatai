@@ -85,14 +85,10 @@ export default class BaseApp {
 
   documentId = "";
   memberRefreshBufferTime = 500;
-  menu_profile_user_image_span: any = null;
-  credits_left: any = null;
-  profile_menu_anchor: any = null;
   standard_header_bar_container: any = document.querySelector(".standard_header_bar_container");
   standard_footer_bar_container: any = document.querySelector(".standard_footer_bar_container");
   contact_us_btn: any = document.querySelector(".contact_us_btn");
 
-  show_profile_modal: any;
   isOfflineForDatabase = {
     state: "offline",
     last_changed: serverTimestamp(),
@@ -113,45 +109,11 @@ export default class BaseApp {
   constructor() {
     if (this.standard_header_bar_container) {
       createRoot(this.standard_header_bar_container).render(React.createElement(ReactHeader));
-
-      setTimeout(() => {
-        this.credits_left = document.querySelector(".credits_left");
-        this.signin_cta_navbar = document.querySelector(".signin_cta_navbar");
-        this.profile_menu_anchor = document.querySelector(".profile_menu_anchor");
-        this.account_status_display = document.querySelector(".account_status_display");
-        this.profile_menu_anchor.addEventListener("click", (event: any) => {
-          event.stopPropagation();
-          event.preventDefault();
-          this.profileHelper.show();
-        });
-        this.account_status_display.addEventListener("click", (e: any) => {
-          e.preventDefault();
-          e.stopPropagation();
-          this.profileHelper.show(true);
-        });
-        this.signin_cta_navbar.addEventListener("click", (e: any) => {
-          e.stopPropagation();
-          e.preventDefault();
-          this.login.show();
-        });
-      }, 50);
     }
     if (this.standard_footer_bar_container) {
       createRoot(this.standard_footer_bar_container).render(React.createElement(ReactFooter));
     }
 
-
-    setTimeout(() => {
-      this.menu_profile_user_image_span = document.querySelector(".menu_profile_user_image_span");
-      this.show_profile_modal = document.querySelector(".show_profile_modal");
-      if (this.show_profile_modal) {
-        this.show_profile_modal.addEventListener("click", (event: any) => {
-          event.stopPropagation();
-          event.preventDefault();
-          this.profileHelper.show();
-        });
-      }
-    }, 50);
     window.addEventListener("beforeinstallprompt", (e: any) => {
       e.preventDefault();
       this.deferredPWAInstallPrompt = e;
@@ -236,11 +198,12 @@ export default class BaseApp {
   initUsageWatch() {
     if (this.usageWatchInited) return;
     this.usageWatchInited = true;
+    const credits_left = document.querySelector(".credits_left");
 
-    if (this.credits_left) {
+    if (credits_left) {
       AccountHelper.accountInfoUpdate(this, (usageData: any) => {
         const availableBalance = usageData.availableCreditBalance;
-        this.credits_left.innerHTML = Math.floor(availableBalance) + "<br><span>Credits</span>";
+        credits_left.innerHTML = Math.floor(availableBalance) + "<br><span>Credits</span>";
       });
     }
   }
@@ -316,7 +279,8 @@ export default class BaseApp {
   }
   /** update user auth status, username/email etc */
   updateUserStatus() {
-    if (this.menu_profile_user_image_span) this.menu_profile_user_image_span.setAttribute("uid", this.uid);
+    const menu_profile_user_image_span = document.querySelector(".menu_profile_user_image_span");
+    if (menu_profile_user_image_span) menu_profile_user_image_span.setAttribute("uid", this.uid);
   }
   /** google sign in handler
    * @param { any } e dom event - preventDefault is called if passed
