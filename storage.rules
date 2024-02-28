@@ -22,5 +22,9 @@ service firebase.storage {
     match /projectExports/{allPaths=**} {
     	allow read: if true;
     }
+    
+    match /top100songs/{allPaths=**} {
+    	allow read: if true;
+    }
   }
 }
