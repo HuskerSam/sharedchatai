@@ -78,7 +78,8 @@ export default function DialogParseURL(props) {
                 <h4>Enter URL (html, pdf or mp3) to parse</h4>
                 <label style={{ paddingTop: "6px" }}>URL</label>
                 &nbsp;
-                <input type="text" class="parse_url_path_input form-control" value={parseURL} />
+                <FormControl as="input" defaultValue={parseURL}
+                                            onChange={(e) => setParseURL(e.target.value)}></FormControl>
                 <br />
                 <label style={{ paddingTop: "6px" }}>Options</label>
                 &nbsp;
