@@ -629,7 +629,7 @@ export default class EmbeddingAPI {
                 },
                 body: JSON.stringify({
                     "input": query,
-                    "model": "text-embedding-ada-002",
+                    "model": "text-embedding-3-small",
                 }),
             });
             const json = await response.json();
