@@ -1089,6 +1089,7 @@ export class EmbeddingApp extends BaseApp {
                     ${credits.toFixed(3)} creds`;
             }
         } catch (err: any) {
+            console.log(err);
             if (!singleRowId)  {
                 this.upsert_next_loop_checkbox.checked = false;
                 this.upsertRunning = false;
