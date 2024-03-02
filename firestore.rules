@@ -41,10 +41,6 @@ service cloud.firestore {
       allow read, write, delete: if request.auth != null && request.auth.uid == userId
     }
 
-    match /Users/{userId}/embedding/{projectid}/chunkMap/{responseid} {
-      allow read, write, delete: if request.auth != null && request.auth.uid == userId
-    }
-
     match /Users/{userId}/internal/tokenUsage {
       allow read: if request.auth != null && request.auth.uid == userId
     }

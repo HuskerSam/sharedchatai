@@ -150,23 +150,11 @@ export default class EmbeddingAPI {
                     mergeBlock["status"] = "Done";
                 }
 
-                let chunkMap = savedRow["chunkMap"];
-                if (!chunkMap) {
-                    console.log("NO CHUNK MAP", savedRow);
-                    chunkMap = {};
-                }
                 promises.push(
                     firebaseAdmin.firestore().doc(`Users/${uid}/embedding/${projectId}/data/${row.id}`)
                         .set(mergeBlock, {
                             merge: true,
-                        }),
-                    firebaseAdmin.firestore().doc(`Users/${uid}/embedding/${projectId}/chunkMap/${row.id}`)
-                        .set({
-                            chunkMap,
-                        }, {
-                            merge: true,
-                        }),
-                );
+                        }));
             });
             await Promise.all(promises);
 
@@ -432,12 +420,12 @@ export default class EmbeddingAPI {
         separators: string) {
         try {
             await firebaseAdmin.firestore().doc(`Users/${uid}/embedding/${projectId}/data/${rowId}`)
-            .set({
-                status: "Processing",
-            }, {
-                merge: true,
-            });
-            return await EmbeddingAPI._upsertFileData(fileDesc, chatGptKey, uid,
+                .set({
+                    status: "Processing",
+                }, {
+                    merge: true,
+                });
+            return await EmbeddingAPI._upsertFileData(projectId, fileDesc, chatGptKey, uid,
                 pIndex, tokenThreshold, includeTextInMeta, chunkingType, overlap, separators);
         } catch (error: any) {
             return {
@@ -449,6 +437,7 @@ export default class EmbeddingAPI {
         }
     }
     /**
+     * @param { string } projectId
      * @param { any } fileDesc
      * @param { string } chatGptKey
      * @param { string } uid
@@ -460,7 +449,7 @@ export default class EmbeddingAPI {
      * @param { string } separators
      * @return { any } success: true - otherwise errorMessage: string is in map
     */
-    static async _upsertFileData(fileDesc: any, chatGptKey: string, uid: string, pIndex: any,
+    static async _upsertFileData(projectId: string, fileDesc: any, chatGptKey: string, uid: string, pIndex: any,
         tokenThreshold: number, includeTextInMeta: boolean, chunkingType: string, overlap: number,
         separators: string) {
         const id = fileDesc.id;
@@ -550,6 +539,20 @@ export default class EmbeddingAPI {
         if (batch.length > 0) {
             await pIndex.upsert(batch);
         }
+
+        const bucket = firebaseAdmin.storage().bucket();
+        const filePath = `projectLookups/${uid}/${projectId}/byDocument/${fileDesc.id}.json`;
+        const file = bucket.file(filePath);
+
+        const storageOptions = {
+            resumable: false,
+            metadata: {
+                contentType: "application/json",
+            },
+        };
+        await file.save(JSON.stringify(chunkMap), storageOptions);
+        await file.makePublic();
+
         upsertResults = upsertResults.concat(tempResults);
         upsertResults.forEach((result: any) => {
             encodingTokens += result.encodingTokens;
@@ -567,7 +570,6 @@ export default class EmbeddingAPI {
             encodingCredits,
             idList,
             id,
-            chunkMap,
         };
     }
     /**
@@ -944,71 +946,6 @@ export default class EmbeddingAPI {
                 });
             });
             pdfParser.parseBuffer(buff);
-        });
-    }
-    /**
-     * @param { Request } req http request object
-     * @param { Response } res http response object
-     */
-    static async generateLookup(req: Request, res: Response) {
-        const authResults = await BaseClass.validateCredentials(<string>req.headers.token);
-        if (!authResults.success) return BaseClass.respondError(res, authResults.errorMessage);
-        const uid = authResults.uid;
-
-        const localInstance = BaseClass.newLocalInstance();
-        await localInstance.init();
-        const bucket = firebaseAdmin.storage().bucket();
-        const options = {
-            resumable: false,
-            metadata: {
-                contentType: "application/json",
-            },
-        };
-        const projectId = req.body.projectId;
-        const lookupMap: any = {};
-        let docsSnapshot = await firebaseAdmin.firestore().collection(`Users/${uid}/embedding/${projectId}/chunkMap`).limit(100).get();
-        const saveFile = async (file: any, jsonString: string) => {
-            await file.save(jsonString, options);
-            await file.makePublic();
-        };
-        while (docsSnapshot.size > 0) {
-            const promises: any[] = [];
-            docsSnapshot.forEach((doc: FirebaseFirestore.DocumentSnapshot) => {
-                const chunkMap = doc.data()?.chunkMap;
-                if (chunkMap) {
-                    Object.assign(lookupMap, chunkMap);
-
-                    const filePath = `projectLookups/${uid}/${projectId}/byDocument/${doc.id}.json`;
-                    const file = bucket.file(filePath);
-                    promises.push(saveFile(file, JSON.stringify(chunkMap)));
-                } else {
-                    console.log("MISSING CHUNK MAP", doc.id);
-                }
-            });
-
-            await Promise.all(promises);
-            const lastVisible = docsSnapshot.docs[docsSnapshot.docs.length - 1];
-            docsSnapshot = await firebaseAdmin.firestore().collection(`Users/${uid}/embedding/${projectId}/chunkMap`)
-                .startAfter(lastVisible)
-                .limit(100)
-                .get();
-        }
-        const filePath = `projectLookups/${uid}/${projectId}/lookup.json`;
-        const file = bucket.file(filePath);
-        const jsonString = JSON.stringify(lookupMap);
-        await file.save(jsonString, options);
-        await file.makePublic();
-        const encodedPath = encodeURIComponent(filePath);
-        const publicPath = `https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/${encodedPath}?alt=media`;
-        const encodedDocFragment = `projectLookups/${uid}/${projectId}/byDocument/DOC_ID_URIENCODED.json`;
-        const encodedFragment = encodeURIComponent(encodedDocFragment);
-        const exampleByDocumentPath = `https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/${encodedFragment}?alt=media`;
-        return res.send({
-            success: true,
-            filePath,
-            publicPath,
-            exampleByDocumentPath,
-            projectId,
         });
     }
     /**

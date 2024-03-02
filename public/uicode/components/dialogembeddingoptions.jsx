@@ -14,6 +14,7 @@ export default function DialogEmbeddingOptions(props) {
     const [pineconeIndex, setPineconeIndex] = React.useState("");
     const [pineconeChunkSize, setPineconeChunkSize] = React.useState(1000);
     const [includeTextInMeta, setIncludeTextInMeta] = React.useState(false);
+    const [lookupPath, setLookupPath] = React.useState("");
     const [chunkingType, _setChunkingType] = React.useState(null);
     const [overlap, setOverlap] = React.useState(20);
     const [separators, setSeparators] = React.useState(`["\n\n", "\n", " ", ""]`);
@@ -57,6 +58,7 @@ export default function DialogEmbeddingOptions(props) {
     props.hooks.setOverlap = setOverlap;
     props.hooks.setSeparators = setSeparators;
     props.hooks.setServerType = setServerType;
+    props.hooks.setLookupPath = setLookupPath;
 
     const handleClose = () => setShow(false);
     const handleSave = () => {
@@ -216,6 +218,17 @@ export default function DialogEmbeddingOptions(props) {
                                 </tr>
                             </tbody>
                         </table>
+                        <hr />
+                        Text Lookup Path
+                        <a href="textlookup" style={{ whiteSpace: "nowrap", overflow: "hidden", display: "block" }}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                navigator.clipboard.writeText(lookupPath);
+                                alert("copied");
+                            }}>
+                            <i className="material-icons" style={{ position: "relative", top: "4px" }}>content_copy</i>
+                            {lookupPath}
+                        </a>
                     </Tab>
                 </Tabs>
 

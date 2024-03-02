@@ -46,7 +46,6 @@ export class EmbeddingApp extends BaseApp {
     embedding_list_file_dom: any = document.querySelector(".embedding_list_file_dom");
     upload_document_list_button: any = document.querySelector(".upload_document_list_button");
     download_json_results_btn: any = document.querySelector(".download_json_results_btn");
-    generate_lookup_db = document.querySelector(".generate_lookup_db") as HTMLAnchorElement;
     reset_errors_to_new = document.querySelector(".reset_errors_to_new") as HTMLAnchorElement;
     upsert_result_status_bar: any = document.querySelector(".upsert_result_status_bar");
     fetch_pinecone_index_stats_btn: any = document.querySelector(".fetch_pinecone_index_stats_btn");
@@ -294,10 +293,6 @@ export class EmbeddingApp extends BaseApp {
             e.preventDefault();
             this.exportAllData();
         });
-        this.generate_lookup_db.addEventListener("click", (e: Event) => {
-            e.preventDefault();
-            this.generateLookupDB();
-        });
         this.reset_errors_to_new.addEventListener("click", (e: Event) => {
             e.preventDefault();
             this.resetErrors();
@@ -414,6 +409,12 @@ export class EmbeddingApp extends BaseApp {
                     chunkingType: string, overlap: number, separators: string) =>
                     this.savePineconeOptions(serverType, pineconeIndex, pineconeKey, pineconeEnvironment, pineconeChunkSize,
                         includeTextInMeta, chunkingType, overlap, separators);
+
+            const encodedDocFragment =
+              `projectLookups/${this.uid}/${this.selectedProjectId}/byDocument/DOC_ID_URIENCODED.json`;
+            const encodedFragment = encodeURIComponent(encodedDocFragment);
+            const exampleByDocumentPath = `https://firebasestorage.googleapis.com/v0/b/promptplusai.appspot.com/o/${encodedFragment}?alt=media`;
+            this.dialogEmbeddingOptions.props.hooks.setLookupPath(exampleByDocumentPath);
             this.dialogEmbeddingOptions.props.hooks.setShow(true);
         });
 
@@ -444,44 +445,6 @@ export class EmbeddingApp extends BaseApp {
         });
         await Promise.all(promises);
         await this.updateRowsCountFromFirestore();
-    }
-    /** */
-    async generateLookupDB() {
-        if (!this.selectedProjectId) return;
-        this.upsert_result_status_bar.innerHTML = `Generating Lookup ...`;
-        try {
-            const body: any = {
-                projectId: this.selectedProjectId,
-            };
-            const token = await getAuth().currentUser?.getIdToken() as string;
-            const fResult = await fetch(this.basePath + "embeddingApi/generatelookup", {
-                method: "POST",
-                mode: "cors",
-                cache: "no-cache",
-                headers: {
-                    "Content-Type": "application/json",
-                    token,
-                },
-                body: JSON.stringify(body),
-            });
-            const json = await fResult.json();
-            if (!json.success) {
-                console.log(json.errorMessage, json);
-                alert(json.errorMessage);
-                return;
-            }
-
-            this.upsert_result_status_bar.innerHTML = ``;
-            console.log("lookup data", json.publicPath);
-            this.dialogGenerateResult.props.hooks.setTitle("Lookup Database Cloud Path");
-            this.dialogGenerateResult.props.hooks.setPath(json.publicPath);
-            this.dialogGenerateResult.props.hooks.setPerDocPath(json.exampleByDocumentPath);
-            this.dialogGenerateResult.props.hooks.setShow(true);
-            console.log(json);
-        } catch (e: any) {
-            alert("Generate Lookup error");
-            console.log("Generate lookup error", e);
-        }
     }
     /**
      * @param { any } event
@@ -682,23 +645,6 @@ export class EmbeddingApp extends BaseApp {
             });
             await Promise.all(promises);
         }
-        while (loop) {
-            const docsCollection = collection(getFirestore(),
-                `Users/${this.uid}/embedding/${deleteProjectId}/chunkMap`);
-            const docsQuery = query(docsCollection, limit(100));
-            const nextChunk = await getDocs(docsQuery);
-
-            if (nextChunk.size < 1) break;
-
-            const promises: any[] = [];
-            nextChunk.forEach((d: any) => {
-                const rowRef = doc(getFirestore(),
-                    `Users/${this.uid}/embedding/${deleteProjectId}/chunkMap/${d.id}`);
-                promises.push(deleteDoc(rowRef));
-            });
-            await Promise.all(promises);
-        }
-
         alert("Project " + deleteProjectId + " finished deleting all records.");
     }
     /**
@@ -708,9 +654,6 @@ export class EmbeddingApp extends BaseApp {
         if (!confirm("Are you sure you want to delete this row?")) return;
         let rowRef = doc(getFirestore(),
             `Users/${this.uid}/embedding/${this.selectedProjectId}/data/${id}`);
-        await deleteDoc(rowRef);
-        rowRef = doc(getFirestore(),
-            `Users/${this.uid}/embedding/${this.selectedProjectId}/chunkMap/${id}`);
         await deleteDoc(rowRef);
         this.updateRowsCountFromFirestore();
     }
