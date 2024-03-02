@@ -129,7 +129,13 @@ export default class EmbeddingAPI {
                 const mergeBlock: any = {
                     lastActivity,
                 };
-                if (row["errorMessage"]) {
+                if (row["scrapeOnly"]) {
+                    mergeBlock["errorMessage"] = "";
+                    if (savedRow["text"]) mergeBlock["text"] = savedRow["text"];
+                    mergeBlock["upsertedDate"] = lastActivity;
+                    mergeBlock["include"] = false;
+                    mergeBlock["status"] = "Done";
+                } else if (row["errorMessage"]) {
                     mergeBlock["errorMessage"] = row["errorMessage"];
                     mergeBlock["pineconeTitle"] = "";
                     mergeBlock["pineconeId"] = "";
@@ -420,11 +426,11 @@ export default class EmbeddingAPI {
         separators: string) {
         try {
             await firebaseAdmin.firestore().doc(`Users/${uid}/embedding/${projectId}/data/${rowId}`)
-                .set({
-                    status: "Processing",
-                }, {
-                    merge: true,
-                });
+                    .set({
+                        status: "Processing",
+                    }, {
+                        merge: true,
+                    });
             return await EmbeddingAPI._upsertFileData(projectId, fileDesc, chatGptKey, uid,
                 pIndex, tokenThreshold, includeTextInMeta, chunkingType, overlap, separators);
         } catch (error: any) {
@@ -462,6 +468,7 @@ export default class EmbeddingAPI {
         }
         const url = fileDesc.url;
         const options = fileDesc.options;
+        const optionsMap = EmbeddingAPI._processOptions(options);
         let text = fileDesc.text;
         let title = "";
         if (!text && url !== "") {
@@ -479,6 +486,21 @@ export default class EmbeddingAPI {
                     id,
                     success: false,
                     errorMessage: `scraped text over 900k - ${text.length}`,
+                };
+            }
+            if (optionsMap.scrapeOnly === "1") {
+                return {
+                    id,
+                    scrapeOnly: true,
+                    success: true,
+                    text,
+                    ids: id,
+                    url,
+                    title,
+                    textSize: text.length,
+                    encodingTokens: 0,
+                    encodingCredits: 0,
+                    idList: [id],
                 };
             }
             title = scrapeResult.title;
@@ -609,7 +631,7 @@ export default class EmbeddingAPI {
                 },
                 body: JSON.stringify({
                     "input": query,
-                    "model": "text-embedding-ada-002",
+                    "model": "text-embedding-3-small",
                 }),
             });
             const json = await response.json();

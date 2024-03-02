@@ -7,13 +7,15 @@ export default class HeaderBar extends React.Component {
       tokenCount: 0,
     };
     let pathName = window.location.pathname;
+    this.app = window.AppInstance;
+
     this.homeHref = (pathName === "/") ? "" : `/`;
     this.embeddingHref = (pathName === "/embedding/") ? "" : `/embedding/`;
     this.helpHref = (pathName === "/about/") ? "" : `/about/`;
     this.homeActive = this.homeHref ? "" : " active";
     this.embedActive = this.embeddingHref ? "" : " active";
     this.helpActive = this.helpHref ? "" : " active";
-   }
+  }
   render() {
     return (<nav className="navbar navbar-light navbar_wrapper">
       <ul className="navbar-nav container-fluid d-flex flex-row justify-content-end justify-content-sm-between container"
@@ -31,28 +33,35 @@ export default class HeaderBar extends React.Component {
               </a>
             </li>
             <li className="nav-item" role="presentation">
-              <a className={"nav-link"  + this.embedActive}  href={this.embeddingHref} role="tab">
+              <a className={"nav-link" + this.embedActive} href={this.embeddingHref} role="tab">
                 <span className="tab_label">Augment</span>
               </a>
             </li>
             <li className="nav-item" role="presentation">
-              <a className={"nav-link" + this.helpActive}  href={this.helpHref} role="tab">
+              <a className={"nav-link" + this.helpActive} href={this.helpHref} role="tab">
                 <span className="tab_label">About</span>
               </a>
             </li>
           </ul >
         </li >
         <li className="nav-item navbar_profile_li signed_in_list_item" style={{ width: "70px" }}>
-          <a className="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
+          <a onClick={(e) => {
+            e.preventDefault();
+            this.app.profileHelper.show();
+          }} className="nav-link show_profile_modal profile_menu_anchor hover_yellow" href="profile">
             <span className="menu_profile_user_image_span member_profile_image hover_yellow"> </span>
           </a>
         </li>
         <li className="nav-item nav_signin_li signed_out_list_item">
-          <button className="signin_cta_navbar hover_yellow btn btn-primary" type="button">Login
+          <button onClick={() =>
+            this.app.login.show()} className="signin_cta_navbar hover_yellow btn btn-primary" type="button">Login
           </button>
         </li>
         <li className="navbar_statusinfo_li signed_in_list_item">
-          <a className="account_status_display" href="showaccountinfo">
+          <a onClick={(e)=>  {
+            e.preventDefault();
+            this.app.profileHelper.show(true);
+          }} className="account_status_display" href="showaccountinfo">
             <div className="credits_left"></div>
           </a>
         </li>
