@@ -1,4 +1,4 @@
-nvm use 18.19.0
+nvm use 18
 Start-Sleep(5)
 Start-Process Powershell.exe -Argumentlist "-file .\startfunctionwatch.ps1"
 Start-Process Powershell.exe -Argumentlist "-file .\startuicodewatch.ps1"

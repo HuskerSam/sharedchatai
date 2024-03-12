@@ -734,10 +734,11 @@ export default class EmbeddingAPI {
      * @param { string } pineconeKey
      * @param { string } pineconeTopK
      * @param { string } pineconeIndex
+     * @param { any } filter
      * @return { Promise<any> }
      */
     static async queryPineconeDocuments(pineconeVectorData: any, pineconeKey: string,
-        pineconeTopK: number, pineconeIndex: string): Promise<any> {
+        pineconeTopK: number, pineconeIndex: string, filter: any): Promise<any> {
         let queryResponse = null;
         try {
             const pinecone = new Pinecone({
@@ -752,11 +753,14 @@ export default class EmbeddingAPI {
             }
             const pIndex = pinecone.index(pineconeIndex);
 
-            const opts = {
+            const opts: any = {
                 topK: pineconeTopK,
                 vector: pineconeVectorData,
                 includeMetadata: true,
             };
+            if (filter) {
+                opts.filter = filter;
+            }
             queryResponse = await pIndex.query(opts);
         } catch (e: any) {
             return {

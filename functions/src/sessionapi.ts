@@ -32,12 +32,12 @@ export default class SessionAPI {
      * @param { string } chatGptKey
      * @param { string } uid
      * @param { string } pineconeKey
-     * @param { string } pineconeEnvironment
      * @param { string } pineconeIndex
+     * @param { any } filter
      * @return { Promise<any> }
      */
     static async processEmbedding(query: string, topK: number, chatGptKey: string, uid: string,
-        pineconeKey: string, pineconeEnvironment: string, pineconeIndex: string): Promise<any> {
+        pineconeKey: string, pineconeIndex: string, filter: any = null): Promise<any> {
         const encodingResult = await EmbeddingAPI.encodeEmbedding(query, chatGptKey, uid);
         if (!encodingResult.success) {
             return {
@@ -49,7 +49,7 @@ export default class SessionAPI {
         const encodingTokens = encodingResult.fullResult.usage.total_tokens;
         const messageVectors = encodingResult.vectorResult;
         const pineconeQueryResults = await EmbeddingAPI.queryPineconeDocuments(messageVectors, pineconeKey,
-            topK, pineconeIndex);
+            topK, pineconeIndex, filter);
         if (!pineconeQueryResults.success) {
             return {
                 success: false,
@@ -288,7 +288,7 @@ export default class SessionAPI {
                     };
                 }
                 let embeddingResult: any = await SessionAPI.processEmbedding(messageQuery, topK,
-                    chatGptKey, sessionDocumentData.createUser, pineconeKey, pineconeEnvironment, pineconeIndex);
+                    chatGptKey, sessionDocumentData.createUser, pineconeKey, pineconeIndex);
                 if (!embeddingResult.success) {
                     throw new Error(embeddingResult.errorMessage);
                 }
@@ -1137,6 +1137,7 @@ export default class SessionAPI {
             const sessionId = req.body.sessionId;
             const apiToken = req.body.apiToken;
             const message = req.body.message;
+            const filter = req.body.filter;
             let topK = req.body.topK;
             const authResults = await SessionAPI._validateExternalRequest(sessionId, apiToken);
             const sessionDocumentData = authResults.sessionDocumentData;
@@ -1168,7 +1169,7 @@ export default class SessionAPI {
                 };
             }
             const embeddingResult = await SessionAPI.processEmbedding(message, topK,
-                chatGptKey, sessionDocumentData.createUser, pineconeKey, pineconeEnvironment, pineconeIndex);
+                chatGptKey, sessionDocumentData.createUser, pineconeKey, pineconeIndex, filter);
 
             return res.status(200).send(embeddingResult);
         } catch (err: any) {
