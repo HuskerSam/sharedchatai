@@ -518,6 +518,10 @@ export default class EmbeddingAPI {
             if (key.substring(0, 5).toLocaleLowerCase() === "meta_") {
                 additionalMetaData[key.substring(5)] = fileDesc[key];
             }
+            if (key.substring(0, 6).toLocaleLowerCase() === "metan_") {
+                const num = Number(fileDesc[key]) || 0;
+                additionalMetaData[key.substring(6)] = num;
+            }
         });
 
         const textChunks = await SharedWithBackend.parseBreakTextIntoChunks(tokenThreshold, chunkingType,

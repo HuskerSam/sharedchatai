@@ -1077,6 +1077,11 @@ export class EmbeddingApp extends BaseApp {
                         const field = key.substring(5);
                         if (field) metaData[field] = item[key];
                     }
+                    if (key.substring(0, 6) === "metan_") {
+                        const field = key.substring(6);
+                        const value = Number(item[key]) || 0;
+                        if (field) metaData[field] = value;
+                    }
                 });
                 item.additionalMetaData = JSON.stringify(metaData, null, "\t");
                 if (!item.status) item.status = "New";
