@@ -423,8 +423,8 @@ Respond to this prompt:
         // add preceding overlap
         chunkText = "";
         lineCounter = 0;
-        const firstIndexOverlap = Math.max(0, index - sentenceOverlap);
-        for (let c = firstIndexOverlap; c < index; c++) {
+        const firstIndexOverlap = Math.max(0, index - sentenceOverlap + 1);
+        for (let c = firstIndexOverlap; c <= index; c++) {
           const overlapText = lines[c];
           if (chunkText) chunkText += joinStr;
           chunkText += overlapText;
