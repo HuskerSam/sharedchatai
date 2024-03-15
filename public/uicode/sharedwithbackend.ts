@@ -3,7 +3,6 @@ import {
 } from "gpt-tokenizer";
 import mediaContent from "./mediacontent.json";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-import { join, sep } from "path";
 
 const newsList = mediaContent;
 const models: any = {
