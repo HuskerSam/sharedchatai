@@ -205,7 +205,7 @@ export default function DialogEmbeddingOptions(props) {
                                     <td>tokens</td>
                                     <td></td>
                                 </tr>
-                                <tr hidden={chunkingType !== "recursivetextsplitter"}>
+                                <tr hidden={chunkingType !== "recursivetextsplitter" && chunkingType !== "sentence"}>
                                     <td>Separators</td>
                                     <td colSpan="2">
                                         <FormControl as="input" defaultValue={separators}

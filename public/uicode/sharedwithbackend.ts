@@ -3,6 +3,7 @@ import {
 } from "gpt-tokenizer";
 import mediaContent from "./mediacontent.json";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
+import { join, sep } from "path";
 
 const newsList = mediaContent;
 const models: any = {
@@ -304,6 +305,12 @@ Respond to this prompt:
  */
   static async parseBreakTextIntoChunks(threshold: number, chunkingType: string,
     overlap: number, separators: string, fullText: string): Promise<Array<any>> {
+    let sepArray: string[] = ["\n\n", "\n", " ", ""];
+    try {
+      sepArray = JSON.parse(separators);
+    } catch (err: any) {
+      console.log("failed to parse separators", err);
+    }
     if (chunkingType === "sizetextsplitter") {
       try {
         return SharedWithBackend.sizeTextIntoChunks(threshold, fullText);
@@ -314,19 +321,13 @@ Respond to this prompt:
     }
     if (chunkingType === "sentence") {
       try {
-        return SharedWithBackend.sentenceTextIntoChunks(fullText, threshold, overlap);
+        return SharedWithBackend.sentenceTextIntoChunks(fullText, threshold, overlap, sepArray);
       } catch (err: any) {
         const cleanString = SharedWithBackend.cleanString(fullText);
-        return SharedWithBackend.sentenceTextIntoChunks(cleanString, threshold, overlap);
+        return SharedWithBackend.sentenceTextIntoChunks(cleanString, threshold, overlap, sepArray);
       }
     }
     if (chunkingType === "recursivetextsplitter") {
-      let sepArray: string[] = ["\n\n", "\n", " ", ""];
-      try {
-        sepArray = JSON.parse(separators);
-      } catch (err: any) {
-        console.log("failed to parse separators", err);
-      }
       return SharedWithBackend.recursiveSplitTextIntoChunks(fullText, threshold, overlap, sepArray);
     } else { // "none"
       return [{
@@ -378,23 +379,35 @@ Respond to this prompt:
     return resultChunks;
   }
   /**
-   * @param { number } sentenceWindow
    * @param { string } fullText
+   * @param { number } sentenceCount
+   * @param { number } sentenceOverlap
+   * @param { string[] } separators
    * @return { Promise<Array<any>> }
    */
-  static async sentenceTextIntoChunks(fullText: string, sentenceCount: number, sentenceOverlap: number): Promise<Array<any>> {
-    const rawLines = fullText.split(".");
+  static async sentenceTextIntoChunks(fullText: string, sentenceCount: number, sentenceOverlap: number,
+    separators: string[]): Promise<Array<any>> {
+    let rawLines: any[] = [fullText];
+    let joinStr = separators[0] + " ";
+    separators.forEach((sep: string) => {
+      let newLines: any[] = [];
+      rawLines.forEach((line: string) => {
+        const split = line.split(sep);
+        newLines = newLines.concat(split);
+      });
+      rawLines = newLines;
+    });
     const lines: string[] = [];
     const chunks: string[] = [];
 
     rawLines.forEach((line: string) => {
-      const l = line.replaceAll("\n", " ").trim();
+      const l = line.trim();
       if (l) lines.push(l);
     });
     let lineCounter = 0;
     let chunkText = "";
     lines.forEach((line: string, index: number) => {
-      if (chunkText) chunkText += ". "
+      if (chunkText) chunkText += joinStr;
       chunkText += line;
       lineCounter++;
       if (lineCounter >= sentenceCount) {
@@ -402,7 +415,7 @@ Respond to this prompt:
         const lastIndexOverlap = Math.min(lines.length - 1, index + sentenceOverlap);
         for (let c = index + 1; c <= lastIndexOverlap; c++) {
           const overlapText = lines[c];
-          if (chunkText) chunkText += ". "
+          if (chunkText) chunkText += joinStr;
           chunkText += overlapText;
         }
         if (chunkText.trim()) chunks.push(chunkText.trim());
@@ -414,7 +427,7 @@ Respond to this prompt:
         const firstIndexOverlap = Math.max(0, index - sentenceOverlap);
         for (let c = firstIndexOverlap; c < index; c++) {
           const overlapText = lines[c];
-          if (chunkText) chunkText += ". "
+          if (chunkText) chunkText += joinStr;
           chunkText += overlapText;
         }
       }
