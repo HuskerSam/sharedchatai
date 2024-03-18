@@ -23,29 +23,33 @@ export default function DialogEmbeddingOptions(props) {
     const chunkSizeInput = React.createRef();
 
     const setChunkingType = (chunkType) => {
-        if (chunkType === "sizetextsplitter") {
-            setChunkSizeLabel("Chunk Size");
-        } else if (chunkType === "recursivetextsplitter") {
-            setChunkSizeLabel("Chunk Size");
-        } else if (chunkType === "sentence") {
-            setChunkSizeLabel("Sentences");
-        } else {
-            setChunkSizeLabel("");
-        }
-        if (chunkingType !== null && chunkType !== chunkingType) {
-            if (chunkType === "sentence") {
-                setOverlap(2);
-                setPineconeChunkSize(10);
-                overlapInput.current.value = 2;
-                chunkSizeInput.current.value = 10;
+        try {
+            if (chunkType === "sizetextsplitter") {
+                setChunkSizeLabel("Chunk Size");
+            } else if (chunkType === "recursivetextsplitter") {
+                setChunkSizeLabel("Chunk Size");
+            } else if (chunkType === "sentence") {
+                setChunkSizeLabel("Sentences");
             } else {
-                setOverlap(20);
-                setPineconeChunkSize(1000);
-                overlapInput.current.value = 20;
-                chunkSizeInput.current.value = 1000;
+                setChunkSizeLabel("");
             }
+            if (chunkingType !== null && chunkType !== chunkingType) {
+                if (chunkType === "sentence") {
+                    setOverlap(2);
+                    setPineconeChunkSize(10);
+                    overlapInput.current.value = 2;
+                    chunkSizeInput.current.value = 10;
+                } else {
+                    setOverlap(20);
+                    setPineconeChunkSize(1000);
+                    overlapInput.current.value = 20;
+                    chunkSizeInput.current.value = 1000;
+                }
+            }
+            _setChunkingType(chunkType);
+        } catch (e) {
+            console.error(e);
         }
-        _setChunkingType(chunkType);
     };
 
     props.hooks.setShow = setShow;
