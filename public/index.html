@@ -108,7 +108,7 @@
                 <div class="container" id="demo_list">
                     <div class="row">
                         <div class="text-center">
-                            <h2 class="display-3 fw-bold">Prompts augmented with semantic retrieval</h2>
+                            <h2 class="display-3 fw-bold">Semantic Retrieval Examples</h2>
                             <hr class="mx-auto my-4" style="width: 50%; border-top: 2px solid #007bff;" />
                             <p class="lead fs-2 mb-4" style="font-size: 1.5em">Learn the secret to optimizing embedded
                                 context</p>
@@ -118,6 +118,128 @@
                                     lead to more precise outcomes. Experiment with <b>various chunking and embedding
                                         options</b> to adjust the quality of generated responses.
                                 </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center border rounded m-3 bg-white shadow-sm"
+                        style="box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;">
+                        <div class="row">
+                            <div class="col-lg-6 col-12 d-flex order-lg-1 justify-content-center mb-3 mb-lg-0">
+                                <div class="text-center d-flex flex-column gap-3 justify-content-center py-4">
+                                    <div class="d-flex flex-column gap-1 text-center">
+                                        <h4 class="mb-0">Song Search</h4>
+                                        <p class="my-2 lead" style="font-size: 1.1em;">Music Discovery with Subjective
+                                            Metrics</p>
+                                    </div>
+                                    <div>
+                                        <ul class="my-1 bg-light rounded text-start">
+                                            <li>Run semantic queries with 4 chunk size options</li>
+                                            <li>Filter by custom generated subjective metrics</li>
+                                            <li>301 Top Billboard songs from 2024</li>
+                                        </ul>
+                                    </div>
+                                    <div class="d-flex flex-row justify-content-center mt-2">
+                                        <a href="https://unacogdemos.web.app/song/" class="btn btn-primary">Explore
+                                            Song Example <svg xmlns="http://www.w3.org/2000/svg" width="18" height="35"
+                                                fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd"
+                                                    d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z">
+                                                </path>
+                                            </svg></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 p-3">
+                                <div class="song_demo_bg_img">&nbsp;</div>
+                                <div class="figure-caption pb-3">implementing computed metric scores</div>
+                            </div>
+                        </div>
+                        <div class="row my-2">
+                            <div class="d-flex justify-content-center mt-3 align-items-center">
+                                <hr class="flex-grow-1 border-primary">
+                                <button class="btn btn-link btn_toggle mx-2 px-4"
+                                    style="font-variant: small-caps; text-underline-offset: 3px;" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#song_demo_moreInfo" aria-expanded="false"
+                                    aria-controls="moreInfo">
+                                    More Information
+                                </button>
+                                <hr class="flex-grow-1 border-primary">
+                            </div>
+                        </div>
+                        <div class="row collapse" id="song_demo_moreInfo">
+                            <div class="text-start">
+                                <p>In this demo, we leverage large language models (LLMs) to compute subjective metrics
+                                    for song lyrics, quantifying aspects like profanity, violent themes, sexual content,
+                                    and more. These metrics enable content moderation and personalized filtering.</p>
+
+                                <p>Users can find songs through natural language by matching on lyric chunks of
+                                    different sizes. Set filters for different subjective metrics to curate search
+                                    results to match their desired criteria. This fusion of semantic understanding and
+                                    subjective content analysis empowers users to discover music aligned with their
+                                    preferences.</p>
+
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Chunk Size</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Entire Song</td>
+                                            <td>All lyrics of the song are used as a single chunk</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Stanza</td>
+                                            <td>6 lines/verses in total, with 4 lines for the main chunk and 2 lines for
+                                                the preceding and post overlap</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Large (Double Stanza)</td>
+                                            <td>12 lines in total, with 8 lines for the main chunk and 2 lines each for
+                                                the preceding and post line overlap</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Verse</td>
+                                            <td>A single line of lyrics is used as a chunk</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <p>Tailored prompts provide clear guidelines, allowing the LLM to generate accurate and
+                                    consistent subjective ratings for each song's lyrics. These ratings are integrated
+                                    into the semantic search system as metadata filters.</p>
+
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Metric</th>
+                                            <th>Prompt</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Motivational</td>
+                                            <td>Assess motivational/inspirational content by evaluating the presence of
+                                                uplifting language, the ability to evoke resilience, ambition, and
+                                                positive change...</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Inappropriate Language</td>
+                                            <td>For language content, evaluate the presence and context of profanity,
+                                                slurs, and vulgar expressions...</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Violent</td>
+                                            <td>Evaluate violent content by identifying acts of aggression, harm, or
+                                                destruction...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <p>Explore how our system utilizes computed subjective metrics to filter and surface
+                                    relevant songs from a curated collection of top Billboard tracks.</p>
                             </div>
                         </div>
                     </div>
@@ -270,8 +392,8 @@
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6 p-3">
-                                <div class="figure-caption pb-3">Querying the Pinecone Index</div>
                                 <div class="bible_demo_bg_img">&nbsp;</div>
+                                <div class="figure-caption">Querying the Pinecone Index</div>
                             </div>
                         </div>
                         <div class="row my-2">
@@ -349,8 +471,8 @@
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6 p-3">
-                                <div class="figure-caption pb-3">Preparing data for embed</div>
                                 <div class="covid_demo_bg_img">&nbsp;</div>
+                                <div class="figure-caption">Preparing data for embed</div>
                             </div>
                         </div>
                         <div class="row my-2">
