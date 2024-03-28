@@ -168,15 +168,51 @@
                         </div>
                         <div class="row collapse" id="song_demo_moreInfo">
                             <div class="text-start">
-                                <p>In this demo, we leverage large language models (LLMs) to compute subjective metrics
-                                    for song lyrics, quantifying aspects like profanity, violent themes, sexual content,
-                                    and more. These metrics enable content moderation and personalized filtering.</p>
+                                <h5>Subjective Content Evaluation with LLMs
+                                </h5>
+                                <p>This demo showcases the power of large language models in evaluating subjective
+                                    aspects of song lyrics from a curated dataset of 301 top Billboard songs from 2024.
+                                    Through carefully crafted prompts, we leverage LLMs to generate accurate ratings for
+                                    metrics like profanity, violence, sexual content, and comedic elements.
+                                </p>
 
-                                <p>Users can find songs through natural language by matching on lyric chunks of
-                                    different sizes. Set filters for different subjective metrics to curate search
-                                    results to match their desired criteria. This fusion of semantic understanding and
-                                    subjective content analysis empowers users to discover music aligned with their
-                                    preferences.</p>
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Metric</th>
+                                            <th>Prompt</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Motivational</td>
+                                            <td>Assess motivational/inspirational content by evaluating the presence of
+                                                uplifting language, the ability to evoke resilience, ambition, and
+                                                positive change...</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Inappropriate Language</td>
+                                            <td>For language content, evaluate the presence and context of profanity,
+                                                slurs, and vulgar expressions...</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Violent</td>
+                                            <td>Evaluate violent content by identifying acts of aggression, harm, or
+                                                destruction...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <p>These subjective ratings are then integrated into the semantic search system,
+                                    enabling users to filter and discover songs aligned with their preferences. Set
+                                    thresholds for different metrics to curate a personalized music experience tailored
+                                    to your content criteria.</p>
+
+                                <p>The lyrics are chunked into different sizes - entire song, stanza, large (double
+                                    stanza), and verse - to explore the impact on search results. This allows users to
+                                    find relevant lyrics at various granularities, from complete songs to individual
+                                    verses.
+                                </p>
 
                                 <table class="table table-sm table-bordered">
                                     <thead>
@@ -207,39 +243,10 @@
                                     </tbody>
                                 </table>
 
-                                <p>Tailored prompts provide clear guidelines, allowing the LLM to generate accurate and
-                                    consistent subjective ratings for each song's lyrics. These ratings are integrated
-                                    into the semantic search system as metadata filters.</p>
-
-                                <table class="table table-sm table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Metric</th>
-                                            <th>Prompt</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Motivational</td>
-                                            <td>Assess motivational/inspirational content by evaluating the presence of
-                                                uplifting language, the ability to evoke resilience, ambition, and
-                                                positive change...</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Inappropriate Language</td>
-                                            <td>For language content, evaluate the presence and context of profanity,
-                                                slurs, and vulgar expressions...</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Violent</td>
-                                            <td>Evaluate violent content by identifying acts of aggression, harm, or
-                                                destruction...</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                                <p>Explore how our system utilizes computed subjective metrics to filter and surface
-                                    relevant songs from a curated collection of top Billboard tracks.</p>
+                                <p>Explore how AI-driven content analysis can enhance music discovery, providing a
+                                    seamless fusion of language understanding, subjective content moderation, and
+                                    flexible lyric retrieval.
+                                </p>
                             </div>
                         </div>
                     </div>
