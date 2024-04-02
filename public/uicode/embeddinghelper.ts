@@ -80,7 +80,7 @@ export default class PineconeHelper {
     async enableChromeExtension() {
         let externalKey = this.ownerOnlyData.externalSessionAPIKey;
         if (externalKey === undefined) externalKey = "";
-        const response = await (<any>window).chrome.runtime.sendMessage("oihfefepodhebgcjofeekecmpnfapjif", { 
+        const response = await (<any>window).chrome.runtime.sendMessage("hkpikaghojmimbaepiiiheiheghlfafd", { 
             sessionId: this.app.documentId,
             apiToken: externalKey
           });
