@@ -334,6 +334,13 @@ select.document_label_filter.form-select:active {
   .profile_text_option_large .session_labels_column {
     font-size: 1.3em;
   }
+  .song_demo_bg_img {
+    min-height: 420px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(/images/song_diagram.svg);
+  }
 
   .ai_demo_bg_img {
     min-height: 420px;
