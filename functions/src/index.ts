@@ -48,7 +48,7 @@ export const aboutPage = functions.runWith(homeOpts).https.onRequest(WebPage.abo
 export const lobbyApi = functions.runWith(runtimeOpts).https.onRequest(gameAPIApp);
 export const embeddingApi = functions.runWith(heavyOpts).https.onRequest(embeddingAPIApp);
 export const updateDisplayNames = functions.firestore
-.document("Users/{uid}").onWrite(async (change, context) => GameAPI.updateUserMetaData(change, context));
+    .document("Users/{uid}").onWrite(async (change, context) => GameAPI.updateUserMetaData(change, context));
 export const siteMap = functions.runWith(sitemapOpts).https.onRequest(WebPage.generateSiteXMLMap);
 
 gameAPIApp.post("/games/create", async (req, res) => GameAPI.create(req, res));
@@ -86,3 +86,13 @@ gameAPIApp.post("/session/external/vectorquery", async (req, res) => SessionAPI.
 
 contentPagesApp.get("/*", async (req, res) => WebPage.contentHTML(req, res));
 
+// create default user profile record(s)
+exports.createDefaultInternalProfileForUser = functions.auth.user().onCreate(async (user) => {
+    console.log(`Creating default internal profile for user ${user.uid}`);
+    return firebaseAdmin.firestore().doc(`Users/${user.uid}/internal/tokenUsage`).set({
+        lastActivity: new Date().toISOString(),
+        availableCreditBalance: 2000,
+    }, {
+        merge: true,
+    });
+});
