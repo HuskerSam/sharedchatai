@@ -80,12 +80,17 @@ export default class PineconeHelper {
     async enableChromeExtension() {
         let externalKey = this.ownerOnlyData.externalSessionAPIKey;
         if (externalKey === undefined) externalKey = "";
-        const response = await (<any>window).chrome.runtime.sendMessage("hkpikaghojmimbaepiiiheiheghlfafd", { 
+        const packet = { 
             sessionId: this.app.documentId,
             apiToken: externalKey
-          });
+          };
+        const response = await (<any>window).chrome.runtime.sendMessage("oihfefepodhebgcjofeekecmpnfapjif", packet);
         // do something with response here, not outside the function
-        console.log(response);
+        console.log("store version response", response);
+
+        const response2 = await (<any>window).chrome.runtime.sendMessage("hkpikaghojmimbaepiiiheiheghlfafd", packet);
+        // do something with response here, not outside the function
+        console.log("debug version response", response2);
     }
 
     /**
