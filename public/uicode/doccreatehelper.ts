@@ -62,6 +62,7 @@ export default class DocCreateHelper {
   create_dialog_model: any;
   create_model_lock: any;
   create_include_prompts_in_context: any;
+  create_and_connect_extension_button: any;
   createLabelsSlimSelect: SlimSelect;
 
   /**
@@ -101,6 +102,8 @@ export default class DocCreateHelper {
     this.parsed_file_name = this.modalContainer.querySelector(".parsed_file_name");
     this.parsed_list_file_status = this.modalContainer.querySelector(".parsed_list_file_status");
     this.parsed_list_file_name = this.modalContainer.querySelector(".parsed_list_file_name");
+    this.create_and_connect_extension_button = this.modalContainer.querySelector(".create_and_connect_extension_button");
+    this.create_and_connect_extension_button.addEventListener("click", () => this.createAndConnectExtension());
 
     this.insert_todaylabel_default_checkbox = this.modalContainer.querySelector(".insert_todaylabel_default_checkbox");
     this.insert_todaylabel_default_checkbox.addEventListener("input", () => {
@@ -467,6 +470,11 @@ export default class DocCreateHelper {
                             href="#bulk_create_options_view" role="tab" aria-controls="bulk_create_options_view"
                             aria-selected="true">Bulk</a>
                     </li>
+                    <li class="nav-item" role="presentation">
+                      <a class="nav-link" id="bulk_create_options" data-bs-toggle="tab"
+                        href="#misc_create_options_view" role="tab" aria-controls="misc_create_options_view"
+                        aria-selected="true">Misc</a>
+                    </li>
                 </ul>
                 <div class="tab-content" style="overflow:hidden;display:flex;height:95vh;">
                     <div class="tab-pane fade show active" id="basic_create_options_view" role="tabpanel"
@@ -666,6 +674,13 @@ export default class DocCreateHelper {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="tab-pane fade" id="misc_create_options_view" role="tabpanel"
+                    aria-labelledby="misc_create_options">
+                    <br>&nbsp;
+                      <button type="button" class="btn btn-primary create_and_connect_extension_button">
+                        Create and Connect Extension
+                      </button>
                     </div>
                 </div>
             </div>
@@ -966,5 +981,51 @@ export default class DocCreateHelper {
       });
       this.createLabelsSlimSelect.setData(data);
     }
+  }
+  async createAndConnectExtension() {
+    if (this.creatingNewRecord) return;
+    this.creatingNewRecord = true;
+   // this.create_and_connect_extension_button.innerHTML = "Creating...";
+    const body: any = {
+        documentType: "chatSession",
+        model: "gpt-3.5-turbo-16k",
+        title: "Chrome Extension Session",
+        label: "",
+        note: "",
+        includePromptsInContext: false,
+        model_lock: true,
+        firstPrompt: "",
+    };
+
+    const token = await getAuth().currentUser?.getIdToken() as string;
+    const fResult = await fetch(this.app.basePath + "lobbyApi/games/create", {
+        method: "POST",
+        mode: "cors",
+        cache: "no-cache",
+        headers: {
+            "Content-Type": "application/json",
+            token,
+        },
+        body: JSON.stringify(body),
+    });
+    const json = await fResult.json();
+    if (!json.success) {
+        console.log(json.errorMessage, json);
+        alert(json.errorMessage);
+        return;
+    }
+    this.app.pineconeHelper.chatDocumentId = json.gameNumber;
+    this.app.pineconeHelper.documentData = {};
+    await this.app.pineconeHelper.setExternalSecret();
+    await this.app.pineconeHelper.enableChromeExtension();
+
+    const a = document.createElement("a");
+    a.setAttribute("href", `/session/${json.gameNumber}`);
+    a.setAttribute("target", "_blank");
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    
+    this.creatingNewRecord = false;
   }
 }
