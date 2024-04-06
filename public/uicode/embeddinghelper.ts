@@ -81,7 +81,7 @@ export default class PineconeHelper {
         let externalKey = this.ownerOnlyData.externalSessionAPIKey;
         if (externalKey === undefined) externalKey = "";
         const packet = {
-            sessionId: this.app.documentId,
+            sessionId: this.chatDocumentId,
             apiToken: externalKey
         };
         try {
