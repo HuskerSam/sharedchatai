@@ -398,6 +398,10 @@ export default class SessionAPI {
         return {
             ticketId,
             success: true,
+            total_tokens: aiResults.total_tokens,
+            prompt_tokens: aiResults.prompt_tokens,
+            completion_tokens: aiResults.completion_tokens,
+            usage_credits: aiResults.usage_credits,
         };
     }
     /** http endpoint for user posting message to table chat
