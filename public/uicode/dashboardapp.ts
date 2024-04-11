@@ -374,9 +374,11 @@ export class DashboardApp extends BaseApp {
             <li><button class="dropdown-item options">
               <i class="material-icons">settings</i>
               Session Options</button></li>
-            <li><button class="dropdown-item clone">
-            <i class="material-icons">import_export</i>
-            Clone to new</button></li>
+            <li>
+              <button class="dropdown-item clone">
+              <i class="material-icons">import_export</i>
+              Clone to new</button>
+            </li>
             <li><button class="dropdown-item share_email">
             <i class="material-icons">email</i>
             Email Invitation</button></li>
@@ -386,6 +388,9 @@ export class DashboardApp extends BaseApp {
             <li><button class="dropdown-item leave">
             <i class="material-icons">logout</i>
             Leave Session</button></li>
+            <li><button class="dropdown-item setextension">
+            <i class="material-icons">extension</i>
+            Extension Settings</button></li>
             <li><hr class="dropdown-divider"></li>
             <div class="label_menu dashboard_menus_list"></div>
           </ul>
@@ -445,6 +450,14 @@ export class DashboardApp extends BaseApp {
       BaseApp.copyGameLink(data.gameNumber, linkCopy);
     });
 
+    const setExtension: any = card.querySelector("button.setextension");
+    setExtension.addEventListener("click", async (e: any) => {
+      e.stopPropagation();
+      e.preventDefault();
+      this.documentOptions.chatDocumentId = doc.id;
+      this.documentOptions.documentData = doc.data();
+      this.documentOptions.showEmbeddingsPopup();
+    });
     card.labelMenuContainer = card.querySelector(".dashboard_menus_list");
     return card;
   }

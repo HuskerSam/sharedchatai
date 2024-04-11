@@ -119,6 +119,10 @@
     display: block;
 }
 
+.no_documents_in_feed .game_lobby {
+    display: none;
+}
+
 .games_view_wrapper {
     display: none;
 }
