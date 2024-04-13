@@ -1019,13 +1019,6 @@ export default class DocCreateHelper {
     await this.app.pineconeHelper.setExternalSecret();
     await this.app.pineconeHelper.enableChromeExtension();
 
-    const a = document.createElement("a");
-    a.setAttribute("href", `/session/${json.gameNumber}`);
-    a.setAttribute("target", "_blank");
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    
     this.creatingNewRecord = false;
   }
 }

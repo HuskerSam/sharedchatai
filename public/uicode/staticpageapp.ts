@@ -23,6 +23,7 @@ export class StaticPageApp extends BaseApp {
     primary_usage_level: any = document.querySelector(".primary_usage_level");
     power_user_credits_table: any = document.querySelector(".power_user_credits_table");
     buy_credits_pricing: any = document.querySelector(".buy_credits_pricing");
+    cylde_create_and_connect_extension_button: any = document.querySelector(".cylde_create_and_connect_extension_button");
     lastDocumentsSnapshot: any = null;
     recentDocumentFeedRegistered = false;
     recentDocumentsSubscription: any = null;
@@ -33,6 +34,14 @@ export class StaticPageApp extends BaseApp {
     constructor() {
         super();
         this.showLoginModal = false;
+
+        if (this.cylde_create_and_connect_extension_button){
+            this.cylde_create_and_connect_extension_button.addEventListener("click", async () => {
+            // add more logic to show starting session create 
+               await this.documentCreate.createAndConnectExtension();
+            // add finish status, possibly open clyde
+            });
+        }
 
         if (this.sign_out_homepage) {
             this.sign_out_homepage.addEventListener("click", (e: any) => {
