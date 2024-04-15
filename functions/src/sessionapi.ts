@@ -1107,7 +1107,7 @@ export default class SessionAPI {
         await localInstance.init();
 
         const ticketResults = await SessionAPI._processSubmittedTicket(sessionId, message, uid, "", [],
-         false, disableEmbedding);
+            false, disableEmbedding);
 
         let ticket: any = {};
         let embeddings: any = {};
@@ -1176,6 +1176,63 @@ export default class SessionAPI {
                 chatGptKey, sessionDocumentData.createUser, pineconeKey, pineconeIndex, filter);
 
             return res.status(200).send(embeddingResult);
+        } catch (err: any) {
+            return BaseClass.respondError(res, err.message, err);
+        }
+    }
+    /**
+     * @param { Request } req http request object
+    * @param { Response } res http response object
+    */
+    static async externalCloudWrite(req: Request, res: Response) {
+        try {
+            const sessionId = req.body.sessionId;
+            const apiToken = req.body.apiToken;
+            const fileData = req.body.fileData;
+            const fileName = req.body.fileName;
+
+            const authResults = await SessionAPI._validateExternalRequest(sessionId, apiToken);
+            const sessionDocumentData = authResults.sessionDocumentData;
+            if (!authResults.success) {
+                return BaseClass.respondError(res, authResults.errorMessage);
+            }
+            if (!fileData || !fileName || !apiToken || !sessionId) {
+                return BaseClass.respondError(res, "Please supply fileName, fileData, apiToken and sessionId");
+            }
+
+            const localInstance = BaseClass.newLocalInstance();
+            await localInstance.init();
+
+            const bucket = firebaseAdmin.storage().bucket();
+            const uid = sessionDocumentData.createUser;
+            const storagePath = `clydeData/${uid}/${fileName}`;
+            const file = bucket.file(storagePath);
+
+            let storageOptions = {
+                resumable: false,
+                metadata: {
+                    contentType: "application/json",
+                },
+            };
+
+            if (typeof fileData === "string") {
+                storageOptions = {
+                    resumable: false,
+                    metadata: {
+                        contentType: "text/plain",
+                    },
+                };
+                await file.save(fileData, storageOptions);
+            } else {
+                await file.save(JSON.stringify(fileData), storageOptions);
+            }
+            await file.makePublic();
+
+
+            return res.status(200).send({
+                success: true,
+                storagePath,
+            });
         } catch (err: any) {
             return BaseClass.respondError(res, err.message, err);
         }

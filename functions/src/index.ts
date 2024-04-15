@@ -83,6 +83,8 @@ embeddingAPIApp.post("/exportjson", async (req, res) => EmbeddingAPI.generateExp
 
 gameAPIApp.post("/session/external/message", async (req, res) => SessionAPI.externalMessageRequest(req, res));
 gameAPIApp.post("/session/external/vectorquery", async (req, res) => SessionAPI.externalVectorQuery(req, res));
+gameAPIApp.post("/session/external/cloudwrite", async (req, res) => SessionAPI.externalCloudWrite(req, res));
+
 
 contentPagesApp.get("/*", async (req, res) => WebPage.contentHTML(req, res));
 
