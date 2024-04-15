@@ -1190,6 +1190,8 @@ export default class SessionAPI {
             const apiToken = req.body.apiToken;
             const fileData = req.body.fileData;
             const fileName = req.body.fileName;
+            const mimeType = req.body.mimeType;
+            const fileExt = req.body.fileExt;
 
             const authResults = await SessionAPI._validateExternalRequest(sessionId, apiToken);
             const sessionDocumentData = authResults.sessionDocumentData;
@@ -1205,21 +1207,27 @@ export default class SessionAPI {
 
             const bucket = firebaseAdmin.storage().bucket();
             const uid = sessionDocumentData.createUser;
-            const storagePath = `clydeData/${uid}/${fileName}`;
+            let ext = "";
+            if (fileExt) ext = fileExt;
+            const storagePath = `clydeData/${uid}/${fileName}.${ext}`;
             const file = bucket.file(storagePath);
 
             let storageOptions = {
                 resumable: false,
                 metadata: {
                     contentType: "application/json",
+                    fileName,
                 },
             };
 
             if (typeof fileData === "string") {
+                let contentType = "text/plain";
+                if (mimeType) contentType = mimeType;
                 storageOptions = {
                     resumable: false,
                     metadata: {
-                        contentType: "text/plain",
+                        contentType,
+                        fileName,
                     },
                 };
                 await file.save(fileData, storageOptions);
