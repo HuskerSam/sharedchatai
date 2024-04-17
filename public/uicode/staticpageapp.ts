@@ -24,7 +24,7 @@ export class StaticPageApp extends BaseApp {
     power_user_credits_table: any = document.querySelector(".power_user_credits_table");
     buy_credits_pricing: any = document.querySelector(".buy_credits_pricing");
     cylde_create_and_connect_extension_button: any = document.querySelector(".cylde_create_and_connect_extension_button");
-    open_clyde_sidepanel: any = document.querySelector(".open_clyde_sidepanel");
+    open_klyde_sidepanel: any = document.querySelector(".open_klyde_sidepanel");
     lastDocumentsSnapshot: any = null;
     recentDocumentFeedRegistered = false;
     recentDocumentsSubscription: any = null;
@@ -43,8 +43,8 @@ export class StaticPageApp extends BaseApp {
             // add finish status, possibly open clyde
             });
         }
-        if (this.open_clyde_sidepanel){
-            this.open_clyde_sidepanel.addEventListener("click", async () => {
+        if (this.open_klyde_sidepanel){
+            this.open_klyde_sidepanel.addEventListener("click", async () => {
                 try {
                  const packet = { specialAction: "openSidePanel" };
                  const response = await (<any>window).chrome.runtime.sendMessage("oihfefepodhebgcjofeekecmpnfapjif", packet);
