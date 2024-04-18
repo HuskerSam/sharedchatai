@@ -22,6 +22,7 @@ import type {
     Response,
 } from "express";
 import EmbeddingAPI from "./embeddingapi";
+import ScrapingAPI from "./scraping";
 const creditRequestCharge = 1;
 
 /** Match game specific turn logic wrapped in a transaction */
@@ -1240,6 +1241,39 @@ export default class SessionAPI {
             return res.status(200).send({
                 success: true,
                 storagePath,
+            });
+        } catch (err: any) {
+            return BaseClass.respondError(res, err.message, err);
+        }
+    }
+    /**
+ * @param { Request } req http request object
+* @param { Response } res http response object
+*/
+    static async externalScrapeURL(req: Request, res: Response) {
+        try {
+            const sessionId = req.body.sessionId;
+            const apiToken = req.body.apiToken;
+            const url = req.body.url;
+            const options = req.body.options;
+
+            const authResults = await SessionAPI._validateExternalRequest(sessionId, apiToken);
+            // const sessionDocumentData = authResults.sessionDocumentData;
+            if (!authResults.success) {
+                return BaseClass.respondError(res, authResults.errorMessage);
+            }
+            if (!url || !apiToken || !sessionId) {
+                return BaseClass.respondError(res, "Please supply url apiToken and sessionId");
+            }
+
+            const localInstance = BaseClass.newLocalInstance();
+            await localInstance.init();
+            const chatGptKey = localInstance.privateConfig.chatGPTKey;
+            const result = await ScrapingAPI.processURL(authResults.uid, chatGptKey, url, options);
+
+            return res.status(200).send({
+                success: true,
+                result,
             });
         } catch (err: any) {
             return BaseClass.respondError(res, err.message, err);
