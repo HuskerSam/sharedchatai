@@ -81,7 +81,7 @@ export default class ScrapingAPI {
         let text = "";
         let title = "";
         if (html) {
-            if (html.length > 1000000) html = html.substring(0, 1000000);
+            if (html.length > 10000000) html = html.substring(0, 10000000);
             const dom = new JSDOM(html);
             const document = dom.window.document;
 
