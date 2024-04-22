@@ -85,8 +85,10 @@ export default class ScrapingAPI {
             const dom = new JSDOM(html);
             const document = dom.window.document;
 
-            let htmlElementsSelector = "h1, h2, h3, h4, h5, p";
-            if (optionsMap.htmlElementsSelector) htmlElementsSelector = optionsMap.htmlElementsSelector;
+            let htmlElementsSelector = optionsMap.htmlElementsSelector;
+            if (!htmlElementsSelector || htmlElementsSelector === "innerText") {
+                htmlElementsSelector = "body";
+            }
             document.querySelectorAll(htmlElementsSelector).forEach((element: any) => {
                 const t = element.textContent.trim();
                 if (t) text += t + "\n";
