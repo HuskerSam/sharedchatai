@@ -23,6 +23,7 @@ export default class ScrapingAPI {
     */
     static async processURL(uid: string, chatGptKey: string, url: string,
         options: string): Promise<any> {
+        const optionsMap = ScrapingAPI.processOptions(options);
         const fileResponse = await fetch(url);
         let mimeTypeResult: any = fileResponse.headers.get("content-type");
 
@@ -32,7 +33,17 @@ export default class ScrapingAPI {
             mimeTypeResult = mime.lookup(url);
         }
         let result = null;
-        if (mimeTypeResult && mimeTypeResult === "application/pdf") {
+        if (optionsMap.urlScrape) {
+            try {
+                result = await ScrapingAPI.scrapeHTMLforURLs(fileResponse);
+            } catch (error: any) {
+                return {
+                    success: false,
+                    errorMessage: error.message,
+                    error,
+                };
+            }
+        } else if (mimeTypeResult && mimeTypeResult === "application/pdf") {
             const pdfResult = await ScrapingAPI.pdfToText(fileResponse);
             result = {
                 success: true,
@@ -99,6 +110,34 @@ export default class ScrapingAPI {
                 .trim();
             text = text.substring(0, 10000000);
 
+            if (!title) title = dom.window.document.title;
+        }
+
+        return {
+            success: true,
+            html,
+            text,
+            title,
+        };
+    }
+    /**
+     * @param { any } fileResponse
+     * @param { string } url
+     * @param { string } options
+     */
+    static async scrapeHTMLforURLs(fileResponse: any): Promise<any> {
+        let html = await fileResponse.text();
+        let text = "";
+        let title = "";
+        if (html) {
+            if (html.length > 10000000) html = html.substring(0, 10000000);
+            const dom = new JSDOM(html);
+            const document = dom.window.document;
+
+            document.querySelectorAll("a").forEach((element: any) => {
+                const t = element.getAttribute("href");
+                if (t) text += t + "\n";
+            });
             if (!title) title = dom.window.document.title;
         }
 
