@@ -35,7 +35,7 @@ export default class ScrapingAPI {
         let result = null;
         if (optionsMap.urlScrape) {
             try {
-                result = await ScrapingAPI.scrapeHTMLforURLs(fileResponse);
+                result = await ScrapingAPI.scrapeHTMLforURLs(fileResponse, url, options);
             } catch (error: any) {
                 return {
                     success: false,
@@ -125,7 +125,7 @@ export default class ScrapingAPI {
      * @param { string } url
      * @param { string } options
      */
-    static async scrapeHTMLforURLs(fileResponse: any): Promise<any> {
+    static async scrapeHTMLforURLs(fileResponse: any, url: string, options: string): Promise<any> {
         let html = await fileResponse.text();
         let text = "";
         let title = "";
@@ -133,8 +133,12 @@ export default class ScrapingAPI {
             if (html.length > 10000000) html = html.substring(0, 10000000);
             const dom = new JSDOM(html);
             const document = dom.window.document;
-
-            document.querySelectorAll("a").forEach((element: any) => {
+            const optionsMap = ScrapingAPI.processOptions(options);
+            let htmlElementsSelector = optionsMap.htmlElementsSelector;
+            if (!htmlElementsSelector) {
+                htmlElementsSelector = "a";
+            }
+            document.querySelectorAll(htmlElementsSelector).forEach((element: any) => {
                 const t = element.getAttribute("href");
                 if (t) text += t + "\n";
             });
