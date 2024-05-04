@@ -164,7 +164,8 @@ export default class ScrapingAPI {
             const key = pieces[0].trim();
             if (key !== "") {
                 let value = "";
-                if (pieces[1]) value = pieces[1];
+                if (pieces.length > 1) value = pieces.slice(1).join("=").trim();
+
                 optionsMap[key] = value;
             }
         });
