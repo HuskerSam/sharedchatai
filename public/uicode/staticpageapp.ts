@@ -25,9 +25,6 @@ export class StaticPageApp extends BaseApp {
     buy_credits_pricing: any = document.querySelector(".buy_credits_pricing");
     cylde_create_and_connect_extension_button: any = document.querySelector(".cylde_create_and_connect_extension_button");
     open_klyde_sidepanel: any = document.querySelector(".open_klyde_sidepanel");
-    lastDocumentsSnapshot: any = null;
-    recentDocumentFeedRegistered = false;
-    recentDocumentsSubscription: any = null;
 
     /**
      * @param { boolean } contentPage true if content page for all items
