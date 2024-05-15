@@ -443,6 +443,26 @@ Respond to this prompt:
     return resultChunks;
   }
   /**
+ * @param { string } options string with options split by || and key=value entries
+ * @return { any }
+ */
+  static processOptions(options: string): any {
+    const opts = options.split("||");
+    const optionsMap: any = {};
+    opts.forEach((opt: string) => {
+      const pieces = opt.trim().split("=");
+      const key = pieces[0].trim();
+      if (key !== "") {
+        let value = "";
+        if (pieces.length > 1) value = pieces.slice(1).join("=").trim();
+
+        optionsMap[key] = value;
+      }
+    });
+
+    return optionsMap;
+  }
+  /**
    * @param { number } threshold
    * @param { string } fullText
    * @return { Promise<Array<any>> }

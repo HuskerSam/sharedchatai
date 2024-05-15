@@ -23,7 +23,7 @@ export default class ScrapingAPI {
     */
     static async processURL(uid: string, chatGptKey: string, url: string,
         options: string): Promise<any> {
-        const optionsMap = ScrapingAPI.processOptions(options);
+        const optionsMap = SharedWithBackend.processOptions(options);
         const fileResponse = await fetch(url);
         let mimeTypeResult: any = fileResponse.headers.get("content-type");
 
@@ -87,7 +87,7 @@ export default class ScrapingAPI {
      * @param { string } options
      */
     static async scrapeHTMLURL(fileResponse: any, url: string, options: string): Promise<any> {
-        const optionsMap = ScrapingAPI.processOptions(options);
+        const optionsMap = SharedWithBackend.processOptions(options);
         let html = await fileResponse.text();
         let text = "";
         let title = "";
@@ -133,7 +133,7 @@ export default class ScrapingAPI {
             if (html.length > 10000000) html = html.substring(0, 10000000);
             const dom = new JSDOM(html);
             const document = dom.window.document;
-            const optionsMap = ScrapingAPI.processOptions(options);
+            const optionsMap = SharedWithBackend.processOptions(options);
             let htmlElementsSelector = optionsMap.htmlElementsSelector;
             if (!htmlElementsSelector) {
                 htmlElementsSelector = "a";
@@ -151,26 +151,6 @@ export default class ScrapingAPI {
             text,
             title,
         };
-    }
-    /**
-     * @param { string } options string with options split by || and key=value entries
-     * @return { any }
-     */
-    static processOptions(options: string): any {
-        const opts = options.split("||");
-        const optionsMap: any = {};
-        opts.forEach((opt: string) => {
-            const pieces = opt.trim().split("=");
-            const key = pieces[0].trim();
-            if (key !== "") {
-                let value = "";
-                if (pieces.length > 1) value = pieces.slice(1).join("=").trim();
-
-                optionsMap[key] = value;
-            }
-        });
-
-        return optionsMap;
     }
     /**
     * @param { globalThis.Response } resultPDF

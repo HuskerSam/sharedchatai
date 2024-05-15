@@ -285,7 +285,7 @@ export default class EmbeddingAPI {
         }
         const url = fileDesc.url;
         const options = fileDesc.options;
-        const optionsMap = ScrapingAPI.processOptions(options);
+        const optionsMap = SharedWithBackend.processOptions(options);
         let text = fileDesc.text;
         let title = "";
         if (!text && url !== "") {

@@ -11,6 +11,9 @@ import {
     StaticPageApp,
 } from "./staticpageapp";
 import {
+    KlydeFeedHelper,
+} from "./klydefeedhelper";
+import {
     initializeApp,
 } from "firebase/app";
 
@@ -23,6 +26,7 @@ window.addEventListener("load", async () => {
     if (firstSlug === "embedding") (<any>window).AppInstance = new EmbeddingApp();
     else if (firstSlug === "") (<any>window).AppInstance = new DashboardApp();
     else if (firstSlug === "session") (<any>window).AppInstance = new SessionApp();
+    else if (firstSlug === "klydefeedhelper") (<any>window).AppInstance = new KlydeFeedHelper();
     else (<any>window).AppInstance = new StaticPageApp();
 
     if ((<any>window).document.body.classList.contains("static_page")) {
