@@ -52,11 +52,32 @@ export class KlydeFeedHelper extends BaseApp {
                     promptsList.push({
                         url,
                         siteUrl: result.url,
+                        title: result.title,
                     });
                 });
             }
         });
         console.log("promptsList", promptsList);
+        const metricPromises: any[] = [];
+        promptsList.forEach((prompt: any) => {
+            metricPromises.push((async () => {
+                try {
+                    const packet = { specialAction: "runMetricAnalysis", url: prompt.url, promptSet: "International Articles", title: prompt.title };
+                    console.log(packet);
+                    const response = await (<any>window).chrome.runtime.sendMessage("jiodhbindaigedkochckfeocdjbgdeaa", packet);
+                    console.log("done");
+                    return { response, url: prompt.url };
+                } catch (e: any) {
+                    console.log("serverScrapeUrl error", e.message);
+                    return {
+                        success: false,
+                        message: e.message,
+                    };
+                }
+            })());
+        });
+        const metricResults = await Promise.all(metricPromises);
+        console.log("metricResults", metricResults);
 
     }
 }
